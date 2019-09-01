@@ -214,24 +214,33 @@ def perform_change_of_variables(polys, echelon_form, new_vars_name = 'y'):
     vars_new = new_ring.gens
     pivots = sorted(echelon_form.keys())
 
+    logging.info("Constructing new polys")
     new_polys = [0] * len(echelon_form)
     for i in range(len(pivots)):
+        logging.info("    POlynomial number " + str(i))
         p, v = pivots[i], echelon_form[pivots[i]]
         for j in v.nonzero:
             new_polys[i] += v.data[j] * polys[j]
 
-    for i in range(len(vars_old)):
-        if not (i in pivots):
-            for p_ind in range(len(new_polys)):
-                new_polys[p_ind] = new_polys[p_ind].subs(vars_old[i], 0)
-
+    logging.info("Making the result")
     result = []
     for p in new_polys:
+        logging.info("    Polynomial number " + str(i) + " has been constructed")
         monomials = p.to_dict()
         filtered_dict = dict()
         for m, c in monomials.iteritems():
-            new_m = tuple([m[i] for i in pivots])
-            filtered_dict[new_m] = c
+            new_m = []
+            skip = False
+            for i in range(len(m)):
+                if not (i in echelon_form):
+                    if m[i] != 0:
+                        skip = True
+                        break
+                else:
+                    new_m.append(m[i])
+            if not skip:
+                new_m = tuple(new_m)
+                filtered_dict[new_m] = c
         result.append(new_ring(filtered_dict))
 
     return result
