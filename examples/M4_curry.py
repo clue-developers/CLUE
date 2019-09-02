@@ -4131,4 +4131,4 @@ R(0),
 
 #S0
 result = lumper.do_lumping(polys, [x1])
-print("Total for M4_curry, preserving S0 is " + str(len(result)))
+print("Total for M4_curry, preserving S0 is " + str(len(result[0])))

@@ -114,4 +114,4 @@ pk1*x6*x25*x54 + pk1*x6*x30*x38 + -pk_1*x7*x80 + -pk_1*x7*x80 + pk3*x8*x78 + -pk
 ]
 
 resultA = lumper.do_lumping(polys, [x1])
-print("Total for M7_curry is " + str(len(resultA)))
+print("Total for M7_curry is " + str(len(resultA[0])))

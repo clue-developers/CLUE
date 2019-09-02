@@ -275,7 +275,7 @@ def construct_matrices(polys):
 
 ###############################################################################
 
-def do_lumping(polys, observable, new_vars_name = 'y'):
+def do_lumping(polys, observable, new_vars_name = 'y', verbose = True):
     """
       Main function, performs an aggregation of a polynomial ODE system
       Input:
@@ -306,24 +306,25 @@ def do_lumping(polys, observable, new_vars_name = 'y'):
     lumped_polys = perform_change_of_variables(polys, lumping_echelon, new_vars_name)
 
     # Nice printing
-    vars_new = lumped_polys[0].ring.gens
-    print("Original system:")
-    for i in range(len(polys)):
-        print(str(vars_old[i]) + "' = " + str(polys[i]))
-    print("Outputs to fix:")
-    print(observable)
-    print("New variables:")
-    for i in range(len(lumping_echelon)):
-        print(
-	    str(vars_new[i]) + 
-	    " = " + 
-	    str(sum([lumping_echelon.values()[i].get(j) * vars_old[j] for j in range(len(vars_old))]))
-	)
-    print("Lumped system:")
-    for i in range(len(lumping_echelon)):
-        print(str(vars_new[i]) + "' = " + str(lumped_polys[i]))
+    if verbose:
+        vars_new = lumped_polys[0].ring.gens
+        print("Original system:")
+        for i in range(len(polys)):
+            print(str(vars_old[i]) + "' = " + str(polys[i]))
+        print("Outputs to fix:")
+        print(observable)
+        print("New variables:")
+        for i in range(len(lumping_echelon)):
+            print(
+                str(vars_new[i]) + 
+                " = " + 
+                str(sum([lumping_echelon.values()[i].get(j) * vars_old[j] for j in range(len(vars_old))]))
+            )
+        print("Lumped system:")
+        for i in range(len(lumping_echelon)):
+            print(str(vars_new[i]) + "' = " + str(lumped_polys[i]))
 
-    return lumped_polys
+    return (lumped_polys, [v.to_list() for v in lumping_echelon.values()])
 
 
 ###############################################################################
