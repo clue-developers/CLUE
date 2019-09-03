@@ -3,6 +3,7 @@ import sympy
 from sympy import QQ
 
 sys.path.insert(0, "../")
+sys.path.insert(0, "./")
 import lumper
 
 R = sympy.polys.rings.vring(["x" + str(i + 1) for i in range(75)], QQ)
