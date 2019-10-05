@@ -1,7 +1,7 @@
 from bisect import bisect
 import logging
 
-from sympy import vring, QQ, Rational
+from sympy import vring, QQ, Rational, mod_inverse
 
 ##########################################################################
 
@@ -11,11 +11,38 @@ class SparseVector(object):
       dim - the dimension of the ambient space
       nonzero - sorted list of the indiced of the nonzero coordinates
       data - dictionary containing nonzero coordinates in the form index_of_the_coordinate : value
+      modulus - either the prime number for the modular computation, or zero (that is, computations over rationals)
     """
-    def __init__(self, dim):
+    def __init__(self, dim, modulus = 0):
         self.dim = dim
         self.data = dict()
         self.nonzero = []
+        self.modulus = modulus
+
+    ## Basic arithmetic of the ground field
+    def __add__(self, a, b):
+        """
+        Addition of elements of the ground field
+        """
+        if self.modulus == 0:
+            return a + b
+        return (a + b) % modulus
+
+    def __mult__(self, a, b):
+        """
+        Multiplication of elements of the ground field
+        """
+        if self.modulus == 0:
+            return a * b
+        return (a * b) % modulus
+
+    def __inv__(self, a):
+        """
+        Inverse of an element of the ground field
+        """
+        if self.modulus == 0:
+            return 1 / a
+        return mod_inverse(a, self.modulus)
 
     def reduce(self, coef, vect):
         """
@@ -31,11 +58,11 @@ class SparseVector(object):
             elif left == len(self.nonzero):
                 new_nonzero.extend(vect.nonzero[right:])
                 for i in range(right, len(vect.nonzero)):
-                    self.data[vect.nonzero[i]] = coef * vect.data[vect.nonzero[i]]
+                    self.data[vect.nonzero[i]] = self.__mult__(coef, vect.data[vect.nonzero[i]])
                 right = len(vect.nonzero)
             else:
                 if self.nonzero[left] == vect.nonzero[right]:
-                    result = self.data[self.nonzero[left]] + coef * vect.data[vect.nonzero[right]]
+                    result = self.__add__(self.data[self.nonzero[left]], self.__mult__(coef, vect.data[vect.nonzero[right]]))
                     if result != 0:
                         self.data[self.nonzero[left]] = result
                         new_nonzero.append(self.nonzero[left])
@@ -48,13 +75,13 @@ class SparseVector(object):
                     left += 1
                 else:
                     new_nonzero.append(vect.nonzero[right])
-                    self.data[vect.nonzero[right]] = coef * vect.data[vect.nonzero[right]]
+                    self.data[vect.nonzero[right]] = self.__mult__(coef, vect.data[vect.nonzero[right]])
                     right += 1
         self.nonzero = new_nonzero
 
     def scale(self, coef):
         for i in self.nonzero:
-            self.data[i] = self.data[i] * coef
+            self.data[i] = self.__mult__(self.data[i], coef)
 
     def get(self, i):
         return self.data.get(i, 0)
@@ -62,7 +89,10 @@ class SparseVector(object):
     def set(self, i, value):
         if bisect(self.nonzero, i) == 0 or self.nonzero[bisect(self.nonzero, i) - 1] != i:
             self.nonzero.insert(bisect(self.nonzero, i), i)
-        self.data[i] = value
+        if self.modulus == 0:
+            self.data[i] = value
+        else:
+            self.data[i] = value % self.modulus
 
     def inner_product(self, rhs):
         result = 0
@@ -70,7 +100,7 @@ class SparseVector(object):
         right = 0
         while (left < len(self.nonzero) and right < len(rhs.nonzero)):
             if self.nonzero[left] == rhs.nonzero[right]:
-                result += self.data[self.nonzero[left]] * rhs.data[rhs.nonzero[right]]
+                result = self.__add__(result, self.__mult__(self.data[self.nonzero[left]], rhs.data[rhs.nonzero[right]]))
                 left += 1
                 right += 1
             elif self.nonzero[left] < rhs.nonzero[right]:
@@ -112,11 +142,13 @@ class SparseVector(object):
         return len(self.nonzero) * 1. / self.dim
 
     @classmethod
-    def from_list(cls, entries_list):
-        result = cls(len(entries_list))
+    def from_list(cls, entries_list, modulus = 0):
+        result = cls(len(entries_list), modulus)
         for i, num in enumerate(entries_list):
-            if num != 0:
+            if modulus == 0 and num != 0:
                 result.__append__(i, num)
+            if modulus > 0 and (num % modulus) != 0:
+                result.__append__(i, num % modulus)
         return result
 
 #########################################################################
@@ -128,15 +160,16 @@ class SparseRowMatrix(object):
       nonzero - sorted list of the indiced of the nonzero rows
       data - dictionary containing nonzero rows in the form index_of_the_row : SparseVector
     """
-    def __init__(self, dim):
+    def __init__(self, dim, modulus = 0):
         self.dim = dim
         self.data = dict()
         self.nonzero = []
+        self.modulus = modulus
 
     def set(self, i, j, value):
         if bisect(self.nonzero, i) == 0 or self.nonzero[bisect(self.nonzero, i) - 1] != i:
             self.nonzero.insert(bisect(self.nonzero, i), i)
-            self.data[i] = SparseVector(self.dim)
+            self.data[i] = SparseVector(self.dim, self.modulus)
         self.data[i].set(j, value)
 
     def get(self, i, j):
@@ -150,11 +183,11 @@ class SparseRowMatrix(object):
     def row(self, i):
         if i in self.data:
             return self.data[i]
-        return SparseVector(self.dim)
+        return SparseVector(self.dim, self.modulus)
 
 #########################################################################
 
-def absorb_new_vector(new_vector, echelon_form):
+def absorb_new_vector(new_vector, echelon_form, modulus = 0):
     """
     Input
       - new_vector - a SparseVector
@@ -162,6 +195,7 @@ def absorb_new_vector(new_vector, echelon_form):
                       the vectors constitute reduced row echelon form
                       and the corresponding number for each vector is the index of the pivot
                       Example (with dense vectors) : {0: [1, 0, 1], 1: [0, 1, 3]}
+      - modulus - the modulus for the modular computation (0 for rationals)
     Output
       New echelon_form in the format described above that such that
       the vectors in it span the space spanned by the vecors of the
@@ -174,7 +208,12 @@ def absorb_new_vector(new_vector, echelon_form):
     if new_vector.is_zero():
         return -1
     pivot = new_vector.first_nonzero()
-    new_vector.scale(1 / new_vector.get(pivot))
+    scaling = 1
+    if modulus == 0:
+        scaling  = 1 / new_vector.get(pivot)
+    else:
+        secaling = mod_inverse(new_vector.get(pivot), modulus)
+    new_vector.scale(scaling)
     for piv, vect in echelon_form.iteritems():
         if vect.get(pivot) != 0:
             echelon_form[piv].reduce(-vect.get(pivot), new_vector)
@@ -184,7 +223,7 @@ def absorb_new_vector(new_vector, echelon_form):
 
 ########################################################################
 
-def find_smallest_common_subspace(matrices, vectors_to_include):
+def find_smallest_common_subspace(matrices, vectors_to_include, modulus = 0):
     """
       Input
         - matrices - a list of matrices (SparseMatrix)
@@ -197,7 +236,7 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
     echelon_form = dict()
     new_pivots = set()
     for vec in vectors_to_include:
-        pivot = absorb_new_vector(vec, echelon_form)
+        pivot = absorb_new_vector(vec, echelon_form, modulus)
         if pivot != -1:
             new_pivots.add(pivot)
 
@@ -205,15 +244,13 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
         pivots_to_process = new_pivots.copy()
         new_pivots = set()
         for pivot in pivots_to_process:
-            logging.debug("Processing vecor with a pivot %d", pivot)
-            logging.debug("Its density is %f", echelon_form[pivot].density())
             for m_index, matr in enumerate(matrices):
                 if m_index % 10 == 0:
                     logging.debug("  Multiply by matrix %d", m_index)
                 m_index += 1
                 prod = echelon_form[pivot].apply_matrix(matr)
                 if not prod.is_zero():
-                    new_pivot = absorb_new_vector(prod, echelon_form)
+                    new_pivot = absorb_new_vector(prod, echelon_form, modulus)
                     if new_pivot != -1:
                         new_pivots.add(new_pivot)
 
