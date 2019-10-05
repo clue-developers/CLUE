@@ -1,7 +1,7 @@
 from bisect import bisect
 import logging
 
-from sympy import vring, QQ
+from sympy import vring, QQ, Rational
 
 ##########################################################################
 
@@ -289,7 +289,7 @@ def construct_matrices(polys):
             for var in range(len(monom)):
                 if monom[var] > 0:
                     m_der = tuple(list(monom[:var]) + [monom[var] - 1] + list(monom[(var + 1):]))
-                    entry = coef * monom[var]
+                    entry = Rational(coef) * monom[var]
                     if m_der not in jacobians:
                         jacobians[m_der] = SparseRowMatrix(len(variables))
                     jacobians[m_der].increment(var, p_ind, entry)
@@ -328,7 +328,7 @@ def do_lumping(polys, observable, new_vars_name='y', verbose=True):
     # Find a lumping
     vectors_to_include = []
     for linear_form in observable:
-        vec = SparseVector.from_list([linear_form.coeff(v) for v in vars_old])
+        vec = SparseVector.from_list([Rational(linear_form.coeff(v)) for v in vars_old])
         vectors_to_include.append(vec)
     lumping_echelon = find_smallest_common_subspace(matrices, vectors_to_include)
 
