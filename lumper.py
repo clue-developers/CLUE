@@ -195,14 +195,18 @@ class SparseVector(object):
     def density(self):
         return len(self.nonzero) * 1. / self.dim
 
-    def mod_reduce(self, prime):
+    def reduce_mod(self, modulus):
         """
-        Returns the reduction modulo prime
+        Returns the reduction modulo modulus
         """
-        result = SparseVector(self.dim, prime)
+        if self.modulus != 0:
+            raise ValueError("Cannot reduce modulo %d, already modulo prime, %d", modulus, self.modulus)
+        result = SparseVector(self.dim, modulus)
         for i in self.nonzero:
-            if (self.data[i] % prime) != 0:
-                result.__append__(i, self.data[i] % prime)
+            entry = self.data[i]
+            entry_mod = (entry.p * mod_inverse(entry.q, modulus)) % modulus
+            if (entry_mod % modulus) != 0:
+                result.__append__(i, entry_mod)
         return result
 
     @classmethod
@@ -213,6 +217,30 @@ class SparseVector(object):
                 result.__append__(i, num)
             if modulus > 0 and (num % modulus) != 0:
                 result.__append__(i, num % modulus)
+        return result
+
+    @classmethod
+    def reconstruct_vector(cls, modular_results):
+        """
+          Input
+            modular_result - a list of dicts {"mod" : modulus, "vectors" : SparseVector}
+          Output
+            a SparceVector over rationals with given reductions
+        """
+        nonzeros = set()
+        mods = [red["mod"] for red in modular_results]
+        mod_prod = reduce((lambda x, y: x * y), mods)
+        for red in modular_results:
+            nonzeros = nonzeros | set(red["vector"].nonzero)
+        nonzeros = sorted(nonzeros)
+        result = cls(modular_results[0]["vector"].dim)
+        for ind in nonzeros:
+            residues = [red["vector"].get(ind) for red in modular_results]
+            total_residue = crt(mods, residues)[0]
+            try:
+                result.__append__(ind, rational_reconstruction_sage(total_residue, mod_prod))
+            except ValueError:
+                logging.debug("Rational reconstruction problems: %d, %d", total_residue, mod_prod)
         return result
 
 #########################################################################
@@ -249,13 +277,15 @@ class SparseRowMatrix(object):
             return self.data[i]
         return SparseVector(self.dim, self.modulus)
 
-    def mod_reduce(self, prime):
+    def reduce_mod(self, modulus):
         """
-        Returns the reduction modulo prime
+        Returns the reduction modulo modulus
         """
-        result = SparseRowMatrix(self.dim, prime)
+        if self.modulus != 0:
+            raise ValueError("Cannot reduce modulo %d, already modulo prime, %d", modulus, self.modulus)
+        result = SparseRowMatrix(self.dim, modulus)
         for i in self.nonzero:
-            row_reduced = self.data[i].mod_reduce(prime)
+            row_reduced = self.data[i].reduce_mod(modulus)
             if not row_reduced.is_zero():
                 result.nonzero.append(i)
                 result.data[i] = row_reduced
@@ -263,141 +293,126 @@ class SparseRowMatrix(object):
 
 #########################################################################
 
-def absorb_new_vector(new_vector, echelon_form, modulus=0):
+class Subspace(object):
     """
-    Input
-      - new_vector - a SparseVector
+    Class representing a subspace. Contains
+      - modulus (0 for rationals)
       - echelon_form - a dictionary of the form number : SparseVector such that
-                      the vectors constitute reduced row echelon form
-                      and the corresponding number for each vector is the index of the pivot
-                      Example (with dense vectors) : {0: [1, 0, 1], 1: [0, 1, 3]}
-      - modulus - the modulus for the modular computation (0 for rationals)
-    Output
-      New echelon_form in the format described above that such that
-      the vectors in it span the space spanned by the vecors of the
-      original echclon form and new_vector
+        the vectors form a basis of the subspace and constitute reduced 
+        row echelon form and the corresponding number for each vector is 
+        the index of the pivot Example (with dense vectors) : {0: [1, 0, 1], 1: [0, 1, 3]}
     """
-    for piv, vect in echelon_form.iteritems():
-        if new_vector.get(piv) != 0:
-            new_vector.reduce(-new_vector.get(piv), vect)
 
-    if new_vector.is_zero():
-        return -1
-    pivot = new_vector.first_nonzero()
-    scaling = 1
-    if modulus == 0:
-        scaling = 1 / new_vector.get(pivot)
-    else:
-        scaling = mod_inverse(new_vector.get(pivot), modulus)
-    new_vector.scale(scaling)
-    for piv, vect in echelon_form.iteritems():
-        if vect.get(pivot) != 0:
-            echelon_form[piv].reduce(-vect.get(pivot), new_vector)
+    def __init__(self, modulus=0):
+        self.modulus = modulus
+        self.echelon_form = dict()
 
-    echelon_form[pivot] = new_vector
-    return pivot
+    def dim(self):
+        return len(self.echelon_form)
 
-########################################################################
+    def absorb_new_vector(self, new_vector):
+        """
+        Input
+          - new_vector - a SparseVector
+        Output
+          the index of the pivot of the new basis vecor if such emerges, -1 otherwise
+        """
+        for piv, vect in self.echelon_form.iteritems():
+            if new_vector.get(piv) != 0:
+                new_vector.reduce(-new_vector.get(piv), vect)
+    
+        if new_vector.is_zero():
+            return -1
+        pivot = new_vector.first_nonzero()
+        scaling = 1
+        if self.modulus == 0:
+            scaling = 1 / new_vector.get(pivot)
+        else:
+            scaling = mod_inverse(new_vector.get(pivot), self.modulus)
+        new_vector.scale(scaling)
+        for piv, vect in self.echelon_form.iteritems():
+            if vect.get(pivot) != 0:
+                self.echelon_form[piv].reduce(-vect.get(pivot), new_vector)
+    
+        self.echelon_form[pivot] = new_vector
+        return pivot
 
-def find_smallest_common_subspace_modular(matrices, vectors_to_include, modulus=0):
-    """
-      Input
-        - matrices - a list of matrices (SparseMatrix)
-        - vectors_to_include - a list of vectors (SparseVector)
-        - modulus - the modulus for the modular computation (0 for rationals)
-      Output
-        an echelon_form (as described in the function absorb_new_vector)
-        with vectors spanning the minimal invariant subspace for the matrices
-        that contains all vectors_to_include
-    """
-    echelon_form = dict()
-    new_pivots = set()
-    for vec in vectors_to_include:
-        pivot = absorb_new_vector(vec, echelon_form, modulus)
-        if pivot != -1:
-            new_pivots.add(pivot)
+    def apply_matrices(self, matrices):
+        """
+          Input
+            - matrices - a list of matrices (SparseMatrix)
+          Output
+            No output. The subspace is transformed to the smallest invariant subspace
+            of the matrices containing the original one
+        """
+        new_pivots = set(self.echelon_form.keys())
+    
+        while new_pivots:
+            pivots_to_process = new_pivots.copy()
+            new_pivots = set()
+            for pivot in pivots_to_process:
+                for m_index, matr in enumerate(matrices):
+                    if m_index % 10 == 0:
+                        logging.debug("  Multiply by matrix %d", m_index)
+                    m_index += 1
+                    prod = self.echelon_form[pivot].apply_matrix(matr)
+                    if not prod.is_zero():
+                        new_pivot = self.absorb_new_vector(prod)
+                        if new_pivot != -1:
+                            new_pivots.add(new_pivot)
 
-    while new_pivots:
-        pivots_to_process = new_pivots.copy()
-        new_pivots = set()
-        for pivot in pivots_to_process:
-            for m_index, matr in enumerate(matrices):
-                if m_index % 10 == 0:
-                    logging.debug("  Multiply by matrix %d", m_index)
-                m_index += 1
-                prod = echelon_form[pivot].apply_matrix(matr)
-                if not prod.is_zero():
-                    new_pivot = absorb_new_vector(prod, echelon_form, modulus)
-                    if new_pivot != -1:
-                        new_pivots.add(new_pivot)
+    def check_invariance(self, matrices):
+        """
+          Input
+            - matrices - a list of matrices (SparseMatrix)
+          Output
+             whether the vector space is invariant under the matrices
+        """
+        for matr in matrices:
+            for vec in self.echelon_form.values():
+                prod = vec.apply_matrix(matr)
+                if self.absorb_new_vector(prod) != -1:
+                    return False
+        return True
+    
+    def reduce_mod(self, modulus):
+        if self.modulus != 0:
+            raise ValueError("Cannot reduce modulo %d, already modulo prime, %d", modulus, self.modulus)
+        result = Subspace(modulus)
+        for piv, vec in self.echelon_form.iteritems():
+            vec_red = vec.reduce_mod(modulus)
+            if not vec_red.is_zero():
+                result.echelon_form[piv] = vec_red
+        return result
 
-    return echelon_form
+    def basis(self):
+        return self.echelon_form.values()
 
-#########################################################################
+    def parametrizing_coordinates(self):
+        """
+        A list of self.dim coordiantes such that the projection onto these coordinates is surjective
+        """
+        return self.echelon_form.keys()
 
-def check_invariance(matrices, echelon_form):
-    """
-      Input
-        - matrices - a list of matrices (SparseMatrix)
-        - echelon_form - a basis of a vector space stored in the echclon_form
-                         structure as described in absorb_new_vector
-      Output
-         whether the vector space is invariant under the matrices
-    """
-    for matr in matrices:
-        for vec in echelon_form.values():
-            prod = vec.apply_matrix(matr)
-            if absorb_new_vector(prod, echelon_form) != -1:
-                return False
-    return True
-
-#########################################################################
-
-def reconstruct_vector(modular_results):
-    """
-      Input
-        modular_result - a list of pairs (modulus, SparceVector)
-      Output
-        a SparceVector over rationals with given reductions
-    """
-    nonzeros = set()
-    mods = [pair[0] for pair in modular_results]
-    mod_prod = reduce((lambda x, y: x * y), mods)
-    for pair in modular_results:
-        nonzeros = nonzeros | set(pair[1].nonzero)
-    nonzeros = sorted(nonzeros)
-    result = SparseVector(modular_results[0][1].dim)
-    for ind in nonzeros:
-        residues = [pair[1].get(ind) for pair in modular_results]
-        total_residue = crt(mods, residues)[0]
-        try:
-            result.__append__(ind, rational_reconstruction_sage(total_residue, mod_prod))
-        except ValueError:
-            logging.debug("Rational reconstruction problems: %d, %d", total_residue, mod_prod)
-    return result
-
-
-#########################################################################
-
-def reconstruct_subspace(modular_results):
-    """
-      Input
-        modular_results - a list of pairs (modulus, echelon_form),
-        where echelon_form structure is decribed in absorb_new_vector
-      Output
-        a subspace with this set of reductions modulo primes
-    """
-    dim = max([len(red[1]) for red in modular_results])
-    max_dim_reductions = [red for red in modular_results if len(red[1]) == dim]
-    result = dict()
-    for pivot in max_dim_reductions[0][1].keys():
-        result[pivot] = reconstruct_vector([
-            (pair[0], pair[1][pivot])
-            for pair in max_dim_reductions
-            if pivot in pair[1]
-        ])
-    return result
-
+    @classmethod
+    def reconstruct_subspace(cls, modular_results):
+        """
+          Input
+            modular_results - a list of dicts {"mod" : modulus, "subspace" : subspace}
+          Output
+            a subspace with this set of reductions modulo primes
+        """
+        dim = max([red["subspace"].dim() for red in modular_results])
+        max_dim_reductions = [red for red in modular_results if red["subspace"].dim() == dim]
+        result = cls()
+        for pivot in max_dim_reductions[0]["subspace"].echelon_form.keys():
+            result.echelon_form[pivot] = SparseVector.reconstruct_vector([
+                {"mod" : red["mod"], "vector" : red["subspace"].echelon_form[pivot]}
+                for red in max_dim_reductions
+                if pivot in red["subspace"].echelon_form
+            ])
+        return result
+    
 #########################################################################
 
 def find_smallest_common_subspace(matrices, vectors_to_include):
@@ -406,50 +421,53 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
         - matrices - a list of matrices (SparseMatrix)
         - vectors_to_include - a list of vectors (SparseVector)
       Output
-        an echelon_form (as described in the function absorb_new_vector)
-        with vectors spanning the minimal invariant subspace for the matrices
-        that contains all vectors_to_include
+        a smallest invariant subspace for the matrices containing the vectors
     """
+    original_subspace = Subspace()
+    for vec in vectors_to_include:
+        original_subspace.absorb_new_vector(vec)
+
     modulus = 2**31 - 1
     modular_results = []
     while True:
         logging.debug("Working modulo: %d", modulus)
-        matrices_reduced = [matr.mod_reduce(modulus) for matr in matrices]
-        vectors_reduced = [vec.mod_reduce(modulus) for vec in vectors_to_include]
-        subspace = find_smallest_common_subspace_modular(matrices_reduced, vectors_reduced, modulus)
-        modular_results.append((modulus, subspace))
-        reconstruction = reconstruct_subspace(modular_results)
-        if check_invariance(matrices, reconstruction):
-            logging.debug("We used %d primes", len(modular_results))
-            return reconstruction
+        try:
+            matrices_reduced = [matr.reduce_mod(modulus) for matr in matrices]
+            subspace_reduced = original_subspace.reduce_mod(modulus)
+            subspace_reduced.apply_matrices(matrices_reduced)
+            modular_results.append({"mod" : modulus, "subspace" : subspace_reduced})
+            reconstruction = Subspace.reconstruct_subspace(modular_results)
+            if reconstruction.check_invariance(matrices):
+                logging.debug("We used %d primes", len(modular_results))
+                return reconstruction
+        except ValueError:
+            pass
         modulus = nextprime(modulus)
 
 
 #########################################################################
 
-def perform_change_of_variables(polys, echelon_form, new_vars_name='y'):
+def perform_change_of_variables(polys, subspace, new_vars_name='y'):
     """
       Applies a given lumping to a given list of polynomials
       Input
         - polys - a nonempty list of polynomials to lump
-        - echelon_form - new variables represented in the basis of the old variables
-                         stored in the echelon_form structure as described in
-                         the function absorb_new_vector
+        - subspace - a subspace spanned by the new variables
         - new_vars_name (optional) - the name for variables in the lumped polynomials
 
       Output
         the result of the lumping
     """
-    new_ring = vring([new_vars_name + str(i) for i in range(len(echelon_form))], QQ)
-    pivots = sorted(echelon_form.keys())
+    new_ring = vring([new_vars_name + str(i) for i in range(subspace.dim())], QQ)
+    pivots = sorted(subspace.parametrizing_coordinates())
+    basis = subspace.basis()
 
     logging.debug("Constructing new polys")
-    new_polys = [0] * len(echelon_form)
-    for i, piv in enumerate(pivots):
+    new_polys = [0] * subspace.dim()
+    for i, vec in enumerate(basis):
         logging.debug("    Polynomial number %d", i)
-        vect = echelon_form[piv]
-        for j in vect.nonzero:
-            new_polys[i] += vect.data[j] * polys[j]
+        for j in vec.nonzero:
+            new_polys[i] += vec.data[j] * polys[j]
 
     logging.debug("Making the result")
     result = []
@@ -460,7 +478,7 @@ def perform_change_of_variables(polys, echelon_form, new_vars_name='y'):
             new_monom = []
             skip = False
             for i in range(len(monom)):
-                if i not in echelon_form:
+                if i not in pivots:
                     if monom[i] != 0:
                         skip = True
                         break
@@ -535,9 +553,9 @@ def do_lumping(polys, observable, new_vars_name='y', verbose=True):
     for linear_form in observable:
         vec = SparseVector.from_list([Rational(linear_form.coeff(v)) for v in vars_old])
         vectors_to_include.append(vec)
-    lumping_echelon = find_smallest_common_subspace(matrices, vectors_to_include)
+    lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include)
 
-    lumped_polys = perform_change_of_variables(polys, lumping_echelon, new_vars_name)
+    lumped_polys = perform_change_of_variables(polys, lumping_subspace, new_vars_name)
 
     # Nice printing
     if verbose:
@@ -548,17 +566,17 @@ def do_lumping(polys, observable, new_vars_name='y', verbose=True):
         print "Outputs to fix:"
         print observable
         print "New variables:"
-        for i in range(len(lumping_echelon)):
+        for i in range(lumping_subspace.dim()):
             new_var_string = str(sum(
-                [lumping_echelon.values()[i].get(j) * vars_old[j] for j in range(len(vars_old))]
+                [lumping_subspace.basis()[i].get(j) * vars_old[j] for j in range(len(vars_old))]
             ))
             print str(vars_new[i]) + " = " + new_var_string
 
         print "Lumped system:"
-        for i in range(len(lumping_echelon)):
+        for i in range(lumping_subspace.dim()):
             print str(vars_new[i]) + "' = " + str(lumped_polys[i])
 
-    return (lumped_polys, [v.to_list() for v in lumping_echelon.values()])
+    return {"polynomials" : lumped_polys, "subspace" : [v.to_list() for v in lumping_subspace.basis()]}
 
 
 ###############################################################################

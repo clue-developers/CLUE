@@ -20,8 +20,8 @@ def dot_product(a, b):
     return sum([x * y for x, y in zip(a, b)])
 
 def check_lumping(test_name, polys, lumping, correct_size):
-    lumped_system = lumping[0]
-    new_vars = lumping[1]
+    lumped_system = lumping["polynomials"]
+    new_vars = lumping["subspace"]
     assert(len(lumped_system) == correct_size)
     print(test_name + ": size is correct")
 

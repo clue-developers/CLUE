@@ -556,4 +556,4 @@ R(0),
 #Partition for that block [] which translates to:
 result = lumper.do_lumping(polys, [x1])
 
-print("Total for Barua_pcbi_10364PNAS is " + str(len(result[0])))
+print("Total for Barua_pcbi_10364PNAS is " + str(len(result["polynomials"])))
