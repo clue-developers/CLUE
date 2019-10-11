@@ -1,0 +1,1641 @@
+// Automatically generated from fceri_ji_curry via fe
+// Original number of species: 380
+// Reduced number of species: 121
+// Original number of reactions: 3680
+// Reduced number of reactions: 732
+begin model fceri_ji_curryFE_B3
+ begin parameters
+  pLig_tot = 1.0
+  pRec_tot = 1.0
+  pLyn_tot = 1.0
+  pSyk_tot = 1.0
+  pkp1 = 1.0
+  pkm1 = 1.0
+  pkp2 = 1.0
+  pkm2 = 1.0
+  pkpL = 1.0
+  pkmL = 1.0
+  pkpLs = 1.0
+  pkmLs = 1.0
+  pkpS = 1.0
+  pkmS = 1.0
+  pkpSs = 1.0
+  pkmSs = 1.0
+  ppLb = 1.0
+  ppLbs = 1.0
+  ppLg = 1.0
+  ppLgs = 1.0
+  ppLS = 1.0
+  ppLSs = 1.0
+  ppSS = 1.0
+  ppSSs = 1.0
+  pdm = 1.0
+  pdc = 1.0
+ end parameters
+ begin init
+  Lig_tot = 6000.0+400.0+28.0+400.0+0.06+0.13+30.0+100.0+100.0+200.0+20.0
+  S7
+  S0 = 6000.0
+  S3 = 400.0
+  kp1 = 1.32845238E-7
+  S5
+  S4
+  km1
+  S6
+  S13
+  S15
+  S12
+  S14
+  S26
+  S28
+  S30
+  S32
+  S25
+  S27
+  S29
+  S31
+  S60
+  S62
+  S64
+  S59
+  S61
+  S63
+  S114
+  S113
+  S1 = 28.0
+  kpL = 0.05
+  kmL = 20.0
+  S8
+  S11
+  S9
+  S10
+  kpLs = 0.05
+  S17
+  S18
+  S21
+  S16
+  S43
+  S20
+  kmLs = 0.12
+  S23
+  S24
+  S36
+  S37
+  S34
+  S78
+  S39
+  S41
+  S22
+  S46
+  S47
+  S48
+  S49
+  S50
+  S52
+  S55
+  S57
+  S58
+  S51
+  S73
+  S74
+  S76
+  S44
+  S45
+  S53
+  S54
+  S56
+  S84
+  S95
+  S96
+  S97
+  S88
+  S99
+  S100
+  S101
+  S79
+  S89
+  S90
+  S92
+  S103
+  S104
+  S93
+  S106
+  S147
+  S150
+  S154
+  S145
+  S157
+  S170
+  S2 = 400.0
+  kpS = 0.06
+  kmS = 0.13
+  kp2 = 0.25
+  km2
+  dm = 20.0
+  S33
+  S35
+  S67
+  S69
+  S70
+  S117
+  S19
+  S38
+  S40
+  S75
+  S80
+  S139
+  S82
+  S83
+  S141
+  S86
+  S120
+  S143
+  pLg = 1.0
+  pLb = 30.0
+  pLgs = 3.0
+  pLbs = 100.0
+ end init
+ begin reactions
+  S7 + S1 + kpL -> kpL + S8 , 2.0 * pkpL
+  S7 + km2 -> S3 + S4 + km2 , 2.0 * pkm2
+  S0 + S3 + kp1 -> kp1 + S4 , 2.0 * pkp1
+  S0 + kp1 + S5 -> kp1 + S6 , 2.0 * pkp1
+  S0 + kp1 + S13 -> kp1 + S12 , 2.0 * pkp1
+  S0 + kp1 + S15 -> kp1 + S14 , 2.0 * pkp1
+  S0 + kp1 + S26 -> kp1 + S25 , 2.0 * pkp1
+  S0 + kp1 + S28 -> kp1 + S27 , 2.0 * pkp1
+  S0 + kp1 + S30 -> kp1 + S29 , 2.0 * pkp1
+  S0 + kp1 + S32 -> kp1 + S31 , (2.0 * pkp1+2.0 * pkp1+2.0 * pkp1+2.0 * pkp1)/4.0
+  S0 + kp1 + S60 -> kp1 + S59 , (2.0 * pkp1+2.0 * pkp1+2.0 * pkp1+2.0 * pkp1)/4.0
+  S0 + kp1 + S62 -> kp1 + S61 , (2.0 * pkp1+2.0 * pkp1+2.0 * pkp1+2.0 * pkp1)/4.0
+  S0 + kp1 + S64 -> kp1 + S63 , 2.0 * pkp1
+  S0 + kp1 + S114 -> kp1 + S113 , (2.0 * pkp1+2.0 * pkp1+2.0 * pkp1+2.0 * pkp1)/4.0
+  S3 + S4 + kp2 -> S7 + kp2 , pkp2
+  S3 + S6 + kp2 -> S8 + kp2 , pkp2
+  S3 + S12 + kp2 -> S17 + kp2 , pkp2
+  S3 + S14 + kp2 -> S18 + kp2 , pkp2
+  S3 + S25 + kp2 -> kp2 + S33 , pkp2
+  S3 + S27 + kp2 -> kp2 + S35 , pkp2
+  S3 + S29 + kp2 -> S36 + kp2 , pkp2
+  S3 + S31 + kp2 -> S37 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S3 + S59 + kp2 -> kp2 + S67 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S3 + S61 + kp2 -> kp2 + S69 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S3 + S63 + kp2 -> kp2 + S70 , pkp2
+  S3 + S113 + kp2 -> kp2 + S117 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S3 + S1 + kpL -> S5 + kpL , pkpL
+  S5 + S4 + kp2 -> S8 + kp2 , pkp2
+  S5 + S6 + kp2 -> S9 + kp2 , pkp2
+  S5 + S12 + kp2 -> S10 + kp2 , pkp2
+  S5 + S14 + kp2 -> S11 + kp2 , pkp2
+  S5 + S25 + kp2 -> S16 + kp2 , pkp2
+  S5 + S27 + kp2 -> kp2 + S19 , pkp2
+  S5 + S29 + kp2 -> S20 + kp2 , pkp2
+  S5 + S31 + kp2 -> S21 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S5 + S59 + kp2 -> S34 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S5 + S61 + kp2 -> kp2 + S38 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S5 + S63 + kp2 -> kp2 + S40 , pkp2
+  S5 + S113 + kp2 -> kp2 + S75 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S5 + kmL -> S3 + S1 + kmL , pkmL
+  S4 + km1 -> S0 + S3 + km1 , pkm1
+  S4 + S13 + kp2 -> S17 + kp2 , pkp2
+  S4 + S15 + kp2 -> S18 + kp2 , pkp2
+  S4 + S26 + kp2 -> kp2 + S33 , pkp2
+  S4 + S28 + kp2 -> kp2 + S35 , pkp2
+  S4 + S30 + kp2 -> S36 + kp2 , pkp2
+  S4 + S32 + kp2 -> S37 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S4 + S60 + kp2 -> kp2 + S67 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S4 + S62 + kp2 -> kp2 + S69 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S4 + S64 + kp2 -> kp2 + S70 , pkp2
+  S4 + S114 + kp2 -> kp2 + S117 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S4 + S1 + kpL -> S6 + kpL , pkpL
+  km1 + S6 -> S0 + S5 + km1 , pkm1
+  km1 + S12 -> S0 + km1 + S13 , pkm1
+  km1 + S14 -> S0 + km1 + S15 , pkm1
+  km1 + S25 -> S0 + km1 + S26 , pkm1
+  km1 + S27 -> S0 + km1 + S28 , pkm1
+  km1 + S29 -> S0 + km1 + S30 , pkm1
+  km1 + S31 -> S0 + km1 + S32 , (pkm1+pkm1+pkm1+pkm1)/4.0
+  km1 + S59 -> S0 + km1 + S60 , (pkm1+pkm1+pkm1+pkm1)/4.0
+  km1 + S61 -> S0 + km1 + S62 , (pkm1+pkm1+pkm1+pkm1)/4.0
+  km1 + S63 -> S0 + km1 + S64 , pkm1
+  km1 + S113 -> S0 + km1 + S114 , (pkm1+pkm1+pkm1+pkm1)/4.0
+  S6 + S13 + kp2 -> S10 + kp2 , pkp2
+  S6 + S15 + kp2 -> S11 + kp2 , pkp2
+  S6 + S26 + kp2 -> S16 + kp2 , pkp2
+  S6 + S28 + kp2 -> kp2 + S19 , pkp2
+  S6 + S30 + kp2 -> S20 + kp2 , pkp2
+  S6 + S32 + kp2 -> S21 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S6 + S60 + kp2 -> S34 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S6 + S62 + kp2 -> kp2 + S38 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S6 + S64 + kp2 -> kp2 + S40 , pkp2
+  S6 + S114 + kp2 -> kp2 + S75 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S6 + kmL -> S4 + S1 + kmL , pkmL
+  S13 + S12 + kp2 -> S22 + kp2 , pkp2
+  S13 + S14 + kp2 -> S23 + kp2 , pkp2
+  S13 + S25 + kp2 -> S43 + kp2 , pkp2
+  S13 + S27 + kp2 -> S44 + kp2 , pkp2
+  S13 + S29 + kp2 -> S45 + kp2 , pkp2
+  S13 + S31 + kp2 -> S46 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S13 + S59 + kp2 -> S78 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S13 + S61 + kp2 -> S79 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S13 + S63 + kp2 -> kp2 + S80 , pkp2
+  S13 + S113 + kp2 -> kp2 + S139 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S13 + S1 + kpLs -> S30 + kpLs , pkpLs
+  S13 + dm -> S3 + dm , pdm
+  S15 + S12 + kp2 -> S23 + kp2 , pkp2
+  S15 + S14 + kp2 -> S24 + kp2 , pkp2
+  S15 + S25 + kp2 -> S47 + kp2 , pkp2
+  S15 + S27 + kp2 -> S48 + kp2 , pkp2
+  S15 + S29 + kp2 -> S49 + kp2 , pkp2
+  S15 + S31 + kp2 -> S50 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S15 + S59 + kp2 -> kp2 + S82 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S15 + S61 + kp2 -> kp2 + S83 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S15 + S63 + kp2 -> S84 + kp2 , pkp2
+  S15 + S113 + kp2 -> kp2 + S141 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S15 + S1 + kpL -> S26 + kpL , pkpL
+  S15 + S2 + kpS -> S32 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S15 + dm -> S3 + dm , pdm
+  S12 + S26 + kp2 -> S43 + kp2 , pkp2
+  S12 + S28 + kp2 -> S44 + kp2 , pkp2
+  S12 + S30 + kp2 -> S45 + kp2 , pkp2
+  S12 + S32 + kp2 -> S46 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S12 + S60 + kp2 -> S78 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S12 + S62 + kp2 -> S79 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S12 + S64 + kp2 -> kp2 + S80 , pkp2
+  S12 + S114 + kp2 -> kp2 + S139 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S12 + S1 + kpLs -> S29 + kpLs , pkpLs
+  S12 + dm -> S4 + dm , pdm
+  S14 + S26 + kp2 -> S47 + kp2 , pkp2
+  S14 + S28 + kp2 -> S48 + kp2 , pkp2
+  S14 + S30 + kp2 -> S49 + kp2 , pkp2
+  S14 + S32 + kp2 -> S50 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S14 + S60 + kp2 -> kp2 + S82 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S14 + S62 + kp2 -> kp2 + S83 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S14 + S64 + kp2 -> S84 + kp2 , pkp2
+  S14 + S114 + kp2 -> kp2 + S141 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S14 + S1 + kpL -> S25 + kpL , pkpL
+  S14 + S2 + kpS -> S31 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S14 + dm -> S4 + dm , pdm
+  S26 + S25 + kp2 -> S39 + kp2 , pkp2
+  S26 + S27 + kp2 -> S51 + kp2 , pkp2
+  S26 + S29 + kp2 -> S41 + kp2 , pkp2
+  S26 + S31 + kp2 -> S52 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S26 + S59 + kp2 -> S73 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S26 + S61 + kp2 -> kp2 + S86 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S26 + S63 + kp2 -> S74 + kp2 , pkp2
+  S26 + S113 + kp2 -> kp2 + S120 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S26 + kmL -> S15 + S1 + kmL , pkmL
+  S26 + S2 + kpS -> S60 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S26 + dm -> S5 + dm , pdm
+  S28 + S25 + kp2 -> S51 + kp2 , pkp2
+  S28 + S27 + kp2 -> S53 + kp2 , pkp2
+  S28 + S29 + kp2 -> S54 + kp2 , pkp2
+  S28 + S31 + kp2 -> S55 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S28 + S59 + kp2 -> S88 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S28 + S61 + kp2 -> S89 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S28 + S63 + kp2 -> S90 + kp2 , pkp2
+  S28 + S113 + kp2 -> kp2 + S143 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S28 + S1 + kpLs -> S64 + kpLs , pkpLs
+  S28 + S2 + kpS -> S62 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S28 + dm -> S13 + dm , pdm
+  S28 + dm -> S15 + dm , pdm
+  S30 + S25 + kp2 -> S41 + kp2 , pkp2
+  S30 + S27 + kp2 -> S54 + kp2 , pkp2
+  S30 + S29 + kp2 -> S56 + kp2 , pkp2
+  S30 + S31 + kp2 -> S57 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S30 + S59 + kp2 -> S76 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S30 + S61 + kp2 -> S92 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S30 + S63 + kp2 -> S93 + kp2 , pkp2
+  S30 + S113 + kp2 -> S145 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S30 + kmLs -> S13 + S1 + kmLs , pkmLs
+  S32 + S25 + kp2 -> S52 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S32 + S27 + kp2 -> S55 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S32 + S29 + kp2 -> S57 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S32 + S31 + kp2 -> S58 + kp2 , (pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2)/16.0
+  S32 + S59 + kp2 -> S95 + kp2 , (pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2)/16.0
+  S32 + S61 + kp2 -> S96 + kp2 , (pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2)/16.0
+  S32 + S63 + kp2 -> S97 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S32 + S113 + kp2 -> S147 + kp2 , (pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2)/16.0
+  S32 + S1 + kpL -> S60 + kpL , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S32 + kmS -> S15 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S25 + S60 + kp2 -> S73 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S25 + S62 + kp2 -> kp2 + S86 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S25 + S64 + kp2 -> S74 + kp2 , pkp2
+  S25 + S114 + kp2 -> kp2 + S120 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S25 + kmL -> S14 + S1 + kmL , pkmL
+  S25 + S2 + kpS -> S59 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S25 + dm -> S6 + dm , pdm
+  S27 + S60 + kp2 -> S88 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S27 + S62 + kp2 -> S89 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S27 + S64 + kp2 -> S90 + kp2 , pkp2
+  S27 + S114 + kp2 -> kp2 + S143 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S27 + S1 + kpLs -> S63 + kpLs , pkpLs
+  S27 + S2 + kpS -> S61 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S27 + dm -> S12 + dm , pdm
+  S27 + dm -> S14 + dm , pdm
+  S29 + S60 + kp2 -> S76 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S29 + S62 + kp2 -> S92 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S29 + S64 + kp2 -> S93 + kp2 , pkp2
+  S29 + S114 + kp2 -> S145 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S29 + kmLs -> S12 + S1 + kmLs , pkmLs
+  S31 + S60 + kp2 -> S95 + kp2 , (pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2)/16.0
+  S31 + S62 + kp2 -> S96 + kp2 , (pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2)/16.0
+  S31 + S64 + kp2 -> S97 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S31 + S114 + kp2 -> S147 + kp2 , (pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2)/16.0
+  S31 + S1 + kpL -> S59 + kpL , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S31 + kmS -> S14 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S60 + S59 + kp2 -> S99 + kp2 , (pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2)/16.0
+  S60 + S61 + kp2 -> S100 + kp2 , (pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2)/16.0
+  S60 + S63 + kp2 -> S101 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S60 + S113 + kp2 -> S150 + kp2 , (pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2)/16.0
+  S60 + kmL -> S32 + S1 + kmL , (pkmL+pkmL+pkmL+pkmL)/4.0
+  S60 + kmS -> S26 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S62 + S59 + kp2 -> S100 + kp2 , (pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2)/16.0
+  S62 + S61 + kp2 -> S103 + kp2 , (pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2)/16.0
+  S62 + S63 + kp2 -> S104 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S62 + S113 + kp2 -> S154 + kp2 , (pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2)/16.0
+  S62 + S1 + kpLs -> S114 + kpLs , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S62 + kmS -> S28 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S62 + dm -> S32 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S64 + S59 + kp2 -> S101 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S64 + S61 + kp2 -> S104 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S64 + S63 + kp2 -> S106 + kp2 , pkp2
+  S64 + S113 + kp2 -> S157 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S64 + kmLs -> S28 + S1 + kmLs , pkmLs
+  S64 + S2 + kpS -> S114 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S64 + dm -> S30 + dm , pdm
+  S59 + S114 + kp2 -> S150 + kp2 , (pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2)/16.0
+  S59 + kmL -> S31 + S1 + kmL , (pkmL+pkmL+pkmL+pkmL)/4.0
+  S59 + kmS -> S25 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S61 + S114 + kp2 -> S154 + kp2 , (pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2)/16.0
+  S61 + S1 + kpLs -> S113 + kpLs , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S61 + kmS -> S27 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S61 + dm -> S31 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S63 + S114 + kp2 -> S157 + kp2 , (pkp2+pkp2+pkp2+pkp2)/4.0
+  S63 + kmLs -> S27 + S1 + kmLs , pkmLs
+  S63 + S2 + kpS -> S113 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S63 + dm -> S29 + dm , pdm
+  S114 + S113 + kp2 -> S170 + kp2 , (pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2+pkp2)/16.0
+  S114 + kmLs -> S62 + S1 + kmLs , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  S114 + kmS -> S64 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S113 + kmLs -> S61 + S1 + kmLs , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  S113 + kmS -> S63 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S1 + kpL + S8 -> kpL + S9 , pkpL
+  S1 + kpL + S11 -> kpL + S16 , pkpL
+  S1 + kpL + S17 -> kpL + S10 , pkpL
+  S1 + kpL + S18 -> kpL + S11 , pkpL
+  S1 + kpL + S18 -> kpL + S33 , pkpL
+  S1 + kpL + S21 -> kpL + S34 , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S1 + kpL + S23 -> kpL + S43 , pkpL
+  S1 + kpL + S24 -> kpL + S47 , 2.0 * pkpL
+  S1 + kpL + S36 -> kpL + S20 , pkpL
+  S1 + kpL + S37 -> kpL + S21 , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S1 + kpL + S37 -> kpL + S67 , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S1 + kpL + S46 -> kpL + S78 , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S1 + kpL + S47 -> kpL + S39 , pkpL
+  S1 + kpL + S48 -> kpL + S51 , pkpL
+  S1 + kpL + S49 -> kpL + S41 , pkpL
+  S1 + kpL + S50 -> kpL + S52 , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S1 + kpL + S50 -> kpL + S82 , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S1 + kpL + S52 -> kpL + S73 , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S1 + kpL + S55 -> kpL + S88 , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S1 + kpL + S57 -> kpL + S76 , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S1 + kpL + S58 -> kpL + S95 , (pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+2.0 * pkpL+2.0 * pkpL+2.0 * pkpL+2.0 * pkpL)/10.0
+  S1 + kpL + S84 -> kpL + S74 , pkpL
+  S1 + kpL + S95 -> kpL + S99 , (pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL)/16.0
+  S1 + kpL + S96 -> kpL + S100 , (pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL)/16.0
+  S1 + kpL + S97 -> kpL + S101 , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S1 + kpL + S147 -> kpL + S150 , (pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL+pkpL)/16.0
+  S1 + kpL + S33 -> kpL + S16 , pkpL
+  S1 + kpL + S35 -> kpL + S19 , pkpL
+  S1 + kpL + S67 -> kpL + S34 , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S1 + kpL + S69 -> kpL + S38 , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S1 + kpL + S70 -> kpL + S40 , pkpL
+  S1 + kpL + S117 -> kpL + S75 , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S1 + kpL + S82 -> kpL + S73 , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S1 + kpL + S83 -> kpL + S86 , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S1 + kpL + S141 -> kpL + S120 , (pkpL+pkpL+pkpL+pkpL)/4.0
+  S1 + S10 + kpLs -> kpLs + S20 , pkpLs
+  S1 + kpLs + S17 -> kpLs + S36 , pkpLs
+  S1 + kpLs + S43 -> kpLs + S41 , pkpLs
+  S1 + kpLs + S23 -> kpLs + S49 , pkpLs
+  S1 + kpLs + S78 -> kpLs + S76 , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S1 + kpLs + S22 -> kpLs + S45 , 2.0 * pkpLs
+  S1 + kpLs + S46 -> kpLs + S57 , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S1 + kpLs + S48 -> kpLs + S84 , pkpLs
+  S1 + kpLs + S55 -> kpLs + S97 , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S1 + kpLs + S51 -> kpLs + S74 , pkpLs
+  S1 + kpLs + S44 -> kpLs + S54 , pkpLs
+  S1 + kpLs + S44 -> kpLs + S80 , pkpLs
+  S1 + kpLs + S45 -> kpLs + S56 , pkpLs
+  S1 + kpLs + S53 -> kpLs + S90 , 2.0 * pkpLs
+  S1 + kpLs + S54 -> kpLs + S93 , pkpLs
+  S1 + kpLs + S96 -> kpLs + S147 , (pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs)/16.0
+  S1 + kpLs + S88 -> kpLs + S101 , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S1 + kpLs + S100 -> kpLs + S150 , (pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs)/16.0
+  S1 + kpLs + S79 -> kpLs + S92 , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S1 + kpLs + S79 -> kpLs + S139 , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S1 + kpLs + S89 -> kpLs + S104 , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S1 + kpLs + S89 -> kpLs + S143 , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S1 + kpLs + S90 -> kpLs + S106 , pkpLs
+  S1 + kpLs + S92 -> kpLs + S145 , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S1 + kpLs + S103 -> kpLs + S154 , (pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+2.0 * pkpLs+2.0 * pkpLs+2.0 * pkpLs+2.0 * pkpLs)/10.0
+  S1 + kpLs + S104 -> kpLs + S157 , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S1 + kpLs + S154 -> kpLs + S170 , (pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs+pkpLs)/16.0
+  S1 + kpLs + S35 -> kpLs + S70 , pkpLs
+  S1 + kpLs + S69 -> kpLs + S117 , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S1 + kpLs + S19 -> kpLs + S40 , pkpLs
+  S1 + kpLs + S38 -> kpLs + S75 , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S1 + kpLs + S80 -> kpLs + S93 , pkpLs
+  S1 + kpLs + S139 -> kpLs + S145 , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S1 + kpLs + S83 -> kpLs + S141 , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S1 + kpLs + S86 -> kpLs + S120 , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  S1 + kpLs + S143 -> kpLs + S157 , (pkpLs+pkpLs+pkpLs+pkpLs)/4.0
+  kmL + S8 -> S7 + S1 + kmL , pkmL
+  kmL + S11 -> S1 + kmL + S18 , pkmL
+  kmL + S9 -> S1 + kmL + S8 , 2.0 * pkmL
+  kmL + S10 -> S1 + kmL + S17 , pkmL
+  kmL + S21 -> S1 + kmL + S37 , (pkmL+pkmL+pkmL+pkmL)/4.0
+  kmL + S16 -> S1 + kmL + S11 , pkmL
+  kmL + S16 -> S1 + kmL + S33 , pkmL
+  kmL + S43 -> S1 + kmL + S23 , pkmL
+  kmL + S20 -> S1 + kmL + S36 , pkmL
+  kmL + S34 -> S1 + kmL + S21 , (pkmL+pkmL+pkmL+pkmL)/4.0
+  kmL + S34 -> S1 + kmL + S67 , (pkmL+pkmL+pkmL+pkmL)/4.0
+  kmL + S78 -> S1 + kmL + S46 , (pkmL+pkmL+pkmL+pkmL)/4.0
+  kmL + S39 -> S1 + kmL + S47 , 2.0 * pkmL
+  kmL + S41 -> S1 + kmL + S49 , pkmL
+  kmL + S47 -> S1 + kmL + S24 , pkmL
+  kmL + S52 -> S1 + kmL + S50 , (pkmL+pkmL+pkmL+pkmL)/4.0
+  kmL + S51 -> S1 + kmL + S48 , pkmL
+  kmL + S73 -> S1 + kmL + S52 , (pkmL+pkmL+pkmL+pkmL)/4.0
+  kmL + S73 -> S1 + kmL + S82 , (pkmL+pkmL+pkmL+pkmL)/4.0
+  kmL + S74 -> S1 + kmL + S84 , pkmL
+  kmL + S76 -> S1 + kmL + S57 , (pkmL+pkmL+pkmL+pkmL)/4.0
+  kmL + S95 -> S1 + kmL + S58 , (pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL)/16.0
+  kmL + S88 -> S1 + kmL + S55 , (pkmL+pkmL+pkmL+pkmL)/4.0
+  kmL + S99 -> S1 + kmL + S95 , (pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+2.0 * pkmL+2.0 * pkmL+2.0 * pkmL+2.0 * pkmL)/10.0
+  kmL + S100 -> S1 + kmL + S96 , (pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL)/16.0
+  kmL + S101 -> S1 + kmL + S97 , (pkmL+pkmL+pkmL+pkmL)/4.0
+  kmL + S150 -> S1 + kmL + S147 , (pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL+pkmL)/16.0
+  kmL + S33 -> S1 + kmL + S18 , pkmL
+  kmL + S67 -> S1 + kmL + S37 , (pkmL+pkmL+pkmL+pkmL)/4.0
+  kmL + S19 -> S1 + kmL + S35 , pkmL
+  kmL + S38 -> S1 + kmL + S69 , (pkmL+pkmL+pkmL+pkmL)/4.0
+  kmL + S40 -> S1 + kmL + S70 , pkmL
+  kmL + S75 -> S1 + kmL + S117 , (pkmL+pkmL+pkmL+pkmL)/4.0
+  kmL + S82 -> S1 + kmL + S50 , (pkmL+pkmL+pkmL+pkmL)/4.0
+  kmL + S86 -> S1 + kmL + S83 , (pkmL+pkmL+pkmL+pkmL)/4.0
+  kmL + S120 -> S1 + kmL + S141 , (pkmL+pkmL+pkmL+pkmL)/4.0
+  S8 + km2 -> S3 + S6 + km2 , pkm2
+  S8 + km2 -> S5 + S4 + km2 , pkm2
+  S8 + pLg -> S11 + pLg , ppLg
+  S8 + pLb -> S10 + pLb , ppLb
+  S11 + S2 + kpS -> S21 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S11 + km2 -> S5 + S14 + km2 , pkm2
+  S11 + km2 -> S6 + S15 + km2 , pkm2
+  S11 + dm -> S8 + dm , pdm
+  S11 + pLb -> S19 + pLb , ppLb
+  S9 + km2 -> S5 + S6 + km2 , 2.0 * pkm2
+  S9 + pLg -> S16 + pLg , 2.0 * ppLg
+  S10 + km2 -> S5 + S12 + km2 , pkm2
+  S10 + km2 -> S6 + S13 + km2 , pkm2
+  S10 + dm -> S8 + dm , pdm
+  S10 + pLg -> S19 + pLg , ppLg
+  S17 + km2 -> S3 + S12 + km2 , pkm2
+  S17 + km2 -> S4 + S13 + km2 , pkm2
+  S17 + dm -> S7 + dm , pdm
+  S18 + S2 + kpS -> S37 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S18 + km2 -> S3 + S14 + km2 , pkm2
+  S18 + km2 -> S4 + S15 + km2 , pkm2
+  S18 + dm -> S7 + dm , pdm
+  S21 + kmS -> S11 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S21 + km2 -> S5 + S31 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S21 + km2 -> S6 + S32 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S21 + pLb -> S38 + pLb , (ppLb+ppLb+ppLb+ppLb)/4.0
+  S16 + S2 + kpS -> S34 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S16 + km2 -> S5 + S25 + km2 , pkm2
+  S16 + km2 -> S6 + S26 + km2 , pkm2
+  S16 + dm -> S9 + dm , pdm
+  S16 + pLg -> S39 + pLg , ppLg
+  S43 + S2 + kpS -> S78 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S43 + km2 -> S13 + S25 + km2 , pkm2
+  S43 + km2 -> S12 + S26 + km2 , pkm2
+  S43 + dm -> S10 + dm , pdm
+  S43 + dm -> dm + S33 , pdm
+  S43 + pLg -> S51 + pLg , ppLg
+  S20 + kmLs -> S1 + S10 + kmLs , pkmLs
+  S20 + km2 -> S5 + S29 + km2 , pkm2
+  S20 + km2 -> S6 + S30 + km2 , pkm2
+  S20 + pLg -> S40 + pLg , ppLg
+  S20 + pLgs -> S41 + pLgs , ppLgs
+  kmLs + S36 -> S1 + S17 + kmLs , pkmLs
+  kmLs + S41 -> S1 + S43 + kmLs , pkmLs
+  kmLs + S49 -> S1 + kmLs + S23 , pkmLs
+  kmLs + S57 -> S1 + kmLs + S46 , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  kmLs + S74 -> S1 + kmLs + S51 , pkmLs
+  kmLs + S76 -> S1 + kmLs + S78 , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  kmLs + S45 -> S1 + kmLs + S22 , pkmLs
+  kmLs + S54 -> S1 + kmLs + S44 , pkmLs
+  kmLs + S56 -> S1 + kmLs + S45 , 2.0 * pkmLs
+  kmLs + S84 -> S1 + kmLs + S48 , pkmLs
+  kmLs + S97 -> S1 + kmLs + S55 , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  kmLs + S101 -> S1 + kmLs + S88 , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  kmLs + S90 -> S1 + kmLs + S53 , pkmLs
+  kmLs + S92 -> S1 + kmLs + S79 , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  kmLs + S104 -> S1 + kmLs + S89 , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  kmLs + S93 -> S1 + kmLs + S54 , pkmLs
+  kmLs + S93 -> S1 + kmLs + S80 , pkmLs
+  kmLs + S106 -> S1 + kmLs + S90 , 2.0 * pkmLs
+  kmLs + S147 -> S1 + kmLs + S96 , (pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs)/16.0
+  kmLs + S150 -> S1 + kmLs + S100 , (pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs)/16.0
+  kmLs + S154 -> S1 + kmLs + S103 , (pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs)/16.0
+  kmLs + S145 -> S1 + kmLs + S92 , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  kmLs + S145 -> S1 + kmLs + S139 , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  kmLs + S157 -> S1 + kmLs + S104 , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  kmLs + S157 -> S1 + kmLs + S143 , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  kmLs + S170 -> S1 + kmLs + S154 , (pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+pkmLs+2.0 * pkmLs+2.0 * pkmLs+2.0 * pkmLs+2.0 * pkmLs)/10.0
+  kmLs + S70 -> S1 + kmLs + S35 , pkmLs
+  kmLs + S117 -> S1 + kmLs + S69 , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  kmLs + S40 -> S1 + kmLs + S19 , pkmLs
+  kmLs + S75 -> S1 + kmLs + S38 , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  kmLs + S80 -> S1 + kmLs + S44 , pkmLs
+  kmLs + S139 -> S1 + kmLs + S79 , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  kmLs + S141 -> S1 + kmLs + S83 , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  kmLs + S120 -> S1 + kmLs + S86 , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  kmLs + S143 -> S1 + kmLs + S89 , (pkmLs+pkmLs+pkmLs+pkmLs)/4.0
+  S23 + S2 + kpS -> S46 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S23 + km2 -> S13 + S14 + km2 , pkm2
+  S23 + km2 -> S15 + S12 + km2 , pkm2
+  S23 + dm -> S17 + dm , pdm
+  S23 + dm -> S18 + dm , pdm
+  S24 + S2 + kpS -> S50 + kpS , (2.0 * pkpS+2.0 * pkpS+2.0 * pkpS+2.0 * pkpS)/4.0
+  S24 + km2 -> S15 + S14 + km2 , 2.0 * pkm2
+  S24 + dm -> S18 + dm , 2.0 * pdm
+  S36 + km2 -> S3 + S29 + km2 , pkm2
+  S36 + km2 -> S4 + S30 + km2 , pkm2
+  S36 + pLgs -> S49 + pLgs , ppLgs
+  S36 + pLbs -> S45 + pLbs , ppLbs
+  S37 + kmS -> S18 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S37 + km2 -> S3 + S31 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S37 + km2 -> S4 + S32 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S34 + kmS -> S16 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S34 + km2 -> S5 + S59 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S34 + km2 -> S6 + S60 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S34 + pLg -> S73 + pLg , (ppLg+ppLg+ppLg+ppLg)/4.0
+  S78 + kmS -> S43 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S78 + km2 -> S13 + S59 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S78 + km2 -> S12 + S60 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S78 + dm -> dm + S67 , (pdm+pdm+pdm+pdm)/4.0
+  S78 + pLg -> S88 + pLg , (ppLg+ppLg+ppLg+ppLg)/4.0
+  S39 + S2 + kpS -> S73 + kpS , (2.0 * pkpS+2.0 * pkpS+2.0 * pkpS+2.0 * pkpS)/4.0
+  S39 + km2 -> S26 + S25 + km2 , 2.0 * pkm2
+  S39 + dm -> S16 + dm , 2.0 * pdm
+  S41 + S2 + kpS -> S76 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S41 + km2 -> S26 + S29 + km2 , pkm2
+  S41 + km2 -> S30 + S25 + km2 , pkm2
+  S41 + dm -> S20 + dm , pdm
+  S41 + pLg -> S74 + pLg , ppLg
+  S22 + km2 -> S13 + S12 + km2 , 2.0 * pkm2
+  S22 + dm -> S17 + dm , 2.0 * pdm
+  S46 + kmS -> S23 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S46 + km2 -> S13 + S31 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S46 + km2 -> S12 + S32 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S46 + dm -> S37 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S47 + S2 + kpS -> S52 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S47 + S2 + kpS -> kpS + S82 , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S47 + km2 -> S15 + S25 + km2 , pkm2
+  S47 + km2 -> S14 + S26 + km2 , pkm2
+  S47 + dm -> S11 + dm , pdm
+  S47 + dm -> dm + S33 , pdm
+  S47 + pLb -> S51 + pLb , ppLb
+  S48 + S2 + kpS -> S55 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S48 + S2 + kpS -> kpS + S83 , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S48 + km2 -> S15 + S27 + km2 , pkm2
+  S48 + km2 -> S14 + S28 + km2 , pkm2
+  S48 + dm -> S23 + dm , pdm
+  S48 + dm -> S24 + dm , pdm
+  S48 + dm -> dm + S35 , pdm
+  S49 + S2 + kpS -> S57 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S49 + km2 -> S15 + S29 + km2 , pkm2
+  S49 + km2 -> S14 + S30 + km2 , pkm2
+  S49 + dm -> S36 + dm , pdm
+  S49 + pLbs -> S54 + pLbs , ppLbs
+  S50 + S2 + kpS -> S58 + kpS , (pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS)/16.0
+  S50 + kmS -> S24 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S50 + km2 -> S15 + S31 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S50 + km2 -> S14 + S32 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S50 + dm -> S37 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S52 + S2 + kpS -> S95 + kpS , (pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS)/16.0
+  S52 + kmS -> S47 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S52 + km2 -> S26 + S31 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S52 + km2 -> S32 + S25 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S52 + dm -> S21 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S52 + pLb -> S86 + pLb , (ppLb+ppLb+ppLb+ppLb)/4.0
+  S55 + S2 + kpS -> S96 + kpS , (pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS)/16.0
+  S55 + kmS -> S48 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S55 + km2 -> S28 + S31 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S55 + km2 -> S32 + S27 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S55 + dm -> S46 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S55 + dm -> S50 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S57 + kmS -> S49 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S57 + km2 -> S30 + S31 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S57 + km2 -> S32 + S29 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S57 + pLbs -> S92 + pLbs , (ppLbs+ppLbs+ppLbs+ppLbs)/4.0
+  S58 + kmS -> S50 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+2.0 * pkmS+2.0 * pkmS+2.0 * pkmS+2.0 * pkmS)/10.0
+  S58 + km2 -> S32 + S31 + km2 , (pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+2.0 * pkm2+2.0 * pkm2+2.0 * pkm2+2.0 * pkm2)/10.0
+  S51 + S2 + kpS -> S88 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S51 + S2 + kpS -> kpS + S86 , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S51 + km2 -> S26 + S27 + km2 , pkm2
+  S51 + km2 -> S28 + S25 + km2 , pkm2
+  S51 + dm -> S43 + dm , pdm
+  S51 + dm -> S47 + dm , pdm
+  S51 + dm -> dm + S19 , pdm
+  S73 + S2 + kpS -> S99 + kpS , (pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS)/16.0
+  S73 + kmS -> S39 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S73 + km2 -> S26 + S59 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S73 + km2 -> S25 + S60 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S73 + dm -> S34 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S74 + S2 + kpS -> S101 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S74 + S2 + kpS -> kpS + S120 , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S74 + km2 -> S26 + S63 + km2 , pkm2
+  S74 + km2 -> S25 + S64 + km2 , pkm2
+  S74 + dm -> S41 + dm , pdm
+  S74 + dm -> dm + S40 , pdm
+  S76 + kmS -> S41 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S76 + km2 -> S30 + S59 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S76 + km2 -> S29 + S60 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S76 + pLg -> S101 + pLg , (ppLg+ppLg+ppLg+ppLg)/4.0
+  S44 + S2 + kpS -> S79 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S44 + km2 -> S13 + S27 + km2 , pkm2
+  S44 + km2 -> S12 + S28 + km2 , pkm2
+  S44 + dm -> S23 + dm , pdm
+  S44 + dm -> S22 + dm , pdm
+  S44 + dm -> dm + S35 , pdm
+  S45 + km2 -> S13 + S29 + km2 , pkm2
+  S45 + km2 -> S12 + S30 + km2 , pkm2
+  S45 + dm -> S36 + dm , pdm
+  S45 + pLgs -> S54 + pLgs , ppLgs
+  S53 + S2 + kpS -> S89 + kpS , (2.0 * pkpS+2.0 * pkpS+2.0 * pkpS+2.0 * pkpS)/4.0
+  S53 + km2 -> S28 + S27 + km2 , 2.0 * pkm2
+  S53 + dm -> S48 + dm , 2.0 * pdm
+  S53 + dm -> S44 + dm , 2.0 * pdm
+  S54 + S2 + kpS -> S92 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S54 + km2 -> S28 + S29 + km2 , pkm2
+  S54 + km2 -> S30 + S27 + km2 , pkm2
+  S54 + dm -> S49 + dm , pdm
+  S54 + dm -> S45 + dm , pdm
+  S56 + km2 -> S30 + S29 + km2 , 2.0 * pkm2
+  S56 + pLgs -> S93 + pLgs , 2.0 * ppLgs
+  S84 + S2 + kpS -> S97 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S84 + S2 + kpS -> kpS + S141 , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S84 + km2 -> S15 + S63 + km2 , pkm2
+  S84 + km2 -> S14 + S64 + km2 , pkm2
+  S84 + dm -> S49 + dm , pdm
+  S84 + dm -> dm + S70 , pdm
+  S84 + pLbs -> S90 + pLbs , ppLbs
+  S95 + kmS -> S52 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS)/16.0
+  S95 + kmS -> S2 + kmS + S82 , (pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS)/16.0
+  S95 + km2 -> S32 + S59 + km2 , (pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2)/16.0
+  S95 + km2 -> S31 + S60 + km2 , (pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2)/16.0
+  S95 + pLb -> S100 + pLb , (ppLb+ppLb+ppLb+ppLb+ppLb+ppLb+ppLb+ppLb+ppLb+ppLb+ppLb+ppLb+ppLb+ppLb+ppLb+ppLb)/16.0
+  S96 + kmS -> S55 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS)/16.0
+  S96 + kmS -> S2 + kmS + S83 , (pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS)/16.0
+  S96 + km2 -> S32 + S61 + km2 , (pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2)/16.0
+  S96 + km2 -> S31 + S62 + km2 , (pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2)/16.0
+  S96 + dm -> S58 + dm , (pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm)/16.0
+  S97 + S2 + kpS -> S147 + kpS , (pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS)/16.0
+  S97 + kmS -> S84 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S97 + km2 -> S32 + S63 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S97 + km2 -> S31 + S64 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S97 + dm -> S57 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S97 + pLbs -> S104 + pLbs , (ppLbs+ppLbs+ppLbs+ppLbs)/4.0
+  S88 + S2 + kpS -> S100 + kpS , (pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS)/16.0
+  S88 + kmS -> S51 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S88 + km2 -> S28 + S59 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S88 + km2 -> S27 + S60 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S88 + dm -> S78 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S88 + dm -> dm + S82 , (pdm+pdm+pdm+pdm)/4.0
+  S99 + kmS -> S73 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+2.0 * pkmS+2.0 * pkmS+2.0 * pkmS+2.0 * pkmS)/10.0
+  S99 + km2 -> S60 + S59 + km2 , (pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+2.0 * pkm2+2.0 * pkm2+2.0 * pkm2+2.0 * pkm2)/10.0
+  S100 + kmS -> S88 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS)/16.0
+  S100 + kmS -> S2 + kmS + S86 , (pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS)/16.0
+  S100 + km2 -> S60 + S61 + km2 , (pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2)/16.0
+  S100 + km2 -> S62 + S59 + km2 , (pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2)/16.0
+  S100 + dm -> S95 + dm , (pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm)/16.0
+  S101 + S2 + kpS -> S150 + kpS , (pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS)/16.0
+  S101 + kmS -> S74 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S101 + km2 -> S60 + S63 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S101 + km2 -> S64 + S59 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S101 + dm -> S76 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S79 + kmS -> S44 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S79 + km2 -> S13 + S61 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S79 + km2 -> S12 + S62 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S79 + dm -> S46 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S79 + dm -> dm + S69 , (pdm+pdm+pdm+pdm)/4.0
+  S89 + S2 + kpS -> S103 + kpS , (pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS)/16.0
+  S89 + kmS -> S53 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S89 + km2 -> S28 + S61 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S89 + km2 -> S27 + S62 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S89 + dm -> S55 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S89 + dm -> S79 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S89 + dm -> dm + S83 , (pdm+pdm+pdm+pdm)/4.0
+  S90 + S2 + kpS -> S104 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S90 + S2 + kpS -> kpS + S143 , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S90 + km2 -> S28 + S63 + km2 , pkm2
+  S90 + km2 -> S27 + S64 + km2 , pkm2
+  S90 + dm -> S54 + dm , pdm
+  S90 + dm -> S84 + dm , pdm
+  S90 + dm -> dm + S80 , pdm
+  S92 + kmS -> S54 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S92 + km2 -> S30 + S61 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S92 + km2 -> S29 + S62 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S92 + dm -> S57 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S103 + kmS -> S89 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+2.0 * pkmS+2.0 * pkmS+2.0 * pkmS+2.0 * pkmS)/10.0
+  S103 + km2 -> S62 + S61 + km2 , (pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+2.0 * pkm2+2.0 * pkm2+2.0 * pkm2+2.0 * pkm2)/10.0
+  S103 + dm -> S96 + dm , (pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+2.0 * pdm+2.0 * pdm+2.0 * pdm+2.0 * pdm)/10.0
+  S104 + S2 + kpS -> S154 + kpS , (pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS)/16.0
+  S104 + kmS -> S90 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S104 + km2 -> S62 + S63 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S104 + km2 -> S64 + S61 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S104 + dm -> S97 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S104 + dm -> S92 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S93 + S2 + kpS -> S145 + kpS , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S93 + km2 -> S30 + S63 + km2 , pkm2
+  S93 + km2 -> S29 + S64 + km2 , pkm2
+  S93 + dm -> S56 + dm , pdm
+  S93 + pLgs -> S106 + pLgs , ppLgs
+  S106 + S2 + kpS -> S157 + kpS , (2.0 * pkpS+2.0 * pkpS+2.0 * pkpS+2.0 * pkpS)/4.0
+  S106 + km2 -> S64 + S63 + km2 , 2.0 * pkm2
+  S106 + dm -> S93 + dm , 2.0 * pdm
+  S147 + kmS -> S97 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS)/16.0
+  S147 + kmS -> S2 + kmS + S141 , (pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS)/16.0
+  S147 + km2 -> S32 + S113 + km2 , (pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2)/16.0
+  S147 + km2 -> S31 + S114 + km2 , (pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2)/16.0
+  S147 + pLbs -> S154 + pLbs , (ppLbs+ppLbs+ppLbs+ppLbs+ppLbs+ppLbs+ppLbs+ppLbs+ppLbs+ppLbs+ppLbs+ppLbs+ppLbs+ppLbs+ppLbs+ppLbs)/16.0
+  S150 + kmS -> S101 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS)/16.0
+  S150 + kmS -> S2 + kmS + S120 , (pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS)/16.0
+  S150 + km2 -> S60 + S113 + km2 , (pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2)/16.0
+  S150 + km2 -> S59 + S114 + km2 , (pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2)/16.0
+  S154 + kmS -> S104 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS)/16.0
+  S154 + kmS -> S2 + kmS + S143 , (pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS)/16.0
+  S154 + km2 -> S62 + S113 + km2 , (pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2)/16.0
+  S154 + km2 -> S61 + S114 + km2 , (pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2)/16.0
+  S154 + dm -> S147 + dm , (pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm+pdm)/16.0
+  S145 + kmS -> S93 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S145 + km2 -> S30 + S113 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S145 + km2 -> S29 + S114 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S145 + pLgs -> S157 + pLgs , (ppLgs+ppLgs+ppLgs+ppLgs)/4.0
+  S157 + S2 + kpS -> S170 + kpS , (pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS)/16.0
+  S157 + kmS -> S106 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  S157 + km2 -> S64 + S113 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S157 + km2 -> S63 + S114 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  S157 + dm -> S145 + dm , (pdm+pdm+pdm+pdm)/4.0
+  S170 + kmS -> S157 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+pkmS+2.0 * pkmS+2.0 * pkmS+2.0 * pkmS+2.0 * pkmS)/10.0
+  S170 + km2 -> S114 + S113 + km2 , (pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+pkm2+2.0 * pkm2+2.0 * pkm2+2.0 * pkm2+2.0 * pkm2)/10.0
+  S2 + kpS + S33 -> kpS + S67 , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S2 + kpS + S35 -> kpS + S69 , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S2 + kpS + S70 -> kpS + S117 , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S2 + kpS + S19 -> kpS + S38 , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S2 + kpS + S40 -> kpS + S75 , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S2 + kpS + S80 -> kpS + S139 , (pkpS+pkpS+pkpS+pkpS)/4.0
+  S2 + kpS + S82 -> S95 + kpS , (pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS)/16.0
+  S2 + kpS + S83 -> S96 + kpS , (pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS)/16.0
+  S2 + kpS + S141 -> S147 + kpS , (pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS)/16.0
+  S2 + kpS + S86 -> S100 + kpS , (pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS)/16.0
+  S2 + kpS + S120 -> S150 + kpS , (pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS)/16.0
+  S2 + kpS + S143 -> S154 + kpS , (pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS+pkpS)/16.0
+  kmS + S67 -> S2 + kmS + S33 , (pkmS+pkmS+pkmS+pkmS)/4.0
+  kmS + S69 -> S2 + kmS + S35 , (pkmS+pkmS+pkmS+pkmS)/4.0
+  kmS + S117 -> S2 + kmS + S70 , (pkmS+pkmS+pkmS+pkmS)/4.0
+  kmS + S38 -> S2 + kmS + S19 , (pkmS+pkmS+pkmS+pkmS)/4.0
+  kmS + S75 -> S2 + kmS + S40 , (pkmS+pkmS+pkmS+pkmS)/4.0
+  kmS + S139 -> S2 + kmS + S80 , (pkmS+pkmS+pkmS+pkmS)/4.0
+  kmS + S82 -> S47 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  kmS + S83 -> S48 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  kmS + S141 -> S84 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  kmS + S86 -> S51 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  kmS + S120 -> S74 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  kmS + S143 -> S90 + S2 + kmS , (pkmS+pkmS+pkmS+pkmS)/4.0
+  km2 + S33 -> S3 + S25 + km2 , pkm2
+  km2 + S33 -> S4 + S26 + km2 , pkm2
+  km2 + S35 -> S3 + S27 + km2 , pkm2
+  km2 + S35 -> S4 + S28 + km2 , pkm2
+  km2 + S67 -> S3 + S59 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S67 -> S4 + S60 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S69 -> S3 + S61 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S69 -> S4 + S62 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S70 -> S3 + S63 + km2 , pkm2
+  km2 + S70 -> S4 + S64 + km2 , pkm2
+  km2 + S117 -> S3 + S113 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S117 -> S4 + S114 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S19 -> S5 + S27 + km2 , pkm2
+  km2 + S19 -> S6 + S28 + km2 , pkm2
+  km2 + S38 -> S5 + S61 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S38 -> S6 + S62 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S40 -> S5 + S63 + km2 , pkm2
+  km2 + S40 -> S6 + S64 + km2 , pkm2
+  km2 + S75 -> S5 + S113 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S75 -> S6 + S114 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S80 -> S13 + S63 + km2 , pkm2
+  km2 + S80 -> S12 + S64 + km2 , pkm2
+  km2 + S139 -> S13 + S113 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S139 -> S12 + S114 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S82 -> S15 + S59 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S82 -> S14 + S60 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S83 -> S15 + S61 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S83 -> S14 + S62 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S141 -> S15 + S113 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S141 -> S14 + S114 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S86 -> S26 + S61 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S86 -> S25 + S62 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S120 -> S26 + S113 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S120 -> S25 + S114 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S143 -> S28 + S113 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  km2 + S143 -> S27 + S114 + km2 , (pkm2+pkm2+pkm2+pkm2)/4.0
+  dm + S33 -> S8 + dm , pdm
+  dm + S35 -> S17 + dm , pdm
+  dm + S35 -> S18 + dm , pdm
+  dm + S69 -> S37 + dm , (pdm+pdm+pdm+pdm)/4.0
+  dm + S70 -> S36 + dm , pdm
+  dm + S19 -> S11 + dm , pdm
+  dm + S19 -> S10 + dm , pdm
+  dm + S38 -> S21 + dm , (pdm+pdm+pdm+pdm)/4.0
+  dm + S40 -> S20 + dm , pdm
+  dm + S80 -> S45 + dm , pdm
+  dm + S80 -> dm + S70 , pdm
+  dm + S139 -> dm + S117 , (pdm+pdm+pdm+pdm)/4.0
+  dm + S82 -> dm + S67 , (pdm+pdm+pdm+pdm)/4.0
+  dm + S83 -> S50 + dm , (pdm+pdm+pdm+pdm)/4.0
+  dm + S83 -> dm + S69 , (pdm+pdm+pdm+pdm)/4.0
+  dm + S141 -> dm + S117 , (pdm+pdm+pdm+pdm)/4.0
+  dm + S86 -> S52 + dm , (pdm+pdm+pdm+pdm)/4.0
+  dm + S86 -> dm + S38 , (pdm+pdm+pdm+pdm)/4.0
+  dm + S120 -> dm + S75 , (pdm+pdm+pdm+pdm)/4.0
+  dm + S143 -> dm + S139 , (pdm+pdm+pdm+pdm)/4.0
+  dm + S143 -> dm + S141 , (pdm+pdm+pdm+pdm)/4.0
+  S33 + pLg -> S47 + pLg , ppLg
+  S33 + pLb -> S43 + pLb , ppLb
+  S67 + pLg -> S82 + pLg , (ppLg+ppLg+ppLg+ppLg)/4.0
+  S67 + pLb -> S78 + pLb , (ppLb+ppLb+ppLb+ppLb)/4.0
+  S70 + pLgs -> S84 + pLgs , ppLgs
+  S70 + pLbs -> S80 + pLbs , ppLbs
+  S117 + pLgs -> S141 + pLgs , (ppLgs+ppLgs+ppLgs+ppLgs)/4.0
+  S117 + pLbs -> S139 + pLbs , (ppLbs+ppLbs+ppLbs+ppLbs)/4.0
+  S40 + pLgs -> S74 + pLgs , ppLgs
+  S75 + pLgs -> S120 + pLgs , (ppLgs+ppLgs+ppLgs+ppLgs)/4.0
+  S80 + pLgs -> S90 + pLgs , ppLgs
+  S139 + pLgs -> S143 + pLgs , (ppLgs+ppLgs+ppLgs+ppLgs)/4.0
+  S82 + pLb -> S88 + pLb , (ppLb+ppLb+ppLb+ppLb)/4.0
+  S141 + pLbs -> S143 + pLbs , (ppLbs+ppLbs+ppLbs+ppLbs)/4.0
+ end reactions
+ begin views
+  vS114 = S114/4
+  vS54 = S54/1
+  vS120 = S120/4
+  vS39 = S39/1
+  vS52 = S52/4
+  vkpL = kpL/1
+  vS79 = S79/4
+  vS113 = S113/4
+  vS34 = S34/4
+  vS70 = S70/1
+  vLig_tot = Lig_tot/11
+  vS6 = S6/1
+  vS55 = S55/4
+  vS35 = S35/1
+  vS92 = S92/4
+  vS86 = S86/4
+  vS4 = S4/1
+  vS63 = S63/1
+  vS139 = S139/4
+  vS14 = S14/1
+  vS80 = S80/1
+  vS43 = S43/1
+  vS17 = S17/1
+  vS103 = S103/10
+  vS143 = S143/4
+  vS18 = S18/1
+  vS48 = S48/1
+  vS96 = S96/16
+  vS3 = S3/1
+  vS74 = S74/1
+  vkmS = kmS/1
+  vS22 = S22/1
+  vS59 = S59/4
+  vS24 = S24/1
+  vS16 = S16/1
+  vS78 = S78/4
+  vS58 = S58/10
+  vS67 = S67/4
+  vdm = dm/1
+  vS83 = S83/4
+  vS7 = S7/1
+  vkpS = kpS/1
+  vS46 = S46/4
+  vS150 = S150/16
+  vS56 = S56/1
+  vS51 = S51/1
+  vpLg = pLg/1
+  vS10 = S10/1
+  vkp1 = kp1/1
+  vkpLs = kpLs/1
+  vkmLs = kmLs/1
+  vS15 = S15/1
+  vS60 = S60/4
+  vS40 = S40/1
+  vS30 = S30/1
+  vS29 = S29/1
+  vpLgs = pLgs/1
+  vS1 = S1/1
+  vS89 = S89/4
+  vS27 = S27/1
+  vS84 = S84/1
+  vS93 = S93/1
+  vS38 = S38/4
+  vS57 = S57/4
+  vS45 = S45/1
+  vS69 = S69/4
+  vS100 = S100/16
+  vS33 = S33/1
+  vS117 = S117/4
+  vS170 = S170/10
+  vS23 = S23/1
+  vS49 = S49/1
+  vS41 = S41/1
+  vS62 = S62/4
+  vS28 = S28/1
+  vS97 = S97/4
+  vS104 = S104/4
+  vS47 = S47/1
+  vS73 = S73/4
+  vS20 = S20/1
+  vS0 = S0/1
+  vS53 = S53/1
+  vS75 = S75/4
+  vS25 = S25/1
+  vS145 = S145/4
+  vS5 = S5/1
+  vS31 = S31/4
+  vS154 = S154/16
+  vpLb = pLb/1
+  vS76 = S76/4
+  vS157 = S157/4
+  vS101 = S101/4
+  vS13 = S13/1
+  vS9 = S9/1
+  vkm2 = km2/1
+  vS8 = S8/1
+  vS99 = S99/10
+  vkp2 = kp2/1
+  vS82 = S82/4
+  vpLbs = pLbs/1
+  vS37 = S37/4
+  vS21 = S21/4
+  vS88 = S88/4
+  vS36 = S36/1
+  vS141 = S141/4
+  vS95 = S95/16
+  vS106 = S106/1
+  vS64 = S64/1
+  vS90 = S90/1
+  vS32 = S32/4
+  vkmL = kmL/1
+  vS26 = S26/1
+  vS2 = S2/4
+  vS147 = S147/16
+  vS19 = S19/1
+  vS44 = S44/1
+  vS12 = S12/1
+  vS11 = S11/1
+  vkm1 = km1/1
+  vS61 = S61/4
+  vS50 = S50/4
+ end views
+
+//Comments associated to the species
+//Lig_tot:  
+  //Representative of block (with 11 species)
+  // 	Lig_tot
+  // 	Rec_tot
+  // 	Lyn_tot
+  // 	Syk_tot
+  // 	kpSs
+  // 	kmSs
+  // 	pLS
+  // 	pLSs
+  // 	pSS
+  // 	pSSs
+  // 	dc
+//S7:  
+  //Singleton block 
+  // 	S7
+//S0:  
+  //Singleton block 
+  // 	S0
+//S3:  
+  //Singleton block 
+  // 	S3
+//kp1:  
+  //Singleton block 
+  // 	kp1
+//S5:  
+  //Singleton block 
+  // 	S5
+//S4:  
+  //Singleton block 
+  // 	S4
+//km1:  
+  //Singleton block 
+  // 	km1
+//S6:  
+  //Singleton block 
+  // 	S6
+//S13:  
+  //Singleton block 
+  // 	S13
+//S15:  
+  //Singleton block 
+  // 	S15
+//S12:  
+  //Singleton block 
+  // 	S12
+//S14:  
+  //Singleton block 
+  // 	S14
+//S26:  
+  //Singleton block 
+  // 	S26
+//S28:  
+  //Singleton block 
+  // 	S28
+//S30:  
+  //Singleton block 
+  // 	S30
+//S32:  
+  //Representative of block (with 4 species)
+  // 	S32
+  // 	S66
+  // 	S174
+  // 	S213
+//S25:  
+  //Singleton block 
+  // 	S25
+//S27:  
+  //Singleton block 
+  // 	S27
+//S29:  
+  //Singleton block 
+  // 	S29
+//S31:  
+  //Representative of block (with 4 species)
+  // 	S31
+  // 	S65
+  // 	S173
+  // 	S212
+//S60:  
+  //Representative of block (with 4 species)
+  // 	S60
+  // 	S110
+  // 	S208
+  // 	S214
+//S62:  
+  //Representative of block (with 4 species)
+  // 	S62
+  // 	S112
+  // 	S211
+  // 	S217
+//S64:  
+  //Singleton block 
+  // 	S64
+//S59:  
+  //Representative of block (with 4 species)
+  // 	S59
+  // 	S109
+  // 	S209
+  // 	S215
+//S61:  
+  //Representative of block (with 4 species)
+  // 	S61
+  // 	S111
+  // 	S210
+  // 	S216
+//S63:  
+  //Singleton block 
+  // 	S63
+//S114:  
+  //Representative of block (with 4 species)
+  // 	S114
+  // 	S133
+  // 	S249
+  // 	S337
+//S113:  
+  //Representative of block (with 4 species)
+  // 	S113
+  // 	S132
+  // 	S248
+  // 	S336
+//S1:  
+  //Singleton block 
+  // 	S1
+//kpL:  
+  //Singleton block 
+  // 	kpL
+//kmL:  
+  //Singleton block 
+  // 	kmL
+//S8:  
+  //Singleton block 
+  // 	S8
+//S11:  
+  //Singleton block 
+  // 	S11
+//S9:  
+  //Singleton block 
+  // 	S9
+//S10:  
+  //Singleton block 
+  // 	S10
+//kpLs:  
+  //Singleton block 
+  // 	kpLs
+//S17:  
+  //Singleton block 
+  // 	S17
+//S18:  
+  //Singleton block 
+  // 	S18
+//S21:  
+  //Representative of block (with 4 species)
+  // 	S21
+  // 	S42
+  // 	S200
+  // 	S306
+//S16:  
+  //Singleton block 
+  // 	S16
+//S43:  
+  //Singleton block 
+  // 	S43
+//S20:  
+  //Singleton block 
+  // 	S20
+//kmLs:  
+  //Singleton block 
+  // 	kmLs
+//S23:  
+  //Singleton block 
+  // 	S23
+//S24:  
+  //Singleton block 
+  // 	S24
+//S36:  
+  //Singleton block 
+  // 	S36
+//S37:  
+  //Representative of block (with 4 species)
+  // 	S37
+  // 	S71
+  // 	S199
+  // 	S303
+//S34:  
+  //Representative of block (with 4 species)
+  // 	S34
+  // 	S68
+  // 	S234
+  // 	S307
+//S78:  
+  //Representative of block (with 4 species)
+  // 	S78
+  // 	S122
+  // 	S241
+  // 	S310
+//S39:  
+  //Singleton block 
+  // 	S39
+//S41:  
+  //Singleton block 
+  // 	S41
+//S22:  
+  //Singleton block 
+  // 	S22
+//S46:  
+  //Representative of block (with 4 species)
+  // 	S46
+  // 	S81
+  // 	S201
+  // 	S309
+//S47:  
+  //Singleton block 
+  // 	S47
+//S48:  
+  //Singleton block 
+  // 	S48
+//S49:  
+  //Singleton block 
+  // 	S49
+//S50:  
+  //Representative of block (with 4 species)
+  // 	S50
+  // 	S85
+  // 	S177
+  // 	S266
+//S52:  
+  //Representative of block (with 4 species)
+  // 	S52
+  // 	S87
+  // 	S202
+  // 	S268
+//S55:  
+  //Representative of block (with 4 species)
+  // 	S55
+  // 	S91
+  // 	S203
+  // 	S269
+//S57:  
+  //Representative of block (with 4 species)
+  // 	S57
+  // 	S94
+  // 	S204
+  // 	S315
+//S58:  
+  //Representative of block (with 10 species)
+  // 	S58
+  // 	S98
+  // 	S138
+  // 	S181
+  // 	S108
+  // 	S182
+  // 	S191
+  // 	S198
+  // 	S293
+  // 	S299
+//S51:  
+  //Singleton block 
+  // 	S51
+//S73:  
+  //Representative of block (with 4 species)
+  // 	S73
+  // 	S118
+  // 	S238
+  // 	S272
+//S74:  
+  //Singleton block 
+  // 	S74
+//S76:  
+  //Representative of block (with 4 species)
+  // 	S76
+  // 	S121
+  // 	S240
+  // 	S316
+//S44:  
+  //Singleton block 
+  // 	S44
+//S45:  
+  //Singleton block 
+  // 	S45
+//S53:  
+  //Singleton block 
+  // 	S53
+//S54:  
+  //Singleton block 
+  // 	S54
+//S56:  
+  //Singleton block 
+  // 	S56
+//S84:  
+  //Singleton block 
+  // 	S84
+//S95:  
+  //Representative of block (with 16 species)
+  // 	S95
+  // 	S102
+  // 	S175
+  // 	S186
+  // 	S128
+  // 	S159
+  // 	S192
+  // 	S221
+  // 	S176
+  // 	S187
+  // 	S225
+  // 	S296
+  // 	S193
+  // 	S222
+  // 	S300
+  // 	S327
+//S96:  
+  //Representative of block (with 16 species)
+  // 	S96
+  // 	S105
+  // 	S180
+  // 	S189
+  // 	S131
+  // 	S160
+  // 	S194
+  // 	S278
+  // 	S179
+  // 	S190
+  // 	S292
+  // 	S298
+  // 	S195
+  // 	S277
+  // 	S301
+  // 	S328
+//S97:  
+  //Representative of block (with 4 species)
+  // 	S97
+  // 	S107
+  // 	S205
+  // 	S318
+//S88:  
+  //Representative of block (with 4 species)
+  // 	S88
+  // 	S126
+  // 	S244
+  // 	S313
+//S99:  
+  //Representative of block (with 10 species)
+  // 	S99
+  // 	S135
+  // 	S183
+  // 	S197
+  // 	S163
+  // 	S196
+  // 	S273
+  // 	S294
+  // 	S302
+  // 	S330
+//S100:  
+  //Representative of block (with 16 species)
+  // 	S100
+  // 	S152
+  // 	S185
+  // 	S219
+  // 	S149
+  // 	S164
+  // 	S223
+  // 	S282
+  // 	S184
+  // 	S220
+  // 	S295
+  // 	S324
+  // 	S224
+  // 	S281
+  // 	S322
+  // 	S331
+//S101:  
+  //Representative of block (with 4 species)
+  // 	S101
+  // 	S136
+  // 	S251
+  // 	S319
+//S79:  
+  //Representative of block (with 4 species)
+  // 	S79
+  // 	S123
+  // 	S242
+  // 	S311
+//S89:  
+  //Representative of block (with 4 species)
+  // 	S89
+  // 	S129
+  // 	S246
+  // 	S314
+//S90:  
+  //Singleton block 
+  // 	S90
+//S92:  
+  //Representative of block (with 4 species)
+  // 	S92
+  // 	S130
+  // 	S247
+  // 	S317
+//S103:  
+  //Representative of block (with 10 species)
+  // 	S103
+  // 	S153
+  // 	S188
+  // 	S275
+  // 	S167
+  // 	S259
+  // 	S286
+  // 	S297
+  // 	S325
+  // 	S333
+//S104:  
+  //Representative of block (with 4 species)
+  // 	S104
+  // 	S156
+  // 	S256
+  // 	S320
+//S93:  
+  //Singleton block 
+  // 	S93
+//S106:  
+  //Singleton block 
+  // 	S106
+//S147:  
+  //Representative of block (with 16 species)
+  // 	S147
+  // 	S161
+  // 	S206
+  // 	S231
+  // 	S148
+  // 	S162
+  // 	S207
+  // 	S280
+  // 	S226
+  // 	S232
+  // 	S321
+  // 	S329
+  // 	S233
+  // 	S279
+  // 	S339
+  // 	S350
+//S150:  
+  //Representative of block (with 16 species)
+  // 	S150
+  // 	S165
+  // 	S228
+  // 	S283
+  // 	S151
+  // 	S166
+  // 	S261
+  // 	S285
+  // 	S227
+  // 	S260
+  // 	S323
+  // 	S332
+  // 	S274
+  // 	S284
+  // 	S347
+  // 	S351
+//S154:  
+  //Representative of block (with 16 species)
+  // 	S154
+  // 	S168
+  // 	S229
+  // 	S287
+  // 	S155
+  // 	S169
+  // 	S262
+  // 	S289
+  // 	S230
+  // 	S263
+  // 	S326
+  // 	S334
+  // 	S276
+  // 	S288
+  // 	S348
+  // 	S352
+//S145:  
+  //Representative of block (with 4 species)
+  // 	S145
+  // 	S146
+  // 	S257
+  // 	S345
+//S157:  
+  //Representative of block (with 4 species)
+  // 	S157
+  // 	S158
+  // 	S258
+  // 	S346
+//S170:  
+  //Representative of block (with 10 species)
+  // 	S170
+  // 	S171
+  // 	S264
+  // 	S290
+  // 	S172
+  // 	S265
+  // 	S291
+  // 	S335
+  // 	S349
+  // 	S353
+//S2:  
+  //Representative of block (with 4 species)
+  // 	S2
+  // 	S77
+  // 	S178
+  // 	S267
+//kpS:  
+  //Singleton block 
+  // 	kpS
+//kmS:  
+  //Singleton block 
+  // 	kmS
+//kp2:  
+  //Singleton block 
+  // 	kp2
+//km2:  
+  //Singleton block 
+  // 	km2
+//dm:  
+  //Singleton block 
+  // 	dm
+//S33:  
+  //Singleton block 
+  // 	S33
+//S35:  
+  //Singleton block 
+  // 	S35
+//S67:  
+  //Representative of block (with 4 species)
+  // 	S67
+  // 	S115
+  // 	S236
+  // 	S304
+//S69:  
+  //Representative of block (with 4 species)
+  // 	S69
+  // 	S116
+  // 	S237
+  // 	S305
+//S70:  
+  //Singleton block 
+  // 	S70
+//S117:  
+  //Representative of block (with 4 species)
+  // 	S117
+  // 	S134
+  // 	S250
+  // 	S341
+//S19:  
+  //Singleton block 
+  // 	S19
+//S38:  
+  //Representative of block (with 4 species)
+  // 	S38
+  // 	S72
+  // 	S235
+  // 	S308
+//S40:  
+  //Singleton block 
+  // 	S40
+//S75:  
+  //Representative of block (with 4 species)
+  // 	S75
+  // 	S119
+  // 	S239
+  // 	S340
+//S80:  
+  //Singleton block 
+  // 	S80
+//S139:  
+  //Representative of block (with 4 species)
+  // 	S139
+  // 	S140
+  // 	S253
+  // 	S343
+//S82:  
+  //Representative of block (with 4 species)
+  // 	S82
+  // 	S124
+  // 	S218
+  // 	S270
+//S83:  
+  //Representative of block (with 4 species)
+  // 	S83
+  // 	S125
+  // 	S243
+  // 	S271
+//S141:  
+  //Representative of block (with 4 species)
+  // 	S141
+  // 	S142
+  // 	S254
+  // 	S338
+//S86:  
+  //Representative of block (with 4 species)
+  // 	S86
+  // 	S127
+  // 	S245
+  // 	S312
+//S120:  
+  //Representative of block (with 4 species)
+  // 	S120
+  // 	S137
+  // 	S252
+  // 	S342
+//S143:  
+  //Representative of block (with 4 species)
+  // 	S143
+  // 	S144
+  // 	S255
+  // 	S344
+//pLg:  
+  //Singleton block 
+  // 	pLg
+//pLb:  
+  //Singleton block 
+  // 	pLb
+//pLgs:  
+  //Singleton block 
+  // 	pLgs
+//pLbs:  
+  //Singleton block 
+  // 	pLbs
+
+end model
+

@@ -1,0 +1,4124 @@
+begin model fceri_ji_curry
+ begin parameters
+  pLig_tot = 1
+  pRec_tot = 1
+  pLyn_tot = 1
+  pSyk_tot = 1
+  pkp1 = 1
+  pkm1 = 1
+  pkp2 = 1
+  pkm2 = 1
+  pkpL = 1
+  pkmL = 1
+  pkpLs = 1
+  pkmLs = 1
+  pkpS = 1
+  pkmS = 1
+  pkpSs = 1
+  pkmSs = 1
+  ppLb = 1
+  ppLbs = 1
+  ppLg = 1
+  ppLgs = 1
+  ppLS = 1
+  ppLSs = 1
+  ppSS = 1
+  ppSSs = 1
+  pdm = 1
+  pdc = 1
+ end parameters
+ begin init
+  S0 = 6000.0
+  S1 = 28.0
+  S2 = 400.0
+  S3 = 400.0
+  S4
+  S5
+  S6
+  S7
+  S8
+  S9
+  S10
+  S11
+  S12
+  S13
+  S14
+  S15
+  S16
+  S17
+  S18
+  S19
+  S20
+  S21
+  S22
+  S23
+  S24
+  S25
+  S26
+  S27
+  S28
+  S29
+  S30
+  S31
+  S32
+  S33
+  S34
+  S35
+  S36
+  S37
+  S38
+  S39
+  S40
+  S41
+  S42
+  S43
+  S44
+  S45
+  S46
+  S47
+  S48
+  S49
+  S50
+  S51
+  S52
+  S53
+  S54
+  S55
+  S56
+  S57
+  S58
+  S59
+  S60
+  S61
+  S62
+  S63
+  S64
+  S65
+  S66
+  S67
+  S68
+  S69
+  S70
+  S71
+  S72
+  S73
+  S74
+  S75
+  S76
+  S77
+  S78
+  S79
+  S80
+  S81
+  S82
+  S83
+  S84
+  S85
+  S86
+  S87
+  S88
+  S89
+  S90
+  S91
+  S92
+  S93
+  S94
+  S95
+  S96
+  S97
+  S98
+  S99
+  S100
+  S101
+  S102
+  S103
+  S104
+  S105
+  S106
+  S107
+  S108
+  S109
+  S110
+  S111
+  S112
+  S113
+  S114
+  S115
+  S116
+  S117
+  S118
+  S119
+  S120
+  S121
+  S122
+  S123
+  S124
+  S125
+  S126
+  S127
+  S128
+  S129
+  S130
+  S131
+  S132
+  S133
+  S134
+  S135
+  S136
+  S137
+  S138
+  S139
+  S140
+  S141
+  S142
+  S143
+  S144
+  S145
+  S146
+  S147
+  S148
+  S149
+  S150
+  S151
+  S152
+  S153
+  S154
+  S155
+  S156
+  S157
+  S158
+  S159
+  S160
+  S161
+  S162
+  S163
+  S164
+  S165
+  S166
+  S167
+  S168
+  S169
+  S170
+  S171
+  S172
+  S173
+  S174
+  S175
+  S176
+  S177
+  S178
+  S179
+  S180
+  S181
+  S182
+  S183
+  S184
+  S185
+  S186
+  S187
+  S188
+  S189
+  S190
+  S191
+  S192
+  S193
+  S194
+  S195
+  S196
+  S197
+  S198
+  S199
+  S200
+  S201
+  S202
+  S203
+  S204
+  S205
+  S206
+  S207
+  S208
+  S209
+  S210
+  S211
+  S212
+  S213
+  S214
+  S215
+  S216
+  S217
+  S218
+  S219
+  S220
+  S221
+  S222
+  S223
+  S224
+  S225
+  S226
+  S227
+  S228
+  S229
+  S230
+  S231
+  S232
+  S233
+  S234
+  S235
+  S236
+  S237
+  S238
+  S239
+  S240
+  S241
+  S242
+  S243
+  S244
+  S245
+  S246
+  S247
+  S248
+  S249
+  S250
+  S251
+  S252
+  S253
+  S254
+  S255
+  S256
+  S257
+  S258
+  S259
+  S260
+  S261
+  S262
+  S263
+  S264
+  S265
+  S266
+  S267
+  S268
+  S269
+  S270
+  S271
+  S272
+  S273
+  S274
+  S275
+  S276
+  S277
+  S278
+  S279
+  S280
+  S281
+  S282
+  S283
+  S284
+  S285
+  S286
+  S287
+  S288
+  S289
+  S290
+  S291
+  S292
+  S293
+  S294
+  S295
+  S296
+  S297
+  S298
+  S299
+  S300
+  S301
+  S302
+  S303
+  S304
+  S305
+  S306
+  S307
+  S308
+  S309
+  S310
+  S311
+  S312
+  S313
+  S314
+  S315
+  S316
+  S317
+  S318
+  S319
+  S320
+  S321
+  S322
+  S323
+  S324
+  S325
+  S326
+  S327
+  S328
+  S329
+  S330
+  S331
+  S332
+  S333
+  S334
+  S335
+  S336
+  S337
+  S338
+  S339
+  S340
+  S341
+  S342
+  S343
+  S344
+  S345
+  S346
+  S347
+  S348
+  S349
+  S350
+  S351
+  S352
+  S353
+  Lig_tot = 6000.0
+  Rec_tot = 400.0
+  Lyn_tot = 28.0
+  Syk_tot = 400.0
+  kp1 = 1.32845238E-7
+  km1
+  kp2 = 0.25
+  km2
+  kpL = 0.05
+  kmL = 20.0
+  kpLs = 0.05
+  kmLs = 0.12
+  kpS = 0.06
+  kmS = 0.13
+  kpSs = 0.06
+  kmSs = 0.13
+  pLb = 30.0
+  pLbs = 100.0
+  pLg = 1.0
+  pLgs = 3.0
+  pLS = 30.0
+  pLSs = 100.0
+  pSS = 100.0
+  pSSs = 200.0
+  dm = 20.0
+  dc = 20.0
+ end init
+ begin partition
+  {Lig_tot},
+  {Rec_tot},
+  {Lyn_tot},
+  {Syk_tot},
+  {kp1},
+  {km1},
+  {kp2},
+  {km2},
+  {kpL},
+  {kmL},
+  {kpLs},
+  {kmLs},
+  {kpS},
+  {kmS},
+  {kpSs},
+  {kmSs},
+  {pLb},
+  {pLbs},
+  {pLg},
+  {pLgs},
+  {pLS},
+  {pLSs},
+  {pSS},
+  {pSSs},
+  {dm},
+  {dc}
+ end partition
+ begin reactions
+  S0 + S3 + kp1 -> S4 + kp1 , p2.0 * kp1
+  S1 + S3 + kpL -> S5 + kpL , pkpL
+  S0 + S5 + kp1 -> S6 + kp1 , p2.0 * kp1
+  S4 + km1 -> S0 + S3 + km1 , pkm1
+  S3 + S4 + kp2 -> S7 + kp2 , pkp2
+  S4 + S5 + kp2 -> S8 + kp2 , pkp2
+  S1 + S4 + kpL -> S6 + kpL , pkpL
+  S5 + kmL -> S1 + S3 + kmL , pkmL
+  S6 + km1 -> S0 + S5 + km1 , pkm1
+  S3 + S6 + kp2 -> S8 + kp2 , pkp2
+  S5 + S6 + kp2 -> S9 + kp2 , pkp2
+  S7 + km2 -> S3 + S4 + km2 , p2.0 * km2
+  S8 + km2 -> S4 + S5 + km2 , pkm2
+  S8 + km2 -> S3 + S6 + km2 , pkm2
+  S1 + S7 + kpL -> S8 + kpL , p2.0 * kpL
+  S1 + S8 + kpL -> S9 + kpL , pkpL
+  S6 + kmL -> S1 + S4 + kmL , pkmL
+  S8 + kmL -> S1 + S7 + kmL , pkmL
+  S8 + pLb -> S10 + pLb , ppLb
+  S8 + pLg -> S11 + pLg , ppLg
+  S9 + km2 -> S5 + S6 + km2 , p2.0 * km2
+  S10 + km2 -> S5 + S12 + km2 , pkm2
+  S10 + km2 -> S6 + S13 + km2 , pkm2
+  S11 + km2 -> S5 + S14 + km2 , pkm2
+  S11 + km2 -> S6 + S15 + km2 , pkm2
+  S1 + S11 + kpL -> S16 + kpL , pkpL
+  S9 + kmL -> S1 + S8 + kmL , p2.0 * kmL
+  S10 + kmL -> S1 + S17 + kmL , pkmL
+  S11 + kmL -> S1 + S18 + kmL , pkmL
+  S11 + pLb -> S19 + pLb , ppLb
+  S9 + pLg -> S16 + pLg , p2.0 * pLg
+  S10 + pLg -> S19 + pLg , ppLg
+  S1 + S10 + kpLs -> S20 + kpLs , pkpLs
+  S2 + S11 + kpS -> S21 + kpS , pkpS
+  S10 + dm -> S8 + dm , pdm
+  S11 + dm -> S8 + dm , pdm
+  S0 + S13 + kp1 -> S12 + kp1 , p2.0 * kp1
+  S0 + S15 + kp1 -> S14 + kp1 , p2.0 * kp1
+  S12 + km1 -> S0 + S13 + km1 , pkm1
+  S14 + km1 -> S0 + S15 + km1 , pkm1
+  S3 + S12 + kp2 -> S17 + kp2 , pkp2
+  S3 + S14 + kp2 -> S18 + kp2 , pkp2
+  S5 + S12 + kp2 -> S10 + kp2 , pkp2
+  S5 + S14 + kp2 -> S11 + kp2 , pkp2
+  S4 + S13 + kp2 -> S17 + kp2 , pkp2
+  S6 + S13 + kp2 -> S10 + kp2 , pkp2
+  S12 + S13 + kp2 -> S22 + kp2 , pkp2
+  S13 + S14 + kp2 -> S23 + kp2 , pkp2
+  S4 + S15 + kp2 -> S18 + kp2 , pkp2
+  S6 + S15 + kp2 -> S11 + kp2 , pkp2
+  S12 + S15 + kp2 -> S23 + kp2 , pkp2
+  S14 + S15 + kp2 -> S24 + kp2 , pkp2
+  S16 + km2 -> S5 + S25 + km2 , pkm2
+  S16 + km2 -> S6 + S26 + km2 , pkm2
+  S17 + km2 -> S3 + S12 + km2 , pkm2
+  S17 + km2 -> S4 + S13 + km2 , pkm2
+  S18 + km2 -> S3 + S14 + km2 , pkm2
+  S18 + km2 -> S4 + S15 + km2 , pkm2
+  S19 + km2 -> S5 + S27 + km2 , pkm2
+  S19 + km2 -> S6 + S28 + km2 , pkm2
+  S20 + km2 -> S5 + S29 + km2 , pkm2
+  S20 + km2 -> S6 + S30 + km2 , pkm2
+  S21 + km2 -> S5 + S31 + km2 , pkm2
+  S21 + km2 -> S6 + S32 + km2 , pkm2
+  S1 + S14 + kpL -> S25 + kpL , pkpL
+  S1 + S15 + kpL -> S26 + kpL , pkpL
+  S1 + S17 + kpL -> S10 + kpL , pkpL
+  S1 + S18 + kpL -> S11 + kpL , pkpL
+  S1 + S18 + kpL -> S33 + kpL , pkpL
+  S1 + S21 + kpL -> S34 + kpL , pkpL
+  S16 + kmL -> S1 + S33 + kmL , pkmL
+  S16 + kmL -> S1 + S11 + kmL , pkmL
+  S19 + kmL -> S1 + S35 + kmL , pkmL
+  S20 + kmL -> S1 + S36 + kmL , pkmL
+  S21 + kmL -> S1 + S37 + kmL , pkmL
+  S21 + pLb -> S38 + pLb , ppLb
+  S16 + pLg -> S39 + pLg , ppLg
+  S20 + pLg -> S40 + pLg , ppLg
+  S1 + S12 + kpLs -> S29 + kpLs , pkpLs
+  S1 + S13 + kpLs -> S30 + kpLs , pkpLs
+  S1 + S17 + kpLs -> S36 + kpLs , pkpLs
+  S1 + S19 + kpLs -> S40 + kpLs , pkpLs
+  S20 + kmLs -> S1 + S10 + kmLs , pkmLs
+  S20 + pLgs -> S41 + pLgs , ppLgs
+  S2 + S14 + kpS -> S31 + kpS , pkpS
+  S2 + S15 + kpS -> S32 + kpS , pkpS
+  S2 + S16 + kpS -> S34 + kpS , pkpS
+  S2 + S18 + kpS -> S37 + kpS , pkpS
+  S2 + S19 + kpS -> S38 + kpS , pkpS
+  S21 + kmS -> S2 + S11 + kmS , pkmS
+  S21 + pLS -> S42 + pLS , ppLS
+  S12 + dm -> S4 + dm , pdm
+  S13 + dm -> S3 + dm , pdm
+  S17 + dm -> S7 + dm , pdm
+  S19 + dm -> S11 + dm , pdm
+  S14 + dm -> S4 + dm , pdm
+  S15 + dm -> S3 + dm , pdm
+  S16 + dm -> S9 + dm , pdm
+  S18 + dm -> S7 + dm , pdm
+  S19 + dm -> S10 + dm , pdm
+  S0 + S26 + kp1 -> S25 + kp1 , p2.0 * kp1
+  S0 + S28 + kp1 -> S27 + kp1 , p2.0 * kp1
+  S0 + S30 + kp1 -> S29 + kp1 , p2.0 * kp1
+  S0 + S32 + kp1 -> S31 + kp1 , p2.0 * kp1
+  S25 + km1 -> S0 + S26 + km1 , pkm1
+  S27 + km1 -> S0 + S28 + km1 , pkm1
+  S29 + km1 -> S0 + S30 + km1 , pkm1
+  S31 + km1 -> S0 + S32 + km1 , pkm1
+  S3 + S25 + kp2 -> S33 + kp2 , pkp2
+  S3 + S27 + kp2 -> S35 + kp2 , pkp2
+  S3 + S29 + kp2 -> S36 + kp2 , pkp2
+  S3 + S31 + kp2 -> S37 + kp2 , pkp2
+  S5 + S25 + kp2 -> S16 + kp2 , pkp2
+  S5 + S27 + kp2 -> S19 + kp2 , pkp2
+  S5 + S29 + kp2 -> S20 + kp2 , pkp2
+  S5 + S31 + kp2 -> S21 + kp2 , pkp2
+  S13 + S25 + kp2 -> S43 + kp2 , pkp2
+  S13 + S27 + kp2 -> S44 + kp2 , pkp2
+  S13 + S29 + kp2 -> S45 + kp2 , pkp2
+  S13 + S31 + kp2 -> S46 + kp2 , pkp2
+  S15 + S25 + kp2 -> S47 + kp2 , pkp2
+  S15 + S27 + kp2 -> S48 + kp2 , pkp2
+  S15 + S29 + kp2 -> S49 + kp2 , pkp2
+  S15 + S31 + kp2 -> S50 + kp2 , pkp2
+  S4 + S26 + kp2 -> S33 + kp2 , pkp2
+  S6 + S26 + kp2 -> S16 + kp2 , pkp2
+  S12 + S26 + kp2 -> S43 + kp2 , pkp2
+  S14 + S26 + kp2 -> S47 + kp2 , pkp2
+  S25 + S26 + kp2 -> S39 + kp2 , pkp2
+  S26 + S27 + kp2 -> S51 + kp2 , pkp2
+  S26 + S29 + kp2 -> S41 + kp2 , pkp2
+  S26 + S31 + kp2 -> S52 + kp2 , pkp2
+  S4 + S28 + kp2 -> S35 + kp2 , pkp2
+  S6 + S28 + kp2 -> S19 + kp2 , pkp2
+  S12 + S28 + kp2 -> S44 + kp2 , pkp2
+  S14 + S28 + kp2 -> S48 + kp2 , pkp2
+  S25 + S28 + kp2 -> S51 + kp2 , pkp2
+  S27 + S28 + kp2 -> S53 + kp2 , pkp2
+  S28 + S29 + kp2 -> S54 + kp2 , pkp2
+  S28 + S31 + kp2 -> S55 + kp2 , pkp2
+  S4 + S30 + kp2 -> S36 + kp2 , pkp2
+  S6 + S30 + kp2 -> S20 + kp2 , pkp2
+  S12 + S30 + kp2 -> S45 + kp2 , pkp2
+  S14 + S30 + kp2 -> S49 + kp2 , pkp2
+  S25 + S30 + kp2 -> S41 + kp2 , pkp2
+  S27 + S30 + kp2 -> S54 + kp2 , pkp2
+  S29 + S30 + kp2 -> S56 + kp2 , pkp2
+  S30 + S31 + kp2 -> S57 + kp2 , pkp2
+  S4 + S32 + kp2 -> S37 + kp2 , pkp2
+  S6 + S32 + kp2 -> S21 + kp2 , pkp2
+  S12 + S32 + kp2 -> S46 + kp2 , pkp2
+  S14 + S32 + kp2 -> S50 + kp2 , pkp2
+  S25 + S32 + kp2 -> S52 + kp2 , pkp2
+  S27 + S32 + kp2 -> S55 + kp2 , pkp2
+  S29 + S32 + kp2 -> S57 + kp2 , pkp2
+  S31 + S32 + kp2 -> S58 + kp2 , pkp2
+  S22 + km2 -> S12 + S13 + km2 , p2.0 * km2
+  S23 + km2 -> S12 + S15 + km2 , pkm2
+  S23 + km2 -> S13 + S14 + km2 , pkm2
+  S24 + km2 -> S14 + S15 + km2 , p2.0 * km2
+  S33 + km2 -> S4 + S26 + km2 , pkm2
+  S33 + km2 -> S3 + S25 + km2 , pkm2
+  S34 + km2 -> S5 + S59 + km2 , pkm2
+  S34 + km2 -> S6 + S60 + km2 , pkm2
+  S35 + km2 -> S3 + S27 + km2 , pkm2
+  S35 + km2 -> S4 + S28 + km2 , pkm2
+  S36 + km2 -> S3 + S29 + km2 , pkm2
+  S36 + km2 -> S4 + S30 + km2 , pkm2
+  S37 + km2 -> S3 + S31 + km2 , pkm2
+  S37 + km2 -> S4 + S32 + km2 , pkm2
+  S38 + km2 -> S5 + S61 + km2 , pkm2
+  S38 + km2 -> S6 + S62 + km2 , pkm2
+  S39 + km2 -> S25 + S26 + km2 , p2.0 * km2
+  S40 + km2 -> S5 + S63 + km2 , pkm2
+  S40 + km2 -> S6 + S64 + km2 , pkm2
+  S41 + km2 -> S26 + S29 + km2 , pkm2
+  S41 + km2 -> S25 + S30 + km2 , pkm2
+  S42 + km2 -> S5 + S65 + km2 , pkm2
+  S42 + km2 -> S6 + S66 + km2 , pkm2
+  S1 + S23 + kpL -> S43 + kpL , pkpL
+  S1 + S24 + kpL -> S47 + kpL , p2.0 * kpL
+  S1 + S31 + kpL -> S59 + kpL , pkpL
+  S1 + S32 + kpL -> S60 + kpL , pkpL
+  S1 + S33 + kpL -> S16 + kpL , pkpL
+  S1 + S35 + kpL -> S19 + kpL , pkpL
+  S1 + S36 + kpL -> S20 + kpL , pkpL
+  S1 + S37 + kpL -> S21 + kpL , pkpL
+  S1 + S37 + kpL -> S67 + kpL , pkpL
+  S1 + S42 + kpL -> S68 + kpL , pkpL
+  S25 + kmL -> S1 + S14 + kmL , pkmL
+  S26 + kmL -> S1 + S15 + kmL , pkmL
+  S33 + kmL -> S1 + S18 + kmL , pkmL
+  S34 + kmL -> S1 + S67 + kmL , pkmL
+  S34 + kmL -> S1 + S21 + kmL , pkmL
+  S38 + kmL -> S1 + S69 + kmL , pkmL
+  S39 + kmL -> S1 + S47 + kmL , p2.0 * kmL
+  S40 + kmL -> S1 + S70 + kmL , pkmL
+  S41 + kmL -> S1 + S49 + kmL , pkmL
+  S42 + kmL -> S1 + S71 + kmL , pkmL
+  S33 + pLb -> S43 + pLb , ppLb
+  S42 + pLb -> S72 + pLb , ppLb
+  S33 + pLg -> S47 + pLg , ppLg
+  S34 + pLg -> S73 + pLg , ppLg
+  S41 + pLg -> S74 + pLg , ppLg
+  S1 + S22 + kpLs -> S45 + kpLs , p2.0 * kpLs
+  S1 + S23 + kpLs -> S49 + kpLs , pkpLs
+  S1 + S27 + kpLs -> S63 + kpLs , pkpLs
+  S1 + S28 + kpLs -> S64 + kpLs , pkpLs
+  S1 + S35 + kpLs -> S70 + kpLs , pkpLs
+  S1 + S38 + kpLs -> S75 + kpLs , pkpLs
+  S29 + kmLs -> S1 + S12 + kmLs , pkmLs
+  S30 + kmLs -> S1 + S13 + kmLs , pkmLs
+  S36 + kmLs -> S1 + S17 + kmLs , pkmLs
+  S40 + kmLs -> S1 + S19 + kmLs , pkmLs
+  S41 + kmLs -> S1 + S43 + kmLs , pkmLs
+  S36 + pLbs -> S45 + pLbs , ppLbs
+  S36 + pLgs -> S49 + pLgs , ppLgs
+  S40 + pLgs -> S74 + pLgs , ppLgs
+  S2 + S23 + kpS -> S46 + kpS , pkpS
+  S2 + S24 + kpS -> S50 + kpS , p2.0 * kpS
+  S2 + S25 + kpS -> S59 + kpS , pkpS
+  S2 + S26 + kpS -> S60 + kpS , pkpS
+  S2 + S27 + kpS -> S61 + kpS , pkpS
+  S2 + S28 + kpS -> S62 + kpS , pkpS
+  S2 + S33 + kpS -> S67 + kpS , pkpS
+  S2 + S35 + kpS -> S69 + kpS , pkpS
+  S2 + S39 + kpS -> S73 + kpS , p2.0 * kpS
+  S2 + S40 + kpS -> S75 + kpS , pkpS
+  S2 + S41 + kpS -> S76 + kpS , pkpS
+  S31 + kmS -> S2 + S14 + kmS , pkmS
+  S32 + kmS -> S2 + S15 + kmS , pkmS
+  S34 + kmS -> S2 + S16 + kmS , pkmS
+  S37 + kmS -> S2 + S18 + kmS , pkmS
+  S38 + kmS -> S2 + S19 + kmS , pkmS
+  S42 + kmS -> S11 + S77 + kmS , pkmS
+  S34 + pLS -> S68 + pLS , ppLS
+  S38 + pLS -> S72 + pLS , ppLS
+  S22 + dm -> S17 + dm , p2.0 * dm
+  S23 + dm -> S18 + dm , pdm
+  S27 + dm -> S14 + dm , pdm
+  S28 + dm -> S15 + dm , pdm
+  S35 + dm -> S18 + dm , pdm
+  S38 + dm -> S21 + dm , pdm
+  S23 + dm -> S17 + dm , pdm
+  S24 + dm -> S18 + dm , p2.0 * dm
+  S25 + dm -> S6 + dm , pdm
+  S26 + dm -> S5 + dm , pdm
+  S27 + dm -> S12 + dm , pdm
+  S28 + dm -> S13 + dm , pdm
+  S33 + dm -> S8 + dm , pdm
+  S35 + dm -> S17 + dm , pdm
+  S39 + dm -> S16 + dm , p2.0 * dm
+  S40 + dm -> S20 + dm , pdm
+  S41 + dm -> S20 + dm , pdm
+  S42 + dm -> S21 + dm , pdm
+  S0 + S60 + kp1 -> S59 + kp1 , p2.0 * kp1
+  S0 + S62 + kp1 -> S61 + kp1 , p2.0 * kp1
+  S0 + S64 + kp1 -> S63 + kp1 , p2.0 * kp1
+  S0 + S66 + kp1 -> S65 + kp1 , p2.0 * kp1
+  S59 + km1 -> S0 + S60 + km1 , pkm1
+  S61 + km1 -> S0 + S62 + km1 , pkm1
+  S63 + km1 -> S0 + S64 + km1 , pkm1
+  S65 + km1 -> S0 + S66 + km1 , pkm1
+  S3 + S59 + kp2 -> S67 + kp2 , pkp2
+  S3 + S61 + kp2 -> S69 + kp2 , pkp2
+  S3 + S63 + kp2 -> S70 + kp2 , pkp2
+  S3 + S65 + kp2 -> S71 + kp2 , pkp2
+  S5 + S59 + kp2 -> S34 + kp2 , pkp2
+  S5 + S61 + kp2 -> S38 + kp2 , pkp2
+  S5 + S63 + kp2 -> S40 + kp2 , pkp2
+  S5 + S65 + kp2 -> S42 + kp2 , pkp2
+  S13 + S59 + kp2 -> S78 + kp2 , pkp2
+  S13 + S61 + kp2 -> S79 + kp2 , pkp2
+  S13 + S63 + kp2 -> S80 + kp2 , pkp2
+  S13 + S65 + kp2 -> S81 + kp2 , pkp2
+  S15 + S59 + kp2 -> S82 + kp2 , pkp2
+  S15 + S61 + kp2 -> S83 + kp2 , pkp2
+  S15 + S63 + kp2 -> S84 + kp2 , pkp2
+  S15 + S65 + kp2 -> S85 + kp2 , pkp2
+  S26 + S59 + kp2 -> S73 + kp2 , pkp2
+  S26 + S61 + kp2 -> S86 + kp2 , pkp2
+  S26 + S63 + kp2 -> S74 + kp2 , pkp2
+  S26 + S65 + kp2 -> S87 + kp2 , pkp2
+  S28 + S59 + kp2 -> S88 + kp2 , pkp2
+  S28 + S61 + kp2 -> S89 + kp2 , pkp2
+  S28 + S63 + kp2 -> S90 + kp2 , pkp2
+  S28 + S65 + kp2 -> S91 + kp2 , pkp2
+  S30 + S59 + kp2 -> S76 + kp2 , pkp2
+  S30 + S61 + kp2 -> S92 + kp2 , pkp2
+  S30 + S63 + kp2 -> S93 + kp2 , pkp2
+  S30 + S65 + kp2 -> S94 + kp2 , pkp2
+  S32 + S59 + kp2 -> S95 + kp2 , pkp2
+  S32 + S61 + kp2 -> S96 + kp2 , pkp2
+  S32 + S63 + kp2 -> S97 + kp2 , pkp2
+  S32 + S65 + kp2 -> S98 + kp2 , pkp2
+  S4 + S60 + kp2 -> S67 + kp2 , pkp2
+  S6 + S60 + kp2 -> S34 + kp2 , pkp2
+  S12 + S60 + kp2 -> S78 + kp2 , pkp2
+  S14 + S60 + kp2 -> S82 + kp2 , pkp2
+  S25 + S60 + kp2 -> S73 + kp2 , pkp2
+  S27 + S60 + kp2 -> S88 + kp2 , pkp2
+  S29 + S60 + kp2 -> S76 + kp2 , pkp2
+  S31 + S60 + kp2 -> S95 + kp2 , pkp2
+  S59 + S60 + kp2 -> S99 + kp2 , pkp2
+  S60 + S61 + kp2 -> S100 + kp2 , pkp2
+  S60 + S63 + kp2 -> S101 + kp2 , pkp2
+  S60 + S65 + kp2 -> S102 + kp2 , pkp2
+  S4 + S62 + kp2 -> S69 + kp2 , pkp2
+  S6 + S62 + kp2 -> S38 + kp2 , pkp2
+  S12 + S62 + kp2 -> S79 + kp2 , pkp2
+  S14 + S62 + kp2 -> S83 + kp2 , pkp2
+  S25 + S62 + kp2 -> S86 + kp2 , pkp2
+  S27 + S62 + kp2 -> S89 + kp2 , pkp2
+  S29 + S62 + kp2 -> S92 + kp2 , pkp2
+  S31 + S62 + kp2 -> S96 + kp2 , pkp2
+  S59 + S62 + kp2 -> S100 + kp2 , pkp2
+  S61 + S62 + kp2 -> S103 + kp2 , pkp2
+  S62 + S63 + kp2 -> S104 + kp2 , pkp2
+  S62 + S65 + kp2 -> S105 + kp2 , pkp2
+  S4 + S64 + kp2 -> S70 + kp2 , pkp2
+  S6 + S64 + kp2 -> S40 + kp2 , pkp2
+  S12 + S64 + kp2 -> S80 + kp2 , pkp2
+  S14 + S64 + kp2 -> S84 + kp2 , pkp2
+  S25 + S64 + kp2 -> S74 + kp2 , pkp2
+  S27 + S64 + kp2 -> S90 + kp2 , pkp2
+  S29 + S64 + kp2 -> S93 + kp2 , pkp2
+  S31 + S64 + kp2 -> S97 + kp2 , pkp2
+  S59 + S64 + kp2 -> S101 + kp2 , pkp2
+  S61 + S64 + kp2 -> S104 + kp2 , pkp2
+  S63 + S64 + kp2 -> S106 + kp2 , pkp2
+  S64 + S65 + kp2 -> S107 + kp2 , pkp2
+  S4 + S66 + kp2 -> S71 + kp2 , pkp2
+  S6 + S66 + kp2 -> S42 + kp2 , pkp2
+  S12 + S66 + kp2 -> S81 + kp2 , pkp2
+  S14 + S66 + kp2 -> S85 + kp2 , pkp2
+  S25 + S66 + kp2 -> S87 + kp2 , pkp2
+  S27 + S66 + kp2 -> S91 + kp2 , pkp2
+  S29 + S66 + kp2 -> S94 + kp2 , pkp2
+  S31 + S66 + kp2 -> S98 + kp2 , pkp2
+  S59 + S66 + kp2 -> S102 + kp2 , pkp2
+  S61 + S66 + kp2 -> S105 + kp2 , pkp2
+  S63 + S66 + kp2 -> S107 + kp2 , pkp2
+  S65 + S66 + kp2 -> S108 + kp2 , pkp2
+  S43 + km2 -> S12 + S26 + km2 , pkm2
+  S43 + km2 -> S13 + S25 + km2 , pkm2
+  S44 + km2 -> S13 + S27 + km2 , pkm2
+  S44 + km2 -> S12 + S28 + km2 , pkm2
+  S45 + km2 -> S12 + S30 + km2 , pkm2
+  S45 + km2 -> S13 + S29 + km2 , pkm2
+  S46 + km2 -> S12 + S32 + km2 , pkm2
+  S46 + km2 -> S13 + S31 + km2 , pkm2
+  S47 + km2 -> S14 + S26 + km2 , pkm2
+  S47 + km2 -> S15 + S25 + km2 , pkm2
+  S48 + km2 -> S15 + S27 + km2 , pkm2
+  S48 + km2 -> S14 + S28 + km2 , pkm2
+  S49 + km2 -> S15 + S29 + km2 , pkm2
+  S49 + km2 -> S14 + S30 + km2 , pkm2
+  S50 + km2 -> S14 + S32 + km2 , pkm2
+  S50 + km2 -> S15 + S31 + km2 , pkm2
+  S51 + km2 -> S26 + S27 + km2 , pkm2
+  S51 + km2 -> S25 + S28 + km2 , pkm2
+  S52 + km2 -> S26 + S31 + km2 , pkm2
+  S52 + km2 -> S25 + S32 + km2 , pkm2
+  S53 + km2 -> S27 + S28 + km2 , p2.0 * km2
+  S54 + km2 -> S27 + S30 + km2 , pkm2
+  S54 + km2 -> S28 + S29 + km2 , pkm2
+  S55 + km2 -> S27 + S32 + km2 , pkm2
+  S55 + km2 -> S28 + S31 + km2 , pkm2
+  S56 + km2 -> S29 + S30 + km2 , p2.0 * km2
+  S57 + km2 -> S29 + S32 + km2 , pkm2
+  S57 + km2 -> S30 + S31 + km2 , pkm2
+  S58 + km2 -> S31 + S32 + km2 , p2.0 * km2
+  S67 + km2 -> S4 + S60 + km2 , pkm2
+  S67 + km2 -> S3 + S59 + km2 , pkm2
+  S68 + km2 -> S5 + S109 + km2 , pkm2
+  S68 + km2 -> S6 + S110 + km2 , pkm2
+  S69 + km2 -> S3 + S61 + km2 , pkm2
+  S69 + km2 -> S4 + S62 + km2 , pkm2
+  S70 + km2 -> S3 + S63 + km2 , pkm2
+  S70 + km2 -> S4 + S64 + km2 , pkm2
+  S71 + km2 -> S3 + S65 + km2 , pkm2
+  S71 + km2 -> S4 + S66 + km2 , pkm2
+  S72 + km2 -> S5 + S111 + km2 , pkm2
+  S72 + km2 -> S6 + S112 + km2 , pkm2
+  S73 + km2 -> S25 + S60 + km2 , pkm2
+  S73 + km2 -> S26 + S59 + km2 , pkm2
+  S74 + km2 -> S26 + S63 + km2 , pkm2
+  S74 + km2 -> S25 + S64 + km2 , pkm2
+  S75 + km2 -> S5 + S113 + km2 , pkm2
+  S75 + km2 -> S6 + S114 + km2 , pkm2
+  S76 + km2 -> S29 + S60 + km2 , pkm2
+  S76 + km2 -> S30 + S59 + km2 , pkm2
+  S1 + S46 + kpL -> S78 + kpL , pkpL
+  S1 + S47 + kpL -> S39 + kpL , pkpL
+  S1 + S48 + kpL -> S51 + kpL , pkpL
+  S1 + S49 + kpL -> S41 + kpL , pkpL
+  S1 + S50 + kpL -> S82 + kpL , pkpL
+  S1 + S50 + kpL -> S52 + kpL , pkpL
+  S1 + S52 + kpL -> S73 + kpL , pkpL
+  S1 + S55 + kpL -> S88 + kpL , pkpL
+  S1 + S57 + kpL -> S76 + kpL , pkpL
+  S1 + S58 + kpL -> S95 + kpL , p2.0 * kpL
+  S1 + S65 + kpL -> S109 + kpL , pkpL
+  S1 + S66 + kpL -> S110 + kpL , pkpL
+  S1 + S67 + kpL -> S34 + kpL , pkpL
+  S1 + S69 + kpL -> S38 + kpL , pkpL
+  S1 + S70 + kpL -> S40 + kpL , pkpL
+  S1 + S71 + kpL -> S42 + kpL , pkpL
+  S1 + S71 + kpL -> S115 + kpL , pkpL
+  S43 + kmL -> S1 + S23 + kmL , pkmL
+  S47 + kmL -> S1 + S24 + kmL , pkmL
+  S51 + kmL -> S1 + S48 + kmL , pkmL
+  S52 + kmL -> S1 + S50 + kmL , pkmL
+  S59 + kmL -> S1 + S31 + kmL , pkmL
+  S60 + kmL -> S1 + S32 + kmL , pkmL
+  S67 + kmL -> S1 + S37 + kmL , pkmL
+  S68 + kmL -> S1 + S115 + kmL , pkmL
+  S68 + kmL -> S1 + S42 + kmL , pkmL
+  S72 + kmL -> S1 + S116 + kmL , pkmL
+  S73 + kmL -> S1 + S52 + kmL , pkmL
+  S73 + kmL -> S1 + S82 + kmL , pkmL
+  S74 + kmL -> S1 + S84 + kmL , pkmL
+  S75 + kmL -> S1 + S117 + kmL , pkmL
+  S76 + kmL -> S1 + S57 + kmL , pkmL
+  S47 + pLb -> S51 + pLb , ppLb
+  S52 + pLb -> S86 + pLb , ppLb
+  S67 + pLb -> S78 + pLb , ppLb
+  S43 + pLg -> S51 + pLg , ppLg
+  S67 + pLg -> S82 + pLg , ppLg
+  S68 + pLg -> S118 + pLg , ppLg
+  S76 + pLg -> S101 + pLg , ppLg
+  S1 + S43 + kpLs -> S41 + kpLs , pkpLs
+  S1 + S44 + kpLs -> S54 + kpLs , pkpLs
+  S1 + S44 + kpLs -> S80 + kpLs , pkpLs
+  S1 + S45 + kpLs -> S56 + kpLs , pkpLs
+  S1 + S46 + kpLs -> S57 + kpLs , pkpLs
+  S1 + S48 + kpLs -> S84 + kpLs , pkpLs
+  S1 + S51 + kpLs -> S74 + kpLs , pkpLs
+  S1 + S53 + kpLs -> S90 + kpLs , p2.0 * kpLs
+  S1 + S54 + kpLs -> S93 + kpLs , pkpLs
+  S1 + S55 + kpLs -> S97 + kpLs , pkpLs
+  S1 + S61 + kpLs -> S113 + kpLs , pkpLs
+  S1 + S62 + kpLs -> S114 + kpLs , pkpLs
+  S1 + S69 + kpLs -> S117 + kpLs , pkpLs
+  S1 + S72 + kpLs -> S119 + kpLs , pkpLs
+  S45 + kmLs -> S1 + S22 + kmLs , pkmLs
+  S49 + kmLs -> S1 + S23 + kmLs , pkmLs
+  S54 + kmLs -> S1 + S44 + kmLs , pkmLs
+  S56 + kmLs -> S1 + S45 + kmLs , p2.0 * kmLs
+  S57 + kmLs -> S1 + S46 + kmLs , pkmLs
+  S63 + kmLs -> S1 + S27 + kmLs , pkmLs
+  S64 + kmLs -> S1 + S28 + kmLs , pkmLs
+  S70 + kmLs -> S1 + S35 + kmLs , pkmLs
+  S74 + kmLs -> S1 + S51 + kmLs , pkmLs
+  S75 + kmLs -> S1 + S38 + kmLs , pkmLs
+  S76 + kmLs -> S1 + S78 + kmLs , pkmLs
+  S49 + pLbs -> S54 + pLbs , ppLbs
+  S57 + pLbs -> S92 + pLbs , ppLbs
+  S70 + pLbs -> S80 + pLbs , ppLbs
+  S45 + pLgs -> S54 + pLgs , ppLgs
+  S56 + pLgs -> S93 + pLgs , p2.0 * pLgs
+  S70 + pLgs -> S84 + pLgs , ppLgs
+  S75 + pLgs -> S120 + pLgs , ppLgs
+  S11 + S77 + kpS -> S42 + kpS , pkpS
+  S14 + S77 + kpS -> S65 + kpS , pkpS
+  S15 + S77 + kpS -> S66 + kpS , pkpS
+  S16 + S77 + kpS -> S68 + kpS , pkpS
+  S18 + S77 + kpS -> S71 + kpS , pkpS
+  S19 + S77 + kpS -> S72 + kpS , pkpS
+  S23 + S77 + kpS -> S81 + kpS , pkpS
+  S24 + S77 + kpS -> S85 + kpS , p2.0 * kpS
+  S25 + S77 + kpS -> S109 + kpS , pkpS
+  S26 + S77 + kpS -> S110 + kpS , pkpS
+  S27 + S77 + kpS -> S111 + kpS , pkpS
+  S28 + S77 + kpS -> S112 + kpS , pkpS
+  S33 + S77 + kpS -> S115 + kpS , pkpS
+  S35 + S77 + kpS -> S116 + kpS , pkpS
+  S39 + S77 + kpS -> S118 + kpS , p2.0 * kpS
+  S40 + S77 + kpS -> S119 + kpS , pkpS
+  S41 + S77 + kpS -> S121 + kpS , pkpS
+  S2 + S43 + kpS -> S78 + kpS , pkpS
+  S43 + S77 + kpS -> S122 + kpS , pkpS
+  S2 + S44 + kpS -> S79 + kpS , pkpS
+  S44 + S77 + kpS -> S123 + kpS , pkpS
+  S2 + S47 + kpS -> S82 + kpS , pkpS
+  S47 + S77 + kpS -> S124 + kpS , pkpS
+  S2 + S47 + kpS -> S52 + kpS , pkpS
+  S47 + S77 + kpS -> S87 + kpS , pkpS
+  S2 + S48 + kpS -> S55 + kpS , pkpS
+  S48 + S77 + kpS -> S91 + kpS , pkpS
+  S2 + S48 + kpS -> S83 + kpS , pkpS
+  S48 + S77 + kpS -> S125 + kpS , pkpS
+  S2 + S49 + kpS -> S57 + kpS , pkpS
+  S49 + S77 + kpS -> S94 + kpS , pkpS
+  S2 + S50 + kpS -> S58 + kpS , pkpS
+  S50 + S77 + kpS -> S98 + kpS , pkpS
+  S2 + S51 + kpS -> S88 + kpS , pkpS
+  S51 + S77 + kpS -> S126 + kpS , pkpS
+  S2 + S51 + kpS -> S86 + kpS , pkpS
+  S51 + S77 + kpS -> S127 + kpS , pkpS
+  S2 + S52 + kpS -> S95 + kpS , pkpS
+  S52 + S77 + kpS -> S128 + kpS , pkpS
+  S2 + S53 + kpS -> S89 + kpS , p2.0 * kpS
+  S53 + S77 + kpS -> S129 + kpS , p2.0 * kpS
+  S2 + S54 + kpS -> S92 + kpS , pkpS
+  S54 + S77 + kpS -> S130 + kpS , pkpS
+  S2 + S55 + kpS -> S96 + kpS , pkpS
+  S55 + S77 + kpS -> S131 + kpS , pkpS
+  S2 + S63 + kpS -> S113 + kpS , pkpS
+  S63 + S77 + kpS -> S132 + kpS , pkpS
+  S2 + S64 + kpS -> S114 + kpS , pkpS
+  S64 + S77 + kpS -> S133 + kpS , pkpS
+  S2 + S70 + kpS -> S117 + kpS , pkpS
+  S70 + S77 + kpS -> S134 + kpS , pkpS
+  S2 + S73 + kpS -> S99 + kpS , pkpS
+  S73 + S77 + kpS -> S135 + kpS , pkpS
+  S2 + S74 + kpS -> S101 + kpS , pkpS
+  S74 + S77 + kpS -> S136 + kpS , pkpS
+  S2 + S74 + kpS -> S120 + kpS , pkpS
+  S74 + S77 + kpS -> S137 + kpS , pkpS
+  S46 + kmS -> S2 + S23 + kmS , pkmS
+  S50 + kmS -> S2 + S24 + kmS , pkmS
+  S52 + kmS -> S2 + S47 + kmS , pkmS
+  S55 + kmS -> S2 + S48 + kmS , pkmS
+  S57 + kmS -> S2 + S49 + kmS , pkmS
+  S58 + kmS -> S2 + S50 + kmS , p2.0 * kmS
+  S59 + kmS -> S2 + S25 + kmS , pkmS
+  S60 + kmS -> S2 + S26 + kmS , pkmS
+  S61 + kmS -> S2 + S27 + kmS , pkmS
+  S62 + kmS -> S2 + S28 + kmS , pkmS
+  S65 + kmS -> S14 + S77 + kmS , pkmS
+  S66 + kmS -> S15 + S77 + kmS , pkmS
+  S67 + kmS -> S2 + S33 + kmS , pkmS
+  S68 + kmS -> S16 + S77 + kmS , pkmS
+  S69 + kmS -> S2 + S35 + kmS , pkmS
+  S71 + kmS -> S18 + S77 + kmS , pkmS
+  S72 + kmS -> S19 + S77 + kmS , pkmS
+  S73 + kmS -> S2 + S39 + kmS , pkmS
+  S75 + kmS -> S2 + S40 + kmS , pkmS
+  S76 + kmS -> S2 + S41 + kmS , pkmS
+  S52 + pLS -> S87 + pLS , ppLS
+  S73 + pLS -> S118 + pLS , ppLS
+  S75 + pLS -> S119 + pLS , ppLS
+  S57 + pLSs -> S94 + pLSs , ppLSs
+  S76 + pLSs -> S121 + pLSs , ppLSs
+  S58 + pSS -> S138 + pSS , p2.0 * pSS
+  S43 + dm -> S33 + dm , pdm
+  S44 + dm -> S35 + dm , pdm
+  S44 + dm -> S23 + dm , pdm
+  S45 + dm -> S36 + dm , pdm
+  S46 + dm -> S37 + dm , pdm
+  S48 + dm -> S24 + dm , pdm
+  S51 + dm -> S47 + dm , pdm
+  S53 + dm -> S48 + dm , p2.0 * dm
+  S54 + dm -> S49 + dm , pdm
+  S55 + dm -> S50 + dm , pdm
+  S61 + dm -> S31 + dm , pdm
+  S62 + dm -> S32 + dm , pdm
+  S69 + dm -> S37 + dm , pdm
+  S72 + dm -> S42 + dm , pdm
+  S43 + dm -> S10 + dm , pdm
+  S44 + dm -> S22 + dm , pdm
+  S47 + dm -> S11 + dm , pdm
+  S47 + dm -> S33 + dm , pdm
+  S48 + dm -> S35 + dm , pdm
+  S48 + dm -> S23 + dm , pdm
+  S49 + dm -> S36 + dm , pdm
+  S50 + dm -> S37 + dm , pdm
+  S51 + dm -> S19 + dm , pdm
+  S51 + dm -> S43 + dm , pdm
+  S52 + dm -> S21 + dm , pdm
+  S53 + dm -> S44 + dm , p2.0 * dm
+  S54 + dm -> S45 + dm , pdm
+  S55 + dm -> S46 + dm , pdm
+  S63 + dm -> S29 + dm , pdm
+  S64 + dm -> S30 + dm , pdm
+  S70 + dm -> S36 + dm , pdm
+  S73 + dm -> S34 + dm , pdm
+  S74 + dm -> S40 + dm , pdm
+  S74 + dm -> S41 + dm , pdm
+  S65 + dm -> S31 + dm , pdm
+  S66 + dm -> S32 + dm , pdm
+  S68 + dm -> S34 + dm , pdm
+  S71 + dm -> S37 + dm , pdm
+  S72 + dm -> S38 + dm , pdm
+  S77 + dc -> S2 + dc , pdc
+  S0 + S110 + kp1 -> S109 + kp1 , p2.0 * kp1
+  S0 + S112 + kp1 -> S111 + kp1 , p2.0 * kp1
+  S0 + S114 + kp1 -> S113 + kp1 , p2.0 * kp1
+  S0 + S133 + kp1 -> S132 + kp1 , p2.0 * kp1
+  S109 + km1 -> S0 + S110 + km1 , pkm1
+  S111 + km1 -> S0 + S112 + km1 , pkm1
+  S113 + km1 -> S0 + S114 + km1 , pkm1
+  S132 + km1 -> S0 + S133 + km1 , pkm1
+  S3 + S109 + kp2 -> S115 + kp2 , pkp2
+  S3 + S111 + kp2 -> S116 + kp2 , pkp2
+  S3 + S113 + kp2 -> S117 + kp2 , pkp2
+  S3 + S132 + kp2 -> S134 + kp2 , pkp2
+  S5 + S109 + kp2 -> S68 + kp2 , pkp2
+  S5 + S111 + kp2 -> S72 + kp2 , pkp2
+  S5 + S113 + kp2 -> S75 + kp2 , pkp2
+  S5 + S132 + kp2 -> S119 + kp2 , pkp2
+  S13 + S109 + kp2 -> S122 + kp2 , pkp2
+  S13 + S111 + kp2 -> S123 + kp2 , pkp2
+  S13 + S113 + kp2 -> S139 + kp2 , pkp2
+  S13 + S132 + kp2 -> S140 + kp2 , pkp2
+  S15 + S109 + kp2 -> S124 + kp2 , pkp2
+  S15 + S111 + kp2 -> S125 + kp2 , pkp2
+  S15 + S113 + kp2 -> S141 + kp2 , pkp2
+  S15 + S132 + kp2 -> S142 + kp2 , pkp2
+  S26 + S109 + kp2 -> S118 + kp2 , pkp2
+  S26 + S111 + kp2 -> S127 + kp2 , pkp2
+  S26 + S113 + kp2 -> S120 + kp2 , pkp2
+  S26 + S132 + kp2 -> S137 + kp2 , pkp2
+  S28 + S109 + kp2 -> S126 + kp2 , pkp2
+  S28 + S111 + kp2 -> S129 + kp2 , pkp2
+  S28 + S113 + kp2 -> S143 + kp2 , pkp2
+  S28 + S132 + kp2 -> S144 + kp2 , pkp2
+  S30 + S109 + kp2 -> S121 + kp2 , pkp2
+  S30 + S111 + kp2 -> S130 + kp2 , pkp2
+  S30 + S113 + kp2 -> S145 + kp2 , pkp2
+  S30 + S132 + kp2 -> S146 + kp2 , pkp2
+  S32 + S109 + kp2 -> S128 + kp2 , pkp2
+  S32 + S111 + kp2 -> S131 + kp2 , pkp2
+  S32 + S113 + kp2 -> S147 + kp2 , pkp2
+  S32 + S132 + kp2 -> S148 + kp2 , pkp2
+  S60 + S109 + kp2 -> S135 + kp2 , pkp2
+  S60 + S111 + kp2 -> S149 + kp2 , pkp2
+  S60 + S113 + kp2 -> S150 + kp2 , pkp2
+  S60 + S132 + kp2 -> S151 + kp2 , pkp2
+  S62 + S109 + kp2 -> S152 + kp2 , pkp2
+  S62 + S111 + kp2 -> S153 + kp2 , pkp2
+  S62 + S113 + kp2 -> S154 + kp2 , pkp2
+  S62 + S132 + kp2 -> S155 + kp2 , pkp2
+  S64 + S109 + kp2 -> S136 + kp2 , pkp2
+  S64 + S111 + kp2 -> S156 + kp2 , pkp2
+  S64 + S113 + kp2 -> S157 + kp2 , pkp2
+  S64 + S132 + kp2 -> S158 + kp2 , pkp2
+  S66 + S109 + kp2 -> S159 + kp2 , pkp2
+  S66 + S111 + kp2 -> S160 + kp2 , pkp2
+  S66 + S113 + kp2 -> S161 + kp2 , pkp2
+  S66 + S132 + kp2 -> S162 + kp2 , pkp2
+  S4 + S110 + kp2 -> S115 + kp2 , pkp2
+  S6 + S110 + kp2 -> S68 + kp2 , pkp2
+  S12 + S110 + kp2 -> S122 + kp2 , pkp2
+  S14 + S110 + kp2 -> S124 + kp2 , pkp2
+  S25 + S110 + kp2 -> S118 + kp2 , pkp2
+  S27 + S110 + kp2 -> S126 + kp2 , pkp2
+  S29 + S110 + kp2 -> S121 + kp2 , pkp2
+  S31 + S110 + kp2 -> S128 + kp2 , pkp2
+  S59 + S110 + kp2 -> S135 + kp2 , pkp2
+  S61 + S110 + kp2 -> S152 + kp2 , pkp2
+  S63 + S110 + kp2 -> S136 + kp2 , pkp2
+  S65 + S110 + kp2 -> S159 + kp2 , pkp2
+  S109 + S110 + kp2 -> S163 + kp2 , pkp2
+  S110 + S111 + kp2 -> S164 + kp2 , pkp2
+  S110 + S113 + kp2 -> S165 + kp2 , pkp2
+  S110 + S132 + kp2 -> S166 + kp2 , pkp2
+  S4 + S112 + kp2 -> S116 + kp2 , pkp2
+  S6 + S112 + kp2 -> S72 + kp2 , pkp2
+  S12 + S112 + kp2 -> S123 + kp2 , pkp2
+  S14 + S112 + kp2 -> S125 + kp2 , pkp2
+  S25 + S112 + kp2 -> S127 + kp2 , pkp2
+  S27 + S112 + kp2 -> S129 + kp2 , pkp2
+  S29 + S112 + kp2 -> S130 + kp2 , pkp2
+  S31 + S112 + kp2 -> S131 + kp2 , pkp2
+  S59 + S112 + kp2 -> S149 + kp2 , pkp2
+  S61 + S112 + kp2 -> S153 + kp2 , pkp2
+  S63 + S112 + kp2 -> S156 + kp2 , pkp2
+  S65 + S112 + kp2 -> S160 + kp2 , pkp2
+  S109 + S112 + kp2 -> S164 + kp2 , pkp2
+  S111 + S112 + kp2 -> S167 + kp2 , pkp2
+  S112 + S113 + kp2 -> S168 + kp2 , pkp2
+  S112 + S132 + kp2 -> S169 + kp2 , pkp2
+  S4 + S114 + kp2 -> S117 + kp2 , pkp2
+  S6 + S114 + kp2 -> S75 + kp2 , pkp2
+  S12 + S114 + kp2 -> S139 + kp2 , pkp2
+  S14 + S114 + kp2 -> S141 + kp2 , pkp2
+  S25 + S114 + kp2 -> S120 + kp2 , pkp2
+  S27 + S114 + kp2 -> S143 + kp2 , pkp2
+  S29 + S114 + kp2 -> S145 + kp2 , pkp2
+  S31 + S114 + kp2 -> S147 + kp2 , pkp2
+  S59 + S114 + kp2 -> S150 + kp2 , pkp2
+  S61 + S114 + kp2 -> S154 + kp2 , pkp2
+  S63 + S114 + kp2 -> S157 + kp2 , pkp2
+  S65 + S114 + kp2 -> S161 + kp2 , pkp2
+  S109 + S114 + kp2 -> S165 + kp2 , pkp2
+  S111 + S114 + kp2 -> S168 + kp2 , pkp2
+  S113 + S114 + kp2 -> S170 + kp2 , pkp2
+  S114 + S132 + kp2 -> S171 + kp2 , pkp2
+  S4 + S133 + kp2 -> S134 + kp2 , pkp2
+  S6 + S133 + kp2 -> S119 + kp2 , pkp2
+  S12 + S133 + kp2 -> S140 + kp2 , pkp2
+  S14 + S133 + kp2 -> S142 + kp2 , pkp2
+  S25 + S133 + kp2 -> S137 + kp2 , pkp2
+  S27 + S133 + kp2 -> S144 + kp2 , pkp2
+  S29 + S133 + kp2 -> S146 + kp2 , pkp2
+  S31 + S133 + kp2 -> S148 + kp2 , pkp2
+  S59 + S133 + kp2 -> S151 + kp2 , pkp2
+  S61 + S133 + kp2 -> S155 + kp2 , pkp2
+  S63 + S133 + kp2 -> S158 + kp2 , pkp2
+  S65 + S133 + kp2 -> S162 + kp2 , pkp2
+  S109 + S133 + kp2 -> S166 + kp2 , pkp2
+  S111 + S133 + kp2 -> S169 + kp2 , pkp2
+  S113 + S133 + kp2 -> S171 + kp2 , pkp2
+  S132 + S133 + kp2 -> S172 + kp2 , pkp2
+  S78 + km2 -> S12 + S60 + km2 , pkm2
+  S78 + km2 -> S13 + S59 + km2 , pkm2
+  S79 + km2 -> S13 + S61 + km2 , pkm2
+  S79 + km2 -> S12 + S62 + km2 , pkm2
+  S80 + km2 -> S12 + S64 + km2 , pkm2
+  S80 + km2 -> S13 + S63 + km2 , pkm2
+  S81 + km2 -> S12 + S66 + km2 , pkm2
+  S81 + km2 -> S13 + S65 + km2 , pkm2
+  S82 + km2 -> S14 + S60 + km2 , pkm2
+  S82 + km2 -> S15 + S59 + km2 , pkm2
+  S83 + km2 -> S15 + S61 + km2 , pkm2
+  S83 + km2 -> S14 + S62 + km2 , pkm2
+  S84 + km2 -> S15 + S63 + km2 , pkm2
+  S84 + km2 -> S14 + S64 + km2 , pkm2
+  S85 + km2 -> S14 + S66 + km2 , pkm2
+  S85 + km2 -> S15 + S65 + km2 , pkm2
+  S86 + km2 -> S26 + S61 + km2 , pkm2
+  S86 + km2 -> S25 + S62 + km2 , pkm2
+  S87 + km2 -> S26 + S65 + km2 , pkm2
+  S87 + km2 -> S25 + S66 + km2 , pkm2
+  S88 + km2 -> S27 + S60 + km2 , pkm2
+  S88 + km2 -> S28 + S59 + km2 , pkm2
+  S89 + km2 -> S27 + S62 + km2 , pkm2
+  S89 + km2 -> S28 + S61 + km2 , pkm2
+  S90 + km2 -> S27 + S64 + km2 , pkm2
+  S90 + km2 -> S28 + S63 + km2 , pkm2
+  S91 + km2 -> S27 + S66 + km2 , pkm2
+  S91 + km2 -> S28 + S65 + km2 , pkm2
+  S92 + km2 -> S30 + S61 + km2 , pkm2
+  S92 + km2 -> S29 + S62 + km2 , pkm2
+  S93 + km2 -> S30 + S63 + km2 , pkm2
+  S93 + km2 -> S29 + S64 + km2 , pkm2
+  S94 + km2 -> S29 + S66 + km2 , pkm2
+  S94 + km2 -> S30 + S65 + km2 , pkm2
+  S95 + km2 -> S31 + S60 + km2 , pkm2
+  S95 + km2 -> S32 + S59 + km2 , pkm2
+  S96 + km2 -> S32 + S61 + km2 , pkm2
+  S96 + km2 -> S31 + S62 + km2 , pkm2
+  S97 + km2 -> S32 + S63 + km2 , pkm2
+  S97 + km2 -> S31 + S64 + km2 , pkm2
+  S98 + km2 -> S32 + S65 + km2 , pkm2
+  S98 + km2 -> S31 + S66 + km2 , pkm2
+  S99 + km2 -> S59 + S60 + km2 , p2.0 * km2
+  S100 + km2 -> S60 + S61 + km2 , pkm2
+  S100 + km2 -> S59 + S62 + km2 , pkm2
+  S101 + km2 -> S60 + S63 + km2 , pkm2
+  S101 + km2 -> S59 + S64 + km2 , pkm2
+  S102 + km2 -> S60 + S65 + km2 , pkm2
+  S102 + km2 -> S59 + S66 + km2 , pkm2
+  S103 + km2 -> S61 + S62 + km2 , p2.0 * km2
+  S104 + km2 -> S61 + S64 + km2 , pkm2
+  S104 + km2 -> S62 + S63 + km2 , pkm2
+  S105 + km2 -> S61 + S66 + km2 , pkm2
+  S105 + km2 -> S62 + S65 + km2 , pkm2
+  S106 + km2 -> S63 + S64 + km2 , p2.0 * km2
+  S107 + km2 -> S63 + S66 + km2 , pkm2
+  S107 + km2 -> S64 + S65 + km2 , pkm2
+  S108 + km2 -> S65 + S66 + km2 , p2.0 * km2
+  S115 + km2 -> S4 + S110 + km2 , pkm2
+  S115 + km2 -> S3 + S109 + km2 , pkm2
+  S116 + km2 -> S3 + S111 + km2 , pkm2
+  S116 + km2 -> S4 + S112 + km2 , pkm2
+  S117 + km2 -> S3 + S113 + km2 , pkm2
+  S117 + km2 -> S4 + S114 + km2 , pkm2
+  S118 + km2 -> S25 + S110 + km2 , pkm2
+  S118 + km2 -> S26 + S109 + km2 , pkm2
+  S119 + km2 -> S5 + S132 + km2 , pkm2
+  S119 + km2 -> S6 + S133 + km2 , pkm2
+  S120 + km2 -> S26 + S113 + km2 , pkm2
+  S120 + km2 -> S25 + S114 + km2 , pkm2
+  S121 + km2 -> S29 + S110 + km2 , pkm2
+  S121 + km2 -> S30 + S109 + km2 , pkm2
+  S122 + km2 -> S12 + S110 + km2 , pkm2
+  S122 + km2 -> S13 + S109 + km2 , pkm2
+  S123 + km2 -> S13 + S111 + km2 , pkm2
+  S123 + km2 -> S12 + S112 + km2 , pkm2
+  S124 + km2 -> S14 + S110 + km2 , pkm2
+  S124 + km2 -> S15 + S109 + km2 , pkm2
+  S125 + km2 -> S15 + S111 + km2 , pkm2
+  S125 + km2 -> S14 + S112 + km2 , pkm2
+  S126 + km2 -> S27 + S110 + km2 , pkm2
+  S126 + km2 -> S28 + S109 + km2 , pkm2
+  S127 + km2 -> S26 + S111 + km2 , pkm2
+  S127 + km2 -> S25 + S112 + km2 , pkm2
+  S128 + km2 -> S31 + S110 + km2 , pkm2
+  S128 + km2 -> S32 + S109 + km2 , pkm2
+  S129 + km2 -> S27 + S112 + km2 , pkm2
+  S129 + km2 -> S28 + S111 + km2 , pkm2
+  S130 + km2 -> S30 + S111 + km2 , pkm2
+  S130 + km2 -> S29 + S112 + km2 , pkm2
+  S131 + km2 -> S32 + S111 + km2 , pkm2
+  S131 + km2 -> S31 + S112 + km2 , pkm2
+  S134 + km2 -> S3 + S132 + km2 , pkm2
+  S134 + km2 -> S4 + S133 + km2 , pkm2
+  S135 + km2 -> S60 + S109 + km2 , pkm2
+  S135 + km2 -> S59 + S110 + km2 , pkm2
+  S136 + km2 -> S63 + S110 + km2 , pkm2
+  S136 + km2 -> S64 + S109 + km2 , pkm2
+  S137 + km2 -> S26 + S132 + km2 , pkm2
+  S137 + km2 -> S25 + S133 + km2 , pkm2
+  S138 + km2 -> S32 + S173 + km2 , pkm2
+  S138 + km2 -> S31 + S174 + km2 , pkm2
+  S1 + S81 + kpL -> S122 + kpL , pkpL
+  S1 + S82 + kpL -> S73 + kpL , pkpL
+  S1 + S83 + kpL -> S86 + kpL , pkpL
+  S1 + S84 + kpL -> S74 + kpL , pkpL
+  S1 + S85 + kpL -> S124 + kpL , pkpL
+  S1 + S85 + kpL -> S87 + kpL , pkpL
+  S1 + S87 + kpL -> S118 + kpL , pkpL
+  S1 + S91 + kpL -> S126 + kpL , pkpL
+  S1 + S94 + kpL -> S121 + kpL , pkpL
+  S1 + S95 + kpL -> S99 + kpL , pkpL
+  S1 + S96 + kpL -> S100 + kpL , pkpL
+  S1 + S97 + kpL -> S101 + kpL , pkpL
+  S1 + S98 + kpL -> S102 + kpL , pkpL
+  S1 + S98 + kpL -> S128 + kpL , pkpL
+  S1 + S102 + kpL -> S135 + kpL , pkpL
+  S1 + S105 + kpL -> S152 + kpL , pkpL
+  S1 + S107 + kpL -> S136 + kpL , pkpL
+  S1 + S108 + kpL -> S159 + kpL , p2.0 * kpL
+  S1 + S115 + kpL -> S68 + kpL , pkpL
+  S1 + S116 + kpL -> S72 + kpL , pkpL
+  S1 + S117 + kpL -> S75 + kpL , pkpL
+  S1 + S124 + kpL -> S118 + kpL , pkpL
+  S1 + S125 + kpL -> S127 + kpL , pkpL
+  S1 + S128 + kpL -> S135 + kpL , pkpL
+  S1 + S131 + kpL -> S149 + kpL , pkpL
+  S1 + S134 + kpL -> S119 + kpL , pkpL
+  S1 + S138 + kpL -> S175 + kpL , pkpL
+  S1 + S138 + kpL -> S176 + kpL , pkpL
+  S78 + kmL -> S1 + S46 + kmL , pkmL
+  S82 + kmL -> S1 + S50 + kmL , pkmL
+  S86 + kmL -> S1 + S83 + kmL , pkmL
+  S87 + kmL -> S1 + S85 + kmL , pkmL
+  S88 + kmL -> S1 + S55 + kmL , pkmL
+  S95 + kmL -> S1 + S58 + kmL , pkmL
+  S99 + kmL -> S1 + S95 + kmL , p2.0 * kmL
+  S100 + kmL -> S1 + S96 + kmL , pkmL
+  S101 + kmL -> S1 + S97 + kmL , pkmL
+  S102 + kmL -> S1 + S98 + kmL , pkmL
+  S109 + kmL -> S1 + S65 + kmL , pkmL
+  S110 + kmL -> S1 + S66 + kmL , pkmL
+  S115 + kmL -> S1 + S71 + kmL , pkmL
+  S118 + kmL -> S1 + S87 + kmL , pkmL
+  S118 + kmL -> S1 + S124 + kmL , pkmL
+  S119 + kmL -> S1 + S134 + kmL , pkmL
+  S120 + kmL -> S1 + S141 + kmL , pkmL
+  S121 + kmL -> S1 + S94 + kmL , pkmL
+  S122 + kmL -> S1 + S81 + kmL , pkmL
+  S124 + kmL -> S1 + S85 + kmL , pkmL
+  S126 + kmL -> S1 + S91 + kmL , pkmL
+  S127 + kmL -> S1 + S125 + kmL , pkmL
+  S128 + kmL -> S1 + S98 + kmL , pkmL
+  S135 + kmL -> S1 + S128 + kmL , pkmL
+  S135 + kmL -> S1 + S102 + kmL , pkmL
+  S136 + kmL -> S1 + S107 + kmL , pkmL
+  S137 + kmL -> S1 + S142 + kmL , pkmL
+  S82 + pLb -> S88 + pLb , ppLb
+  S87 + pLb -> S127 + pLb , ppLb
+  S95 + pLb -> S100 + pLb , ppLb
+  S102 + pLb -> S149 + pLb , ppLb
+  S115 + pLb -> S122 + pLb , ppLb
+  S124 + pLb -> S126 + pLb , ppLb
+  S128 + pLb -> S152 + pLb , ppLb
+  S78 + pLg -> S88 + pLg , ppLg
+  S115 + pLg -> S124 + pLg , ppLg
+  S121 + pLg -> S136 + pLg , ppLg
+  S122 + pLg -> S126 + pLg , ppLg
+  S1 + S78 + kpLs -> S76 + kpLs , pkpLs
+  S1 + S79 + kpLs -> S92 + kpLs , pkpLs
+  S1 + S79 + kpLs -> S139 + kpLs , pkpLs
+  S1 + S80 + kpLs -> S93 + kpLs , pkpLs
+  S1 + S81 + kpLs -> S94 + kpLs , pkpLs
+  S1 + S83 + kpLs -> S141 + kpLs , pkpLs
+  S1 + S86 + kpLs -> S120 + kpLs , pkpLs
+  S1 + S88 + kpLs -> S101 + kpLs , pkpLs
+  S1 + S89 + kpLs -> S143 + kpLs , pkpLs
+  S1 + S89 + kpLs -> S104 + kpLs , pkpLs
+  S1 + S90 + kpLs -> S106 + kpLs , pkpLs
+  S1 + S91 + kpLs -> S107 + kpLs , pkpLs
+  S1 + S92 + kpLs -> S145 + kpLs , pkpLs
+  S1 + S96 + kpLs -> S147 + kpLs , pkpLs
+  S1 + S100 + kpLs -> S150 + kpLs , pkpLs
+  S1 + S103 + kpLs -> S154 + kpLs , p2.0 * kpLs
+  S1 + S104 + kpLs -> S157 + kpLs , pkpLs
+  S1 + S105 + kpLs -> S161 + kpLs , pkpLs
+  S1 + S111 + kpLs -> S132 + kpLs , pkpLs
+  S1 + S112 + kpLs -> S133 + kpLs , pkpLs
+  S1 + S116 + kpLs -> S134 + kpLs , pkpLs
+  S1 + S122 + kpLs -> S121 + kpLs , pkpLs
+  S1 + S123 + kpLs -> S130 + kpLs , pkpLs
+  S1 + S123 + kpLs -> S140 + kpLs , pkpLs
+  S1 + S125 + kpLs -> S142 + kpLs , pkpLs
+  S1 + S126 + kpLs -> S136 + kpLs , pkpLs
+  S1 + S127 + kpLs -> S137 + kpLs , pkpLs
+  S1 + S129 + kpLs -> S144 + kpLs , pkpLs
+  S1 + S129 + kpLs -> S156 + kpLs , pkpLs
+  S1 + S130 + kpLs -> S146 + kpLs , pkpLs
+  S1 + S131 + kpLs -> S148 + kpLs , pkpLs
+  S80 + kmLs -> S1 + S44 + kmLs , pkmLs
+  S84 + kmLs -> S1 + S48 + kmLs , pkmLs
+  S90 + kmLs -> S1 + S53 + kmLs , pkmLs
+  S92 + kmLs -> S1 + S79 + kmLs , pkmLs
+  S93 + kmLs -> S1 + S80 + kmLs , pkmLs
+  S93 + kmLs -> S1 + S54 + kmLs , pkmLs
+  S94 + kmLs -> S1 + S81 + kmLs , pkmLs
+  S97 + kmLs -> S1 + S55 + kmLs , pkmLs
+  S101 + kmLs -> S1 + S88 + kmLs , pkmLs
+  S104 + kmLs -> S1 + S89 + kmLs , pkmLs
+  S106 + kmLs -> S1 + S90 + kmLs , p2.0 * kmLs
+  S107 + kmLs -> S1 + S91 + kmLs , pkmLs
+  S113 + kmLs -> S1 + S61 + kmLs , pkmLs
+  S114 + kmLs -> S1 + S62 + kmLs , pkmLs
+  S117 + kmLs -> S1 + S69 + kmLs , pkmLs
+  S119 + kmLs -> S1 + S72 + kmLs , pkmLs
+  S120 + kmLs -> S1 + S86 + kmLs , pkmLs
+  S121 + kmLs -> S1 + S122 + kmLs , pkmLs
+  S130 + kmLs -> S1 + S123 + kmLs , pkmLs
+  S132 + kmLs -> S1 + S111 + kmLs , pkmLs
+  S133 + kmLs -> S1 + S112 + kmLs , pkmLs
+  S134 + kmLs -> S1 + S116 + kmLs , pkmLs
+  S136 + kmLs -> S1 + S126 + kmLs , pkmLs
+  S137 + kmLs -> S1 + S127 + kmLs , pkmLs
+  S84 + pLbs -> S90 + pLbs , ppLbs
+  S94 + pLbs -> S130 + pLbs , ppLbs
+  S97 + pLbs -> S104 + pLbs , ppLbs
+  S107 + pLbs -> S156 + pLbs , ppLbs
+  S117 + pLbs -> S139 + pLbs , ppLbs
+  S134 + pLbs -> S140 + pLbs , ppLbs
+  S80 + pLgs -> S90 + pLgs , ppLgs
+  S93 + pLgs -> S106 + pLgs , ppLgs
+  S117 + pLgs -> S141 + pLgs , ppLgs
+  S119 + pLgs -> S137 + pLgs , ppLgs
+  S134 + pLgs -> S142 + pLgs , ppLgs
+  S2 + S80 + kpS -> S139 + kpS , pkpS
+  S77 + S80 + kpS -> S140 + kpS , pkpS
+  S2 + S82 + kpS -> S95 + kpS , pkpS
+  S77 + S82 + kpS -> S102 + kpS , pkpS
+  S2 + S83 + kpS -> S96 + kpS , pkpS
+  S77 + S83 + kpS -> S105 + kpS , pkpS
+  S2 + S84 + kpS -> S97 + kpS , pkpS
+  S77 + S84 + kpS -> S107 + kpS , pkpS
+  S2 + S84 + kpS -> S141 + kpS , pkpS
+  S77 + S84 + kpS -> S142 + kpS , pkpS
+  S2 + S85 + kpS -> S98 + kpS , pkpS
+  S77 + S85 + kpS -> S108 + kpS , pkpS
+  S2 + S86 + kpS -> S100 + kpS , pkpS
+  S77 + S86 + kpS -> S152 + kpS , pkpS
+  S2 + S87 + kpS -> S102 + kpS , pkpS
+  S77 + S87 + kpS -> S159 + kpS , pkpS
+  S2 + S88 + kpS -> S100 + kpS , pkpS
+  S77 + S88 + kpS -> S149 + kpS , pkpS
+  S2 + S89 + kpS -> S103 + kpS , pkpS
+  S77 + S89 + kpS -> S153 + kpS , pkpS
+  S2 + S90 + kpS -> S143 + kpS , pkpS
+  S77 + S90 + kpS -> S144 + kpS , pkpS
+  S2 + S90 + kpS -> S104 + kpS , pkpS
+  S77 + S90 + kpS -> S156 + kpS , pkpS
+  S2 + S91 + kpS -> S105 + kpS , pkpS
+  S77 + S91 + kpS -> S160 + kpS , pkpS
+  S2 + S93 + kpS -> S145 + kpS , pkpS
+  S77 + S93 + kpS -> S146 + kpS , pkpS
+  S2 + S97 + kpS -> S147 + kpS , pkpS
+  S77 + S97 + kpS -> S148 + kpS , pkpS
+  S2 + S101 + kpS -> S150 + kpS , pkpS
+  S77 + S101 + kpS -> S151 + kpS , pkpS
+  S2 + S104 + kpS -> S154 + kpS , pkpS
+  S77 + S104 + kpS -> S155 + kpS , pkpS
+  S2 + S106 + kpS -> S157 + kpS , p2.0 * kpS
+  S77 + S106 + kpS -> S158 + kpS , p2.0 * kpS
+  S2 + S107 + kpS -> S161 + kpS , pkpS
+  S77 + S107 + kpS -> S162 + kpS , pkpS
+  S2 + S118 + kpS -> S135 + kpS , pkpS
+  S77 + S118 + kpS -> S163 + kpS , pkpS
+  S2 + S120 + kpS -> S150 + kpS , pkpS
+  S77 + S120 + kpS -> S165 + kpS , pkpS
+  S2 + S124 + kpS -> S128 + kpS , pkpS
+  S77 + S124 + kpS -> S159 + kpS , pkpS
+  S2 + S125 + kpS -> S131 + kpS , pkpS
+  S77 + S125 + kpS -> S160 + kpS , pkpS
+  S2 + S126 + kpS -> S152 + kpS , pkpS
+  S77 + S126 + kpS -> S164 + kpS , pkpS
+  S2 + S127 + kpS -> S149 + kpS , pkpS
+  S77 + S127 + kpS -> S164 + kpS , pkpS
+  S2 + S129 + kpS -> S153 + kpS , pkpS
+  S77 + S129 + kpS -> S167 + kpS , pkpS
+  S2 + S136 + kpS -> S165 + kpS , pkpS
+  S77 + S136 + kpS -> S166 + kpS , pkpS
+  S2 + S137 + kpS -> S151 + kpS , pkpS
+  S77 + S137 + kpS -> S166 + kpS , pkpS
+  S78 + kmS -> S2 + S43 + kmS , pkmS
+  S79 + kmS -> S2 + S44 + kmS , pkmS
+  S81 + kmS -> S23 + S77 + kmS , pkmS
+  S82 + kmS -> S2 + S47 + kmS , pkmS
+  S83 + kmS -> S2 + S48 + kmS , pkmS
+  S85 + kmS -> S24 + S77 + kmS , pkmS
+  S86 + kmS -> S2 + S51 + kmS , pkmS
+  S87 + kmS -> S47 + S77 + kmS , pkmS
+  S88 + kmS -> S2 + S51 + kmS , pkmS
+  S89 + kmS -> S2 + S53 + kmS , pkmS
+  S91 + kmS -> S48 + S77 + kmS , pkmS
+  S92 + kmS -> S2 + S54 + kmS , pkmS
+  S94 + kmS -> S49 + S77 + kmS , pkmS
+  S95 + kmS -> S2 + S52 + kmS , pkmS
+  S95 + kmS -> S2 + S82 + kmS , pkmS
+  S96 + kmS -> S2 + S83 + kmS , pkmS
+  S96 + kmS -> S2 + S55 + kmS , pkmS
+  S97 + kmS -> S2 + S84 + kmS , pkmS
+  S98 + kmS -> S2 + S85 + kmS , pkmS
+  S98 + kmS -> S50 + S77 + kmS , pkmS
+  S99 + kmS -> S2 + S73 + kmS , p2.0 * kmS
+  S100 + kmS -> S2 + S86 + kmS , pkmS
+  S100 + kmS -> S2 + S88 + kmS , pkmS
+  S101 + kmS -> S2 + S74 + kmS , pkmS
+  S102 + kmS -> S2 + S87 + kmS , pkmS
+  S102 + kmS -> S77 + S82 + kmS , pkmS
+  S103 + kmS -> S2 + S89 + kmS , p2.0 * kmS
+  S104 + kmS -> S2 + S90 + kmS , pkmS
+  S105 + kmS -> S77 + S83 + kmS , pkmS
+  S105 + kmS -> S2 + S91 + kmS , pkmS
+  S107 + kmS -> S77 + S84 + kmS , pkmS
+  S108 + kmS -> S77 + S85 + kmS , p2.0 * kmS
+  S109 + kmS -> S25 + S77 + kmS , pkmS
+  S110 + kmS -> S26 + S77 + kmS , pkmS
+  S111 + kmS -> S27 + S77 + kmS , pkmS
+  S112 + kmS -> S28 + S77 + kmS , pkmS
+  S113 + kmS -> S2 + S63 + kmS , pkmS
+  S114 + kmS -> S2 + S64 + kmS , pkmS
+  S115 + kmS -> S33 + S77 + kmS , pkmS
+  S116 + kmS -> S35 + S77 + kmS , pkmS
+  S117 + kmS -> S2 + S70 + kmS , pkmS
+  S118 + kmS -> S39 + S77 + kmS , pkmS
+  S119 + kmS -> S40 + S77 + kmS , pkmS
+  S120 + kmS -> S2 + S74 + kmS , pkmS
+  S121 + kmS -> S41 + S77 + kmS , pkmS
+  S122 + kmS -> S43 + S77 + kmS , pkmS
+  S123 + kmS -> S44 + S77 + kmS , pkmS
+  S124 + kmS -> S47 + S77 + kmS , pkmS
+  S125 + kmS -> S48 + S77 + kmS , pkmS
+  S126 + kmS -> S51 + S77 + kmS , pkmS
+  S127 + kmS -> S51 + S77 + kmS , pkmS
+  S128 + kmS -> S52 + S77 + kmS , pkmS
+  S128 + kmS -> S2 + S124 + kmS , pkmS
+  S129 + kmS -> S53 + S77 + kmS , pkmS
+  S130 + kmS -> S54 + S77 + kmS , pkmS
+  S131 + kmS -> S2 + S125 + kmS , pkmS
+  S131 + kmS -> S55 + S77 + kmS , pkmS
+  S132 + kmS -> S63 + S77 + kmS , pkmS
+  S133 + kmS -> S64 + S77 + kmS , pkmS
+  S134 + kmS -> S70 + S77 + kmS , pkmS
+  S135 + kmS -> S2 + S118 + kmS , pkmS
+  S135 + kmS -> S73 + S77 + kmS , pkmS
+  S136 + kmS -> S74 + S77 + kmS , pkmS
+  S137 + kmS -> S74 + S77 + kmS , pkmS
+  S138 + kmS -> S2 + S177 + kmS , pkmS
+  S138 + kmS -> S50 + S178 + kmS , pkmS
+  S86 + pLS -> S127 + pLS , ppLS
+  S95 + pLS -> S102 + pLS , ppLS
+  S99 + pLS -> S135 + pLS , p2.0 * pLS
+  S100 + pLS -> S149 + pLS , ppLS
+  S120 + pLS -> S137 + pLS , ppLS
+  S128 + pLS -> S159 + pLS , ppLS
+  S135 + pLS -> S163 + pLS , ppLS
+  S92 + pLSs -> S130 + pLSs , ppLSs
+  S97 + pLSs -> S107 + pLSs , ppLSs
+  S101 + pLSs -> S136 + pLSs , ppLSs
+  S104 + pLSs -> S156 + pLSs , ppLSs
+  S95 + pSS -> S176 + pSS , ppSS
+  S95 + pSS -> S175 + pSS , ppSS
+  S96 + pSS -> S179 + pSS , ppSS
+  S96 + pSS -> S180 + pSS , ppSS
+  S98 + pSS -> S181 + pSS , ppSS
+  S98 + pSS -> S182 + pSS , ppSS
+  S99 + pSS -> S183 + pSS , p2.0 * pSS
+  S100 + pSS -> S184 + pSS , ppSS
+  S100 + pSS -> S185 + pSS , ppSS
+  S102 + pSS -> S186 + pSS , ppSS
+  S102 + pSS -> S187 + pSS , ppSS
+  S103 + pSS -> S188 + pSS , p2.0 * pSS
+  S105 + pSS -> S189 + pSS , ppSS
+  S105 + pSS -> S190 + pSS , ppSS
+  S108 + pSS -> S191 + pSS , p2.0 * pSS
+  S128 + pSS -> S192 + pSS , ppSS
+  S128 + pSS -> S193 + pSS , ppSS
+  S131 + pSS -> S194 + pSS , ppSS
+  S131 + pSS -> S195 + pSS , ppSS
+  S135 + pSS -> S196 + pSS , ppSS
+  S135 + pSS -> S197 + pSS , ppSS
+  S138 + pSSs -> S198 + pSSs , ppSSs
+  S78 + dm -> S67 + dm , pdm
+  S79 + dm -> S69 + dm , pdm
+  S79 + dm -> S46 + dm , pdm
+  S80 + dm -> S70 + dm , pdm
+  S81 + dm -> S71 + dm , pdm
+  S83 + dm -> S50 + dm , pdm
+  S86 + dm -> S52 + dm , pdm
+  S88 + dm -> S82 + dm , pdm
+  S89 + dm -> S55 + dm , pdm
+  S89 + dm -> S83 + dm , pdm
+  S90 + dm -> S84 + dm , pdm
+  S91 + dm -> S85 + dm , pdm
+  S92 + dm -> S57 + dm , pdm
+  S96 + dm -> S58 + dm , pdm
+  S100 + dm -> S95 + dm , pdm
+  S103 + dm -> S96 + dm , p2.0 * dm
+  S104 + dm -> S97 + dm , pdm
+  S105 + dm -> S98 + dm , pdm
+  S111 + dm -> S65 + dm , pdm
+  S112 + dm -> S66 + dm , pdm
+  S116 + dm -> S71 + dm , pdm
+  S122 + dm -> S115 + dm , pdm
+  S123 + dm -> S116 + dm , pdm
+  S123 + dm -> S81 + dm , pdm
+  S125 + dm -> S85 + dm , pdm
+  S126 + dm -> S124 + dm , pdm
+  S127 + dm -> S87 + dm , pdm
+  S129 + dm -> S91 + dm , pdm
+  S129 + dm -> S125 + dm , pdm
+  S130 + dm -> S94 + dm , pdm
+  S131 + dm -> S98 + dm , pdm
+  S80 + dm -> S45 + dm , pdm
+  S82 + dm -> S67 + dm , pdm
+  S83 + dm -> S69 + dm , pdm
+  S84 + dm -> S70 + dm , pdm
+  S84 + dm -> S49 + dm , pdm
+  S85 + dm -> S71 + dm , pdm
+  S86 + dm -> S38 + dm , pdm
+  S87 + dm -> S42 + dm , pdm
+  S88 + dm -> S78 + dm , pdm
+  S89 + dm -> S79 + dm , pdm
+  S90 + dm -> S54 + dm , pdm
+  S90 + dm -> S80 + dm , pdm
+  S91 + dm -> S81 + dm , pdm
+  S93 + dm -> S56 + dm , pdm
+  S97 + dm -> S57 + dm , pdm
+  S101 + dm -> S76 + dm , pdm
+  S104 + dm -> S92 + dm , pdm
+  S106 + dm -> S93 + dm , p2.0 * dm
+  S107 + dm -> S94 + dm , pdm
+  S118 + dm -> S68 + dm , pdm
+  S120 + dm -> S75 + dm , pdm
+  S124 + dm -> S115 + dm , pdm
+  S125 + dm -> S116 + dm , pdm
+  S126 + dm -> S122 + dm , pdm
+  S127 + dm -> S72 + dm , pdm
+  S129 + dm -> S123 + dm , pdm
+  S136 + dm -> S121 + dm , pdm
+  S137 + dm -> S119 + dm , pdm
+  S81 + dm -> S46 + dm , pdm
+  S85 + dm -> S50 + dm , pdm
+  S87 + dm -> S52 + dm , pdm
+  S91 + dm -> S55 + dm , pdm
+  S94 + dm -> S57 + dm , pdm
+  S98 + dm -> S58 + dm , pdm
+  S102 + dm -> S95 + dm , pdm
+  S105 + dm -> S96 + dm , pdm
+  S107 + dm -> S97 + dm , pdm
+  S108 + dm -> S98 + dm , p2.0 * dm
+  S109 + dm -> S59 + dm , pdm
+  S110 + dm -> S60 + dm , pdm
+  S111 + dm -> S61 + dm , pdm
+  S112 + dm -> S62 + dm , pdm
+  S115 + dm -> S67 + dm , pdm
+  S116 + dm -> S69 + dm , pdm
+  S118 + dm -> S73 + dm , pdm
+  S119 + dm -> S75 + dm , pdm
+  S121 + dm -> S76 + dm , pdm
+  S122 + dm -> S78 + dm , pdm
+  S123 + dm -> S79 + dm , pdm
+  S124 + dm -> S82 + dm , pdm
+  S125 + dm -> S83 + dm , pdm
+  S126 + dm -> S88 + dm , pdm
+  S127 + dm -> S86 + dm , pdm
+  S128 + dm -> S95 + dm , pdm
+  S129 + dm -> S89 + dm , pdm
+  S130 + dm -> S92 + dm , pdm
+  S131 + dm -> S96 + dm , pdm
+  S132 + dm -> S113 + dm , pdm
+  S133 + dm -> S114 + dm , pdm
+  S134 + dm -> S117 + dm , pdm
+  S135 + dm -> S99 + dm , pdm
+  S136 + dm -> S101 + dm , pdm
+  S137 + dm -> S120 + dm , pdm
+  S138 + dm -> S58 + dm , pdm
+  S0 + S174 + kp1 -> S173 + kp1 , p2.0 * kp1
+  S173 + km1 -> S0 + S174 + km1 , pkm1
+  S3 + S173 + kp2 -> S199 + kp2 , pkp2
+  S5 + S173 + kp2 -> S200 + kp2 , pkp2
+  S13 + S173 + kp2 -> S201 + kp2 , pkp2
+  S15 + S173 + kp2 -> S177 + kp2 , pkp2
+  S26 + S173 + kp2 -> S202 + kp2 , pkp2
+  S28 + S173 + kp2 -> S203 + kp2 , pkp2
+  S30 + S173 + kp2 -> S204 + kp2 , pkp2
+  S32 + S173 + kp2 -> S138 + kp2 , pkp2
+  S60 + S173 + kp2 -> S175 + kp2 , pkp2
+  S62 + S173 + kp2 -> S180 + kp2 , pkp2
+  S64 + S173 + kp2 -> S205 + kp2 , pkp2
+  S66 + S173 + kp2 -> S182 + kp2 , pkp2
+  S110 + S173 + kp2 -> S192 + kp2 , pkp2
+  S112 + S173 + kp2 -> S194 + kp2 , pkp2
+  S114 + S173 + kp2 -> S206 + kp2 , pkp2
+  S133 + S173 + kp2 -> S207 + kp2 , pkp2
+  S4 + S174 + kp2 -> S199 + kp2 , pkp2
+  S6 + S174 + kp2 -> S200 + kp2 , pkp2
+  S12 + S174 + kp2 -> S201 + kp2 , pkp2
+  S14 + S174 + kp2 -> S177 + kp2 , pkp2
+  S25 + S174 + kp2 -> S202 + kp2 , pkp2
+  S27 + S174 + kp2 -> S203 + kp2 , pkp2
+  S29 + S174 + kp2 -> S204 + kp2 , pkp2
+  S31 + S174 + kp2 -> S138 + kp2 , pkp2
+  S59 + S174 + kp2 -> S175 + kp2 , pkp2
+  S61 + S174 + kp2 -> S180 + kp2 , pkp2
+  S63 + S174 + kp2 -> S205 + kp2 , pkp2
+  S65 + S174 + kp2 -> S182 + kp2 , pkp2
+  S109 + S174 + kp2 -> S192 + kp2 , pkp2
+  S111 + S174 + kp2 -> S194 + kp2 , pkp2
+  S113 + S174 + kp2 -> S206 + kp2 , pkp2
+  S132 + S174 + kp2 -> S207 + kp2 , pkp2
+  S173 + S174 + kp2 -> S198 + kp2 , pkp2
+  S139 + km2 -> S12 + S114 + km2 , pkm2
+  S139 + km2 -> S13 + S113 + km2 , pkm2
+  S140 + km2 -> S12 + S133 + km2 , pkm2
+  S140 + km2 -> S13 + S132 + km2 , pkm2
+  S141 + km2 -> S15 + S113 + km2 , pkm2
+  S141 + km2 -> S14 + S114 + km2 , pkm2
+  S142 + km2 -> S15 + S132 + km2 , pkm2
+  S142 + km2 -> S14 + S133 + km2 , pkm2
+  S143 + km2 -> S27 + S114 + km2 , pkm2
+  S143 + km2 -> S28 + S113 + km2 , pkm2
+  S144 + km2 -> S27 + S133 + km2 , pkm2
+  S144 + km2 -> S28 + S132 + km2 , pkm2
+  S145 + km2 -> S30 + S113 + km2 , pkm2
+  S145 + km2 -> S29 + S114 + km2 , pkm2
+  S146 + km2 -> S30 + S132 + km2 , pkm2
+  S146 + km2 -> S29 + S133 + km2 , pkm2
+  S147 + km2 -> S32 + S113 + km2 , pkm2
+  S147 + km2 -> S31 + S114 + km2 , pkm2
+  S148 + km2 -> S32 + S132 + km2 , pkm2
+  S148 + km2 -> S31 + S133 + km2 , pkm2
+  S149 + km2 -> S60 + S111 + km2 , pkm2
+  S149 + km2 -> S59 + S112 + km2 , pkm2
+  S150 + km2 -> S60 + S113 + km2 , pkm2
+  S150 + km2 -> S59 + S114 + km2 , pkm2
+  S151 + km2 -> S60 + S132 + km2 , pkm2
+  S151 + km2 -> S59 + S133 + km2 , pkm2
+  S152 + km2 -> S61 + S110 + km2 , pkm2
+  S152 + km2 -> S62 + S109 + km2 , pkm2
+  S153 + km2 -> S62 + S111 + km2 , pkm2
+  S153 + km2 -> S61 + S112 + km2 , pkm2
+  S154 + km2 -> S61 + S114 + km2 , pkm2
+  S154 + km2 -> S62 + S113 + km2 , pkm2
+  S155 + km2 -> S61 + S133 + km2 , pkm2
+  S155 + km2 -> S62 + S132 + km2 , pkm2
+  S156 + km2 -> S64 + S111 + km2 , pkm2
+  S156 + km2 -> S63 + S112 + km2 , pkm2
+  S157 + km2 -> S63 + S114 + km2 , pkm2
+  S157 + km2 -> S64 + S113 + km2 , pkm2
+  S158 + km2 -> S63 + S133 + km2 , pkm2
+  S158 + km2 -> S64 + S132 + km2 , pkm2
+  S159 + km2 -> S65 + S110 + km2 , pkm2
+  S159 + km2 -> S66 + S109 + km2 , pkm2
+  S160 + km2 -> S66 + S111 + km2 , pkm2
+  S160 + km2 -> S65 + S112 + km2 , pkm2
+  S161 + km2 -> S66 + S113 + km2 , pkm2
+  S161 + km2 -> S65 + S114 + km2 , pkm2
+  S162 + km2 -> S66 + S132 + km2 , pkm2
+  S162 + km2 -> S65 + S133 + km2 , pkm2
+  S163 + km2 -> S109 + S110 + km2 , p2.0 * km2
+  S164 + km2 -> S110 + S111 + km2 , pkm2
+  S164 + km2 -> S109 + S112 + km2 , pkm2
+  S165 + km2 -> S110 + S113 + km2 , pkm2
+  S165 + km2 -> S109 + S114 + km2 , pkm2
+  S166 + km2 -> S110 + S132 + km2 , pkm2
+  S166 + km2 -> S109 + S133 + km2 , pkm2
+  S167 + km2 -> S111 + S112 + km2 , p2.0 * km2
+  S168 + km2 -> S111 + S114 + km2 , pkm2
+  S168 + km2 -> S112 + S113 + km2 , pkm2
+  S169 + km2 -> S111 + S133 + km2 , pkm2
+  S169 + km2 -> S112 + S132 + km2 , pkm2
+  S170 + km2 -> S113 + S114 + km2 , p2.0 * km2
+  S171 + km2 -> S114 + S132 + km2 , pkm2
+  S171 + km2 -> S113 + S133 + km2 , pkm2
+  S172 + km2 -> S132 + S133 + km2 , p2.0 * km2
+  S175 + km2 -> S60 + S173 + km2 , pkm2
+  S175 + km2 -> S59 + S174 + km2 , pkm2
+  S176 + km2 -> S31 + S208 + km2 , pkm2
+  S176 + km2 -> S32 + S209 + km2 , pkm2
+  S177 + km2 -> S14 + S174 + km2 , pkm2
+  S177 + km2 -> S15 + S173 + km2 , pkm2
+  S179 + km2 -> S32 + S210 + km2 , pkm2
+  S179 + km2 -> S31 + S211 + km2 , pkm2
+  S180 + km2 -> S61 + S174 + km2 , pkm2
+  S180 + km2 -> S62 + S173 + km2 , pkm2
+  S181 + km2 -> S32 + S212 + km2 , pkm2
+  S181 + km2 -> S31 + S213 + km2 , pkm2
+  S182 + km2 -> S65 + S174 + km2 , pkm2
+  S182 + km2 -> S66 + S173 + km2 , pkm2
+  S183 + km2 -> S60 + S209 + km2 , pkm2
+  S183 + km2 -> S59 + S208 + km2 , pkm2
+  S184 + km2 -> S60 + S210 + km2 , pkm2
+  S184 + km2 -> S59 + S211 + km2 , pkm2
+  S185 + km2 -> S61 + S208 + km2 , pkm2
+  S185 + km2 -> S62 + S209 + km2 , pkm2
+  S186 + km2 -> S60 + S212 + km2 , pkm2
+  S186 + km2 -> S59 + S213 + km2 , pkm2
+  S187 + km2 -> S65 + S208 + km2 , pkm2
+  S187 + km2 -> S66 + S209 + km2 , pkm2
+  S188 + km2 -> S62 + S210 + km2 , pkm2
+  S188 + km2 -> S61 + S211 + km2 , pkm2
+  S189 + km2 -> S61 + S213 + km2 , pkm2
+  S189 + km2 -> S62 + S212 + km2 , pkm2
+  S190 + km2 -> S66 + S210 + km2 , pkm2
+  S190 + km2 -> S65 + S211 + km2 , pkm2
+  S191 + km2 -> S66 + S212 + km2 , pkm2
+  S191 + km2 -> S65 + S213 + km2 , pkm2
+  S192 + km2 -> S110 + S173 + km2 , pkm2
+  S192 + km2 -> S109 + S174 + km2 , pkm2
+  S193 + km2 -> S31 + S214 + km2 , pkm2
+  S193 + km2 -> S32 + S215 + km2 , pkm2
+  S194 + km2 -> S111 + S174 + km2 , pkm2
+  S194 + km2 -> S112 + S173 + km2 , pkm2
+  S195 + km2 -> S32 + S216 + km2 , pkm2
+  S195 + km2 -> S31 + S217 + km2 , pkm2
+  S196 + km2 -> S109 + S208 + km2 , pkm2
+  S196 + km2 -> S110 + S209 + km2 , pkm2
+  S197 + km2 -> S60 + S215 + km2 , pkm2
+  S197 + km2 -> S59 + S214 + km2 , pkm2
+  S198 + km2 -> S173 + S174 + km2 , p2.0 * km2
+  S1 + S141 + kpL -> S120 + kpL , pkpL
+  S1 + S142 + kpL -> S137 + kpL , pkpL
+  S1 + S147 + kpL -> S150 + kpL , pkpL
+  S1 + S148 + kpL -> S151 + kpL , pkpL
+  S1 + S159 + kpL -> S163 + kpL , pkpL
+  S1 + S160 + kpL -> S164 + kpL , pkpL
+  S1 + S161 + kpL -> S165 + kpL , pkpL
+  S1 + S162 + kpL -> S166 + kpL , pkpL
+  S1 + S173 + kpL -> S209 + kpL , pkpL
+  S1 + S174 + kpL -> S208 + kpL , pkpL
+  S1 + S175 + kpL -> S183 + kpL , pkpL
+  S1 + S176 + kpL -> S183 + kpL , pkpL
+  S1 + S177 + kpL -> S218 + kpL , pkpL
+  S1 + S177 + kpL -> S202 + kpL , pkpL
+  S1 + S179 + kpL -> S184 + kpL , pkpL
+  S1 + S180 + kpL -> S185 + kpL , pkpL
+  S1 + S181 + kpL -> S186 + kpL , pkpL
+  S1 + S181 + kpL -> S193 + kpL , pkpL
+  S1 + S182 + kpL -> S187 + kpL , pkpL
+  S1 + S182 + kpL -> S192 + kpL , pkpL
+  S1 + S186 + kpL -> S197 + kpL , pkpL
+  S1 + S187 + kpL -> S196 + kpL , pkpL
+  S1 + S189 + kpL -> S219 + kpL , pkpL
+  S1 + S190 + kpL -> S220 + kpL , pkpL
+  S1 + S191 + kpL -> S221 + kpL , pkpL
+  S1 + S191 + kpL -> S222 + kpL , pkpL
+  S1 + S192 + kpL -> S196 + kpL , pkpL
+  S1 + S193 + kpL -> S197 + kpL , pkpL
+  S1 + S194 + kpL -> S223 + kpL , pkpL
+  S1 + S195 + kpL -> S224 + kpL , pkpL
+  S1 + S198 + kpL -> S225 + kpL , p2.0 * kpL
+  S149 + kmL -> S1 + S131 + kmL , pkmL
+  S150 + kmL -> S1 + S147 + kmL , pkmL
+  S151 + kmL -> S1 + S148 + kmL , pkmL
+  S152 + kmL -> S1 + S105 + kmL , pkmL
+  S159 + kmL -> S1 + S108 + kmL , pkmL
+  S163 + kmL -> S1 + S159 + kmL , p2.0 * kmL
+  S164 + kmL -> S1 + S160 + kmL , pkmL
+  S165 + kmL -> S1 + S161 + kmL , pkmL
+  S166 + kmL -> S1 + S162 + kmL , pkmL
+  S175 + kmL -> S1 + S138 + kmL , pkmL
+  S176 + kmL -> S1 + S138 + kmL , pkmL
+  S183 + kmL -> S1 + S176 + kmL , pkmL
+  S183 + kmL -> S1 + S175 + kmL , pkmL
+  S184 + kmL -> S1 + S179 + kmL , pkmL
+  S185 + kmL -> S1 + S180 + kmL , pkmL
+  S186 + kmL -> S1 + S181 + kmL , pkmL
+  S187 + kmL -> S1 + S182 + kmL , pkmL
+  S192 + kmL -> S1 + S182 + kmL , pkmL
+  S193 + kmL -> S1 + S181 + kmL , pkmL
+  S196 + kmL -> S1 + S192 + kmL , pkmL
+  S196 + kmL -> S1 + S187 + kmL , pkmL
+  S197 + kmL -> S1 + S193 + kmL , pkmL
+  S197 + kmL -> S1 + S186 + kmL , pkmL
+  S159 + pLb -> S164 + pLb , ppLb
+  S175 + pLb -> S184 + pLb , ppLb
+  S176 + pLb -> S185 + pLb , ppLb
+  S186 + pLb -> S224 + pLb , ppLb
+  S187 + pLb -> S223 + pLb , ppLb
+  S192 + pLb -> S220 + pLb , ppLb
+  S193 + pLb -> S219 + pLb , ppLb
+  S1 + S139 + kpLs -> S145 + kpLs , pkpLs
+  S1 + S140 + kpLs -> S146 + kpLs , pkpLs
+  S1 + S143 + kpLs -> S157 + kpLs , pkpLs
+  S1 + S144 + kpLs -> S158 + kpLs , pkpLs
+  S1 + S149 + kpLs -> S151 + kpLs , pkpLs
+  S1 + S152 + kpLs -> S165 + kpLs , pkpLs
+  S1 + S153 + kpLs -> S168 + kpLs , pkpLs
+  S1 + S153 + kpLs -> S155 + kpLs , pkpLs
+  S1 + S154 + kpLs -> S170 + kpLs , pkpLs
+  S1 + S155 + kpLs -> S171 + kpLs , pkpLs
+  S1 + S156 + kpLs -> S158 + kpLs , pkpLs
+  S1 + S160 + kpLs -> S162 + kpLs , pkpLs
+  S1 + S164 + kpLs -> S166 + kpLs , pkpLs
+  S1 + S167 + kpLs -> S169 + kpLs , p2.0 * kpLs
+  S1 + S168 + kpLs -> S171 + kpLs , pkpLs
+  S1 + S169 + kpLs -> S172 + kpLs , pkpLs
+  S1 + S179 + kpLs -> S226 + kpLs , pkpLs
+  S1 + S180 + kpLs -> S206 + kpLs , pkpLs
+  S1 + S184 + kpLs -> S227 + kpLs , pkpLs
+  S1 + S185 + kpLs -> S228 + kpLs , pkpLs
+  S1 + S188 + kpLs -> S229 + kpLs , pkpLs
+  S1 + S188 + kpLs -> S230 + kpLs , pkpLs
+  S1 + S189 + kpLs -> S231 + kpLs , pkpLs
+  S1 + S190 + kpLs -> S232 + kpLs , pkpLs
+  S1 + S194 + kpLs -> S207 + kpLs , pkpLs
+  S1 + S195 + kpLs -> S233 + kpLs , pkpLs
+  S139 + kmLs -> S1 + S79 + kmLs , pkmLs
+  S140 + kmLs -> S1 + S123 + kmLs , pkmLs
+  S141 + kmLs -> S1 + S83 + kmLs , pkmLs
+  S142 + kmLs -> S1 + S125 + kmLs , pkmLs
+  S143 + kmLs -> S1 + S89 + kmLs , pkmLs
+  S144 + kmLs -> S1 + S129 + kmLs , pkmLs
+  S145 + kmLs -> S1 + S139 + kmLs , pkmLs
+  S145 + kmLs -> S1 + S92 + kmLs , pkmLs
+  S146 + kmLs -> S1 + S140 + kmLs , pkmLs
+  S146 + kmLs -> S1 + S130 + kmLs , pkmLs
+  S147 + kmLs -> S1 + S96 + kmLs , pkmLs
+  S148 + kmLs -> S1 + S131 + kmLs , pkmLs
+  S150 + kmLs -> S1 + S100 + kmLs , pkmLs
+  S151 + kmLs -> S1 + S149 + kmLs , pkmLs
+  S154 + kmLs -> S1 + S103 + kmLs , pkmLs
+  S155 + kmLs -> S1 + S153 + kmLs , pkmLs
+  S156 + kmLs -> S1 + S129 + kmLs , pkmLs
+  S157 + kmLs -> S1 + S104 + kmLs , pkmLs
+  S157 + kmLs -> S1 + S143 + kmLs , pkmLs
+  S158 + kmLs -> S1 + S156 + kmLs , pkmLs
+  S158 + kmLs -> S1 + S144 + kmLs , pkmLs
+  S161 + kmLs -> S1 + S105 + kmLs , pkmLs
+  S162 + kmLs -> S1 + S160 + kmLs , pkmLs
+  S165 + kmLs -> S1 + S152 + kmLs , pkmLs
+  S166 + kmLs -> S1 + S164 + kmLs , pkmLs
+  S168 + kmLs -> S1 + S153 + kmLs , pkmLs
+  S169 + kmLs -> S1 + S167 + kmLs , pkmLs
+  S170 + kmLs -> S1 + S154 + kmLs , p2.0 * kmLs
+  S171 + kmLs -> S1 + S155 + kmLs , pkmLs
+  S171 + kmLs -> S1 + S168 + kmLs , pkmLs
+  S172 + kmLs -> S1 + S169 + kmLs , p2.0 * kmLs
+  S141 + pLbs -> S143 + pLbs , ppLbs
+  S142 + pLbs -> S144 + pLbs , ppLbs
+  S147 + pLbs -> S154 + pLbs , ppLbs
+  S148 + pLbs -> S155 + pLbs , ppLbs
+  S161 + pLbs -> S168 + pLbs , ppLbs
+  S162 + pLbs -> S169 + pLbs , ppLbs
+  S139 + pLgs -> S143 + pLgs , ppLgs
+  S140 + pLgs -> S144 + pLgs , ppLgs
+  S145 + pLgs -> S157 + pLgs , ppLgs
+  S146 + pLgs -> S158 + pLgs , ppLgs
+  S11 + S178 + kpS -> S200 + kpS , pkpS
+  S14 + S178 + kpS -> S173 + kpS , pkpS
+  S15 + S178 + kpS -> S174 + kpS , pkpS
+  S16 + S178 + kpS -> S234 + kpS , pkpS
+  S18 + S178 + kpS -> S199 + kpS , pkpS
+  S19 + S178 + kpS -> S235 + kpS , pkpS
+  S23 + S178 + kpS -> S201 + kpS , pkpS
+  S24 + S178 + kpS -> S177 + kpS , p2.0 * kpS
+  S25 + S178 + kpS -> S209 + kpS , pkpS
+  S26 + S178 + kpS -> S208 + kpS , pkpS
+  S27 + S178 + kpS -> S210 + kpS , pkpS
+  S28 + S178 + kpS -> S211 + kpS , pkpS
+  S33 + S178 + kpS -> S236 + kpS , pkpS
+  S35 + S178 + kpS -> S237 + kpS , pkpS
+  S39 + S178 + kpS -> S238 + kpS , p2.0 * kpS
+  S40 + S178 + kpS -> S239 + kpS , pkpS
+  S41 + S178 + kpS -> S240 + kpS , pkpS
+  S43 + S178 + kpS -> S241 + kpS , pkpS
+  S44 + S178 + kpS -> S242 + kpS , pkpS
+  S47 + S178 + kpS -> S218 + kpS , pkpS
+  S47 + S178 + kpS -> S202 + kpS , pkpS
+  S48 + S178 + kpS -> S203 + kpS , pkpS
+  S48 + S178 + kpS -> S243 + kpS , pkpS
+  S49 + S178 + kpS -> S204 + kpS , pkpS
+  S50 + S178 + kpS -> S138 + kpS , pkpS
+  S51 + S178 + kpS -> S244 + kpS , pkpS
+  S51 + S178 + kpS -> S245 + kpS , pkpS
+  S52 + S178 + kpS -> S176 + kpS , pkpS
+  S53 + S178 + kpS -> S246 + kpS , p2.0 * kpS
+  S54 + S178 + kpS -> S247 + kpS , pkpS
+  S55 + S178 + kpS -> S179 + kpS , pkpS
+  S63 + S178 + kpS -> S248 + kpS , pkpS
+  S64 + S178 + kpS -> S249 + kpS , pkpS
+  S70 + S178 + kpS -> S250 + kpS , pkpS
+  S73 + S178 + kpS -> S183 + kpS , pkpS
+  S74 + S178 + kpS -> S251 + kpS , pkpS
+  S74 + S178 + kpS -> S252 + kpS , pkpS
+  S80 + S178 + kpS -> S253 + kpS , pkpS
+  S82 + S178 + kpS -> S175 + kpS , pkpS
+  S83 + S178 + kpS -> S180 + kpS , pkpS
+  S84 + S178 + kpS -> S205 + kpS , pkpS
+  S84 + S178 + kpS -> S254 + kpS , pkpS
+  S85 + S178 + kpS -> S182 + kpS , pkpS
+  S86 + S178 + kpS -> S185 + kpS , pkpS
+  S87 + S178 + kpS -> S187 + kpS , pkpS
+  S88 + S178 + kpS -> S184 + kpS , pkpS
+  S89 + S178 + kpS -> S188 + kpS , pkpS
+  S90 + S178 + kpS -> S255 + kpS , pkpS
+  S90 + S178 + kpS -> S256 + kpS , pkpS
+  S91 + S178 + kpS -> S190 + kpS , pkpS
+  S93 + S178 + kpS -> S257 + kpS , pkpS
+  S97 + S178 + kpS -> S226 + kpS , pkpS
+  S101 + S178 + kpS -> S227 + kpS , pkpS
+  S104 + S178 + kpS -> S230 + kpS , pkpS
+  S106 + S178 + kpS -> S258 + kpS , p2.0 * kpS
+  S107 + S178 + kpS -> S232 + kpS , pkpS
+  S118 + S178 + kpS -> S196 + kpS , pkpS
+  S120 + S178 + kpS -> S228 + kpS , pkpS
+  S124 + S178 + kpS -> S192 + kpS , pkpS
+  S125 + S178 + kpS -> S194 + kpS , pkpS
+  S126 + S178 + kpS -> S220 + kpS , pkpS
+  S127 + S178 + kpS -> S223 + kpS , pkpS
+  S129 + S178 + kpS -> S259 + kpS , pkpS
+  S136 + S178 + kpS -> S260 + kpS , pkpS
+  S137 + S178 + kpS -> S261 + kpS , pkpS
+  S2 + S141 + kpS -> S147 + kpS , pkpS
+  S77 + S141 + kpS -> S161 + kpS , pkpS
+  S141 + S178 + kpS -> S206 + kpS , pkpS
+  S2 + S142 + kpS -> S148 + kpS , pkpS
+  S77 + S142 + kpS -> S162 + kpS , pkpS
+  S142 + S178 + kpS -> S207 + kpS , pkpS
+  S2 + S143 + kpS -> S154 + kpS , pkpS
+  S77 + S143 + kpS -> S168 + kpS , pkpS
+  S143 + S178 + kpS -> S229 + kpS , pkpS
+  S2 + S144 + kpS -> S155 + kpS , pkpS
+  S77 + S144 + kpS -> S169 + kpS , pkpS
+  S144 + S178 + kpS -> S262 + kpS , pkpS
+  S2 + S156 + kpS -> S168 + kpS , pkpS
+  S77 + S156 + kpS -> S169 + kpS , pkpS
+  S156 + S178 + kpS -> S263 + kpS , pkpS
+  S2 + S157 + kpS -> S170 + kpS , pkpS
+  S77 + S157 + kpS -> S171 + kpS , pkpS
+  S157 + S178 + kpS -> S264 + kpS , pkpS
+  S2 + S158 + kpS -> S171 + kpS , pkpS
+  S77 + S158 + kpS -> S172 + kpS , pkpS
+  S158 + S178 + kpS -> S265 + kpS , pkpS
+  S2 + S177 + kpS -> S138 + kpS , pkpS
+  S77 + S177 + kpS -> S182 + kpS , pkpS
+  S177 + S178 + kpS -> S198 + kpS , pkpS
+  S139 + kmS -> S2 + S80 + kmS , pkmS
+  S140 + kmS -> S77 + S80 + kmS , pkmS
+  S141 + kmS -> S2 + S84 + kmS , pkmS
+  S142 + kmS -> S77 + S84 + kmS , pkmS
+  S143 + kmS -> S2 + S90 + kmS , pkmS
+  S144 + kmS -> S77 + S90 + kmS , pkmS
+  S145 + kmS -> S2 + S93 + kmS , pkmS
+  S146 + kmS -> S77 + S93 + kmS , pkmS
+  S147 + kmS -> S2 + S141 + kmS , pkmS
+  S147 + kmS -> S2 + S97 + kmS , pkmS
+  S148 + kmS -> S2 + S142 + kmS , pkmS
+  S148 + kmS -> S77 + S97 + kmS , pkmS
+  S149 + kmS -> S2 + S127 + kmS , pkmS
+  S149 + kmS -> S77 + S88 + kmS , pkmS
+  S150 + kmS -> S2 + S120 + kmS , pkmS
+  S150 + kmS -> S2 + S101 + kmS , pkmS
+  S151 + kmS -> S2 + S137 + kmS , pkmS
+  S151 + kmS -> S77 + S101 + kmS , pkmS
+  S152 + kmS -> S77 + S86 + kmS , pkmS
+  S152 + kmS -> S2 + S126 + kmS , pkmS
+  S153 + kmS -> S2 + S129 + kmS , pkmS
+  S153 + kmS -> S77 + S89 + kmS , pkmS
+  S154 + kmS -> S2 + S104 + kmS , pkmS
+  S154 + kmS -> S2 + S143 + kmS , pkmS
+  S155 + kmS -> S77 + S104 + kmS , pkmS
+  S155 + kmS -> S2 + S144 + kmS , pkmS
+  S156 + kmS -> S77 + S90 + kmS , pkmS
+  S157 + kmS -> S2 + S106 + kmS , pkmS
+  S158 + kmS -> S77 + S106 + kmS , pkmS
+  S159 + kmS -> S77 + S87 + kmS , pkmS
+  S159 + kmS -> S77 + S124 + kmS , pkmS
+  S160 + kmS -> S77 + S125 + kmS , pkmS
+  S160 + kmS -> S77 + S91 + kmS , pkmS
+  S161 + kmS -> S77 + S141 + kmS , pkmS
+  S161 + kmS -> S2 + S107 + kmS , pkmS
+  S162 + kmS -> S77 + S142 + kmS , pkmS
+  S162 + kmS -> S77 + S107 + kmS , pkmS
+  S163 + kmS -> S77 + S118 + kmS , p2.0 * kmS
+  S164 + kmS -> S77 + S127 + kmS , pkmS
+  S164 + kmS -> S77 + S126 + kmS , pkmS
+  S165 + kmS -> S77 + S120 + kmS , pkmS
+  S165 + kmS -> S2 + S136 + kmS , pkmS
+  S166 + kmS -> S77 + S137 + kmS , pkmS
+  S166 + kmS -> S77 + S136 + kmS , pkmS
+  S167 + kmS -> S77 + S129 + kmS , p2.0 * kmS
+  S168 + kmS -> S2 + S156 + kmS , pkmS
+  S168 + kmS -> S77 + S143 + kmS , pkmS
+  S169 + kmS -> S77 + S156 + kmS , pkmS
+  S169 + kmS -> S77 + S144 + kmS , pkmS
+  S170 + kmS -> S2 + S157 + kmS , p2.0 * kmS
+  S171 + kmS -> S2 + S158 + kmS , pkmS
+  S171 + kmS -> S77 + S157 + kmS , pkmS
+  S172 + kmS -> S77 + S158 + kmS , p2.0 * kmS
+  S173 + kmS -> S14 + S178 + kmS , pkmS
+  S174 + kmS -> S15 + S178 + kmS , pkmS
+  S175 + kmS -> S2 + S202 + kmS , pkmS
+  S175 + kmS -> S82 + S178 + kmS , pkmS
+  S176 + kmS -> S52 + S178 + kmS , pkmS
+  S176 + kmS -> S2 + S218 + kmS , pkmS
+  S177 + kmS -> S24 + S178 + kmS , pkmS
+  S179 + kmS -> S2 + S243 + kmS , pkmS
+  S179 + kmS -> S55 + S178 + kmS , pkmS
+  S180 + kmS -> S83 + S178 + kmS , pkmS
+  S180 + kmS -> S2 + S203 + kmS , pkmS
+  S181 + kmS -> S2 + S266 + kmS , pkmS
+  S181 + kmS -> S50 + S267 + kmS , pkmS
+  S182 + kmS -> S85 + S178 + kmS , pkmS
+  S182 + kmS -> S77 + S177 + kmS , pkmS
+  S183 + kmS -> S2 + S238 + kmS , pkmS
+  S183 + kmS -> S73 + S178 + kmS , pkmS
+  S184 + kmS -> S2 + S245 + kmS , pkmS
+  S184 + kmS -> S88 + S178 + kmS , pkmS
+  S185 + kmS -> S86 + S178 + kmS , pkmS
+  S185 + kmS -> S2 + S244 + kmS , pkmS
+  S186 + kmS -> S2 + S268 + kmS , pkmS
+  S186 + kmS -> S82 + S267 + kmS , pkmS
+  S187 + kmS -> S87 + S178 + kmS , pkmS
+  S187 + kmS -> S77 + S218 + kmS , pkmS
+  S188 + kmS -> S2 + S246 + kmS , pkmS
+  S188 + kmS -> S89 + S178 + kmS , pkmS
+  S189 + kmS -> S83 + S267 + kmS , pkmS
+  S189 + kmS -> S2 + S269 + kmS , pkmS
+  S190 + kmS -> S77 + S243 + kmS , pkmS
+  S190 + kmS -> S91 + S178 + kmS , pkmS
+  S191 + kmS -> S77 + S266 + kmS , pkmS
+  S191 + kmS -> S85 + S267 + kmS , pkmS
+  S192 + kmS -> S77 + S202 + kmS , pkmS
+  S192 + kmS -> S124 + S178 + kmS , pkmS
+  S193 + kmS -> S52 + S267 + kmS , pkmS
+  S193 + kmS -> S2 + S270 + kmS , pkmS
+  S194 + kmS -> S125 + S178 + kmS , pkmS
+  S194 + kmS -> S77 + S203 + kmS , pkmS
+  S195 + kmS -> S2 + S271 + kmS , pkmS
+  S195 + kmS -> S55 + S267 + kmS , pkmS
+  S196 + kmS -> S118 + S178 + kmS , pkmS
+  S196 + kmS -> S77 + S238 + kmS , pkmS
+  S197 + kmS -> S2 + S272 + kmS , pkmS
+  S197 + kmS -> S73 + S267 + kmS , pkmS
+  S198 + kmS -> S177 + S178 + kmS , p2.0 * kmS
+  S150 + pLS -> S151 + pLS , ppLS
+  S152 + pLS -> S164 + pLS , ppLS
+  S165 + pLS -> S166 + pLS , ppLS
+  S175 + pLS -> S186 + pLS , ppLS
+  S176 + pLS -> S187 + pLS , ppLS
+  S183 + pLS -> S197 + pLS , ppLS
+  S183 + pLS -> S196 + pLS , ppLS
+  S184 + pLS -> S224 + pLS , ppLS
+  S185 + pLS -> S223 + pLS , ppLS
+  S192 + pLS -> S221 + pLS , ppLS
+  S193 + pLS -> S222 + pLS , ppLS
+  S196 + pLS -> S273 + pLS , ppLS
+  S197 + pLS -> S273 + pLS , ppLS
+  S145 + pLSs -> S146 + pLSs , ppLSs
+  S147 + pLSs -> S161 + pLSs , ppLSs
+  S148 + pLSs -> S162 + pLSs , ppLSs
+  S150 + pLSs -> S165 + pLSs , ppLSs
+  S151 + pLSs -> S166 + pLSs , ppLSs
+  S154 + pLSs -> S168 + pLSs , ppLSs
+  S155 + pLSs -> S169 + pLSs , ppLSs
+  S157 + pLSs -> S158 + pLSs , ppLSs
+  S170 + pLSs -> S171 + pLSs , p2.0 * pLSs
+  S171 + pLSs -> S172 + pLSs , ppLSs
+  S147 + pSS -> S226 + pSS , ppSS
+  S147 + pSS -> S206 + pSS , ppSS
+  S148 + pSS -> S233 + pSS , ppSS
+  S148 + pSS -> S207 + pSS , ppSS
+  S149 + pSS -> S224 + pSS , ppSS
+  S149 + pSS -> S223 + pSS , ppSS
+  S150 + pSS -> S227 + pSS , ppSS
+  S150 + pSS -> S228 + pSS , ppSS
+  S151 + pSS -> S274 + pSS , ppSS
+  S151 + pSS -> S261 + pSS , ppSS
+  S152 + pSS -> S219 + pSS , ppSS
+  S152 + pSS -> S220 + pSS , ppSS
+  S153 + pSS -> S275 + pSS , ppSS
+  S153 + pSS -> S259 + pSS , ppSS
+  S154 + pSS -> S230 + pSS , ppSS
+  S154 + pSS -> S229 + pSS , ppSS
+  S155 + pSS -> S276 + pSS , ppSS
+  S155 + pSS -> S262 + pSS , ppSS
+  S159 + pSS -> S222 + pSS , ppSS
+  S159 + pSS -> S221 + pSS , ppSS
+  S160 + pSS -> S277 + pSS , ppSS
+  S160 + pSS -> S278 + pSS , ppSS
+  S161 + pSS -> S232 + pSS , ppSS
+  S161 + pSS -> S231 + pSS , ppSS
+  S162 + pSS -> S279 + pSS , ppSS
+  S162 + pSS -> S280 + pSS , ppSS
+  S163 + pSS -> S273 + pSS , p2.0 * pSS
+  S164 + pSS -> S281 + pSS , ppSS
+  S164 + pSS -> S282 + pSS , ppSS
+  S165 + pSS -> S260 + pSS , ppSS
+  S165 + pSS -> S283 + pSS , ppSS
+  S166 + pSS -> S284 + pSS , ppSS
+  S166 + pSS -> S285 + pSS , ppSS
+  S167 + pSS -> S286 + pSS , p2.0 * pSS
+  S168 + pSS -> S263 + pSS , ppSS
+  S168 + pSS -> S287 + pSS , ppSS
+  S169 + pSS -> S288 + pSS , ppSS
+  S169 + pSS -> S289 + pSS , ppSS
+  S170 + pSS -> S264 + pSS , p2.0 * pSS
+  S171 + pSS -> S290 + pSS , ppSS
+  S171 + pSS -> S265 + pSS , ppSS
+  S172 + pSS -> S291 + pSS , p2.0 * pSS
+  S175 + pSSs -> S225 + pSSs , ppSSs
+  S176 + pSSs -> S225 + pSSs , ppSSs
+  S179 + pSSs -> S292 + pSSs , ppSSs
+  S180 + pSSs -> S292 + pSSs , ppSSs
+  S181 + pSSs -> S293 + pSSs , ppSSs
+  S182 + pSSs -> S293 + pSSs , ppSSs
+  S183 + pSSs -> S294 + pSSs , ppSSs
+  S184 + pSSs -> S295 + pSSs , ppSSs
+  S185 + pSSs -> S295 + pSSs , ppSSs
+  S186 + pSSs -> S296 + pSSs , ppSSs
+  S187 + pSSs -> S296 + pSSs , ppSSs
+  S188 + pSSs -> S297 + pSSs , ppSSs
+  S189 + pSSs -> S298 + pSSs , ppSSs
+  S190 + pSSs -> S298 + pSSs , ppSSs
+  S191 + pSSs -> S299 + pSSs , ppSSs
+  S192 + pSSs -> S300 + pSSs , ppSSs
+  S193 + pSSs -> S300 + pSSs , ppSSs
+  S194 + pSSs -> S301 + pSSs , ppSSs
+  S195 + pSSs -> S301 + pSSs , ppSSs
+  S196 + pSSs -> S302 + pSSs , ppSSs
+  S197 + pSSs -> S302 + pSSs , ppSSs
+  S139 + dm -> S117 + dm , pdm
+  S140 + dm -> S134 + dm , pdm
+  S143 + dm -> S141 + dm , pdm
+  S144 + dm -> S142 + dm , pdm
+  S149 + dm -> S102 + dm , pdm
+  S152 + dm -> S128 + dm , pdm
+  S153 + dm -> S131 + dm , pdm
+  S153 + dm -> S105 + dm , pdm
+  S154 + dm -> S147 + dm , pdm
+  S155 + dm -> S148 + dm , pdm
+  S156 + dm -> S107 + dm , pdm
+  S160 + dm -> S108 + dm , pdm
+  S164 + dm -> S159 + dm , pdm
+  S167 + dm -> S160 + dm , p2.0 * dm
+  S168 + dm -> S161 + dm , pdm
+  S169 + dm -> S162 + dm , pdm
+  S179 + dm -> S138 + dm , pdm
+  S180 + dm -> S138 + dm , pdm
+  S184 + dm -> S175 + dm , pdm
+  S185 + dm -> S176 + dm , pdm
+  S188 + dm -> S179 + dm , pdm
+  S188 + dm -> S180 + dm , pdm
+  S189 + dm -> S181 + dm , pdm
+  S190 + dm -> S182 + dm , pdm
+  S194 + dm -> S182 + dm , pdm
+  S195 + dm -> S181 + dm , pdm
+  S141 + dm -> S117 + dm , pdm
+  S142 + dm -> S134 + dm , pdm
+  S143 + dm -> S139 + dm , pdm
+  S144 + dm -> S140 + dm , pdm
+  S156 + dm -> S130 + dm , pdm
+  S157 + dm -> S145 + dm , pdm
+  S158 + dm -> S146 + dm , pdm
+  S177 + dm -> S199 + dm , pdm
+  S140 + dm -> S139 + dm , pdm
+  S142 + dm -> S141 + dm , pdm
+  S144 + dm -> S143 + dm , pdm
+  S146 + dm -> S145 + dm , pdm
+  S148 + dm -> S147 + dm , pdm
+  S149 + dm -> S100 + dm , pdm
+  S151 + dm -> S150 + dm , pdm
+  S152 + dm -> S100 + dm , pdm
+  S153 + dm -> S103 + dm , pdm
+  S155 + dm -> S154 + dm , pdm
+  S156 + dm -> S104 + dm , pdm
+  S158 + dm -> S157 + dm , pdm
+  S159 + dm -> S128 + dm , pdm
+  S159 + dm -> S102 + dm , pdm
+  S160 + dm -> S131 + dm , pdm
+  S160 + dm -> S105 + dm , pdm
+  S161 + dm -> S147 + dm , pdm
+  S162 + dm -> S148 + dm , pdm
+  S162 + dm -> S161 + dm , pdm
+  S163 + dm -> S135 + dm , p2.0 * dm
+  S164 + dm -> S149 + dm , pdm
+  S164 + dm -> S152 + dm , pdm
+  S165 + dm -> S150 + dm , pdm
+  S166 + dm -> S151 + dm , pdm
+  S166 + dm -> S165 + dm , pdm
+  S167 + dm -> S153 + dm , p2.0 * dm
+  S168 + dm -> S154 + dm , pdm
+  S169 + dm -> S155 + dm , pdm
+  S169 + dm -> S168 + dm , pdm
+  S171 + dm -> S170 + dm , pdm
+  S172 + dm -> S171 + dm , p2.0 * dm
+  S181 + dm -> S138 + dm , pdm
+  S182 + dm -> S138 + dm , pdm
+  S186 + dm -> S175 + dm , pdm
+  S187 + dm -> S176 + dm , pdm
+  S189 + dm -> S180 + dm , pdm
+  S190 + dm -> S179 + dm , pdm
+  S191 + dm -> S181 + dm , pdm
+  S191 + dm -> S182 + dm , pdm
+  S192 + dm -> S175 + dm , pdm
+  S193 + dm -> S176 + dm , pdm
+  S194 + dm -> S180 + dm , pdm
+  S195 + dm -> S179 + dm , pdm
+  S196 + dm -> S183 + dm , pdm
+  S197 + dm -> S183 + dm , pdm
+  S173 + dm -> S31 + dm , pdm
+  S174 + dm -> S32 + dm , pdm
+  S175 + dm -> S95 + dm , pdm
+  S176 + dm -> S95 + dm , pdm
+  S177 + dm -> S50 + dm , pdm
+  S179 + dm -> S96 + dm , pdm
+  S180 + dm -> S96 + dm , pdm
+  S181 + dm -> S98 + dm , pdm
+  S182 + dm -> S98 + dm , pdm
+  S183 + dm -> S99 + dm , pdm
+  S184 + dm -> S100 + dm , pdm
+  S185 + dm -> S100 + dm , pdm
+  S186 + dm -> S102 + dm , pdm
+  S187 + dm -> S102 + dm , pdm
+  S188 + dm -> S103 + dm , pdm
+  S189 + dm -> S105 + dm , pdm
+  S190 + dm -> S105 + dm , pdm
+  S191 + dm -> S108 + dm , pdm
+  S192 + dm -> S128 + dm , pdm
+  S193 + dm -> S128 + dm , pdm
+  S194 + dm -> S131 + dm , pdm
+  S195 + dm -> S131 + dm , pdm
+  S196 + dm -> S135 + dm , pdm
+  S197 + dm -> S135 + dm , pdm
+  S198 + dm -> S138 + dm , p2.0 * dm
+  S178 + dc -> S2 + dc , pdc
+  S0 + S208 + kp1 -> S209 + kp1 , p2.0 * kp1
+  S0 + S211 + kp1 -> S210 + kp1 , p2.0 * kp1
+  S0 + S213 + kp1 -> S212 + kp1 , p2.0 * kp1
+  S0 + S214 + kp1 -> S215 + kp1 , p2.0 * kp1
+  S0 + S217 + kp1 -> S216 + kp1 , p2.0 * kp1
+  S0 + S249 + kp1 -> S248 + kp1 , p2.0 * kp1
+  S209 + km1 -> S0 + S208 + km1 , pkm1
+  S210 + km1 -> S0 + S211 + km1 , pkm1
+  S212 + km1 -> S0 + S213 + km1 , pkm1
+  S215 + km1 -> S0 + S214 + km1 , pkm1
+  S216 + km1 -> S0 + S217 + km1 , pkm1
+  S248 + km1 -> S0 + S249 + km1 , pkm1
+  S3 + S209 + kp2 -> S236 + kp2 , pkp2
+  S3 + S210 + kp2 -> S237 + kp2 , pkp2
+  S3 + S212 + kp2 -> S303 + kp2 , pkp2
+  S3 + S215 + kp2 -> S304 + kp2 , pkp2
+  S3 + S216 + kp2 -> S305 + kp2 , pkp2
+  S3 + S248 + kp2 -> S250 + kp2 , pkp2
+  S5 + S209 + kp2 -> S234 + kp2 , pkp2
+  S5 + S210 + kp2 -> S235 + kp2 , pkp2
+  S5 + S212 + kp2 -> S306 + kp2 , pkp2
+  S5 + S215 + kp2 -> S307 + kp2 , pkp2
+  S5 + S216 + kp2 -> S308 + kp2 , pkp2
+  S5 + S248 + kp2 -> S239 + kp2 , pkp2
+  S13 + S209 + kp2 -> S241 + kp2 , pkp2
+  S13 + S210 + kp2 -> S242 + kp2 , pkp2
+  S13 + S212 + kp2 -> S309 + kp2 , pkp2
+  S13 + S215 + kp2 -> S310 + kp2 , pkp2
+  S13 + S216 + kp2 -> S311 + kp2 , pkp2
+  S13 + S248 + kp2 -> S253 + kp2 , pkp2
+  S15 + S209 + kp2 -> S218 + kp2 , pkp2
+  S15 + S210 + kp2 -> S243 + kp2 , pkp2
+  S15 + S212 + kp2 -> S266 + kp2 , pkp2
+  S15 + S215 + kp2 -> S270 + kp2 , pkp2
+  S15 + S216 + kp2 -> S271 + kp2 , pkp2
+  S15 + S248 + kp2 -> S254 + kp2 , pkp2
+  S26 + S209 + kp2 -> S238 + kp2 , pkp2
+  S26 + S210 + kp2 -> S245 + kp2 , pkp2
+  S26 + S212 + kp2 -> S268 + kp2 , pkp2
+  S26 + S215 + kp2 -> S272 + kp2 , pkp2
+  S26 + S216 + kp2 -> S312 + kp2 , pkp2
+  S26 + S248 + kp2 -> S252 + kp2 , pkp2
+  S28 + S209 + kp2 -> S244 + kp2 , pkp2
+  S28 + S210 + kp2 -> S246 + kp2 , pkp2
+  S28 + S212 + kp2 -> S269 + kp2 , pkp2
+  S28 + S215 + kp2 -> S313 + kp2 , pkp2
+  S28 + S216 + kp2 -> S314 + kp2 , pkp2
+  S28 + S248 + kp2 -> S255 + kp2 , pkp2
+  S30 + S209 + kp2 -> S240 + kp2 , pkp2
+  S30 + S210 + kp2 -> S247 + kp2 , pkp2
+  S30 + S212 + kp2 -> S315 + kp2 , pkp2
+  S30 + S215 + kp2 -> S316 + kp2 , pkp2
+  S30 + S216 + kp2 -> S317 + kp2 , pkp2
+  S30 + S248 + kp2 -> S257 + kp2 , pkp2
+  S32 + S209 + kp2 -> S176 + kp2 , pkp2
+  S32 + S210 + kp2 -> S179 + kp2 , pkp2
+  S32 + S212 + kp2 -> S181 + kp2 , pkp2
+  S32 + S215 + kp2 -> S193 + kp2 , pkp2
+  S32 + S216 + kp2 -> S195 + kp2 , pkp2
+  S32 + S248 + kp2 -> S226 + kp2 , pkp2
+  S60 + S209 + kp2 -> S183 + kp2 , pkp2
+  S60 + S210 + kp2 -> S184 + kp2 , pkp2
+  S60 + S212 + kp2 -> S186 + kp2 , pkp2
+  S60 + S215 + kp2 -> S197 + kp2 , pkp2
+  S60 + S216 + kp2 -> S224 + kp2 , pkp2
+  S60 + S248 + kp2 -> S227 + kp2 , pkp2
+  S62 + S209 + kp2 -> S185 + kp2 , pkp2
+  S62 + S210 + kp2 -> S188 + kp2 , pkp2
+  S62 + S212 + kp2 -> S189 + kp2 , pkp2
+  S62 + S215 + kp2 -> S219 + kp2 , pkp2
+  S62 + S216 + kp2 -> S275 + kp2 , pkp2
+  S62 + S248 + kp2 -> S230 + kp2 , pkp2
+  S64 + S209 + kp2 -> S251 + kp2 , pkp2
+  S64 + S210 + kp2 -> S256 + kp2 , pkp2
+  S64 + S212 + kp2 -> S318 + kp2 , pkp2
+  S64 + S215 + kp2 -> S319 + kp2 , pkp2
+  S64 + S216 + kp2 -> S320 + kp2 , pkp2
+  S64 + S248 + kp2 -> S258 + kp2 , pkp2
+  S66 + S209 + kp2 -> S187 + kp2 , pkp2
+  S66 + S210 + kp2 -> S190 + kp2 , pkp2
+  S66 + S212 + kp2 -> S191 + kp2 , pkp2
+  S66 + S215 + kp2 -> S222 + kp2 , pkp2
+  S66 + S216 + kp2 -> S277 + kp2 , pkp2
+  S66 + S248 + kp2 -> S232 + kp2 , pkp2
+  S110 + S209 + kp2 -> S196 + kp2 , pkp2
+  S110 + S210 + kp2 -> S220 + kp2 , pkp2
+  S110 + S212 + kp2 -> S221 + kp2 , pkp2
+  S110 + S215 + kp2 -> S273 + kp2 , pkp2
+  S110 + S216 + kp2 -> S281 + kp2 , pkp2
+  S110 + S248 + kp2 -> S260 + kp2 , pkp2
+  S112 + S209 + kp2 -> S223 + kp2 , pkp2
+  S112 + S210 + kp2 -> S259 + kp2 , pkp2
+  S112 + S212 + kp2 -> S278 + kp2 , pkp2
+  S112 + S215 + kp2 -> S282 + kp2 , pkp2
+  S112 + S216 + kp2 -> S286 + kp2 , pkp2
+  S112 + S248 + kp2 -> S263 + kp2 , pkp2
+  S114 + S209 + kp2 -> S228 + kp2 , pkp2
+  S114 + S210 + kp2 -> S229 + kp2 , pkp2
+  S114 + S212 + kp2 -> S231 + kp2 , pkp2
+  S114 + S215 + kp2 -> S283 + kp2 , pkp2
+  S114 + S216 + kp2 -> S287 + kp2 , pkp2
+  S114 + S248 + kp2 -> S264 + kp2 , pkp2
+  S133 + S209 + kp2 -> S261 + kp2 , pkp2
+  S133 + S210 + kp2 -> S262 + kp2 , pkp2
+  S133 + S212 + kp2 -> S280 + kp2 , pkp2
+  S133 + S215 + kp2 -> S285 + kp2 , pkp2
+  S133 + S216 + kp2 -> S289 + kp2 , pkp2
+  S133 + S248 + kp2 -> S265 + kp2 , pkp2
+  S174 + S209 + kp2 -> S225 + kp2 , pkp2
+  S174 + S210 + kp2 -> S292 + kp2 , pkp2
+  S174 + S212 + kp2 -> S293 + kp2 , pkp2
+  S174 + S215 + kp2 -> S300 + kp2 , pkp2
+  S174 + S216 + kp2 -> S301 + kp2 , pkp2
+  S174 + S248 + kp2 -> S321 + kp2 , pkp2
+  S4 + S208 + kp2 -> S236 + kp2 , pkp2
+  S6 + S208 + kp2 -> S234 + kp2 , pkp2
+  S12 + S208 + kp2 -> S241 + kp2 , pkp2
+  S14 + S208 + kp2 -> S218 + kp2 , pkp2
+  S25 + S208 + kp2 -> S238 + kp2 , pkp2
+  S27 + S208 + kp2 -> S244 + kp2 , pkp2
+  S29 + S208 + kp2 -> S240 + kp2 , pkp2
+  S31 + S208 + kp2 -> S176 + kp2 , pkp2
+  S59 + S208 + kp2 -> S183 + kp2 , pkp2
+  S61 + S208 + kp2 -> S185 + kp2 , pkp2
+  S63 + S208 + kp2 -> S251 + kp2 , pkp2
+  S65 + S208 + kp2 -> S187 + kp2 , pkp2
+  S109 + S208 + kp2 -> S196 + kp2 , pkp2
+  S111 + S208 + kp2 -> S223 + kp2 , pkp2
+  S113 + S208 + kp2 -> S228 + kp2 , pkp2
+  S132 + S208 + kp2 -> S261 + kp2 , pkp2
+  S173 + S208 + kp2 -> S225 + kp2 , pkp2
+  S208 + S209 + kp2 -> S294 + kp2 , pkp2
+  S208 + S210 + kp2 -> S295 + kp2 , pkp2
+  S208 + S212 + kp2 -> S296 + kp2 , pkp2
+  S208 + S215 + kp2 -> S302 + kp2 , pkp2
+  S208 + S216 + kp2 -> S322 + kp2 , pkp2
+  S208 + S248 + kp2 -> S323 + kp2 , pkp2
+  S4 + S211 + kp2 -> S237 + kp2 , pkp2
+  S6 + S211 + kp2 -> S235 + kp2 , pkp2
+  S12 + S211 + kp2 -> S242 + kp2 , pkp2
+  S14 + S211 + kp2 -> S243 + kp2 , pkp2
+  S25 + S211 + kp2 -> S245 + kp2 , pkp2
+  S27 + S211 + kp2 -> S246 + kp2 , pkp2
+  S29 + S211 + kp2 -> S247 + kp2 , pkp2
+  S31 + S211 + kp2 -> S179 + kp2 , pkp2
+  S59 + S211 + kp2 -> S184 + kp2 , pkp2
+  S61 + S211 + kp2 -> S188 + kp2 , pkp2
+  S63 + S211 + kp2 -> S256 + kp2 , pkp2
+  S65 + S211 + kp2 -> S190 + kp2 , pkp2
+  S109 + S211 + kp2 -> S220 + kp2 , pkp2
+  S111 + S211 + kp2 -> S259 + kp2 , pkp2
+  S113 + S211 + kp2 -> S229 + kp2 , pkp2
+  S132 + S211 + kp2 -> S262 + kp2 , pkp2
+  S173 + S211 + kp2 -> S292 + kp2 , pkp2
+  S209 + S211 + kp2 -> S295 + kp2 , pkp2
+  S210 + S211 + kp2 -> S297 + kp2 , pkp2
+  S211 + S212 + kp2 -> S298 + kp2 , pkp2
+  S211 + S215 + kp2 -> S324 + kp2 , pkp2
+  S211 + S216 + kp2 -> S325 + kp2 , pkp2
+  S211 + S248 + kp2 -> S326 + kp2 , pkp2
+  S4 + S213 + kp2 -> S303 + kp2 , pkp2
+  S6 + S213 + kp2 -> S306 + kp2 , pkp2
+  S12 + S213 + kp2 -> S309 + kp2 , pkp2
+  S14 + S213 + kp2 -> S266 + kp2 , pkp2
+  S25 + S213 + kp2 -> S268 + kp2 , pkp2
+  S27 + S213 + kp2 -> S269 + kp2 , pkp2
+  S29 + S213 + kp2 -> S315 + kp2 , pkp2
+  S31 + S213 + kp2 -> S181 + kp2 , pkp2
+  S59 + S213 + kp2 -> S186 + kp2 , pkp2
+  S61 + S213 + kp2 -> S189 + kp2 , pkp2
+  S63 + S213 + kp2 -> S318 + kp2 , pkp2
+  S65 + S213 + kp2 -> S191 + kp2 , pkp2
+  S109 + S213 + kp2 -> S221 + kp2 , pkp2
+  S111 + S213 + kp2 -> S278 + kp2 , pkp2
+  S113 + S213 + kp2 -> S231 + kp2 , pkp2
+  S132 + S213 + kp2 -> S280 + kp2 , pkp2
+  S173 + S213 + kp2 -> S293 + kp2 , pkp2
+  S209 + S213 + kp2 -> S296 + kp2 , pkp2
+  S210 + S213 + kp2 -> S298 + kp2 , pkp2
+  S212 + S213 + kp2 -> S299 + kp2 , pkp2
+  S213 + S215 + kp2 -> S327 + kp2 , pkp2
+  S213 + S216 + kp2 -> S328 + kp2 , pkp2
+  S213 + S248 + kp2 -> S329 + kp2 , pkp2
+  S4 + S214 + kp2 -> S304 + kp2 , pkp2
+  S6 + S214 + kp2 -> S307 + kp2 , pkp2
+  S12 + S214 + kp2 -> S310 + kp2 , pkp2
+  S14 + S214 + kp2 -> S270 + kp2 , pkp2
+  S25 + S214 + kp2 -> S272 + kp2 , pkp2
+  S27 + S214 + kp2 -> S313 + kp2 , pkp2
+  S29 + S214 + kp2 -> S316 + kp2 , pkp2
+  S31 + S214 + kp2 -> S193 + kp2 , pkp2
+  S59 + S214 + kp2 -> S197 + kp2 , pkp2
+  S61 + S214 + kp2 -> S219 + kp2 , pkp2
+  S63 + S214 + kp2 -> S319 + kp2 , pkp2
+  S65 + S214 + kp2 -> S222 + kp2 , pkp2
+  S109 + S214 + kp2 -> S273 + kp2 , pkp2
+  S111 + S214 + kp2 -> S282 + kp2 , pkp2
+  S113 + S214 + kp2 -> S283 + kp2 , pkp2
+  S132 + S214 + kp2 -> S285 + kp2 , pkp2
+  S173 + S214 + kp2 -> S300 + kp2 , pkp2
+  S209 + S214 + kp2 -> S302 + kp2 , pkp2
+  S210 + S214 + kp2 -> S324 + kp2 , pkp2
+  S212 + S214 + kp2 -> S327 + kp2 , pkp2
+  S214 + S215 + kp2 -> S330 + kp2 , pkp2
+  S214 + S216 + kp2 -> S331 + kp2 , pkp2
+  S214 + S248 + kp2 -> S332 + kp2 , pkp2
+  S4 + S217 + kp2 -> S305 + kp2 , pkp2
+  S6 + S217 + kp2 -> S308 + kp2 , pkp2
+  S12 + S217 + kp2 -> S311 + kp2 , pkp2
+  S14 + S217 + kp2 -> S271 + kp2 , pkp2
+  S25 + S217 + kp2 -> S312 + kp2 , pkp2
+  S27 + S217 + kp2 -> S314 + kp2 , pkp2
+  S29 + S217 + kp2 -> S317 + kp2 , pkp2
+  S31 + S217 + kp2 -> S195 + kp2 , pkp2
+  S59 + S217 + kp2 -> S224 + kp2 , pkp2
+  S61 + S217 + kp2 -> S275 + kp2 , pkp2
+  S63 + S217 + kp2 -> S320 + kp2 , pkp2
+  S65 + S217 + kp2 -> S277 + kp2 , pkp2
+  S109 + S217 + kp2 -> S281 + kp2 , pkp2
+  S111 + S217 + kp2 -> S286 + kp2 , pkp2
+  S113 + S217 + kp2 -> S287 + kp2 , pkp2
+  S132 + S217 + kp2 -> S289 + kp2 , pkp2
+  S173 + S217 + kp2 -> S301 + kp2 , pkp2
+  S209 + S217 + kp2 -> S322 + kp2 , pkp2
+  S210 + S217 + kp2 -> S325 + kp2 , pkp2
+  S212 + S217 + kp2 -> S328 + kp2 , pkp2
+  S215 + S217 + kp2 -> S331 + kp2 , pkp2
+  S216 + S217 + kp2 -> S333 + kp2 , pkp2
+  S217 + S248 + kp2 -> S334 + kp2 , pkp2
+  S4 + S249 + kp2 -> S250 + kp2 , pkp2
+  S6 + S249 + kp2 -> S239 + kp2 , pkp2
+  S12 + S249 + kp2 -> S253 + kp2 , pkp2
+  S14 + S249 + kp2 -> S254 + kp2 , pkp2
+  S25 + S249 + kp2 -> S252 + kp2 , pkp2
+  S27 + S249 + kp2 -> S255 + kp2 , pkp2
+  S29 + S249 + kp2 -> S257 + kp2 , pkp2
+  S31 + S249 + kp2 -> S226 + kp2 , pkp2
+  S59 + S249 + kp2 -> S227 + kp2 , pkp2
+  S61 + S249 + kp2 -> S230 + kp2 , pkp2
+  S63 + S249 + kp2 -> S258 + kp2 , pkp2
+  S65 + S249 + kp2 -> S232 + kp2 , pkp2
+  S109 + S249 + kp2 -> S260 + kp2 , pkp2
+  S111 + S249 + kp2 -> S263 + kp2 , pkp2
+  S113 + S249 + kp2 -> S264 + kp2 , pkp2
+  S132 + S249 + kp2 -> S265 + kp2 , pkp2
+  S173 + S249 + kp2 -> S321 + kp2 , pkp2
+  S209 + S249 + kp2 -> S323 + kp2 , pkp2
+  S210 + S249 + kp2 -> S326 + kp2 , pkp2
+  S212 + S249 + kp2 -> S329 + kp2 , pkp2
+  S215 + S249 + kp2 -> S332 + kp2 , pkp2
+  S216 + S249 + kp2 -> S334 + kp2 , pkp2
+  S248 + S249 + kp2 -> S335 + kp2 , pkp2
+  S199 + km2 -> S3 + S173 + km2 , pkm2
+  S199 + km2 -> S4 + S174 + km2 , pkm2
+  S200 + km2 -> S5 + S173 + km2 , pkm2
+  S200 + km2 -> S6 + S174 + km2 , pkm2
+  S201 + km2 -> S12 + S174 + km2 , pkm2
+  S201 + km2 -> S13 + S173 + km2 , pkm2
+  S202 + km2 -> S26 + S173 + km2 , pkm2
+  S202 + km2 -> S25 + S174 + km2 , pkm2
+  S203 + km2 -> S27 + S174 + km2 , pkm2
+  S203 + km2 -> S28 + S173 + km2 , pkm2
+  S204 + km2 -> S29 + S174 + km2 , pkm2
+  S204 + km2 -> S30 + S173 + km2 , pkm2
+  S205 + km2 -> S63 + S174 + km2 , pkm2
+  S205 + km2 -> S64 + S173 + km2 , pkm2
+  S206 + km2 -> S113 + S174 + km2 , pkm2
+  S206 + km2 -> S114 + S173 + km2 , pkm2
+  S207 + km2 -> S132 + S174 + km2 , pkm2
+  S207 + km2 -> S133 + S173 + km2 , pkm2
+  S218 + km2 -> S14 + S208 + km2 , pkm2
+  S218 + km2 -> S15 + S209 + km2 , pkm2
+  S219 + km2 -> S61 + S214 + km2 , pkm2
+  S219 + km2 -> S62 + S215 + km2 , pkm2
+  S220 + km2 -> S110 + S210 + km2 , pkm2
+  S220 + km2 -> S109 + S211 + km2 , pkm2
+  S221 + km2 -> S110 + S212 + km2 , pkm2
+  S221 + km2 -> S109 + S213 + km2 , pkm2
+  S222 + km2 -> S65 + S214 + km2 , pkm2
+  S222 + km2 -> S66 + S215 + km2 , pkm2
+  S223 + km2 -> S111 + S208 + km2 , pkm2
+  S223 + km2 -> S112 + S209 + km2 , pkm2
+  S224 + km2 -> S60 + S216 + km2 , pkm2
+  S224 + km2 -> S59 + S217 + km2 , pkm2
+  S225 + km2 -> S173 + S208 + km2 , pkm2
+  S225 + km2 -> S174 + S209 + km2 , pkm2
+  S226 + km2 -> S32 + S248 + km2 , pkm2
+  S226 + km2 -> S31 + S249 + km2 , pkm2
+  S227 + km2 -> S60 + S248 + km2 , pkm2
+  S227 + km2 -> S59 + S249 + km2 , pkm2
+  S228 + km2 -> S113 + S208 + km2 , pkm2
+  S228 + km2 -> S114 + S209 + km2 , pkm2
+  S229 + km2 -> S114 + S210 + km2 , pkm2
+  S229 + km2 -> S113 + S211 + km2 , pkm2
+  S230 + km2 -> S61 + S249 + km2 , pkm2
+  S230 + km2 -> S62 + S248 + km2 , pkm2
+  S231 + km2 -> S113 + S213 + km2 , pkm2
+  S231 + km2 -> S114 + S212 + km2 , pkm2
+  S232 + km2 -> S66 + S248 + km2 , pkm2
+  S232 + km2 -> S65 + S249 + km2 , pkm2
+  S233 + km2 -> S32 + S336 + km2 , pkm2
+  S233 + km2 -> S31 + S337 + km2 , pkm2
+  S234 + km2 -> S5 + S209 + km2 , pkm2
+  S234 + km2 -> S6 + S208 + km2 , pkm2
+  S235 + km2 -> S5 + S210 + km2 , pkm2
+  S235 + km2 -> S6 + S211 + km2 , pkm2
+  S236 + km2 -> S4 + S208 + km2 , pkm2
+  S236 + km2 -> S3 + S209 + km2 , pkm2
+  S237 + km2 -> S3 + S210 + km2 , pkm2
+  S237 + km2 -> S4 + S211 + km2 , pkm2
+  S238 + km2 -> S25 + S208 + km2 , pkm2
+  S238 + km2 -> S26 + S209 + km2 , pkm2
+  S239 + km2 -> S5 + S248 + km2 , pkm2
+  S239 + km2 -> S6 + S249 + km2 , pkm2
+  S240 + km2 -> S29 + S208 + km2 , pkm2
+  S240 + km2 -> S30 + S209 + km2 , pkm2
+  S241 + km2 -> S12 + S208 + km2 , pkm2
+  S241 + km2 -> S13 + S209 + km2 , pkm2
+  S242 + km2 -> S13 + S210 + km2 , pkm2
+  S242 + km2 -> S12 + S211 + km2 , pkm2
+  S243 + km2 -> S15 + S210 + km2 , pkm2
+  S243 + km2 -> S14 + S211 + km2 , pkm2
+  S244 + km2 -> S27 + S208 + km2 , pkm2
+  S244 + km2 -> S28 + S209 + km2 , pkm2
+  S245 + km2 -> S26 + S210 + km2 , pkm2
+  S245 + km2 -> S25 + S211 + km2 , pkm2
+  S246 + km2 -> S27 + S211 + km2 , pkm2
+  S246 + km2 -> S28 + S210 + km2 , pkm2
+  S247 + km2 -> S30 + S210 + km2 , pkm2
+  S247 + km2 -> S29 + S211 + km2 , pkm2
+  S250 + km2 -> S3 + S248 + km2 , pkm2
+  S250 + km2 -> S4 + S249 + km2 , pkm2
+  S251 + km2 -> S63 + S208 + km2 , pkm2
+  S251 + km2 -> S64 + S209 + km2 , pkm2
+  S252 + km2 -> S26 + S248 + km2 , pkm2
+  S252 + km2 -> S25 + S249 + km2 , pkm2
+  S253 + km2 -> S12 + S249 + km2 , pkm2
+  S253 + km2 -> S13 + S248 + km2 , pkm2
+  S254 + km2 -> S15 + S248 + km2 , pkm2
+  S254 + km2 -> S14 + S249 + km2 , pkm2
+  S255 + km2 -> S27 + S249 + km2 , pkm2
+  S255 + km2 -> S28 + S248 + km2 , pkm2
+  S256 + km2 -> S64 + S210 + km2 , pkm2
+  S256 + km2 -> S63 + S211 + km2 , pkm2
+  S257 + km2 -> S30 + S248 + km2 , pkm2
+  S257 + km2 -> S29 + S249 + km2 , pkm2
+  S258 + km2 -> S63 + S249 + km2 , pkm2
+  S258 + km2 -> S64 + S248 + km2 , pkm2
+  S259 + km2 -> S112 + S210 + km2 , pkm2
+  S259 + km2 -> S111 + S211 + km2 , pkm2
+  S260 + km2 -> S110 + S248 + km2 , pkm2
+  S260 + km2 -> S109 + S249 + km2 , pkm2
+  S261 + km2 -> S132 + S208 + km2 , pkm2
+  S261 + km2 -> S133 + S209 + km2 , pkm2
+  S262 + km2 -> S133 + S210 + km2 , pkm2
+  S262 + km2 -> S132 + S211 + km2 , pkm2
+  S263 + km2 -> S111 + S249 + km2 , pkm2
+  S263 + km2 -> S112 + S248 + km2 , pkm2
+  S264 + km2 -> S114 + S248 + km2 , pkm2
+  S264 + km2 -> S113 + S249 + km2 , pkm2
+  S265 + km2 -> S133 + S248 + km2 , pkm2
+  S265 + km2 -> S132 + S249 + km2 , pkm2
+  S266 + km2 -> S14 + S213 + km2 , pkm2
+  S266 + km2 -> S15 + S212 + km2 , pkm2
+  S268 + km2 -> S26 + S212 + km2 , pkm2
+  S268 + km2 -> S25 + S213 + km2 , pkm2
+  S269 + km2 -> S27 + S213 + km2 , pkm2
+  S269 + km2 -> S28 + S212 + km2 , pkm2
+  S270 + km2 -> S14 + S214 + km2 , pkm2
+  S270 + km2 -> S15 + S215 + km2 , pkm2
+  S271 + km2 -> S15 + S216 + km2 , pkm2
+  S271 + km2 -> S14 + S217 + km2 , pkm2
+  S272 + km2 -> S25 + S214 + km2 , pkm2
+  S272 + km2 -> S26 + S215 + km2 , pkm2
+  S273 + km2 -> S109 + S214 + km2 , pkm2
+  S273 + km2 -> S110 + S215 + km2 , pkm2
+  S274 + km2 -> S60 + S336 + km2 , pkm2
+  S274 + km2 -> S59 + S337 + km2 , pkm2
+  S275 + km2 -> S62 + S216 + km2 , pkm2
+  S275 + km2 -> S61 + S217 + km2 , pkm2
+  S276 + km2 -> S61 + S337 + km2 , pkm2
+  S276 + km2 -> S62 + S336 + km2 , pkm2
+  S277 + km2 -> S66 + S216 + km2 , pkm2
+  S277 + km2 -> S65 + S217 + km2 , pkm2
+  S278 + km2 -> S111 + S213 + km2 , pkm2
+  S278 + km2 -> S112 + S212 + km2 , pkm2
+  S279 + km2 -> S66 + S336 + km2 , pkm2
+  S279 + km2 -> S65 + S337 + km2 , pkm2
+  S280 + km2 -> S132 + S213 + km2 , pkm2
+  S280 + km2 -> S133 + S212 + km2 , pkm2
+  S281 + km2 -> S110 + S216 + km2 , pkm2
+  S281 + km2 -> S109 + S217 + km2 , pkm2
+  S282 + km2 -> S111 + S214 + km2 , pkm2
+  S282 + km2 -> S112 + S215 + km2 , pkm2
+  S283 + km2 -> S113 + S214 + km2 , pkm2
+  S283 + km2 -> S114 + S215 + km2 , pkm2
+  S284 + km2 -> S110 + S336 + km2 , pkm2
+  S284 + km2 -> S109 + S337 + km2 , pkm2
+  S285 + km2 -> S132 + S214 + km2 , pkm2
+  S285 + km2 -> S133 + S215 + km2 , pkm2
+  S286 + km2 -> S112 + S216 + km2 , pkm2
+  S286 + km2 -> S111 + S217 + km2 , pkm2
+  S287 + km2 -> S114 + S216 + km2 , pkm2
+  S287 + km2 -> S113 + S217 + km2 , pkm2
+  S288 + km2 -> S111 + S337 + km2 , pkm2
+  S288 + km2 -> S112 + S336 + km2 , pkm2
+  S289 + km2 -> S133 + S216 + km2 , pkm2
+  S289 + km2 -> S132 + S217 + km2 , pkm2
+  S290 + km2 -> S114 + S336 + km2 , pkm2
+  S290 + km2 -> S113 + S337 + km2 , pkm2
+  S291 + km2 -> S133 + S336 + km2 , pkm2
+  S291 + km2 -> S132 + S337 + km2 , pkm2
+  S292 + km2 -> S174 + S210 + km2 , pkm2
+  S292 + km2 -> S173 + S211 + km2 , pkm2
+  S293 + km2 -> S174 + S212 + km2 , pkm2
+  S293 + km2 -> S173 + S213 + km2 , pkm2
+  S294 + km2 -> S208 + S209 + km2 , p2.0 * km2
+  S295 + km2 -> S208 + S210 + km2 , pkm2
+  S295 + km2 -> S209 + S211 + km2 , pkm2
+  S296 + km2 -> S208 + S212 + km2 , pkm2
+  S296 + km2 -> S209 + S213 + km2 , pkm2
+  S297 + km2 -> S210 + S211 + km2 , p2.0 * km2
+  S298 + km2 -> S210 + S213 + km2 , pkm2
+  S298 + km2 -> S211 + S212 + km2 , pkm2
+  S299 + km2 -> S212 + S213 + km2 , p2.0 * km2
+  S300 + km2 -> S173 + S214 + km2 , pkm2
+  S300 + km2 -> S174 + S215 + km2 , pkm2
+  S301 + km2 -> S174 + S216 + km2 , pkm2
+  S301 + km2 -> S173 + S217 + km2 , pkm2
+  S302 + km2 -> S208 + S215 + km2 , pkm2
+  S302 + km2 -> S209 + S214 + km2 , pkm2
+  S1 + S199 + kpL -> S200 + kpL , pkpL
+  S1 + S199 + kpL -> S236 + kpL , pkpL
+  S1 + S200 + kpL -> S234 + kpL , pkpL
+  S1 + S201 + kpL -> S241 + kpL , pkpL
+  S1 + S202 + kpL -> S238 + kpL , pkpL
+  S1 + S203 + kpL -> S244 + kpL , pkpL
+  S1 + S204 + kpL -> S240 + kpL , pkpL
+  S1 + S205 + kpL -> S251 + kpL , pkpL
+  S1 + S206 + kpL -> S228 + kpL , pkpL
+  S1 + S207 + kpL -> S261 + kpL , pkpL
+  S1 + S212 + kpL -> S215 + kpL , pkpL
+  S1 + S213 + kpL -> S214 + kpL , pkpL
+  S1 + S218 + kpL -> S238 + kpL , pkpL
+  S1 + S221 + kpL -> S273 + kpL , pkpL
+  S1 + S222 + kpL -> S273 + kpL , pkpL
+  S1 + S225 + kpL -> S294 + kpL , pkpL
+  S1 + S226 + kpL -> S227 + kpL , pkpL
+  S1 + S231 + kpL -> S283 + kpL , pkpL
+  S1 + S232 + kpL -> S260 + kpL , pkpL
+  S1 + S233 + kpL -> S274 + kpL , pkpL
+  S1 + S236 + kpL -> S234 + kpL , pkpL
+  S1 + S237 + kpL -> S235 + kpL , pkpL
+  S1 + S243 + kpL -> S245 + kpL , pkpL
+  S1 + S250 + kpL -> S239 + kpL , pkpL
+  S1 + S254 + kpL -> S252 + kpL , pkpL
+  S1 + S266 + kpL -> S270 + kpL , pkpL
+  S1 + S266 + kpL -> S268 + kpL , pkpL
+  S1 + S268 + kpL -> S272 + kpL , pkpL
+  S1 + S269 + kpL -> S313 + kpL , pkpL
+  S1 + S270 + kpL -> S272 + kpL , pkpL
+  S1 + S271 + kpL -> S312 + kpL , pkpL
+  S1 + S277 + kpL -> S281 + kpL , pkpL
+  S1 + S278 + kpL -> S282 + kpL , pkpL
+  S1 + S279 + kpL -> S284 + kpL , pkpL
+  S1 + S280 + kpL -> S285 + kpL , pkpL
+  S1 + S292 + kpL -> S295 + kpL , pkpL
+  S1 + S293 + kpL -> S296 + kpL , pkpL
+  S1 + S293 + kpL -> S300 + kpL , pkpL
+  S1 + S296 + kpL -> S302 + kpL , pkpL
+  S1 + S298 + kpL -> S324 + kpL , pkpL
+  S1 + S299 + kpL -> S327 + kpL , p2.0 * kpL
+  S1 + S300 + kpL -> S302 + kpL , pkpL
+  S1 + S301 + kpL -> S322 + kpL , pkpL
+  S200 + kmL -> S1 + S199 + kmL , pkmL
+  S202 + kmL -> S1 + S177 + kmL , pkmL
+  S208 + kmL -> S1 + S174 + kmL , pkmL
+  S209 + kmL -> S1 + S173 + kmL , pkmL
+  S214 + kmL -> S1 + S213 + kmL , pkmL
+  S215 + kmL -> S1 + S212 + kmL , pkmL
+  S218 + kmL -> S1 + S177 + kmL , pkmL
+  S219 + kmL -> S1 + S189 + kmL , pkmL
+  S220 + kmL -> S1 + S190 + kmL , pkmL
+  S221 + kmL -> S1 + S191 + kmL , pkmL
+  S222 + kmL -> S1 + S191 + kmL , pkmL
+  S223 + kmL -> S1 + S194 + kmL , pkmL
+  S224 + kmL -> S1 + S195 + kmL , pkmL
+  S225 + kmL -> S1 + S198 + kmL , pkmL
+  S227 + kmL -> S1 + S226 + kmL , pkmL
+  S228 + kmL -> S1 + S206 + kmL , pkmL
+  S234 + kmL -> S1 + S236 + kmL , pkmL
+  S234 + kmL -> S1 + S200 + kmL , pkmL
+  S235 + kmL -> S1 + S237 + kmL , pkmL
+  S236 + kmL -> S1 + S199 + kmL , pkmL
+  S238 + kmL -> S1 + S202 + kmL , pkmL
+  S238 + kmL -> S1 + S218 + kmL , pkmL
+  S239 + kmL -> S1 + S250 + kmL , pkmL
+  S240 + kmL -> S1 + S204 + kmL , pkmL
+  S241 + kmL -> S1 + S201 + kmL , pkmL
+  S244 + kmL -> S1 + S203 + kmL , pkmL
+  S245 + kmL -> S1 + S243 + kmL , pkmL
+  S251 + kmL -> S1 + S205 + kmL , pkmL
+  S252 + kmL -> S1 + S254 + kmL , pkmL
+  S260 + kmL -> S1 + S232 + kmL , pkmL
+  S261 + kmL -> S1 + S207 + kmL , pkmL
+  S268 + kmL -> S1 + S266 + kmL , pkmL
+  S270 + kmL -> S1 + S266 + kmL , pkmL
+  S272 + kmL -> S1 + S268 + kmL , pkmL
+  S272 + kmL -> S1 + S270 + kmL , pkmL
+  S273 + kmL -> S1 + S221 + kmL , pkmL
+  S273 + kmL -> S1 + S222 + kmL , pkmL
+  S274 + kmL -> S1 + S233 + kmL , pkmL
+  S281 + kmL -> S1 + S277 + kmL , pkmL
+  S282 + kmL -> S1 + S278 + kmL , pkmL
+  S283 + kmL -> S1 + S231 + kmL , pkmL
+  S284 + kmL -> S1 + S279 + kmL , pkmL
+  S285 + kmL -> S1 + S280 + kmL , pkmL
+  S294 + kmL -> S1 + S225 + kmL , p2.0 * kmL
+  S295 + kmL -> S1 + S292 + kmL , pkmL
+  S296 + kmL -> S1 + S293 + kmL , pkmL
+  S300 + kmL -> S1 + S293 + kmL , pkmL
+  S302 + kmL -> S1 + S300 + kmL , pkmL
+  S302 + kmL -> S1 + S296 + kmL , pkmL
+  S200 + pLb -> S235 + pLb , ppLb
+  S202 + pLb -> S245 + pLb , ppLb
+  S218 + pLb -> S244 + pLb , ppLb
+  S221 + pLb -> S281 + pLb , ppLb
+  S222 + pLb -> S282 + pLb , ppLb
+  S225 + pLb -> S295 + pLb , ppLb
+  S236 + pLb -> S241 + pLb , ppLb
+  S268 + pLb -> S312 + pLb , ppLb
+  S270 + pLb -> S313 + pLb , ppLb
+  S296 + pLb -> S322 + pLb , ppLb
+  S300 + pLb -> S324 + pLb , ppLb
+  S234 + pLg -> S238 + pLg , ppLg
+  S236 + pLg -> S218 + pLg , ppLg
+  S240 + pLg -> S251 + pLg , ppLg
+  S241 + pLg -> S244 + pLg , ppLg
+  S1 + S201 + kpLs -> S204 + kpLs , pkpLs
+  S1 + S203 + kpLs -> S205 + kpLs , pkpLs
+  S1 + S210 + kpLs -> S248 + kpLs , pkpLs
+  S1 + S211 + kpLs -> S249 + kpLs , pkpLs
+  S1 + S216 + kpLs -> S336 + kpLs , pkpLs
+  S1 + S217 + kpLs -> S337 + kpLs , pkpLs
+  S1 + S219 + kpLs -> S283 + kpLs , pkpLs
+  S1 + S220 + kpLs -> S260 + kpLs , pkpLs
+  S1 + S223 + kpLs -> S261 + kpLs , pkpLs
+  S1 + S224 + kpLs -> S274 + kpLs , pkpLs
+  S1 + S229 + kpLs -> S264 + kpLs , pkpLs
+  S1 + S230 + kpLs -> S264 + kpLs , pkpLs
+  S1 + S235 + kpLs -> S239 + kpLs , pkpLs
+  S1 + S237 + kpLs -> S250 + kpLs , pkpLs
+  S1 + S241 + kpLs -> S240 + kpLs , pkpLs
+  S1 + S242 + kpLs -> S247 + kpLs , pkpLs
+  S1 + S242 + kpLs -> S253 + kpLs , pkpLs
+  S1 + S243 + kpLs -> S254 + kpLs , pkpLs
+  S1 + S244 + kpLs -> S251 + kpLs , pkpLs
+  S1 + S245 + kpLs -> S252 + kpLs , pkpLs
+  S1 + S246 + kpLs -> S255 + kpLs , pkpLs
+  S1 + S246 + kpLs -> S256 + kpLs , pkpLs
+  S1 + S247 + kpLs -> S257 + kpLs , pkpLs
+  S1 + S253 + kpLs -> S257 + kpLs , pkpLs
+  S1 + S255 + kpLs -> S258 + kpLs , pkpLs
+  S1 + S256 + kpLs -> S258 + kpLs , pkpLs
+  S1 + S259 + kpLs -> S262 + kpLs , pkpLs
+  S1 + S259 + kpLs -> S263 + kpLs , pkpLs
+  S1 + S262 + kpLs -> S265 + kpLs , pkpLs
+  S1 + S263 + kpLs -> S265 + kpLs , pkpLs
+  S1 + S269 + kpLs -> S318 + kpLs , pkpLs
+  S1 + S271 + kpLs -> S338 + kpLs , pkpLs
+  S1 + S275 + kpLs -> S287 + kpLs , pkpLs
+  S1 + S275 + kpLs -> S276 + kpLs , pkpLs
+  S1 + S276 + kpLs -> S290 + kpLs , pkpLs
+  S1 + S277 + kpLs -> S279 + kpLs , pkpLs
+  S1 + S278 + kpLs -> S280 + kpLs , pkpLs
+  S1 + S281 + kpLs -> S284 + kpLs , pkpLs
+  S1 + S282 + kpLs -> S285 + kpLs , pkpLs
+  S1 + S286 + kpLs -> S289 + kpLs , pkpLs
+  S1 + S286 + kpLs -> S288 + kpLs , pkpLs
+  S1 + S287 + kpLs -> S290 + kpLs , pkpLs
+  S1 + S288 + kpLs -> S291 + kpLs , pkpLs
+  S1 + S289 + kpLs -> S291 + kpLs , pkpLs
+  S1 + S292 + kpLs -> S321 + kpLs , pkpLs
+  S1 + S295 + kpLs -> S323 + kpLs , pkpLs
+  S1 + S297 + kpLs -> S326 + kpLs , p2.0 * kpLs
+  S1 + S298 + kpLs -> S329 + kpLs , pkpLs
+  S1 + S301 + kpLs -> S339 + kpLs , pkpLs
+  S204 + kmLs -> S1 + S201 + kmLs , pkmLs
+  S205 + kmLs -> S1 + S203 + kmLs , pkmLs
+  S206 + kmLs -> S1 + S180 + kmLs , pkmLs
+  S207 + kmLs -> S1 + S194 + kmLs , pkmLs
+  S226 + kmLs -> S1 + S179 + kmLs , pkmLs
+  S227 + kmLs -> S1 + S184 + kmLs , pkmLs
+  S228 + kmLs -> S1 + S185 + kmLs , pkmLs
+  S229 + kmLs -> S1 + S188 + kmLs , pkmLs
+  S230 + kmLs -> S1 + S188 + kmLs , pkmLs
+  S231 + kmLs -> S1 + S189 + kmLs , pkmLs
+  S232 + kmLs -> S1 + S190 + kmLs , pkmLs
+  S233 + kmLs -> S1 + S195 + kmLs , pkmLs
+  S239 + kmLs -> S1 + S235 + kmLs , pkmLs
+  S240 + kmLs -> S1 + S241 + kmLs , pkmLs
+  S247 + kmLs -> S1 + S242 + kmLs , pkmLs
+  S248 + kmLs -> S1 + S210 + kmLs , pkmLs
+  S249 + kmLs -> S1 + S211 + kmLs , pkmLs
+  S250 + kmLs -> S1 + S237 + kmLs , pkmLs
+  S251 + kmLs -> S1 + S244 + kmLs , pkmLs
+  S252 + kmLs -> S1 + S245 + kmLs , pkmLs
+  S253 + kmLs -> S1 + S242 + kmLs , pkmLs
+  S254 + kmLs -> S1 + S243 + kmLs , pkmLs
+  S255 + kmLs -> S1 + S246 + kmLs , pkmLs
+  S256 + kmLs -> S1 + S246 + kmLs , pkmLs
+  S257 + kmLs -> S1 + S253 + kmLs , pkmLs
+  S257 + kmLs -> S1 + S247 + kmLs , pkmLs
+  S258 + kmLs -> S1 + S256 + kmLs , pkmLs
+  S258 + kmLs -> S1 + S255 + kmLs , pkmLs
+  S260 + kmLs -> S1 + S220 + kmLs , pkmLs
+  S261 + kmLs -> S1 + S223 + kmLs , pkmLs
+  S262 + kmLs -> S1 + S259 + kmLs , pkmLs
+  S263 + kmLs -> S1 + S259 + kmLs , pkmLs
+  S264 + kmLs -> S1 + S230 + kmLs , pkmLs
+  S264 + kmLs -> S1 + S229 + kmLs , pkmLs
+  S265 + kmLs -> S1 + S263 + kmLs , pkmLs
+  S265 + kmLs -> S1 + S262 + kmLs , pkmLs
+  S274 + kmLs -> S1 + S224 + kmLs , pkmLs
+  S276 + kmLs -> S1 + S275 + kmLs , pkmLs
+  S279 + kmLs -> S1 + S277 + kmLs , pkmLs
+  S280 + kmLs -> S1 + S278 + kmLs , pkmLs
+  S283 + kmLs -> S1 + S219 + kmLs , pkmLs
+  S284 + kmLs -> S1 + S281 + kmLs , pkmLs
+  S285 + kmLs -> S1 + S282 + kmLs , pkmLs
+  S287 + kmLs -> S1 + S275 + kmLs , pkmLs
+  S288 + kmLs -> S1 + S286 + kmLs , pkmLs
+  S289 + kmLs -> S1 + S286 + kmLs , pkmLs
+  S290 + kmLs -> S1 + S276 + kmLs , pkmLs
+  S290 + kmLs -> S1 + S287 + kmLs , pkmLs
+  S291 + kmLs -> S1 + S288 + kmLs , pkmLs
+  S291 + kmLs -> S1 + S289 + kmLs , pkmLs
+  S204 + pLbs -> S247 + pLbs , ppLbs
+  S205 + pLbs -> S256 + pLbs , ppLbs
+  S206 + pLbs -> S229 + pLbs , ppLbs
+  S207 + pLbs -> S262 + pLbs , ppLbs
+  S226 + pLbs -> S230 + pLbs , ppLbs
+  S231 + pLbs -> S287 + pLbs , ppLbs
+  S232 + pLbs -> S263 + pLbs , ppLbs
+  S233 + pLbs -> S276 + pLbs , ppLbs
+  S250 + pLbs -> S253 + pLbs , ppLbs
+  S254 + pLbs -> S255 + pLbs , ppLbs
+  S279 + pLbs -> S288 + pLbs , ppLbs
+  S280 + pLbs -> S289 + pLbs , ppLbs
+  S239 + pLgs -> S252 + pLgs , ppLgs
+  S250 + pLgs -> S254 + pLgs , ppLgs
+  S253 + pLgs -> S255 + pLgs , ppLgs
+  S257 + pLgs -> S258 + pLgs , ppLgs
+  S11 + S267 + kpS -> S306 + kpS , pkpS
+  S14 + S267 + kpS -> S212 + kpS , pkpS
+  S15 + S267 + kpS -> S213 + kpS , pkpS
+  S16 + S267 + kpS -> S307 + kpS , pkpS
+  S18 + S267 + kpS -> S303 + kpS , pkpS
+  S19 + S267 + kpS -> S308 + kpS , pkpS
+  S23 + S267 + kpS -> S309 + kpS , pkpS
+  S24 + S267 + kpS -> S266 + kpS , p2.0 * kpS
+  S25 + S267 + kpS -> S215 + kpS , pkpS
+  S26 + S267 + kpS -> S214 + kpS , pkpS
+  S27 + S267 + kpS -> S216 + kpS , pkpS
+  S28 + S267 + kpS -> S217 + kpS , pkpS
+  S33 + S267 + kpS -> S304 + kpS , pkpS
+  S35 + S267 + kpS -> S305 + kpS , pkpS
+  S39 + S267 + kpS -> S272 + kpS , p2.0 * kpS
+  S40 + S267 + kpS -> S340 + kpS , pkpS
+  S41 + S267 + kpS -> S316 + kpS , pkpS
+  S43 + S267 + kpS -> S310 + kpS , pkpS
+  S44 + S267 + kpS -> S311 + kpS , pkpS
+  S47 + S267 + kpS -> S270 + kpS , pkpS
+  S47 + S267 + kpS -> S268 + kpS , pkpS
+  S48 + S267 + kpS -> S269 + kpS , pkpS
+  S48 + S267 + kpS -> S271 + kpS , pkpS
+  S49 + S267 + kpS -> S315 + kpS , pkpS
+  S50 + S267 + kpS -> S181 + kpS , pkpS
+  S51 + S267 + kpS -> S313 + kpS , pkpS
+  S51 + S267 + kpS -> S312 + kpS , pkpS
+  S52 + S267 + kpS -> S193 + kpS , pkpS
+  S53 + S267 + kpS -> S314 + kpS , p2.0 * kpS
+  S54 + S267 + kpS -> S317 + kpS , pkpS
+  S55 + S267 + kpS -> S195 + kpS , pkpS
+  S63 + S267 + kpS -> S336 + kpS , pkpS
+  S64 + S267 + kpS -> S337 + kpS , pkpS
+  S70 + S267 + kpS -> S341 + kpS , pkpS
+  S73 + S267 + kpS -> S197 + kpS , pkpS
+  S74 + S267 + kpS -> S319 + kpS , pkpS
+  S74 + S267 + kpS -> S342 + kpS , pkpS
+  S80 + S267 + kpS -> S343 + kpS , pkpS
+  S82 + S267 + kpS -> S186 + kpS , pkpS
+  S83 + S267 + kpS -> S189 + kpS , pkpS
+  S84 + S267 + kpS -> S318 + kpS , pkpS
+  S84 + S267 + kpS -> S338 + kpS , pkpS
+  S85 + S267 + kpS -> S191 + kpS , pkpS
+  S86 + S267 + kpS -> S219 + kpS , pkpS
+  S87 + S267 + kpS -> S222 + kpS , pkpS
+  S88 + S267 + kpS -> S224 + kpS , pkpS
+  S89 + S267 + kpS -> S275 + kpS , pkpS
+  S90 + S267 + kpS -> S344 + kpS , pkpS
+  S90 + S267 + kpS -> S320 + kpS , pkpS
+  S91 + S267 + kpS -> S277 + kpS , pkpS
+  S93 + S267 + kpS -> S345 + kpS , pkpS
+  S97 + S267 + kpS -> S233 + kpS , pkpS
+  S101 + S267 + kpS -> S274 + kpS , pkpS
+  S104 + S267 + kpS -> S276 + kpS , pkpS
+  S106 + S267 + kpS -> S346 + kpS , p2.0 * kpS
+  S107 + S267 + kpS -> S279 + kpS , pkpS
+  S118 + S267 + kpS -> S273 + kpS , pkpS
+  S120 + S267 + kpS -> S283 + kpS , pkpS
+  S124 + S267 + kpS -> S221 + kpS , pkpS
+  S125 + S267 + kpS -> S278 + kpS , pkpS
+  S126 + S267 + kpS -> S281 + kpS , pkpS
+  S127 + S267 + kpS -> S282 + kpS , pkpS
+  S129 + S267 + kpS -> S286 + kpS , pkpS
+  S136 + S267 + kpS -> S284 + kpS , pkpS
+  S137 + S267 + kpS -> S285 + kpS , pkpS
+  S141 + S267 + kpS -> S231 + kpS , pkpS
+  S142 + S267 + kpS -> S280 + kpS , pkpS
+  S143 + S267 + kpS -> S287 + kpS , pkpS
+  S144 + S267 + kpS -> S289 + kpS , pkpS
+  S156 + S267 + kpS -> S288 + kpS , pkpS
+  S157 + S267 + kpS -> S290 + kpS , pkpS
+  S158 + S267 + kpS -> S291 + kpS , pkpS
+  S177 + S267 + kpS -> S293 + kpS , pkpS
+  S2 + S202 + kpS -> S175 + kpS , pkpS
+  S77 + S202 + kpS -> S192 + kpS , pkpS
+  S178 + S202 + kpS -> S225 + kpS , pkpS
+  S202 + S267 + kpS -> S300 + kpS , pkpS
+  S2 + S203 + kpS -> S180 + kpS , pkpS
+  S77 + S203 + kpS -> S194 + kpS , pkpS
+  S178 + S203 + kpS -> S292 + kpS , pkpS
+  S203 + S267 + kpS -> S301 + kpS , pkpS
+  S2 + S205 + kpS -> S206 + kpS , pkpS
+  S77 + S205 + kpS -> S207 + kpS , pkpS
+  S178 + S205 + kpS -> S321 + kpS , pkpS
+  S205 + S267 + kpS -> S339 + kpS , pkpS
+  S2 + S218 + kpS -> S176 + kpS , pkpS
+  S77 + S218 + kpS -> S187 + kpS , pkpS
+  S178 + S218 + kpS -> S225 + kpS , pkpS
+  S218 + S267 + kpS -> S296 + kpS , pkpS
+  S2 + S238 + kpS -> S183 + kpS , pkpS
+  S77 + S238 + kpS -> S196 + kpS , pkpS
+  S178 + S238 + kpS -> S294 + kpS , pkpS
+  S238 + S267 + kpS -> S302 + kpS , pkpS
+  S2 + S243 + kpS -> S179 + kpS , pkpS
+  S77 + S243 + kpS -> S190 + kpS , pkpS
+  S178 + S243 + kpS -> S292 + kpS , pkpS
+  S243 + S267 + kpS -> S298 + kpS , pkpS
+  S2 + S244 + kpS -> S185 + kpS , pkpS
+  S77 + S244 + kpS -> S223 + kpS , pkpS
+  S178 + S244 + kpS -> S295 + kpS , pkpS
+  S244 + S267 + kpS -> S322 + kpS , pkpS
+  S2 + S245 + kpS -> S184 + kpS , pkpS
+  S77 + S245 + kpS -> S220 + kpS , pkpS
+  S178 + S245 + kpS -> S295 + kpS , pkpS
+  S245 + S267 + kpS -> S324 + kpS , pkpS
+  S2 + S246 + kpS -> S188 + kpS , pkpS
+  S77 + S246 + kpS -> S259 + kpS , pkpS
+  S178 + S246 + kpS -> S297 + kpS , pkpS
+  S246 + S267 + kpS -> S325 + kpS , pkpS
+  S2 + S251 + kpS -> S228 + kpS , pkpS
+  S77 + S251 + kpS -> S261 + kpS , pkpS
+  S178 + S251 + kpS -> S323 + kpS , pkpS
+  S251 + S267 + kpS -> S347 + kpS , pkpS
+  S2 + S252 + kpS -> S227 + kpS , pkpS
+  S77 + S252 + kpS -> S260 + kpS , pkpS
+  S178 + S252 + kpS -> S323 + kpS , pkpS
+  S252 + S267 + kpS -> S332 + kpS , pkpS
+  S2 + S254 + kpS -> S226 + kpS , pkpS
+  S77 + S254 + kpS -> S232 + kpS , pkpS
+  S178 + S254 + kpS -> S321 + kpS , pkpS
+  S254 + S267 + kpS -> S329 + kpS , pkpS
+  S2 + S255 + kpS -> S230 + kpS , pkpS
+  S77 + S255 + kpS -> S263 + kpS , pkpS
+  S178 + S255 + kpS -> S326 + kpS , pkpS
+  S255 + S267 + kpS -> S334 + kpS , pkpS
+  S2 + S256 + kpS -> S229 + kpS , pkpS
+  S77 + S256 + kpS -> S262 + kpS , pkpS
+  S178 + S256 + kpS -> S326 + kpS , pkpS
+  S256 + S267 + kpS -> S348 + kpS , pkpS
+  S2 + S258 + kpS -> S264 + kpS , pkpS
+  S77 + S258 + kpS -> S265 + kpS , pkpS
+  S178 + S258 + kpS -> S335 + kpS , pkpS
+  S258 + S267 + kpS -> S349 + kpS , pkpS
+  S2 + S266 + kpS -> S181 + kpS , pkpS
+  S77 + S266 + kpS -> S191 + kpS , pkpS
+  S178 + S266 + kpS -> S293 + kpS , pkpS
+  S266 + S267 + kpS -> S299 + kpS , pkpS
+  S2 + S268 + kpS -> S186 + kpS , pkpS
+  S77 + S268 + kpS -> S221 + kpS , pkpS
+  S178 + S268 + kpS -> S296 + kpS , pkpS
+  S267 + S268 + kpS -> S327 + kpS , pkpS
+  S2 + S269 + kpS -> S189 + kpS , pkpS
+  S77 + S269 + kpS -> S278 + kpS , pkpS
+  S178 + S269 + kpS -> S298 + kpS , pkpS
+  S267 + S269 + kpS -> S328 + kpS , pkpS
+  S2 + S270 + kpS -> S193 + kpS , pkpS
+  S77 + S270 + kpS -> S222 + kpS , pkpS
+  S178 + S270 + kpS -> S300 + kpS , pkpS
+  S267 + S270 + kpS -> S327 + kpS , pkpS
+  S2 + S271 + kpS -> S195 + kpS , pkpS
+  S77 + S271 + kpS -> S277 + kpS , pkpS
+  S178 + S271 + kpS -> S301 + kpS , pkpS
+  S267 + S271 + kpS -> S328 + kpS , pkpS
+  S2 + S272 + kpS -> S197 + kpS , pkpS
+  S77 + S272 + kpS -> S273 + kpS , pkpS
+  S178 + S272 + kpS -> S302 + kpS , pkpS
+  S267 + S272 + kpS -> S330 + kpS , pkpS
+  S199 + kmS -> S18 + S178 + kmS , pkmS
+  S200 + kmS -> S11 + S178 + kmS , pkmS
+  S201 + kmS -> S23 + S178 + kmS , pkmS
+  S202 + kmS -> S47 + S178 + kmS , pkmS
+  S203 + kmS -> S48 + S178 + kmS , pkmS
+  S204 + kmS -> S49 + S178 + kmS , pkmS
+  S205 + kmS -> S84 + S178 + kmS , pkmS
+  S206 + kmS -> S141 + S178 + kmS , pkmS
+  S206 + kmS -> S2 + S205 + kmS , pkmS
+  S207 + kmS -> S142 + S178 + kmS , pkmS
+  S207 + kmS -> S77 + S205 + kmS , pkmS
+  S208 + kmS -> S26 + S178 + kmS , pkmS
+  S209 + kmS -> S25 + S178 + kmS , pkmS
+  S210 + kmS -> S27 + S178 + kmS , pkmS
+  S211 + kmS -> S28 + S178 + kmS , pkmS
+  S212 + kmS -> S14 + S267 + kmS , pkmS
+  S213 + kmS -> S15 + S267 + kmS , pkmS
+  S214 + kmS -> S26 + S267 + kmS , pkmS
+  S215 + kmS -> S25 + S267 + kmS , pkmS
+  S216 + kmS -> S27 + S267 + kmS , pkmS
+  S217 + kmS -> S28 + S267 + kmS , pkmS
+  S218 + kmS -> S47 + S178 + kmS , pkmS
+  S219 + kmS -> S86 + S267 + kmS , pkmS
+  S219 + kmS -> S2 + S313 + kmS , pkmS
+  S220 + kmS -> S77 + S245 + kmS , pkmS
+  S220 + kmS -> S126 + S178 + kmS , pkmS
+  S221 + kmS -> S77 + S268 + kmS , pkmS
+  S221 + kmS -> S124 + S267 + kmS , pkmS
+  S222 + kmS -> S87 + S267 + kmS , pkmS
+  S222 + kmS -> S77 + S270 + kmS , pkmS
+  S223 + kmS -> S127 + S178 + kmS , pkmS
+  S223 + kmS -> S77 + S244 + kmS , pkmS
+  S224 + kmS -> S2 + S312 + kmS , pkmS
+  S224 + kmS -> S88 + S267 + kmS , pkmS
+  S225 + kmS -> S178 + S202 + kmS , pkmS
+  S225 + kmS -> S178 + S218 + kmS , pkmS
+  S226 + kmS -> S2 + S254 + kmS , pkmS
+  S226 + kmS -> S97 + S178 + kmS , pkmS
+  S227 + kmS -> S2 + S252 + kmS , pkmS
+  S227 + kmS -> S101 + S178 + kmS , pkmS
+  S228 + kmS -> S120 + S178 + kmS , pkmS
+  S228 + kmS -> S2 + S251 + kmS , pkmS
+  S229 + kmS -> S2 + S256 + kmS , pkmS
+  S229 + kmS -> S143 + S178 + kmS , pkmS
+  S230 + kmS -> S104 + S178 + kmS , pkmS
+  S230 + kmS -> S2 + S255 + kmS , pkmS
+  S231 + kmS -> S141 + S267 + kmS , pkmS
+  S231 + kmS -> S2 + S318 + kmS , pkmS
+  S232 + kmS -> S77 + S254 + kmS , pkmS
+  S232 + kmS -> S107 + S178 + kmS , pkmS
+  S233 + kmS -> S2 + S338 + kmS , pkmS
+  S233 + kmS -> S97 + S267 + kmS , pkmS
+  S234 + kmS -> S16 + S178 + kmS , pkmS
+  S235 + kmS -> S19 + S178 + kmS , pkmS
+  S236 + kmS -> S33 + S178 + kmS , pkmS
+  S237 + kmS -> S35 + S178 + kmS , pkmS
+  S238 + kmS -> S39 + S178 + kmS , pkmS
+  S239 + kmS -> S40 + S178 + kmS , pkmS
+  S240 + kmS -> S41 + S178 + kmS , pkmS
+  S241 + kmS -> S43 + S178 + kmS , pkmS
+  S242 + kmS -> S44 + S178 + kmS , pkmS
+  S243 + kmS -> S48 + S178 + kmS , pkmS
+  S244 + kmS -> S51 + S178 + kmS , pkmS
+  S245 + kmS -> S51 + S178 + kmS , pkmS
+  S246 + kmS -> S53 + S178 + kmS , pkmS
+  S247 + kmS -> S54 + S178 + kmS , pkmS
+  S248 + kmS -> S63 + S178 + kmS , pkmS
+  S249 + kmS -> S64 + S178 + kmS , pkmS
+  S250 + kmS -> S70 + S178 + kmS , pkmS
+  S251 + kmS -> S74 + S178 + kmS , pkmS
+  S252 + kmS -> S74 + S178 + kmS , pkmS
+  S253 + kmS -> S80 + S178 + kmS , pkmS
+  S254 + kmS -> S84 + S178 + kmS , pkmS
+  S255 + kmS -> S90 + S178 + kmS , pkmS
+  S256 + kmS -> S90 + S178 + kmS , pkmS
+  S257 + kmS -> S93 + S178 + kmS , pkmS
+  S258 + kmS -> S106 + S178 + kmS , pkmS
+  S259 + kmS -> S77 + S246 + kmS , pkmS
+  S259 + kmS -> S129 + S178 + kmS , pkmS
+  S260 + kmS -> S77 + S252 + kmS , pkmS
+  S260 + kmS -> S136 + S178 + kmS , pkmS
+  S261 + kmS -> S137 + S178 + kmS , pkmS
+  S261 + kmS -> S77 + S251 + kmS , pkmS
+  S262 + kmS -> S77 + S256 + kmS , pkmS
+  S262 + kmS -> S144 + S178 + kmS , pkmS
+  S263 + kmS -> S156 + S178 + kmS , pkmS
+  S263 + kmS -> S77 + S255 + kmS , pkmS
+  S264 + kmS -> S2 + S258 + kmS , pkmS
+  S264 + kmS -> S157 + S178 + kmS , pkmS
+  S265 + kmS -> S77 + S258 + kmS , pkmS
+  S265 + kmS -> S158 + S178 + kmS , pkmS
+  S266 + kmS -> S24 + S267 + kmS , pkmS
+  S268 + kmS -> S47 + S267 + kmS , pkmS
+  S269 + kmS -> S48 + S267 + kmS , pkmS
+  S270 + kmS -> S47 + S267 + kmS , pkmS
+  S271 + kmS -> S48 + S267 + kmS , pkmS
+  S272 + kmS -> S39 + S267 + kmS , pkmS
+  S273 + kmS -> S118 + S267 + kmS , pkmS
+  S273 + kmS -> S77 + S272 + kmS , pkmS
+  S274 + kmS -> S2 + S342 + kmS , pkmS
+  S274 + kmS -> S101 + S267 + kmS , pkmS
+  S275 + kmS -> S2 + S314 + kmS , pkmS
+  S275 + kmS -> S89 + S267 + kmS , pkmS
+  S276 + kmS -> S104 + S267 + kmS , pkmS
+  S276 + kmS -> S2 + S344 + kmS , pkmS
+  S277 + kmS -> S77 + S271 + kmS , pkmS
+  S277 + kmS -> S91 + S267 + kmS , pkmS
+  S278 + kmS -> S125 + S267 + kmS , pkmS
+  S278 + kmS -> S77 + S269 + kmS , pkmS
+  S279 + kmS -> S77 + S338 + kmS , pkmS
+  S279 + kmS -> S107 + S267 + kmS , pkmS
+  S280 + kmS -> S142 + S267 + kmS , pkmS
+  S280 + kmS -> S77 + S318 + kmS , pkmS
+  S281 + kmS -> S77 + S312 + kmS , pkmS
+  S281 + kmS -> S126 + S267 + kmS , pkmS
+  S282 + kmS -> S127 + S267 + kmS , pkmS
+  S282 + kmS -> S77 + S313 + kmS , pkmS
+  S283 + kmS -> S120 + S267 + kmS , pkmS
+  S283 + kmS -> S2 + S319 + kmS , pkmS
+  S284 + kmS -> S77 + S342 + kmS , pkmS
+  S284 + kmS -> S136 + S267 + kmS , pkmS
+  S285 + kmS -> S137 + S267 + kmS , pkmS
+  S285 + kmS -> S77 + S319 + kmS , pkmS
+  S286 + kmS -> S77 + S314 + kmS , pkmS
+  S286 + kmS -> S129 + S267 + kmS , pkmS
+  S287 + kmS -> S2 + S320 + kmS , pkmS
+  S287 + kmS -> S143 + S267 + kmS , pkmS
+  S288 + kmS -> S156 + S267 + kmS , pkmS
+  S288 + kmS -> S77 + S344 + kmS , pkmS
+  S289 + kmS -> S77 + S320 + kmS , pkmS
+  S289 + kmS -> S144 + S267 + kmS , pkmS
+  S290 + kmS -> S2 + S346 + kmS , pkmS
+  S290 + kmS -> S157 + S267 + kmS , pkmS
+  S291 + kmS -> S77 + S346 + kmS , pkmS
+  S291 + kmS -> S158 + S267 + kmS , pkmS
+  S292 + kmS -> S178 + S243 + kmS , pkmS
+  S292 + kmS -> S178 + S203 + kmS , pkmS
+  S293 + kmS -> S178 + S266 + kmS , pkmS
+  S293 + kmS -> S177 + S267 + kmS , pkmS
+  S294 + kmS -> S178 + S238 + kmS , p2.0 * kmS
+  S295 + kmS -> S178 + S245 + kmS , pkmS
+  S295 + kmS -> S178 + S244 + kmS , pkmS
+  S296 + kmS -> S178 + S268 + kmS , pkmS
+  S296 + kmS -> S218 + S267 + kmS , pkmS
+  S297 + kmS -> S178 + S246 + kmS , p2.0 * kmS
+  S298 + kmS -> S243 + S267 + kmS , pkmS
+  S298 + kmS -> S178 + S269 + kmS , pkmS
+  S299 + kmS -> S266 + S267 + kmS , p2.0 * kmS
+  S300 + kmS -> S202 + S267 + kmS , pkmS
+  S300 + kmS -> S178 + S270 + kmS , pkmS
+  S301 + kmS -> S178 + S271 + kmS , pkmS
+  S301 + kmS -> S203 + S267 + kmS , pkmS
+  S302 + kmS -> S178 + S272 + kmS , pkmS
+  S302 + kmS -> S238 + S267 + kmS , pkmS
+  S200 + pLS -> S306 + pLS , ppLS
+  S202 + pLS -> S268 + pLS , ppLS
+  S219 + pLS -> S282 + pLS , ppLS
+  S220 + pLS -> S281 + pLS , ppLS
+  S225 + pLS -> S296 + pLS , ppLS
+  S227 + pLS -> S274 + pLS , ppLS
+  S228 + pLS -> S261 + pLS , ppLS
+  S234 + pLS -> S307 + pLS , ppLS
+  S235 + pLS -> S308 + pLS , ppLS
+  S238 + pLS -> S272 + pLS , ppLS
+  S239 + pLS -> S340 + pLS , ppLS
+  S245 + pLS -> S312 + pLS , ppLS
+  S252 + pLS -> S342 + pLS , ppLS
+  S260 + pLS -> S284 + pLS , ppLS
+  S283 + pLS -> S285 + pLS , ppLS
+  S294 + pLS -> S302 + pLS , p2.0 * pLS
+  S295 + pLS -> S322 + pLS , ppLS
+  S300 + pLS -> S327 + pLS , ppLS
+  S302 + pLS -> S330 + pLS , ppLS
+  S204 + pLSs -> S315 + pLSs , ppLSs
+  S205 + pLSs -> S318 + pLSs , ppLSs
+  S206 + pLSs -> S231 + pLSs , ppLSs
+  S207 + pLSs -> S280 + pLSs , ppLSs
+  S226 + pLSs -> S232 + pLSs , ppLSs
+  S227 + pLSs -> S260 + pLSs , ppLSs
+  S228 + pLSs -> S283 + pLSs , ppLSs
+  S229 + pLSs -> S287 + pLSs , ppLSs
+  S230 + pLSs -> S263 + pLSs , ppLSs
+  S233 + pLSs -> S279 + pLSs , ppLSs
+  S240 + pLSs -> S316 + pLSs , ppLSs
+  S247 + pLSs -> S317 + pLSs , ppLSs
+  S251 + pLSs -> S319 + pLSs , ppLSs
+  S256 + pLSs -> S320 + pLSs , ppLSs
+  S257 + pLSs -> S345 + pLSs , ppLSs
+  S258 + pLSs -> S346 + pLSs , ppLSs
+  S261 + pLSs -> S285 + pLSs , ppLSs
+  S262 + pLSs -> S289 + pLSs , ppLSs
+  S264 + pLSs -> S265 + pLSs , ppLSs
+  S264 + pLSs -> S290 + pLSs , ppLSs
+  S265 + pLSs -> S291 + pLSs , ppLSs
+  S274 + pLSs -> S284 + pLSs , ppLSs
+  S276 + pLSs -> S288 + pLSs , ppLSs
+  S290 + pLSs -> S291 + pLSs , ppLSs
+  S206 + pSSs -> S321 + pSSs , ppSSs
+  S207 + pSSs -> S339 + pSSs , ppSSs
+  S219 + pSSs -> S324 + pSSs , ppSSs
+  S220 + pSSs -> S324 + pSSs , ppSSs
+  S221 + pSSs -> S327 + pSSs , ppSSs
+  S222 + pSSs -> S327 + pSSs , ppSSs
+  S223 + pSSs -> S322 + pSSs , ppSSs
+  S224 + pSSs -> S322 + pSSs , ppSSs
+  S226 + pSSs -> S321 + pSSs , ppSSs
+  S227 + pSSs -> S323 + pSSs , ppSSs
+  S228 + pSSs -> S323 + pSSs , ppSSs
+  S229 + pSSs -> S326 + pSSs , ppSSs
+  S230 + pSSs -> S326 + pSSs , ppSSs
+  S231 + pSSs -> S329 + pSSs , ppSSs
+  S232 + pSSs -> S329 + pSSs , ppSSs
+  S233 + pSSs -> S339 + pSSs , ppSSs
+  S259 + pSSs -> S325 + pSSs , ppSSs
+  S260 + pSSs -> S332 + pSSs , ppSSs
+  S261 + pSSs -> S347 + pSSs , ppSSs
+  S262 + pSSs -> S348 + pSSs , ppSSs
+  S263 + pSSs -> S334 + pSSs , ppSSs
+  S264 + pSSs -> S335 + pSSs , ppSSs
+  S265 + pSSs -> S349 + pSSs , ppSSs
+  S273 + pSSs -> S330 + pSSs , ppSSs
+  S274 + pSSs -> S347 + pSSs , ppSSs
+  S275 + pSSs -> S325 + pSSs , ppSSs
+  S276 + pSSs -> S348 + pSSs , ppSSs
+  S277 + pSSs -> S328 + pSSs , ppSSs
+  S278 + pSSs -> S328 + pSSs , ppSSs
+  S279 + pSSs -> S350 + pSSs , ppSSs
+  S280 + pSSs -> S350 + pSSs , ppSSs
+  S281 + pSSs -> S331 + pSSs , ppSSs
+  S282 + pSSs -> S331 + pSSs , ppSSs
+  S283 + pSSs -> S332 + pSSs , ppSSs
+  S284 + pSSs -> S351 + pSSs , ppSSs
+  S285 + pSSs -> S351 + pSSs , ppSSs
+  S286 + pSSs -> S333 + pSSs , ppSSs
+  S287 + pSSs -> S334 + pSSs , ppSSs
+  S288 + pSSs -> S352 + pSSs , ppSSs
+  S289 + pSSs -> S352 + pSSs , ppSSs
+  S290 + pSSs -> S349 + pSSs , ppSSs
+  S291 + pSSs -> S353 + pSSs , ppSSs
+  S201 + dm -> S199 + dm , pdm
+  S203 + dm -> S177 + dm , pdm
+  S210 + dm -> S173 + dm , pdm
+  S211 + dm -> S174 + dm , pdm
+  S216 + dm -> S212 + dm , pdm
+  S217 + dm -> S213 + dm , pdm
+  S219 + dm -> S193 + dm , pdm
+  S220 + dm -> S192 + dm , pdm
+  S223 + dm -> S187 + dm , pdm
+  S224 + dm -> S186 + dm , pdm
+  S229 + dm -> S206 + dm , pdm
+  S230 + dm -> S226 + dm , pdm
+  S235 + dm -> S200 + dm , pdm
+  S237 + dm -> S199 + dm , pdm
+  S241 + dm -> S236 + dm , pdm
+  S242 + dm -> S237 + dm , pdm
+  S242 + dm -> S201 + dm , pdm
+  S243 + dm -> S177 + dm , pdm
+  S244 + dm -> S218 + dm , pdm
+  S245 + dm -> S202 + dm , pdm
+  S246 + dm -> S203 + dm , pdm
+  S246 + dm -> S243 + dm , pdm
+  S247 + dm -> S204 + dm , pdm
+  S253 + dm -> S250 + dm , pdm
+  S255 + dm -> S254 + dm , pdm
+  S256 + dm -> S205 + dm , pdm
+  S259 + dm -> S190 + dm , pdm
+  S259 + dm -> S194 + dm , pdm
+  S262 + dm -> S207 + dm , pdm
+  S263 + dm -> S232 + dm , pdm
+  S269 + dm -> S266 + dm , pdm
+  S271 + dm -> S266 + dm , pdm
+  S275 + dm -> S195 + dm , pdm
+  S275 + dm -> S189 + dm , pdm
+  S276 + dm -> S233 + dm , pdm
+  S277 + dm -> S191 + dm , pdm
+  S278 + dm -> S191 + dm , pdm
+  S281 + dm -> S221 + dm , pdm
+  S282 + dm -> S222 + dm , pdm
+  S286 + dm -> S277 + dm , pdm
+  S286 + dm -> S278 + dm , pdm
+  S287 + dm -> S231 + dm , pdm
+  S288 + dm -> S279 + dm , pdm
+  S289 + dm -> S280 + dm , pdm
+  S292 + dm -> S198 + dm , pdm
+  S295 + dm -> S225 + dm , pdm
+  S297 + dm -> S292 + dm , p2.0 * dm
+  S298 + dm -> S293 + dm , pdm
+  S301 + dm -> S293 + dm , pdm
+  S202 + dm -> S200 + dm , pdm
+  S203 + dm -> S201 + dm , pdm
+  S205 + dm -> S204 + dm , pdm
+  S218 + dm -> S236 + dm , pdm
+  S238 + dm -> S234 + dm , pdm
+  S243 + dm -> S237 + dm , pdm
+  S244 + dm -> S241 + dm , pdm
+  S245 + dm -> S235 + dm , pdm
+  S246 + dm -> S242 + dm , pdm
+  S251 + dm -> S240 + dm , pdm
+  S252 + dm -> S239 + dm , pdm
+  S254 + dm -> S250 + dm , pdm
+  S255 + dm -> S253 + dm , pdm
+  S256 + dm -> S247 + dm , pdm
+  S258 + dm -> S257 + dm , pdm
+  S266 + dm -> S303 + dm , pdm
+  S268 + dm -> S306 + dm , pdm
+  S269 + dm -> S309 + dm , pdm
+  S270 + dm -> S304 + dm , pdm
+  S271 + dm -> S305 + dm , pdm
+  S272 + dm -> S307 + dm , pdm
+  S207 + dm -> S206 + dm , pdm
+  S212 + dm -> S173 + dm , pdm
+  S213 + dm -> S174 + dm , pdm
+  S214 + dm -> S208 + dm , pdm
+  S215 + dm -> S209 + dm , pdm
+  S216 + dm -> S210 + dm , pdm
+  S217 + dm -> S211 + dm , pdm
+  S219 + dm -> S185 + dm , pdm
+  S220 + dm -> S184 + dm , pdm
+  S221 + dm -> S186 + dm , pdm
+  S221 + dm -> S192 + dm , pdm
+  S222 + dm -> S193 + dm , pdm
+  S222 + dm -> S187 + dm , pdm
+  S223 + dm -> S185 + dm , pdm
+  S224 + dm -> S184 + dm , pdm
+  S231 + dm -> S206 + dm , pdm
+  S232 + dm -> S226 + dm , pdm
+  S233 + dm -> S226 + dm , pdm
+  S259 + dm -> S188 + dm , pdm
+  S260 + dm -> S227 + dm , pdm
+  S261 + dm -> S228 + dm , pdm
+  S262 + dm -> S229 + dm , pdm
+  S263 + dm -> S230 + dm , pdm
+  S265 + dm -> S264 + dm , pdm
+  S266 + dm -> S177 + dm , pdm
+  S268 + dm -> S202 + dm , pdm
+  S269 + dm -> S203 + dm , pdm
+  S270 + dm -> S218 + dm , pdm
+  S271 + dm -> S243 + dm , pdm
+  S272 + dm -> S238 + dm , pdm
+  S273 + dm -> S197 + dm , pdm
+  S273 + dm -> S196 + dm , pdm
+  S274 + dm -> S227 + dm , pdm
+  S275 + dm -> S188 + dm , pdm
+  S276 + dm -> S230 + dm , pdm
+  S277 + dm -> S195 + dm , pdm
+  S277 + dm -> S190 + dm , pdm
+  S278 + dm -> S189 + dm , pdm
+  S278 + dm -> S194 + dm , pdm
+  S279 + dm -> S233 + dm , pdm
+  S279 + dm -> S232 + dm , pdm
+  S280 + dm -> S231 + dm , pdm
+  S280 + dm -> S207 + dm , pdm
+  S281 + dm -> S224 + dm , pdm
+  S281 + dm -> S220 + dm , pdm
+  S282 + dm -> S219 + dm , pdm
+  S282 + dm -> S223 + dm , pdm
+  S283 + dm -> S228 + dm , pdm
+  S284 + dm -> S274 + dm , pdm
+  S284 + dm -> S260 + dm , pdm
+  S285 + dm -> S283 + dm , pdm
+  S285 + dm -> S261 + dm , pdm
+  S286 + dm -> S275 + dm , pdm
+  S286 + dm -> S259 + dm , pdm
+  S287 + dm -> S229 + dm , pdm
+  S288 + dm -> S276 + dm , pdm
+  S288 + dm -> S263 + dm , pdm
+  S289 + dm -> S287 + dm , pdm
+  S289 + dm -> S262 + dm , pdm
+  S290 + dm -> S264 + dm , pdm
+  S291 + dm -> S290 + dm , pdm
+  S291 + dm -> S265 + dm , pdm
+  S293 + dm -> S198 + dm , pdm
+  S296 + dm -> S225 + dm , pdm
+  S298 + dm -> S292 + dm , pdm
+  S299 + dm -> S293 + dm , p2.0 * dm
+  S300 + dm -> S225 + dm , pdm
+  S301 + dm -> S292 + dm , pdm
+  S302 + dm -> S294 + dm , pdm
+  S199 + dm -> S37 + dm , pdm
+  S200 + dm -> S21 + dm , pdm
+  S201 + dm -> S46 + dm , pdm
+  S202 + dm -> S52 + dm , pdm
+  S203 + dm -> S55 + dm , pdm
+  S204 + dm -> S57 + dm , pdm
+  S205 + dm -> S97 + dm , pdm
+  S206 + dm -> S147 + dm , pdm
+  S207 + dm -> S148 + dm , pdm
+  S208 + dm -> S60 + dm , pdm
+  S209 + dm -> S59 + dm , pdm
+  S210 + dm -> S61 + dm , pdm
+  S211 + dm -> S62 + dm , pdm
+  S212 + dm -> S65 + dm , pdm
+  S213 + dm -> S66 + dm , pdm
+  S214 + dm -> S110 + dm , pdm
+  S215 + dm -> S109 + dm , pdm
+  S216 + dm -> S111 + dm , pdm
+  S217 + dm -> S112 + dm , pdm
+  S218 + dm -> S82 + dm , pdm
+  S219 + dm -> S152 + dm , pdm
+  S220 + dm -> S152 + dm , pdm
+  S221 + dm -> S159 + dm , pdm
+  S222 + dm -> S159 + dm , pdm
+  S223 + dm -> S149 + dm , pdm
+  S224 + dm -> S149 + dm , pdm
+  S225 + dm -> S175 + dm , pdm
+  S225 + dm -> S176 + dm , pdm
+  S226 + dm -> S147 + dm , pdm
+  S227 + dm -> S150 + dm , pdm
+  S228 + dm -> S150 + dm , pdm
+  S229 + dm -> S154 + dm , pdm
+  S230 + dm -> S154 + dm , pdm
+  S231 + dm -> S161 + dm , pdm
+  S232 + dm -> S161 + dm , pdm
+  S233 + dm -> S148 + dm , pdm
+  S234 + dm -> S34 + dm , pdm
+  S235 + dm -> S38 + dm , pdm
+  S236 + dm -> S67 + dm , pdm
+  S237 + dm -> S69 + dm , pdm
+  S238 + dm -> S73 + dm , pdm
+  S239 + dm -> S75 + dm , pdm
+  S240 + dm -> S76 + dm , pdm
+  S241 + dm -> S78 + dm , pdm
+  S242 + dm -> S79 + dm , pdm
+  S243 + dm -> S83 + dm , pdm
+  S244 + dm -> S88 + dm , pdm
+  S245 + dm -> S86 + dm , pdm
+  S246 + dm -> S89 + dm , pdm
+  S247 + dm -> S92 + dm , pdm
+  S248 + dm -> S113 + dm , pdm
+  S249 + dm -> S114 + dm , pdm
+  S250 + dm -> S117 + dm , pdm
+  S251 + dm -> S101 + dm , pdm
+  S252 + dm -> S120 + dm , pdm
+  S253 + dm -> S139 + dm , pdm
+  S254 + dm -> S141 + dm , pdm
+  S255 + dm -> S143 + dm , pdm
+  S256 + dm -> S104 + dm , pdm
+  S257 + dm -> S145 + dm , pdm
+  S258 + dm -> S157 + dm , pdm
+  S259 + dm -> S153 + dm , pdm
+  S260 + dm -> S165 + dm , pdm
+  S261 + dm -> S151 + dm , pdm
+  S262 + dm -> S155 + dm , pdm
+  S263 + dm -> S168 + dm , pdm
+  S264 + dm -> S170 + dm , pdm
+  S265 + dm -> S171 + dm , pdm
+  S266 + dm -> S85 + dm , pdm
+  S268 + dm -> S87 + dm , pdm
+  S269 + dm -> S91 + dm , pdm
+  S270 + dm -> S124 + dm , pdm
+  S271 + dm -> S125 + dm , pdm
+  S272 + dm -> S118 + dm , pdm
+  S273 + dm -> S163 + dm , pdm
+  S274 + dm -> S151 + dm , pdm
+  S275 + dm -> S153 + dm , pdm
+  S276 + dm -> S155 + dm , pdm
+  S277 + dm -> S160 + dm , pdm
+  S278 + dm -> S160 + dm , pdm
+  S279 + dm -> S162 + dm , pdm
+  S280 + dm -> S162 + dm , pdm
+  S281 + dm -> S164 + dm , pdm
+  S282 + dm -> S164 + dm , pdm
+  S283 + dm -> S165 + dm , pdm
+  S284 + dm -> S166 + dm , pdm
+  S285 + dm -> S166 + dm , pdm
+  S286 + dm -> S167 + dm , pdm
+  S287 + dm -> S168 + dm , pdm
+  S288 + dm -> S169 + dm , pdm
+  S289 + dm -> S169 + dm , pdm
+  S290 + dm -> S171 + dm , pdm
+  S291 + dm -> S172 + dm , pdm
+  S292 + dm -> S179 + dm , pdm
+  S292 + dm -> S180 + dm , pdm
+  S293 + dm -> S181 + dm , pdm
+  S293 + dm -> S182 + dm , pdm
+  S294 + dm -> S183 + dm , p2.0 * dm
+  S295 + dm -> S184 + dm , pdm
+  S295 + dm -> S185 + dm , pdm
+  S296 + dm -> S186 + dm , pdm
+  S296 + dm -> S187 + dm , pdm
+  S297 + dm -> S188 + dm , p2.0 * dm
+  S298 + dm -> S189 + dm , pdm
+  S298 + dm -> S190 + dm , pdm
+  S299 + dm -> S191 + dm , p2.0 * dm
+  S300 + dm -> S193 + dm , pdm
+  S300 + dm -> S192 + dm , pdm
+  S301 + dm -> S195 + dm , pdm
+  S301 + dm -> S194 + dm , pdm
+  S302 + dm -> S197 + dm , pdm
+  S302 + dm -> S196 + dm , pdm
+  S267 + dc -> S178 + dc , pdc
+  S267 + dc -> S77 + dc , pdc
+  S0 + S337 + kp1 -> S336 + kp1 , p2.0 * kp1
+  S336 + km1 -> S0 + S337 + km1 , pkm1
+  S3 + S336 + kp2 -> S341 + kp2 , pkp2
+  S5 + S336 + kp2 -> S340 + kp2 , pkp2
+  S13 + S336 + kp2 -> S343 + kp2 , pkp2
+  S15 + S336 + kp2 -> S338 + kp2 , pkp2
+  S26 + S336 + kp2 -> S342 + kp2 , pkp2
+  S28 + S336 + kp2 -> S344 + kp2 , pkp2
+  S30 + S336 + kp2 -> S345 + kp2 , pkp2
+  S32 + S336 + kp2 -> S233 + kp2 , pkp2
+  S60 + S336 + kp2 -> S274 + kp2 , pkp2
+  S62 + S336 + kp2 -> S276 + kp2 , pkp2
+  S64 + S336 + kp2 -> S346 + kp2 , pkp2
+  S66 + S336 + kp2 -> S279 + kp2 , pkp2
+  S110 + S336 + kp2 -> S284 + kp2 , pkp2
+  S112 + S336 + kp2 -> S288 + kp2 , pkp2
+  S114 + S336 + kp2 -> S290 + kp2 , pkp2
+  S133 + S336 + kp2 -> S291 + kp2 , pkp2
+  S174 + S336 + kp2 -> S339 + kp2 , pkp2
+  S208 + S336 + kp2 -> S347 + kp2 , pkp2
+  S211 + S336 + kp2 -> S348 + kp2 , pkp2
+  S213 + S336 + kp2 -> S350 + kp2 , pkp2
+  S214 + S336 + kp2 -> S351 + kp2 , pkp2
+  S217 + S336 + kp2 -> S352 + kp2 , pkp2
+  S249 + S336 + kp2 -> S349 + kp2 , pkp2
+  S4 + S337 + kp2 -> S341 + kp2 , pkp2
+  S6 + S337 + kp2 -> S340 + kp2 , pkp2
+  S12 + S337 + kp2 -> S343 + kp2 , pkp2
+  S14 + S337 + kp2 -> S338 + kp2 , pkp2
+  S25 + S337 + kp2 -> S342 + kp2 , pkp2
+  S27 + S337 + kp2 -> S344 + kp2 , pkp2
+  S29 + S337 + kp2 -> S345 + kp2 , pkp2
+  S31 + S337 + kp2 -> S233 + kp2 , pkp2
+  S59 + S337 + kp2 -> S274 + kp2 , pkp2
+  S61 + S337 + kp2 -> S276 + kp2 , pkp2
+  S63 + S337 + kp2 -> S346 + kp2 , pkp2
+  S65 + S337 + kp2 -> S279 + kp2 , pkp2
+  S109 + S337 + kp2 -> S284 + kp2 , pkp2
+  S111 + S337 + kp2 -> S288 + kp2 , pkp2
+  S113 + S337 + kp2 -> S290 + kp2 , pkp2
+  S132 + S337 + kp2 -> S291 + kp2 , pkp2
+  S173 + S337 + kp2 -> S339 + kp2 , pkp2
+  S209 + S337 + kp2 -> S347 + kp2 , pkp2
+  S210 + S337 + kp2 -> S348 + kp2 , pkp2
+  S212 + S337 + kp2 -> S350 + kp2 , pkp2
+  S215 + S337 + kp2 -> S351 + kp2 , pkp2
+  S216 + S337 + kp2 -> S352 + kp2 , pkp2
+  S248 + S337 + kp2 -> S349 + kp2 , pkp2
+  S336 + S337 + kp2 -> S353 + kp2 , pkp2
+  S303 + km2 -> S3 + S212 + km2 , pkm2
+  S303 + km2 -> S4 + S213 + km2 , pkm2
+  S304 + km2 -> S4 + S214 + km2 , pkm2
+  S304 + km2 -> S3 + S215 + km2 , pkm2
+  S305 + km2 -> S3 + S216 + km2 , pkm2
+  S305 + km2 -> S4 + S217 + km2 , pkm2
+  S306 + km2 -> S5 + S212 + km2 , pkm2
+  S306 + km2 -> S6 + S213 + km2 , pkm2
+  S307 + km2 -> S5 + S215 + km2 , pkm2
+  S307 + km2 -> S6 + S214 + km2 , pkm2
+  S308 + km2 -> S5 + S216 + km2 , pkm2
+  S308 + km2 -> S6 + S217 + km2 , pkm2
+  S309 + km2 -> S12 + S213 + km2 , pkm2
+  S309 + km2 -> S13 + S212 + km2 , pkm2
+  S310 + km2 -> S12 + S214 + km2 , pkm2
+  S310 + km2 -> S13 + S215 + km2 , pkm2
+  S311 + km2 -> S13 + S216 + km2 , pkm2
+  S311 + km2 -> S12 + S217 + km2 , pkm2
+  S312 + km2 -> S26 + S216 + km2 , pkm2
+  S312 + km2 -> S25 + S217 + km2 , pkm2
+  S313 + km2 -> S27 + S214 + km2 , pkm2
+  S313 + km2 -> S28 + S215 + km2 , pkm2
+  S314 + km2 -> S27 + S217 + km2 , pkm2
+  S314 + km2 -> S28 + S216 + km2 , pkm2
+  S315 + km2 -> S29 + S213 + km2 , pkm2
+  S315 + km2 -> S30 + S212 + km2 , pkm2
+  S316 + km2 -> S29 + S214 + km2 , pkm2
+  S316 + km2 -> S30 + S215 + km2 , pkm2
+  S317 + km2 -> S30 + S216 + km2 , pkm2
+  S317 + km2 -> S29 + S217 + km2 , pkm2
+  S318 + km2 -> S63 + S213 + km2 , pkm2
+  S318 + km2 -> S64 + S212 + km2 , pkm2
+  S319 + km2 -> S63 + S214 + km2 , pkm2
+  S319 + km2 -> S64 + S215 + km2 , pkm2
+  S320 + km2 -> S64 + S216 + km2 , pkm2
+  S320 + km2 -> S63 + S217 + km2 , pkm2
+  S321 + km2 -> S174 + S248 + km2 , pkm2
+  S321 + km2 -> S173 + S249 + km2 , pkm2
+  S322 + km2 -> S208 + S216 + km2 , pkm2
+  S322 + km2 -> S209 + S217 + km2 , pkm2
+  S323 + km2 -> S208 + S248 + km2 , pkm2
+  S323 + km2 -> S209 + S249 + km2 , pkm2
+  S324 + km2 -> S210 + S214 + km2 , pkm2
+  S324 + km2 -> S211 + S215 + km2 , pkm2
+  S325 + km2 -> S211 + S216 + km2 , pkm2
+  S325 + km2 -> S210 + S217 + km2 , pkm2
+  S326 + km2 -> S210 + S249 + km2 , pkm2
+  S326 + km2 -> S211 + S248 + km2 , pkm2
+  S327 + km2 -> S212 + S214 + km2 , pkm2
+  S327 + km2 -> S213 + S215 + km2 , pkm2
+  S328 + km2 -> S213 + S216 + km2 , pkm2
+  S328 + km2 -> S212 + S217 + km2 , pkm2
+  S329 + km2 -> S213 + S248 + km2 , pkm2
+  S329 + km2 -> S212 + S249 + km2 , pkm2
+  S330 + km2 -> S214 + S215 + km2 , p2.0 * km2
+  S331 + km2 -> S214 + S216 + km2 , pkm2
+  S331 + km2 -> S215 + S217 + km2 , pkm2
+  S332 + km2 -> S214 + S248 + km2 , pkm2
+  S332 + km2 -> S215 + S249 + km2 , pkm2
+  S333 + km2 -> S216 + S217 + km2 , p2.0 * km2
+  S334 + km2 -> S216 + S249 + km2 , pkm2
+  S334 + km2 -> S217 + S248 + km2 , pkm2
+  S335 + km2 -> S248 + S249 + km2 , p2.0 * km2
+  S338 + km2 -> S15 + S336 + km2 , pkm2
+  S338 + km2 -> S14 + S337 + km2 , pkm2
+  S339 + km2 -> S174 + S336 + km2 , pkm2
+  S339 + km2 -> S173 + S337 + km2 , pkm2
+  S340 + km2 -> S5 + S336 + km2 , pkm2
+  S340 + km2 -> S6 + S337 + km2 , pkm2
+  S341 + km2 -> S3 + S336 + km2 , pkm2
+  S341 + km2 -> S4 + S337 + km2 , pkm2
+  S342 + km2 -> S26 + S336 + km2 , pkm2
+  S342 + km2 -> S25 + S337 + km2 , pkm2
+  S343 + km2 -> S12 + S337 + km2 , pkm2
+  S343 + km2 -> S13 + S336 + km2 , pkm2
+  S344 + km2 -> S27 + S337 + km2 , pkm2
+  S344 + km2 -> S28 + S336 + km2 , pkm2
+  S345 + km2 -> S30 + S336 + km2 , pkm2
+  S345 + km2 -> S29 + S337 + km2 , pkm2
+  S346 + km2 -> S63 + S337 + km2 , pkm2
+  S346 + km2 -> S64 + S336 + km2 , pkm2
+  S347 + km2 -> S208 + S336 + km2 , pkm2
+  S347 + km2 -> S209 + S337 + km2 , pkm2
+  S348 + km2 -> S210 + S337 + km2 , pkm2
+  S348 + km2 -> S211 + S336 + km2 , pkm2
+  S349 + km2 -> S249 + S336 + km2 , pkm2
+  S349 + km2 -> S248 + S337 + km2 , pkm2
+  S350 + km2 -> S213 + S336 + km2 , pkm2
+  S350 + km2 -> S212 + S337 + km2 , pkm2
+  S351 + km2 -> S214 + S336 + km2 , pkm2
+  S351 + km2 -> S215 + S337 + km2 , pkm2
+  S352 + km2 -> S216 + S337 + km2 , pkm2
+  S352 + km2 -> S217 + S336 + km2 , pkm2
+  S353 + km2 -> S336 + S337 + km2 , p2.0 * km2
+  S1 + S303 + kpL -> S306 + kpL , pkpL
+  S1 + S303 + kpL -> S304 + kpL , pkpL
+  S1 + S304 + kpL -> S307 + kpL , pkpL
+  S1 + S305 + kpL -> S308 + kpL , pkpL
+  S1 + S306 + kpL -> S307 + kpL , pkpL
+  S1 + S309 + kpL -> S310 + kpL , pkpL
+  S1 + S315 + kpL -> S316 + kpL , pkpL
+  S1 + S318 + kpL -> S319 + kpL , pkpL
+  S1 + S321 + kpL -> S323 + kpL , pkpL
+  S1 + S327 + kpL -> S330 + kpL , pkpL
+  S1 + S328 + kpL -> S331 + kpL , pkpL
+  S1 + S329 + kpL -> S332 + kpL , pkpL
+  S1 + S338 + kpL -> S342 + kpL , pkpL
+  S1 + S339 + kpL -> S347 + kpL , pkpL
+  S1 + S341 + kpL -> S340 + kpL , pkpL
+  S1 + S350 + kpL -> S351 + kpL , pkpL
+  S304 + kmL -> S1 + S303 + kmL , pkmL
+  S306 + kmL -> S1 + S303 + kmL , pkmL
+  S307 + kmL -> S1 + S304 + kmL , pkmL
+  S307 + kmL -> S1 + S306 + kmL , pkmL
+  S308 + kmL -> S1 + S305 + kmL , pkmL
+  S310 + kmL -> S1 + S309 + kmL , pkmL
+  S312 + kmL -> S1 + S271 + kmL , pkmL
+  S313 + kmL -> S1 + S269 + kmL , pkmL
+  S316 + kmL -> S1 + S315 + kmL , pkmL
+  S319 + kmL -> S1 + S318 + kmL , pkmL
+  S322 + kmL -> S1 + S301 + kmL , pkmL
+  S323 + kmL -> S1 + S321 + kmL , pkmL
+  S324 + kmL -> S1 + S298 + kmL , pkmL
+  S327 + kmL -> S1 + S299 + kmL , pkmL
+  S330 + kmL -> S1 + S327 + kmL , p2.0 * kmL
+  S331 + kmL -> S1 + S328 + kmL , pkmL
+  S332 + kmL -> S1 + S329 + kmL , pkmL
+  S340 + kmL -> S1 + S341 + kmL , pkmL
+  S342 + kmL -> S1 + S338 + kmL , pkmL
+  S347 + kmL -> S1 + S339 + kmL , pkmL
+  S351 + kmL -> S1 + S350 + kmL , pkmL
+  S304 + pLb -> S310 + pLb , ppLb
+  S306 + pLb -> S308 + pLb , ppLb
+  S327 + pLb -> S331 + pLb , ppLb
+  S304 + pLg -> S270 + pLg , ppLg
+  S307 + pLg -> S272 + pLg , ppLg
+  S310 + pLg -> S313 + pLg , ppLg
+  S316 + pLg -> S319 + pLg , ppLg
+  S1 + S305 + kpLs -> S341 + kpLs , pkpLs
+  S1 + S308 + kpLs -> S340 + kpLs , pkpLs
+  S1 + S309 + kpLs -> S315 + kpLs , pkpLs
+  S1 + S310 + kpLs -> S316 + kpLs , pkpLs
+  S1 + S311 + kpLs -> S317 + kpLs , pkpLs
+  S1 + S311 + kpLs -> S343 + kpLs , pkpLs
+  S1 + S312 + kpLs -> S342 + kpLs , pkpLs
+  S1 + S313 + kpLs -> S319 + kpLs , pkpLs
+  S1 + S314 + kpLs -> S344 + kpLs , pkpLs
+  S1 + S314 + kpLs -> S320 + kpLs , pkpLs
+  S1 + S317 + kpLs -> S345 + kpLs , pkpLs
+  S1 + S320 + kpLs -> S346 + kpLs , pkpLs
+  S1 + S322 + kpLs -> S347 + kpLs , pkpLs
+  S1 + S324 + kpLs -> S332 + kpLs , pkpLs
+  S1 + S325 + kpLs -> S334 + kpLs , pkpLs
+  S1 + S325 + kpLs -> S348 + kpLs , pkpLs
+  S1 + S326 + kpLs -> S335 + kpLs , pkpLs
+  S1 + S328 + kpLs -> S350 + kpLs , pkpLs
+  S1 + S331 + kpLs -> S351 + kpLs , pkpLs
+  S1 + S333 + kpLs -> S352 + kpLs , p2.0 * kpLs
+  S1 + S334 + kpLs -> S349 + kpLs , pkpLs
+  S1 + S343 + kpLs -> S345 + kpLs , pkpLs
+  S1 + S344 + kpLs -> S346 + kpLs , pkpLs
+  S1 + S348 + kpLs -> S349 + kpLs , pkpLs
+  S1 + S352 + kpLs -> S353 + kpLs , pkpLs
+  S315 + kmLs -> S1 + S309 + kmLs , pkmLs
+  S316 + kmLs -> S1 + S310 + kmLs , pkmLs
+  S317 + kmLs -> S1 + S311 + kmLs , pkmLs
+  S318 + kmLs -> S1 + S269 + kmLs , pkmLs
+  S319 + kmLs -> S1 + S313 + kmLs , pkmLs
+  S320 + kmLs -> S1 + S314 + kmLs , pkmLs
+  S321 + kmLs -> S1 + S292 + kmLs , pkmLs
+  S323 + kmLs -> S1 + S295 + kmLs , pkmLs
+  S326 + kmLs -> S1 + S297 + kmLs , pkmLs
+  S329 + kmLs -> S1 + S298 + kmLs , pkmLs
+  S332 + kmLs -> S1 + S324 + kmLs , pkmLs
+  S334 + kmLs -> S1 + S325 + kmLs , pkmLs
+  S335 + kmLs -> S1 + S326 + kmLs , p2.0 * kmLs
+  S336 + kmLs -> S1 + S216 + kmLs , pkmLs
+  S337 + kmLs -> S1 + S217 + kmLs , pkmLs
+  S338 + kmLs -> S1 + S271 + kmLs , pkmLs
+  S339 + kmLs -> S1 + S301 + kmLs , pkmLs
+  S340 + kmLs -> S1 + S308 + kmLs , pkmLs
+  S341 + kmLs -> S1 + S305 + kmLs , pkmLs
+  S342 + kmLs -> S1 + S312 + kmLs , pkmLs
+  S343 + kmLs -> S1 + S311 + kmLs , pkmLs
+  S344 + kmLs -> S1 + S314 + kmLs , pkmLs
+  S345 + kmLs -> S1 + S343 + kmLs , pkmLs
+  S345 + kmLs -> S1 + S317 + kmLs , pkmLs
+  S346 + kmLs -> S1 + S320 + kmLs , pkmLs
+  S346 + kmLs -> S1 + S344 + kmLs , pkmLs
+  S347 + kmLs -> S1 + S322 + kmLs , pkmLs
+  S348 + kmLs -> S1 + S325 + kmLs , pkmLs
+  S349 + kmLs -> S1 + S348 + kmLs , pkmLs
+  S349 + kmLs -> S1 + S334 + kmLs , pkmLs
+  S350 + kmLs -> S1 + S328 + kmLs , pkmLs
+  S351 + kmLs -> S1 + S331 + kmLs , pkmLs
+  S352 + kmLs -> S1 + S333 + kmLs , pkmLs
+  S353 + kmLs -> S1 + S352 + kmLs , p2.0 * kmLs
+  S315 + pLbs -> S317 + pLbs , ppLbs
+  S318 + pLbs -> S320 + pLbs , ppLbs
+  S321 + pLbs -> S326 + pLbs , ppLbs
+  S329 + pLbs -> S334 + pLbs , ppLbs
+  S338 + pLbs -> S344 + pLbs , ppLbs
+  S339 + pLbs -> S348 + pLbs , ppLbs
+  S341 + pLbs -> S343 + pLbs , ppLbs
+  S350 + pLbs -> S352 + pLbs , ppLbs
+  S340 + pLgs -> S342 + pLgs , ppLgs
+  S341 + pLgs -> S338 + pLgs , ppLgs
+  S343 + pLgs -> S344 + pLgs , ppLgs
+  S345 + pLgs -> S346 + pLgs , ppLgs
+  S2 + S312 + kpS -> S224 + kpS , pkpS
+  S77 + S312 + kpS -> S281 + kpS , pkpS
+  S178 + S312 + kpS -> S322 + kpS , pkpS
+  S267 + S312 + kpS -> S331 + kpS , pkpS
+  S2 + S313 + kpS -> S219 + kpS , pkpS
+  S77 + S313 + kpS -> S282 + kpS , pkpS
+  S178 + S313 + kpS -> S324 + kpS , pkpS
+  S267 + S313 + kpS -> S331 + kpS , pkpS
+  S2 + S314 + kpS -> S275 + kpS , pkpS
+  S77 + S314 + kpS -> S286 + kpS , pkpS
+  S178 + S314 + kpS -> S325 + kpS , pkpS
+  S267 + S314 + kpS -> S333 + kpS , pkpS
+  S2 + S318 + kpS -> S231 + kpS , pkpS
+  S77 + S318 + kpS -> S280 + kpS , pkpS
+  S178 + S318 + kpS -> S329 + kpS , pkpS
+  S267 + S318 + kpS -> S350 + kpS , pkpS
+  S2 + S319 + kpS -> S283 + kpS , pkpS
+  S77 + S319 + kpS -> S285 + kpS , pkpS
+  S178 + S319 + kpS -> S332 + kpS , pkpS
+  S267 + S319 + kpS -> S351 + kpS , pkpS
+  S2 + S320 + kpS -> S287 + kpS , pkpS
+  S77 + S320 + kpS -> S289 + kpS , pkpS
+  S178 + S320 + kpS -> S334 + kpS , pkpS
+  S267 + S320 + kpS -> S352 + kpS , pkpS
+  S2 + S338 + kpS -> S233 + kpS , pkpS
+  S77 + S338 + kpS -> S279 + kpS , pkpS
+  S178 + S338 + kpS -> S339 + kpS , pkpS
+  S267 + S338 + kpS -> S350 + kpS , pkpS
+  S2 + S342 + kpS -> S274 + kpS , pkpS
+  S77 + S342 + kpS -> S284 + kpS , pkpS
+  S178 + S342 + kpS -> S347 + kpS , pkpS
+  S267 + S342 + kpS -> S351 + kpS , pkpS
+  S2 + S344 + kpS -> S276 + kpS , pkpS
+  S77 + S344 + kpS -> S288 + kpS , pkpS
+  S178 + S344 + kpS -> S348 + kpS , pkpS
+  S267 + S344 + kpS -> S352 + kpS , pkpS
+  S2 + S346 + kpS -> S290 + kpS , pkpS
+  S77 + S346 + kpS -> S291 + kpS , pkpS
+  S178 + S346 + kpS -> S349 + kpS , pkpS
+  S267 + S346 + kpS -> S353 + kpS , pkpS
+  S303 + kmS -> S18 + S267 + kmS , pkmS
+  S304 + kmS -> S33 + S267 + kmS , pkmS
+  S305 + kmS -> S35 + S267 + kmS , pkmS
+  S306 + kmS -> S11 + S267 + kmS , pkmS
+  S307 + kmS -> S16 + S267 + kmS , pkmS
+  S308 + kmS -> S19 + S267 + kmS , pkmS
+  S309 + kmS -> S23 + S267 + kmS , pkmS
+  S310 + kmS -> S43 + S267 + kmS , pkmS
+  S311 + kmS -> S44 + S267 + kmS , pkmS
+  S312 + kmS -> S51 + S267 + kmS , pkmS
+  S313 + kmS -> S51 + S267 + kmS , pkmS
+  S314 + kmS -> S53 + S267 + kmS , pkmS
+  S315 + kmS -> S49 + S267 + kmS , pkmS
+  S316 + kmS -> S41 + S267 + kmS , pkmS
+  S317 + kmS -> S54 + S267 + kmS , pkmS
+  S318 + kmS -> S84 + S267 + kmS , pkmS
+  S319 + kmS -> S74 + S267 + kmS , pkmS
+  S320 + kmS -> S90 + S267 + kmS , pkmS
+  S321 + kmS -> S178 + S254 + kmS , pkmS
+  S321 + kmS -> S178 + S205 + kmS , pkmS
+  S322 + kmS -> S178 + S312 + kmS , pkmS
+  S322 + kmS -> S244 + S267 + kmS , pkmS
+  S323 + kmS -> S178 + S252 + kmS , pkmS
+  S323 + kmS -> S178 + S251 + kmS , pkmS
+  S324 + kmS -> S245 + S267 + kmS , pkmS
+  S324 + kmS -> S178 + S313 + kmS , pkmS
+  S325 + kmS -> S178 + S314 + kmS , pkmS
+  S325 + kmS -> S246 + S267 + kmS , pkmS
+  S326 + kmS -> S178 + S256 + kmS , pkmS
+  S326 + kmS -> S178 + S255 + kmS , pkmS
+  S327 + kmS -> S267 + S268 + kmS , pkmS
+  S327 + kmS -> S267 + S270 + kmS , pkmS
+  S328 + kmS -> S267 + S271 + kmS , pkmS
+  S328 + kmS -> S267 + S269 + kmS , pkmS
+  S329 + kmS -> S254 + S267 + kmS , pkmS
+  S329 + kmS -> S178 + S318 + kmS , pkmS
+  S330 + kmS -> S267 + S272 + kmS , p2.0 * kmS
+  S331 + kmS -> S267 + S312 + kmS , pkmS
+  S331 + kmS -> S267 + S313 + kmS , pkmS
+  S332 + kmS -> S252 + S267 + kmS , pkmS
+  S332 + kmS -> S178 + S319 + kmS , pkmS
+  S333 + kmS -> S267 + S314 + kmS , p2.0 * kmS
+  S334 + kmS -> S178 + S320 + kmS , pkmS
+  S334 + kmS -> S255 + S267 + kmS , pkmS
+  S335 + kmS -> S178 + S258 + kmS , p2.0 * kmS
+  S336 + kmS -> S63 + S267 + kmS , pkmS
+  S337 + kmS -> S64 + S267 + kmS , pkmS
+  S338 + kmS -> S84 + S267 + kmS , pkmS
+  S339 + kmS -> S178 + S338 + kmS , pkmS
+  S339 + kmS -> S205 + S267 + kmS , pkmS
+  S340 + kmS -> S40 + S267 + kmS , pkmS
+  S341 + kmS -> S70 + S267 + kmS , pkmS
+  S342 + kmS -> S74 + S267 + kmS , pkmS
+  S343 + kmS -> S80 + S267 + kmS , pkmS
+  S344 + kmS -> S90 + S267 + kmS , pkmS
+  S345 + kmS -> S93 + S267 + kmS , pkmS
+  S346 + kmS -> S106 + S267 + kmS , pkmS
+  S347 + kmS -> S178 + S342 + kmS , pkmS
+  S347 + kmS -> S251 + S267 + kmS , pkmS
+  S348 + kmS -> S256 + S267 + kmS , pkmS
+  S348 + kmS -> S178 + S344 + kmS , pkmS
+  S349 + kmS -> S178 + S346 + kmS , pkmS
+  S349 + kmS -> S258 + S267 + kmS , pkmS
+  S350 + kmS -> S267 + S338 + kmS , pkmS
+  S350 + kmS -> S267 + S318 + kmS , pkmS
+  S351 + kmS -> S267 + S342 + kmS , pkmS
+  S351 + kmS -> S267 + S319 + kmS , pkmS
+  S352 + kmS -> S267 + S320 + kmS , pkmS
+  S352 + kmS -> S267 + S344 + kmS , pkmS
+  S353 + kmS -> S267 + S346 + kmS , p2.0 * kmS
+  S323 + pLS -> S347 + pLS , ppLS
+  S324 + pLS -> S331 + pLS , ppLS
+  S332 + pLS -> S351 + pLS , ppLS
+  S321 + pLSs -> S329 + pLSs , ppLSs
+  S323 + pLSs -> S332 + pLSs , ppLSs
+  S326 + pLSs -> S334 + pLSs , ppLSs
+  S335 + pLSs -> S349 + pLSs , p2.0 * pLSs
+  S339 + pLSs -> S350 + pLSs , ppLSs
+  S347 + pLSs -> S351 + pLSs , ppLSs
+  S348 + pLSs -> S352 + pLSs , ppLSs
+  S349 + pLSs -> S353 + pLSs , ppLSs
+  S305 + dm -> S303 + dm , pdm
+  S308 + dm -> S306 + dm , pdm
+  S309 + dm -> S303 + dm , pdm
+  S310 + dm -> S304 + dm , pdm
+  S311 + dm -> S305 + dm , pdm
+  S311 + dm -> S309 + dm , pdm
+  S312 + dm -> S268 + dm , pdm
+  S313 + dm -> S270 + dm , pdm
+  S314 + dm -> S269 + dm , pdm
+  S314 + dm -> S271 + dm , pdm
+  S317 + dm -> S315 + dm , pdm
+  S320 + dm -> S318 + dm , pdm
+  S322 + dm -> S296 + dm , pdm
+  S324 + dm -> S300 + dm , pdm
+  S325 + dm -> S301 + dm , pdm
+  S325 + dm -> S298 + dm , pdm
+  S326 + dm -> S321 + dm , pdm
+  S328 + dm -> S299 + dm , pdm
+  S331 + dm -> S327 + dm , pdm
+  S333 + dm -> S328 + dm , p2.0 * dm
+  S334 + dm -> S329 + dm , pdm
+  S343 + dm -> S341 + dm , pdm
+  S344 + dm -> S338 + dm , pdm
+  S348 + dm -> S339 + dm , pdm
+  S352 + dm -> S350 + dm , pdm
+  S312 + dm -> S308 + dm , pdm
+  S313 + dm -> S310 + dm , pdm
+  S314 + dm -> S311 + dm , pdm
+  S318 + dm -> S315 + dm , pdm
+  S319 + dm -> S316 + dm , pdm
+  S320 + dm -> S317 + dm , pdm
+  S338 + dm -> S341 + dm , pdm
+  S342 + dm -> S340 + dm , pdm
+  S344 + dm -> S343 + dm , pdm
+  S346 + dm -> S345 + dm , pdm
+  S303 + dm -> S199 + dm , pdm
+  S304 + dm -> S236 + dm , pdm
+  S305 + dm -> S237 + dm , pdm
+  S306 + dm -> S200 + dm , pdm
+  S307 + dm -> S234 + dm , pdm
+  S308 + dm -> S235 + dm , pdm
+  S309 + dm -> S201 + dm , pdm
+  S310 + dm -> S241 + dm , pdm
+  S311 + dm -> S242 + dm , pdm
+  S312 + dm -> S245 + dm , pdm
+  S313 + dm -> S244 + dm , pdm
+  S314 + dm -> S246 + dm , pdm
+  S315 + dm -> S204 + dm , pdm
+  S316 + dm -> S240 + dm , pdm
+  S317 + dm -> S247 + dm , pdm
+  S318 + dm -> S205 + dm , pdm
+  S319 + dm -> S251 + dm , pdm
+  S320 + dm -> S256 + dm , pdm
+  S322 + dm -> S295 + dm , pdm
+  S324 + dm -> S295 + dm , pdm
+  S325 + dm -> S297 + dm , pdm
+  S327 + dm -> S300 + dm , pdm
+  S327 + dm -> S296 + dm , pdm
+  S328 + dm -> S301 + dm , pdm
+  S328 + dm -> S298 + dm , pdm
+  S329 + dm -> S321 + dm , pdm
+  S330 + dm -> S302 + dm , p2.0 * dm
+  S331 + dm -> S322 + dm , pdm
+  S331 + dm -> S324 + dm , pdm
+  S332 + dm -> S323 + dm , pdm
+  S333 + dm -> S325 + dm , p2.0 * dm
+  S334 + dm -> S326 + dm , pdm
+  S336 + dm -> S248 + dm , pdm
+  S337 + dm -> S249 + dm , pdm
+  S338 + dm -> S254 + dm , pdm
+  S339 + dm -> S321 + dm , pdm
+  S340 + dm -> S239 + dm , pdm
+  S341 + dm -> S250 + dm , pdm
+  S342 + dm -> S252 + dm , pdm
+  S343 + dm -> S253 + dm , pdm
+  S344 + dm -> S255 + dm , pdm
+  S345 + dm -> S257 + dm , pdm
+  S346 + dm -> S258 + dm , pdm
+  S347 + dm -> S323 + dm , pdm
+  S348 + dm -> S326 + dm , pdm
+  S349 + dm -> S335 + dm , pdm
+  S350 + dm -> S339 + dm , pdm
+  S350 + dm -> S329 + dm , pdm
+  S351 + dm -> S347 + dm , pdm
+  S351 + dm -> S332 + dm , pdm
+  S352 + dm -> S348 + dm , pdm
+  S352 + dm -> S334 + dm , pdm
+  S353 + dm -> S349 + dm , p2.0 * dm
+  S303 + dm -> S71 + dm , pdm
+  S304 + dm -> S115 + dm , pdm
+  S305 + dm -> S116 + dm , pdm
+  S306 + dm -> S42 + dm , pdm
+  S307 + dm -> S68 + dm , pdm
+  S308 + dm -> S72 + dm , pdm
+  S309 + dm -> S81 + dm , pdm
+  S310 + dm -> S122 + dm , pdm
+  S311 + dm -> S123 + dm , pdm
+  S312 + dm -> S127 + dm , pdm
+  S313 + dm -> S126 + dm , pdm
+  S314 + dm -> S129 + dm , pdm
+  S315 + dm -> S94 + dm , pdm
+  S316 + dm -> S121 + dm , pdm
+  S317 + dm -> S130 + dm , pdm
+  S318 + dm -> S107 + dm , pdm
+  S319 + dm -> S136 + dm , pdm
+  S320 + dm -> S156 + dm , pdm
+  S321 + dm -> S226 + dm , pdm
+  S321 + dm -> S206 + dm , pdm
+  S322 + dm -> S224 + dm , pdm
+  S322 + dm -> S223 + dm , pdm
+  S323 + dm -> S227 + dm , pdm
+  S323 + dm -> S228 + dm , pdm
+  S324 + dm -> S219 + dm , pdm
+  S324 + dm -> S220 + dm , pdm
+  S325 + dm -> S275 + dm , pdm
+  S325 + dm -> S259 + dm , pdm
+  S326 + dm -> S230 + dm , pdm
+  S326 + dm -> S229 + dm , pdm
+  S327 + dm -> S222 + dm , pdm
+  S327 + dm -> S221 + dm , pdm
+  S328 + dm -> S277 + dm , pdm
+  S328 + dm -> S278 + dm , pdm
+  S329 + dm -> S231 + dm , pdm
+  S329 + dm -> S232 + dm , pdm
+  S330 + dm -> S273 + dm , p2.0 * dm
+  S331 + dm -> S281 + dm , pdm
+  S331 + dm -> S282 + dm , pdm
+  S332 + dm -> S283 + dm , pdm
+  S332 + dm -> S260 + dm , pdm
+  S333 + dm -> S286 + dm , p2.0 * dm
+  S334 + dm -> S287 + dm , pdm
+  S334 + dm -> S263 + dm , pdm
+  S335 + dm -> S264 + dm , p2.0 * dm
+  S336 + dm -> S132 + dm , pdm
+  S337 + dm -> S133 + dm , pdm
+  S338 + dm -> S142 + dm , pdm
+  S339 + dm -> S233 + dm , pdm
+  S339 + dm -> S207 + dm , pdm
+  S340 + dm -> S119 + dm , pdm
+  S341 + dm -> S134 + dm , pdm
+  S342 + dm -> S137 + dm , pdm
+  S343 + dm -> S140 + dm , pdm
+  S344 + dm -> S144 + dm , pdm
+  S345 + dm -> S146 + dm , pdm
+  S346 + dm -> S158 + dm , pdm
+  S347 + dm -> S274 + dm , pdm
+  S347 + dm -> S261 + dm , pdm
+  S348 + dm -> S276 + dm , pdm
+  S348 + dm -> S262 + dm , pdm
+  S349 + dm -> S290 + dm , pdm
+  S349 + dm -> S265 + dm , pdm
+  S350 + dm -> S279 + dm , pdm
+  S350 + dm -> S280 + dm , pdm
+  S351 + dm -> S284 + dm , pdm
+  S351 + dm -> S285 + dm , pdm
+  S352 + dm -> S288 + dm , pdm
+  S352 + dm -> S289 + dm , pdm
+  S353 + dm -> S291 + dm , p2.0 * dm
+ end reactions
+
+end model
+
