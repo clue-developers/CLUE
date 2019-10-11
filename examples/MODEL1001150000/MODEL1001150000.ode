@@ -1,0 +1,717 @@
+begin model MODEL1001150000
+
+ 
+ begin parameters 
+
+ 
+// This model contains 48 global parameters, and it is also (also refered as Pepke2010_Full_Ca2/CaM_mCaMKII)
+
+k1Con = 4.0
+k1Coff = 40.0
+k2Con = 10.0
+k2Coff = 9.25
+k1Non = 100.0
+k1Noff = 2500.0
+k2Non = 150.0
+k2Noff = 750.0
+kK1Con = 44.0
+kK1Coff = 33.0
+kK2Con = 44.0
+kK2Coff = 2.7
+kK1Non = 75.0
+kK1Noff = 300.0
+kK2Non = 76.0
+kK2Noff = 33.0
+kCaM0on = 0.0038
+kCaM0off = 5.5
+kCaM1Con = 0.059
+kCaM1Coff = 6.8
+kCaM2Con = 0.92
+kCaM2Coff = 6.8
+kCaM2C1Non = 5.2
+kCaM2C1Noff = 3.8
+kCaM1C1Non = 3.3
+kCaM1C1Noff = 3.4
+kCaM4on = 30.0
+kCaM4off = 1.7
+kCaM1Non = 0.022
+kCaM1Noff = 3.1
+kCaM1C2Non = 1.9
+kCaM1C2Noff = 1.9
+kCaM2Non = 0.1
+kCaM2Noff = 1.7
+k2CaMKon = 50.0
+k2CaMKoff = 60.0
+kpCaM0 = 0.0
+kpCaM1C = 0.032
+kpCaM2C = 0.064
+kpCaM2C1N = 0.124
+kpCaM1C1N = 0.094
+kpCaM4 = 0.96
+kpCaM1N = 0.06
+kpCaM1C2N = 0.154
+kpCaM2N = 0.12
+caminit = 30.0
+ckinit = 80.0
+cainit = 100.0
+
+end parameters 
+
+
+
+begin init
+CaM_0_1 = 0.0
+CaM_0_2 = 0.0
+CaM_1_0 = 0.0
+CaM_1_1 = 0.0
+CaM_1_2 = 0.0
+CaM_2_0 = 0.0
+CaM_2_1 = 0.0
+CaM_2_2 = 0.0
+KCaM_0_0 = 0.0
+KCaM_0_1 = 0.0
+KCaM_0_2 = 0.0
+KCaM_1_0 = 0.0
+KCaM_1_1 = 0.0
+KCaM_1_2 = 0.0
+KCaM_2_0 = 0.0
+KCaM_2_1 = 0.0
+KCaM_2_2 = 0.0
+KCaMcomplex_0_0_0_1 = 0.0
+KCaMcomplex_0_0_0_2 = 0.0
+KCaMcomplex_0_0_1_0 = 0.0
+KCaMcomplex_0_0_1_1 = 0.0
+KCaMcomplex_0_0_1_2 = 0.0
+KCaMcomplex_0_0_2_0 = 0.0
+KCaMcomplex_0_0_2_1 = 0.0
+KCaMcomplex_0_0_2_2 = 0.0
+KCaMcomplex_0_1_0_2 = 0.0
+KCaMcomplex_0_1_1_0 = 0.0
+KCaMcomplex_0_1_1_1 = 0.0
+KCaMcomplex_0_1_1_2 = 0.0
+KCaMcomplex_0_1_2_0 = 0.0
+KCaMcomplex_0_1_2_1 = 0.0
+KCaMcomplex_0_1_2_2 = 0.0
+KCaMcomplex_0_2_1_0 = 0.0
+KCaMcomplex_0_2_1_1 = 0.0
+KCaMcomplex_0_2_1_2 = 0.0
+KCaMcomplex_0_2_2_0 = 0.0
+KCaMcomplex_0_2_2_1 = 0.0
+KCaMcomplex_0_2_2_2 = 0.0
+KCaMcomplex_1_0_1_1 = 0.0
+KCaMcomplex_1_0_1_2 = 0.0
+KCaMcomplex_1_0_2_0 = 0.0
+KCaMcomplex_1_0_2_1 = 0.0
+KCaMcomplex_1_0_2_2 = 0.0
+KCaMcomplex_1_1_1_2 = 0.0
+KCaMcomplex_1_1_2_0 = 0.0
+KCaMcomplex_1_1_2_1 = 0.0
+KCaMcomplex_1_1_2_2 = 0.0
+KCaMcomplex_1_2_2_0 = 0.0
+KCaMcomplex_1_2_2_1 = 0.0
+KCaMcomplex_1_2_2_2 = 0.0
+KCaMcomplex_2_0_2_1 = 0.0
+KCaMcomplex_2_0_2_2 = 0.0
+KCaMcomplex_2_1_2_2 = 0.0
+KCaMcomplex_0_0_0_0 = 0.0
+KCaMcomplex_0_1_0_1 = 0.0
+KCaMcomplex_0_2_0_2 = 0.0
+KCaMcomplex_1_0_1_0 = 0.0
+KCaMcomplex_1_1_1_1 = 0.0
+KCaMcomplex_1_2_1_2 = 0.0
+KCaMcomplex_2_0_2_0 = 0.0
+KCaMcomplex_2_1_2_1 = 0.0
+KCaMcomplex_2_2_2_2 = 0.0
+pKCaM_0_0 = 0.0
+pKCaM_0_1 = 0.0
+pKCaM_0_2 = 0.0
+pKCaM_1_0 = 0.0
+pKCaM_1_1 = 0.0
+pKCaM_1_2 = 0.0
+pKCaM_2_0 = 0.0
+pKCaM_2_1 = 0.0
+pKCaM_2_2 = 0.0
+pKCaMcomplex_0_0_0_0 = 0.0
+pKCaMcomplex_0_0_0_1 = 0.0
+pKCaMcomplex_0_0_0_2 = 0.0
+pKCaMcomplex_0_0_1_0 = 0.0
+pKCaMcomplex_0_0_1_1 = 0.0
+pKCaMcomplex_0_0_1_2 = 0.0
+pKCaMcomplex_0_0_2_0 = 0.0
+pKCaMcomplex_0_0_2_1 = 0.0
+pKCaMcomplex_0_0_2_2 = 0.0
+pKCaMcomplex_0_1_0_0 = 0.0
+pKCaMcomplex_0_1_0_1 = 0.0
+pKCaMcomplex_0_1_0_2 = 0.0
+pKCaMcomplex_0_1_1_0 = 0.0
+pKCaMcomplex_0_1_1_1 = 0.0
+pKCaMcomplex_0_1_1_2 = 0.0
+pKCaMcomplex_0_1_2_0 = 0.0
+pKCaMcomplex_0_1_2_1 = 0.0
+pKCaMcomplex_0_1_2_2 = 0.0
+pKCaMcomplex_0_2_0_0 = 0.0
+pKCaMcomplex_0_2_0_1 = 0.0
+pKCaMcomplex_0_2_0_2 = 0.0
+pKCaMcomplex_0_2_1_0 = 0.0
+pKCaMcomplex_0_2_1_1 = 0.0
+pKCaMcomplex_0_2_1_2 = 0.0
+pKCaMcomplex_0_2_2_0 = 0.0
+pKCaMcomplex_0_2_2_1 = 0.0
+pKCaMcomplex_0_2_2_2 = 0.0
+pKCaMcomplex_1_0_0_0 = 0.0
+pKCaMcomplex_1_0_0_1 = 0.0
+pKCaMcomplex_1_0_0_2 = 0.0
+pKCaMcomplex_1_0_1_0 = 0.0
+pKCaMcomplex_1_0_1_1 = 0.0
+pKCaMcomplex_1_0_1_2 = 0.0
+pKCaMcomplex_1_0_2_0 = 0.0
+pKCaMcomplex_1_0_2_1 = 0.0
+pKCaMcomplex_1_0_2_2 = 0.0
+pKCaMcomplex_1_1_0_0 = 0.0
+pKCaMcomplex_1_1_0_1 = 0.0
+pKCaMcomplex_1_1_0_2 = 0.0
+pKCaMcomplex_1_1_1_0 = 0.0
+pKCaMcomplex_1_1_1_1 = 0.0
+pKCaMcomplex_1_1_1_2 = 0.0
+pKCaMcomplex_1_1_2_0 = 0.0
+pKCaMcomplex_1_1_2_1 = 0.0
+pKCaMcomplex_1_1_2_2 = 0.0
+pKCaMcomplex_1_2_0_0 = 0.0
+pKCaMcomplex_1_2_0_1 = 0.0
+pKCaMcomplex_1_2_0_2 = 0.0
+pKCaMcomplex_1_2_1_0 = 0.0
+pKCaMcomplex_1_2_1_1 = 0.0
+pKCaMcomplex_1_2_1_2 = 0.0
+pKCaMcomplex_1_2_2_0 = 0.0
+pKCaMcomplex_1_2_2_1 = 0.0
+pKCaMcomplex_1_2_2_2 = 0.0
+pKCaMcomplex_2_0_0_0 = 0.0
+pKCaMcomplex_2_0_0_1 = 0.0
+pKCaMcomplex_2_0_0_2 = 0.0
+pKCaMcomplex_2_0_1_0 = 0.0
+pKCaMcomplex_2_0_1_1 = 0.0
+pKCaMcomplex_2_0_1_2 = 0.0
+pKCaMcomplex_2_0_2_0 = 0.0
+pKCaMcomplex_2_0_2_1 = 0.0
+pKCaMcomplex_2_0_2_2 = 0.0
+pKCaMcomplex_2_1_0_0 = 0.0
+pKCaMcomplex_2_1_0_1 = 0.0
+pKCaMcomplex_2_1_0_2 = 0.0
+pKCaMcomplex_2_1_1_0 = 0.0
+pKCaMcomplex_2_1_1_1 = 0.0
+pKCaMcomplex_2_1_1_2 = 0.0
+pKCaMcomplex_2_1_2_0 = 0.0
+pKCaMcomplex_2_1_2_1 = 0.0
+pKCaMcomplex_2_1_2_2 = 0.0
+pKCaMcomplex_2_2_0_0 = 0.0
+pKCaMcomplex_2_2_0_1 = 0.0
+pKCaMcomplex_2_2_0_2 = 0.0
+pKCaMcomplex_2_2_1_0 = 0.0
+pKCaMcomplex_2_2_1_1 = 0.0
+pKCaMcomplex_2_2_1_2 = 0.0
+pKCaMcomplex_2_2_2_0 = 0.0
+pKCaMcomplex_2_2_2_1 = 0.0
+pKCaMcomplex_2_2_2_2 = 0.0
+CaM_0_0 = 30.0
+KaMe = 80.0
+Ca = 100.0
+KCaM2C_tot = 0                                   //  default value 
+
+end init
+
+begin partition
+//{CaM_0_0, CaM_0_1, CaM_0_2, CaM_1_0, CaM_1_1, CaM_1_2, CaM_2_0, CaM_2_1, CaM_2_2}//,
+//{KCaM_0_0, KCaM_0_1, KCaM_0_2, KCaM_1_0, KCaM_1_1, KCaM_1_2, KCaM_2_0, KCaM_2_1, KCaM_2_2}//,
+{pKCaM_0_1, pKCaM_0_2, pKCaM_1_0, pKCaM_1_1, pKCaM_1_2, pKCaM_2_0, pKCaM_2_1, pKCaM_2_2, pKCaM_0_0}
+end partition
+ 
+
+begin reactions
+
+Ca + CaM_0_0 -> CaM_1_0, k1Con
+CaM_1_0 -> Ca + CaM_0_0, k1Coff
+Ca + CaM_0_1 -> CaM_1_1, k1Con
+CaM_1_1 -> Ca + CaM_0_1, k1Coff
+Ca + CaM_0_2 -> CaM_1_2, k1Con
+CaM_1_2 -> Ca + CaM_0_2, k1Coff
+Ca + CaM_1_0 -> CaM_2_0, k2Con
+CaM_2_0 -> Ca + CaM_1_0, k2Coff
+Ca + CaM_1_1 -> CaM_2_1, k2Con
+CaM_2_1 -> Ca + CaM_1_1, k2Coff
+Ca + CaM_1_2 -> CaM_2_2, k2Con
+CaM_2_2 -> Ca + CaM_1_2, k2Coff
+Ca + CaM_0_0 -> CaM_0_1, k1Non
+CaM_0_1 -> Ca + CaM_0_0, k1Noff
+Ca + CaM_0_1 -> CaM_0_2, k2Non
+CaM_0_2 -> Ca + CaM_0_1, k2Noff
+Ca + CaM_1_0 -> CaM_1_1, k1Non
+CaM_1_1 -> Ca + CaM_1_0, k1Noff
+Ca + CaM_1_1 -> CaM_1_2, k2Non
+CaM_1_2 -> Ca + CaM_1_1, k2Noff
+Ca + CaM_2_0 -> CaM_2_1, k1Non
+CaM_2_1 -> Ca + CaM_2_0, k1Noff
+Ca + CaM_2_1 -> CaM_2_2, k2Non
+CaM_2_2 -> Ca + CaM_2_1, k2Noff
+Ca + KCaM_0_0 -> KCaM_1_0, kK1Con
+KCaM_1_0 -> Ca + KCaM_0_0, kK1Coff
+Ca + KCaM_0_1 -> KCaM_1_1, kK1Con
+KCaM_1_1 -> Ca + KCaM_0_1, kK1Coff
+Ca + KCaM_0_2 -> KCaM_1_2, kK1Con
+KCaM_1_2 -> Ca + KCaM_0_2, kK1Coff
+Ca + KCaM_1_0 -> KCaM_2_0, kK2Con
+KCaM_2_0 -> Ca + KCaM_1_0, kK2Coff
+Ca + KCaM_1_1 -> KCaM_2_1, kK2Con
+KCaM_2_1 -> Ca + KCaM_1_1, kK2Coff
+Ca + KCaM_1_2 -> KCaM_2_2, kK2Con
+KCaM_2_2 -> Ca + KCaM_1_2, kK2Coff
+Ca + KCaM_0_0 -> KCaM_0_1, kK1Non
+KCaM_0_1 -> Ca + KCaM_0_0, kK1Noff
+Ca + KCaM_0_1 -> KCaM_0_2, kK2Non
+KCaM_0_2 -> Ca + KCaM_0_1, kK2Noff
+Ca + KCaM_1_0 -> KCaM_1_1, kK1Non
+KCaM_1_1 -> Ca + KCaM_1_0, kK1Noff
+Ca + KCaM_1_1 -> KCaM_1_2, kK2Non
+KCaM_1_2 -> Ca + KCaM_1_1, kK2Noff
+Ca + KCaM_2_0 -> KCaM_2_1, kK1Non
+KCaM_2_1 -> Ca + KCaM_2_0, kK1Noff
+Ca + KCaM_2_1 -> KCaM_2_2, kK2Non
+KCaM_2_2 -> Ca + KCaM_2_1, kK2Noff
+CaM_0_0 + KaMe -> KCaM_0_0, kCaM0on
+KCaM_0_0 -> CaM_0_0 + KaMe, kCaM0off
+CaM_0_1 + KaMe -> KCaM_0_1, kCaM1Non
+KCaM_0_1 -> CaM_0_1 + KaMe, kCaM1Noff
+CaM_0_2 + KaMe -> KCaM_0_2, kCaM2Non
+KCaM_0_2 -> CaM_0_2 + KaMe, kCaM2Noff
+CaM_1_0 + KaMe -> KCaM_1_0, kCaM1Con
+KCaM_1_0 -> CaM_1_0 + KaMe, kCaM1Coff
+CaM_1_1 + KaMe -> KCaM_1_1, kCaM1C1Non
+KCaM_1_1 -> CaM_1_1 + KaMe, kCaM1C1Noff
+CaM_1_2 + KaMe -> KCaM_1_2, kCaM1C2Non
+KCaM_1_2 -> CaM_1_2 + KaMe, kCaM1C2Noff
+CaM_2_0 + KaMe -> KCaM_2_0, kCaM2Con
+KCaM_2_0 -> CaM_2_0 + KaMe, kCaM2Coff
+CaM_2_1 + KaMe -> KCaM_2_1, kCaM2C1Non
+KCaM_2_1 -> CaM_2_1 + KaMe, kCaM2C1Noff
+CaM_2_2 + KaMe -> KCaM_2_2, kCaM4on
+KCaM_2_2 -> CaM_2_2 + KaMe, kCaM4off
+KCaM_0_0 + KCaM_0_1 -> KCaMcomplex_0_0_0_1, k2CaMKon
+KCaMcomplex_0_0_0_1 -> KCaM_0_0 + KCaM_0_1, k2CaMKoff
+KCaM_0_0 + KCaM_0_2 -> KCaMcomplex_0_0_0_2, k2CaMKon
+KCaMcomplex_0_0_0_2 -> KCaM_0_0 + KCaM_0_2, k2CaMKoff
+KCaM_0_0 + KCaM_1_0 -> KCaMcomplex_0_0_1_0, k2CaMKon
+KCaMcomplex_0_0_1_0 -> KCaM_0_0 + KCaM_1_0, k2CaMKoff
+KCaM_0_0 + KCaM_1_1 -> KCaMcomplex_0_0_1_1, k2CaMKon
+KCaMcomplex_0_0_1_1 -> KCaM_0_0 + KCaM_1_1, k2CaMKoff
+KCaM_0_0 + KCaM_1_2 -> KCaMcomplex_0_0_1_2, k2CaMKon
+KCaMcomplex_0_0_1_2 -> KCaM_0_0 + KCaM_1_2, k2CaMKoff
+KCaM_0_0 + KCaM_2_0 -> KCaMcomplex_0_0_2_0, k2CaMKon
+KCaMcomplex_0_0_2_0 -> KCaM_0_0 + KCaM_2_0, k2CaMKoff
+KCaM_0_0 + KCaM_2_1 -> KCaMcomplex_0_0_2_1, k2CaMKon
+KCaMcomplex_0_0_2_1 -> KCaM_0_0 + KCaM_2_1, k2CaMKoff
+KCaM_0_0 + KCaM_2_2 -> KCaMcomplex_0_0_2_2, k2CaMKon
+KCaMcomplex_0_0_2_2 -> KCaM_0_0 + KCaM_2_2, k2CaMKoff
+KCaM_0_1 + KCaM_0_2 -> KCaMcomplex_0_1_0_2, k2CaMKon
+KCaMcomplex_0_1_0_2 -> KCaM_0_1 + KCaM_0_2, k2CaMKoff
+KCaM_0_1 + KCaM_1_0 -> KCaMcomplex_0_1_1_0, k2CaMKon
+KCaMcomplex_0_1_1_0 -> KCaM_0_1 + KCaM_1_0, k2CaMKoff
+KCaM_0_1 + KCaM_1_1 -> KCaMcomplex_0_1_1_1, k2CaMKon
+KCaMcomplex_0_1_1_1 -> KCaM_0_1 + KCaM_1_1, k2CaMKoff
+KCaM_0_1 + KCaM_1_2 -> KCaMcomplex_0_1_1_2, k2CaMKon
+KCaMcomplex_0_1_1_2 -> KCaM_0_1 + KCaM_1_2, k2CaMKoff
+KCaM_0_1 + KCaM_2_0 -> KCaMcomplex_0_1_2_0, k2CaMKon
+KCaMcomplex_0_1_2_0 -> KCaM_0_1 + KCaM_2_0, k2CaMKoff
+KCaM_0_1 + KCaM_2_1 -> KCaMcomplex_0_1_2_1, k2CaMKon
+KCaMcomplex_0_1_2_1 -> KCaM_0_1 + KCaM_2_1, k2CaMKoff
+KCaM_0_1 + KCaM_2_2 -> KCaMcomplex_0_1_2_2, k2CaMKon
+KCaMcomplex_0_1_2_2 -> KCaM_0_1 + KCaM_2_2, k2CaMKoff
+KCaM_0_2 + KCaM_1_0 -> KCaMcomplex_0_2_1_0, k2CaMKon
+KCaMcomplex_0_2_1_0 -> KCaM_0_2 + KCaM_1_0, k2CaMKoff
+KCaM_0_2 + KCaM_1_1 -> KCaMcomplex_0_2_1_1, k2CaMKon
+KCaMcomplex_0_2_1_1 -> KCaM_0_2 + KCaM_1_1, k2CaMKoff
+KCaM_0_2 + KCaM_1_2 -> KCaMcomplex_0_2_1_2, k2CaMKon
+KCaMcomplex_0_2_1_2 -> KCaM_0_2 + KCaM_1_2, k2CaMKoff
+KCaM_0_2 + KCaM_2_0 -> KCaMcomplex_0_2_2_0, k2CaMKon
+KCaMcomplex_0_2_2_0 -> KCaM_0_2 + KCaM_2_0, k2CaMKoff
+KCaM_0_2 + KCaM_2_1 -> KCaMcomplex_0_2_2_1, k2CaMKon
+KCaMcomplex_0_2_2_1 -> KCaM_0_2 + KCaM_2_1, k2CaMKoff
+KCaM_0_2 + KCaM_2_2 -> KCaMcomplex_0_2_2_2, k2CaMKon
+KCaMcomplex_0_2_2_2 -> KCaM_0_2 + KCaM_2_2, k2CaMKoff
+KCaM_1_0 + KCaM_1_1 -> KCaMcomplex_1_0_1_1, k2CaMKon
+KCaMcomplex_1_0_1_1 -> KCaM_1_0 + KCaM_1_1, k2CaMKoff
+KCaM_1_0 + KCaM_1_2 -> KCaMcomplex_1_0_1_2, k2CaMKon
+KCaMcomplex_1_0_1_2 -> KCaM_1_0 + KCaM_1_2, k2CaMKoff
+KCaM_1_0 + KCaM_2_0 -> KCaMcomplex_1_0_2_0, k2CaMKon
+KCaMcomplex_1_0_2_0 -> KCaM_1_0 + KCaM_2_0, k2CaMKoff
+KCaM_1_0 + KCaM_2_1 -> KCaMcomplex_1_0_2_1, k2CaMKon
+KCaMcomplex_1_0_2_1 -> KCaM_1_0 + KCaM_2_1, k2CaMKoff
+KCaM_1_0 + KCaM_2_2 -> KCaMcomplex_1_0_2_2, k2CaMKon
+KCaMcomplex_1_0_2_2 -> KCaM_1_0 + KCaM_2_2, k2CaMKoff
+KCaM_1_1 + KCaM_1_2 -> KCaMcomplex_1_1_1_2, k2CaMKon
+KCaMcomplex_1_1_1_2 -> KCaM_1_1 + KCaM_1_2, k2CaMKoff
+KCaM_1_1 + KCaM_2_0 -> KCaMcomplex_1_1_2_0, k2CaMKon
+KCaMcomplex_1_1_2_0 -> KCaM_1_1 + KCaM_2_0, k2CaMKoff
+KCaM_1_1 + KCaM_2_1 -> KCaMcomplex_1_1_2_1, k2CaMKon
+KCaMcomplex_1_1_2_1 -> KCaM_1_1 + KCaM_2_1, k2CaMKoff
+KCaM_1_1 + KCaM_2_2 -> KCaMcomplex_1_1_2_2, k2CaMKon
+KCaMcomplex_1_1_2_2 -> KCaM_1_1 + KCaM_2_2, k2CaMKoff
+KCaM_1_2 + KCaM_2_0 -> KCaMcomplex_1_2_2_0, k2CaMKon
+KCaMcomplex_1_2_2_0 -> KCaM_1_2 + KCaM_2_0, k2CaMKoff
+KCaM_1_2 + KCaM_2_1 -> KCaMcomplex_1_2_2_1, k2CaMKon
+KCaMcomplex_1_2_2_1 -> KCaM_1_2 + KCaM_2_1, k2CaMKoff
+KCaM_1_2 + KCaM_2_2 -> KCaMcomplex_1_2_2_2, k2CaMKon
+KCaMcomplex_1_2_2_2 -> KCaM_1_2 + KCaM_2_2, k2CaMKoff
+KCaM_2_0 + KCaM_2_1 -> KCaMcomplex_2_0_2_1, k2CaMKon
+KCaMcomplex_2_0_2_1 -> KCaM_2_0 + KCaM_2_1, k2CaMKoff
+KCaM_2_0 + KCaM_2_2 -> KCaMcomplex_2_0_2_2, k2CaMKon
+KCaMcomplex_2_0_2_2 -> KCaM_2_0 + KCaM_2_2, k2CaMKoff
+KCaM_2_1 + KCaM_2_2 -> KCaMcomplex_2_1_2_2, k2CaMKon
+KCaMcomplex_2_1_2_2 -> KCaM_2_1 + KCaM_2_2, k2CaMKoff
+2*KCaM_0_0 -> KCaMcomplex_0_0_0_0, k2CaMKon
+KCaMcomplex_0_0_0_0 -> 2*KCaM_0_0, k2CaMKoff
+2*KCaM_0_1 -> KCaMcomplex_0_1_0_1, k2CaMKon
+KCaMcomplex_0_1_0_1 -> 2*KCaM_0_1, k2CaMKoff
+2*KCaM_0_2 -> KCaMcomplex_0_2_0_2, k2CaMKon
+KCaMcomplex_0_2_0_2 -> 2*KCaM_0_2, k2CaMKoff
+2*KCaM_1_0 -> KCaMcomplex_1_0_1_0, k2CaMKon
+KCaMcomplex_1_0_1_0 -> 2*KCaM_1_0, k2CaMKoff
+2*KCaM_1_1 -> KCaMcomplex_1_1_1_1, k2CaMKon
+KCaMcomplex_1_1_1_1 -> 2*KCaM_1_1, k2CaMKoff
+2*KCaM_1_2 -> KCaMcomplex_1_2_1_2, k2CaMKon
+KCaMcomplex_1_2_1_2 -> 2*KCaM_1_2, k2CaMKoff
+2*KCaM_2_0 -> KCaMcomplex_2_0_2_0, k2CaMKon
+KCaMcomplex_2_0_2_0 -> 2*KCaM_2_0, k2CaMKoff
+2*KCaM_2_1 -> KCaMcomplex_2_1_2_1, k2CaMKon
+KCaMcomplex_2_1_2_1 -> 2*KCaM_2_1, k2CaMKoff
+2*KCaM_2_2 -> KCaMcomplex_2_2_2_2, k2CaMKon
+KCaMcomplex_2_2_2_2 -> 2*KCaM_2_2, k2CaMKoff
+KCaMcomplex_0_0_0_1 -> KCaM_0_1 + pKCaM_0_0, kpCaM0
+KCaMcomplex_0_0_0_1 -> KCaM_0_0 + pKCaM_0_1, kpCaM1N
+KCaMcomplex_0_0_0_2 -> KCaM_0_2 + pKCaM_0_0, kpCaM0
+KCaMcomplex_0_0_0_2 -> KCaM_0_0 + pKCaM_0_2, kpCaM2N
+KCaMcomplex_0_0_1_0 -> KCaM_1_0 + pKCaM_0_0, kpCaM0
+KCaMcomplex_0_0_1_0 -> KCaM_0_0 + pKCaM_1_0, kpCaM1C
+KCaMcomplex_0_0_1_1 -> KCaM_1_1 + pKCaM_0_0, kpCaM0
+KCaMcomplex_0_0_1_1 -> KCaM_0_0 + pKCaM_1_1, kpCaM1C1N
+KCaMcomplex_0_0_1_2 -> KCaM_1_2 + pKCaM_0_0, kpCaM0
+KCaMcomplex_0_0_1_2 -> KCaM_0_0 + pKCaM_1_2, kpCaM1C2N
+KCaMcomplex_0_0_2_0 -> KCaM_2_0 + pKCaM_0_0, kpCaM0
+KCaMcomplex_0_0_2_0 -> KCaM_0_0 + pKCaM_2_0, kpCaM2C
+KCaMcomplex_0_0_2_1 -> KCaM_2_1 + pKCaM_0_0, kpCaM0
+KCaMcomplex_0_0_2_1 -> KCaM_0_0 + pKCaM_2_1, kpCaM2C1N
+KCaMcomplex_0_0_2_2 -> KCaM_2_2 + pKCaM_0_0, kpCaM0
+KCaMcomplex_0_0_2_2 -> KCaM_0_0 + pKCaM_2_2, kpCaM4
+KCaMcomplex_0_1_0_2 -> KCaM_0_2 + pKCaM_0_1, kpCaM1N
+KCaMcomplex_0_1_0_2 -> KCaM_0_1 + pKCaM_0_2, kpCaM2N
+KCaMcomplex_0_1_1_0 -> KCaM_1_0 + pKCaM_0_1, kpCaM1N
+KCaMcomplex_0_1_1_0 -> KCaM_0_1 + pKCaM_1_0, kpCaM1C
+KCaMcomplex_0_1_1_1 -> KCaM_1_1 + pKCaM_0_1, kpCaM1N
+KCaMcomplex_0_1_1_1 -> KCaM_0_1 + pKCaM_1_1, kpCaM1C1N
+KCaMcomplex_0_1_1_2 -> KCaM_1_2 + pKCaM_0_1, kpCaM1N
+KCaMcomplex_0_1_1_2 -> KCaM_0_1 + pKCaM_1_2, kpCaM1C2N
+KCaMcomplex_0_1_2_0 -> KCaM_2_0 + pKCaM_0_1, kpCaM1N
+KCaMcomplex_0_1_2_0 -> KCaM_0_1 + pKCaM_2_0, kpCaM2C
+KCaMcomplex_0_1_2_1 -> KCaM_2_1 + pKCaM_0_1, kpCaM1N
+KCaMcomplex_0_1_2_1 -> KCaM_0_1 + pKCaM_2_1, kpCaM2C1N
+KCaMcomplex_0_1_2_2 -> KCaM_2_2 + pKCaM_0_1, kpCaM1N
+KCaMcomplex_0_1_2_2 -> KCaM_0_1 + pKCaM_2_2, kpCaM4
+KCaMcomplex_0_2_1_0 -> KCaM_1_0 + pKCaM_0_2, kpCaM2N
+KCaMcomplex_0_2_1_0 -> KCaM_0_2 + pKCaM_1_0, kpCaM1C
+KCaMcomplex_0_2_1_1 -> KCaM_1_1 + pKCaM_0_2, kpCaM2N
+KCaMcomplex_0_2_1_1 -> KCaM_0_2 + pKCaM_1_1, kpCaM1C1N
+KCaMcomplex_0_2_1_2 -> KCaM_1_2 + pKCaM_0_2, kpCaM2N
+KCaMcomplex_0_2_1_2 -> KCaM_0_2 + pKCaM_1_2, kpCaM1C2N
+KCaMcomplex_0_2_2_0 -> KCaM_2_0 + pKCaM_0_2, kpCaM2N
+KCaMcomplex_0_2_2_0 -> KCaM_0_2 + pKCaM_2_0, kpCaM2C
+KCaMcomplex_0_2_2_1 -> KCaM_2_1 + pKCaM_0_2, kpCaM2N
+KCaMcomplex_0_2_2_1 -> KCaM_0_2 + pKCaM_2_1, kpCaM2C1N
+KCaMcomplex_0_2_2_2 -> KCaM_2_2 + pKCaM_0_2, kpCaM2N
+KCaMcomplex_0_2_2_2 -> KCaM_0_2 + pKCaM_2_2, kpCaM4
+KCaMcomplex_1_0_1_1 -> KCaM_1_1 + pKCaM_1_0, kpCaM1C
+KCaMcomplex_1_0_1_1 -> KCaM_1_0 + pKCaM_1_1, kpCaM1C1N
+KCaMcomplex_1_0_1_2 -> KCaM_1_2 + pKCaM_1_0, kpCaM1C
+KCaMcomplex_1_0_1_2 -> KCaM_1_0 + pKCaM_1_2, kpCaM1C2N
+KCaMcomplex_1_0_2_0 -> KCaM_2_0 + pKCaM_1_0, kpCaM1C
+KCaMcomplex_1_0_2_0 -> KCaM_1_0 + pKCaM_2_0, kpCaM2C
+KCaMcomplex_1_0_2_1 -> KCaM_2_1 + pKCaM_1_0, kpCaM1C
+KCaMcomplex_1_0_2_1 -> KCaM_1_0 + pKCaM_2_1, kpCaM2C1N
+KCaMcomplex_1_0_2_2 -> KCaM_2_2 + pKCaM_1_0, kpCaM1C
+KCaMcomplex_1_0_2_2 -> KCaM_1_0 + pKCaM_2_2, kpCaM4
+KCaMcomplex_1_1_1_2 -> KCaM_1_2 + pKCaM_1_1, kpCaM1C1N
+KCaMcomplex_1_1_1_2 -> KCaM_1_1 + pKCaM_1_2, kpCaM1C2N
+KCaMcomplex_1_1_2_0 -> KCaM_2_0 + pKCaM_1_1, kpCaM1C1N
+KCaMcomplex_1_1_2_0 -> KCaM_1_1 + pKCaM_2_0, kpCaM2C
+KCaMcomplex_1_1_2_1 -> KCaM_2_1 + pKCaM_1_1, kpCaM1C1N
+KCaMcomplex_1_1_2_1 -> KCaM_1_1 + pKCaM_2_1, kpCaM2C1N
+KCaMcomplex_1_1_2_2 -> KCaM_2_2 + pKCaM_1_1, kpCaM1C1N
+KCaMcomplex_1_1_2_2 -> KCaM_1_1 + pKCaM_2_2, kpCaM4
+KCaMcomplex_1_2_2_0 -> KCaM_2_0 + pKCaM_1_2, kpCaM1C2N
+KCaMcomplex_1_2_2_0 -> KCaM_1_2 + pKCaM_2_0, kpCaM2C
+KCaMcomplex_1_2_2_1 -> KCaM_2_1 + pKCaM_1_2, kpCaM1C2N
+KCaMcomplex_1_2_2_1 -> KCaM_1_2 + pKCaM_2_1, kpCaM2C1N
+KCaMcomplex_1_2_2_2 -> KCaM_2_2 + pKCaM_1_2, kpCaM1C2N
+KCaMcomplex_1_2_2_2 -> KCaM_1_2 + pKCaM_2_2, kpCaM4
+KCaMcomplex_2_0_2_1 -> KCaM_2_1 + pKCaM_2_0, kpCaM2C
+KCaMcomplex_2_0_2_1 -> KCaM_2_0 + pKCaM_2_1, kpCaM2C1N
+KCaMcomplex_2_0_2_2 -> KCaM_2_2 + pKCaM_2_0, kpCaM2C
+KCaMcomplex_2_0_2_2 -> KCaM_2_0 + pKCaM_2_2, kpCaM4
+KCaMcomplex_2_1_2_2 -> KCaM_2_2 + pKCaM_2_1, kpCaM2C1N
+KCaMcomplex_2_1_2_2 -> KCaM_2_1 + pKCaM_2_2, kpCaM4
+KCaMcomplex_0_0_0_0 -> KCaM_0_0 + pKCaM_0_0, kpCaM0
+KCaMcomplex_0_1_0_1 -> KCaM_0_1 + pKCaM_0_1, kpCaM1N
+KCaMcomplex_0_2_0_2 -> KCaM_0_2 + pKCaM_0_2, kpCaM2N
+KCaMcomplex_1_0_1_0 -> KCaM_1_0 + pKCaM_1_0, kpCaM1C
+KCaMcomplex_1_1_1_1 -> KCaM_1_1 + pKCaM_1_1, kpCaM1C1N
+KCaMcomplex_1_2_1_2 -> KCaM_1_2 + pKCaM_1_2, kpCaM1C2N
+KCaMcomplex_2_0_2_0 -> KCaM_2_0 + pKCaM_2_0, kpCaM2C
+KCaMcomplex_2_1_2_1 -> KCaM_2_1 + pKCaM_2_1, kpCaM2C1N
+KCaMcomplex_2_2_2_2 -> KCaM_2_2 + pKCaM_2_2, kpCaM4
+KCaM_0_0 + pKCaM_0_0 -> pKCaMcomplex_0_0_0_0, k2CaMKon
+pKCaMcomplex_0_0_0_0 -> KCaM_0_0 + pKCaM_0_0, k2CaMKoff
+KCaM_0_1 + pKCaM_0_0 -> pKCaMcomplex_0_0_0_1, k2CaMKon
+pKCaMcomplex_0_0_0_1 -> KCaM_0_1 + pKCaM_0_0, k2CaMKoff
+KCaM_0_2 + pKCaM_0_0 -> pKCaMcomplex_0_0_0_2, k2CaMKon
+pKCaMcomplex_0_0_0_2 -> KCaM_0_2 + pKCaM_0_0, k2CaMKoff
+KCaM_1_0 + pKCaM_0_0 -> pKCaMcomplex_0_0_1_0, k2CaMKon
+pKCaMcomplex_0_0_1_0 -> KCaM_1_0 + pKCaM_0_0, k2CaMKoff
+KCaM_1_1 + pKCaM_0_0 -> pKCaMcomplex_0_0_1_1, k2CaMKon
+pKCaMcomplex_0_0_1_1 -> KCaM_1_1 + pKCaM_0_0, k2CaMKoff
+KCaM_1_2 + pKCaM_0_0 -> pKCaMcomplex_0_0_1_2, k2CaMKon
+pKCaMcomplex_0_0_1_2 -> KCaM_1_2 + pKCaM_0_0, k2CaMKoff
+KCaM_2_0 + pKCaM_0_0 -> pKCaMcomplex_0_0_2_0, k2CaMKon
+pKCaMcomplex_0_0_2_0 -> KCaM_2_0 + pKCaM_0_0, k2CaMKoff
+KCaM_2_1 + pKCaM_0_0 -> pKCaMcomplex_0_0_2_1, k2CaMKon
+pKCaMcomplex_0_0_2_1 -> KCaM_2_1 + pKCaM_0_0, k2CaMKoff
+KCaM_2_2 + pKCaM_0_0 -> pKCaMcomplex_0_0_2_2, k2CaMKon
+pKCaMcomplex_0_0_2_2 -> KCaM_2_2 + pKCaM_0_0, k2CaMKoff
+KCaM_0_0 + pKCaM_0_1 -> pKCaMcomplex_0_1_0_0, k2CaMKon
+pKCaMcomplex_0_1_0_0 -> KCaM_0_0 + pKCaM_0_1, k2CaMKoff
+KCaM_0_1 + pKCaM_0_1 -> pKCaMcomplex_0_1_0_1, k2CaMKon
+pKCaMcomplex_0_1_0_1 -> KCaM_0_1 + pKCaM_0_1, k2CaMKoff
+KCaM_0_2 + pKCaM_0_1 -> pKCaMcomplex_0_1_0_2, k2CaMKon
+pKCaMcomplex_0_1_0_2 -> KCaM_0_2 + pKCaM_0_1, k2CaMKoff
+KCaM_1_0 + pKCaM_0_1 -> pKCaMcomplex_0_1_1_0, k2CaMKon
+pKCaMcomplex_0_1_1_0 -> KCaM_1_0 + pKCaM_0_1, k2CaMKoff
+KCaM_1_1 + pKCaM_0_1 -> pKCaMcomplex_0_1_1_1, k2CaMKon
+pKCaMcomplex_0_1_1_1 -> KCaM_1_1 + pKCaM_0_1, k2CaMKoff
+KCaM_1_2 + pKCaM_0_1 -> pKCaMcomplex_0_1_1_2, k2CaMKon
+pKCaMcomplex_0_1_1_2 -> KCaM_1_2 + pKCaM_0_1, k2CaMKoff
+KCaM_2_0 + pKCaM_0_1 -> pKCaMcomplex_0_1_2_0, k2CaMKon
+pKCaMcomplex_0_1_2_0 -> KCaM_2_0 + pKCaM_0_1, k2CaMKoff
+KCaM_2_1 + pKCaM_0_1 -> pKCaMcomplex_0_1_2_1, k2CaMKon
+pKCaMcomplex_0_1_2_1 -> KCaM_2_1 + pKCaM_0_1, k2CaMKoff
+KCaM_2_2 + pKCaM_0_1 -> pKCaMcomplex_0_1_2_2, k2CaMKon
+pKCaMcomplex_0_1_2_2 -> KCaM_2_2 + pKCaM_0_1, k2CaMKoff
+KCaM_0_0 + pKCaM_0_2 -> pKCaMcomplex_0_2_0_0, k2CaMKon
+pKCaMcomplex_0_2_0_0 -> KCaM_0_0 + pKCaM_0_2, k2CaMKoff
+KCaM_0_1 + pKCaM_0_2 -> pKCaMcomplex_0_2_0_1, k2CaMKon
+pKCaMcomplex_0_2_0_1 -> KCaM_0_1 + pKCaM_0_2, k2CaMKoff
+KCaM_0_2 + pKCaM_0_2 -> pKCaMcomplex_0_2_0_2, k2CaMKon
+pKCaMcomplex_0_2_0_2 -> KCaM_0_2 + pKCaM_0_2, k2CaMKoff
+KCaM_1_0 + pKCaM_0_2 -> pKCaMcomplex_0_2_1_0, k2CaMKon
+pKCaMcomplex_0_2_1_0 -> KCaM_1_0 + pKCaM_0_2, k2CaMKoff
+KCaM_1_1 + pKCaM_0_2 -> pKCaMcomplex_0_2_1_1, k2CaMKon
+pKCaMcomplex_0_2_1_1 -> KCaM_1_1 + pKCaM_0_2, k2CaMKoff
+KCaM_1_2 + pKCaM_0_2 -> pKCaMcomplex_0_2_1_2, k2CaMKon
+pKCaMcomplex_0_2_1_2 -> KCaM_1_2 + pKCaM_0_2, k2CaMKoff
+KCaM_2_0 + pKCaM_0_2 -> pKCaMcomplex_0_2_2_0, k2CaMKon
+pKCaMcomplex_0_2_2_0 -> KCaM_2_0 + pKCaM_0_2, k2CaMKoff
+KCaM_2_1 + pKCaM_0_2 -> pKCaMcomplex_0_2_2_1, k2CaMKon
+pKCaMcomplex_0_2_2_1 -> KCaM_2_1 + pKCaM_0_2, k2CaMKoff
+KCaM_2_2 + pKCaM_0_2 -> pKCaMcomplex_0_2_2_2, k2CaMKon
+pKCaMcomplex_0_2_2_2 -> KCaM_2_2 + pKCaM_0_2, k2CaMKoff
+KCaM_0_0 + pKCaM_1_0 -> pKCaMcomplex_1_0_0_0, k2CaMKon
+pKCaMcomplex_1_0_0_0 -> KCaM_0_0 + pKCaM_1_0, k2CaMKoff
+KCaM_0_1 + pKCaM_1_0 -> pKCaMcomplex_1_0_0_1, k2CaMKon
+pKCaMcomplex_1_0_0_1 -> KCaM_0_1 + pKCaM_1_0, k2CaMKoff
+KCaM_0_2 + pKCaM_1_0 -> pKCaMcomplex_1_0_0_2, k2CaMKon
+pKCaMcomplex_1_0_0_2 -> KCaM_0_2 + pKCaM_1_0, k2CaMKoff
+KCaM_1_0 + pKCaM_1_0 -> pKCaMcomplex_1_0_1_0, k2CaMKon
+pKCaMcomplex_1_0_1_0 -> KCaM_1_0 + pKCaM_1_0, k2CaMKoff
+KCaM_1_1 + pKCaM_1_0 -> pKCaMcomplex_1_0_1_1, k2CaMKon
+pKCaMcomplex_1_0_1_1 -> KCaM_1_1 + pKCaM_1_0, k2CaMKoff
+KCaM_1_2 + pKCaM_1_0 -> pKCaMcomplex_1_0_1_2, k2CaMKon
+pKCaMcomplex_1_0_1_2 -> KCaM_1_2 + pKCaM_1_0, k2CaMKoff
+KCaM_2_0 + pKCaM_1_0 -> pKCaMcomplex_1_0_2_0, k2CaMKon
+pKCaMcomplex_1_0_2_0 -> KCaM_2_0 + pKCaM_1_0, k2CaMKoff
+KCaM_2_1 + pKCaM_1_0 -> pKCaMcomplex_1_0_2_1, k2CaMKon
+pKCaMcomplex_1_0_2_1 -> KCaM_2_1 + pKCaM_1_0, k2CaMKoff
+KCaM_2_2 + pKCaM_1_0 -> pKCaMcomplex_1_0_2_2, k2CaMKon
+pKCaMcomplex_1_0_2_2 -> KCaM_2_2 + pKCaM_1_0, k2CaMKoff
+KCaM_0_0 + pKCaM_1_1 -> pKCaMcomplex_1_1_0_0, k2CaMKon
+pKCaMcomplex_1_1_0_0 -> KCaM_0_0 + pKCaM_1_1, k2CaMKoff
+KCaM_0_1 + pKCaM_1_1 -> pKCaMcomplex_1_1_0_1, k2CaMKon
+pKCaMcomplex_1_1_0_1 -> KCaM_0_1 + pKCaM_1_1, k2CaMKoff
+KCaM_0_2 + pKCaM_1_1 -> pKCaMcomplex_1_1_0_2, k2CaMKon
+pKCaMcomplex_1_1_0_2 -> KCaM_0_2 + pKCaM_1_1, k2CaMKoff
+KCaM_1_0 + pKCaM_1_1 -> pKCaMcomplex_1_1_1_0, k2CaMKon
+pKCaMcomplex_1_1_1_0 -> KCaM_1_0 + pKCaM_1_1, k2CaMKoff
+KCaM_1_1 + pKCaM_1_1 -> pKCaMcomplex_1_1_1_1, k2CaMKon
+pKCaMcomplex_1_1_1_1 -> KCaM_1_1 + pKCaM_1_1, k2CaMKoff
+KCaM_1_2 + pKCaM_1_1 -> pKCaMcomplex_1_1_1_2, k2CaMKon
+pKCaMcomplex_1_1_1_2 -> KCaM_1_2 + pKCaM_1_1, k2CaMKoff
+KCaM_2_0 + pKCaM_1_1 -> pKCaMcomplex_1_1_2_0, k2CaMKon
+pKCaMcomplex_1_1_2_0 -> KCaM_2_0 + pKCaM_1_1, k2CaMKoff
+KCaM_2_1 + pKCaM_1_1 -> pKCaMcomplex_1_1_2_1, k2CaMKon
+pKCaMcomplex_1_1_2_1 -> KCaM_2_1 + pKCaM_1_1, k2CaMKoff
+KCaM_2_2 + pKCaM_1_1 -> pKCaMcomplex_1_1_2_2, k2CaMKon
+pKCaMcomplex_1_1_2_2 -> KCaM_2_2 + pKCaM_1_1, k2CaMKoff
+KCaM_0_0 + pKCaM_1_2 -> pKCaMcomplex_1_2_0_0, k2CaMKon
+pKCaMcomplex_1_2_0_0 -> KCaM_0_0 + pKCaM_1_2, k2CaMKoff
+KCaM_0_1 + pKCaM_1_2 -> pKCaMcomplex_1_2_0_1, k2CaMKon
+pKCaMcomplex_1_2_0_1 -> KCaM_0_1 + pKCaM_1_2, k2CaMKoff
+KCaM_0_2 + pKCaM_1_2 -> pKCaMcomplex_1_2_0_2, k2CaMKon
+pKCaMcomplex_1_2_0_2 -> KCaM_0_2 + pKCaM_1_2, k2CaMKoff
+KCaM_1_0 + pKCaM_1_2 -> pKCaMcomplex_1_2_1_0, k2CaMKon
+pKCaMcomplex_1_2_1_0 -> KCaM_1_0 + pKCaM_1_2, k2CaMKoff
+KCaM_1_1 + pKCaM_1_2 -> pKCaMcomplex_1_2_1_1, k2CaMKon
+pKCaMcomplex_1_2_1_1 -> KCaM_1_1 + pKCaM_1_2, k2CaMKoff
+KCaM_1_2 + pKCaM_1_2 -> pKCaMcomplex_1_2_1_2, k2CaMKon
+pKCaMcomplex_1_2_1_2 -> KCaM_1_2 + pKCaM_1_2, k2CaMKoff
+KCaM_2_0 + pKCaM_1_2 -> pKCaMcomplex_1_2_2_0, k2CaMKon
+pKCaMcomplex_1_2_2_0 -> KCaM_2_0 + pKCaM_1_2, k2CaMKoff
+KCaM_2_1 + pKCaM_1_2 -> pKCaMcomplex_1_2_2_1, k2CaMKon
+pKCaMcomplex_1_2_2_1 -> KCaM_2_1 + pKCaM_1_2, k2CaMKoff
+KCaM_2_2 + pKCaM_1_2 -> pKCaMcomplex_1_2_2_2, k2CaMKon
+pKCaMcomplex_1_2_2_2 -> KCaM_2_2 + pKCaM_1_2, k2CaMKoff
+KCaM_0_0 + pKCaM_2_0 -> pKCaMcomplex_2_0_0_0, k2CaMKon
+pKCaMcomplex_2_0_0_0 -> KCaM_0_0 + pKCaM_2_0, k2CaMKoff
+KCaM_0_1 + pKCaM_2_0 -> pKCaMcomplex_2_0_0_1, k2CaMKon
+pKCaMcomplex_2_0_0_1 -> KCaM_0_1 + pKCaM_2_0, k2CaMKoff
+KCaM_0_2 + pKCaM_2_0 -> pKCaMcomplex_2_0_0_2, k2CaMKon
+pKCaMcomplex_2_0_0_2 -> KCaM_0_2 + pKCaM_2_0, k2CaMKoff
+KCaM_1_0 + pKCaM_2_0 -> pKCaMcomplex_2_0_1_0, k2CaMKon
+pKCaMcomplex_2_0_1_0 -> KCaM_1_0 + pKCaM_2_0, k2CaMKoff
+KCaM_1_1 + pKCaM_2_0 -> pKCaMcomplex_2_0_1_1, k2CaMKon
+pKCaMcomplex_2_0_1_1 -> KCaM_1_1 + pKCaM_2_0, k2CaMKoff
+KCaM_1_2 + pKCaM_2_0 -> pKCaMcomplex_2_0_1_2, k2CaMKon
+pKCaMcomplex_2_0_1_2 -> KCaM_1_2 + pKCaM_2_0, k2CaMKoff
+KCaM_2_0 + pKCaM_2_0 -> pKCaMcomplex_2_0_2_0, k2CaMKon
+pKCaMcomplex_2_0_2_0 -> KCaM_2_0 + pKCaM_2_0, k2CaMKoff
+KCaM_2_1 + pKCaM_2_0 -> pKCaMcomplex_2_0_2_1, k2CaMKon
+pKCaMcomplex_2_0_2_1 -> KCaM_2_1 + pKCaM_2_0, k2CaMKoff
+KCaM_2_2 + pKCaM_2_0 -> pKCaMcomplex_2_0_2_2, k2CaMKon
+pKCaMcomplex_2_0_2_2 -> KCaM_2_2 + pKCaM_2_0, k2CaMKoff
+KCaM_0_0 + pKCaM_2_1 -> pKCaMcomplex_2_1_0_0, k2CaMKon
+pKCaMcomplex_2_1_0_0 -> KCaM_0_0 + pKCaM_2_1, k2CaMKoff
+KCaM_0_1 + pKCaM_2_1 -> pKCaMcomplex_2_1_0_1, k2CaMKon
+pKCaMcomplex_2_1_0_1 -> KCaM_0_1 + pKCaM_2_1, k2CaMKoff
+KCaM_0_2 + pKCaM_2_1 -> pKCaMcomplex_2_1_0_2, k2CaMKon
+pKCaMcomplex_2_1_0_2 -> KCaM_0_2 + pKCaM_2_1, k2CaMKoff
+KCaM_1_0 + pKCaM_2_1 -> pKCaMcomplex_2_1_1_0, k2CaMKon
+pKCaMcomplex_2_1_1_0 -> KCaM_1_0 + pKCaM_2_1, k2CaMKoff
+KCaM_1_1 + pKCaM_2_1 -> pKCaMcomplex_2_1_1_1, k2CaMKon
+pKCaMcomplex_2_1_1_1 -> KCaM_1_1 + pKCaM_2_1, k2CaMKoff
+KCaM_1_2 + pKCaM_2_1 -> pKCaMcomplex_2_1_1_2, k2CaMKon
+pKCaMcomplex_2_1_1_2 -> KCaM_1_2 + pKCaM_2_1, k2CaMKoff
+KCaM_2_0 + pKCaM_2_1 -> pKCaMcomplex_2_1_2_0, k2CaMKon
+pKCaMcomplex_2_1_2_0 -> KCaM_2_0 + pKCaM_2_1, k2CaMKoff
+KCaM_2_1 + pKCaM_2_1 -> pKCaMcomplex_2_1_2_1, k2CaMKon
+pKCaMcomplex_2_1_2_1 -> KCaM_2_1 + pKCaM_2_1, k2CaMKoff
+KCaM_2_2 + pKCaM_2_1 -> pKCaMcomplex_2_1_2_2, k2CaMKon
+pKCaMcomplex_2_1_2_2 -> KCaM_2_2 + pKCaM_2_1, k2CaMKoff
+KCaM_0_0 + pKCaM_2_2 -> pKCaMcomplex_2_2_0_0, k2CaMKon
+pKCaMcomplex_2_2_0_0 -> KCaM_0_0 + pKCaM_2_2, k2CaMKoff
+KCaM_0_1 + pKCaM_2_2 -> pKCaMcomplex_2_2_0_1, k2CaMKon
+pKCaMcomplex_2_2_0_1 -> KCaM_0_1 + pKCaM_2_2, k2CaMKoff
+KCaM_0_2 + pKCaM_2_2 -> pKCaMcomplex_2_2_0_2, k2CaMKon
+pKCaMcomplex_2_2_0_2 -> KCaM_0_2 + pKCaM_2_2, k2CaMKoff
+KCaM_1_0 + pKCaM_2_2 -> pKCaMcomplex_2_2_1_0, k2CaMKon
+pKCaMcomplex_2_2_1_0 -> KCaM_1_0 + pKCaM_2_2, k2CaMKoff
+KCaM_1_1 + pKCaM_2_2 -> pKCaMcomplex_2_2_1_1, k2CaMKon
+pKCaMcomplex_2_2_1_1 -> KCaM_1_1 + pKCaM_2_2, k2CaMKoff
+KCaM_1_2 + pKCaM_2_2 -> pKCaMcomplex_2_2_1_2, k2CaMKon
+pKCaMcomplex_2_2_1_2 -> KCaM_1_2 + pKCaM_2_2, k2CaMKoff
+KCaM_2_0 + pKCaM_2_2 -> pKCaMcomplex_2_2_2_0, k2CaMKon
+pKCaMcomplex_2_2_2_0 -> KCaM_2_0 + pKCaM_2_2, k2CaMKoff
+KCaM_2_1 + pKCaM_2_2 -> pKCaMcomplex_2_2_2_1, k2CaMKon
+pKCaMcomplex_2_2_2_1 -> KCaM_2_1 + pKCaM_2_2, k2CaMKoff
+KCaM_2_2 + pKCaM_2_2 -> pKCaMcomplex_2_2_2_2, k2CaMKon
+pKCaMcomplex_2_2_2_2 -> KCaM_2_2 + pKCaM_2_2, k2CaMKoff
+pKCaMcomplex_0_0_0_0 -> 2*pKCaM_0_0, kpCaM0
+pKCaMcomplex_0_0_0_1 -> pKCaM_0_0 + pKCaM_0_1, kpCaM1N
+pKCaMcomplex_0_0_0_2 -> pKCaM_0_0 + pKCaM_0_2, kpCaM2N
+pKCaMcomplex_0_0_1_0 -> pKCaM_0_0 + pKCaM_1_0, kpCaM1C
+pKCaMcomplex_0_0_1_1 -> pKCaM_0_0 + pKCaM_1_1, kpCaM1C1N
+pKCaMcomplex_0_0_1_2 -> pKCaM_0_0 + pKCaM_1_2, kpCaM1C2N
+pKCaMcomplex_0_0_2_0 -> pKCaM_0_0 + pKCaM_2_0, kpCaM2C
+pKCaMcomplex_0_0_2_1 -> pKCaM_0_0 + pKCaM_2_1, kpCaM2C1N
+pKCaMcomplex_0_0_2_2 -> pKCaM_0_0 + pKCaM_2_2, kpCaM4
+pKCaMcomplex_0_1_0_0 -> pKCaM_0_0 + pKCaM_0_1, kpCaM0
+pKCaMcomplex_0_1_0_1 -> 2*pKCaM_0_1, kpCaM1N
+pKCaMcomplex_0_1_0_2 -> pKCaM_0_1 + pKCaM_0_2, kpCaM2N
+pKCaMcomplex_0_1_1_0 -> pKCaM_0_1 + pKCaM_1_0, kpCaM1C
+pKCaMcomplex_0_1_1_1 -> pKCaM_0_1 + pKCaM_1_1, kpCaM1C1N
+pKCaMcomplex_0_1_1_2 -> pKCaM_0_1 + pKCaM_1_2, kpCaM1C2N
+pKCaMcomplex_0_1_2_0 -> pKCaM_0_1 + pKCaM_2_0, kpCaM2C
+pKCaMcomplex_0_1_2_1 -> pKCaM_0_1 + pKCaM_2_1, kpCaM2C1N
+pKCaMcomplex_0_1_2_2 -> pKCaM_0_1 + pKCaM_2_2, kpCaM4
+pKCaMcomplex_0_2_0_0 -> pKCaM_0_0 + pKCaM_0_2, kpCaM0
+pKCaMcomplex_0_2_0_1 -> pKCaM_0_1 + pKCaM_0_2, kpCaM1N
+pKCaMcomplex_0_2_0_2 -> 2*pKCaM_0_2, kpCaM2N
+pKCaMcomplex_0_2_1_0 -> pKCaM_0_2 + pKCaM_1_0, kpCaM1C
+pKCaMcomplex_0_2_1_1 -> pKCaM_0_2 + pKCaM_1_1, kpCaM1C1N
+pKCaMcomplex_0_2_1_2 -> pKCaM_0_2 + pKCaM_1_2, kpCaM1C2N
+pKCaMcomplex_0_2_2_0 -> pKCaM_0_2 + pKCaM_2_0, kpCaM2C
+pKCaMcomplex_0_2_2_1 -> pKCaM_0_2 + pKCaM_2_1, kpCaM2C1N
+pKCaMcomplex_0_2_2_2 -> pKCaM_0_2 + pKCaM_2_2, kpCaM4
+pKCaMcomplex_1_0_0_0 -> pKCaM_0_0 + pKCaM_1_0, kpCaM0
+pKCaMcomplex_1_0_0_1 -> pKCaM_0_1 + pKCaM_1_0, kpCaM1N
+pKCaMcomplex_1_0_0_2 -> pKCaM_0_2 + pKCaM_1_0, kpCaM2N
+pKCaMcomplex_1_0_1_0 -> 2*pKCaM_1_0, kpCaM1C
+pKCaMcomplex_1_0_1_1 -> pKCaM_1_0 + pKCaM_1_1, kpCaM1C1N
+pKCaMcomplex_1_0_1_2 -> pKCaM_1_0 + pKCaM_1_2, kpCaM1C2N
+pKCaMcomplex_1_0_2_0 -> pKCaM_1_0 + pKCaM_2_0, kpCaM2C
+pKCaMcomplex_1_0_2_1 -> pKCaM_1_0 + pKCaM_2_1, kpCaM2C1N
+pKCaMcomplex_1_0_2_2 -> pKCaM_1_0 + pKCaM_2_2, kpCaM4
+pKCaMcomplex_1_1_0_0 -> pKCaM_0_0 + pKCaM_1_1, kpCaM0
+pKCaMcomplex_1_1_0_1 -> pKCaM_0_1 + pKCaM_1_1, kpCaM1N
+pKCaMcomplex_1_1_0_2 -> pKCaM_0_2 + pKCaM_1_1, kpCaM2N
+pKCaMcomplex_1_1_1_0 -> pKCaM_1_0 + pKCaM_1_1, kpCaM1C
+pKCaMcomplex_1_1_1_1 -> 2*pKCaM_1_1, kpCaM1C1N
+pKCaMcomplex_1_1_1_2 -> pKCaM_1_1 + pKCaM_1_2, kpCaM1C2N
+pKCaMcomplex_1_1_2_0 -> pKCaM_1_1 + pKCaM_2_0, kpCaM2C
+pKCaMcomplex_1_1_2_1 -> pKCaM_1_1 + pKCaM_2_1, kpCaM2C1N
+pKCaMcomplex_1_1_2_2 -> pKCaM_1_1 + pKCaM_2_2, kpCaM4
+pKCaMcomplex_1_2_0_0 -> pKCaM_0_0 + pKCaM_1_2, kpCaM0
+pKCaMcomplex_1_2_0_1 -> pKCaM_0_1 + pKCaM_1_2, kpCaM1N
+pKCaMcomplex_1_2_0_2 -> pKCaM_0_2 + pKCaM_1_2, kpCaM2N
+pKCaMcomplex_1_2_1_0 -> pKCaM_1_0 + pKCaM_1_2, kpCaM1C
+pKCaMcomplex_1_2_1_1 -> pKCaM_1_1 + pKCaM_1_2, kpCaM1C1N
+pKCaMcomplex_1_2_1_2 -> 2*pKCaM_1_2, kpCaM1C2N
+pKCaMcomplex_1_2_2_0 -> pKCaM_1_2 + pKCaM_2_0, kpCaM2C
+pKCaMcomplex_1_2_2_1 -> pKCaM_1_2 + pKCaM_2_1, kpCaM2C1N
+pKCaMcomplex_1_2_2_2 -> pKCaM_1_2 + pKCaM_2_2, kpCaM4
+pKCaMcomplex_2_0_0_0 -> pKCaM_0_0 + pKCaM_2_0, kpCaM0
+pKCaMcomplex_2_0_0_1 -> pKCaM_0_1 + pKCaM_2_0, kpCaM1N
+pKCaMcomplex_2_0_0_2 -> pKCaM_0_2 + pKCaM_2_0, kpCaM2N
+pKCaMcomplex_2_0_1_0 -> pKCaM_1_0 + pKCaM_2_0, kpCaM1C
+pKCaMcomplex_2_0_1_1 -> pKCaM_1_1 + pKCaM_2_0, kpCaM1C1N
+pKCaMcomplex_2_0_1_2 -> pKCaM_1_2 + pKCaM_2_0, kpCaM1C2N
+pKCaMcomplex_2_0_2_0 -> 2*pKCaM_2_0, kpCaM2C
+pKCaMcomplex_2_0_2_1 -> pKCaM_2_0 + pKCaM_2_1, kpCaM2C1N
+pKCaMcomplex_2_0_2_2 -> pKCaM_2_0 + pKCaM_2_2, kpCaM4
+pKCaMcomplex_2_1_0_0 -> pKCaM_0_0 + pKCaM_2_1, kpCaM0
+pKCaMcomplex_2_1_0_1 -> pKCaM_0_1 + pKCaM_2_1, kpCaM1N
+pKCaMcomplex_2_1_0_2 -> pKCaM_0_2 + pKCaM_2_1, kpCaM2N
+pKCaMcomplex_2_1_1_0 -> pKCaM_1_0 + pKCaM_2_1, kpCaM1C
+pKCaMcomplex_2_1_1_1 -> pKCaM_1_1 + pKCaM_2_1, kpCaM1C1N
+pKCaMcomplex_2_1_1_2 -> pKCaM_1_2 + pKCaM_2_1, kpCaM1C2N
+pKCaMcomplex_2_1_2_0 -> pKCaM_2_0 + pKCaM_2_1, kpCaM2C
+pKCaMcomplex_2_1_2_1 -> 2*pKCaM_2_1, kpCaM2C1N
+pKCaMcomplex_2_1_2_2 -> pKCaM_2_1 + pKCaM_2_2, kpCaM4
+pKCaMcomplex_2_2_0_0 -> pKCaM_0_0 + pKCaM_2_2, kpCaM0
+pKCaMcomplex_2_2_0_1 -> pKCaM_0_1 + pKCaM_2_2, kpCaM1N
+pKCaMcomplex_2_2_0_2 -> pKCaM_0_2 + pKCaM_2_2, kpCaM2N
+pKCaMcomplex_2_2_1_0 -> pKCaM_1_0 + pKCaM_2_2, kpCaM1C
+pKCaMcomplex_2_2_1_1 -> pKCaM_1_1 + pKCaM_2_2, kpCaM1C1N
+pKCaMcomplex_2_2_1_2 -> pKCaM_1_2 + pKCaM_2_2, kpCaM1C2N
+pKCaMcomplex_2_2_2_0 -> pKCaM_2_0 + pKCaM_2_2, kpCaM2C
+pKCaMcomplex_2_2_2_1 -> pKCaM_2_1 + pKCaM_2_2, kpCaM2C1N
+pKCaMcomplex_2_2_2_2 -> 2*pKCaM_2_2, kpCaM4
+
+
+end reactions
+
+reduceFE(prePartition = USER)
+
+end model
