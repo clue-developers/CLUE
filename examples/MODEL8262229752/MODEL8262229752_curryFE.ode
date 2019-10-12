@@ -1,0 +1,281 @@
+// Automatically generated from MODEL8262229752_curry via fe
+// Original number of species: 47
+// Reduced number of species: 42
+// Original number of reactions: 25
+// Reduced number of reactions: 22
+begin model MODEL8262229752_curryFE
+ begin parameters
+  pAI2_trans_r = 1.0
+  pAI2_phos_r = 1.0
+  pAI2_excret_r = 1.0
+  pAI2_syn_r = 1.0
+  pAdoMet_r = 1.0
+  pDPD_deg_r = 1.0
+  pLuxS_mRNA_d = 1.0
+  pLuxS_prot_d = 1.0
+  pLuxS_transc = 1.0
+  pLuxS_transl = 1.0
+  pMTR_e = 1.0
+  pMTR_syn_r = 1.0
+  pMet_recov = 1.0
+  pMethy_trans = 1.0
+  pPfs_prot_d = 1.0
+  pPolyamine_uti = 1.0
+  pSAH_Hydro_r = 1.0
+  pSAM_Dec = 1.0
+  pSRH_cleav = 1.0
+  pSpeE_syn_r = 1.0
+  pSpermi_uti = 1.0
+  pb_reac_r = 1.0
+  ppfs_mRNA_d = 1.0
+  ppfs_transc = 1.0
+  ppfs_transl = 1.0
+ end parameters
+ begin init
+  Adenine = 596.0+940.0+180.0
+  Pfs_mRNA = 32.0
+  LuxS_mRNA = 16.0
+  AI2_extra = 60.0
+  MTR_e = 0.15+0.0208+0.02
+  SAH = 320.0
+  Pfs_prot = 800.0
+  SAH_Hydro_r = 5.5E-4
+  pfs_transl = 0.54
+  MTA = 296.0
+  MTR_syn_r = 2.21E-5
+  SRH = 300.0
+  LuxS_prot = 400.0
+  SRH_cleav = 0.00224
+  LuxS_transl = 0.74
+  AI2_intra = 60.0
+  AI2_excret_r = 0.25
+  AI2_trans_r
+  pfs_mRNA_d = 0.022
+  pfs_gene = 1.0
+  pfs_transc = 2.1
+  LuxS_mRNA_d = 0.03
+  LuxS_gene = 1.0
+  LuxS_transc = 1.25
+  SAM = 10000.0
+  Methy_trans = 0.15
+  Pfs_prot_d = 0.003
+  Decarb_SAM = 220.0
+  Putrescine = 4400.0
+  SpeE_syn_r = 4.03E-6
+  LuxS_prot_d = 0.012
+  DPD = 300.0
+  AI2_syn_r = 6.7E-4
+  AI2_phos_r
+  Met = 2248.0
+  AdoMet_r = 0.962
+  SAM_Dec = 0.055
+  DPD_deg_r = 0.005
+  Nutrients = 28350.0
+  b_reac_r = 0.01
+  Homocys = 300.0
+  Met_recov = 0.35
+ end init
+ begin reactions
+  Pfs_mRNA + pfs_transl -> Pfs_mRNA + Pfs_prot + pfs_transl , ppfs_transl
+  Pfs_mRNA + pfs_mRNA_d -> Adenine + pfs_mRNA_d , ppfs_mRNA_d
+  LuxS_mRNA + LuxS_transl -> LuxS_mRNA + LuxS_prot + LuxS_transl , pLuxS_transl
+  LuxS_mRNA + LuxS_mRNA_d -> Adenine + LuxS_mRNA_d , pLuxS_mRNA_d
+  AI2_extra + AI2_trans_r -> AI2_intra + AI2_trans_r , pAI2_trans_r
+  SAH + Pfs_prot + SAH_Hydro_r -> Adenine + Pfs_prot + SAH_Hydro_r + SRH , pSAH_Hydro_r
+  Pfs_prot + MTA + MTR_syn_r -> 2*Adenine + Pfs_prot + MTR_syn_r , pMTR_syn_r
+  Pfs_prot + Pfs_prot_d -> Adenine + Pfs_prot_d , pPfs_prot_d
+  SRH + LuxS_prot + SRH_cleav -> LuxS_prot + SRH_cleav + DPD + Homocys , pSRH_cleav
+  LuxS_prot + LuxS_prot_d -> Adenine + LuxS_prot_d , pLuxS_prot_d
+  AI2_intra + AI2_excret_r -> AI2_extra + AI2_excret_r , pAI2_excret_r
+  AI2_intra + AI2_phos_r -> Adenine + AI2_phos_r , pAI2_phos_r
+  pfs_gene + pfs_transc -> Pfs_mRNA + pfs_gene + pfs_transc , ppfs_transc
+  LuxS_gene + LuxS_transc -> LuxS_mRNA + LuxS_gene + LuxS_transc , pLuxS_transc
+  SAM + Methy_trans -> SAH + Methy_trans , pMethy_trans
+  SAM + SAM_Dec -> Decarb_SAM + SAM_Dec , pSAM_Dec
+  Decarb_SAM + Putrescine + SpeE_syn_r -> Adenine + MTA + SpeE_syn_r , pSpeE_syn_r
+  DPD + AI2_syn_r -> AI2_intra + AI2_syn_r , pAI2_syn_r
+  DPD + DPD_deg_r -> Adenine + DPD_deg_r , pDPD_deg_r
+  Met + AdoMet_r -> SAM + AdoMet_r , pAdoMet_r
+  Nutrients + b_reac_r -> Met + b_reac_r , pb_reac_r
+  Homocys + Met_recov -> Met + Met_recov , pMet_recov
+ end reactions
+ begin views
+  vAdoMet_r = AdoMet_r/1
+  vpfs_transl = pfs_transl/1
+  vpfs_mRNA_d = pfs_mRNA_d/1
+  vb_reac_r = b_reac_r/1
+  vNutrients = Nutrients/1
+  vHomocys = Homocys/1
+  vLuxS_transc = LuxS_transc/1
+  vLuxS_prot_d = LuxS_prot_d/1
+  vpfs_gene = pfs_gene/1
+  vMethy_trans = Methy_trans/1
+  vPfs_prot = Pfs_prot/1
+  vMTR_syn_r = MTR_syn_r/1
+  vAI2_excret_r = AI2_excret_r/1
+  vAdenine = Adenine/4
+  vMTA = MTA/1
+  vDPD = DPD/1
+  vAI2_phos_r = AI2_phos_r/1
+  vAI2_extra = AI2_extra/1
+  vDecarb_SAM = Decarb_SAM/1
+  vSRH_cleav = SRH_cleav/1
+  vSpeE_syn_r = SpeE_syn_r/1
+  vLuxS_gene = LuxS_gene/1
+  vMet = Met/1
+  vDPD_deg_r = DPD_deg_r/1
+  vPfs_mRNA = Pfs_mRNA/1
+  vAI2_trans_r = AI2_trans_r/1
+  vSAM_Dec = SAM_Dec/1
+  vLuxS_mRNA = LuxS_mRNA/1
+  vLuxS_mRNA_d = LuxS_mRNA_d/1
+  vMet_recov = Met_recov/1
+  vpfs_transc = pfs_transc/1
+  vLuxS_prot = LuxS_prot/1
+  vSAH = SAH/1
+  vLuxS_transl = LuxS_transl/1
+  vPutrescine = Putrescine/1
+  vAI2_syn_r = AI2_syn_r/1
+  vSAH_Hydro_r = SAH_Hydro_r/1
+  vSAM = SAM/1
+  vAI2_intra = AI2_intra/1
+  vMTR_e = MTR_e/3
+  vSRH = SRH/1
+  vPfs_prot_d = Pfs_prot_d/1
+ end views
+
+//Comments associated to the species
+//Adenine:  
+  //Representative of block (with 4 species)
+  // 	Adenine
+  // 	Spermidine
+  // 	MTR
+  // 	SINK
+//Pfs_mRNA:  
+  //Singleton block 
+  // 	Pfs_mRNA
+//LuxS_mRNA:  
+  //Singleton block 
+  // 	LuxS_mRNA
+//AI2_extra:  
+  //Singleton block 
+  // 	AI2_extra
+//MTR_e:  
+  //Representative of block (with 3 species)
+  // 	Polyamine_uti
+  // 	Spermi_uti
+  // 	MTR_e
+//SAH:  
+  //Singleton block 
+  // 	SAH
+//Pfs_prot:  
+  //Singleton block 
+  // 	Pfs_prot
+//SAH_Hydro_r:  
+  //Singleton block 
+  // 	SAH_Hydro_r
+//pfs_transl:  
+  //Singleton block 
+  // 	pfs_transl
+//MTA:  
+  //Singleton block 
+  // 	MTA
+//MTR_syn_r:  
+  //Singleton block 
+  // 	MTR_syn_r
+//SRH:  
+  //Singleton block 
+  // 	SRH
+//LuxS_prot:  
+  //Singleton block 
+  // 	LuxS_prot
+//SRH_cleav:  
+  //Singleton block 
+  // 	SRH_cleav
+//LuxS_transl:  
+  //Singleton block 
+  // 	LuxS_transl
+//AI2_intra:  
+  //Singleton block 
+  // 	AI2_intra
+//AI2_excret_r:  
+  //Singleton block 
+  // 	AI2_excret_r
+//AI2_trans_r:  
+  //Singleton block 
+  // 	AI2_trans_r
+//pfs_mRNA_d:  
+  //Singleton block 
+  // 	pfs_mRNA_d
+//pfs_gene:  
+  //Singleton block 
+  // 	pfs_gene
+//pfs_transc:  
+  //Singleton block 
+  // 	pfs_transc
+//LuxS_mRNA_d:  
+  //Singleton block 
+  // 	LuxS_mRNA_d
+//LuxS_gene:  
+  //Singleton block 
+  // 	LuxS_gene
+//LuxS_transc:  
+  //Singleton block 
+  // 	LuxS_transc
+//SAM:  
+  //Singleton block 
+  // 	SAM
+//Methy_trans:  
+  //Singleton block 
+  // 	Methy_trans
+//Pfs_prot_d:  
+  //Singleton block 
+  // 	Pfs_prot_d
+//Decarb_SAM:  
+  //Singleton block 
+  // 	Decarb_SAM
+//Putrescine:  
+  //Singleton block 
+  // 	Putrescine
+//SpeE_syn_r:  
+  //Singleton block 
+  // 	SpeE_syn_r
+//LuxS_prot_d:  
+  //Singleton block 
+  // 	LuxS_prot_d
+//DPD:  
+  //Singleton block 
+  // 	DPD
+//AI2_syn_r:  
+  //Singleton block 
+  // 	AI2_syn_r
+//AI2_phos_r:  
+  //Singleton block 
+  // 	AI2_phos_r
+//Met:  
+  //Singleton block 
+  // 	Met
+//AdoMet_r:  
+  //Singleton block 
+  // 	AdoMet_r
+//SAM_Dec:  
+  //Singleton block 
+  // 	SAM_Dec
+//DPD_deg_r:  
+  //Singleton block 
+  // 	DPD_deg_r
+//Nutrients:  
+  //Singleton block 
+  // 	Nutrients
+//b_reac_r:  
+  //Singleton block 
+  // 	b_reac_r
+//Homocys:  
+  //Singleton block 
+  // 	Homocys
+//Met_recov:  
+  //Singleton block 
+  // 	Met_recov
+
+end model
+

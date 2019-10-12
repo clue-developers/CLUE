@@ -1,0 +1,385 @@
+begin model e3
+ begin parameters
+  Etot = 300
+  Ftot = 300
+  Stot = 3000
+  kOnE = 0.7
+  kOffE = 3
+  kCatE = 5.0
+  kOnF = 0.7
+  kOffF = 3
+  kCatF = 5.1
+ end parameters
+ begin init
+  S0 = 300.0
+  S1 = 300.0
+  S2 = 3000.0
+  S3
+  S4
+  S5
+  S6
+  S7
+  S8
+  S9
+  S10
+  S11
+  S12
+  S13
+  S14
+  S15
+  S16
+  S17
+  S18
+  S19
+  S20
+  S21
+  S22
+  S23
+  S24
+  S25
+  S26
+  S27
+  S28
+  S29
+  S30
+  S31
+  S32
+  S33
+  S34
+  S35
+  S36
+  S37
+  S38
+  S39
+  S40
+  S41
+  S42
+  S43
+  S44
+  S45
+  S46
+  S47
+  S48
+  S49
+  S50
+  S51
+  S52
+  S53
+  S54
+  S55
+  S56
+  S57
+  S58
+  S59
+  S60
+  S61
+  S62
+  S63
+  S64
+  S65
+ end init
+ begin partition
+  //{S0}//,
+  //{S1}//,
+  //{S33,S34,S35,S36,S44,S45,S46,S47,S55,S56,S2,S3,S4,S5,S6,S7,S9,S10,S11,S12,S13,S14,S18,S19,S20,S21,S22,S23,S24,S25,S31,S32}//,
+  {S37,S38,S39,S40,S41,S42,S43,S48,S49,S50,S51,S52,S53,S54,S57,S58,S59,S60,S61,S62,S63,S64,S65,S8,S15,S16,S17,S26,S27,S28,S29,S30}
+ end partition
+ begin reactions
+  S0 + S2 -> S3 , kOnE
+  S0 + S2 -> S4 , kOnE
+  S0 + S2 -> S5 , kOnE
+  S0 + S4 -> S6 , kOnE
+  S0 + S5 -> S7 , kOnE
+  S3 -> S0 + S2 , kOffE
+  S3 -> S0 + S8 , kCatE
+  S0 + S3 -> S6 , kOnE
+  S0 + S5 -> S9 , kOnE
+  S4 -> S0 + S2 , kOffE
+  S4 -> S0 + S10 , kCatE
+  S0 + S3 -> S7 , kOnE
+  S0 + S4 -> S9 , kOnE
+  S5 -> S0 + S2 , kOffE
+  S5 -> S0 + S11 , kCatE
+  S0 + S9 -> S12 , kOnE
+  S0 + S10 -> S13 , kOnE
+  S0 + S11 -> S14 , kOnE
+  S6 -> S0 + S4 , kOffE
+  S7 -> S0 + S5 , kOffE
+  S6 -> S0 + S15 , kCatE
+  S7 -> S0 + S16 , kCatE
+  S1 + S8 -> S17 , kOnF
+  S0 + S7 -> S12 , kOnE
+  S0 + S8 -> S15 , kOnE
+  S0 + S11 -> S18 , kOnE
+  S6 -> S0 + S3 , kOffE
+  S9 -> S0 + S5 , kOffE
+  S6 -> S0 + S13 , kCatE
+  S9 -> S0 + S19 , kCatE
+  S1 + S10 -> S20 , kOnF
+  S0 + S6 -> S12 , kOnE
+  S0 + S8 -> S16 , kOnE
+  S0 + S10 -> S19 , kOnE
+  S7 -> S0 + S3 , kOffE
+  S9 -> S0 + S4 , kOffE
+  S7 -> S0 + S14 , kCatE
+  S9 -> S0 + S18 , kCatE
+  S1 + S11 -> S21 , kOnF
+  S0 + S18 -> S22 , kOnE
+  S0 + S19 -> S23 , kOnE
+  S0 + S20 -> S24 , kOnE
+  S0 + S21 -> S25 , kOnE
+  S12 -> S0 + S9 , kOffE
+  S13 -> S0 + S10 , kOffE
+  S14 -> S0 + S11 , kOffE
+  S12 -> S0 + S26 , kCatE
+  S13 -> S0 + S27 , kCatE
+  S14 -> S0 + S28 , kCatE
+  S1 + S15 -> S29 , kOnF
+  S1 + S16 -> S30 , kOnF
+  S17 -> S1 + S8 , kOffF
+  S17 -> S1 + S2 , kCatF
+  S0 + S14 -> S22 , kOnE
+  S0 + S16 -> S26 , kOnE
+  S0 + S17 -> S29 , kOnE
+  S0 + S21 -> S31 , kOnE
+  S12 -> S0 + S7 , kOffE
+  S15 -> S0 + S8 , kOffE
+  S18 -> S0 + S11 , kOffE
+  S12 -> S0 + S23 , kCatE
+  S15 -> S0 + S27 , kCatE
+  S18 -> S0 + S32 , kCatE
+  S1 + S13 -> S24 , kOnF
+  S1 + S19 -> S33 , kOnF
+  S20 -> S1 + S10 , kOffF
+  S20 -> S1 + S2 , kCatF
+  S0 + S13 -> S23 , kOnE
+  S0 + S15 -> S26 , kOnE
+  S0 + S17 -> S30 , kOnE
+  S0 + S20 -> S33 , kOnE
+  S12 -> S0 + S6 , kOffE
+  S16 -> S0 + S8 , kOffE
+  S19 -> S0 + S10 , kOffE
+  S12 -> S0 + S22 , kCatE
+  S16 -> S0 + S28 , kCatE
+  S19 -> S0 + S32 , kCatE
+  S1 + S14 -> S25 , kOnF
+  S1 + S18 -> S31 , kOnF
+  S21 -> S1 + S11 , kOffF
+  S21 -> S1 + S2 , kCatF
+  S0 + S31 -> S34 , kOnE
+  S0 + S32 -> S35 , kOnE
+  S0 + S33 -> S36 , kOnE
+  S22 -> S0 + S18 , kOffE
+  S23 -> S0 + S19 , kOffE
+  S24 -> S0 + S20 , kOffE
+  S25 -> S0 + S21 , kOffE
+  S22 -> S0 + S37 , kCatE
+  S23 -> S0 + S38 , kCatE
+  S24 -> S0 + S39 , kCatE
+  S25 -> S0 + S40 , kCatE
+  S1 + S26 -> S41 , kOnF
+  S1 + S27 -> S42 , kOnF
+  S1 + S28 -> S43 , kOnF
+  S29 -> S1 + S15 , kOffF
+  S30 -> S1 + S16 , kOffF
+  S29 -> S1 + S4 , kCatF
+  S30 -> S1 + S5 , kCatF
+  S0 + S25 -> S34 , kOnE
+  S0 + S28 -> S37 , kOnE
+  S0 + S30 -> S41 , kOnE
+  S22 -> S0 + S14 , kOffE
+  S26 -> S0 + S16 , kOffE
+  S29 -> S0 + S17 , kOffE
+  S31 -> S0 + S21 , kOffE
+  S22 -> S0 + S35 , kCatE
+  S26 -> S0 + S38 , kCatE
+  S29 -> S0 + S42 , kCatE
+  S31 -> S0 + S44 , kCatE
+  S1 + S23 -> S36 , kOnF
+  S1 + S27 -> S39 , kOnF
+  S1 + S32 -> S45 , kOnF
+  S24 -> S1 + S13 , kOffF
+  S33 -> S1 + S19 , kOffF
+  S24 -> S1 + S3 , kCatF
+  S33 -> S1 + S5 , kCatF
+  S0 + S24 -> S36 , kOnE
+  S0 + S27 -> S38 , kOnE
+  S0 + S29 -> S41 , kOnE
+  S23 -> S0 + S13 , kOffE
+  S26 -> S0 + S15 , kOffE
+  S30 -> S0 + S17 , kOffE
+  S33 -> S0 + S20 , kOffE
+  S23 -> S0 + S35 , kCatE
+  S26 -> S0 + S37 , kCatE
+  S30 -> S0 + S43 , kCatE
+  S33 -> S0 + S45 , kCatE
+  S1 + S22 -> S34 , kOnF
+  S1 + S28 -> S40 , kOnF
+  S1 + S32 -> S44 , kOnF
+  S25 -> S1 + S14 , kOffF
+  S31 -> S1 + S18 , kOffF
+  S25 -> S1 + S3 , kCatF
+  S31 -> S1 + S4 , kCatF
+  S0 + S44 -> S46 , kOnE
+  S0 + S45 -> S47 , kOnE
+  S34 -> S0 + S31 , kOffE
+  S35 -> S0 + S32 , kOffE
+  S36 -> S0 + S33 , kOffE
+  S34 -> S0 + S48 , kCatE
+  S35 -> S0 + S49 , kCatE
+  S36 -> S0 + S50 , kCatE
+  S1 + S37 -> S51 , kOnF
+  S1 + S38 -> S52 , kOnF
+  S1 + S39 -> S53 , kOnF
+  S1 + S40 -> S54 , kOnF
+  S41 -> S1 + S26 , kOffF
+  S42 -> S1 + S27 , kOffF
+  S43 -> S1 + S28 , kOffF
+  S41 -> S1 + S9 , kCatF
+  S42 -> S1 + S10 , kCatF
+  S43 -> S1 + S11 , kCatF
+  S0 + S40 -> S48 , kOnE
+  S0 + S43 -> S51 , kOnE
+  S34 -> S0 + S25 , kOffE
+  S37 -> S0 + S28 , kOffE
+  S41 -> S0 + S30 , kOffE
+  S34 -> S0 + S46 , kCatE
+  S37 -> S0 + S49 , kCatE
+  S41 -> S0 + S52 , kCatE
+  S1 + S35 -> S47 , kOnF
+  S1 + S38 -> S50 , kOnF
+  S1 + S42 -> S53 , kOnF
+  S1 + S44 -> S55 , kOnF
+  S36 -> S1 + S23 , kOffF
+  S39 -> S1 + S27 , kOffF
+  S45 -> S1 + S32 , kOffF
+  S36 -> S1 + S7 , kCatF
+  S39 -> S1 + S8 , kCatF
+  S45 -> S1 + S11 , kCatF
+  S0 + S39 -> S50 , kOnE
+  S0 + S42 -> S52 , kOnE
+  S36 -> S0 + S24 , kOffE
+  S38 -> S0 + S27 , kOffE
+  S41 -> S0 + S29 , kOffE
+  S36 -> S0 + S47 , kCatE
+  S38 -> S0 + S49 , kCatE
+  S41 -> S0 + S51 , kCatE
+  S1 + S35 -> S46 , kOnF
+  S1 + S37 -> S48 , kOnF
+  S1 + S43 -> S54 , kOnF
+  S1 + S45 -> S55 , kOnF
+  S34 -> S1 + S22 , kOffF
+  S40 -> S1 + S28 , kOffF
+  S44 -> S1 + S32 , kOffF
+  S34 -> S1 + S6 , kCatF
+  S40 -> S1 + S8 , kCatF
+  S44 -> S1 + S10 , kCatF
+  S0 + S55 -> S56 , kOnE
+  S46 -> S0 + S44 , kOffE
+  S47 -> S0 + S45 , kOffE
+  S46 -> S0 + S57 , kCatE
+  S47 -> S0 + S58 , kCatE
+  S1 + S48 -> S59 , kOnF
+  S1 + S49 -> S60 , kOnF
+  S1 + S50 -> S61 , kOnF
+  S51 -> S1 + S37 , kOffF
+  S52 -> S1 + S38 , kOffF
+  S53 -> S1 + S39 , kOffF
+  S54 -> S1 + S40 , kOffF
+  S51 -> S1 + S18 , kCatF
+  S52 -> S1 + S19 , kCatF
+  S53 -> S1 + S20 , kCatF
+  S54 -> S1 + S21 , kCatF
+  S0 + S54 -> S59 , kOnE
+  S48 -> S0 + S40 , kOffE
+  S51 -> S0 + S43 , kOffE
+  S48 -> S0 + S57 , kCatE
+  S51 -> S0 + S60 , kCatE
+  S1 + S46 -> S56 , kOnF
+  S1 + S49 -> S58 , kOnF
+  S1 + S52 -> S61 , kOnF
+  S47 -> S1 + S35 , kOffF
+  S50 -> S1 + S38 , kOffF
+  S53 -> S1 + S42 , kOffF
+  S55 -> S1 + S44 , kOffF
+  S47 -> S1 + S14 , kCatF
+  S50 -> S1 + S16 , kCatF
+  S53 -> S1 + S17 , kCatF
+  S55 -> S1 + S21 , kCatF
+  S0 + S53 -> S61 , kOnE
+  S50 -> S0 + S39 , kOffE
+  S52 -> S0 + S42 , kOffE
+  S50 -> S0 + S58 , kCatE
+  S52 -> S0 + S60 , kCatE
+  S1 + S47 -> S56 , kOnF
+  S1 + S49 -> S57 , kOnF
+  S1 + S51 -> S59 , kOnF
+  S46 -> S1 + S35 , kOffF
+  S48 -> S1 + S37 , kOffF
+  S54 -> S1 + S43 , kOffF
+  S55 -> S1 + S45 , kOffF
+  S46 -> S1 + S13 , kCatF
+  S48 -> S1 + S15 , kCatF
+  S54 -> S1 + S17 , kCatF
+  S55 -> S1 + S20 , kCatF
+  S56 -> S0 + S55 , kOffE
+  S56 -> S0 + S62 , kCatE
+  S1 + S57 -> S63 , kOnF
+  S1 + S58 -> S64 , kOnF
+  S59 -> S1 + S48 , kOffF
+  S60 -> S1 + S49 , kOffF
+  S61 -> S1 + S50 , kOffF
+  S59 -> S1 + S31 , kCatF
+  S60 -> S1 + S32 , kCatF
+  S61 -> S1 + S33 , kCatF
+  S59 -> S0 + S54 , kOffE
+  S59 -> S0 + S63 , kCatE
+  S1 + S57 -> S62 , kOnF
+  S1 + S60 -> S64 , kOnF
+  S56 -> S1 + S46 , kOffF
+  S58 -> S1 + S49 , kOffF
+  S61 -> S1 + S52 , kOffF
+  S56 -> S1 + S25 , kCatF
+  S58 -> S1 + S28 , kCatF
+  S61 -> S1 + S30 , kCatF
+  S61 -> S0 + S53 , kOffE
+  S61 -> S0 + S64 , kCatE
+  S1 + S58 -> S62 , kOnF
+  S1 + S60 -> S63 , kOnF
+  S56 -> S1 + S47 , kOffF
+  S57 -> S1 + S49 , kOffF
+  S59 -> S1 + S51 , kOffF
+  S56 -> S1 + S24 , kCatF
+  S57 -> S1 + S27 , kCatF
+  S59 -> S1 + S29 , kCatF
+  S1 + S62 -> S65 , kOnF
+  S63 -> S1 + S57 , kOffF
+  S64 -> S1 + S58 , kOffF
+  S63 -> S1 + S44 , kCatF
+  S64 -> S1 + S45 , kCatF
+  S1 + S63 -> S65 , kOnF
+  S62 -> S1 + S57 , kOffF
+  S64 -> S1 + S60 , kOffF
+  S62 -> S1 + S40 , kCatF
+  S64 -> S1 + S43 , kCatF
+  S1 + S64 -> S65 , kOnF
+  S62 -> S1 + S58 , kOffF
+  S63 -> S1 + S60 , kOffF
+  S62 -> S1 + S39 , kCatF
+  S63 -> S1 + S42 , kCatF
+  S65 -> S1 + S62 , kOffF
+  S65 -> S1 + S55 , kCatF
+  S65 -> S1 + S63 , kOffF
+  S65 -> S1 + S54 , kCatF
+  S65 -> S1 + S64 , kOffF
+  S65 -> S1 + S53 , kCatF
+ end reactions
+ begin views
+  Efree = S0
+  Ffree = S1
+  S1P = S8+S15+S16+S17+S26+S27+S28+S29+S30+S37+S38+S39+S40+S41+S42+S43+S48+S49+S50+S51+S52+S53+S54+S57+S58+S59+S60+S61+S62+S63+S64+S65
+ end views
+//reduceFE(reducedFile = "e3B4.ode",prePartition = USER)
+write(fileOut="e3_curry.ode", paramsToCurry = ALL)
+end model
+

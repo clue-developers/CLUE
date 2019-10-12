@@ -1,0 +1,1018 @@
+// Automatically generated from MODEL1001150000_curry via fe
+// Original number of species: 203
+// Reduced number of species: 121
+// Original number of reactions: 480
+// Reduced number of reactions: 264
+begin model MODEL1001150000_FE_pKCaMcurry
+ begin parameters
+  pk1Con = 1.0
+  pk1Coff = 1.0
+  pk2Con = 1.0
+  pk2Coff = 1.0
+  pk1Non = 1.0
+  pk1Noff = 1.0
+  pk2Non = 1.0
+  pk2Noff = 1.0
+  pkK1Con = 1.0
+  pkK1Coff = 1.0
+  pkK2Con = 1.0
+  pkK2Coff = 1.0
+  pkK1Non = 1.0
+  pkK1Noff = 1.0
+  pkK2Non = 1.0
+  pkK2Noff = 1.0
+  pkCaM0on = 1.0
+  pkCaM0off = 1.0
+  pkCaM1Con = 1.0
+  pkCaM1Coff = 1.0
+  pkCaM2Con = 1.0
+  pkCaM2Coff = 1.0
+  pkCaM2C1Non = 1.0
+  pkCaM2C1Noff = 1.0
+  pkCaM1C1Non = 1.0
+  pkCaM1C1Noff = 1.0
+  pkCaM4on = 1.0
+  pkCaM4off = 1.0
+  pkCaM1Non = 1.0
+  pkCaM1Noff = 1.0
+  pkCaM1C2Non = 1.0
+  pkCaM1C2Noff = 1.0
+  pkCaM2Non = 1.0
+  pkCaM2Noff = 1.0
+  pk2CaMKon = 1.0
+  pk2CaMKoff = 1.0
+  pkpCaM0 = 1.0
+  pkpCaM1C = 1.0
+  pkpCaM2C = 1.0
+  pkpCaM2C1N = 1.0
+  pkpCaM1C1N = 1.0
+  pkpCaM4 = 1.0
+  pkpCaM1N = 1.0
+  pkpCaM1C2N = 1.0
+  pkpCaM2N = 1.0
+  pcaminit = 1.0
+  pckinit = 1.0
+  pcainit = 1.0
+ end parameters
+ begin init
+  caminit = 30.0+80.0+100.0
+  pKCaM_0_0
+  CaM_0_1
+  Ca = 100.0
+  k1Con = 4.0
+  CaM_1_1
+  k1Coff = 40.0
+  CaM_0_0 = 30.0
+  k1Non = 100.0
+  k1Noff = 2500.0
+  k2Non = 150.0
+  CaM_0_2
+  k2Noff = 750.0
+  KaMe = 80.0
+  kCaM1Non = 0.022
+  KCaM_0_1
+  kCaM1Noff = 3.1
+  CaM_1_2
+  kCaM2Non = 0.1
+  KCaM_0_2
+  kCaM2Noff = 1.7
+  CaM_1_0
+  k2Con = 10.0
+  CaM_2_0
+  k2Coff = 9.25
+  kCaM1Con = 0.059
+  KCaM_1_0
+  kCaM1Coff = 6.8
+  CaM_2_1
+  kCaM1C1Non = 3.3
+  KCaM_1_1
+  kCaM1C1Noff = 3.4
+  CaM_2_2
+  kCaM1C2Non = 1.9
+  KCaM_1_2
+  kCaM1C2Noff = 1.9
+  kCaM2Con = 0.92
+  KCaM_2_0
+  kCaM2Coff = 6.8
+  kCaM2C1Non = 5.2
+  KCaM_2_1
+  kCaM2C1Noff = 3.8
+  kCaM4on = 30.0
+  KCaM_2_2
+  kCaM4off = 1.7
+  KCaM_0_0
+  kK1Con = 44.0
+  kK1Coff = 33.0
+  kK1Non = 75.0
+  kK1Noff = 300.0
+  kCaM0on = 0.0038
+  kCaM0off = 5.5
+  k2CaMKon = 50.0
+  k2CaMKoff = 60.0
+  kpCaM1N = 0.06
+  kpCaM2N = 0.12
+  kpCaM1C = 0.032
+  kpCaM1C1N = 0.094
+  kpCaM1C2N = 0.154
+  kpCaM2C = 0.064
+  kpCaM2C1N = 0.124
+  kpCaM4 = 0.96
+  kpCaM0
+  pKCaMcomplex_0_0_0_0
+  kK2Non = 76.0
+  kK2Noff = 33.0
+  pKCaMcomplex_0_0_0_1
+  pKCaMcomplex_0_0_0_2
+  kK2Con = 44.0
+  kK2Coff = 2.7
+  pKCaMcomplex_0_0_1_0
+  pKCaMcomplex_0_0_1_1
+  pKCaMcomplex_0_0_1_2
+  pKCaMcomplex_0_0_2_0
+  pKCaMcomplex_0_0_2_1
+  pKCaMcomplex_0_0_2_2
+  KCaMcomplex_0_0_1_0
+  KCaMcomplex_0_1_1_0
+  KCaMcomplex_0_2_1_0
+  KCaMcomplex_1_0_1_1
+  KCaMcomplex_1_0_1_2
+  KCaMcomplex_1_0_2_0
+  KCaMcomplex_1_0_2_1
+  KCaMcomplex_1_0_2_2
+  KCaMcomplex_1_0_1_0
+  KCaMcomplex_0_0_1_1
+  KCaMcomplex_0_1_1_1
+  KCaMcomplex_0_2_1_1
+  KCaMcomplex_1_1_1_2
+  KCaMcomplex_1_1_2_0
+  KCaMcomplex_1_1_2_1
+  KCaMcomplex_1_1_2_2
+  KCaMcomplex_1_1_1_1
+  KCaMcomplex_0_0_1_2
+  KCaMcomplex_0_1_1_2
+  KCaMcomplex_0_2_1_2
+  KCaMcomplex_1_2_2_0
+  KCaMcomplex_1_2_2_1
+  KCaMcomplex_1_2_2_2
+  KCaMcomplex_1_2_1_2
+  KCaMcomplex_0_0_2_0
+  KCaMcomplex_0_1_2_0
+  KCaMcomplex_0_2_2_0
+  KCaMcomplex_2_0_2_1
+  KCaMcomplex_2_0_2_2
+  KCaMcomplex_2_0_2_0
+  KCaMcomplex_0_0_2_1
+  KCaMcomplex_0_1_2_1
+  KCaMcomplex_0_2_2_1
+  KCaMcomplex_2_1_2_2
+  KCaMcomplex_2_1_2_1
+  KCaMcomplex_0_0_2_2
+  KCaMcomplex_0_1_2_2
+  KCaMcomplex_0_2_2_2
+  KCaMcomplex_2_2_2_2
+  KCaMcomplex_0_0_0_1
+  KCaMcomplex_0_0_0_2
+  KCaMcomplex_0_0_0_0
+  KCaMcomplex_0_1_0_2
+  KCaMcomplex_0_1_0_1
+  KCaMcomplex_0_2_0_2
+ end init
+ begin reactions
+  pKCaM_0_0 + KCaM_0_1 + k2CaMKon -> k2CaMKon + pKCaMcomplex_0_0_0_1 , (pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon)/9.0
+  pKCaM_0_0 + KCaM_0_2 + k2CaMKon -> k2CaMKon + pKCaMcomplex_0_0_0_2 , (pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon)/9.0
+  pKCaM_0_0 + KCaM_1_0 + k2CaMKon -> k2CaMKon + pKCaMcomplex_0_0_1_0 , (pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon)/9.0
+  pKCaM_0_0 + KCaM_1_1 + k2CaMKon -> k2CaMKon + pKCaMcomplex_0_0_1_1 , (pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon)/9.0
+  pKCaM_0_0 + KCaM_1_2 + k2CaMKon -> k2CaMKon + pKCaMcomplex_0_0_1_2 , (pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon)/9.0
+  pKCaM_0_0 + KCaM_2_0 + k2CaMKon -> k2CaMKon + pKCaMcomplex_0_0_2_0 , (pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon)/9.0
+  pKCaM_0_0 + KCaM_2_1 + k2CaMKon -> k2CaMKon + pKCaMcomplex_0_0_2_1 , (pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon)/9.0
+  pKCaM_0_0 + KCaM_2_2 + k2CaMKon -> k2CaMKon + pKCaMcomplex_0_0_2_2 , (pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon)/9.0
+  pKCaM_0_0 + KCaM_0_0 + k2CaMKon -> k2CaMKon + pKCaMcomplex_0_0_0_0 , (pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon+pk2CaMKon)/9.0
+  CaM_0_1 + Ca + k1Con -> k1Con + CaM_1_1 , pk1Con
+  CaM_0_1 + Ca + k2Non -> k2Non + CaM_0_2 , pk2Non
+  CaM_0_1 + k1Noff -> Ca + CaM_0_0 + k1Noff , pk1Noff
+  CaM_0_1 + KaMe + kCaM1Non -> kCaM1Non + KCaM_0_1 , pkCaM1Non
+  Ca + k1Con + CaM_0_0 -> k1Con + CaM_1_0 , pk1Con
+  Ca + k1Con + CaM_0_2 -> k1Con + CaM_1_2 , pk1Con
+  Ca + CaM_1_1 + k2Non -> k2Non + CaM_1_2 , pk2Non
+  Ca + CaM_1_1 + k2Con -> k2Con + CaM_2_1 , pk2Con
+  Ca + CaM_0_0 + k1Non -> CaM_0_1 + k1Non , pk1Non
+  Ca + k1Non + CaM_1_0 -> CaM_1_1 + k1Non , pk1Non
+  Ca + k1Non + CaM_2_0 -> k1Non + CaM_2_1 , pk1Non
+  Ca + k2Non + CaM_2_1 -> k2Non + CaM_2_2 , pk2Non
+  Ca + KCaM_0_1 + kK1Con -> KCaM_1_1 + kK1Con , pkK1Con
+  Ca + KCaM_0_1 + kK2Non -> KCaM_0_2 + kK2Non , pkK2Non
+  Ca + CaM_1_2 + k2Con -> k2Con + CaM_2_2 , pk2Con
+  Ca + KCaM_0_2 + kK1Con -> KCaM_1_2 + kK1Con , pkK1Con
+  Ca + CaM_1_0 + k2Con -> k2Con + CaM_2_0 , pk2Con
+  Ca + KCaM_1_0 + kK1Non -> KCaM_1_1 + kK1Non , pkK1Non
+  Ca + KCaM_1_0 + kK2Con -> KCaM_2_0 + kK2Con , pkK2Con
+  Ca + KCaM_1_1 + kK2Non -> KCaM_1_2 + kK2Non , pkK2Non
+  Ca + KCaM_1_1 + kK2Con -> KCaM_2_1 + kK2Con , pkK2Con
+  Ca + KCaM_1_2 + kK2Con -> KCaM_2_2 + kK2Con , pkK2Con
+  Ca + KCaM_2_0 + kK1Non -> KCaM_2_1 + kK1Non , pkK1Non
+  Ca + KCaM_2_1 + kK2Non -> KCaM_2_2 + kK2Non , pkK2Non
+  Ca + KCaM_0_0 + kK1Con -> KCaM_1_0 + kK1Con , pkK1Con
+  Ca + KCaM_0_0 + kK1Non -> KCaM_0_1 + kK1Non , pkK1Non
+  CaM_1_1 + k1Coff -> CaM_0_1 + Ca + k1Coff , pk1Coff
+  CaM_1_1 + k1Noff -> Ca + k1Noff + CaM_1_0 , pk1Noff
+  CaM_1_1 + KaMe + kCaM1C1Non -> kCaM1C1Non + KCaM_1_1 , pkCaM1C1Non
+  k1Coff + CaM_1_2 -> Ca + k1Coff + CaM_0_2 , pk1Coff
+  k1Coff + CaM_1_0 -> Ca + k1Coff + CaM_0_0 , pk1Coff
+  CaM_0_0 + KaMe + kCaM0on -> KCaM_0_0 + kCaM0on , pkCaM0on
+  k1Noff + CaM_2_1 -> Ca + k1Noff + CaM_2_0 , pk1Noff
+  CaM_0_2 + k2Noff -> CaM_0_1 + Ca + k2Noff , pk2Noff
+  CaM_0_2 + KaMe + kCaM2Non -> kCaM2Non + KCaM_0_2 , pkCaM2Non
+  k2Noff + CaM_1_2 -> Ca + CaM_1_1 + k2Noff , pk2Noff
+  k2Noff + CaM_2_2 -> Ca + k2Noff + CaM_2_1 , pk2Noff
+  KaMe + CaM_1_2 + kCaM1C2Non -> kCaM1C2Non + KCaM_1_2 , pkCaM1C2Non
+  KaMe + CaM_1_0 + kCaM1Con -> kCaM1Con + KCaM_1_0 , pkCaM1Con
+  KaMe + CaM_2_0 + kCaM2Con -> kCaM2Con + KCaM_2_0 , pkCaM2Con
+  KaMe + CaM_2_1 + kCaM2C1Non -> kCaM2C1Non + KCaM_2_1 , pkCaM2C1Non
+  KaMe + CaM_2_2 + kCaM4on -> kCaM4on + KCaM_2_2 , pkCaM4on
+  KCaM_0_1 + kCaM1Noff -> CaM_0_1 + KaMe + kCaM1Noff , pkCaM1Noff
+  KCaM_0_1 + KCaM_0_2 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_1_0_2 , pk2CaMKon
+  KCaM_0_1 + KCaM_1_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_1_1_0 , pk2CaMKon
+  KCaM_0_1 + KCaM_1_1 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_1_1_1 , pk2CaMKon
+  KCaM_0_1 + KCaM_1_2 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_1_1_2 , pk2CaMKon
+  KCaM_0_1 + KCaM_2_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_1_2_0 , pk2CaMKon
+  KCaM_0_1 + KCaM_2_1 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_1_2_1 , pk2CaMKon
+  KCaM_0_1 + KCaM_2_2 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_1_2_2 , pk2CaMKon
+  KCaM_0_1 + KCaM_0_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_0_0_1 , pk2CaMKon
+  KCaM_0_1 + kK1Noff -> Ca + KCaM_0_0 + kK1Noff , pkK1Noff
+  2*KCaM_0_1 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_1_0_1 , pk2CaMKon
+  KCaM_0_2 + kCaM2Noff -> CaM_0_2 + KaMe + kCaM2Noff , pkCaM2Noff
+  KCaM_0_2 + KCaM_1_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_2_1_0 , pk2CaMKon
+  KCaM_0_2 + KCaM_1_1 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_2_1_1 , pk2CaMKon
+  KCaM_0_2 + KCaM_1_2 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_2_1_2 , pk2CaMKon
+  KCaM_0_2 + KCaM_2_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_2_2_0 , pk2CaMKon
+  KCaM_0_2 + KCaM_2_1 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_2_2_1 , pk2CaMKon
+  KCaM_0_2 + KCaM_2_2 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_2_2_2 , pk2CaMKon
+  KCaM_0_2 + KCaM_0_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_0_0_2 , pk2CaMKon
+  KCaM_0_2 + kK2Noff -> Ca + KCaM_0_1 + kK2Noff , pkK2Noff
+  2*KCaM_0_2 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_2_0_2 , pk2CaMKon
+  CaM_2_0 + k2Coff -> Ca + CaM_1_0 + k2Coff , pk2Coff
+  k2Coff + CaM_2_1 -> Ca + CaM_1_1 + k2Coff , pk2Coff
+  k2Coff + CaM_2_2 -> Ca + CaM_1_2 + k2Coff , pk2Coff
+  KCaM_1_0 + kCaM1Coff -> KaMe + CaM_1_0 + kCaM1Coff , pkCaM1Coff
+  KCaM_1_0 + KCaM_1_1 + k2CaMKon -> k2CaMKon + KCaMcomplex_1_0_1_1 , pk2CaMKon
+  KCaM_1_0 + KCaM_1_2 + k2CaMKon -> k2CaMKon + KCaMcomplex_1_0_1_2 , pk2CaMKon
+  KCaM_1_0 + KCaM_2_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_1_0_2_0 , pk2CaMKon
+  KCaM_1_0 + KCaM_2_1 + k2CaMKon -> k2CaMKon + KCaMcomplex_1_0_2_1 , pk2CaMKon
+  KCaM_1_0 + KCaM_2_2 + k2CaMKon -> k2CaMKon + KCaMcomplex_1_0_2_2 , pk2CaMKon
+  KCaM_1_0 + KCaM_0_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_0_1_0 , pk2CaMKon
+  KCaM_1_0 + kK1Coff -> Ca + KCaM_0_0 + kK1Coff , pkK1Coff
+  2*KCaM_1_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_1_0_1_0 , pk2CaMKon
+  KCaM_1_1 + kCaM1C1Noff -> CaM_1_1 + KaMe + kCaM1C1Noff , pkCaM1C1Noff
+  KCaM_1_1 + KCaM_1_2 + k2CaMKon -> k2CaMKon + KCaMcomplex_1_1_1_2 , pk2CaMKon
+  KCaM_1_1 + KCaM_2_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_1_1_2_0 , pk2CaMKon
+  KCaM_1_1 + KCaM_2_1 + k2CaMKon -> k2CaMKon + KCaMcomplex_1_1_2_1 , pk2CaMKon
+  KCaM_1_1 + KCaM_2_2 + k2CaMKon -> k2CaMKon + KCaMcomplex_1_1_2_2 , pk2CaMKon
+  KCaM_1_1 + KCaM_0_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_0_1_1 , pk2CaMKon
+  KCaM_1_1 + kK1Coff -> Ca + KCaM_0_1 + kK1Coff , pkK1Coff
+  KCaM_1_1 + kK1Noff -> Ca + KCaM_1_0 + kK1Noff , pkK1Noff
+  2*KCaM_1_1 + k2CaMKon -> k2CaMKon + KCaMcomplex_1_1_1_1 , pk2CaMKon
+  KCaM_1_2 + kCaM1C2Noff -> KaMe + CaM_1_2 + kCaM1C2Noff , pkCaM1C2Noff
+  KCaM_1_2 + KCaM_2_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_1_2_2_0 , pk2CaMKon
+  KCaM_1_2 + KCaM_2_1 + k2CaMKon -> k2CaMKon + KCaMcomplex_1_2_2_1 , pk2CaMKon
+  KCaM_1_2 + KCaM_2_2 + k2CaMKon -> k2CaMKon + KCaMcomplex_1_2_2_2 , pk2CaMKon
+  KCaM_1_2 + KCaM_0_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_0_1_2 , pk2CaMKon
+  KCaM_1_2 + kK1Coff -> Ca + KCaM_0_2 + kK1Coff , pkK1Coff
+  KCaM_1_2 + kK2Noff -> Ca + KCaM_1_1 + kK2Noff , pkK2Noff
+  2*KCaM_1_2 + k2CaMKon -> k2CaMKon + KCaMcomplex_1_2_1_2 , pk2CaMKon
+  KCaM_2_0 + kCaM2Coff -> KaMe + CaM_2_0 + kCaM2Coff , pkCaM2Coff
+  KCaM_2_0 + KCaM_2_1 + k2CaMKon -> k2CaMKon + KCaMcomplex_2_0_2_1 , pk2CaMKon
+  KCaM_2_0 + KCaM_2_2 + k2CaMKon -> k2CaMKon + KCaMcomplex_2_0_2_2 , pk2CaMKon
+  KCaM_2_0 + KCaM_0_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_0_2_0 , pk2CaMKon
+  KCaM_2_0 + kK2Coff -> Ca + KCaM_1_0 + kK2Coff , pkK2Coff
+  2*KCaM_2_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_2_0_2_0 , pk2CaMKon
+  KCaM_2_1 + kCaM2C1Noff -> KaMe + CaM_2_1 + kCaM2C1Noff , pkCaM2C1Noff
+  KCaM_2_1 + KCaM_2_2 + k2CaMKon -> k2CaMKon + KCaMcomplex_2_1_2_2 , pk2CaMKon
+  KCaM_2_1 + KCaM_0_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_0_2_1 , pk2CaMKon
+  KCaM_2_1 + kK1Noff -> Ca + KCaM_2_0 + kK1Noff , pkK1Noff
+  KCaM_2_1 + kK2Coff -> Ca + KCaM_1_1 + kK2Coff , pkK2Coff
+  2*KCaM_2_1 + k2CaMKon -> k2CaMKon + KCaMcomplex_2_1_2_1 , pk2CaMKon
+  KCaM_2_2 + kCaM4off -> KaMe + CaM_2_2 + kCaM4off , pkCaM4off
+  KCaM_2_2 + KCaM_0_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_0_2_2 , pk2CaMKon
+  KCaM_2_2 + kK2Noff -> Ca + KCaM_2_1 + kK2Noff , pkK2Noff
+  KCaM_2_2 + kK2Coff -> Ca + KCaM_1_2 + kK2Coff , pkK2Coff
+  2*KCaM_2_2 + k2CaMKon -> k2CaMKon + KCaMcomplex_2_2_2_2 , pk2CaMKon
+  KCaM_0_0 + kCaM0off -> CaM_0_0 + KaMe + kCaM0off , pkCaM0off
+  2*KCaM_0_0 + k2CaMKon -> k2CaMKon + KCaMcomplex_0_0_0_0 , pk2CaMKon
+  k2CaMKoff + pKCaMcomplex_0_0_0_0 -> pKCaM_0_0 + KCaM_0_0 + k2CaMKoff , (pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff)/9.0
+  k2CaMKoff + pKCaMcomplex_0_0_0_1 -> pKCaM_0_0 + KCaM_0_1 + k2CaMKoff , (pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff)/9.0
+  k2CaMKoff + pKCaMcomplex_0_0_0_2 -> pKCaM_0_0 + KCaM_0_2 + k2CaMKoff , (pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff)/9.0
+  k2CaMKoff + pKCaMcomplex_0_0_1_0 -> pKCaM_0_0 + KCaM_1_0 + k2CaMKoff , (pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff)/9.0
+  k2CaMKoff + pKCaMcomplex_0_0_1_1 -> pKCaM_0_0 + KCaM_1_1 + k2CaMKoff , (pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff)/9.0
+  k2CaMKoff + pKCaMcomplex_0_0_1_2 -> pKCaM_0_0 + KCaM_1_2 + k2CaMKoff , (pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff)/9.0
+  k2CaMKoff + pKCaMcomplex_0_0_2_0 -> pKCaM_0_0 + KCaM_2_0 + k2CaMKoff , (pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff)/9.0
+  k2CaMKoff + pKCaMcomplex_0_0_2_1 -> pKCaM_0_0 + KCaM_2_1 + k2CaMKoff , (pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff)/9.0
+  k2CaMKoff + pKCaMcomplex_0_0_2_2 -> pKCaM_0_0 + KCaM_2_2 + k2CaMKoff , (pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff+pk2CaMKoff)/9.0
+  k2CaMKoff + KCaMcomplex_0_0_1_0 -> KCaM_1_0 + KCaM_0_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_1_1_0 -> KCaM_0_1 + KCaM_1_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_2_1_0 -> KCaM_0_2 + KCaM_1_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_1_0_1_1 -> KCaM_1_0 + KCaM_1_1 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_1_0_1_2 -> KCaM_1_0 + KCaM_1_2 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_1_0_2_0 -> KCaM_1_0 + KCaM_2_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_1_0_2_1 -> KCaM_1_0 + KCaM_2_1 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_1_0_2_2 -> KCaM_1_0 + KCaM_2_2 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_1_0_1_0 -> 2*KCaM_1_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_0_1_1 -> KCaM_1_1 + KCaM_0_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_1_1_1 -> KCaM_0_1 + KCaM_1_1 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_2_1_1 -> KCaM_0_2 + KCaM_1_1 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_1_1_1_2 -> KCaM_1_1 + KCaM_1_2 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_1_1_2_0 -> KCaM_1_1 + KCaM_2_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_1_1_2_1 -> KCaM_1_1 + KCaM_2_1 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_1_1_2_2 -> KCaM_1_1 + KCaM_2_2 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_1_1_1_1 -> 2*KCaM_1_1 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_0_1_2 -> KCaM_1_2 + KCaM_0_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_1_1_2 -> KCaM_0_1 + KCaM_1_2 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_2_1_2 -> KCaM_0_2 + KCaM_1_2 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_1_2_2_0 -> KCaM_1_2 + KCaM_2_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_1_2_2_1 -> KCaM_1_2 + KCaM_2_1 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_1_2_2_2 -> KCaM_1_2 + KCaM_2_2 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_1_2_1_2 -> 2*KCaM_1_2 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_0_2_0 -> KCaM_2_0 + KCaM_0_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_1_2_0 -> KCaM_0_1 + KCaM_2_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_2_2_0 -> KCaM_0_2 + KCaM_2_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_2_0_2_1 -> KCaM_2_0 + KCaM_2_1 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_2_0_2_2 -> KCaM_2_0 + KCaM_2_2 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_2_0_2_0 -> 2*KCaM_2_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_0_2_1 -> KCaM_2_1 + KCaM_0_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_1_2_1 -> KCaM_0_1 + KCaM_2_1 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_2_2_1 -> KCaM_0_2 + KCaM_2_1 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_2_1_2_2 -> KCaM_2_1 + KCaM_2_2 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_2_1_2_1 -> 2*KCaM_2_1 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_0_2_2 -> KCaM_2_2 + KCaM_0_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_1_2_2 -> KCaM_0_1 + KCaM_2_2 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_2_2_2 -> KCaM_0_2 + KCaM_2_2 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_2_2_2_2 -> 2*KCaM_2_2 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_0_0_1 -> KCaM_0_1 + KCaM_0_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_0_0_2 -> KCaM_0_2 + KCaM_0_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_0_0_0 -> 2*KCaM_0_0 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_1_0_2 -> KCaM_0_1 + KCaM_0_2 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_1_0_1 -> 2*KCaM_0_1 + k2CaMKoff , pk2CaMKoff
+  k2CaMKoff + KCaMcomplex_0_2_0_2 -> 2*KCaM_0_2 + k2CaMKoff , pk2CaMKoff
+  kpCaM1N + pKCaMcomplex_0_0_0_1 -> 2*pKCaM_0_0 + kpCaM1N , (pkpCaM1N+pkpCaM1N+pkpCaM1N+pkpCaM1N+pkpCaM1N+pkpCaM1N+pkpCaM1N+pkpCaM1N+pkpCaM1N)/9.0
+  kpCaM1N + KCaMcomplex_0_1_1_0 -> pKCaM_0_0 + KCaM_1_0 + kpCaM1N , pkpCaM1N
+  kpCaM1N + KCaMcomplex_0_1_1_1 -> pKCaM_0_0 + KCaM_1_1 + kpCaM1N , pkpCaM1N
+  kpCaM1N + KCaMcomplex_0_1_1_2 -> pKCaM_0_0 + KCaM_1_2 + kpCaM1N , pkpCaM1N
+  kpCaM1N + KCaMcomplex_0_1_2_0 -> pKCaM_0_0 + KCaM_2_0 + kpCaM1N , pkpCaM1N
+  kpCaM1N + KCaMcomplex_0_1_2_1 -> pKCaM_0_0 + KCaM_2_1 + kpCaM1N , pkpCaM1N
+  kpCaM1N + KCaMcomplex_0_1_2_2 -> pKCaM_0_0 + KCaM_2_2 + kpCaM1N , pkpCaM1N
+  kpCaM1N + KCaMcomplex_0_0_0_1 -> pKCaM_0_0 + KCaM_0_0 + kpCaM1N , pkpCaM1N
+  kpCaM1N + KCaMcomplex_0_1_0_2 -> pKCaM_0_0 + KCaM_0_2 + kpCaM1N , pkpCaM1N
+  kpCaM1N + KCaMcomplex_0_1_0_1 -> pKCaM_0_0 + KCaM_0_1 + kpCaM1N , pkpCaM1N
+  kpCaM2N + pKCaMcomplex_0_0_0_2 -> 2*pKCaM_0_0 + kpCaM2N , (pkpCaM2N+pkpCaM2N+pkpCaM2N+pkpCaM2N+pkpCaM2N+pkpCaM2N+pkpCaM2N+pkpCaM2N+pkpCaM2N)/9.0
+  kpCaM2N + KCaMcomplex_0_2_1_0 -> pKCaM_0_0 + KCaM_1_0 + kpCaM2N , pkpCaM2N
+  kpCaM2N + KCaMcomplex_0_2_1_1 -> pKCaM_0_0 + KCaM_1_1 + kpCaM2N , pkpCaM2N
+  kpCaM2N + KCaMcomplex_0_2_1_2 -> pKCaM_0_0 + KCaM_1_2 + kpCaM2N , pkpCaM2N
+  kpCaM2N + KCaMcomplex_0_2_2_0 -> pKCaM_0_0 + KCaM_2_0 + kpCaM2N , pkpCaM2N
+  kpCaM2N + KCaMcomplex_0_2_2_1 -> pKCaM_0_0 + KCaM_2_1 + kpCaM2N , pkpCaM2N
+  kpCaM2N + KCaMcomplex_0_2_2_2 -> pKCaM_0_0 + KCaM_2_2 + kpCaM2N , pkpCaM2N
+  kpCaM2N + KCaMcomplex_0_0_0_2 -> pKCaM_0_0 + KCaM_0_0 + kpCaM2N , pkpCaM2N
+  kpCaM2N + KCaMcomplex_0_1_0_2 -> pKCaM_0_0 + KCaM_0_1 + kpCaM2N , pkpCaM2N
+  kpCaM2N + KCaMcomplex_0_2_0_2 -> pKCaM_0_0 + KCaM_0_2 + kpCaM2N , pkpCaM2N
+  kpCaM1C + pKCaMcomplex_0_0_1_0 -> 2*pKCaM_0_0 + kpCaM1C , (pkpCaM1C+pkpCaM1C+pkpCaM1C+pkpCaM1C+pkpCaM1C+pkpCaM1C+pkpCaM1C+pkpCaM1C+pkpCaM1C)/9.0
+  kpCaM1C + KCaMcomplex_0_0_1_0 -> pKCaM_0_0 + KCaM_0_0 + kpCaM1C , pkpCaM1C
+  kpCaM1C + KCaMcomplex_0_1_1_0 -> pKCaM_0_0 + KCaM_0_1 + kpCaM1C , pkpCaM1C
+  kpCaM1C + KCaMcomplex_0_2_1_0 -> pKCaM_0_0 + KCaM_0_2 + kpCaM1C , pkpCaM1C
+  kpCaM1C + KCaMcomplex_1_0_1_1 -> pKCaM_0_0 + KCaM_1_1 + kpCaM1C , pkpCaM1C
+  kpCaM1C + KCaMcomplex_1_0_1_2 -> pKCaM_0_0 + KCaM_1_2 + kpCaM1C , pkpCaM1C
+  kpCaM1C + KCaMcomplex_1_0_2_0 -> pKCaM_0_0 + KCaM_2_0 + kpCaM1C , pkpCaM1C
+  kpCaM1C + KCaMcomplex_1_0_2_1 -> pKCaM_0_0 + KCaM_2_1 + kpCaM1C , pkpCaM1C
+  kpCaM1C + KCaMcomplex_1_0_2_2 -> pKCaM_0_0 + KCaM_2_2 + kpCaM1C , pkpCaM1C
+  kpCaM1C + KCaMcomplex_1_0_1_0 -> pKCaM_0_0 + KCaM_1_0 + kpCaM1C , pkpCaM1C
+  kpCaM1C1N + pKCaMcomplex_0_0_1_1 -> 2*pKCaM_0_0 + kpCaM1C1N , (pkpCaM1C1N+pkpCaM1C1N+pkpCaM1C1N+pkpCaM1C1N+pkpCaM1C1N+pkpCaM1C1N+pkpCaM1C1N+pkpCaM1C1N+pkpCaM1C1N)/9.0
+  kpCaM1C1N + KCaMcomplex_1_0_1_1 -> pKCaM_0_0 + KCaM_1_0 + kpCaM1C1N , pkpCaM1C1N
+  kpCaM1C1N + KCaMcomplex_0_0_1_1 -> pKCaM_0_0 + KCaM_0_0 + kpCaM1C1N , pkpCaM1C1N
+  kpCaM1C1N + KCaMcomplex_0_1_1_1 -> pKCaM_0_0 + KCaM_0_1 + kpCaM1C1N , pkpCaM1C1N
+  kpCaM1C1N + KCaMcomplex_0_2_1_1 -> pKCaM_0_0 + KCaM_0_2 + kpCaM1C1N , pkpCaM1C1N
+  kpCaM1C1N + KCaMcomplex_1_1_1_2 -> pKCaM_0_0 + KCaM_1_2 + kpCaM1C1N , pkpCaM1C1N
+  kpCaM1C1N + KCaMcomplex_1_1_2_0 -> pKCaM_0_0 + KCaM_2_0 + kpCaM1C1N , pkpCaM1C1N
+  kpCaM1C1N + KCaMcomplex_1_1_2_1 -> pKCaM_0_0 + KCaM_2_1 + kpCaM1C1N , pkpCaM1C1N
+  kpCaM1C1N + KCaMcomplex_1_1_2_2 -> pKCaM_0_0 + KCaM_2_2 + kpCaM1C1N , pkpCaM1C1N
+  kpCaM1C1N + KCaMcomplex_1_1_1_1 -> pKCaM_0_0 + KCaM_1_1 + kpCaM1C1N , pkpCaM1C1N
+  kpCaM1C2N + pKCaMcomplex_0_0_1_2 -> 2*pKCaM_0_0 + kpCaM1C2N , (pkpCaM1C2N+pkpCaM1C2N+pkpCaM1C2N+pkpCaM1C2N+pkpCaM1C2N+pkpCaM1C2N+pkpCaM1C2N+pkpCaM1C2N+pkpCaM1C2N)/9.0
+  kpCaM1C2N + KCaMcomplex_1_0_1_2 -> pKCaM_0_0 + KCaM_1_0 + kpCaM1C2N , pkpCaM1C2N
+  kpCaM1C2N + KCaMcomplex_1_1_1_2 -> pKCaM_0_0 + KCaM_1_1 + kpCaM1C2N , pkpCaM1C2N
+  kpCaM1C2N + KCaMcomplex_0_0_1_2 -> pKCaM_0_0 + KCaM_0_0 + kpCaM1C2N , pkpCaM1C2N
+  kpCaM1C2N + KCaMcomplex_0_1_1_2 -> pKCaM_0_0 + KCaM_0_1 + kpCaM1C2N , pkpCaM1C2N
+  kpCaM1C2N + KCaMcomplex_0_2_1_2 -> pKCaM_0_0 + KCaM_0_2 + kpCaM1C2N , pkpCaM1C2N
+  kpCaM1C2N + KCaMcomplex_1_2_2_0 -> pKCaM_0_0 + KCaM_2_0 + kpCaM1C2N , pkpCaM1C2N
+  kpCaM1C2N + KCaMcomplex_1_2_2_1 -> pKCaM_0_0 + KCaM_2_1 + kpCaM1C2N , pkpCaM1C2N
+  kpCaM1C2N + KCaMcomplex_1_2_2_2 -> pKCaM_0_0 + KCaM_2_2 + kpCaM1C2N , pkpCaM1C2N
+  kpCaM1C2N + KCaMcomplex_1_2_1_2 -> pKCaM_0_0 + KCaM_1_2 + kpCaM1C2N , pkpCaM1C2N
+  kpCaM2C + pKCaMcomplex_0_0_2_0 -> 2*pKCaM_0_0 + kpCaM2C , (pkpCaM2C+pkpCaM2C+pkpCaM2C+pkpCaM2C+pkpCaM2C+pkpCaM2C+pkpCaM2C+pkpCaM2C+pkpCaM2C)/9.0
+  kpCaM2C + KCaMcomplex_1_0_2_0 -> pKCaM_0_0 + KCaM_1_0 + kpCaM2C , pkpCaM2C
+  kpCaM2C + KCaMcomplex_1_1_2_0 -> pKCaM_0_0 + KCaM_1_1 + kpCaM2C , pkpCaM2C
+  kpCaM2C + KCaMcomplex_1_2_2_0 -> pKCaM_0_0 + KCaM_1_2 + kpCaM2C , pkpCaM2C
+  kpCaM2C + KCaMcomplex_0_0_2_0 -> pKCaM_0_0 + KCaM_0_0 + kpCaM2C , pkpCaM2C
+  kpCaM2C + KCaMcomplex_0_1_2_0 -> pKCaM_0_0 + KCaM_0_1 + kpCaM2C , pkpCaM2C
+  kpCaM2C + KCaMcomplex_0_2_2_0 -> pKCaM_0_0 + KCaM_0_2 + kpCaM2C , pkpCaM2C
+  kpCaM2C + KCaMcomplex_2_0_2_1 -> pKCaM_0_0 + KCaM_2_1 + kpCaM2C , pkpCaM2C
+  kpCaM2C + KCaMcomplex_2_0_2_2 -> pKCaM_0_0 + KCaM_2_2 + kpCaM2C , pkpCaM2C
+  kpCaM2C + KCaMcomplex_2_0_2_0 -> pKCaM_0_0 + KCaM_2_0 + kpCaM2C , pkpCaM2C
+  kpCaM2C1N + pKCaMcomplex_0_0_2_1 -> 2*pKCaM_0_0 + kpCaM2C1N , (pkpCaM2C1N+pkpCaM2C1N+pkpCaM2C1N+pkpCaM2C1N+pkpCaM2C1N+pkpCaM2C1N+pkpCaM2C1N+pkpCaM2C1N+pkpCaM2C1N)/9.0
+  kpCaM2C1N + KCaMcomplex_1_0_2_1 -> pKCaM_0_0 + KCaM_1_0 + kpCaM2C1N , pkpCaM2C1N
+  kpCaM2C1N + KCaMcomplex_1_1_2_1 -> pKCaM_0_0 + KCaM_1_1 + kpCaM2C1N , pkpCaM2C1N
+  kpCaM2C1N + KCaMcomplex_1_2_2_1 -> pKCaM_0_0 + KCaM_1_2 + kpCaM2C1N , pkpCaM2C1N
+  kpCaM2C1N + KCaMcomplex_2_0_2_1 -> pKCaM_0_0 + KCaM_2_0 + kpCaM2C1N , pkpCaM2C1N
+  kpCaM2C1N + KCaMcomplex_0_0_2_1 -> pKCaM_0_0 + KCaM_0_0 + kpCaM2C1N , pkpCaM2C1N
+  kpCaM2C1N + KCaMcomplex_0_1_2_1 -> pKCaM_0_0 + KCaM_0_1 + kpCaM2C1N , pkpCaM2C1N
+  kpCaM2C1N + KCaMcomplex_0_2_2_1 -> pKCaM_0_0 + KCaM_0_2 + kpCaM2C1N , pkpCaM2C1N
+  kpCaM2C1N + KCaMcomplex_2_1_2_2 -> pKCaM_0_0 + KCaM_2_2 + kpCaM2C1N , pkpCaM2C1N
+  kpCaM2C1N + KCaMcomplex_2_1_2_1 -> pKCaM_0_0 + KCaM_2_1 + kpCaM2C1N , pkpCaM2C1N
+  kpCaM4 + pKCaMcomplex_0_0_2_2 -> 2*pKCaM_0_0 + kpCaM4 , (pkpCaM4+pkpCaM4+pkpCaM4+pkpCaM4+pkpCaM4+pkpCaM4+pkpCaM4+pkpCaM4+pkpCaM4)/9.0
+  kpCaM4 + KCaMcomplex_1_0_2_2 -> pKCaM_0_0 + KCaM_1_0 + kpCaM4 , pkpCaM4
+  kpCaM4 + KCaMcomplex_1_1_2_2 -> pKCaM_0_0 + KCaM_1_1 + kpCaM4 , pkpCaM4
+  kpCaM4 + KCaMcomplex_1_2_2_2 -> pKCaM_0_0 + KCaM_1_2 + kpCaM4 , pkpCaM4
+  kpCaM4 + KCaMcomplex_2_0_2_2 -> pKCaM_0_0 + KCaM_2_0 + kpCaM4 , pkpCaM4
+  kpCaM4 + KCaMcomplex_2_1_2_2 -> pKCaM_0_0 + KCaM_2_1 + kpCaM4 , pkpCaM4
+  kpCaM4 + KCaMcomplex_0_0_2_2 -> pKCaM_0_0 + KCaM_0_0 + kpCaM4 , pkpCaM4
+  kpCaM4 + KCaMcomplex_0_1_2_2 -> pKCaM_0_0 + KCaM_0_1 + kpCaM4 , pkpCaM4
+  kpCaM4 + KCaMcomplex_0_2_2_2 -> pKCaM_0_0 + KCaM_0_2 + kpCaM4 , pkpCaM4
+  kpCaM4 + KCaMcomplex_2_2_2_2 -> pKCaM_0_0 + KCaM_2_2 + kpCaM4 , pkpCaM4
+  kpCaM0 + pKCaMcomplex_0_0_0_0 -> 2*pKCaM_0_0 + kpCaM0 , (pkpCaM0+pkpCaM0+pkpCaM0+pkpCaM0+pkpCaM0+pkpCaM0+pkpCaM0+pkpCaM0+pkpCaM0)/9.0
+  kpCaM0 + KCaMcomplex_0_0_1_0 -> pKCaM_0_0 + KCaM_1_0 + kpCaM0 , pkpCaM0
+  kpCaM0 + KCaMcomplex_0_0_1_1 -> pKCaM_0_0 + KCaM_1_1 + kpCaM0 , pkpCaM0
+  kpCaM0 + KCaMcomplex_0_0_1_2 -> pKCaM_0_0 + KCaM_1_2 + kpCaM0 , pkpCaM0
+  kpCaM0 + KCaMcomplex_0_0_2_0 -> pKCaM_0_0 + KCaM_2_0 + kpCaM0 , pkpCaM0
+  kpCaM0 + KCaMcomplex_0_0_2_1 -> pKCaM_0_0 + KCaM_2_1 + kpCaM0 , pkpCaM0
+  kpCaM0 + KCaMcomplex_0_0_2_2 -> pKCaM_0_0 + KCaM_2_2 + kpCaM0 , pkpCaM0
+  kpCaM0 + KCaMcomplex_0_0_0_1 -> pKCaM_0_0 + KCaM_0_1 + kpCaM0 , pkpCaM0
+  kpCaM0 + KCaMcomplex_0_0_0_2 -> pKCaM_0_0 + KCaM_0_2 + kpCaM0 , pkpCaM0
+  kpCaM0 + KCaMcomplex_0_0_0_0 -> pKCaM_0_0 + KCaM_0_0 + kpCaM0 , pkpCaM0
+ end reactions
+ begin views
+  vKCaMcomplex_0_0_2_0 = KCaMcomplex_0_0_2_0/1
+  vkCaM2Noff = kCaM2Noff/1
+  vCaM_0_2 = CaM_0_2/1
+  vkpCaM1N = kpCaM1N/1
+  vpKCaMcomplex_0_0_2_0 = pKCaMcomplex_0_0_2_0/9
+  vkCaM1C2Non = kCaM1C2Non/1
+  vkK1Coff = kK1Coff/1
+  vKCaMcomplex_0_2_2_1 = KCaMcomplex_0_2_2_1/1
+  vKCaMcomplex_1_2_1_2 = KCaMcomplex_1_2_1_2/1
+  vpKCaMcomplex_0_0_2_1 = pKCaMcomplex_0_0_2_1/9
+  vKCaMcomplex_0_0_1_2 = KCaMcomplex_0_0_1_2/1
+  vk2Con = k2Con/1
+  vCaM_1_0 = CaM_1_0/1
+  vkCaM2C1Noff = kCaM2C1Noff/1
+  vCaM_1_2 = CaM_1_2/1
+  vKCaMcomplex_1_1_2_2 = KCaMcomplex_1_1_2_2/1
+  vCaM_0_0 = CaM_0_0/1
+  vKCaMcomplex_1_1_2_1 = KCaMcomplex_1_1_2_1/1
+  vkpCaM2N = kpCaM2N/1
+  vkpCaM4 = kpCaM4/1
+  vKCaMcomplex_2_0_2_2 = KCaMcomplex_2_0_2_2/1
+  vKCaMcomplex_1_0_2_1 = KCaMcomplex_1_0_2_1/1
+  vKCaMcomplex_1_0_2_2 = KCaMcomplex_1_0_2_2/1
+  vKCaMcomplex_0_1_2_0 = KCaMcomplex_0_1_2_0/1
+  vKCaMcomplex_1_2_2_1 = KCaMcomplex_1_2_2_1/1
+  vKCaMcomplex_0_2_1_0 = KCaMcomplex_0_2_1_0/1
+  vKCaMcomplex_0_1_1_2 = KCaMcomplex_0_1_1_2/1
+  vKCaMcomplex_1_2_2_2 = KCaMcomplex_1_2_2_2/1
+  vKCaMcomplex_0_2_1_2 = KCaMcomplex_0_2_1_2/1
+  vkK2Noff = kK2Noff/1
+  vkCaM4on = kCaM4on/1
+  vkCaM1C1Non = kCaM1C1Non/1
+  vkpCaM1C1N = kpCaM1C1N/1
+  vKCaM_0_1 = KCaM_0_1/1
+  vKCaMcomplex_0_2_0_2 = KCaMcomplex_0_2_0_2/1
+  vkK2Con = kK2Con/1
+  vCa = Ca/1
+  vCaM_2_0 = CaM_2_0/1
+  vkK1Noff = kK1Noff/1
+  vk2CaMKon = k2CaMKon/1
+  vKCaMcomplex_0_0_0_0 = KCaMcomplex_0_0_0_0/1
+  vpKCaMcomplex_0_0_2_2 = pKCaMcomplex_0_0_2_2/9
+  vkK2Coff = kK2Coff/1
+  vCaM_2_1 = CaM_2_1/1
+  vkK1Con = kK1Con/1
+  vk1Coff = k1Coff/1
+  vKCaMcomplex_0_1_1_0 = KCaMcomplex_0_1_1_0/1
+  vkpCaM2C1N = kpCaM2C1N/1
+  vkK2Non = kK2Non/1
+  vKCaMcomplex_0_1_0_1 = KCaMcomplex_0_1_0_1/1
+  vKCaMcomplex_0_2_1_1 = KCaMcomplex_0_2_1_1/1
+  vk1Noff = k1Noff/1
+  vkCaM1Con = kCaM1Con/1
+  vKCaMcomplex_1_0_1_1 = KCaMcomplex_1_0_1_1/1
+  vKCaMcomplex_0_1_1_1 = KCaMcomplex_0_1_1_1/1
+  vKCaM_1_1 = KCaM_1_1/1
+  vpKCaMcomplex_0_0_0_2 = pKCaMcomplex_0_0_0_2/9
+  vKCaMcomplex_0_0_0_2 = KCaMcomplex_0_0_0_2/1
+  vKCaM_2_2 = KCaM_2_2/1
+  vKCaMcomplex_1_1_1_2 = KCaMcomplex_1_1_1_2/1
+  vCaM_2_2 = CaM_2_2/1
+  vKCaMcomplex_1_0_1_2 = KCaMcomplex_1_0_1_2/1
+  vkK1Non = kK1Non/1
+  vCaM_1_1 = CaM_1_1/1
+  vKCaMcomplex_0_0_1_0 = KCaMcomplex_0_0_1_0/1
+  vKCaMcomplex_1_1_2_0 = KCaMcomplex_1_1_2_0/1
+  vk2Coff = k2Coff/1
+  vCaM_0_1 = CaM_0_1/1
+  vkCaM2Con = kCaM2Con/1
+  vkpCaM2C = kpCaM2C/1
+  vpKCaMcomplex_0_0_0_0 = pKCaMcomplex_0_0_0_0/9
+  vKCaMcomplex_2_2_2_2 = KCaMcomplex_2_2_2_2/1
+  vKCaMcomplex_1_2_2_0 = KCaMcomplex_1_2_2_0/1
+  vkCaM1Noff = kCaM1Noff/1
+  vKCaMcomplex_2_1_2_1 = KCaMcomplex_2_1_2_1/1
+  vk1Con = k1Con/1
+  vk2Non = k2Non/1
+  vKCaM_1_0 = KCaM_1_0/1
+  vKCaM_0_2 = KCaM_0_2/1
+  vkCaM4off = kCaM4off/1
+  vkCaM2C1Non = kCaM2C1Non/1
+  vKCaMcomplex_1_0_2_0 = KCaMcomplex_1_0_2_0/1
+  vKCaMcomplex_0_0_0_1 = KCaMcomplex_0_0_0_1/1
+  vKCaMcomplex_0_1_0_2 = KCaMcomplex_0_1_0_2/1
+  vKaMe = KaMe/1
+  vpKCaMcomplex_0_0_1_0 = pKCaMcomplex_0_0_1_0/9
+  vkpCaM0 = kpCaM0/1
+  vkCaM2Coff = kCaM2Coff/1
+  vKCaMcomplex_0_1_2_1 = KCaMcomplex_0_1_2_1/1
+  vKCaM_1_2 = KCaM_1_2/1
+  vpKCaM_0_0 = pKCaM_0_0/9
+  vk2Noff = k2Noff/1
+  vKCaM_0_0 = KCaM_0_0/1
+  vkCaM1Non = kCaM1Non/1
+  vkCaM1Coff = kCaM1Coff/1
+  vKCaMcomplex_0_2_2_0 = KCaMcomplex_0_2_2_0/1
+  vKCaMcomplex_1_0_1_0 = KCaMcomplex_1_0_1_0/1
+  vkCaM1C1Noff = kCaM1C1Noff/1
+  vkCaM0on = kCaM0on/1
+  vkpCaM1C2N = kpCaM1C2N/1
+  vkCaM1C2Noff = kCaM1C2Noff/1
+  vKCaM_2_1 = KCaM_2_1/1
+  vKCaMcomplex_0_2_2_2 = KCaMcomplex_0_2_2_2/1
+  vkpCaM1C = kpCaM1C/1
+  vKCaMcomplex_2_0_2_0 = KCaMcomplex_2_0_2_0/1
+  vKCaMcomplex_2_0_2_1 = KCaMcomplex_2_0_2_1/1
+  vKCaMcomplex_2_1_2_2 = KCaMcomplex_2_1_2_2/1
+  vpKCaMcomplex_0_0_1_2 = pKCaMcomplex_0_0_1_2/9
+  vKCaMcomplex_0_0_2_1 = KCaMcomplex_0_0_2_1/1
+  vKCaMcomplex_0_1_2_2 = KCaMcomplex_0_1_2_2/1
+  vk1Non = k1Non/1
+  vKCaMcomplex_1_1_1_1 = KCaMcomplex_1_1_1_1/1
+  vk2CaMKoff = k2CaMKoff/1
+  vpKCaMcomplex_0_0_0_1 = pKCaMcomplex_0_0_0_1/9
+  vcaminit = caminit/3
+  vkCaM0off = kCaM0off/1
+  vKCaMcomplex_0_0_1_1 = KCaMcomplex_0_0_1_1/1
+  vpKCaMcomplex_0_0_1_1 = pKCaMcomplex_0_0_1_1/9
+  vkCaM2Non = kCaM2Non/1
+  vKCaM_2_0 = KCaM_2_0/1
+  vKCaMcomplex_0_0_2_2 = KCaMcomplex_0_0_2_2/1
+ end views
+
+//Comments associated to the species
+//caminit:  
+  //Representative of block (with 3 species)
+  // 	caminit
+  // 	ckinit
+  // 	cainit
+//pKCaM_0_0:  
+  //Representative of block (with 9 species)
+  // 	pKCaM_0_0
+  // 	pKCaM_0_1
+  // 	pKCaM_0_2
+  // 	pKCaM_1_0
+  // 	pKCaM_1_1
+  // 	pKCaM_1_2
+  // 	pKCaM_2_0
+  // 	pKCaM_2_1
+  // 	pKCaM_2_2
+//CaM_0_1:  
+  //Singleton block 
+  // 	CaM_0_1
+//Ca:  
+  //Singleton block 
+  // 	Ca
+//k1Con:  
+  //Singleton block 
+  // 	k1Con
+//CaM_1_1:  
+  //Singleton block 
+  // 	CaM_1_1
+//k1Coff:  
+  //Singleton block 
+  // 	k1Coff
+//CaM_0_0:  
+  //Singleton block 
+  // 	CaM_0_0
+//k1Non:  
+  //Singleton block 
+  // 	k1Non
+//k1Noff:  
+  //Singleton block 
+  // 	k1Noff
+//k2Non:  
+  //Singleton block 
+  // 	k2Non
+//CaM_0_2:  
+  //Singleton block 
+  // 	CaM_0_2
+//k2Noff:  
+  //Singleton block 
+  // 	k2Noff
+//KaMe:  
+  //Singleton block 
+  // 	KaMe
+//kCaM1Non:  
+  //Singleton block 
+  // 	kCaM1Non
+//KCaM_0_1:  
+  //Singleton block 
+  // 	KCaM_0_1
+//kCaM1Noff:  
+  //Singleton block 
+  // 	kCaM1Noff
+//CaM_1_2:  
+  //Singleton block 
+  // 	CaM_1_2
+//kCaM2Non:  
+  //Singleton block 
+  // 	kCaM2Non
+//KCaM_0_2:  
+  //Singleton block 
+  // 	KCaM_0_2
+//kCaM2Noff:  
+  //Singleton block 
+  // 	kCaM2Noff
+//CaM_1_0:  
+  //Singleton block 
+  // 	CaM_1_0
+//k2Con:  
+  //Singleton block 
+  // 	k2Con
+//CaM_2_0:  
+  //Singleton block 
+  // 	CaM_2_0
+//k2Coff:  
+  //Singleton block 
+  // 	k2Coff
+//kCaM1Con:  
+  //Singleton block 
+  // 	kCaM1Con
+//KCaM_1_0:  
+  //Singleton block 
+  // 	KCaM_1_0
+//kCaM1Coff:  
+  //Singleton block 
+  // 	kCaM1Coff
+//CaM_2_1:  
+  //Singleton block 
+  // 	CaM_2_1
+//kCaM1C1Non:  
+  //Singleton block 
+  // 	kCaM1C1Non
+//KCaM_1_1:  
+  //Singleton block 
+  // 	KCaM_1_1
+//kCaM1C1Noff:  
+  //Singleton block 
+  // 	kCaM1C1Noff
+//CaM_2_2:  
+  //Singleton block 
+  // 	CaM_2_2
+//kCaM1C2Non:  
+  //Singleton block 
+  // 	kCaM1C2Non
+//KCaM_1_2:  
+  //Singleton block 
+  // 	KCaM_1_2
+//kCaM1C2Noff:  
+  //Singleton block 
+  // 	kCaM1C2Noff
+//kCaM2Con:  
+  //Singleton block 
+  // 	kCaM2Con
+//KCaM_2_0:  
+  //Singleton block 
+  // 	KCaM_2_0
+//kCaM2Coff:  
+  //Singleton block 
+  // 	kCaM2Coff
+//kCaM2C1Non:  
+  //Singleton block 
+  // 	kCaM2C1Non
+//KCaM_2_1:  
+  //Singleton block 
+  // 	KCaM_2_1
+//kCaM2C1Noff:  
+  //Singleton block 
+  // 	kCaM2C1Noff
+//kCaM4on:  
+  //Singleton block 
+  // 	kCaM4on
+//KCaM_2_2:  
+  //Singleton block 
+  // 	KCaM_2_2
+//kCaM4off:  
+  //Singleton block 
+  // 	kCaM4off
+//KCaM_0_0:  
+  //Singleton block 
+  // 	KCaM_0_0
+//kK1Con:  
+  //Singleton block 
+  // 	kK1Con
+//kK1Coff:  
+  //Singleton block 
+  // 	kK1Coff
+//kK1Non:  
+  //Singleton block 
+  // 	kK1Non
+//kK1Noff:  
+  //Singleton block 
+  // 	kK1Noff
+//kCaM0on:  
+  //Singleton block 
+  // 	kCaM0on
+//kCaM0off:  
+  //Singleton block 
+  // 	kCaM0off
+//k2CaMKon:  
+  //Singleton block 
+  // 	k2CaMKon
+//k2CaMKoff:  
+  //Singleton block 
+  // 	k2CaMKoff
+//kpCaM1N:  
+  //Singleton block 
+  // 	kpCaM1N
+//kpCaM2N:  
+  //Singleton block 
+  // 	kpCaM2N
+//kpCaM1C:  
+  //Singleton block 
+  // 	kpCaM1C
+//kpCaM1C1N:  
+  //Singleton block 
+  // 	kpCaM1C1N
+//kpCaM1C2N:  
+  //Singleton block 
+  // 	kpCaM1C2N
+//kpCaM2C:  
+  //Singleton block 
+  // 	kpCaM2C
+//kpCaM2C1N:  
+  //Singleton block 
+  // 	kpCaM2C1N
+//kpCaM4:  
+  //Singleton block 
+  // 	kpCaM4
+//kpCaM0:  
+  //Singleton block 
+  // 	kpCaM0
+//pKCaMcomplex_0_0_0_0:  
+  //Representative of block (with 9 species)
+  // 	pKCaMcomplex_0_0_0_0
+  // 	pKCaMcomplex_0_1_0_0
+  // 	pKCaMcomplex_0_2_0_0
+  // 	pKCaMcomplex_1_0_0_0
+  // 	pKCaMcomplex_1_1_0_0
+  // 	pKCaMcomplex_1_2_0_0
+  // 	pKCaMcomplex_2_0_0_0
+  // 	pKCaMcomplex_2_1_0_0
+  // 	pKCaMcomplex_2_2_0_0
+//kK2Non:  
+  //Singleton block 
+  // 	kK2Non
+//kK2Noff:  
+  //Singleton block 
+  // 	kK2Noff
+//pKCaMcomplex_0_0_0_1:  
+  //Representative of block (with 9 species)
+  // 	pKCaMcomplex_0_0_0_1
+  // 	pKCaMcomplex_0_1_0_1
+  // 	pKCaMcomplex_0_2_0_1
+  // 	pKCaMcomplex_1_0_0_1
+  // 	pKCaMcomplex_1_1_0_1
+  // 	pKCaMcomplex_1_2_0_1
+  // 	pKCaMcomplex_2_0_0_1
+  // 	pKCaMcomplex_2_1_0_1
+  // 	pKCaMcomplex_2_2_0_1
+//pKCaMcomplex_0_0_0_2:  
+  //Representative of block (with 9 species)
+  // 	pKCaMcomplex_0_0_0_2
+  // 	pKCaMcomplex_0_1_0_2
+  // 	pKCaMcomplex_0_2_0_2
+  // 	pKCaMcomplex_1_0_0_2
+  // 	pKCaMcomplex_1_1_0_2
+  // 	pKCaMcomplex_1_2_0_2
+  // 	pKCaMcomplex_2_0_0_2
+  // 	pKCaMcomplex_2_1_0_2
+  // 	pKCaMcomplex_2_2_0_2
+//kK2Con:  
+  //Singleton block 
+  // 	kK2Con
+//kK2Coff:  
+  //Singleton block 
+  // 	kK2Coff
+//pKCaMcomplex_0_0_1_0:  
+  //Representative of block (with 9 species)
+  // 	pKCaMcomplex_0_0_1_0
+  // 	pKCaMcomplex_0_1_1_0
+  // 	pKCaMcomplex_0_2_1_0
+  // 	pKCaMcomplex_1_0_1_0
+  // 	pKCaMcomplex_1_1_1_0
+  // 	pKCaMcomplex_1_2_1_0
+  // 	pKCaMcomplex_2_0_1_0
+  // 	pKCaMcomplex_2_1_1_0
+  // 	pKCaMcomplex_2_2_1_0
+//pKCaMcomplex_0_0_1_1:  
+  //Representative of block (with 9 species)
+  // 	pKCaMcomplex_0_0_1_1
+  // 	pKCaMcomplex_0_1_1_1
+  // 	pKCaMcomplex_0_2_1_1
+  // 	pKCaMcomplex_1_0_1_1
+  // 	pKCaMcomplex_1_1_1_1
+  // 	pKCaMcomplex_1_2_1_1
+  // 	pKCaMcomplex_2_0_1_1
+  // 	pKCaMcomplex_2_1_1_1
+  // 	pKCaMcomplex_2_2_1_1
+//pKCaMcomplex_0_0_1_2:  
+  //Representative of block (with 9 species)
+  // 	pKCaMcomplex_0_0_1_2
+  // 	pKCaMcomplex_0_1_1_2
+  // 	pKCaMcomplex_0_2_1_2
+  // 	pKCaMcomplex_1_0_1_2
+  // 	pKCaMcomplex_1_1_1_2
+  // 	pKCaMcomplex_1_2_1_2
+  // 	pKCaMcomplex_2_0_1_2
+  // 	pKCaMcomplex_2_1_1_2
+  // 	pKCaMcomplex_2_2_1_2
+//pKCaMcomplex_0_0_2_0:  
+  //Representative of block (with 9 species)
+  // 	pKCaMcomplex_0_0_2_0
+  // 	pKCaMcomplex_0_1_2_0
+  // 	pKCaMcomplex_0_2_2_0
+  // 	pKCaMcomplex_1_0_2_0
+  // 	pKCaMcomplex_1_1_2_0
+  // 	pKCaMcomplex_1_2_2_0
+  // 	pKCaMcomplex_2_0_2_0
+  // 	pKCaMcomplex_2_1_2_0
+  // 	pKCaMcomplex_2_2_2_0
+//pKCaMcomplex_0_0_2_1:  
+  //Representative of block (with 9 species)
+  // 	pKCaMcomplex_0_0_2_1
+  // 	pKCaMcomplex_0_1_2_1
+  // 	pKCaMcomplex_0_2_2_1
+  // 	pKCaMcomplex_1_0_2_1
+  // 	pKCaMcomplex_1_1_2_1
+  // 	pKCaMcomplex_1_2_2_1
+  // 	pKCaMcomplex_2_0_2_1
+  // 	pKCaMcomplex_2_1_2_1
+  // 	pKCaMcomplex_2_2_2_1
+//pKCaMcomplex_0_0_2_2:  
+  //Representative of block (with 9 species)
+  // 	pKCaMcomplex_0_0_2_2
+  // 	pKCaMcomplex_0_1_2_2
+  // 	pKCaMcomplex_0_2_2_2
+  // 	pKCaMcomplex_1_0_2_2
+  // 	pKCaMcomplex_1_1_2_2
+  // 	pKCaMcomplex_1_2_2_2
+  // 	pKCaMcomplex_2_0_2_2
+  // 	pKCaMcomplex_2_1_2_2
+  // 	pKCaMcomplex_2_2_2_2
+//KCaMcomplex_0_0_1_0:  
+  //Singleton block 
+  // 	KCaMcomplex_0_0_1_0
+//KCaMcomplex_0_1_1_0:  
+  //Singleton block 
+  // 	KCaMcomplex_0_1_1_0
+//KCaMcomplex_0_2_1_0:  
+  //Singleton block 
+  // 	KCaMcomplex_0_2_1_0
+//KCaMcomplex_1_0_1_1:  
+  //Singleton block 
+  // 	KCaMcomplex_1_0_1_1
+//KCaMcomplex_1_0_1_2:  
+  //Singleton block 
+  // 	KCaMcomplex_1_0_1_2
+//KCaMcomplex_1_0_2_0:  
+  //Singleton block 
+  // 	KCaMcomplex_1_0_2_0
+//KCaMcomplex_1_0_2_1:  
+  //Singleton block 
+  // 	KCaMcomplex_1_0_2_1
+//KCaMcomplex_1_0_2_2:  
+  //Singleton block 
+  // 	KCaMcomplex_1_0_2_2
+//KCaMcomplex_1_0_1_0:  
+  //Singleton block 
+  // 	KCaMcomplex_1_0_1_0
+//KCaMcomplex_0_0_1_1:  
+  //Singleton block 
+  // 	KCaMcomplex_0_0_1_1
+//KCaMcomplex_0_1_1_1:  
+  //Singleton block 
+  // 	KCaMcomplex_0_1_1_1
+//KCaMcomplex_0_2_1_1:  
+  //Singleton block 
+  // 	KCaMcomplex_0_2_1_1
+//KCaMcomplex_1_1_1_2:  
+  //Singleton block 
+  // 	KCaMcomplex_1_1_1_2
+//KCaMcomplex_1_1_2_0:  
+  //Singleton block 
+  // 	KCaMcomplex_1_1_2_0
+//KCaMcomplex_1_1_2_1:  
+  //Singleton block 
+  // 	KCaMcomplex_1_1_2_1
+//KCaMcomplex_1_1_2_2:  
+  //Singleton block 
+  // 	KCaMcomplex_1_1_2_2
+//KCaMcomplex_1_1_1_1:  
+  //Singleton block 
+  // 	KCaMcomplex_1_1_1_1
+//KCaMcomplex_0_0_1_2:  
+  //Singleton block 
+  // 	KCaMcomplex_0_0_1_2
+//KCaMcomplex_0_1_1_2:  
+  //Singleton block 
+  // 	KCaMcomplex_0_1_1_2
+//KCaMcomplex_0_2_1_2:  
+  //Singleton block 
+  // 	KCaMcomplex_0_2_1_2
+//KCaMcomplex_1_2_2_0:  
+  //Singleton block 
+  // 	KCaMcomplex_1_2_2_0
+//KCaMcomplex_1_2_2_1:  
+  //Singleton block 
+  // 	KCaMcomplex_1_2_2_1
+//KCaMcomplex_1_2_2_2:  
+  //Singleton block 
+  // 	KCaMcomplex_1_2_2_2
+//KCaMcomplex_1_2_1_2:  
+  //Singleton block 
+  // 	KCaMcomplex_1_2_1_2
+//KCaMcomplex_0_0_2_0:  
+  //Singleton block 
+  // 	KCaMcomplex_0_0_2_0
+//KCaMcomplex_0_1_2_0:  
+  //Singleton block 
+  // 	KCaMcomplex_0_1_2_0
+//KCaMcomplex_0_2_2_0:  
+  //Singleton block 
+  // 	KCaMcomplex_0_2_2_0
+//KCaMcomplex_2_0_2_1:  
+  //Singleton block 
+  // 	KCaMcomplex_2_0_2_1
+//KCaMcomplex_2_0_2_2:  
+  //Singleton block 
+  // 	KCaMcomplex_2_0_2_2
+//KCaMcomplex_2_0_2_0:  
+  //Singleton block 
+  // 	KCaMcomplex_2_0_2_0
+//KCaMcomplex_0_0_2_1:  
+  //Singleton block 
+  // 	KCaMcomplex_0_0_2_1
+//KCaMcomplex_0_1_2_1:  
+  //Singleton block 
+  // 	KCaMcomplex_0_1_2_1
+//KCaMcomplex_0_2_2_1:  
+  //Singleton block 
+  // 	KCaMcomplex_0_2_2_1
+//KCaMcomplex_2_1_2_2:  
+  //Singleton block 
+  // 	KCaMcomplex_2_1_2_2
+//KCaMcomplex_2_1_2_1:  
+  //Singleton block 
+  // 	KCaMcomplex_2_1_2_1
+//KCaMcomplex_0_0_2_2:  
+  //Singleton block 
+  // 	KCaMcomplex_0_0_2_2
+//KCaMcomplex_0_1_2_2:  
+  //Singleton block 
+  // 	KCaMcomplex_0_1_2_2
+//KCaMcomplex_0_2_2_2:  
+  //Singleton block 
+  // 	KCaMcomplex_0_2_2_2
+//KCaMcomplex_2_2_2_2:  
+  //Singleton block 
+  // 	KCaMcomplex_2_2_2_2
+//KCaMcomplex_0_0_0_1:  
+  //Singleton block 
+  // 	KCaMcomplex_0_0_0_1
+//KCaMcomplex_0_0_0_2:  
+  //Singleton block 
+  // 	KCaMcomplex_0_0_0_2
+//KCaMcomplex_0_0_0_0:  
+  //Singleton block 
+  // 	KCaMcomplex_0_0_0_0
+//KCaMcomplex_0_1_0_2:  
+  //Singleton block 
+  // 	KCaMcomplex_0_1_0_2
+//KCaMcomplex_0_1_0_1:  
+  //Singleton block 
+  // 	KCaMcomplex_0_1_0_1
+//KCaMcomplex_0_2_0_2:  
+  //Singleton block 
+  // 	KCaMcomplex_0_2_0_2
+exportMatlab(fileOut = "MODEL1001150000_FE_pKCaMcurry..m", tEnd = 100)
+end model
+

@@ -1,0 +1,138 @@
+begin model MODEL8262229752_curry
+ begin parameters
+  pAI2_trans_r = 1
+  pAI2_phos_r = 1
+  pAI2_excret_r = 1
+  pAI2_syn_r = 1
+  pAdoMet_r = 1
+  pDPD_deg_r = 1
+  pLuxS_mRNA_d = 1
+  pLuxS_prot_d = 1
+  pLuxS_transc = 1
+  pLuxS_transl = 1
+  pMTR_e = 1
+  pMTR_syn_r = 1
+  pMet_recov = 1
+  pMethy_trans = 1
+  pPfs_prot_d = 1
+  pPolyamine_uti = 1
+  pSAH_Hydro_r = 1
+  pSAM_Dec = 1
+  pSRH_cleav = 1
+  pSpeE_syn_r = 1
+  pSpermi_uti = 1
+  pb_reac_r = 1
+  ppfs_mRNA_d = 1
+  ppfs_transc = 1
+  ppfs_transl = 1
+ end parameters
+ begin init
+  Nutrients = 28350.0
+  Met = 2248.0
+  SAM = 10000.0
+  SAH = 320.0
+  Decarb_SAM = 220.0
+  Putrescine = 4400.0
+  Pfs_mRNA = 32.0
+  pfs_gene = 1.0
+  Pfs_prot = 800.0
+  Adenine = 596.0
+  SRH = 300.0
+  LuxS_gene = 1.0
+  LuxS_mRNA = 16.0
+  LuxS_prot = 400.0
+  DPD = 300.0
+  Homocys = 300.0
+  MTA = 296.0
+  Spermidine = 940.0
+  MTR = 180.0
+  AI2_intra = 60.0
+  AI2_extra = 60.0
+  SINK
+  AI2_trans_r
+  AI2_phos_r
+  AI2_excret_r = 0.25
+  AI2_syn_r = 6.7E-4
+  AdoMet_r = 0.962
+  DPD_deg_r = 0.005
+  LuxS_mRNA_d = 0.03
+  LuxS_prot_d = 0.012
+  LuxS_transc = 1.25
+  LuxS_transl = 0.74
+  MTR_e = 0.02
+  MTR_syn_r = 2.21E-5
+  Met_recov = 0.35
+  Methy_trans = 0.15
+  Pfs_prot_d = 0.003
+  Polyamine_uti = 0.15
+  SAH_Hydro_r = 5.5E-4
+  SAM_Dec = 0.055
+  SRH_cleav = 0.00224
+  SpeE_syn_r = 4.03E-6
+  Spermi_uti = 0.0208
+  b_reac_r = 0.01
+  pfs_mRNA_d = 0.022
+  pfs_transc = 2.1
+  pfs_transl = 0.54
+ end init
+ begin partition
+  {AI2_trans_r},
+  {AI2_phos_r},
+  {AI2_excret_r},
+  {AI2_syn_r},
+  {AdoMet_r},
+  {DPD_deg_r},
+  {LuxS_mRNA_d},
+  {LuxS_prot_d},
+  {LuxS_transc},
+  {LuxS_transl},
+  {MTR_e},
+  {MTR_syn_r},
+  {Met_recov},
+  {Methy_trans},
+  {Pfs_prot_d},
+  {Polyamine_uti},
+  {SAH_Hydro_r},
+  {SAM_Dec},
+  {SRH_cleav},
+  {SpeE_syn_r},
+  {Spermi_uti},
+  {b_reac_r},
+  {pfs_mRNA_d},
+  {pfs_transc},
+  {pfs_transl}
+ end partition
+ begin reactions
+  Nutrients + b_reac_r -> Met + b_reac_r , pb_reac_r
+  Met + AdoMet_r -> SAM + AdoMet_r , pAdoMet_r
+  SAM + Methy_trans -> SAH + Methy_trans , pMethy_trans
+  SAM + SAM_Dec -> Decarb_SAM + SAM_Dec , pSAM_Dec
+  Decarb_SAM + Putrescine + SpeE_syn_r -> MTA + Spermidine + SpeE_syn_r , pSpeE_syn_r
+  Spermidine + Spermi_uti -> SINK + Spermi_uti , pSpermi_uti
+  Pfs_prot + MTA + MTR_syn_r -> Pfs_prot + Adenine + MTR + MTR_syn_r , pMTR_syn_r
+  MTR + MTR_e -> SINK + MTR_e , pMTR_e
+  Adenine + Polyamine_uti -> SINK + Polyamine_uti , pPolyamine_uti
+  Pfs_prot + Pfs_prot_d -> SINK + Pfs_prot_d , pPfs_prot_d
+  Pfs_mRNA + pfs_transl -> Pfs_mRNA + Pfs_prot + pfs_transl , ppfs_transl
+  Pfs_mRNA + pfs_mRNA_d -> SINK + pfs_mRNA_d , ppfs_mRNA_d
+  pfs_gene + pfs_transc -> Pfs_mRNA + pfs_gene + pfs_transc , ppfs_transc
+  SAH + Pfs_prot + SAH_Hydro_r -> Pfs_prot + Adenine + SRH + SAH_Hydro_r , pSAH_Hydro_r
+  SRH + LuxS_prot + SRH_cleav -> LuxS_prot + DPD + Homocys + SRH_cleav , pSRH_cleav
+  Homocys + Met_recov -> Met + Met_recov , pMet_recov
+  DPD + DPD_deg_r -> SINK + DPD_deg_r , pDPD_deg_r
+  LuxS_prot + LuxS_prot_d -> SINK + LuxS_prot_d , pLuxS_prot_d
+  LuxS_mRNA + LuxS_transl -> LuxS_mRNA + LuxS_prot + LuxS_transl , pLuxS_transl
+  LuxS_mRNA + LuxS_mRNA_d -> SINK + LuxS_mRNA_d , pLuxS_mRNA_d
+  LuxS_gene + LuxS_transc -> LuxS_gene + LuxS_mRNA + LuxS_transc , pLuxS_transc
+  DPD + AI2_syn_r -> AI2_intra + AI2_syn_r , pAI2_syn_r
+  AI2_intra + AI2_excret_r -> AI2_extra + AI2_excret_r , pAI2_excret_r
+  AI2_extra + AI2_trans_r -> AI2_intra + AI2_trans_r , pAI2_trans_r
+  AI2_intra + AI2_phos_r -> SINK + AI2_phos_r , pAI2_phos_r
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+
