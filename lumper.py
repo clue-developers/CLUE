@@ -40,7 +40,7 @@ def rational_reconstruction_sage(a, m):
         y *= -1
     if x <= bnd and gcd(x, y) == 1:
         return Rational(y, x)
-    raise ValueError, "Rational reconstruction of %s (mod %s) does not exist."%(a, m)
+    raise ValueError, "Rational reconstruction of %s (mod %s) does not exist." % (a, m)
 
 ##########################################################################
 
@@ -200,7 +200,7 @@ class SparseVector(object):
         Returns the reduction modulo modulus
         """
         if self.modulus != 0:
-            raise ValueError("Cannot reduce modulo %d, already modulo prime, %d", modulus, self.modulus)
+            raise ValueError("Cannot reduce modulo %d, already modulo prime, %d" % (modulus, self.modulus))
         result = SparseVector(self.dim, modulus)
         for i in self.nonzero:
             entry = self.data[i]
@@ -282,7 +282,7 @@ class SparseRowMatrix(object):
         Returns the reduction modulo modulus
         """
         if self.modulus != 0:
-            raise ValueError("Cannot reduce modulo %d, already modulo prime, %d", modulus, self.modulus)
+            raise ValueError("Cannot reduce modulo %d, already modulo prime, %d" % (modulus, self.modulus))
         result = SparseRowMatrix(self.dim, modulus)
         for i in self.nonzero:
             row_reduced = self.data[i].reduce_mod(modulus)
@@ -298,8 +298,8 @@ class Subspace(object):
     Class representing a subspace. Contains
       - modulus (0 for rationals)
       - echelon_form - a dictionary of the form number : SparseVector such that
-        the vectors form a basis of the subspace and constitute reduced 
-        row echelon form and the corresponding number for each vector is 
+        the vectors form a basis of the subspace and constitute reduced
+        row echelon form and the corresponding number for each vector is
         the index of the pivot Example (with dense vectors) : {0: [1, 0, 1], 1: [0, 1, 3]}
     """
 
@@ -320,7 +320,7 @@ class Subspace(object):
         for piv, vect in self.echelon_form.iteritems():
             if new_vector.get(piv) != 0:
                 new_vector.reduce(-new_vector.get(piv), vect)
-    
+
         if new_vector.is_zero():
             return -1
         pivot = new_vector.first_nonzero()
@@ -333,11 +333,11 @@ class Subspace(object):
         for piv, vect in self.echelon_form.iteritems():
             if vect.get(pivot) != 0:
                 self.echelon_form[piv].reduce(-vect.get(pivot), new_vector)
-    
+
         self.echelon_form[pivot] = new_vector
         return pivot
 
-    def apply_matrices(self, matrices):
+    def apply_matrices_inplace(self, matrices):
         """
           Input
             - matrices - a list of matrices (SparseMatrix)
@@ -346,13 +346,13 @@ class Subspace(object):
             of the matrices containing the original one
         """
         new_pivots = set(self.echelon_form.keys())
-    
+
         while new_pivots:
             pivots_to_process = new_pivots.copy()
             new_pivots = set()
             for pivot in pivots_to_process:
                 for m_index, matr in enumerate(matrices):
-                    if m_index % 10 == 0:
+                    if m_index % 100 == 0:
                         logging.debug("  Multiply by matrix %d", m_index)
                     m_index += 1
                     prod = self.echelon_form[pivot].apply_matrix(matr)
@@ -374,10 +374,10 @@ class Subspace(object):
                 if self.absorb_new_vector(prod) != -1:
                     return False
         return True
-    
+
     def reduce_mod(self, modulus):
         if self.modulus != 0:
-            raise ValueError("Cannot reduce modulo %d, already modulo prime, %d", modulus, self.modulus)
+            raise ValueError("Cannot reduce modulo %d, already modulo prime, %d" % (modulus, self.modulus))
         result = Subspace(modulus)
         for piv, vec in self.echelon_form.iteritems():
             vec_red = vec.reduce_mod(modulus)
@@ -386,7 +386,7 @@ class Subspace(object):
         return result
 
     def basis(self):
-        return self.echelon_form.values()
+        return [self.echelon_form[piv] for piv in sorted(self.echelon_form.keys())]
 
     def parametrizing_coordinates(self):
         """
@@ -412,7 +412,7 @@ class Subspace(object):
                 if pivot in red["subspace"].echelon_form
             ])
         return result
-    
+
 #########################################################################
 
 def find_smallest_common_subspace(matrices, vectors_to_include):
@@ -434,7 +434,7 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
         try:
             matrices_reduced = [matr.reduce_mod(modulus) for matr in matrices]
             subspace_reduced = original_subspace.reduce_mod(modulus)
-            subspace_reduced.apply_matrices(matrices_reduced)
+            subspace_reduced.apply_matrices_inplace(matrices_reduced)
             modular_results.append({"mod" : modulus, "subspace" : subspace_reduced})
             reconstruction = Subspace.reconstruct_subspace(modular_results)
             if reconstruction.check_invariance(matrices):
