@@ -1,8 +1,11 @@
 import random
+import sys
 
 import sympy
 from sympy import QQ
 
+sys.path.insert(0, "../")
+sys.path.insert(0, "./")
 import lumper
 
 def evalp(poly, point):
@@ -172,5 +175,4 @@ if __name__ == "__main__":
     lumping = lumper.do_lumping(polys, [x1], verbose = False)
     check_lumping("M7 curry", polys, lumping, 6)
     
-
-        
+############################################ 

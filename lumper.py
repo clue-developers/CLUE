@@ -392,7 +392,46 @@ class Subspace(object):
         """
         A list of self.dim coordiantes such that the projection onto these coordinates is surjective
         """
-        return self.echelon_form.keys()
+        return sorted(self.echelon_form.keys())
+
+    def perform_change_of_variables(self, polys, new_vars_name='y'):
+        """
+          Restrict a polynomial system of ODEs with the rhs given by polys
+          to the subspace
+          new_vars_name (optional) - the name for variables in the lumped polynomials
+        """
+        new_ring = vring([new_vars_name + str(i) for i in range(self.dim())], QQ)
+        pivots = self.parametrizing_coordinates()
+        basis = self.basis()
+    
+        logging.debug("Constructing new polys")
+        new_polys = [0] * self.dim()
+        for i, vec in enumerate(basis):
+            logging.debug("    Polynomial number %d", i)
+            for j in vec.nonzero:
+                new_polys[i] += vec.data[j] * polys[j]
+    
+        logging.debug("Making the result")
+        result = []
+        for poly in new_polys:
+            monomials = poly.to_dict()
+            filtered_dict = dict()
+            for monom, coef in monomials.iteritems():
+                new_monom = []
+                skip = False
+                for i in range(len(monom)):
+                    if i not in pivots:
+                        if monom[i] != 0:
+                            skip = True
+                            break
+                    else:
+                        new_monom.append(monom[i])
+                if not skip:
+                    new_monom = tuple(new_monom)
+                    filtered_dict[new_monom] = coef
+            result.append(new_ring(filtered_dict))
+    
+        return result
 
     @classmethod
     def reconstruct_subspace(cls, modular_results):
@@ -444,52 +483,6 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
             pass
         modulus = nextprime(modulus)
 
-
-#########################################################################
-
-def perform_change_of_variables(polys, subspace, new_vars_name='y'):
-    """
-      Applies a given lumping to a given list of polynomials
-      Input
-        - polys - a nonempty list of polynomials to lump
-        - subspace - a subspace spanned by the new variables
-        - new_vars_name (optional) - the name for variables in the lumped polynomials
-
-      Output
-        the result of the lumping
-    """
-    new_ring = vring([new_vars_name + str(i) for i in range(subspace.dim())], QQ)
-    pivots = sorted(subspace.parametrizing_coordinates())
-    basis = subspace.basis()
-
-    logging.debug("Constructing new polys")
-    new_polys = [0] * subspace.dim()
-    for i, vec in enumerate(basis):
-        logging.debug("    Polynomial number %d", i)
-        for j in vec.nonzero:
-            new_polys[i] += vec.data[j] * polys[j]
-
-    logging.debug("Making the result")
-    result = []
-    for poly in new_polys:
-        monomials = poly.to_dict()
-        filtered_dict = dict()
-        for monom, coef in monomials.iteritems():
-            new_monom = []
-            skip = False
-            for i in range(len(monom)):
-                if i not in pivots:
-                    if monom[i] != 0:
-                        skip = True
-                        break
-                else:
-                    new_monom.append(monom[i])
-            if not skip:
-                new_monom = tuple(new_monom)
-                filtered_dict[new_monom] = coef
-        result.append(new_ring(filtered_dict))
-
-    return result
 
 #########################################################################
 
@@ -555,7 +548,7 @@ def do_lumping(polys, observable, new_vars_name='y', verbose=True):
         vectors_to_include.append(vec)
     lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include)
 
-    lumped_polys = perform_change_of_variables(polys, lumping_subspace, new_vars_name)
+    lumped_polys = lumping_subspace.perform_change_of_variables(polys, new_vars_name)
 
     # Nice printing
     if verbose:

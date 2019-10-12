@@ -1,8 +1,11 @@
 import random
+import sys
 
 import sympy
-from sympy import QQ, Rational
+from sympy import QQ
 
+sys.path.insert(0, "../")
+sys.path.insert(0, "./")
 import lumper
 
 def evalp(poly, point):
