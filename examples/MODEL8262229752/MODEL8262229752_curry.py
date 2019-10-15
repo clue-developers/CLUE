@@ -1,34 +1,40 @@
-load("aggregation.sage")
+import sys
+import sympy
+from sympy import QQ, Rational
+
+sys.path.insert(0, "../")
+sys.path.insert(0, "./../../")
+import lumper
+
+R = sympy.polys.rings.vring(["x" + str(i + 1) for i in range(47)], QQ)
 #MODEL8262229752_curry
 
-R = PolynomialRing(QQ, 'x', 47)
-x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19, x20, x21, x22, x23, x24, x25, x26, x27, x28, x29, x30, x31, x32, x33, x34, x35, x36, x37, x38, x39, x40, x41, x42, x43, x44, x45, x46, x47, = R.gens()
 print("Example MODEL8262229752_curry")
-pAI2_trans_r = QQ(1.0)
-pAI2_phos_r = QQ(1.0)
-pAI2_excret_r = QQ(1.0)
-pAI2_syn_r = QQ(1.0)
-pAdoMet_r = QQ(1.0)
-pDPD_deg_r = QQ(1.0)
-pLuxS_mRNA_d = QQ(1.0)
-pLuxS_prot_d = QQ(1.0)
-pLuxS_transc = QQ(1.0)
-pLuxS_transl = QQ(1.0)
-pMTR_e = QQ(1.0)
-pMTR_syn_r = QQ(1.0)
-pMet_recov = QQ(1.0)
-pMethy_trans = QQ(1.0)
-pPfs_prot_d = QQ(1.0)
-pPolyamine_uti = QQ(1.0)
-pSAH_Hydro_r = QQ(1.0)
-pSAM_Dec = QQ(1.0)
-pSRH_cleav = QQ(1.0)
-pSpeE_syn_r = QQ(1.0)
-pSpermi_uti = QQ(1.0)
-pb_reac_r = QQ(1.0)
-ppfs_mRNA_d = QQ(1.0)
-ppfs_transc = QQ(1.0)
-ppfs_transl = QQ(1.0)
+pAI2_trans_r = Rational(1, 1)
+pAI2_phos_r = Rational(1, 1)
+pAI2_excret_r = Rational(1, 1)
+pAI2_syn_r = Rational(1, 1)
+pAdoMet_r = Rational(1, 1)
+pDPD_deg_r = Rational(1, 1)
+pLuxS_mRNA_d = Rational(1, 1)
+pLuxS_prot_d = Rational(1, 1)
+pLuxS_transc = Rational(1, 1)
+pLuxS_transl = Rational(1, 1)
+pMTR_e = Rational(1, 1)
+pMTR_syn_r = Rational(1, 1)
+pMet_recov = Rational(1, 1)
+pMethy_trans = Rational(1, 1)
+pPfs_prot_d = Rational(1, 1)
+pPolyamine_uti = Rational(1, 1)
+pSAH_Hydro_r = Rational(1, 1)
+pSAM_Dec = Rational(1, 1)
+pSRH_cleav = Rational(1, 1)
+pSpeE_syn_r = Rational(1, 1)
+pSpermi_uti = Rational(1, 1)
+pb_reac_r = Rational(1, 1)
+ppfs_mRNA_d = Rational(1, 1)
+ppfs_transc = Rational(1, 1)
+ppfs_transl = Rational(1, 1)
 
 polys = [
 -pb_reac_r*x1*x44,
@@ -81,6 +87,6 @@ R(0),
 ]
 
 #Partition for that block [] which translates to:
-result = aggregate(polys, [x7,x13,x21])
+result = lumper.do_lumping(polys, [x7,x13,x21])
 
-print("Total for MODEL8262229752_curry is " + str(len(result)))
+print("Total for MODEL8262229752_curry is " + str(len(result["polynomials"])))
