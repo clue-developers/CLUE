@@ -1,35 +1,41 @@
+import sys
+import sympy
+from sympy import QQ, Rational
 
+sys.path.insert(0, "../")
+sys.path.insert(0, "./../../")
+import lumper
+
+R = sympy.polys.rings.vring(["x" + str(i + 1) for i in range(380)], QQ)
 #fceri_ji_curry
 
-R = PolynomialRing(QQ, 'x', 380)
-x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19, x20, x21, x22, x23, x24, x25, x26, x27, x28, x29, x30, x31, x32, x33, x34, x35, x36, x37, x38, x39, x40, x41, x42, x43, x44, x45, x46, x47, x48, x49, x50, x51, x52, x53, x54, x55, x56, x57, x58, x59, x60, x61, x62, x63, x64, x65, x66, x67, x68, x69, x70, x71, x72, x73, x74, x75, x76, x77, x78, x79, x80, x81, x82, x83, x84, x85, x86, x87, x88, x89, x90, x91, x92, x93, x94, x95, x96, x97, x98, x99, x100, x101, x102, x103, x104, x105, x106, x107, x108, x109, x110, x111, x112, x113, x114, x115, x116, x117, x118, x119, x120, x121, x122, x123, x124, x125, x126, x127, x128, x129, x130, x131, x132, x133, x134, x135, x136, x137, x138, x139, x140, x141, x142, x143, x144, x145, x146, x147, x148, x149, x150, x151, x152, x153, x154, x155, x156, x157, x158, x159, x160, x161, x162, x163, x164, x165, x166, x167, x168, x169, x170, x171, x172, x173, x174, x175, x176, x177, x178, x179, x180, x181, x182, x183, x184, x185, x186, x187, x188, x189, x190, x191, x192, x193, x194, x195, x196, x197, x198, x199, x200, x201, x202, x203, x204, x205, x206, x207, x208, x209, x210, x211, x212, x213, x214, x215, x216, x217, x218, x219, x220, x221, x222, x223, x224, x225, x226, x227, x228, x229, x230, x231, x232, x233, x234, x235, x236, x237, x238, x239, x240, x241, x242, x243, x244, x245, x246, x247, x248, x249, x250, x251, x252, x253, x254, x255, x256, x257, x258, x259, x260, x261, x262, x263, x264, x265, x266, x267, x268, x269, x270, x271, x272, x273, x274, x275, x276, x277, x278, x279, x280, x281, x282, x283, x284, x285, x286, x287, x288, x289, x290, x291, x292, x293, x294, x295, x296, x297, x298, x299, x300, x301, x302, x303, x304, x305, x306, x307, x308, x309, x310, x311, x312, x313, x314, x315, x316, x317, x318, x319, x320, x321, x322, x323, x324, x325, x326, x327, x328, x329, x330, x331, x332, x333, x334, x335, x336, x337, x338, x339, x340, x341, x342, x343, x344, x345, x346, x347, x348, x349, x350, x351, x352, x353, x354, x355, x356, x357, x358, x359, x360, x361, x362, x363, x364, x365, x366, x367, x368, x369, x370, x371, x372, x373, x374, x375, x376, x377, x378, x379, x380, = R.gens()
 print("Example fceri_ji_curry")
-pLig_tot = QQ(1)
-pRec_tot = QQ(1)
-pLyn_tot = QQ(1)
-pSyk_tot = QQ(1)
-pkp1 = QQ(1)
-pkm1 = QQ(1)
-pkp2 = QQ(1)
-pkm2 = QQ(1)
-pkpL = QQ(1)
-pkmL = QQ(1)
-pkpLs = QQ(1)
-pkmLs = QQ(1)
-pkpS = QQ(1)
-pkmS = QQ(1)
-pkpSs = QQ(1)
-pkmSs = QQ(1)
-ppLb = QQ(1)
-ppLbs = QQ(1)
-ppLg = QQ(1)
-ppLgs = QQ(1)
-ppLS = QQ(1)
-ppLSs = QQ(1)
-ppSS = QQ(1)
-ppSSs = QQ(1)
-pdm = QQ(1)
-pdc = QQ(1)
+pLig_tot = Rational(1, 1)
+pRec_tot = Rational(1, 1)
+pLyn_tot = Rational(1, 1)
+pSyk_tot = Rational(1, 1)
+pkp1 = Rational(1, 1)
+pkm1 = Rational(1, 1)
+pkp2 = Rational(1, 1)
+pkm2 = Rational(1, 1)
+pkpL = Rational(1, 1)
+pkmL = Rational(1, 1)
+pkpLs = Rational(1, 1)
+pkmLs = Rational(1, 1)
+pkpS = Rational(1, 1)
+pkmS = Rational(1, 1)
+pkpSs = Rational(1, 1)
+pkmSs = Rational(1, 1)
+ppLb = Rational(1, 1)
+ppLbs = Rational(1, 1)
+ppLg = Rational(1, 1)
+ppLgs = Rational(1, 1)
+ppLS = Rational(1, 1)
+ppLSs = Rational(1, 1)
+ppSS = Rational(1, 1)
+ppSSs = Rational(1, 1)
+pdm = Rational(1, 1)
+pdc = Rational(1, 1)
 
 polys = [
 -2 * pkp1*x1*x4*x359 + -2 * pkp1*x1*x6*x359 + pkm1*x5*x360 + pkm1*x7*x360 + -2 * pkp1*x1*x14*x359 + -2 * pkp1*x1*x16*x359 + pkm1*x13*x360 + pkm1*x15*x360 + -2 * pkp1*x1*x27*x359 + -2 * pkp1*x1*x29*x359 + -2 * pkp1*x1*x31*x359 + -2 * pkp1*x1*x33*x359 + pkm1*x26*x360 + pkm1*x28*x360 + pkm1*x30*x360 + pkm1*x32*x360 + -2 * pkp1*x1*x61*x359 + -2 * pkp1*x1*x63*x359 + -2 * pkp1*x1*x65*x359 + -2 * pkp1*x1*x67*x359 + pkm1*x60*x360 + pkm1*x62*x360 + pkm1*x64*x360 + pkm1*x66*x360 + -2 * pkp1*x1*x111*x359 + -2 * pkp1*x1*x113*x359 + -2 * pkp1*x1*x115*x359 + -2 * pkp1*x1*x134*x359 + pkm1*x110*x360 + pkm1*x112*x360 + pkm1*x114*x360 + pkm1*x133*x360 + -2 * pkp1*x1*x175*x359 + pkm1*x174*x360 + -2 * pkp1*x1*x209*x359 + -2 * pkp1*x1*x212*x359 + -2 * pkp1*x1*x214*x359 + -2 * pkp1*x1*x215*x359 + -2 * pkp1*x1*x218*x359 + -2 * pkp1*x1*x250*x359 + pkm1*x210*x360 + pkm1*x211*x360 + pkm1*x213*x360 + pkm1*x216*x360 + pkm1*x217*x360 + pkm1*x249*x360 + -2 * pkp1*x1*x338*x359 + pkm1*x337*x360,
@@ -415,18 +421,18 @@ R(0),
 ]
 
 #Partition for that block [] which translates to:
-resultA = aggregate(polys, [x1])
-print("Total for fceri_ji_curry, preserving Block 1 (S0),  is " + str(len(resultA)))
+resultA = lumper.do_lumping(polys, [x1])
+print("Total for fceri_ji_curry, preserving Block 1 (S0),  is " + str(len(resultA["polynomials"])))
 
-#resultB = aggregate(polys, [x3,x179,x268, x78])
-#print("Total for fceri_ji_curry, preserving Block 2 (S2,S178,S267, S77), is " + str(len(resultB)))
+resultB = lumper.do_lumping(polys, [x3,x179,x268, x78])
+print("Total for fceri_ji_curry, preserving Block 2 (S2,S178,S267, S77), is " + str(len(resultB["polynomials"])))
 
-resultC = aggregate(polys, [x3+x179+x268+x78])
-print("Total for fceri_ji_curry, preserving Block 2 (S2+S178+S267+S77), is " + str(len(resultC)))
+resultC = lumper.do_lumping(polys, [x3+x179+x268+x78])
+print("Total for fceri_ji_curry, preserving Block 2 (S2+S178+S267+S77), is " + str(len(resultC["polynomials"])))
 
-resultD = aggregate(polys, [x8])
-print("Total for fceri_ji_curry, preserving Block 3 (7), is " + str(len(resultD)))
+resultD = lumper.do_lumping(polys, [x8])
+print("Total for fceri_ji_curry, preserving Block 3 (7), is " + str(len(resultD["polynomials"])))
 
-resultE = aggregate(polys, [x9])
-print("Total for fceri_ji_curry, preserving Block 4 (8), is " + str(len(resultE)))
+resultE = lumper.do_lumping(polys, [x9])
+print("Total for fceri_ji_curry, preserving Block 4 (8), is " + str(len(resultE["polynomials"])))
 
