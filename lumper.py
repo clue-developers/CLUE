@@ -134,10 +134,10 @@ class SparseVector(object):
         for i in self.nonzero:
             self.data[i] = self.__mult__(self.data[i], coef)
 
-    def get(self, i):
+    def __getitem__(self, i):
         return self.data.get(i, 0)
 
-    def set(self, i, value):
+    def __setitem__(self, i, value):
         if bisect(self.nonzero, i) == 0 or self.nonzero[bisect(self.nonzero, i) - 1] != i:
             self.nonzero.insert(bisect(self.nonzero, i), i)
         if self.modulus == 0:
@@ -232,9 +232,9 @@ class SparseVector(object):
         result = SparseVector(self.dim)
         for ind in self.nonzero:
             try:
-                result.__append__(ind, rational_reconstruction_sage(self.get(ind), self.modulus))
+                result.__append__(ind, rational_reconstruction_sage(self[ind], self.modulus))
             except ValueError:
-                logging.debug("Rational reconstruction problems: %d, %d", self.get(ind), self.modulus)
+                logging.debug("Rational reconstruction problems: %d, %d", self[ind], self.modulus)
         return result
 
 #########################################################################
@@ -252,19 +252,20 @@ class SparseRowMatrix(object):
         self.nonzero = []
         self.modulus = modulus
 
-    def set(self, i, j, value):
+    def __setitem__(self, cell, value):
+        i, j = cell
         if bisect(self.nonzero, i) == 0 or self.nonzero[bisect(self.nonzero, i) - 1] != i:
             self.nonzero.insert(bisect(self.nonzero, i), i)
             self.data[i] = SparseVector(self.dim, self.modulus)
-        self.data[i].set(j, value)
+        self.data[i][j] = value
 
-    def get(self, i, j):
-        if not i in self.data:
+    def __getitem__(self, cell):
+        if not cell[0] in self.data:
             return 0
-        return self.data[i].get(j)
+        return self.data[cell[0]][cell[1]]
 
     def increment(self, i, j, extra):
-        self.set(i, j, self.get(i, j) + extra)
+        self[i, j] = self[i, j] + extra
 
     def row(self, i):
         if i in self.data:
@@ -312,21 +313,21 @@ class Subspace(object):
           the index of the pivot of the new basis vecor if such emerges, -1 otherwise
         """
         for piv, vect in self.echelon_form.iteritems():
-            if new_vector.get(piv) != 0:
-                new_vector.reduce(-new_vector.get(piv), vect)
+            if new_vector[piv] != 0:
+                new_vector.reduce(-new_vector[piv], vect)
 
         if new_vector.is_zero():
             return -1
         pivot = new_vector.first_nonzero()
         scaling = 1
         if self.modulus == 0:
-            scaling = 1 / new_vector.get(pivot)
+            scaling = 1 / new_vector[pivot]
         else:
-            scaling = mod_inverse(new_vector.get(pivot), self.modulus)
+            scaling = mod_inverse(new_vector[pivot], self.modulus)
         new_vector.scale(scaling)
         for piv, vect in self.echelon_form.iteritems():
-            if vect.get(pivot) != 0:
-                self.echelon_form[piv].reduce(-vect.get(pivot), new_vector)
+            if vect[pivot] != 0:
+                self.echelon_form[piv].reduce(-vect[pivot], new_vector)
 
         self.echelon_form[pivot] = new_vector
         return pivot
@@ -561,7 +562,7 @@ def do_lumping(polys, observable, new_vars_name='y', verbose=True):
         print "New variables:"
         for i in range(lumping_subspace.dim()):
             new_var_string = str(sum(
-                [lumping_subspace.basis()[i].get(j) * vars_old[j] for j in range(len(vars_old))]
+                [lumping_subspace.basis()[i][j] * vars_old[j] for j in range(len(vars_old))]
             ))
             print str(vars_new[i]) + " = " + new_var_string
 
