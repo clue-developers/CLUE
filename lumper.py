@@ -219,28 +219,22 @@ class SparseVector(object):
                 result.__append__(i, num % modulus)
         return result
 
-    @classmethod
-    def reconstruct_vector(cls, modular_results):
+    def rational_reconstruction(self):
         """
           Input
-            modular_result - a list of dicts {"mod" : modulus, "vectors" : SparseVector}
+            self
           Output
             a SparceVector over rationals with given reductions
+            (if self.modulus = 0, returns self)
         """
-        nonzeros = set()
-        mods = [red["mod"] for red in modular_results]
-        mod_prod = reduce((lambda x, y: x * y), mods)
-        for red in modular_results:
-            nonzeros = nonzeros | set(red["vector"].nonzero)
-        nonzeros = sorted(nonzeros)
-        result = cls(modular_results[0]["vector"].dim)
-        for ind in nonzeros:
-            residues = [red["vector"].get(ind) for red in modular_results]
-            total_residue = crt(mods, residues)[0]
+        if self.modulus == 0:
+            return self
+        result = SparseVector(self.dim)
+        for ind in self.nonzero:
             try:
-                result.__append__(ind, rational_reconstruction_sage(total_residue, mod_prod))
+                result.__append__(ind, rational_reconstruction_sage(self.get(ind), self.modulus))
             except ValueError:
-                logging.debug("Rational reconstruction problems: %d, %d", total_residue, mod_prod)
+                logging.debug("Rational reconstruction problems: %d, %d", self.get(ind), self.modulus)
         return result
 
 #########################################################################
@@ -375,6 +369,19 @@ class Subspace(object):
                     return False
         return True
 
+    def check_inclusion(self, other):
+        """
+          Input
+            - other - a subspace of the same dimension
+          Output
+             whether other is contained in self
+        """
+        for vec in other.basis():
+            if self.absorb_new_vector(vec) != -1:
+                return False
+        return True
+
+
     def reduce_mod(self, modulus):
         if self.modulus != 0:
             raise ValueError("Cannot reduce modulo %d, already modulo prime, %d" % (modulus, self.modulus))
@@ -433,23 +440,16 @@ class Subspace(object):
     
         return result
 
-    @classmethod
-    def reconstruct_subspace(cls, modular_results):
+    def rational_reconstruction(self):
         """
           Input
-            modular_results - a list of dicts {"mod" : modulus, "subspace" : subspace}
+            self
           Output
             a subspace with this set of reductions modulo primes
         """
-        dim = max([red["subspace"].dim() for red in modular_results])
-        max_dim_reductions = [red for red in modular_results if red["subspace"].dim() == dim]
-        result = cls()
-        for pivot in max_dim_reductions[0]["subspace"].echelon_form.keys():
-            result.echelon_form[pivot] = SparseVector.reconstruct_vector([
-                {"mod" : red["mod"], "vector" : red["subspace"].echelon_form[pivot]}
-                for red in max_dim_reductions
-                if pivot in red["subspace"].echelon_form
-            ])
+        result = Subspace()
+        for pivot in self.echelon_form.keys():
+            result.echelon_form[pivot] = self.echelon_form[pivot].rational_reconstruction()
         return result
 
 #########################################################################
@@ -467,21 +467,21 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
         original_subspace.absorb_new_vector(vec)
 
     modulus = 2**31 - 1
-    modular_results = []
+    primes_used = 1
     while True:
         logging.debug("Working modulo: %d", modulus)
         try:
             matrices_reduced = [matr.reduce_mod(modulus) for matr in matrices]
             subspace_reduced = original_subspace.reduce_mod(modulus)
             subspace_reduced.apply_matrices_inplace(matrices_reduced)
-            modular_results.append({"mod" : modulus, "subspace" : subspace_reduced})
-            reconstruction = Subspace.reconstruct_subspace(modular_results)
-            if reconstruction.check_invariance(matrices):
-                logging.debug("We used %d primes", len(modular_results))
+            reconstruction = subspace_reduced.rational_reconstruction()
+            if reconstruction.check_invariance(matrices) and reconstruction.check_inclusion(original_subspace):
+                logging.debug("We used %d primes", primes_used)
                 return reconstruction
         except ValueError:
             pass
         modulus = nextprime(modulus)
+        primes_used += 1
 
 
 #########################################################################

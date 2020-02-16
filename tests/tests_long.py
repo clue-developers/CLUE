@@ -2,7 +2,7 @@ import random
 import sys
 
 import sympy
-from sympy import QQ
+from sympy import QQ, Rational
 
 sys.path.insert(0, "../")
 sys.path.insert(0, "./")
