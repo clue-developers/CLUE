@@ -11,7 +11,7 @@ import lumper
 def evalp(poly, point):
     pdict = poly.to_dict()
     result = 0
-    for m, c in pdict.iteritems():
+    for m, c in pdict.items():
         to_add = c
         for i in range(len(m)):
             to_add = to_add * point[i]**m[i]

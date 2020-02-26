@@ -21,7 +21,7 @@ def rational_reconstruction_sage(a, m):
     if m < 0:
         m = -m
     if a < 0:
-        a = m-a
+        a = m - a
     if a == 1:
         return Rational(1, 1)
     u = m
@@ -30,7 +30,7 @@ def rational_reconstruction_sage(a, m):
     U = (1, 0, u)
     V = (0, 1, v)
     while abs(V[2]) > bnd:
-        q = U[2] / V[2]
+        q = U[2] // V[2]
         T = (U[0] - q * V[0], U[1] - q * V[1], U[2] - q * V[2])
         U = V
         V = T
@@ -40,7 +40,7 @@ def rational_reconstruction_sage(a, m):
         y *= -1
     if x <= bnd and gcd(x, y) == 1:
         return Rational(y, x)
-    raise ValueError, "Rational reconstruction of %s (mod %s) does not exist." % (a, m)
+    raise ValueError(f"Rational reconstruction of {a} (mod {m}) does not exist.")
 
 ##########################################################################
 
@@ -312,7 +312,7 @@ class Subspace(object):
         Output
           the index of the pivot of the new basis vecor if such emerges, -1 otherwise
         """
-        for piv, vect in self.echelon_form.iteritems():
+        for piv, vect in self.echelon_form.items():
             if new_vector[piv] != 0:
                 new_vector.reduce(-new_vector[piv], vect)
 
@@ -325,7 +325,7 @@ class Subspace(object):
         else:
             scaling = mod_inverse(new_vector[pivot], self.modulus)
         new_vector.scale(scaling)
-        for piv, vect in self.echelon_form.iteritems():
+        for piv, vect in self.echelon_form.items():
             if vect[pivot] != 0:
                 self.echelon_form[piv].reduce(-vect[pivot], new_vector)
 
@@ -385,9 +385,9 @@ class Subspace(object):
 
     def reduce_mod(self, modulus):
         if self.modulus != 0:
-            raise ValueError("Cannot reduce modulo %d, already modulo prime, %d" % (modulus, self.modulus))
+            raise ValueError(f"Cannot reduce modulo {modulus}, already modulo prime, {self.modulus}")
         result = Subspace(modulus)
-        for piv, vec in self.echelon_form.iteritems():
+        for piv, vec in self.echelon_form.items():
             vec_red = vec.reduce_mod(modulus)
             if not vec_red.is_zero():
                 result.echelon_form[piv] = vec_red
@@ -424,7 +424,7 @@ class Subspace(object):
         for poly in new_polys:
             monomials = poly.to_dict()
             filtered_dict = dict()
-            for monom, coef in monomials.iteritems():
+            for monom, coef in monomials.items():
                 new_monom = []
                 skip = False
                 for i in range(len(monom)):
@@ -476,9 +476,14 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
             subspace_reduced = original_subspace.reduce_mod(modulus)
             subspace_reduced.apply_matrices_inplace(matrices_reduced)
             reconstruction = subspace_reduced.rational_reconstruction()
-            if reconstruction.check_invariance(matrices) and reconstruction.check_inclusion(original_subspace):
-                logging.debug("We used %d primes", primes_used)
-                return reconstruction
+            if reconstruction.check_invariance(matrices):
+                if reconstruction.check_inclusion(original_subspace):
+                    logging.debug("We used %d primes", primes_used)
+                    return reconstruction
+                else:
+                    logging.debug("Didn't pass the inclusion check")
+            else:
+                logging.debug("Didn't pass the invariance check")
         except ValueError:
             pass
         modulus = nextprime(modulus)
@@ -554,21 +559,21 @@ def do_lumping(polys, observable, new_vars_name='y', verbose=True):
     # Nice printing
     if verbose:
         vars_new = lumped_polys[0].ring.gens
-        print "Original system:"
+        print("Original system:")
         for i in range(len(polys)):
-            print str(vars_old[i]) + "' = " + str(polys[i])
-        print "Outputs to fix:"
-        print observable
-        print "New variables:"
+            print(f"{vars_old[i]} = {polys[i]}")
+        print("Outputs to fix:")
+        print(observable)
+        print("New variables:")
         for i in range(lumping_subspace.dim()):
             new_var_string = str(sum(
                 [lumping_subspace.basis()[i][j] * vars_old[j] for j in range(len(vars_old))]
             ))
-            print str(vars_new[i]) + " = " + new_var_string
+            print (f"{vars_new[i]} = {new_var_string}")
 
-        print "Lumped system:"
+        print("Lumped system:")
         for i in range(lumping_subspace.dim()):
-            print str(vars_new[i]) + "' = " + str(lumped_polys[i])
+            print(f"{vars_new[i]} = {lumped_polys[i]}")
 
     return {"polynomials" : lumped_polys, "subspace" : [v.to_list() for v in lumping_subspace.basis()]}
 
