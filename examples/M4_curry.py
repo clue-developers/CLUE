@@ -22,7 +22,7 @@ subs_params = {
     "pkCatF": "Rational(1, 1)"
 }
 
-polys = utils.read_polys("long_system.poly", R, subs_params) 
+polys = utils.read_polys("M4_curry.poly", R, subs_params) 
 
 #S0
 result = lumper.do_lumping(polys, [x1])
