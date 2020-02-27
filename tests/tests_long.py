@@ -2,7 +2,7 @@ import random
 import sys
 
 import sympy
-from sympy import QQ, Rational
+from sympy import QQ
 
 #sys.setrecursionlimit(10000000000)
 sys.path.insert(0, "../")
@@ -31,7 +31,7 @@ def check_lumping(test_name, polys, lumping, correct_size):
         assert(len(lumped_system) == correct_size)
     except AssertionError:
         print(f"{test_name}: wrong size {len(lumped_system)}, expected {correct_size}")
-    print("{test_name}: size is correct")
+    print(f"{test_name}: size is correct")
 
     specialization = [random.randint(1, 100) for _ in range(len(polys))]
     polys_values = [evalp(p, specialization) for p in polys]
@@ -46,7 +46,7 @@ def check_lumping(test_name, polys, lumping, correct_size):
         print("Lumping is incorrect")
         print(polys_values_lumped)
         print(lumped_polys_values)
-    print("{test_name}: lumping is correct")
+    print(f"{test_name}: lumping is correct")
         
 ###############################################
 
@@ -54,15 +54,15 @@ if __name__ == "__main__":
     # M4
     R = sympy.polys.rings.vring(["x" + str(i + 1) for i in range(4107)], QQ)
     subs_params = {
-        "pEtot": "Rational(1, 1)",
-        "pFtot": "Rational(1, 1)",
-        "pStot": "Rational(1, 1)",
-        "pkOnE": "Rational(1, 1)",
-        "pkOffE": "Rational(1, 1)",
-        "pkCatE": "Rational(1, 1)",
-        "pkOnF": "Rational(1, 1)",
-        "pkOffF": "Rational(1, 1)",
-        "pkCatF": "Rational(1, 1)"
+        "pEtot": "QQ(1, 1)",
+        "pFtot": "QQ(1, 1)",
+        "pStot": "QQ(1, 1)",
+        "pkOnE": "QQ(1, 1)",
+        "pkOffE": "QQ(1, 1)",
+        "pkCatE": "QQ(1, 1)",
+        "pkOnF": "QQ(1, 1)",
+        "pkOffF": "QQ(1, 1)",
+        "pkCatF": "QQ(1, 1)"
     }
     
     polys = utils.read_polys("long_system.poly", R, subs_params)

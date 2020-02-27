@@ -2,8 +2,8 @@ from bisect import bisect
 import logging
 import math
 
-from sympy import vring, QQ, Rational, mod_inverse, gcd, nextprime
-from sympy.ntheory.modular import crt
+from sympy import vring, GF, QQ, mod_inverse, gcd, nextprime
+from sympy.ntheory.modular import crt, isprime
 
 ##########################################################################
 
@@ -17,13 +17,13 @@ def rational_reconstruction_sage(a, m):
     """
     a %= m
     if a == 0 or m == 0:
-        return Rational(0, 1)
+        return QQ(0, 1)
     if m < 0:
         m = -m
     if a < 0:
         a = m - a
     if a == 1:
-        return Rational(1, 1)
+        return QQ(1, 1)
     u = m
     v = a
     bnd = math.sqrt(m / 2)
@@ -39,7 +39,7 @@ def rational_reconstruction_sage(a, m):
     if V[1] < 0:
         y *= -1
     if x <= bnd and gcd(x, y) == 1:
-        return Rational(y, x)
+        return QQ(y, x)
     raise ValueError(f"Rational reconstruction of {a} (mod {m}) does not exist.")
 
 ##########################################################################
@@ -50,114 +50,87 @@ class SparseVector(object):
       dim - the dimension of the ambient space
       nonzero - sorted list of the indiced of the nonzero coordinates
       data - dictionary containing nonzero coordinates in the form index_of_the_coordinate : value
-      modulus - either the prime number for the modular computation, or zero (i.e., over Q)
+      field - the field of the entries (of type sympy.polys.domains.domain.Domain)
     """
-    def __init__(self, dim, modulus=0):
-        self.dim = dim
-        self.data = dict()
-        self.nonzero = []
-        self.modulus = modulus
+    def __init__(self, dim, field=QQ):
+        self._dim = dim
+        self._data = dict()
+        self._nonzero = []
+        self._field = field
 
-    ## Basic arithmetic of the ground field
-    def __plus__(self, a, b):
-        """
-        Addition of elements of the ground field
-        """
-        if self.modulus == 0:
-            return a + b
-        return (a + b) % self.modulus
+    @property
+    def dim(self):
+        return self._dim
 
-    def __mult__(self, a, b):
-        """
-        Multiplication of elements of the ground field
-        """
-        if self.modulus == 0:
-            return a * b
-        return (a * b) % self.modulus
+    @property
+    def field(self):
+        return self._field
 
-    def __inv__(self, a):
-        """
-        Inverse of an element of the ground field
-        """
-        if self.modulus == 0:
-            return 1 / a
-        return mod_inverse(a, self.modulus)
-
-    def __zero__(self, a):
-        """
-        Zero test for the gound field
-        """
-        return (self.modulus == 0 and a == 0) or (self.modulus != 0 and (a % self.modulus == 0))
+    def nonzero_iter(self):
+        return iter(self._nonzero)
 
     def reduce(self, coef, vect):
         """
         self = self + c * v
         """
-        if (self.modulus == 0 and coef == 0) or (self.modulus != 0  and coef % self.modulus == 0):
+        if not coef:
             return
 
         new_nonzero = []
-        left = 0
-        right = 0
-        while (left < len(self.nonzero) or right < len(vect.nonzero)):
-            if right == len(vect.nonzero):
-                new_nonzero.extend(self.nonzero[left:])
-                left = len(self.nonzero)
-            elif left == len(self.nonzero):
-                new_nonzero.extend(vect.nonzero[right:])
-                for i in range(right, len(vect.nonzero)):
-                    self.data[vect.nonzero[i]] = self.__mult__(coef, vect.data[vect.nonzero[i]])
-                right = len(vect.nonzero)
+        left, right = 0, 0
+        while (left < len(self._nonzero) or right < len(vect._nonzero)):
+            if right == len(vect._nonzero):
+                new_nonzero.extend(self._nonzero[left:])
+                left = len(self._nonzero)
+            elif left == len(self._nonzero):
+                new_nonzero.extend(vect._nonzero[right:])
+                for i in range(right, len(vect._nonzero)):
+                    self._data[vect._nonzero[i]] = coef * vect._data[vect._nonzero[i]]
+                right = len(vect._nonzero)
             else:
-                if self.nonzero[left] == vect.nonzero[right]:
-                    result = self.__plus__(
-                        self.data[self.nonzero[left]],
-                        coef * vect.data[vect.nonzero[right]]
-                    )
-                    if result != 0:
-                        self.data[self.nonzero[left]] = result
-                        new_nonzero.append(self.nonzero[left])
+                if self._nonzero[left] == vect._nonzero[right]:
+                    result = self._data[self._nonzero[left]] + coef * vect._data[vect._nonzero[right]]
+                    if result:
+                        self._data[self._nonzero[left]] = result
+                        new_nonzero.append(self._nonzero[left])
                     else:
-                        del self.data[self.nonzero[left]]
+                        del self._data[self._nonzero[left]]
                     left += 1
                     right += 1
-                elif self.nonzero[left] < vect.nonzero[right]:
-                    new_nonzero.append(self.nonzero[left])
+                elif self._nonzero[left] < vect._nonzero[right]:
+                    new_nonzero.append(self._nonzero[left])
                     left += 1
                 else:
-                    new_nonzero.append(vect.nonzero[right])
-                    self.data[vect.nonzero[right]] = self.__mult__(coef, vect.data[vect.nonzero[right]])
+                    new_nonzero.append(vect._nonzero[right])
+                    self._data[vect._nonzero[right]] = coef * vect._data[vect._nonzero[right]]
                     right += 1
-        self.nonzero = new_nonzero
+        self._nonzero = new_nonzero
 
     def scale(self, coef):
-        for i in self.nonzero:
-            self.data[i] = self.__mult__(self.data[i], coef)
+        if not coef:
+            self._nonzero = []
+            self._data = dict()
+        else:
+            for i in self._nonzero:
+                self._data[i] = self._data[i] * coef
 
     def __getitem__(self, i):
-        return self.data.get(i, 0)
+        return self._data.get(i, 0)
 
     def __setitem__(self, i, value):
-        if bisect(self.nonzero, i) == 0 or self.nonzero[bisect(self.nonzero, i) - 1] != i:
-            self.nonzero.insert(bisect(self.nonzero, i), i)
-        if self.modulus == 0:
-            self.data[i] = value
-        else:
-            self.data[i] = value % self.modulus
+        if bisect(self._nonzero, i) == 0 or self._nonzero[bisect(self._nonzero, i) - 1] != i:
+            self._nonzero.insert(bisect(self._nonzero, i), i)
+        self._data[i] = value
 
     def inner_product(self, rhs):
-        result = 0
-        left = 0
-        right = 0
-        while (left < len(self.nonzero) and right < len(rhs.nonzero)):
-            if self.nonzero[left] == rhs.nonzero[right]:
-                result = self.__plus__(
-                    result,
-                    self.data[self.nonzero[left]] * rhs.data[rhs.nonzero[right]]
-                )
+        result = self.field(0)
+        left, right = 0, 0
+        while (left < len(self._nonzero) and right < len(rhs._nonzero)):
+            if self._nonzero[left] == rhs._nonzero[right]:
+                result += self._data[self._nonzero[left]] * rhs._data[rhs._nonzero[right]]
                 left += 1
                 right += 1
-            elif self.nonzero[left] < rhs.nonzero[right]:
+            elif self._nonzero[left] < rhs._nonzero[right]:
                 left += 1
             else:
                 right += 1
@@ -167,56 +140,59 @@ class SparseVector(object):
         """
         makes self[i] = value *given that* all the coordinates with the index r and more were zero
         """
-        self.nonzero.append(i)
-        self.data[i] = value
+        self._nonzero.append(i)
+        self._data[i] = value
 
     def apply_matrix(self, matr):
-        result = SparseVector(self.dim, self.modulus)
-        for i in matr.nonzero:
+        result = SparseVector(self.dim, self.field)
+        for i in matr.nonzero_iter():
             prod = self.inner_product(matr.row(i))
-            if prod != 0:
+            if prod:
                 result.__append__(i, prod)
         return result
 
     def is_zero(self):
-        return len(self.nonzero) == 0
+        return len(self._nonzero) == 0
 
     def first_nonzero(self):
-        if self.nonzero:
-            return self.nonzero[0]
+        if self._nonzero:
+            return self._nonzero[0]
         return -1
 
     def to_list(self):
         result = [0] * self.dim
-        for i in range(len(self.nonzero)):
-            result[self.nonzero[i]] = self.data[self.nonzero[i]]
+        for i in range(len(self._nonzero)):
+            result[self._nonzero[i]] = self._data[self._nonzero[i]]
         return result
 
     def density(self):
-        return len(self.nonzero) * 1. / self.dim
+        return len(self._nonzero) * 1. / self.dim
 
     def reduce_mod(self, modulus):
         """
         Returns the reduction modulo modulus
+        Defined only for field == QQ
         """
-        if self.modulus != 0:
-            raise ValueError("Cannot reduce modulo %d, already modulo prime, %d" % (modulus, self.modulus))
-        result = SparseVector(self.dim, modulus)
-        for i in self.nonzero:
-            entry = self.data[i]
-            entry_mod = (entry.p * mod_inverse(entry.q, modulus)) % modulus
-            if (entry_mod % modulus) != 0:
+        if self.field != QQ:
+            raise ValueError(f"Reducion can be done only for a vector over rationals but the field is {self.field}")
+        mod_field = GF(modulus)
+        result = SparseVector(self.dim, mod_field)
+        for i in self._nonzero:
+            entry = self._data[i]
+            if mod_field.convert(entry.q) == 0:
+                raise ZeroDivisionError(f"Division by zero while taking modulo {modulus}")
+            entry_mod = mod_field.convert(entry.p) / mod_field.convert(entry.q)
+            if entry_mod:
                 result.__append__(i, entry_mod)
         return result
 
     @classmethod
-    def from_list(cls, entries_list, modulus=0):
-        result = cls(len(entries_list), modulus)
+    def from_list(cls, entries_list, field):
+        result = cls(len(entries_list), field)
         for i, num in enumerate(entries_list):
-            if modulus == 0 and num != 0:
-                result.__append__(i, num)
-            if modulus > 0 and (num % modulus) != 0:
-                result.__append__(i, num % modulus)
+            to_insert = field.convert(num)
+            if to_insert:
+                result.__append__(i, to_insert)
         return result
 
     def rational_reconstruction(self):
@@ -225,16 +201,16 @@ class SparseVector(object):
             self
           Output
             a SparceVector over rationals with given reductions
-            (if self.modulus = 0, returns self)
+          Works only over fields of the form GF(p), where p is a prime number
         """
-        if self.modulus == 0:
-            return self
-        result = SparseVector(self.dim)
-        for ind in self.nonzero:
+        if (not self.field.is_FiniteField) or (not isprime(self.field.characteristic())):
+            raise ValueError(f"Rational reconstruction is not available over {self.field}")
+        result = SparseVector(self.dim, QQ)
+        for ind in self._nonzero:
             try:
-                result.__append__(ind, rational_reconstruction_sage(self[ind], self.modulus))
+                result.__append__(ind, rational_reconstruction_sage(self[ind].to_int(), self.field.characteristic()))
             except ValueError:
-                logging.debug("Rational reconstruction problems: %d, %d", self[ind], self.modulus)
+                logging.debug("Rational reconstruction problems: %d, %d", self[ind], self.field.characteristic())
         return result
 
 #########################################################################
@@ -243,47 +219,60 @@ class SparseRowMatrix(object):
     """
     A class for sparce matrices. Contains the following fields:
       dim - the dimension of the ambient space
-      nonzero - sorted list of the indiced of the nonzero rows
-      data - dictionary containing nonzero rows in the form index_of_the_row : SparseVector
+      _nonzero - sorted list of the indiced of the nonzero rows
+      _data - dictionary containing nonzero rows in the form index_of_the_row : SparseVector
+      field - the field of entries (of type sympy.polys.domains.domain.Domain)
     """
-    def __init__(self, dim, modulus=0):
-        self.dim = dim
-        self.data = dict()
-        self.nonzero = []
-        self.modulus = modulus
+    def __init__(self, dim, field):
+        self._dim = dim
+        self._data = dict()
+        self._nonzero = []
+        self._field = field
+
+    @property
+    def dim(self):
+        return self._dim
+
+    @property
+    def field(self):
+        return self._field
+
+    def nonzero_iter(self):
+        return iter(self._nonzero)
 
     def __setitem__(self, cell, value):
         i, j = cell
-        if bisect(self.nonzero, i) == 0 or self.nonzero[bisect(self.nonzero, i) - 1] != i:
-            self.nonzero.insert(bisect(self.nonzero, i), i)
-            self.data[i] = SparseVector(self.dim, self.modulus)
-        self.data[i][j] = value
+        if bisect(self._nonzero, i) == 0 or self._nonzero[bisect(self._nonzero, i) - 1] != i:
+            self._nonzero.insert(bisect(self._nonzero, i), i)
+            self._data[i] = SparseVector(self.dim, self.field)
+        self._data[i][j] = value
 
     def __getitem__(self, cell):
-        if not cell[0] in self.data:
-            return 0
-        return self.data[cell[0]][cell[1]]
+        if not cell[0] in self._data:
+            return self.field.convert(0)
+        return self._data[cell[0]][cell[1]]
 
     def increment(self, i, j, extra):
         self[i, j] = self[i, j] + extra
 
     def row(self, i):
-        if i in self.data:
-            return self.data[i]
-        return SparseVector(self.dim, self.modulus)
+        if i in self._data:
+            return self._data[i]
+        return SparseVector(self.dim, self.field)
 
     def reduce_mod(self, modulus):
         """
         Returns the reduction modulo modulus
+        Works only if field == QQ
         """
-        if self.modulus != 0:
-            raise ValueError("Cannot reduce modulo %d, already modulo prime, %d" % (modulus, self.modulus))
-        result = SparseRowMatrix(self.dim, modulus)
-        for i in self.nonzero:
-            row_reduced = self.data[i].reduce_mod(modulus)
+        if self.field != QQ:
+            raise ValueError(f"Reducion can be done only for a vector over rationals but the field is {self.field}")
+        result = SparseRowMatrix(self.dim, GF(modulus))
+        for i in self._nonzero:
+            row_reduced = self._data[i].reduce_mod(modulus)
             if not row_reduced.is_zero():
-                result.nonzero.append(i)
-                result.data[i] = row_reduced
+                result._nonzero.append(i)
+                result._data[i] = row_reduced
         return result
 
 #########################################################################
@@ -291,19 +280,23 @@ class SparseRowMatrix(object):
 class Subspace(object):
     """
     Class representing a subspace. Contains
-      - modulus (0 for rationals)
+      - field
       - echelon_form - a dictionary of the form number : SparseVector such that
         the vectors form a basis of the subspace and constitute reduced
         row echelon form and the corresponding number for each vector is
         the index of the pivot Example (with dense vectors) : {0: [1, 0, 1], 1: [0, 1, 3]}
     """
 
-    def __init__(self, modulus=0):
-        self.modulus = modulus
-        self.echelon_form = dict()
+    def __init__(self, field):
+        self._field = field
+        self._echelon_form = dict()
+
+    @property
+    def field(self):
+        return self._field
 
     def dim(self):
-        return len(self.echelon_form)
+        return len(self._echelon_form)
 
     def absorb_new_vector(self, new_vector):
         """
@@ -312,24 +305,19 @@ class Subspace(object):
         Output
           the index of the pivot of the new basis vecor if such emerges, -1 otherwise
         """
-        for piv, vect in self.echelon_form.items():
-            if new_vector[piv] != 0:
+        for piv, vect in self._echelon_form.items():
+            if new_vector[piv]:
                 new_vector.reduce(-new_vector[piv], vect)
 
         if new_vector.is_zero():
             return -1
         pivot = new_vector.first_nonzero()
-        scaling = 1
-        if self.modulus == 0:
-            scaling = 1 / new_vector[pivot]
-        else:
-            scaling = mod_inverse(new_vector[pivot], self.modulus)
-        new_vector.scale(scaling)
-        for piv, vect in self.echelon_form.items():
-            if vect[pivot] != 0:
-                self.echelon_form[piv].reduce(-vect[pivot], new_vector)
+        new_vector.scale(self.field.convert(1) / new_vector[pivot])
+        for piv, vect in self._echelon_form.items():
+            if vect[pivot]:
+                self._echelon_form[piv].reduce(-vect[pivot], new_vector)
 
-        self.echelon_form[pivot] = new_vector
+        self._echelon_form[pivot] = new_vector
         return pivot
 
     def apply_matrices_inplace(self, matrices):
@@ -340,7 +328,7 @@ class Subspace(object):
             No output. The subspace is transformed to the smallest invariant subspace
             of the matrices containing the original one
         """
-        new_pivots = set(self.echelon_form.keys())
+        new_pivots = set(self._echelon_form.keys())
 
         while new_pivots:
             pivots_to_process = new_pivots.copy()
@@ -350,7 +338,7 @@ class Subspace(object):
                     if m_index % 100 == 0:
                         logging.debug("  Multiply by matrix %d", m_index)
                     m_index += 1
-                    prod = self.echelon_form[pivot].apply_matrix(matr)
+                    prod = self._echelon_form[pivot].apply_matrix(matr)
                     if not prod.is_zero():
                         new_pivot = self.absorb_new_vector(prod)
                         if new_pivot != -1:
@@ -364,7 +352,7 @@ class Subspace(object):
              whether the vector space is invariant under the matrices
         """
         for matr in matrices:
-            for vec in self.echelon_form.values():
+            for vec in self._echelon_form.values():
                 prod = vec.apply_matrix(matr)
                 if self.absorb_new_vector(prod) != -1:
                     return False
@@ -384,23 +372,27 @@ class Subspace(object):
 
 
     def reduce_mod(self, modulus):
-        if self.modulus != 0:
-            raise ValueError(f"Cannot reduce modulo {modulus}, already modulo prime, {self.modulus}")
-        result = Subspace(modulus)
-        for piv, vec in self.echelon_form.items():
+        """
+        Reduction modulo prime modulus.
+        Works only for field == QQ
+        """
+        if self.field != QQ:
+            raise ValueError(f"Reducion can be done only for a vector over rationals but the field is {self.field}")
+        result = Subspace(GF(modulus))
+        for piv, vec in self._echelon_form.items():
             vec_red = vec.reduce_mod(modulus)
             if not vec_red.is_zero():
-                result.echelon_form[piv] = vec_red
+                result._echelon_form[piv] = vec_red
         return result
 
     def basis(self):
-        return [self.echelon_form[piv] for piv in sorted(self.echelon_form.keys())]
+        return [self._echelon_form[piv] for piv in sorted(self._echelon_form.keys())]
 
     def parametrizing_coordinates(self):
         """
         A list of self.dim coordiantes such that the projection onto these coordinates is surjective
         """
-        return sorted(self.echelon_form.keys())
+        return sorted(self._echelon_form.keys())
 
     def perform_change_of_variables(self, polys, new_vars_name='y'):
         """
@@ -408,7 +400,7 @@ class Subspace(object):
           to the subspace
           new_vars_name (optional) - the name for variables in the lumped polynomials
         """
-        new_ring = vring([new_vars_name + str(i) for i in range(self.dim())], QQ)
+        new_ring = vring([new_vars_name + str(i) for i in range(self.dim())], self.field)
         pivots = self.parametrizing_coordinates()
         basis = self.basis()
     
@@ -416,8 +408,8 @@ class Subspace(object):
         new_polys = [0] * self.dim()
         for i, vec in enumerate(basis):
             logging.debug("    Polynomial number %d", i)
-            for j in vec.nonzero:
-                new_polys[i] += vec.data[j] * polys[j]
+            for j in vec.nonzero_iter():
+                new_polys[i] += vec._data[j] * polys[j]
     
         logging.debug("Making the result")
         result = []
@@ -429,7 +421,7 @@ class Subspace(object):
                 skip = False
                 for i in range(len(monom)):
                     if i not in pivots:
-                        if monom[i] != 0:
+                        if monom[i]:
                             skip = True
                             break
                     else:
@@ -446,11 +438,15 @@ class Subspace(object):
           Input
             self
           Output
-            a subspace with this set of reductions modulo primes
+            a subspace with this set of reductions modulo prime
+          Works only for fields of the form GF(p) (p - prime)
         """
-        result = Subspace()
-        for pivot in self.echelon_form.keys():
-            result.echelon_form[pivot] = self.echelon_form[pivot].rational_reconstruction()
+        if (not self.field.is_FiniteField) or (not isprime(self.field.characteristic())):
+            raise ValueError(f"Rational reconstruction is not available over {self.field}")
+ 
+        result = Subspace(QQ)
+        for pivot in self._echelon_form.keys():
+            result._echelon_form[pivot] = self._echelon_form[pivot].rational_reconstruction()
         return result
 
 #########################################################################
@@ -458,14 +454,19 @@ class Subspace(object):
 def find_smallest_common_subspace(matrices, vectors_to_include):
     """
       Input
-        - matrices - a list of matrices (SparseMatrix)
+        - matrices - an iterator for matrices (SparseMatrix)
         - vectors_to_include - a list of vectors (SparseVector)
       Output
         a smallest invariant subspace for the matrices containing the vectors
     """
-    original_subspace = Subspace()
+    field = vectors_to_include[0].field
+    original_subspace = Subspace(field)
     for vec in vectors_to_include:
         original_subspace.absorb_new_vector(vec)
+
+    if field != QQ:
+        original_subspace.apply_matrices_inplace(matrices)
+        return original_subspace
 
     modulus = 2**31 - 1
     primes_used = 1
@@ -486,9 +487,10 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
                 logging.debug("Didn't pass the invariance check")
         except ValueError:
             pass
+        except ZeroDivisionError:
+            logging.debug(f"{modulus} was a bad prime for reduction, going for the next one")
         modulus = nextprime(modulus)
         primes_used += 1
-
 
 #########################################################################
 
@@ -502,6 +504,7 @@ def construct_matrices(polys):
     """
     logging.debug("Starting constructing matrices")
     variables = polys[0].ring.gens
+    field = polys[0].ring.domain
     jacobians = dict()
     for p_ind, poly in enumerate(polys):
         logging.debug("Processing polynomial number %d", p_ind)
@@ -511,9 +514,9 @@ def construct_matrices(polys):
             for var in range(len(monom)):
                 if monom[var] > 0:
                     m_der = tuple(list(monom[:var]) + [monom[var] - 1] + list(monom[(var + 1):]))
-                    entry = Rational(coef) * monom[var]
+                    entry = field.convert(coef) * monom[var]
                     if m_der not in jacobians:
-                        jacobians[m_der] = SparseRowMatrix(len(variables))
+                        jacobians[m_der] = SparseRowMatrix(len(variables), field)
                     jacobians[m_der].increment(var, p_ind, entry)
 
     result = jacobians.values()
@@ -545,12 +548,13 @@ def do_lumping(polys, observable, new_vars_name='y', verbose=True):
 
     # Reduce the problem to the common invariant subspace problem
     vars_old = polys[0].ring.gens
+    field = polys[0].ring.domain
     matrices = construct_matrices(polys)
 
     # Find a lumping
     vectors_to_include = []
     for linear_form in observable:
-        vec = SparseVector.from_list([Rational(linear_form.coeff(v)) for v in vars_old])
+        vec = SparseVector.from_list([linear_form.coeff(v) for v in vars_old], field)
         vectors_to_include.append(vec)
     lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include)
 
