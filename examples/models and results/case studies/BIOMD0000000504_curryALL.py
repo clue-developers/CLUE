@@ -1,3 +1,6 @@
+#Model generated from: Proctor, C. J., Macdonald, C., Milner, J. M., Rowan, A. D., & Cawston, T. E. (2014). A Computer Simulation Approach to Assessing Therapeutic Intervention Points for the Prevention of Cytokine‐Induced Cartilage Breakdown. Arthritis & rheumatology, 66(4), 979-989.
+#Source: https://www.ebi.ac.uk/biomodels/BIOMD0000000504
+##
 import sys
 import sympy
 from sympy import QQ, Rational
