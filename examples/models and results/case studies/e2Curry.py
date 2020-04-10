@@ -1,4 +1,6 @@
-# Model e2Curry
+#Model generated from: #Sneddon, M. W., Faeder, J. R., & Emonet, T. (2011). Efficient modeling, simulation and coarse-graining of biological complexity with NFsim. Nature methods, 8(2), 177.
+# Model e2.bngl from http://michaelsneddon.net/nfsim/pages/models/multisite_phos.zip
+##
 import sys 
 import sympy 
 from sympy import QQ
