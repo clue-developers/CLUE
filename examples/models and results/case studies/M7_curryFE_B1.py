@@ -1,3 +1,6 @@
+#Model generated from: Borisov, N. M., Chistopolsky, A. S., Faeder, J. R., & Kholodenko, B. N. (2008). Domain-oriented reduction of rule-based network models. IET systems biology, 2(5), 342-351.
+#Source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2628550/bin/NIHMS80246-supplement-Supplement_4.doc
+#
 import sys
 import sympy
 from sympy import QQ
