@@ -1,3 +1,6 @@
+#Model generated from: Li, J., Wang, L., Hashimoto, Y., Tsao, C. Y., Wood, T. K., Valdes, J. J., ... & Bentley, W. E. (2006). A stochastic model of Escherichia coli AI‐2 quorum signal circuit reveals alternative synthesis pathways. Molecular systems biology, 2(1).
+#Source: https://www.ebi.ac.uk/biomodels/MODEL8262229752
+##
 import sys
 import sympy
 from sympy import QQ, Rational
