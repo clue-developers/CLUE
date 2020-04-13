@@ -25,3 +25,18 @@ Therefore, the original system can be **reduced exactly** to the following syste
 
 **In general,** constrained lumping is an exact model reduction by linear transformation that preserves a prescribed set of linear combinations of the unknown functions.
 For precise definition and more details, we refer to Section 2 of the paper.
+
+## What does CLODE do and how to use it?
+
+For an interactive version of this minitutorial, see this jupyter notebook.
+
+CLODE implements an algorithm that takes as **input**
+* a system of ODEs with polynomial right-hand side
+* a list of linear combinations of the unknown functions to be preserved
+and **returns** the maximal exact reduction of the system by a linear transformation that preserves given combinations.
+
+Let us demonstrate the usage of CLODE on the example above:
+1. Load the relevant function:
+```python
+from clode import do_lumping
+```
