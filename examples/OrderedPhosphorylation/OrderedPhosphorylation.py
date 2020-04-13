@@ -1,16 +1,18 @@
-#Model generated from: Borisov, N. M., Chistopolsky, A. S., Faeder, J. R., & Kholodenko, B. N. (2008). Domain-oriented reduction of rule-based network models. IET systems biology, 2(5), 342-351.
-#Source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2628550/bin/NIHMS80246-supplement-Supplement_4.doc
+# Model generated from: 
+# Borisov, N. M., Chistopolsky, A. S., Faeder, J. R., & Kholodenko, B. N.
+# Domain-oriented reduction of rule-based network models. IET systems biology, 2(5), 342-351, 2008.
+# Source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2628550/bin/NIHMS80246-supplement-Supplement_4.doc
 ##
 import sys
 import sympy
 from sympy import QQ
 
 sys.path.insert(0, "../")
-sys.path.insert(0, "./")
+sys.path.insert(0, "./../../")
 import lumper
 
 R = sympy.polys.rings.vring(["x" + str(i + 1) for i in range(84)], QQ)
-print("Example M7_curryFE_B1[compact_paramS]")
+print("Example M7")
 pL_tot = QQ(1)
 pR_tot = QQ(1)
 pA_tot = QQ(1)
@@ -117,5 +119,5 @@ pk1*x6*x25*x54 + pk1*x6*x30*x38 + -pk_1*x7*x80 + -pk_1*x7*x80 + pk3*x8*x78 + -pk
 ((((pk1 + pk1) + pk1) + pk1) / 4)*x6*x32*x65 + ((((pk1 + pk1) + pk1) + pk1) / 4)*x6*x40*x43 + -(((((pk_1 + pk_1) + pk_1) + pk_1) / 4)*x7*x84) + -(((((pk_1 + pk_1) + pk_1) + pk_1) / 4)*x7*x84) + ((((pk3 + pk3) + pk3) + pk3) / 4)*x8*x83 + -(((((pk_3 + pk_3) + pk_3) + pk_3) / 4)*x9*x84) + ((((pk4 + pk4) + pk4) + pk4) / 4)*x10*x81 + -(((((pk_4 + pk_4) + pk_4) + pk_4) / 4)*x11*x84) + ((((pk5 + pk5) + pk5) + pk5) / 4)*x12*x41*x56 + -(((((pk5 + pk5) + pk5) + pk5) / 4)*x12*x41*x84) + ((((pk_5 + pk_5) + pk_5) + pk_5) / 4)*x13*x69 + -(((((pk_5 + pk_5) + pk_5) + pk_5) / 4)*x13*x84) + ((((pk6 + pk6) + pk6) + pk6) / 4)*x14*x57*x71 + -(((((((((((((((((pk6 + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) / 16)*x14*x71*x84) + ((((((((((((((((pk_6 + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) / 16)*x15*x66 + -(((((pk_6 + pk_6) + pk_6) + pk_6) / 4)*x15*x84),
 ]
 
-resultA = lumper.do_lumping(polys, [x1])
-print("Total for M7_curry is " + str(len(resultA["polynomials"])))
+result = lumper.do_lumping(polys, [x1])
+print("Total for M7 is " + str(len(result["polynomials"])))
