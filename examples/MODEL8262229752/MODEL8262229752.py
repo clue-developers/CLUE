@@ -1,43 +1,46 @@
-#Model generated from: Li, J., Wang, L., Hashimoto, Y., Tsao, C. Y., Wood, T. K., Valdes, J. J., ... & Bentley, W. E. (2006). A stochastic model of Escherichia coli AI‐2 quorum signal circuit reveals alternative synthesis pathways. Molecular systems biology, 2(1).
-#Source: https://www.ebi.ac.uk/biomodels/MODEL8262229752
+# Model generated from: 
+# Li, J., Wang, L., Hashimoto, Y., Tsao, C. Y., Wood, T. K., Valdes, J. J., ... & Bentley, W. E.
+# A stochastic model of Escherichia coli AI‐2 quorum signal circuit reveals alternative synthesis pathways. 
+# Molecular systems biology, 2(1), 2006
+# Source: https://www.ebi.ac.uk/biomodels/MODEL8262229752
 ##
 import sys
 import sympy
-from sympy import QQ, Rational
+from sympy import QQ
 
 sys.path.insert(0, "../")
 sys.path.insert(0, "./../../")
 import lumper
 
 R = sympy.polys.rings.vring(["x" + str(i + 1) for i in range(47)], QQ)
-#MODEL8262229752_curry
 
-print("Example MODEL8262229752_curry")
-pAI2_trans_r = Rational(1, 1)
-pAI2_phos_r = Rational(1, 1)
-pAI2_excret_r = Rational(1, 1)
-pAI2_syn_r = Rational(1, 1)
-pAdoMet_r = Rational(1, 1)
-pDPD_deg_r = Rational(1, 1)
-pLuxS_mRNA_d = Rational(1, 1)
-pLuxS_prot_d = Rational(1, 1)
-pLuxS_transc = Rational(1, 1)
-pLuxS_transl = Rational(1, 1)
-pMTR_e = Rational(1, 1)
-pMTR_syn_r = Rational(1, 1)
-pMet_recov = Rational(1, 1)
-pMethy_trans = Rational(1, 1)
-pPfs_prot_d = Rational(1, 1)
-pPolyamine_uti = Rational(1, 1)
-pSAH_Hydro_r = Rational(1, 1)
-pSAM_Dec = Rational(1, 1)
-pSRH_cleav = Rational(1, 1)
-pSpeE_syn_r = Rational(1, 1)
-pSpermi_uti = Rational(1, 1)
-pb_reac_r = Rational(1, 1)
-ppfs_mRNA_d = Rational(1, 1)
-ppfs_transc = Rational(1, 1)
-ppfs_transl = Rational(1, 1)
+print("Example MODEL8262229752")
+# Setting parameters to be 1
+pAI2_trans_r = QQ(1, 1)
+pAI2_phos_r = QQ(1, 1)
+pAI2_excret_r = QQ(1, 1)
+pAI2_syn_r = QQ(1, 1)
+pAdoMet_r = QQ(1, 1)
+pDPD_deg_r = QQ(1, 1)
+pLuxS_mRNA_d = QQ(1, 1)
+pLuxS_prot_d = QQ(1, 1)
+pLuxS_transc = QQ(1, 1)
+pLuxS_transl = QQ(1, 1)
+pMTR_e = QQ(1, 1)
+pMTR_syn_r = QQ(1, 1)
+pMet_recov = QQ(1, 1)
+pMethy_trans = QQ(1, 1)
+pPfs_prot_d = QQ(1, 1)
+pPolyamine_uti = QQ(1, 1)
+pSAH_Hydro_r = QQ(1, 1)
+pSAM_Dec = QQ(1, 1)
+pSRH_cleav = QQ(1, 1)
+pSpeE_syn_r = QQ(1, 1)
+pSpermi_uti = QQ(1, 1)
+pb_reac_r = QQ(1, 1)
+ppfs_mRNA_d = QQ(1, 1)
+ppfs_transc = QQ(1, 1)
+ppfs_transl = QQ(1, 1)
 
 polys = [
 -pb_reac_r*x1*x44,
@@ -89,7 +92,6 @@ R(0),
 R(0),
 ]
 
-#Partition for that block [] which translates to:
 result = lumper.do_lumping(polys, [x7,x13,x21])
 
-print("Total for MODEL8262229752_curry is " + str(len(result["polynomials"])))
+print("Total for MODEL8262229752 is " + str(len(result["polynomials"])))

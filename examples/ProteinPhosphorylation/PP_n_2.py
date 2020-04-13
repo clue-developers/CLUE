@@ -5,7 +5,7 @@ import sys
 import sympy 
 from sympy import QQ
 
-sys.path.insert(0, "../") 
+sys.path.insert(0, "../../../") 
 sys.path.insert(0, "./") 
 import lumper
 import timeit
@@ -56,4 +56,3 @@ R(0),
 #{S0}
 result = lumper.do_lumping(polys, [x1])
 print("Total partitioning by S0 only  is " + str(len(result["polynomials"])))
-print(timeit.timeit(lumper.do_lumping(polys, [x1]),number=5))
