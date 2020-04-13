@@ -1,17 +1,21 @@
-#Model generated from: #Sneddon, M. W., Faeder, J. R., & Emonet, T. (2011). Efficient modeling, simulation and coarse-graining of biological complexity with NFsim. Nature methods, 8(2), 177.
+# Model generated from: 
+# Sneddon, M. W., Faeder, J. R., & Emonet, T. 
+# Efficient modeling, simulation and coarse-graining of biological complexity with NFsim. 
+# Nature methods, 8(2), 177, 2011.
 # Model e2.bngl from http://michaelsneddon.net/nfsim/pages/models/multisite_phos.zip
 ##
+
 import sys 
 import sympy 
 from sympy import QQ
 
-sys.path.insert(0, "../../../") 
+sys.path.insert(0, "../../") 
 sys.path.insert(0, "./") 
 import lumper
 import timeit
 
 R = sympy.polys.rings.vring(["x" + str(i + 1) for i in range(27)], QQ)
-print ("Example e2Curry")
+print ("Example of Protein phosphorylation for n = 2")
 pEtot = QQ(1)
 pFtot = QQ(1)
 pStot = QQ(1)
