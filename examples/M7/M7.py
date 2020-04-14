@@ -1,3 +1,5 @@
+# Generated from https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2628550/bin/NIHMS80246-supplement-Supplement_4.doc
+
 import sys
 import sympy
 from sympy import QQ
