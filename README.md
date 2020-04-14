@@ -1,6 +1,6 @@
-# CLODE (Constrainde Lumping for ODEs)
+# CLUE (Constrained LUmping for differential Equations)
 
-CLODE is a Python implementation of the algorithm from the paper ''Exact maximal reduction of kinetic models by constrained lumping of differential equations''.
+CLUE is a Python implementation of the algorithm from the paper ''Exact maximal reduction of kinetic models by constrained lumping of differential equations''.
 
 ## What is constrained lumping?
 
@@ -32,11 +32,37 @@ For an interactive version of this minitutorial, see this jupyter notebook.
 
 CLODE implements an algorithm that takes as **input**
 * a system of ODEs with polynomial right-hand side
-* a list of linear combinations of the unknown functions to be preserved
+* a list of linear combinations of the unknown functions to be preserved (*observables*)
+
 and **returns** the maximal exact reduction of the system by a linear transformation that preserves given combinations.
 
-Let us demonstrate the usage of CLODE on the example above:
-1. Load the relevant function:
+We will demonstrate the usage of CLUE on the example above. For more details on usage, see tutorial ([jupyter](Tutorial.ipynb), [html](Tutorial.html))
+
+1. import relevant functions from sympy and the function that does lumping:
+
 ```python
-from clode import do_lumping
+from sympy import vring, QQ
+from clue import do_lumping
+```
+
+2. Introduce the variables x_1, x_2, x_3 by defining the ring of polynomials in these variables (QQ refers to the fact that the coefficients are rational numbers, for other optons see the tutorial)
+
+```python
+R = vring(["x1", "x2", "x3"], QQ)
+```
+
+3. Construct a list of right-hand sides of the ODE. The right-hand sides must be in the same order as the variables on the definition of the ring
+
+```python
+ode = [
+    x2**2 + 4 * x2 * x3 + 4 * x3**2, # derivative of x1
+    4 * x3 - 2 * x1,                 # derivative of x2
+    x1 + x2                          # derivative of x3
+]
+```
+
+4. Call `do_lumping` providing the system and the combinations to preserve, that is, `[x1]`
+
+```python
+do_lumping(ode, [x1])
 ```
