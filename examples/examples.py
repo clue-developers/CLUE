@@ -3,9 +3,10 @@ import sympy
 
 sys.path.insert(0, "../")
 sys.path.insert(0, "./")
+from sympy import vring, QQ
 import lumper
 
-R = sympy.polys.rings.vring(["x0", "x1", "x2"], sympy.polys.domains.QQ)
+R = vring(["x0", "x1", "x2"], sympy.polys.domains.QQ)
 
 print("Example 1")
 polys = [x0**2 + x1 + x2, x2, x1]

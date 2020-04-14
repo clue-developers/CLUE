@@ -11,7 +11,7 @@ from sympy import QQ
 
 sys.path.insert(0, "../../")
 sys.path.insert(0, "./")
-import lumper
+from clue import do_lumping
 
 R = sympy.polys.rings.vring(["x" + str(i + 1) for i in range(75)], QQ)
 print("Example of Protein phosphorylation for n = 3")
@@ -104,18 +104,18 @@ R(0),
 ]
 
 #{S0}
-result = lumper.do_lumping(polys, [x1])
+result = do_lumping(polys, [x1])
 print("Total for n = 3 is " + str(len(result["polynomials"])))
 
 # The sets of observable below has not been discussed in the paper
 #{S1}
-#result = lumper.do_lumping(polys, [x2])
-#print("Total for e3_curry S1 is " + str(len(result["polynomials"])))
+#result = do_lumping(polys, [x2])
+#print("Total for n = 3 with observed S1 is " + str(len(result["polynomials"])))
 
 #{S33,S34,S35,S36,S44,S45,S46,S47,S55,S56,S2,S3,S4,S5,S6,S7,S9,S10,S11,S12,S13,S14,S18,S19,S20,S21,S22,S23,S24,S25,S31,S32}
-#result = lumper.do_lumping(polys, [x34 + x35 + x36 + x37 + x45 + x46 + x47 + x48 + x56 + x57 + x3 + x4 + x5 + x6 + x7 + x8 + x10 + x11 + x12 + x13 + x14 + x15 + x19 + x20 + x21 + x22 + x23 + x24 + x25 + x26 + x32 + x33])
-#print("Total for e3_curry fr the SUM of Block 3 is " + str(len(result["polynomials"])))
+#result = do_lumping(polys, [x34 + x35 + x36 + x37 + x45 + x46 + x47 + x48 + x56 + x57 + x3 + x4 + x5 + x6 + x7 + x8 + x10 + x11 + x12 + x13 + x14 + x15 + x19 + x20 + x21 + x22 + x23 + x24 + x25 + x26 + x32 + x33])
+#print("Total for n = 3 with observed SUM of Block 3 is " + str(len(result["polynomials"])))
 
 #{S37,S38,S39,S40,S41,S42,S43,S48,S49,S50,S51,S52,S53,S54,S57,S58,S59,S60,S61,S62,S63,S64,S65,S8,S15,S16,S17,S26,S27,S28,S29,S30}
-#result = lumper.do_lumping(polys, [x38 + x39 + x40 + x41 + x42 + x43 + x49 + x50 + x51 + x52 + x53 + x54 + x55 + x58 + x59 + x60 + x61 + x62 + x63 + x64 + x65 + x66 + x9 + x16 + x17 + x18 + x27 + x28 + x29 + x30 + x31])
-#print("Total for e3_curry for the SUM of block 4 is " + str(len(result["polynomials"])))
+#result = do_lumping(polys, [x38 + x39 + x40 + x41 + x42 + x43 + x49 + x50 + x51 + x52 + x53 + x54 + x55 + x58 + x59 + x60 + x61 + x62 + x63 + x64 + x65 + x66 + x9 + x16 + x17 + x18 + x27 + x28 + x29 + x30 + x31])
+#print("Total for n = 3 with observed SUM of block 4 is " + str(len(result["polynomials"])))

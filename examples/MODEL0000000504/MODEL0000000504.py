@@ -6,11 +6,11 @@
 ##
 import sys
 import sympy
-from sympy import QQ, QQ
+from sympy import QQ
 
 sys.path.insert(0, "../")
 sys.path.insert(0, "./../../")
-import lumper
+from clue import do_lumping
 
 R = sympy.polys.rings.vring(["x" + str(i + 1) for i in range(207)], QQ)
 print("Example BIOMD0000000504")
@@ -359,17 +359,17 @@ R(0),
 
 
 #Partition preserving cFos_P, cJun_P
-result = lumper.do_lumping(polys, [x66, x67])
+result = do_lumping(polys, [x66, x67])
 print("Total for BIOMD0000000504, preserving cFos_P, cJun_P, is " + str(len(result["polynomials"])))
 
 #Partition preserving MMP1_mRNA, MMP13_mRNA, TIMP1_mRNA
-result = lumper.do_lumping(polys, [x16, x18, x30])
+result = do_lumping(polys, [x16, x18, x30])
 print("Total for BIOMD0000000504 is " + str(len(result["polynomials"])))
 
 #Partition preserving MMP1, MMP13, ColFrag
-result = lumper.do_lumping(polys, [x40, x43, x49])
+result = do_lumping(polys, [x40, x43, x49])
 print("Total for BIOMD0000000504 is " + str(len(result["polynomials"])))
 
 #Partition preserving JAK1_P, JNK_P, cJun_P, cJun_dimer, STAT3_P_nuc, STAT3_P_cyt
-result = lumper.do_lumping(polys, [x11, x13, x67, x68, x72, x29])
+result = do_lumping(polys, [x11, x13, x67, x68, x72, x29])
 print("Total for BIOMD0000000504 is " + str(len(result["polynomials"])))

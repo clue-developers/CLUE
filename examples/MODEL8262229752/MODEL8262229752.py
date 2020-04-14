@@ -10,7 +10,7 @@ from sympy import QQ
 
 sys.path.insert(0, "../")
 sys.path.insert(0, "./../../")
-import lumper
+from clue import do_lumping
 
 R = sympy.polys.rings.vring(["x" + str(i + 1) for i in range(47)], QQ)
 
@@ -92,6 +92,6 @@ R(0),
 R(0),
 ]
 
-result = lumper.do_lumping(polys, [x7,x13,x21])
+result = do_lumping(polys, [x7,x13,x21])
 
 print("Total for MODEL8262229752 is " + str(len(result["polynomials"])))

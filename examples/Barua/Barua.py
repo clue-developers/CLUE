@@ -4,7 +4,7 @@ from sympy import QQ
 
 sys.path.insert(0, "../../")
 sys.path.insert(0, "./")
-import lumper
+from clue import do_lumping
 
 #Barua_pcbi_10364PNAS
 
@@ -553,6 +553,6 @@ R(0),
 R(0),
 ]
 
-result = lumper.do_lumping(polys, [x1])
+result = do_lumping(polys, [x1])
 
 print("Total for Barua is " + str(len(result["polynomials"])))

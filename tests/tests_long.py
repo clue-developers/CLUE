@@ -7,7 +7,7 @@ from sympy import QQ
 #sys.setrecursionlimit(10000000000)
 sys.path.insert(0, "../")
 sys.path.insert(0, "./")
-import lumper
+from clue import do_lumping
 import utils
 
 def evalp(poly, point):
@@ -67,5 +67,5 @@ if __name__ == "__main__":
     
     polys = utils.read_polys("long_system.poly", R, subs_params)
     
-    lumping = lumper.do_lumping(polys, [x1], verbose = False)
+    lumping = do_lumping(polys, [x1], verbose = False)
     check_lumping("M4", polys, lumping, 12)

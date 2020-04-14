@@ -6,7 +6,7 @@ from sympy import QQ
 
 sys.path.insert(0, "../")
 sys.path.insert(0, "./")
-import lumper
+from clue import do_lumping
 
 def evalp(poly, point):
     pdict = poly.to_dict()
@@ -44,12 +44,12 @@ if __name__ == "__main__":
     # Example 1
     R = sympy.polys.rings.vring(["x0", "x1", "x2"], QQ)
     polys = [x0**2 + x1 + x2, x2, x1]
-    lumping = lumper.do_lumping(polys, [x0], verbose = False)
+    lumping = do_lumping(polys, [x0], verbose = False)
     check_lumping("Example 1", polys, lumping, 2)
 
     # Example 2
     polys = [x1**2 + 4 * x1 * x2 + 4 * x2**2, x1 + 2 * x0**2, x2 - x0**2]
-    lumping = lumper.do_lumping(polys, [x0], verbose = False)
+    lumping = do_lumping(polys, [x0], verbose = False)
     check_lumping("Example 2", polys, lumping, 2)
 
     # Example from slide 7
@@ -61,7 +61,7 @@ if __name__ == "__main__":
         3 * x0 * x2 - 4 * x3,
         3 * x1 * x2 - 4 * x4
     ]
-    lumping = lumper.do_lumping(polys, [x2], verbose = False)
+    lumping = do_lumping(polys, [x2], verbose = False)
     check_lumping("Slide 7", polys, lumping, 3)
    
     # M7 curry
@@ -172,7 +172,7 @@ if __name__ == "__main__":
     ((((pk1 + pk1) + pk1) + pk1) / 4)*x6*x32*x65 + ((((pk1 + pk1) + pk1) + pk1) / 4)*x6*x40*x43 + -(((((pk_1 + pk_1) + pk_1) + pk_1) / 4)*x7*x84) + -(((((pk_1 + pk_1) + pk_1) + pk_1) / 4)*x7*x84) + ((((pk3 + pk3) + pk3) + pk3) / 4)*x8*x83 + -(((((pk_3 + pk_3) + pk_3) + pk_3) / 4)*x9*x84) + ((((pk4 + pk4) + pk4) + pk4) / 4)*x10*x81 + -(((((pk_4 + pk_4) + pk_4) + pk_4) / 4)*x11*x84) + ((((pk5 + pk5) + pk5) + pk5) / 4)*x12*x41*x56 + -(((((pk5 + pk5) + pk5) + pk5) / 4)*x12*x41*x84) + ((((pk_5 + pk_5) + pk_5) + pk_5) / 4)*x13*x69 + -(((((pk_5 + pk_5) + pk_5) + pk_5) / 4)*x13*x84) + ((((pk6 + pk6) + pk6) + pk6) / 4)*x14*x57*x71 + -(((((((((((((((((pk6 + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) + pk6) / 16)*x14*x71*x84) + ((((((((((((((((pk_6 + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) + pk_6) / 16)*x15*x66 + -(((((pk_6 + pk_6) + pk_6) + pk_6) / 4)*x15*x84),
     ]
     
-    lumping = lumper.do_lumping(polys, [x1], verbose = False)
+    lumping = do_lumping(polys, [x1], verbose = False)
     check_lumping("M7 curry", polys, lumping, 6)
     
 ############################################ 

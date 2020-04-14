@@ -565,19 +565,19 @@ def do_lumping(polys, observable, new_vars_name='y', verbose=True):
         vars_new = lumped_polys[0].ring.gens
         print("Original system:")
         for i in range(len(polys)):
-            print(f"{vars_old[i]} = {polys[i]}")
+            print(f"{vars_old[i].as_expr()} = {polys[i].as_expr()}")
         print("Outputs to fix:")
-        print(observable)
+        print(list(map(lambda ob: ob.as_expr(), observable)))
         print("New variables:")
         for i in range(lumping_subspace.dim()):
             new_var_string = str(sum(
                 [lumping_subspace.basis()[i][j] * vars_old[j] for j in range(len(vars_old))]
-            ))
-            print (f"{vars_new[i]} = {new_var_string}")
+            ).as_expr())
+            print(f"{vars_new[i].as_expr()} = {new_var_string}")
 
         print("Lumped system:")
         for i in range(lumping_subspace.dim()):
-            print(f"{vars_new[i]} = {lumped_polys[i]}")
+            print(f"{vars_new[i].as_expr()} = {lumped_polys[i].as_expr()}")
 
     return {"polynomials" : lumped_polys, "subspace" : [v.to_list() for v in lumping_subspace.basis()]}
 
