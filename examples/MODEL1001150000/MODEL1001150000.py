@@ -1,3 +1,5 @@
+# Generated from http://www.ebi.ac.uk/biomodels-main/MODEL1001150000
+
 import sys
 import sympy
 from sympy import QQ
