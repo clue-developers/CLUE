@@ -85,3 +85,7 @@ y1 = 2*y1
 ```
 
 which is the same as we have seen earlier.
+
+## Large examples
+
+Examples of reductions of large systems appearing in the literature (including the ones discussed in the paper) are contained in the [examples](examples/) folder. For additional information, see [readme](examples/README.md).
