@@ -45,7 +45,7 @@ from sympy import vring, QQ
 from clue import do_lumping
 ```
 
-2. Introduce the variables x_1, x_2, x_3 by defining the ring of polynomials in these variables (QQ refers to the fact that the coefficients are rational numbers, for other optons see the tutorial)
+2. Introduce the variables ![$x_1, x_2, x_3$](https://render.githubusercontent.com/render/math?math=%24x_1%2C%20x_2%2C%20x_3%24) by defining the ring of polynomials in these variables (QQ refers to the fact that the coefficients are rational numbers, for other optons see the tutorial)
 
 ```python
 R = vring(["x1", "x2", "x3"], QQ)
@@ -66,3 +66,22 @@ ode = [
 ```python
 do_lumping(ode, [x1])
 ```
+
+You will get the following result
+
+```
+Original system:
+x1 = x2**2 + 4*x2*x3 + 4*x3**2
+x2 = -2*x1 + 4*x3
+x3 = x1 + x2
+Outputs to fix:
+[x1]
+New variables:
+y0 = x1
+y1 = x2 + 2*x3
+Lumped system:
+y0 = y1**2
+y1 = 2*y1
+```
+
+which is the same as we have seen earlier.
