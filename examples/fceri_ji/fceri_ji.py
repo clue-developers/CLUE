@@ -4,42 +4,42 @@
 ##
 import sys
 import sympy
-from sympy import QQ, Rational
+from sympy import QQ
 
 sys.path.insert(0, "../")
 sys.path.insert(0, "./../../")
-import lumper
+from clue import do_lumping
 
 R = sympy.polys.rings.vring(["x" + str(i + 1) for i in range(380)], QQ)
 #fceri_ji_curry
 
 print("Example fceri_ji_curry")
-pLig_tot = Rational(1, 1)
-pRec_tot = Rational(1, 1)
-pLyn_tot = Rational(1, 1)
-pSyk_tot = Rational(1, 1)
-pkp1 = Rational(1, 1)
-pkm1 = Rational(1, 1)
-pkp2 = Rational(1, 1)
-pkm2 = Rational(1, 1)
-pkpL = Rational(1, 1)
-pkmL = Rational(1, 1)
-pkpLs = Rational(1, 1)
-pkmLs = Rational(1, 1)
-pkpS = Rational(1, 1)
-pkmS = Rational(1, 1)
-pkpSs = Rational(1, 1)
-pkmSs = Rational(1, 1)
-ppLb = Rational(1, 1)
-ppLbs = Rational(1, 1)
-ppLg = Rational(1, 1)
-ppLgs = Rational(1, 1)
-ppLS = Rational(1, 1)
-ppLSs = Rational(1, 1)
-ppSS = Rational(1, 1)
-ppSSs = Rational(1, 1)
-pdm = Rational(1, 1)
-pdc = Rational(1, 1)
+pLig_tot = QQ(1, 1)
+pRec_tot = QQ(1, 1)
+pLyn_tot = QQ(1, 1)
+pSyk_tot = QQ(1, 1)
+pkp1 = QQ(1, 1)
+pkm1 = QQ(1, 1)
+pkp2 = QQ(1, 1)
+pkm2 = QQ(1, 1)
+pkpL = QQ(1, 1)
+pkmL = QQ(1, 1)
+pkpLs = QQ(1, 1)
+pkmLs = QQ(1, 1)
+pkpS = QQ(1, 1)
+pkmS = QQ(1, 1)
+pkpSs = QQ(1, 1)
+pkmSs = QQ(1, 1)
+ppLb = QQ(1, 1)
+ppLbs = QQ(1, 1)
+ppLg = QQ(1, 1)
+ppLgs = QQ(1, 1)
+ppLS = QQ(1, 1)
+ppLSs = QQ(1, 1)
+ppSS = QQ(1, 1)
+ppSSs = QQ(1, 1)
+pdm = QQ(1, 1)
+pdc = QQ(1, 1)
 
 polys = [
 -2 * pkp1*x1*x4*x359 + -2 * pkp1*x1*x6*x359 + pkm1*x5*x360 + pkm1*x7*x360 + -2 * pkp1*x1*x14*x359 + -2 * pkp1*x1*x16*x359 + pkm1*x13*x360 + pkm1*x15*x360 + -2 * pkp1*x1*x27*x359 + -2 * pkp1*x1*x29*x359 + -2 * pkp1*x1*x31*x359 + -2 * pkp1*x1*x33*x359 + pkm1*x26*x360 + pkm1*x28*x360 + pkm1*x30*x360 + pkm1*x32*x360 + -2 * pkp1*x1*x61*x359 + -2 * pkp1*x1*x63*x359 + -2 * pkp1*x1*x65*x359 + -2 * pkp1*x1*x67*x359 + pkm1*x60*x360 + pkm1*x62*x360 + pkm1*x64*x360 + pkm1*x66*x360 + -2 * pkp1*x1*x111*x359 + -2 * pkp1*x1*x113*x359 + -2 * pkp1*x1*x115*x359 + -2 * pkp1*x1*x134*x359 + pkm1*x110*x360 + pkm1*x112*x360 + pkm1*x114*x360 + pkm1*x133*x360 + -2 * pkp1*x1*x175*x359 + pkm1*x174*x360 + -2 * pkp1*x1*x209*x359 + -2 * pkp1*x1*x212*x359 + -2 * pkp1*x1*x214*x359 + -2 * pkp1*x1*x215*x359 + -2 * pkp1*x1*x218*x359 + -2 * pkp1*x1*x250*x359 + pkm1*x210*x360 + pkm1*x211*x360 + pkm1*x213*x360 + pkm1*x216*x360 + pkm1*x217*x360 + pkm1*x249*x360 + -2 * pkp1*x1*x338*x359 + pkm1*x337*x360,
@@ -425,18 +425,18 @@ R(0),
 ]
 
 #Partition for that block [] which translates to:
-resultA = lumper.do_lumping(polys, [x1])
+resultA = do_lumping(polys, [x1])
 print("Total for fceri_ji_curry, preserving Block 1 (S0),  is " + str(len(resultA["polynomials"])))
 
-resultB = lumper.do_lumping(polys, [x3,x179,x268, x78])
-print("Total for fceri_ji_curry, preserving Block 2 (S2,S178,S267, S77), is " + str(len(resultB["polynomials"])))
+resultB = do_lumping(polys, [x3, x179, x268, x78])
+print("Total for fceri_ji_curry, preserving Block 2 (S2, S178, S267, S77), is " + str(len(resultB["polynomials"])))
 
-resultC = lumper.do_lumping(polys, [x3+x179+x268+x78])
-print("Total for fceri_ji_curry, preserving Block 2 (S2+S178+S267+S77), is " + str(len(resultC["polynomials"])))
+resultC = do_lumping(polys, [x3 + x179 + x268 + x78])
+print("Total for fceri_ji_curry, preserving Block 2 (S2 + S178 + S267 + S77), is " + str(len(resultC["polynomials"])))
 
-resultD = lumper.do_lumping(polys, [x8])
+resultD = do_lumping(polys, [x8])
 print("Total for fceri_ji_curry, preserving Block 3 (7), is " + str(len(resultD["polynomials"])))
 
-resultE = lumper.do_lumping(polys, [x9])
+resultE = do_lumping(polys, [x9])
 print("Total for fceri_ji_curry, preserving Block 4 (8), is " + str(len(resultE["polynomials"])))
 
