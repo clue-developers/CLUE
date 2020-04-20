@@ -2,7 +2,8 @@ from bisect import bisect
 import logging
 import math
 
-from sympy import vring, GF, QQ, mod_inverse, gcd, nextprime
+import sympy
+from sympy import vring, GF, QQ, mod_inverse, gcd, nextprime, sympify
 from sympy.ntheory.modular import crt, isprime
 
 ##########################################################################
@@ -213,7 +214,7 @@ class SparseVector(object):
                 logging.debug("Rational reconstruction problems: %d, %d", self[ind], self.field.characteristic())
         return result
 
-#########################################################################
+##########################################################################
 
 class SparseRowMatrix(object):
     """
@@ -275,7 +276,7 @@ class SparseRowMatrix(object):
                 result._data[i] = row_reduced
         return result
 
-#########################################################################
+##########################################################################
 
 class Subspace(object):
     """
@@ -396,42 +397,47 @@ class Subspace(object):
 
     def perform_change_of_variables(self, polys, new_vars_name='y'):
         """
-          Restrict a polynomial system of ODEs with the rhs given by polys
-          to the subspace
+          Restrict a polynomial system of ODEs with the rhs given by 
+          polys (SparsePolynomial) to the subspace
           new_vars_name (optional) - the name for variables in the lumped polynomials
         """
-        new_ring = vring([new_vars_name + str(i) for i in range(self.dim())], self.field)
-        pivots = self.parametrizing_coordinates()
+        old_vars = polys[0].gens
+        domain = polys[0].domain
+        new_vars = [new_vars_name + str(i) for i in range(self.dim())]
+        pivots = set(self.parametrizing_coordinates())
+        lpivots = sorted(pivots)
         basis = self.basis()
-    
-        logging.debug("Constructing new polys")
-        new_polys = [0] * self.dim()
-        for i, vec in enumerate(basis):
-            logging.debug("    Polynomial number %d", i)
-            for j in vec.nonzero_iter():
-                new_polys[i] += vec._data[j] * polys[j]
-    
-        logging.debug("Making the result")
-        result = []
-        for poly in new_polys:
-            monomials = poly.to_dict()
+
+        # plugging all nonpivot variables with zeroes
+        logging.debug("Plugging zero to nonpivot coordinates")
+        shrinked_polys = []
+        for p in polys:
             filtered_dict = dict()
-            for monom, coef in monomials.items():
+            for monom, coef in p.dataiter():
                 new_monom = []
                 skip = False
-                for i in range(len(monom)):
-                    if i not in pivots:
-                        if monom[i]:
-                            skip = True
-                            break
+                for var, exp in monom:
+                    if var not in pivots:
+                        skip = True
+                        break
                     else:
-                        new_monom.append(monom[i])
+                        new_monom.append((lpivots.index(var), exp))
                 if not skip:
                     new_monom = tuple(new_monom)
                     filtered_dict[new_monom] = coef
-            result.append(new_ring(filtered_dict))
+
+            shrinked_polys.append(SparsePolynomial(new_vars, domain, filtered_dict))
+ 
+        logging.debug("Constructing new polys")
+        new_polys = [SparsePolynomial(new_vars, domain) for _ in range(self.dim())]
+        for i, vec in enumerate(basis):
+            logging.debug(f"    Polynomial number {i}")
+            for j in vec.nonzero_iter():
+                # ordering is important due to the implementation of
+                # multiplication for SparsePolynomial
+                new_polys[i] += shrinked_polys[j] * vec._data[j]
     
-        return result
+        return new_polys
 
     def rational_reconstruction(self):
         """
@@ -492,42 +498,199 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
         modulus = nextprime(modulus)
         primes_used += 1
 
-#########################################################################
+##########################################################################
+
+class SparsePolynomial(object):
+    """
+    Simplictic class for representing polynomials with sparse exponent vectors
+    Fields:
+      - domain - coefficient domain
+      - var_names - a list of names of variables
+      - data - dictionary from monomials to coefficients. Monomials are encoded as
+               tuples of pairs (index_of_variable, exponent) with only
+               nonzero exponents stored
+    """
+
+    def __init__(self, varnames, domain=QQ, data=None):
+        self._varnames = varnames
+        self._domain = domain
+        self._data = dict() if data is None else data
+
+    def dataiter(self):
+        return self._data.items()
+
+    @property
+    def domain(self):
+        return self._domain
+
+    @property
+    def gens(self):
+        return self._varnames.copy()
+
+    def __add__(self, other):
+        result = SparsePolynomial(self._varnames, self._domain)
+        resdata = dict()
+        for m, c in self._data.items():
+            sum_coef = c + other._data.get(m, self._domain(0))
+            if sum_coef != 0:
+                resdata[m] = sum_coef
+        for m, c in other._data.items():
+            if m not in self._data:
+                resdata[m] = c
+        result._data = resdata
+        return result
+
+    def __iadd__(self, other):
+        for m, c in other._data.items():
+            sum_coef = c + self._data.get(m, self._domain(0))
+            if sum_coef != 0:
+                self._data[m] = sum_coef
+            else:
+                if m in self._data:
+                    del self._data[m]
+        return self
+
+    def __mul__(self, num):
+        """
+        Multiplication by a scalar
+        """
+        result = SparsePolynomial(self._varnames, self._domain)
+        if num != 0:
+            for m, c in self._data.items():
+                result._data[m] = c * num
+        return result
+
+    def _pair_to_str(self, pair):
+        if pair[1] == 1:
+            return self._varnames[pair[0]]
+        else:
+            return f"{self._varnames[pair[0]]}**{pair[1]}"
+
+    def __str__(self):
+        if not self._data:
+            return "0"
+        monomials = []
+        for m, c in self._data.items():
+            monomials.append(str(sympify(c).as_expr()) + "*" + "*".join(map(lambda p: self._pair_to_str(p), m)))
+        return " + ".join(monomials)
+
+    def linear_part_as_vec(self):
+        return [self._data.get(((i, 1), ), self._domain(0)) for i in range(len(self._varnames))]
+
+    def get_sympy_dict(self):
+        result = dict()
+        for monom, coef in self._data.items():
+            new_monom = [0] * len(self.gens)
+            for var, exp in monom:
+                new_monom[var] = exp
+            result[tuple(new_monom)] = coef
+        return result
+
+    def get_sympy_ring(self):
+        return sympy.polys.rings.ring(self.gens, self.domain)[0]
+
+    @staticmethod
+    def from_sympy(sympy_poly):
+        domain = sympy_poly.ring.domain
+        varnames = list(map(str, sympy_poly.ring.gens))
+        data = dict()
+        sympy_dict = sympy_poly.to_dict()
+        for monom, coef in sympy_dict.items():
+            new_monom = []
+            for i in range(len(monom)):
+                if monom[i]:
+                    new_monom.append((i, monom[i]))
+            data[tuple(new_monom)] = coef
+        return SparsePolynomial(varnames, domain, data)
+
+    @staticmethod
+    def from_string(s, varnames, subs_params=None):
+        """
+        an ad hoc parser for polynomials over QQ
+        """
+        subs_params = dict() if subs_params is None else subs_params
+        var_ind = {varnames[i] : i for i in range(len(varnames))}
+        result = dict()
+        cur_monom = dict()
+        cur_coef = QQ(1, 1)
+        for m_str in s.split("+"):
+            monom = dict()
+            coef = QQ(1, 1)
+            for term in m_str.split("*"):
+                term = term.strip()
+                if term[0] == "-":
+                    coef = -coef
+                    term = term[1:]
+                if term in var_ind:
+                    if term in monom:
+                        monom[var_ind[term]] += 1
+                    else:
+                        monom[var_ind[term]] = 1
+                elif term in subs_params:
+                    coef = coef * subs_params[term]
+                else:
+                    coef = coef * QQ.convert(term)
+            monom = tuple([(var, exp) for var, exp in sorted(monom.items())])
+            if coef != 0:
+                if monom not in result:
+                    result[monom] = coef
+                else:
+                    if coef + result[monom] != 0:
+                        result[monom] += coef
+                    else:
+                        del result[monom]
+        return SparsePolynomial(varnames, QQ, result)
+
+    @staticmethod
+    def read_polys(filename, varnames, subs_params=None):
+        """
+        Reads a list of polynomials from ring from a file called filename
+        """
+        subs_params = dict() if subs_params is None else subs_params
+        polys = []
+        with open(filename) as f:
+            for line in f:
+                polys.append(SparsePolynomial.from_string(line, varnames, subs_params))
+        return polys
+
+##########################################################################
 
 def construct_matrices(polys):
     """
       Constructs matrices J_1^T, ..., J_N^T (see Proposition ???)
       Input
         - polys - the right-hand side of the system of ODEs (f_1, ..., f_n)
+                  represented by SparsePolynomial
       Output
         a list of matrices (SparseMatrix) J_1^T, ..., J_N^T
     """
     logging.debug("Starting constructing matrices")
-    variables = polys[0].ring.gens
-    field = polys[0].ring.domain
+
+    variables = polys[0].gens
+    field = polys[0].domain
     jacobians = dict()
     for p_ind, poly in enumerate(polys):
         logging.debug("Processing polynomial number %d", p_ind)
-        for term in zip(poly.monoms(), poly.coeffs()):
-            monom = term[0]
-            coef = term[1]
-            for var in range(len(monom)):
-                if monom[var] > 0:
-                    m_der = tuple(list(monom[:var]) + [monom[var] - 1] + list(monom[(var + 1):]))
-                    entry = field.convert(coef) * monom[var]
-                    if m_der not in jacobians:
-                        jacobians[m_der] = SparseRowMatrix(len(variables), field)
-                    jacobians[m_der].increment(var, p_ind, entry)
+        for monom, coef in poly.dataiter():
+            for i in range(len(monom)):
+                var, exp = monom[i]
+                if exp == 1:
+                    m_der = tuple(list(monom[:i]) + list(monom[(i + 1):]))
+                else:
+                    m_der = tuple(list(monom[:i]) + [(var, exp - 1)] + list(monom[(i + 1):]))
+                entry = field.convert(coef) * exp
+                if m_der not in jacobians:
+                    jacobians[m_der] = SparseRowMatrix(len(variables), field)
+                jacobians[m_der].increment(var, p_ind, entry)
 
     result = jacobians.values()
-
     return result
 
 ###############################################################################
 
-def do_lumping(polys, observable, new_vars_name='y', verbose=True):
+def do_lumping_internal(polys, observable, new_vars_name='y', verbose=True):
     """
-      Main function, performs a lumping of a polynomial ODE system
+      Performs a lumping of a polynomial ODE system represented by SparsePolynomial
       Input
         - polys - the right-hand side of the system
         - observable - a nonempty list of linear forms in state variables
@@ -547,14 +710,14 @@ def do_lumping(polys, observable, new_vars_name='y', verbose=True):
     logging.debug("Starting aggregation")
 
     # Reduce the problem to the common invariant subspace problem
-    vars_old = polys[0].ring.gens
-    field = polys[0].ring.domain
+    vars_old = polys[0].gens
+    field = polys[0].domain
     matrices = construct_matrices(polys)
 
     # Find a lumping
     vectors_to_include = []
     for linear_form in observable:
-        vec = SparseVector.from_list([linear_form.coeff(v) for v in vars_old], field)
+        vec = SparseVector.from_list(linear_form.linear_part_as_vec(), field)
         vectors_to_include.append(vec)
     lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include)
 
@@ -562,24 +725,66 @@ def do_lumping(polys, observable, new_vars_name='y', verbose=True):
 
     # Nice printing
     if verbose:
-        vars_new = lumped_polys[0].ring.gens
+        vars_new = lumped_polys[0].gens
         print("Original system:")
         for i in range(len(polys)):
-            print(f"{vars_old[i].as_expr()} = {polys[i].as_expr()}")
+            print(f"{vars_old[i]}' = {polys[i]}")
         print("Outputs to fix:")
-        print(list(map(lambda ob: ob.as_expr(), observable)))
+        print(", ".join(map(str, observable)))
         print("New variables:")
         for i in range(lumping_subspace.dim()):
-            new_var_string = str(sum(
-                [lumping_subspace.basis()[i][j] * vars_old[j] for j in range(len(vars_old))]
-            ).as_expr())
-            print(f"{vars_new[i].as_expr()} = {new_var_string}")
+            summands = []
+            for j in range(len(vars_old)):
+                if lumping_subspace.basis()[i][j] != 0:
+                    summands.append(f"{sympify(lumping_subspace.basis()[i][j]).as_expr()}*{vars_old[j]}")
+            new_var_string = " + ".join(summands)
+            print(f"{vars_new[i]} = {new_var_string}")
 
         print("Lumped system:")
         for i in range(lumping_subspace.dim()):
-            print(f"{vars_new[i].as_expr()} = {lumped_polys[i].as_expr()}")
+            print(f"{vars_new[i]}' = {lumped_polys[i]}")
 
     return {"polynomials" : lumped_polys, "subspace" : [v.to_list() for v in lumping_subspace.basis()]}
 
+def do_lumping(polys, observable, new_vars_name='y', verbose=True, out_format="sympy"):
+    """
+      Main function, performs a lumping of a polynomial ODE system
+      Input
+        - polys - the right-hand side of the system
+        - observable - a nonempty list of linear forms in state variables
+                       that must be kept nonlumped
+        - new_vars_name (optional) - the name for variables in the lumped polynomials
+        - verbose (optional) - whether to report the result on the screen or not
+        - out_format - "sympy" or "internal", the way the output polynomials should be represeted
+          the options are sympy polynomials and SparsePolynomial
+      Output
+        a tuple (the right-hand side of an aggregated system, new_variables)
+    """
+
+    logging.basicConfig(
+        format='%(asctime)s %(levelname)-8s %(message)s',
+        level=logging.DEBUG,
+        datefmt='%Y-%m-%d %H:%M:%S',
+        filename="lumper_debug.log"
+    )
+    logging.debug("Starting aggregation")
+
+    if isinstance(polys[0], SparsePolynomial):
+        logging.debug("Input is in the SparsePolynomial format")
+    else:
+        logging.debug("Input is expected to be in SymPy format")
+        polys = [SparsePolynomial.from_sympy(p) for p in polys]
+        observable = [SparsePolynomial.from_sympy(ob) for ob in observable]
+
+    result = do_lumping_internal(polys, observable, new_vars_name, verbose)
+
+    if out_format == "sympy":
+        out_ring = result["polynomials"][0].get_sympy_ring()
+        result["polynomials"] = [out_ring(p.get_sympy_dict()) for p in result["polynomials"]]
+    elif out_format == "internal":
+        pass
+    else:
+        raise ValueError(f"Unknown output format {out_format}")
+    return result
 
 ###############################################################################

@@ -425,18 +425,18 @@ R(0),
 ]
 
 #Partition for that block [] which translates to:
-resultA = do_lumping(polys, [x1])
-print("Total for fceri_ji_curry, preserving Block 1 (S0),  is " + str(len(resultA["polynomials"])))
+#resultA = do_lumping(polys, [x1], verbose=False)
+#print("Total for fceri_ji_curry, preserving Block 1 (S0),  is " + str(len(resultA["polynomials"])))
 
-resultB = do_lumping(polys, [x3, x179, x268, x78])
-print("Total for fceri_ji_curry, preserving Block 2 (S2, S178, S267, S77), is " + str(len(resultB["polynomials"])))
+#resultB = do_lumping(polys, [x3, x179, x268, x78])
+#print("Total for fceri_ji_curry, preserving Block 2 (S2, S178, S267, S77), is " + str(len(resultB["polynomials"])))
 
-resultC = do_lumping(polys, [x3 + x179 + x268 + x78])
-print("Total for fceri_ji_curry, preserving Block 2 (S2 + S178 + S267 + S77), is " + str(len(resultC["polynomials"])))
+#resultC = do_lumping(polys, [x3 + x179 + x268 + x78], verbose=False)
+#print("Total for fceri_ji_curry, preserving Block 2 (S2 + S178 + S267 + S77), is " + str(len(resultC["polynomials"])))
 
-resultD = do_lumping(polys, [x8])
-print("Total for fceri_ji_curry, preserving Block 3 (7), is " + str(len(resultD["polynomials"])))
+#resultD = do_lumping(polys, [x8])
+#print("Total for fceri_ji_curry, preserving Block 3 (7), is " + str(len(resultD["polynomials"])))
 
-resultE = do_lumping(polys, [x9])
+resultE = do_lumping(polys, [x9], verbose=False)
 print("Total for fceri_ji_curry, preserving Block 4 (8), is " + str(len(resultE["polynomials"])))
 

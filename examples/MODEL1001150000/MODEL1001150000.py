@@ -268,9 +268,9 @@ R(0),
 result = do_lumping(polys, [x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x153])
 print("Total for MODEL1001150000, preserving CaM block, is " + str(len(result["polynomials"])))
 
-result = do_lumping(polys, [x9 + x10 + x11 + x12 + x13 + x14 + x15 + x16 + x17])
-print("Total for MODEL1001150000, preserving KCaM block, is " + str(len(result["polynomials"])))
+#result = do_lumping(polys, [x9 + x10 + x11 + x12 + x13 + x14 + x15 + x16 + x17], verbose=False)
+#print("Total for MODEL1001150000, preserving KCaM block, is " + str(len(result["polynomials"])))
 
-result = do_lumping(polys, [x63 + x64 + x65 + x66 + x67 + x68 + x69 + x70 + x71])
-print("Total for MODEL1001150000, preserving pKCaM block, is " + str(len(result["polynomials"])))
+#result = do_lumping(polys, [x63 + x64 + x65 + x66 + x67 + x68 + x69 + x70 + x71], verbose=False)
+#print("Total for MODEL1001150000, preserving pKCaM block, is " + str(len(result["polynomials"])))
 

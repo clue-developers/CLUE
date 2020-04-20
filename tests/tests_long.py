@@ -4,14 +4,15 @@ import sys
 import sympy
 from sympy import QQ
 
-#sys.setrecursionlimit(10000000000)
 sys.path.insert(0, "../")
 sys.path.insert(0, "./")
-from clue import do_lumping
-import utils
+import clue
 
 def evalp(poly, point):
-    pdict = poly.to_dict()
+    if isinstance(poly, clue.SparsePolynomial):
+        pdict = poly.get_sympy_dict()
+    else:
+        pdict = poly.to_dict()
     result = 0
     for m, c in pdict.items():
         to_add = c
@@ -52,20 +53,24 @@ def check_lumping(test_name, polys, lumping, correct_size):
 
 if __name__ == "__main__":
     # M4
-    R = sympy.polys.rings.vring(["x" + str(i + 1) for i in range(4107)], QQ)
+    varnames = ["x" + str(i + 1) for i in range(4107)]
     subs_params = {
-        "pEtot": "QQ(1, 1)",
-        "pFtot": "QQ(1, 1)",
-        "pStot": "QQ(1, 1)",
-        "pkOnE": "QQ(1, 1)",
-        "pkOffE": "QQ(1, 1)",
-        "pkCatE": "QQ(1, 1)",
-        "pkOnF": "QQ(1, 1)",
-        "pkOffF": "QQ(1, 1)",
-        "pkCatF": "QQ(1, 1)"
+        "pEtot": QQ(1, 1),
+        "pFtot": QQ(1, 1),
+        "pStot": QQ(1, 1),
+        "pkOnE": QQ(1, 1),
+        "pkOffE": QQ(1, 1),
+        "pkCatE": QQ(1, 1),
+        "pkOnF": QQ(1, 1),
+        "pkOffF": QQ(1, 1),
+        "pkCatF": QQ(1, 1)
     }
+ 
+    polys = clue.SparsePolynomial.read_polys("long_system.poly", varnames, subs_params)
+    #for p in polys:
+    #    print(p)
+
+    #exit()
     
-    polys = utils.read_polys("long_system.poly", R, subs_params)
-    
-    lumping = do_lumping(polys, [x1], verbose = False)
+    lumping = clue.do_lumping(polys, [clue.SparsePolynomial(varnames, QQ, {((0, 1), ) : QQ(1, 1)})], verbose = False)
     check_lumping("M4", polys, lumping, 12)
