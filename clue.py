@@ -566,13 +566,32 @@ class SparsePolynomial(object):
         else:
             return f"{self._varnames[pair[0]]}**{pair[1]}"
 
+    def _scalar_to_str(self, c):
+        # not an elegant way to force elements of algebraic fields be printed with sqrt
+        if isinstance(c, sympy.polys.polyclasses.ANP):
+            dummy_ring = sympy.ring([], self.domain)[0]
+            return f"({dummy_ring(c).as_expr()})"
+        if isinstance(c, sympy.polys.fields.FracElement):
+            return f"({c})"
+        return str(c)
+
+    def _monom_to_str(self, m, c):
+        if c == 0:
+            return "0"
+        if not m:
+            return self._scalar_to_str(c)
+        prefix = ""
+        if c != self.domain.convert(1):
+            if c == self.domain.convert(-1):
+                prefix = "-"
+            else:
+                prefix = self._scalar_to_str(c) + "*"
+        return prefix + "*".join(map(lambda p: self._pair_to_str(p), m))
+
     def __str__(self):
         if not self._data:
             return "0"
-        monomials = []
-        for m, c in self._data.items():
-            monomials.append(str(sympify(c).as_expr()) + "*" + "*".join(map(lambda p: self._pair_to_str(p), m)))
-        return " + ".join(monomials)
+        return " + ".join([self._monom_to_str(m, c) for m, c in self._data.items()])
 
     def linear_part_as_vec(self):
         return [self._data.get(((i, 1), ), self._domain(0)) for i in range(len(self._varnames))]
@@ -592,7 +611,8 @@ class SparsePolynomial(object):
     @staticmethod
     def from_sympy(sympy_poly):
         domain = sympy_poly.ring.domain
-        varnames = list(map(str, sympy_poly.ring.gens))
+        # lambda used to handle the case of the algebraic field of coefficients
+        varnames = list(map(lambda g: str(g.as_expr()), sympy_poly.ring.gens))
         data = dict()
         sympy_dict = sympy_poly.to_dict()
         for monom, coef in sympy_dict.items():
@@ -733,12 +753,11 @@ def do_lumping_internal(polys, observable, new_vars_name='y', verbose=True):
         print(", ".join(map(str, observable)))
         print("New variables:")
         for i in range(lumping_subspace.dim()):
-            summands = []
+            new_var = SparsePolynomial(vars_old, field)
             for j in range(len(vars_old)):
                 if lumping_subspace.basis()[i][j] != 0:
-                    summands.append(f"{sympify(lumping_subspace.basis()[i][j]).as_expr()}*{vars_old[j]}")
-            new_var_string = " + ".join(summands)
-            print(f"{vars_new[i]} = {new_var_string}")
+                    new_var += SparsePolynomial(vars_old, field, {((j, 1),) : lumping_subspace.basis()[i][j]})
+            print(f"{vars_new[i]} = {new_var}")
 
         print("Lumped system:")
         for i in range(lumping_subspace.dim()):
