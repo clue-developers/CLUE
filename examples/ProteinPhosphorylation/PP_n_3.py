@@ -14,7 +14,7 @@ sys.path.insert(0, "./")
 from clue import do_lumping
 
 R = sympy.polys.rings.vring(["x" + str(i + 1) for i in range(72)], QQ)
-print("Example of Protein phosphorylation for n = 3")
+print("Example of Protein phosphorylation for n = 4")
 pEtot = QQ(1)
 pFtot = QQ(1)
 pStot = QQ(1)
