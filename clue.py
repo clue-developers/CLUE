@@ -677,7 +677,7 @@ class SparsePolynomial(object):
 
 def construct_matrices(polys):
     """
-      Constructs matrices J_1^T, ..., J_N^T (see Proposition ???)
+      Constructs matrices J_1^T, ..., J_N^T (see Step (2) of Algorithm 1 in the paper)
       Input
         - polys - the right-hand side of the system of ODEs (f_1, ..., f_n)
                   represented by SparsePolynomial
