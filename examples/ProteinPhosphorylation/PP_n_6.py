@@ -2,7 +2,7 @@
 # Sneddon, M. W., Faeder, J. R., & Emonet, T. 
 # Efficient modeling, simulation and coarse-graining of biological complexity with NFsim. 
 # Nature methods, 8(2), 177, 2011.
-# Model e5.bngl from http://michaelsneddon.net/nfsim/pages/models/multisite_phos.zip
+# Model e6.bngl from http://michaelsneddon.net/nfsim/pages/models/multisite_phos.zip
 ##
 
 import sys 
@@ -13,8 +13,8 @@ sys.path.insert(0, "../../")
 sys.path.insert(0, "./") 
 import clue
 
-vars_ode = ["x" + str(i + 1) for i in range(1032)]
-print("Example of Protein phosphorylation for n = 5")
+vars_ode = ["x" + str(i + 1) for i in range(4104)]
+print("Example of Protein phosphorylation for n = 6")
 
 subs_params = {
     "pEtot" : 1,
@@ -28,7 +28,7 @@ subs_params = {
     "pkCatF" : 1
 }
 
-polys = clue.SparsePolynomial.read_polys("PP_n_5.poly", vars_ode, subs_params)
+polys = clue.SparsePolynomial.read_polys("PP_n_6.poly", vars_ode, subs_params)
 # {((0, 1),) : QQ(1, 1)} = x1
 result = clue.do_lumping(polys, [clue.SparsePolynomial(vars_ode, QQ, {((0, 1),) : QQ(1, 1)})])
-print("Total for n = 5, preserving S0 is " + str(len(result["polynomials"])))
+print("Total for n = 4, preserving S0 is " + str(len(result["polynomials"])))
