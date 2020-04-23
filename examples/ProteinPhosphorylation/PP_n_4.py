@@ -3,7 +3,7 @@
 # Efficient modeling, simulation and coarse-graining of biological complexity with NFsim. 
 # Nature methods, 8(2), 177, 2011.
 # Model e4.bngl from http://michaelsneddon.net/nfsim/pages/models/multisite_phos.zip
-##
+
 
 import sys 
 import sympy 
