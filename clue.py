@@ -180,9 +180,9 @@ class SparseVector(object):
         result = SparseVector(self.dim, mod_field)
         for i in self._nonzero:
             entry = self._data[i]
-            if mod_field.convert(entry.q) == 0:
+            if mod_field.convert(entry.denominator) == 0:
                 raise ZeroDivisionError(f"Division by zero while taking modulo {modulus}")
-            entry_mod = mod_field.convert(entry.p) / mod_field.convert(entry.q)
+            entry_mod = mod_field.convert(entry.numerator) / mod_field.convert(entry.denominator)
             if entry_mod:
                 result.__append__(i, entry_mod)
         return result
@@ -550,15 +550,46 @@ class SparsePolynomial(object):
                     del self._data[m]
         return self
 
-    def __mul__(self, num):
+    def __mul__(self, other):
         """
-        Multiplication by a scalar
+        Multiplication by a scalar or another polynomial
+        For polynomials we use slow quadratic multiplication as needed only for parsing
         """
-        result = SparsePolynomial(self._varnames, self._domain)
-        if num != 0:
-            for m, c in self._data.items():
-                result._data[m] = c * num
-        return result
+        if type(other) == SparsePolynomial:
+            result = SparsePolynomial(self._varnames, self._domain)
+            for ml, cl in self._data.items():
+                for mr, cr in other._data.items():
+                    dictl = dict(ml)
+                    dictr = dict(mr)
+                    for varind, exp in dictr.items():
+                        if varind in dictl:
+                            dictl[varind] += exp
+                        else:
+                            dictl[varind] = exp
+                    m = tuple([(v, dictl[v]) for v in sorted(dictl.keys())])
+                    if m in result._data:
+                        result._data[m] += cl * cr
+                        if result._data[m] == 0:
+                            del result._data[m]
+                    else:
+                        result._data[m] = cl * cr
+            return result
+        else:
+            result = SparsePolynomial(self._varnames, self._domain)
+            if other != 0:
+                for m, c in self._data.items():
+                    result._data[m] = c * other
+            return result
+
+    def exp(self, power):
+        """
+        Exponentiation, exp is a *positive* integer
+        """
+        if power == 1:
+            return self
+        if power % 2 == 0:
+            return self.exp(power // 2) * self.exp(power // 2)
+        return self * self.exp(power // 2) * self.exp(power // 2)
 
     def _pair_to_str(self, pair):
         if pair[1] == 1:
@@ -624,6 +655,33 @@ class SparsePolynomial(object):
         return SparsePolynomial(varnames, domain, data)
 
     @staticmethod
+    def from_sympy_expr(expr, varnames, domain):
+        result = SparsePolynomial(varnames, domain)
+        if expr in domain:
+            if expr != 0:
+                result._data[tuple()] = domain.convert(expr)
+            return result
+        if type(expr) == sympy.core.symbol.Symbol:
+            varind = varnames.index(str(expr))
+            if varind is None:
+                raise KeyError(f"No variable {expr} in the ring")
+            result._data[((varind, 1),)] = domain(1)
+            return result
+        if type(expr) == sympy.core.mul.Mul:
+            return (
+                SparsePolynomial.from_sympy_expr(expr.as_two_terms()[0], varnames, domain) * 
+                SparsePolynomial.from_sympy_expr(expr.as_two_terms()[1], varnames, domain)
+            )
+        if type(expr) == sympy.core.add.Add:
+            return (
+                SparsePolynomial.from_sympy_expr(expr.as_two_terms()[0], varnames, domain) + 
+                SparsePolynomial.from_sympy_expr(expr.as_two_terms()[1], varnames, domain)
+            )
+        if type(expr) == sympy.core.power.Pow:
+            return SparsePolynomial.from_sympy_expr(expr.base, varnames, domain).exp(expr.exp)
+        raise NotImplementedError(f"Type {type(expr)} is currently not supported")
+
+    @staticmethod
     def from_string(s, varnames, subs_params=None):
         """
         an ad hoc parser for polynomials over QQ
@@ -649,7 +707,7 @@ class SparsePolynomial(object):
                 elif term in subs_params:
                     coef = coef * subs_params[term]
                 else:
-                    coef = coef * QQ.convert(term)
+                    coef = coef * QQ.convert(sympy.parse_expr(term))
             monom = tuple([(var, exp) for var, exp in sorted(monom.items())])
             if coef != 0:
                 if monom not in result:

@@ -6,10 +6,14 @@ from sympy import QQ
 
 sys.path.insert(0, "../")
 sys.path.insert(0, "./")
+import clue
 from clue import do_lumping
 
 def evalp(poly, point):
-    pdict = poly.to_dict()
+    if isinstance(poly, clue.SparsePolynomial):
+        pdict = poly.get_sympy_dict()
+    else:
+        pdict = poly.to_dict()
     result = 0
     for m, c in pdict.items():
         to_add = c
@@ -53,15 +57,18 @@ if __name__ == "__main__":
     check_lumping("Example 2", polys, lumping, 2)
 
     # Example from slide 7
-    R = sympy.polys.rings.vring(["x0", "x1", "x2", "x3", "x4"], QQ)
-    polys = [
-        -x0 + x1 - 3 * x0 * x2 + 4 * x3,
-        x0 - x1 - 3 * x1 * x2 + 4 * x4,
-        -3 * x0 * x2 + 4 * x3 - 3 * x1 * x2 + 4 * x4,
-        3 * x0 * x2 - 4 * x3,
-        3 * x1 * x2 - 4 * x4
-    ]
-    lumping = do_lumping(polys, [x2], verbose = False)
+#    R = sympy.polys.rings.vring(["x0", "x1", "x2", "x3", "x4"], QQ)
+#    polys = [
+#        -x0 + x1 - 3 * x0 * x2 + 4 * x3,
+#        x0 - x1 - 3 * x1 * x2 + 4 * x4,
+#        -3 * x0 * x2 + 4 * x3 - 3 * x1 * x2 + 4 * x4,
+#        3 * x0 * x2 - 4 * x3,
+#        3 * x1 * x2 - 4 * x4
+#    ]
+    varnames = ["x0", "x1", "x2", "x3", "x4"]
+    polys = clue.SparsePolynomial.read_polys("t.poly", varnames)
+    #lumping = do_lumping(polys, [x2], verbose = False)
+    lumping = do_lumping(polys, [clue.SparsePolynomial(varnames, QQ, {((2, 1), ) : QQ(1, 1)})], verbose = False)
     check_lumping("Slide 7", polys, lumping, 3)
    
     # M7 curry
