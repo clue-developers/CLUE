@@ -43,6 +43,15 @@ def extract_model_name(model):
     name = m.group(1)
     model = re.sub(p, '', model)
     model = re.sub("end\s+model", '', model)
+    # dirty hacks to avoid clashing with sympy symbols while parsing
+    model = re.sub("source", "srrc", model)
+    model = re.sub("lambda", "lambada", model)
+    model = re.sub("beta", "bebeta", model)
+    model = re.sub("sigma", "sisigma", model)
+    model = re.sub("pi", "pipi", model)
+    model = re.sub("gamma", "gagamma", model)
+    model = re.sub("eta", "vonta", model)
+    model = re.sub(r'([A-Z])(?:(?=[^\-0-9a-zA-Z])|(?=^))', r'\1\1\1', model)
     return name, model
 
 #------------------------------------------------------------------------------
@@ -78,11 +87,20 @@ def to_rational(s):
     Input: string representing a decimal number
     Output: Rational(a, b) string for this number
     """
+    denom = 1
+    extra_num = ''
+    if ('E' in s) or ('e' in s):
+        s, exp = re.split("[Ee]", s)
+        if exp[0] == "-":
+            denom = 10**(int(exp[:]))
+        else:
+            extra_num = '0' * int(exp)
+
     frac = s.split(".")
     if len(frac) != 2:
         raise ValueError(f"Not a decimal number {s}")
-    denom = 10**(len(frac[1]))
-    num = (frac[0] + frac[1]).lstrip("0")
+    denom = denom * 10**(len(frac[1]))
+    num = (frac[0] + frac[1] + extra_num).lstrip("0")
     num = num if num else "0"
     return f"Rational({num}, {denom})"
 
@@ -92,7 +110,7 @@ def rationalize(s):
     """
     Takes text s as input and replaces all decimal fractions with Rational(a, b) representations
     """
-    p = re.compile("(?:(?<=\W)|(?<=^))(\d+\.\d*)(?:(?=\W)|(?=^))")
+    p = re.compile("(?:(?<=\W)|(?<=^))(\d+\.\d*([Ee]-?\d+)?)(?:(?=\W)|(?=^))")
     numbers = [(m.span(1), m.groups(1)) for m in re.finditer(p, s)]
     for (span, num) in numbers[::-1]:
         rat = to_rational(num[0])
@@ -127,7 +145,11 @@ def parse_ode(eqs_raw):
     varnames = set()
     eqs_expr = dict()
     for lhs, rhs in eqs_raw.items():
-        eqs_expr[lhs] = sympy.parse_expr(rhs)
+        try:
+            eqs_expr[lhs] = sympy.parse_expr(rhs)
+        except TypeError as e:
+            print(rhs)
+            print(e)
         varnames.add(lhs)
         varnames = varnames.union(map(str, eqs_expr[lhs].free_symbols))
 
@@ -189,7 +211,7 @@ def substitute_parameters(line, pvalues):
 
 def separate_reation_rate(line):
     """
-    Input: reaction line of the form: "reactants -> products, rate"
+    Input: reaction line of the form: "reactants -> products, rate [name]"
     Output: strings "reactanats -> products" and "rate"
     """
     openpar = 0
@@ -203,7 +225,11 @@ def separate_reation_rate(line):
         if line[i] == "," and openpar == closedpar:
             split_ind = i
             break
-    return line[:split_ind], line[(split_ind + 1):]
+    reaction = line[:split_ind]
+    rate = line[(split_ind + 1):]
+    if re.search('\[.*\]', rate):
+        rate = re.sub('\[.*\]', '', rate)
+    return reaction, rate
 
 #------------------------------------------------------------------------------
 
@@ -251,7 +277,7 @@ def species_to_multiset(sp):
         else:
             mult, s = s.split("*")
             mult = int(mult.strip())
-            s = s.strip()`:w
+            s = s.strip()
 
         if s in result:
             result[s] += mult
@@ -287,7 +313,7 @@ def read_system(filename, subs_params=True):
         raw_ode = { lhs : substitute_parameters(rhs, params) for lhs, rhs in raw_ode.items()}
     varnames, equations = parse_ode(raw_ode)
 
-    obs = extract_observables(sections_raw['partition'], varnames)
-    return {'name' : name, 'equations' : equations, 'observables' : obs}
+    obs = extract_observables(sections_raw['partition'], varnames) if 'partition' in sections_raw else None
+    return {'name' : name, 'equations' : equations, 'observables' : obs, 'variables' : varnames}
 
 #------------------------------------------------------------------------------
