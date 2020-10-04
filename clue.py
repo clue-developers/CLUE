@@ -30,7 +30,7 @@ def rational_reconstruction_sage(a, m):
     bnd = math.sqrt(m / 2)
     U = (1, 0, u)
     V = (0, 1, v)
-    while abs(V[2]) > bnd:
+    while abs(V[2]) >= bnd:
         q = U[2] // V[2]
         T = (U[0] - q * V[0], U[1] - q * V[1], U[2] - q * V[2])
         U = V
@@ -166,8 +166,8 @@ class SparseVector(object):
             result[self._nonzero[i]] = self._data[self._nonzero[i]]
         return result
 
-    def density(self):
-        return len(self._nonzero) * 1. / self.dim
+    def nonzero_count(self):
+        return len(self._nonzero)
 
     def reduce_mod(self, modulus):
         """
@@ -240,6 +240,9 @@ class SparseRowMatrix(object):
 
     def nonzero_iter(self):
         return iter(self._nonzero)
+
+    def nonzero_count(self):
+        return sum([v.nonzero_count() for v in self._data.values()])
 
     def __setitem__(self, cell, value):
         i, j = cell
@@ -495,7 +498,7 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
             pass
         except ZeroDivisionError:
             logging.debug(f"{modulus} was a bad prime for reduction, going for the next one")
-        modulus = nextprime(modulus)
+        modulus = nextprime(modulus**2)
         primes_used += 1
 
 ##########################################################################
@@ -585,6 +588,8 @@ class SparsePolynomial(object):
         """
         Exponentiation, exp is a *positive* integer
         """
+        if power < 0:
+            raise ValueError(f"Cannot raise to power {power}, {str(self)}")
         if power == 1:
             return self
         if power % 2 == 0:
@@ -762,6 +767,7 @@ def construct_matrices(polys):
                 jacobians[m_der].increment(var, p_ind, entry)
 
     result = jacobians.values()
+    #print(sorted([m.nonzero_count() for m in result]))
     return result
 
 ###############################################################################
