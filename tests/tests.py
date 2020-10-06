@@ -65,11 +65,11 @@ if __name__ == "__main__":
 #        3 * x0 * x2 - 4 * x3,
 #        3 * x1 * x2 - 4 * x4
 #    ]
-    varnames = ["x0", "x1", "x2", "x3", "x4"]
-    polys = clue.SparsePolynomial.read_polys("t.poly", varnames)
+    #varnames = ["x0", "x1", "x2", "x3", "x4"]
+    #polys = clue.SparsePolynomial.read_polys("t.poly", varnames)
     #lumping = do_lumping(polys, [x2], verbose = False)
-    lumping = do_lumping(polys, [clue.SparsePolynomial(varnames, QQ, {((2, 1), ) : QQ(1, 1)})], verbose = False)
-    check_lumping("Slide 7", polys, lumping, 3)
+    #lumping = do_lumping(polys, [clue.SparsePolynomial(varnames, QQ, {((2, 1), ) : QQ(1, 1)})], verbose = False)
+    #check_lumping("Slide 7", polys, lumping, 3)
    
     # M7 curry
     R = sympy.polys.rings.vring(["x" + str(i + 1) for i in range(84)], QQ)

@@ -123,7 +123,7 @@ class SparseVector(object):
             self._nonzero.insert(bisect(self._nonzero, i), i)
         self._data[i] = value
 
-    def inner_product(self, rhs):
+    def inner_product_old(self, rhs):
         result = self.field(0)
         left, right = 0, 0
         while (left < len(self._nonzero) and right < len(rhs._nonzero)):
@@ -135,6 +135,15 @@ class SparseVector(object):
                 left += 1
             else:
                 right += 1
+        return result
+
+    def inner_product(self, rhs):
+        if rhs.nonzero_count() < self.nonzero_count():
+            return rhs.inner_product(self)
+        result = self.field(0)
+        for i in self._nonzero:
+            if i in rhs._data:
+                result += self._data[i] * rhs._data[i]
         return result
 
     def __append__(self, i, value):
@@ -829,7 +838,7 @@ def do_lumping_internal(polys, observable, new_vars_name='y', verbose=True):
 
     return {"polynomials" : lumped_polys, "subspace" : [v.to_list() for v in lumping_subspace.basis()]}
 
-def do_lumping(polys, observable, new_vars_name='y', verbose=True, out_format="sympy"):
+def do_lumping(polys, observable, new_vars_name='y', verbose=True, out_format="sympy", loglevel="INFO"):
     """
       Main function, performs a lumping of a polynomial ODE system
       Input
@@ -840,13 +849,14 @@ def do_lumping(polys, observable, new_vars_name='y', verbose=True, out_format="s
         - verbose (optional) - whether to report the result on the screen or not
         - out_format - "sympy" or "internal", the way the output polynomials should be represeted
           the options are sympy polynomials and SparsePolynomial
+        - loglevel - INFO (only essential information) or DEBUG (a lot of infromation about the computation process)
       Output
         a tuple (the right-hand side of an aggregated system, new_variables)
     """
 
     logging.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
-        level=logging.DEBUG,
+        level= logging.INFO if loglevel == "INFO" else logging.DEBUG,
         datefmt='%Y-%m-%d %H:%M:%S',
         filename="lumper_debug.log"
     )
