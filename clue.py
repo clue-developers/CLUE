@@ -123,20 +123,6 @@ class SparseVector(object):
             self._nonzero.insert(bisect(self._nonzero, i), i)
         self._data[i] = value
 
-    def inner_product_old(self, rhs):
-        result = self.field(0)
-        left, right = 0, 0
-        while (left < len(self._nonzero) and right < len(rhs._nonzero)):
-            if self._nonzero[left] == rhs._nonzero[right]:
-                result += self._data[self._nonzero[left]] * rhs._data[rhs._nonzero[right]]
-                left += 1
-                right += 1
-            elif self._nonzero[left] < rhs._nonzero[right]:
-                left += 1
-            else:
-                right += 1
-        return result
-
     def inner_product(self, rhs):
         if rhs.nonzero_count() < self.nonzero_count():
             return rhs.inner_product(self)
