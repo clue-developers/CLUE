@@ -1,7 +1,12 @@
 import re
+import sys
+
+sys.setrecursionlimit(1000000)
+
 import sympy
 from sympy.core.numbers import Rational
 from sympy import QQ
+from sympy.core.compatibility import exec_
 
 from clue import SparsePolynomial
 
@@ -15,6 +20,13 @@ def readfile(name):
     s = f.read()
     f.close()
     return comment_remover(s)
+
+#------------------------------------------------------------------------------
+
+def make_global_dict():
+    global_dict = dict()
+    exec_("from sympy import Symbol, Integer, Function, Rational", global_dict)
+    return global_dict
 
 #------------------------------------------------------------------------------
 
@@ -43,15 +55,6 @@ def extract_model_name(model):
     name = m.group(1)
     model = re.sub(p, '', model)
     model = re.sub("end\s+model", '', model)
-    # dirty hacks to avoid clashing with sympy symbols while parsing
-    model = re.sub("source", "srrc", model)
-    model = re.sub("lambda", "lambada", model)
-    model = re.sub("beta", "bebeta", model)
-    model = re.sub("sigma", "sisigma", model)
-    model = re.sub("pi", "pipi", model)
-    model = re.sub("gamma", "gagamma", model)
-    model = re.sub("eta", "vonta", model)
-    model = re.sub(r'([A-Z])(?:(?=[^\-0-9a-zA-Z])|(?=^))', r'\1\1\1', model)
     return name, model
 
 #------------------------------------------------------------------------------
@@ -146,7 +149,7 @@ def parse_ode(eqs_raw):
     eqs_expr = dict()
     for lhs, rhs in eqs_raw.items():
         try:
-            eqs_expr[lhs] = sympy.parse_expr(rhs)
+            eqs_expr[lhs] = sympy.parse_expr(rhs, global_dict=make_global_dict())
         except TypeError as e:
             print(rhs)
             print(e)
@@ -173,7 +176,7 @@ def extract_observables(lines, varnames):
     observables = []
     for s in sets:
         obs_as_str = "+".join(re.split("\s*,\s*", s))
-        obs_expr = sympy.parse_expr(obs_as_str)
+        obs_expr = sympy.parse_expr(obs_as_str, global_dict=make_global_dict())
         obs_poly = SparsePolynomial.from_sympy_expr(obs_expr, varnames, QQ)
         observables.append(obs_poly)
     return observables
@@ -303,6 +306,7 @@ def read_system(filename, subs_params=True):
         params = extract_parameters(sections_raw['parameters'])
 
     raw_ode = None
+    print(sections_raw.keys())
     if 'ODE' in sections_raw:
         raw_ode = extract_raw_ode(sections_raw['ODE'])
     elif 'reactions' in sections_raw:
