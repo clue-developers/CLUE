@@ -6,7 +6,9 @@ import sympy
 from sympy import vring, GF, QQ, mod_inverse, gcd, nextprime, sympify
 from sympy.ntheory.modular import crt, isprime
 
-##########################################################################
+from sparse_polynomial import SparsePolynomial
+
+#------------------------------------------------------------------------------
 
 def rational_reconstruction_sage(a, m):
     """
@@ -43,7 +45,7 @@ def rational_reconstruction_sage(a, m):
         return QQ(y, x)
     raise ValueError(f"Rational reconstruction of {a} (mod {m}) does not exist.")
 
-##########################################################################
+#------------------------------------------------------------------------------
 
 class SparseVector(object):
     """
@@ -69,6 +71,8 @@ class SparseVector(object):
 
     def nonzero_iter(self):
         return iter(self._nonzero)
+
+    #--------------------------------------------------------------------------
 
     def reduce(self, coef, vect):
         """
@@ -107,6 +111,8 @@ class SparseVector(object):
                     right += 1
         self._nonzero = new_nonzero
 
+    #--------------------------------------------------------------------------
+
     def scale(self, coef):
         if not coef:
             self._nonzero = []
@@ -115,6 +121,8 @@ class SparseVector(object):
             for i in self._nonzero:
                 self._data[i] = self._data[i] * coef
 
+    #--------------------------------------------------------------------------
+
     def __getitem__(self, i):
         return self._data.get(i, 0)
 
@@ -122,6 +130,8 @@ class SparseVector(object):
         if bisect(self._nonzero, i) == 0 or self._nonzero[bisect(self._nonzero, i) - 1] != i:
             self._nonzero.insert(bisect(self._nonzero, i), i)
         self._data[i] = value
+
+    #--------------------------------------------------------------------------
 
     def inner_product(self, rhs):
         if rhs.nonzero_count() < self.nonzero_count():
@@ -132,12 +142,16 @@ class SparseVector(object):
                 result += self._data[i] * rhs._data[i]
         return result
 
+    #--------------------------------------------------------------------------
+
     def __append__(self, i, value):
         """
         makes self[i] = value *given that* all the coordinates with the index r and more were zero
         """
         self._nonzero.append(i)
         self._data[i] = value
+
+    #--------------------------------------------------------------------------
 
     def apply_matrix(self, matr):
         result = SparseVector(self.dim, self.field)
@@ -147,13 +161,19 @@ class SparseVector(object):
                 result.__append__(i, prod)
         return result
 
+    #--------------------------------------------------------------------------
+
     def is_zero(self):
         return len(self._nonzero) == 0
+
+    #--------------------------------------------------------------------------
 
     def first_nonzero(self):
         if self._nonzero:
             return self._nonzero[0]
         return -1
+
+    #--------------------------------------------------------------------------
 
     def to_list(self):
         result = [0] * self.dim
@@ -161,8 +181,12 @@ class SparseVector(object):
             result[self._nonzero[i]] = self._data[self._nonzero[i]]
         return result
 
+    #--------------------------------------------------------------------------
+
     def nonzero_count(self):
         return len(self._nonzero)
+
+    #--------------------------------------------------------------------------
 
     def reduce_mod(self, modulus):
         """
@@ -182,6 +206,8 @@ class SparseVector(object):
                 result.__append__(i, entry_mod)
         return result
 
+    #--------------------------------------------------------------------------
+
     @classmethod
     def from_list(cls, entries_list, field):
         result = cls(len(entries_list), field)
@@ -190,6 +216,8 @@ class SparseVector(object):
             if to_insert:
                 result.__append__(i, to_insert)
         return result
+
+    #--------------------------------------------------------------------------
 
     def rational_reconstruction(self):
         """
@@ -209,7 +237,7 @@ class SparseVector(object):
                 logging.debug("Rational reconstruction problems: %d, %d", self[ind], self.field.characteristic())
         return result
 
-##########################################################################
+#------------------------------------------------------------------------------
 
 class SparseRowMatrix(object):
     """
@@ -233,11 +261,15 @@ class SparseRowMatrix(object):
     def field(self):
         return self._field
 
+    #--------------------------------------------------------------------------
+
     def nonzero_iter(self):
         return iter(self._nonzero)
 
     def nonzero_count(self):
         return sum([v.nonzero_count() for v in self._data.values()])
+
+    #--------------------------------------------------------------------------
 
     def __setitem__(self, cell, value):
         i, j = cell
@@ -246,18 +278,26 @@ class SparseRowMatrix(object):
             self._data[i] = SparseVector(self.dim, self.field)
         self._data[i][j] = value
 
+    #--------------------------------------------------------------------------
+
     def __getitem__(self, cell):
         if not cell[0] in self._data:
             return self.field.convert(0)
         return self._data[cell[0]][cell[1]]
 
+    #--------------------------------------------------------------------------
+
     def increment(self, i, j, extra):
         self[i, j] = self[i, j] + extra
+
+    #--------------------------------------------------------------------------
 
     def row(self, i):
         if i in self._data:
             return self._data[i]
         return SparseVector(self.dim, self.field)
+
+    #--------------------------------------------------------------------------
 
     def reduce_mod(self, modulus):
         """
@@ -274,7 +314,7 @@ class SparseRowMatrix(object):
                 result._data[i] = row_reduced
         return result
 
-##########################################################################
+#------------------------------------------------------------------------------
 
 class Subspace(object):
     """
@@ -297,6 +337,8 @@ class Subspace(object):
     def dim(self):
         return len(self._echelon_form)
 
+    #--------------------------------------------------------------------------
+
     def absorb_new_vector(self, new_vector):
         """
         Input
@@ -318,6 +360,8 @@ class Subspace(object):
 
         self._echelon_form[pivot] = new_vector
         return pivot
+
+    #--------------------------------------------------------------------------
 
     def apply_matrices_inplace(self, matrices):
         """
@@ -343,6 +387,8 @@ class Subspace(object):
                         if new_pivot != -1:
                             new_pivots.add(new_pivot)
 
+    #--------------------------------------------------------------------------
+
     def check_invariance(self, matrices):
         """
           Input
@@ -357,6 +403,8 @@ class Subspace(object):
                     return False
         return True
 
+    #--------------------------------------------------------------------------
+
     def check_inclusion(self, other):
         """
           Input
@@ -369,6 +417,7 @@ class Subspace(object):
                 return False
         return True
 
+    #--------------------------------------------------------------------------
 
     def reduce_mod(self, modulus):
         """
@@ -384,14 +433,20 @@ class Subspace(object):
                 result._echelon_form[piv] = vec_red
         return result
 
+    #--------------------------------------------------------------------------
+
     def basis(self):
         return [self._echelon_form[piv] for piv in sorted(self._echelon_form.keys())]
+
+    #--------------------------------------------------------------------------
 
     def parametrizing_coordinates(self):
         """
         A list of self.dim coordiantes such that the projection onto these coordinates is surjective
         """
         return sorted(self._echelon_form.keys())
+
+    #--------------------------------------------------------------------------
 
     def perform_change_of_variables(self, polys, new_vars_name='y'):
         """
@@ -437,6 +492,8 @@ class Subspace(object):
     
         return new_polys
 
+    #--------------------------------------------------------------------------
+
     def rational_reconstruction(self):
         """
           Input
@@ -453,7 +510,7 @@ class Subspace(object):
             result._echelon_form[pivot] = self._echelon_form[pivot].rational_reconstruction()
         return result
 
-#########################################################################
+#------------------------------------------------------------------------------
 
 def find_smallest_common_subspace(matrices, vectors_to_include):
     """
@@ -496,242 +553,7 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
         modulus = nextprime(modulus**2)
         primes_used += 1
 
-##########################################################################
-
-class SparsePolynomial(object):
-    """
-    Simplictic class for representing polynomials with sparse exponent vectors
-    Fields:
-      - domain - coefficient domain
-      - var_names - a list of names of variables
-      - data - dictionary from monomials to coefficients. Monomials are encoded as
-               tuples of pairs (index_of_variable, exponent) with only
-               nonzero exponents stored
-    """
-
-    def __init__(self, varnames, domain=QQ, data=None):
-        self._varnames = varnames
-        self._domain = domain
-        self._data = dict() if data is None else data
-
-    def dataiter(self):
-        return self._data.items()
-
-    @property
-    def domain(self):
-        return self._domain
-
-    @property
-    def gens(self):
-        return self._varnames.copy()
-
-    def __add__(self, other):
-        result = SparsePolynomial(self._varnames, self._domain)
-        resdata = dict()
-        for m, c in self._data.items():
-            sum_coef = c + other._data.get(m, self._domain(0))
-            if sum_coef != 0:
-                resdata[m] = sum_coef
-        for m, c in other._data.items():
-            if m not in self._data:
-                resdata[m] = c
-        result._data = resdata
-        return result
-
-    def __iadd__(self, other):
-        for m, c in other._data.items():
-            sum_coef = c + self._data.get(m, self._domain(0))
-            if sum_coef != 0:
-                self._data[m] = sum_coef
-            else:
-                if m in self._data:
-                    del self._data[m]
-        return self
-
-    def __mul__(self, other):
-        """
-        Multiplication by a scalar or another polynomial
-        For polynomials we use slow quadratic multiplication as needed only for parsing
-        """
-        if type(other) == SparsePolynomial:
-            result = SparsePolynomial(self._varnames, self._domain)
-            for ml, cl in self._data.items():
-                for mr, cr in other._data.items():
-                    dictl = dict(ml)
-                    dictr = dict(mr)
-                    for varind, exp in dictr.items():
-                        if varind in dictl:
-                            dictl[varind] += exp
-                        else:
-                            dictl[varind] = exp
-                    m = tuple([(v, dictl[v]) for v in sorted(dictl.keys())])
-                    if m in result._data:
-                        result._data[m] += cl * cr
-                        if result._data[m] == 0:
-                            del result._data[m]
-                    else:
-                        result._data[m] = cl * cr
-            return result
-        else:
-            result = SparsePolynomial(self._varnames, self._domain)
-            if other != 0:
-                for m, c in self._data.items():
-                    result._data[m] = c * other
-            return result
-
-    def exp(self, power):
-        """
-        Exponentiation, exp is a *positive* integer
-        """
-        if power < 0:
-            raise ValueError(f"Cannot raise to power {power}, {str(self)}")
-        if power == 1:
-            return self
-        if power % 2 == 0:
-            return self.exp(power // 2) * self.exp(power // 2)
-        return self * self.exp(power // 2) * self.exp(power // 2)
-
-    def _pair_to_str(self, pair):
-        if pair[1] == 1:
-            return self._varnames[pair[0]]
-        else:
-            return f"{self._varnames[pair[0]]}**{pair[1]}"
-
-    def _scalar_to_str(self, c):
-        # not an elegant way to force elements of algebraic fields be printed with sqrt
-        if isinstance(c, sympy.polys.polyclasses.ANP):
-            dummy_ring = sympy.ring([], self.domain)[0]
-            return f"({dummy_ring(c).as_expr()})"
-        if isinstance(c, sympy.polys.fields.FracElement):
-            return f"({c})"
-        return str(c)
-
-    def _monom_to_str(self, m, c):
-        if c == 0:
-            return "0"
-        if not m:
-            return self._scalar_to_str(c)
-        prefix = ""
-        if c != self.domain.convert(1):
-            if c == self.domain.convert(-1):
-                prefix = "-"
-            else:
-                prefix = self._scalar_to_str(c) + "*"
-        return prefix + "*".join(map(lambda p: self._pair_to_str(p), m))
-
-    def __str__(self):
-        if not self._data:
-            return "0"
-        return " + ".join([self._monom_to_str(m, c) for m, c in self._data.items()])
-
-    def linear_part_as_vec(self):
-        return [self._data.get(((i, 1), ), self._domain(0)) for i in range(len(self._varnames))]
-
-    def get_sympy_dict(self):
-        result = dict()
-        for monom, coef in self._data.items():
-            new_monom = [0] * len(self.gens)
-            for var, exp in monom:
-                new_monom[var] = exp
-            result[tuple(new_monom)] = coef
-        return result
-
-    def get_sympy_ring(self):
-        return sympy.polys.rings.ring(self.gens, self.domain)[0]
-
-    @staticmethod
-    def from_sympy(sympy_poly):
-        domain = sympy_poly.ring.domain
-        # lambda used to handle the case of the algebraic field of coefficients
-        varnames = list(map(lambda g: str(g.as_expr()), sympy_poly.ring.gens))
-        data = dict()
-        sympy_dict = sympy_poly.to_dict()
-        for monom, coef in sympy_dict.items():
-            new_monom = []
-            for i in range(len(monom)):
-                if monom[i]:
-                    new_monom.append((i, monom[i]))
-            data[tuple(new_monom)] = coef
-        return SparsePolynomial(varnames, domain, data)
-
-    @staticmethod
-    def from_sympy_expr(expr, varnames, domain):
-        result = SparsePolynomial(varnames, domain)
-        if expr in domain:
-            if expr != 0:
-                result._data[tuple()] = domain.convert(expr)
-            return result
-        if type(expr) == sympy.core.symbol.Symbol:
-            varind = varnames.index(str(expr))
-            if varind is None:
-                raise KeyError(f"No variable {expr} in the ring")
-            result._data[((varind, 1),)] = domain(1)
-            return result
-        if type(expr) == sympy.core.mul.Mul:
-            return (
-                SparsePolynomial.from_sympy_expr(expr.as_two_terms()[0], varnames, domain) * 
-                SparsePolynomial.from_sympy_expr(expr.as_two_terms()[1], varnames, domain)
-            )
-        if type(expr) == sympy.core.add.Add:
-            return (
-                SparsePolynomial.from_sympy_expr(expr.as_two_terms()[0], varnames, domain) + 
-                SparsePolynomial.from_sympy_expr(expr.as_two_terms()[1], varnames, domain)
-            )
-        if type(expr) == sympy.core.power.Pow:
-            return SparsePolynomial.from_sympy_expr(expr.base, varnames, domain).exp(expr.exp)
-        raise NotImplementedError(f"Type {type(expr)} is currently not supported")
-
-    @staticmethod
-    def from_string(s, varnames, subs_params=None):
-        """
-        an ad hoc parser for polynomials over QQ
-        """
-        subs_params = dict() if subs_params is None else subs_params
-        var_ind = {varnames[i] : i for i in range(len(varnames))}
-        result = dict()
-        cur_monom = dict()
-        cur_coef = QQ(1, 1)
-        for m_str in s.split("+"):
-            monom = dict()
-            coef = QQ(1, 1)
-            for term in m_str.split("*"):
-                term = term.strip()
-                if term[0] == "-":
-                    coef = -coef
-                    term = term[1:]
-                if term in var_ind:
-                    if term in monom:
-                        monom[var_ind[term]] += 1
-                    else:
-                        monom[var_ind[term]] = 1
-                elif term in subs_params:
-                    coef = coef * subs_params[term]
-                else:
-                    coef = coef * QQ.convert(sympy.parse_expr(term))
-            monom = tuple([(var, exp) for var, exp in sorted(monom.items())])
-            if coef != 0:
-                if monom not in result:
-                    result[monom] = coef
-                else:
-                    if coef + result[monom] != 0:
-                        result[monom] += coef
-                    else:
-                        del result[monom]
-        return SparsePolynomial(varnames, QQ, result)
-
-    @staticmethod
-    def read_polys(filename, varnames, subs_params=None):
-        """
-        Reads a list of polynomials from ring from a file called filename
-        """
-        subs_params = dict() if subs_params is None else subs_params
-        polys = []
-        with open(filename) as f:
-            for line in f:
-                polys.append(SparsePolynomial.from_string(line, varnames, subs_params))
-        return polys
-
-##########################################################################
+#------------------------------------------------------------------------------
 
 def construct_matrices(polys):
     """
@@ -765,7 +587,7 @@ def construct_matrices(polys):
     #print(sorted([m.nonzero_count() for m in result]))
     return result
 
-###############################################################################
+#------------------------------------------------------------------------------
 
 def do_lumping_internal(polys, observable, new_vars_name='y', verbose=True):
     """
@@ -824,6 +646,8 @@ def do_lumping_internal(polys, observable, new_vars_name='y', verbose=True):
 
     return {"polynomials" : lumped_polys, "subspace" : [v.to_list() for v in lumping_subspace.basis()]}
 
+#------------------------------------------------------------------------------
+
 def do_lumping(polys, observable, new_vars_name='y', verbose=True, out_format="sympy", loglevel="INFO"):
     """
       Main function, performs a lumping of a polynomial ODE system
@@ -866,4 +690,4 @@ def do_lumping(polys, observable, new_vars_name='y', verbose=True, out_format="s
         raise ValueError(f"Unknown output format {out_format}")
     return result
 
-###############################################################################
+#------------------------------------------------------------------------------

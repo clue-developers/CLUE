@@ -1,14 +1,14 @@
 import re
 import sys
 
-sys.setrecursionlimit(1000000)
+sys.setrecursionlimit(10000000)
 
 import sympy
 from sympy.core.numbers import Rational
 from sympy import QQ
 from sympy.core.compatibility import exec_
 
-from clue import SparsePolynomial
+from sparse_polynomial import SparsePolynomial
 
 #------------------------------------------------------------------------------
 
@@ -20,13 +20,6 @@ def readfile(name):
     s = f.read()
     f.close()
     return comment_remover(s)
-
-#------------------------------------------------------------------------------
-
-def make_global_dict():
-    global_dict = dict()
-    exec_("from sympy import Symbol, Integer, Function, Rational", global_dict)
-    return global_dict
 
 #------------------------------------------------------------------------------
 
@@ -85,47 +78,11 @@ def split_in_sections(model):
 
 #------------------------------------------------------------------------------
 
-def to_rational(s):
+def parse_ode(lines, varnames):
     """
-    Input: string representing a decimal number
-    Output: Rational(a, b) string for this number
-    """
-    denom = 1
-    extra_num = ''
-    if ('E' in s) or ('e' in s):
-        s, exp = re.split("[Ee]", s)
-        if exp[0] == "-":
-            denom = 10**(int(exp[:]))
-        else:
-            extra_num = '0' * int(exp)
-
-    frac = s.split(".")
-    if len(frac) != 2:
-        raise ValueError(f"Not a decimal number {s}")
-    denom = denom * 10**(len(frac[1]))
-    num = (frac[0] + frac[1] + extra_num).lstrip("0")
-    num = num if num else "0"
-    return f"Rational({num}, {denom})"
-
-#------------------------------------------------------------------------------
-
-def rationalize(s):
-    """
-    Takes text s as input and replaces all decimal fractions with Rational(a, b) representations
-    """
-    p = re.compile("(?:(?<=\W)|(?<=^))(\d+\.\d*([Ee]-?\d+)?)(?:(?=\W)|(?=^))")
-    numbers = [(m.span(1), m.groups(1)) for m in re.finditer(p, s)]
-    for (span, num) in numbers[::-1]:
-        rat = to_rational(num[0])
-        s = s[:span[0]] + rat + s[span[1]:]
-    return s
-
-#------------------------------------------------------------------------------
-
-def extract_raw_ode(lines):
-    """
-    Input: list of lines from the ODE section
-    Output: list of pair of strings (var, var's derivative)
+    Input: 
+    Output: list of SparsePolynomial representing this ODE system
+            ordered as variables in the ring
     """
     eqs_raw = dict()
     plhs = re.compile("d\((\w+)\)")
@@ -135,35 +92,22 @@ def extract_raw_ode(lines):
             lhs = plhs.search(lhs).groups(1)[0]
             rhs = rhs.strip()
             eqs_raw[lhs] = rhs
-    return eqs_raw
 
-#------------------------------------------------------------------------------
-
-def parse_ode(eqs_raw):
-    """
-    Input: ODE as returned by extract_raw_ode
-    Output: list of SparsePolynomial representing this ODE system
-            ordered as variables in the ring
-    """
-    varnames = set()
-    eqs_expr = dict()
+    var_to_ind = {v : i for i, v in enumerate(varnames)}
+    eqs = dict()
     for lhs, rhs in eqs_raw.items():
+        if lhs not in varnames:
+            raise ValueError(f"Variable {lhs} is not in the list of variables")
         try:
-            eqs_expr[lhs] = sympy.parse_expr(rhs, global_dict=make_global_dict())
+            eqs[lhs] = SparsePolynomial.from_string(rhs, varnames, var_to_ind)
         except TypeError as e:
             print(rhs)
             print(e)
-        varnames.add(lhs)
-        varnames = varnames.union(map(str, eqs_expr[lhs].free_symbols))
 
-    varnames = list(varnames)
-    eqs = dict()
-    for lhs, rhs in eqs_expr.items():
-        eqs[lhs] = SparsePolynomial.from_sympy_expr(rhs, varnames, QQ)
     for v in varnames:
         if v not in eqs:
             eqs[v] = SparsePolynomial(varnames, QQ)
-    return varnames, [eqs[v] for v in varnames]
+    return [eqs[v] for v in varnames]
 
 #------------------------------------------------------------------------------
 
@@ -172,43 +116,14 @@ def extract_observables(lines, varnames):
     Input: lines of the partitions section
     Output: list of SparsePolynomial representing the observables
     """
+    var_to_ind = {v : i for i, v in enumerate(varnames)}
     sets = [m.groups(1)[0] for m in re.finditer("\{([^\{\}]*)\}", " ".join(lines))]
     observables = []
     for s in sets:
         obs_as_str = "+".join(re.split("\s*,\s*", s))
-        obs_expr = sympy.parse_expr(obs_as_str, global_dict=make_global_dict())
-        obs_poly = SparsePolynomial.from_sympy_expr(obs_expr, varnames, QQ)
+        obs_poly = SparsePolynomial.from_string(obs_as_str, varnames, var_to_ind)
         observables.append(obs_poly)
     return observables
-
-#------------------------------------------------------------------------------
-
-def extract_parameters(lines):
-    """
-    Input: lines containing parameter values in the form "p = value",
-           maybe several on the same line
-    Output: list of pairs of string (param, value)
-    """
-    text = " ".join(lines)
-    lhs_spans = [m.span() for m in re.finditer("\w+\s*=", text)]
-    result = []
-    for i, s in enumerate(lhs_spans):
-        lhs = text[s[0]:(s[1] - 1)].strip()
-        end_rhs = len(text) if (i == len(lhs_spans)  - 1) else lhs_spans[i + 1][0]
-        rhs = text[s[1]:end_rhs].strip()
-        result.append((lhs, rhs))
-    return result
-
-#------------------------------------------------------------------------------
-
-def substitute_parameters(line, pvalues):
-    """
-    Input: line of text and list of pairs of string (param, value)
-    Output: line with parameter names substituted with values
-    """
-    for p, val in pvalues:
-        line = re.sub(f"(?:(?<=\W)|(?<=^)){p}(?:(?=\W)|(?=$))", val, line)
-    return line
 
 #------------------------------------------------------------------------------
 
@@ -236,13 +151,13 @@ def separate_reation_rate(line):
 
 #------------------------------------------------------------------------------
 
-def reactions_to_equations(lines):
+def parse_reactions(lines, varnames):
     """
-    Input: lines with reactions, each reaction of the form "reactants -> products, rate"
-    Output: list of corresponding differential equations represented as a dictionary from
-            variable names to string expressions of their derivatives
+    Input: lines with reactions, each reaction of the form "reactants -> products, rate" and varnames
+    Output: the list of corresponding equations
     """
     raw_reactions = []
+    var_to_ind = {v : i for i, v in enumerate(varnames)}
     for l in lines:
         if "," not in l:
             continue
@@ -250,20 +165,19 @@ def reactions_to_equations(lines):
         lhs, rhs = reaction.split("->")
         raw_reactions.append((lhs.strip(), rhs.strip(), rate.strip()))
         
-    eqs = dict()
+    eqs = {v : SparsePolynomial(varnames, QQ) for v in varnames}
     for lhs, rhs, rate in raw_reactions:
+        rate_poly = SparsePolynomial.from_string(rate, varnames, var_to_ind)
         ldict = species_to_multiset(lhs)
         rdict = species_to_multiset(rhs)
-        monomial = " * ".join([rate] + [f"{v}**{mult}" for (v, mult) in ldict.items()])
-        for v, mult in ldict.items():
-            if v not in eqs:
-                eqs[v] = ""
-            eqs[v] += f"-{mult} * {monomial}"
+        monomial = tuple((var_to_ind[v], mult) for v, mult in ldict.items())
+        reaction_poly = rate_poly * SparsePolynomial(varnames, QQ, {monomial : QQ(1)})
         for v, mult in rdict.items():
-            if v not in eqs:
-                eqs[v] = ""
-            eqs[v] += f" + {mult} * {monomial}"
-    return eqs
+            eqs[v] += reaction_poly * mult
+        for v, mult in ldict.items():
+            eqs[v] += reaction_poly * (-mult)
+    return [eqs[v] for v in varnames]
+
 
 #------------------------------------------------------------------------------
 
@@ -290,7 +204,19 @@ def species_to_multiset(sp):
 
 #------------------------------------------------------------------------------
 
-def read_system(filename, subs_params=True):
+def get_varnames(strings):
+    names_set = set()
+    for s in strings:
+        # replace is used not to consider d in "d(X) =". As a variable
+        # a bit too hacky, to be replaced
+        new_names = re.split(r'[\s\*\+\-\(\),<>\^=\.]', s.replace("d(", ""))
+        new_names = filter(lambda v: not re.match('^(\d*|Rational)$', v), new_names)
+        names_set.update(new_names)
+    return sorted(list(names_set))
+
+#------------------------------------------------------------------------------
+
+def read_system(filename):
     """
     Takes a name of an *.ode file, and read the ODE system together with the observables
     subs_params flag corresponds to whether use the paramereter values from the parameters section 
@@ -298,24 +224,18 @@ def read_system(filename, subs_params=True):
     """
     model = readfile(filename)
     name, sections_text = extract_model_name(model)
-    sections_text = rationalize(sections_text)
     sections_raw = split_in_sections(sections_text)
 
-    params = []
-    if subs_params:
-        params = extract_parameters(sections_raw['parameters'])
-
-    raw_ode = None
-    print(sections_raw.keys())
-    if 'ODE' in sections_raw:
-        raw_ode = extract_raw_ode(sections_raw['ODE'])
-    elif 'reactions' in sections_raw:
-        raw_ode = reactions_to_equations(sections_raw['reactions'])
-    else:
+    if 'ODE' not in sections_raw and 'reactions' not in sections_raw:
         raise KeyError("Neither ODE nor reactions sections is found, cannot generate an ODE system")
-    if subs_params:
-        raw_ode = { lhs : substitute_parameters(rhs, params) for lhs, rhs in raw_ode.items()}
-    varnames, equations = parse_ode(raw_ode)
+
+    varnames = get_varnames(sections_raw['ODE'] if 'ODE' in sections_raw else sections_raw['reactions'])
+
+    equations = None
+    if 'ODE' in sections_raw:
+        equations = parse_ode(sections_raw['ODE'], varnames)
+    else:
+        equations = parse_reactions(sections_raw['reactions'], varnames)
 
     obs = extract_observables(sections_raw['partition'], varnames) if 'partition' in sections_raw else None
     return {'name' : name, 'equations' : equations, 'observables' : obs, 'variables' : varnames}
