@@ -589,7 +589,7 @@ def construct_matrices(polys):
 
 #------------------------------------------------------------------------------
 
-def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True, print_reduction=False):
+def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True, print_reduction=False, ic=None):
     """
       Performs a lumping of a polynomial ODE system represented by SparsePolynomial
       Input
@@ -624,6 +624,14 @@ def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True,
 
     lumped_polys = lumping_subspace.perform_change_of_variables(polys, new_vars_name)
 
+    new_ic = None
+    if ic is not None:
+        eval_point = [ic.get(v, 0) for v in polys[0].gens]
+        new_ic = []
+        for vect in lumping_subspace.basis():
+            new_ic.append(sum([p[0] * p[1] for p in zip(eval_point, vect.to_list())]))
+
+
     # Nice printing
     vars_new = lumped_polys[0].gens
     if print_system:
@@ -640,12 +648,16 @@ def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True,
                 if lumping_subspace.basis()[i][j] != 0:
                     new_var += SparsePolynomial(vars_old, field, {((j, 1),) : lumping_subspace.basis()[i][j]})
             print(f"{vars_new[i]} = {new_var}")
+        if new_ic is not None:
+            print("New initial conditions:")
+            for v, val in zip(vars_new, new_ic):
+                print(f"{v}(0) = {float(val)}")
 
         print("Lumped system:")
         for i in range(lumping_subspace.dim()):
             print(f"{vars_new[i]}' = {lumped_polys[i]}")
 
-    return {"polynomials" : lumped_polys, "subspace" : [v.to_list() for v in lumping_subspace.basis()]}
+    return {"polynomials" : lumped_polys, "subspace" : [v.to_list() for v in lumping_subspace.basis()], "new_ic" : new_ic}
 
 #------------------------------------------------------------------------------
 
@@ -688,7 +700,7 @@ def do_lumping(
         polys = [SparsePolynomial.from_sympy(p) for p in polys]
         observable = [SparsePolynomial.from_sympy(ob) for ob in observable]
 
-    result = do_lumping_internal(polys, observable, new_vars_name, print_system, print_reduction)
+    result = do_lumping_internal(polys, observable, new_vars_name, print_system, print_reduction, initial_conditions)
 
     if initial_conditions is not None:
         eval_point = [initial_conditions.get(v, 0) for v in polys[0].gens]
