@@ -589,7 +589,7 @@ def construct_matrices(polys):
 
 #------------------------------------------------------------------------------
 
-def do_lumping_internal(polys, observable, new_vars_name='y', verbose=True):
+def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True, print_reduction=False):
     """
       Performs a lumping of a polynomial ODE system represented by SparsePolynomial
       Input
@@ -625,13 +625,14 @@ def do_lumping_internal(polys, observable, new_vars_name='y', verbose=True):
     lumped_polys = lumping_subspace.perform_change_of_variables(polys, new_vars_name)
 
     # Nice printing
-    if verbose:
-        vars_new = lumped_polys[0].gens
+    vars_new = lumped_polys[0].gens
+    if print_system:
         print("Original system:")
         for i in range(len(polys)):
             print(f"{vars_old[i]}' = {polys[i]}")
         print("Outputs to fix:")
         print(", ".join(map(str, observable)))
+    if print_reduction:
         print("New variables:")
         for i in range(lumping_subspace.dim()):
             new_var = SparsePolynomial(vars_old, field)
@@ -648,7 +649,7 @@ def do_lumping_internal(polys, observable, new_vars_name='y', verbose=True):
 
 #------------------------------------------------------------------------------
 
-def do_lumping(polys, observable, new_vars_name='y', verbose=True, out_format="sympy", loglevel="INFO"):
+def do_lumping(polys, observable, new_vars_name='y', print_system=False, print_reduction=True, out_format="sympy", loglevel="INFO"):
     """
       Main function, performs a lumping of a polynomial ODE system
       Input
@@ -679,7 +680,7 @@ def do_lumping(polys, observable, new_vars_name='y', verbose=True, out_format="s
         polys = [SparsePolynomial.from_sympy(p) for p in polys]
         observable = [SparsePolynomial.from_sympy(ob) for ob in observable]
 
-    result = do_lumping_internal(polys, observable, new_vars_name, verbose)
+    result = do_lumping_internal(polys, observable, new_vars_name, print_system, print_reduction)
 
     if out_format == "sympy":
         out_ring = result["polynomials"][0].get_sympy_ring()
