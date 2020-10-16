@@ -50,8 +50,9 @@ if __name__ == "__main__":
     # Example 1
     R = sympy.polys.rings.vring(["x0", "x1", "x2"], QQ)
     polys = [x0**2 + x1 + x2, x2, x1]
-    lumping = do_lumping(polys, [x0], print_reduction=False)
+    lumping = do_lumping(polys, [x0], print_reduction=False, initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
     check_lumping("Example 1", polys, lumping, 2)
+    assert lumping["new_ic"] == [QQ(1), QQ(7)]
 
     # Example 2
     polys = [x1**2 + 4 * x1 * x2 + 4 * x2**2, x1 + 2 * x0**2, x2 - x0**2]

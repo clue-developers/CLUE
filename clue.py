@@ -649,7 +649,15 @@ def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True,
 
 #------------------------------------------------------------------------------
 
-def do_lumping(polys, observable, new_vars_name='y', print_system=False, print_reduction=True, out_format="sympy", loglevel="INFO"):
+def do_lumping(
+        polys, observable, 
+        new_vars_name='y', 
+        print_system=False, 
+        print_reduction=True, 
+        out_format="sympy", 
+        loglevel="INFO",
+        initial_conditions=None
+    ):
     """
       Main function, performs a lumping of a polynomial ODE system
       Input
@@ -681,6 +689,12 @@ def do_lumping(polys, observable, new_vars_name='y', print_system=False, print_r
         observable = [SparsePolynomial.from_sympy(ob) for ob in observable]
 
     result = do_lumping_internal(polys, observable, new_vars_name, print_system, print_reduction)
+
+    if initial_conditions is not None:
+        eval_point = [initial_conditions.get(v, 0) for v in polys[0].gens]
+        result["new_ic"] = []
+        for vect in result["subspace"]:
+            result["new_ic"].append(sum([p[0] * p[1] for p in zip(eval_point, vect)]))
 
     if out_format == "sympy":
         out_ring = result["polynomials"][0].get_sympy_ring()
