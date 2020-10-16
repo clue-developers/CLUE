@@ -21,5 +21,6 @@ start = time.time()
 lumped = clue.do_lumping(system['equations'], [obs])
 end = time.time()
 
+print(f"The size of the original model is {len(system['equations'])}")
 print(f"The size of the reduced model is {len(lumped['polynomials'])}")
 print(f"Computation took {end - start} seconds")
