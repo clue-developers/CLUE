@@ -314,6 +314,17 @@ class SparseRowMatrix(object):
                 result._data[i] = row_reduced
         return result
 
+    #--------------------------------------------------------------------------
+
+    def to_vector(self):
+        """
+        Returns SparseVector
+        """
+        vec = SparseVector(self._dim)
+        # TODO
+        return vec
+
+
 #------------------------------------------------------------------------------
 
 class Subspace(object):
@@ -589,6 +600,24 @@ def construct_matrices(polys):
 
 #------------------------------------------------------------------------------
 
+def subspace_dimension(vectors):
+    """
+      Computes the dimension of a span of several vectors represented by 
+      SparseVectors using the Subspace class
+      Input
+        - vectors - a list of vectors represented by SparseVector 
+      Output
+        the dimension of the subspace spanned by the vectors
+    """
+
+    logging.debug("Computing subspace dimension of vectors")
+
+    result = 0 #TODO
+
+    return result
+
+#------------------------------------------------------------------------------
+
 def do_lumping_internal(polys, observable, new_vars_name='y', verbose=True):
     """
       Performs a lumping of a polynomial ODE system represented by SparsePolynomial
@@ -614,6 +643,11 @@ def do_lumping_internal(polys, observable, new_vars_name='y', verbose=True):
     vars_old = polys[0].gens
     field = polys[0].domain
     matrices = construct_matrices(polys)
+
+    # TODO
+    vectors_of_matrices = [m.to_vector() for m in matrices]
+    print(vectors_of_matrices)
+    print(subspace_dimension(vectors_of_matrices))
 
     # Find a lumping
     vectors_to_include = []
