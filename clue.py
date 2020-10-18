@@ -1,4 +1,5 @@
 from bisect import bisect
+import copy
 import logging
 import math
 
@@ -7,6 +8,15 @@ from sympy import vring, GF, QQ, mod_inverse, gcd, nextprime, sympify
 from sympy.ntheory.modular import crt, isprime
 
 from sparse_polynomial import SparsePolynomial
+
+#------------------------------------------------------------------------------
+
+# the constant responsible for switching to the modular algorithm
+
+TOO_BIG_LENGTH = 10000
+
+class ExpressionSwell(Exception):
+    pass
 
 #------------------------------------------------------------------------------
 
@@ -71,6 +81,14 @@ class SparseVector(object):
 
     def nonzero_iter(self):
         return iter(self._nonzero)
+
+    def digits(self):
+        """
+        Only over Q: the length of the representation of the longest coordinate
+        """
+        if not self._nonzero:
+            return 0
+        return max(len(c.digits()) for c in self._data.values())
 
     #--------------------------------------------------------------------------
 
@@ -337,6 +355,14 @@ class Subspace(object):
     def dim(self):
         return len(self._echelon_form)
 
+    def digits(self):
+        """
+        Only over Q: the maximal number of digits in the rational numbers used
+        """
+        if not self._echelon_form:
+            return 0
+        return max([v.digits() for v in self._echelon_form.values()])
+
     #--------------------------------------------------------------------------
 
     def absorb_new_vector(self, new_vector):
@@ -363,10 +389,12 @@ class Subspace(object):
 
     #--------------------------------------------------------------------------
 
-    def apply_matrices_inplace(self, matrices):
+    def apply_matrices_inplace(self, matrices, monitor_length=False):
         """
           Input
             - matrices - a list of matrices (SparseMatrix)
+            - monitor_length - if set True, the ExpressionSwell expception will be raised
+                if there will be an intermediate result exceeding TOO_BIG_LENGTH (only over Q!)
           Output
             No output. The subspace is transformed to the smallest invariant subspace
             of the matrices containing the original one
@@ -386,6 +414,8 @@ class Subspace(object):
                         new_pivot = self.absorb_new_vector(prod)
                         if new_pivot != -1:
                             new_pivots.add(new_pivot)
+                            if monitor_length and self.digits() > TOO_BIG_LENGTH:
+                                raise ExpressionSwell
 
     #--------------------------------------------------------------------------
 
@@ -529,30 +559,37 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
         original_subspace.apply_matrices_inplace(matrices)
         return original_subspace
 
-    modulus = 2**31 - 1
-    primes_used = 1
-    while True:
-        logging.debug("Working modulo: %d", modulus)
-        try:
-            matrices_reduced = [matr.reduce_mod(modulus) for matr in matrices]
-            subspace_reduced = original_subspace.reduce_mod(modulus)
-            subspace_reduced.apply_matrices_inplace(matrices_reduced)
-            reconstruction = subspace_reduced.rational_reconstruction()
-            if reconstruction.check_invariance(matrices):
-                if reconstruction.check_inclusion(original_subspace):
-                    logging.debug("We used %d primes", primes_used)
-                    return reconstruction
+    space_copy = copy.deepcopy(original_subspace)
+    try:
+        original_subspace.apply_matrices_inplace(matrices, monitor_length=True)
+        return original_subspace
+    except ExpressionSwell:
+        original_subspace = space_copy
+        logging.debug("Rationals are getting too long, switching to the modular algorithm")
+        modulus = 2**31 - 1
+        primes_used = 1
+        while True:
+            logging.debug("Working modulo: %d", modulus)
+            try:
+                matrices_reduced = [matr.reduce_mod(modulus) for matr in matrices]
+                subspace_reduced = original_subspace.reduce_mod(modulus)
+                subspace_reduced.apply_matrices_inplace(matrices_reduced)
+                reconstruction = subspace_reduced.rational_reconstruction()
+                if reconstruction.check_invariance(matrices):
+                    if reconstruction.check_inclusion(original_subspace):
+                        logging.debug("We used %d primes", primes_used)
+                        return reconstruction
+                    else:
+                        logging.debug("Didn't pass the inclusion check")
                 else:
-                    logging.debug("Didn't pass the inclusion check")
-            else:
-                logging.debug("Didn't pass the invariance check")
-        except ValueError:
-            pass
-        except ZeroDivisionError:
-            logging.debug(f"{modulus} was a bad prime for reduction, going for the next one")
-        modulus = nextprime(modulus**2)
-        primes_used += 1
-
+                    logging.debug("Didn't pass the invariance check")
+            except ValueError:
+                pass
+            except ZeroDivisionError:
+                logging.debug(f"{modulus} was a bad prime for reduction, going for the next one")
+            modulus = nextprime(modulus**2)
+            primes_used += 1
+    
 #------------------------------------------------------------------------------
 
 def construct_matrices(polys):
@@ -584,7 +621,6 @@ def construct_matrices(polys):
                 jacobians[m_der].increment(var, p_ind, entry)
 
     result = jacobians.values()
-    #print(sorted([m.nonzero_count() for m in result]))
     return result
 
 #------------------------------------------------------------------------------
