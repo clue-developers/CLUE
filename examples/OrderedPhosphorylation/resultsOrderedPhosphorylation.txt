@@ -14,4 +14,4 @@ y4' = 0
 y5' = 0
 The size of the original model is 227
 The size of the reduced model is 6
-Computation took 1.1678943634033203 seconds
+Computation took 0.1988234519958496 seconds

@@ -229,7 +229,7 @@ y111' = 0
 y112' = 0
 The size of the original model is 205
 The size of the reduced model is 113
-Computation took 1.181302547454834 seconds
+Computation took 0.3224823474884033 seconds
 ===============================================
 New variables:
 y0 = DUSP16
@@ -501,7 +501,7 @@ y131' = 0
 y132' = 0
 The size of the original model is 205
 The size of the reduced model is 133
-Computation took 1.5422067642211914 seconds
+Computation took 0.4224841594696045 seconds
 ===============================================
 New variables:
 y0 = ADAMTS4
@@ -915,7 +915,7 @@ y202' = y26**2*y171 + -y30**2*y71*y202**2
 y203' = y33**2*y176 + -y34**2*y74*y203**2
 The size of the original model is 205
 The size of the reduced model is 204
-Computation took 3.2433173656463623 seconds
+Computation took 0.9387469291687012 seconds
 ===============================================
 New variables:
 y0 = DUSP16
@@ -1147,4 +1147,4 @@ y111' = 0
 y112' = 0
 The size of the original model is 205
 The size of the reduced model is 113
-Computation took 1.1891076564788818 seconds
+Computation took 0.3136172294616699 seconds

@@ -28,6 +28,7 @@ y11' = 0
 Model for n = 2
 The size of the original model is 24
 The size of the reduced model is 12
+The computation took 0.009626388549804688 seconds
 ===============================================
 New variables:
 y0 = S0
@@ -58,6 +59,7 @@ y11' = 0
 Model for n = 3
 The size of the original model is 72
 The size of the reduced model is 12
+The computation took 0.03631758689880371 seconds
 ===============================================
 New variables:
 y0 = S0
@@ -88,6 +90,7 @@ y11' = 0
 Model for n = 4
 The size of the original model is 264
 The size of the reduced model is 12
+The computation took 0.1817026138305664 seconds
 ===============================================
 New variables:
 y0 = S0
@@ -118,6 +121,7 @@ y11' = 0
 Model for n = 5
 The size of the original model is 1032
 The size of the reduced model is 12
+The computation took 0.867762565612793 seconds
 ===============================================
 New variables:
 y0 = S0
@@ -148,6 +152,7 @@ y11' = 0
 Model for n = 6
 The size of the original model is 4104
 The size of the reduced model is 12
+The computation took 3.966046094894409 seconds
 ===============================================
 New variables:
 y0 = S0
@@ -178,6 +183,7 @@ y11' = 0
 Model for n = 7
 The size of the original model is 16392
 The size of the reduced model is 12
+The computation took 17.77472448348999 seconds
 ===============================================
 New variables:
 y0 = S0
@@ -208,3 +214,4 @@ y11' = 0
 Model for n = 8
 The size of the original model is 65544
 The size of the reduced model is 12
+The computation took 76.27538299560547 seconds

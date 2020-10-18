@@ -243,4 +243,4 @@ y118' = y17*y70*y110 + -y69*y118 + -y107*y118
 y119' = y18*y70*y110 + -y69*y119 + -y109*y119
 The size of the original model is 200
 The size of the reduced model is 120
-Computation took 2.3690860271453857 seconds
+Computation took 0.5174906253814697 seconds
