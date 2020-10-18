@@ -1,4 +1,6 @@
 import sys
+import time
+
 import sympy
 from sympy import QQ
 
@@ -9,7 +11,6 @@ from clue import do_lumping
 #Barua_pcbi_10364PNAS
 
 R = sympy.polys.rings.vring(["x" + str(i + 1) for i in range(505)], QQ)
-print("Example Barua")
 pkf1 = QQ(1, 1)
 pkr1 = QQ(1, 1)
 pkx2 = QQ(1, 1)
@@ -553,6 +554,9 @@ R(0),
 R(0),
 ]
 
+start = time.time()
 result = do_lumping(polys, [x1])
+end = time.time()
 
-print("Total for Barua is " + str(len(result["polynomials"])))
+print(f"The size of the reduced model is {len(result['polynomials'])}")
+print(f"The computation took {end - start} seconds")
