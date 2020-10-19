@@ -30,13 +30,13 @@ For precise definition and more details, we refer to Section 2 of the paper.
 
 For an interactive version of this minitutorial, see this jupyter notebook.
 
-CLODE implements an algorithm that takes as **input**
+CLUE implements an algorithm that takes as **input**
 * a system of ODEs with polynomial right-hand side
 * a list of linear combinations of the unknown functions to be preserved (*observables*)
 
 and **returns** the maximal exact reduction of the system by a linear transformation that preserves given combinations.
 
-We will demonstrate the usage of CLUE on the example above. For more details on usage, see tutorial ([jupyter](Tutorial.ipynb), [html](Tutorial.html))
+We will demonstrate the usage of CLUE on the example above. For more details on usage including reading models from \*.ode files, see tutorial ([jupyter](Tutorial.ipynb), [html](Tutorial.html))
 
 1. import relevant functions from sympy and the function that does lumping:
 
@@ -70,12 +70,6 @@ do_lumping(ode, [x1])
 You will get the following result
 
 ```
-Original system:
-x1' = x2**2 + 4*x2*x3 + 4*x3**2
-x2' = -2*x1 + 4*x3
-x3' = x1 + x2
-Outputs to fix:
-[x1]
 New variables:
 y0 = x1
 y1 = x2 + 2*x3
