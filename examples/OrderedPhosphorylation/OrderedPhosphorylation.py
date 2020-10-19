@@ -15,7 +15,7 @@ import clue
 from sparse_polynomial import SparsePolynomial
 
 system = parser.read_system("OrderedPhosphorylation.ode")
-obs = SparsePolynomial.from_string("S0", system['variables'])
+obs = SparsePolynomial.from_string("s0", system['variables'])
 
 start = time.time()
 lumped = clue.do_lumping(system['equations'], [obs])
