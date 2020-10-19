@@ -713,7 +713,7 @@ def do_lumping(
         - observable - a nonempty list of linear forms in state variables
                        that must be kept nonlumped
         - new_vars_name (optional) - the name for variables in the lumped polynomials
-        - verbose (optional) - whether to report the result on the screen or not
+        - print_system and print_reduction (optional) - whether to print the original system and the result, respectively on the screen
         - out_format - "sympy" or "internal", the way the output polynomials should be represeted
           the options are sympy polynomials and SparsePolynomial
         - loglevel - INFO (only essential information) or DEBUG (a lot of infromation about the computation process)
