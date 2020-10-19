@@ -20,219 +20,219 @@ begin model borisov
   k_8 = 0.3
  end parameters
  begin init
-  s0 = L_tot ( "L(r,r)" ) 
-  s1 = R_tot ( "R(r1,r3~Y,r4~Y)" ) 
-  s2 = A_tot ( "A(r)" ) 
-  s3 = B_tot ( "B(b1,b2~Y,b3~Y)" ) 
-  s4 ( "L(r!1,r).R(r1!1,r3~Y,r4~Y)" ) 
-  s5 ( "L(r!1,r!2).R(r1!1,r3~Y,r4~Y).R(r1!2,r3~Y,r4~Y)" ) 
-  s6 ( "L(r!1,r!2).R(r1!1,r3~Y,r4~Y).R(r1!2,r3~pY,r4~Y)" ) 
-  s7 ( "L(r!1,r!2).R(r1!1,r3~Y,r4~Y).R(r1!2,r3~Y,r4~pY)" ) 
-  s8 ( "L(r!1,r).R(r1!1,r3~pY,r4~Y)" ) 
-  s9 ( "R(r1,r3~pY,r4~Y)" ) 
-  s10 ( "L(r!1,r).R(r1!1,r3~Y,r4~pY)" ) 
-  s11 ( "R(r1,r3~Y,r4~pY)" ) 
-  s12 ( "L(r!1,r!2).R(r1!1,r3~pY,r4~Y).R(r1!2,r3~pY,r4~Y)" ) 
-  s13 ( "L(r!1,r!2).R(r1!1,r3~Y,r4~Y).R(r1!2,r3~pY,r4~pY)" ) 
-  s14 ( "L(r!1,r!2).R(r1!2,r3~Y,r4~pY).R(r1!1,r3~pY,r4~Y)" ) 
-  s15 ( "L(r!1,r!2).R(r1!1,r3~Y,r4~pY).R(r1!2,r3~Y,r4~pY)" ) 
-  s16 ( "A(r!1).L(r!2,r!3).R(r1!2,r3~Y,r4~Y).R(r1!3,r3~pY!1,r4~Y)" ) 
-  s17 ( "B(b1!1,b2~Y,b3~Y).L(r!2,r!3).R(r1!2,r3~Y,r4~Y).R(r1!3,r3~Y,r4~pY!1)" ) 
-  s18 ( "L(r!1,r).R(r1!1,r3~pY,r4~pY)" ) 
-  s19 ( "R(r1,r3~pY,r4~pY)" ) 
-  s20 ( "A(r!1).L(r!2,r).R(r1!2,r3~pY!1,r4~Y)" ) 
-  s21 ( "A(r!1).R(r1,r3~pY!1,r4~Y)" ) 
-  s22 ( "B(b1!1,b2~Y,b3~Y).L(r!2,r).R(r1!2,r3~Y,r4~pY!1)" ) 
-  s23 ( "B(b1!1,b2~Y,b3~Y).R(r1,r3~Y,r4~pY!1)" ) 
-  s24 ( "L(r!1,r!2).R(r1!1,r3~pY,r4~Y).R(r1!2,r3~pY,r4~pY)" ) 
-  s25 ( "L(r!1,r!2).R(r1!1,r3~Y,r4~pY).R(r1!2,r3~pY,r4~pY)" ) 
-  s26 ( "A(r!1).L(r!2,r!3).R(r1!3,r3~pY!1,r4~Y).R(r1!2,r3~pY,r4~Y)" ) 
-  s27 ( "B(b1!1,b2~Y,b3~Y).L(r!2,r!3).R(r1!2,r3~Y,r4~Y).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s28 ( "B(b1!1,b2~Y,b3~Y).L(r!2,r!3).R(r1!3,r3~Y,r4~pY!1).R(r1!2,r3~pY,r4~Y)" ) 
-  s29 ( "A(r!1).L(r!2,r!3).R(r1!2,r3~Y,r4~Y).R(r1!3,r3~pY!1,r4~pY)" ) 
-  s30 ( "A(r!1).L(r!2,r!3).R(r1!2,r3~Y,r4~pY).R(r1!3,r3~pY!1,r4~Y)" ) 
-  s31 ( "B(b1!1,b2~Y,b3~Y).L(r!2,r!3).R(r1!3,r3~Y,r4~pY!1).R(r1!2,r3~Y,r4~pY)" ) 
-  s32 ( "B(b1!1,b2~pY,b3~Y).L(r!2,r!3).R(r1!2,r3~Y,r4~Y).R(r1!3,r3~Y,r4~pY!1)" ) 
-  s33 ( "B(b1!1,b2~Y,b3~pY).L(r!2,r!3).R(r1!2,r3~Y,r4~Y).R(r1!3,r3~Y,r4~pY!1)" ) 
-  s34 ( "L(r!1,r!2).R(r1!1,r3~pY,r4~pY).R(r1!2,r3~pY,r4~pY)" ) 
-  s35 ( "A(r!1).L(r!2,r!3).R(r1!3,r3~pY!1,r4~Y).R(r1!2,r3~pY,r4~pY)" ) 
-  s36 ( "B(b1!1,b2~Y,b3~Y).L(r!2,r!3).R(r1!3,r3~Y,r4~pY!1).R(r1!2,r3~pY,r4~pY)" ) 
-  s37 ( "A(r!1).A(r!2).L(r!3,r!4).R(r1!3,r3~pY!1,r4~Y).R(r1!4,r3~pY!2,r4~Y)" ) 
-  s38 ( "A(r!1).B(b1!2,b2~Y,b3~Y).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!2).R(r1!3,r3~pY!1,r4~Y)" ) 
-  s39 ( "B(b1!1,b2~Y,b3~Y).B(b1!2,b2~Y,b3~Y).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!1).R(r1!4,r3~Y,r4~pY!2)" ) 
-  s40 ( "B(b1!1,b2~Y,b3~Y).L(r!2,r).R(r1!2,r3~pY,r4~pY!1)" ) 
-  s41 ( "B(b1!1,b2~Y,b3~Y).R(r1,r3~pY,r4~pY!1)" ) 
-  s42 ( "A(r!1).L(r!2,r).R(r1!2,r3~pY!1,r4~pY)" ) 
-  s43 ( "A(r!1).R(r1,r3~pY!1,r4~pY)" ) 
-  s44 ( "B(b1!1,b2~pY,b3~Y).L(r!2,r).R(r1!2,r3~Y,r4~pY!1)" ) 
-  s45 ( "B(b1!1,b2~pY,b3~Y).R(r1,r3~Y,r4~pY!1)" ) 
-  s46 ( "B(b1!1,b2~Y,b3~pY).L(r!2,r).R(r1!2,r3~Y,r4~pY!1)" ) 
-  s47 ( "B(b1!1,b2~Y,b3~pY).R(r1,r3~Y,r4~pY!1)" ) 
-  s48 ( "B(b1!1,b2~Y,b3~Y).L(r!2,r!3).R(r1!2,r3~pY,r4~Y).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s49 ( "A(r!1).L(r!2,r!3).R(r1!3,r3~pY!1,r4~pY).R(r1!2,r3~pY,r4~Y)" ) 
-  s50 ( "B(b1!1,b2~Y,b3~Y).L(r!2,r!3).R(r1!2,r3~Y,r4~pY).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s51 ( "B(b1!1,b2~pY,b3~Y).L(r!2,r!3).R(r1!2,r3~Y,r4~Y).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s52 ( "B(b1!1,b2~pY,b3~Y).L(r!2,r!3).R(r1!3,r3~Y,r4~pY!1).R(r1!2,r3~pY,r4~Y)" ) 
-  s53 ( "B(b1!1,b2~Y,b3~pY).L(r!2,r!3).R(r1!2,r3~Y,r4~Y).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s54 ( "B(b1!1,b2~Y,b3~pY).L(r!2,r!3).R(r1!3,r3~Y,r4~pY!1).R(r1!2,r3~pY,r4~Y)" ) 
-  s55 ( "A(r!1).L(r!2,r!3).R(r1!2,r3~Y,r4~pY).R(r1!3,r3~pY!1,r4~pY)" ) 
-  s56 ( "B(b1!1,b2~pY,b3~Y).L(r!2,r!3).R(r1!3,r3~Y,r4~pY!1).R(r1!2,r3~Y,r4~pY)" ) 
-  s57 ( "B(b1!1,b2~Y,b3~pY).L(r!2,r!3).R(r1!3,r3~Y,r4~pY!1).R(r1!2,r3~Y,r4~pY)" ) 
-  s58 ( "A(r!1).B(b1!2,b2~Y,b3~Y).L(r!3,r!4).R(r1!3,r3~Y,r4~Y).R(r1!4,r3~pY!1,r4~pY!2)" ) 
-  s59 ( "B(b1,b2~pY,b3~Y)" ) 
-  s60 ( "B(b1,b2~Y,b3~pY)" ) 
-  s61 ( "B(b1!1,b2~pY,b3~pY).L(r!2,r!3).R(r1!2,r3~Y,r4~Y).R(r1!3,r3~Y,r4~pY!1)" ) 
-  s62 ( "B(b1!1,b2~Y,b3~Y).L(r!2,r!3).R(r1!3,r3~pY,r4~pY!1).R(r1!2,r3~pY,r4~pY)" ) 
-  s63 ( "A(r!1).L(r!2,r!3).R(r1!3,r3~pY!1,r4~pY).R(r1!2,r3~pY,r4~pY)" ) 
-  s64 ( "B(b1!1,b2~pY,b3~Y).L(r!2,r!3).R(r1!3,r3~Y,r4~pY!1).R(r1!2,r3~pY,r4~pY)" ) 
-  s65 ( "B(b1!1,b2~Y,b3~pY).L(r!2,r!3).R(r1!3,r3~Y,r4~pY!1).R(r1!2,r3~pY,r4~pY)" ) 
-  s66 ( "A(r!1).B(b1!2,b2~Y,b3~Y).L(r!3,r!4).R(r1!3,r3~pY!1,r4~Y).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s67 ( "A(r!1).A(r!2).L(r!3,r!4).R(r1!3,r3~pY!1,r4~Y).R(r1!4,r3~pY!2,r4~pY)" ) 
-  s68 ( "A(r!1).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!2).R(r1!3,r3~pY!1,r4~Y)" ) 
-  s69 ( "A(r!1).B(b1!2,b2~Y,b3~pY).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!2).R(r1!3,r3~pY!1,r4~Y)" ) 
-  s70 ( "B(b1!1,b2~Y,b3~Y).B(b1!2,b2~Y,b3~Y).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!1).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s71 ( "A(r!1).B(b1!2,b2~Y,b3~Y).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!2).R(r1!4,r3~pY!1,r4~pY)" ) 
-  s72 ( "B(b1!1,b2~Y,b3~Y).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!1).R(r1!4,r3~Y,r4~pY!2)" ) 
-  s73 ( "B(b1!1,b2~Y,b3~Y).B(b1!2,b2~Y,b3~pY).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!1).R(r1!4,r3~Y,r4~pY!2)" ) 
-  s74 ( "B(b1!1,b2~Y,b3~Y).B(b1!2,b2~Y,b3~Y).L(r!3,r!4).R(r1!3,r3~pY,r4~pY!1).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s75 ( "A(r!1).B(b1!2,b2~Y,b3~Y).L(r!3,r!4).R(r1!4,r3~pY!1,r4~pY).R(r1!3,r3~pY,r4~pY!2)" ) 
-  s76 ( "B(b1!1,b2~Y,b3~Y).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!2).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s77 ( "B(b1!1,b2~Y,b3~Y).B(b1!2,b2~Y,b3~pY).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!2).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s78 ( "A(r!1).A(r!2).L(r!3,r!4).R(r1!3,r3~pY!1,r4~pY).R(r1!4,r3~pY!2,r4~pY)" ) 
-  s79 ( "A(r!1).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!2).R(r1!3,r3~pY!1,r4~pY)" ) 
-  s80 ( "A(r!1).B(b1!2,b2~Y,b3~pY).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!2).R(r1!3,r3~pY!1,r4~pY)" ) 
-  s81 ( "B(b1!1,b2~pY,b3~Y).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!1).R(r1!4,r3~Y,r4~pY!2)" ) 
-  s82 ( "B(b1!1,b2~Y,b3~pY).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!2).R(r1!4,r3~Y,r4~pY!1)" ) 
-  s83 ( "B(b1!1,b2~Y,b3~pY).B(b1!2,b2~Y,b3~pY).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!1).R(r1!4,r3~Y,r4~pY!2)" ) 
-  s84 ( "B(b1!1,b2~pY,b3~Y).L(r!2,r).R(r1!2,r3~pY,r4~pY!1)" ) 
-  s85 ( "B(b1!1,b2~pY,b3~Y).R(r1,r3~pY,r4~pY!1)" ) 
-  s86 ( "B(b1!1,b2~Y,b3~pY).L(r!2,r).R(r1!2,r3~pY,r4~pY!1)" ) 
-  s87 ( "B(b1!1,b2~Y,b3~pY).R(r1,r3~pY,r4~pY!1)" ) 
-  s88 ( "A(r!1).B(b1!2,b2~Y,b3~Y).L(r!3,r).R(r1!3,r3~pY!1,r4~pY!2)" ) 
-  s89 ( "A(r!1).B(b1!2,b2~Y,b3~Y).R(r1,r3~pY!1,r4~pY!2)" ) 
-  s90 ( "B(b1!1,b2~pY,b3~pY).L(r!2,r).R(r1!2,r3~Y,r4~pY!1)" ) 
-  s91 ( "B(b1!1,b2~pY,b3~pY).R(r1,r3~Y,r4~pY!1)" ) 
-  s92 ( "B(b1!1,b2~pY,b3~Y).L(r!2,r!3).R(r1!2,r3~pY,r4~Y).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s93 ( "B(b1!1,b2~Y,b3~pY).L(r!2,r!3).R(r1!2,r3~pY,r4~Y).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s94 ( "B(b1!1,b2~pY,b3~Y).L(r!2,r!3).R(r1!2,r3~Y,r4~pY).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s95 ( "B(b1!1,b2~Y,b3~pY).L(r!2,r!3).R(r1!2,r3~Y,r4~pY).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s96 ( "A(r!1).B(b1!2,b2~Y,b3~Y).L(r!3,r!4).R(r1!4,r3~pY!1,r4~pY!2).R(r1!3,r3~pY,r4~Y)" ) 
-  s97 ( "B(b1!1,b2~pY,b3~pY).L(r!2,r!3).R(r1!2,r3~Y,r4~Y).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s98 ( "B(b1!1,b2~pY,b3~pY).L(r!2,r!3).R(r1!3,r3~Y,r4~pY!1).R(r1!2,r3~pY,r4~Y)" ) 
-  s99 ( "A(r!1).B(b1!2,b2~Y,b3~Y).L(r!3,r!4).R(r1!3,r3~Y,r4~pY).R(r1!4,r3~pY!1,r4~pY!2)" ) 
-  s100 ( "B(b1!1,b2~pY,b3~pY).L(r!2,r!3).R(r1!3,r3~Y,r4~pY!1).R(r1!2,r3~Y,r4~pY)" ) 
-  s101 ( "A(r!1).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!3,r3~Y,r4~Y).R(r1!4,r3~pY!1,r4~pY!2)" ) 
-  s102 ( "A(r!1).B(b1!2,b2~Y,b3~pY).L(r!3,r!4).R(r1!3,r3~Y,r4~Y).R(r1!4,r3~pY!1,r4~pY!2)" ) 
-  s103 ( "B(b1!1,b2~pY,b3~Y).L(r!2,r!3).R(r1!2,r3~pY,r4~pY!1).R(r1!3,r3~pY,r4~pY)" ) 
-  s104 ( "B(b1!1,b2~Y,b3~pY).L(r!2,r!3).R(r1!2,r3~pY,r4~pY!1).R(r1!3,r3~pY,r4~pY)" ) 
-  s105 ( "A(r!1).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!4,r3~pY!1,r4~Y).R(r1!3,r3~pY,r4~pY!2)" ) 
-  s106 ( "A(r!1).B(b1!2,b2~Y,b3~pY).L(r!3,r!4).R(r1!4,r3~pY!1,r4~Y).R(r1!3,r3~pY,r4~pY!2)" ) 
-  s107 ( "B(b1!1,b2~Y,b3~Y).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!1).R(r1!3,r3~pY,r4~pY!2)" ) 
-  s108 ( "B(b1!1,b2~Y,b3~Y).B(b1!2,b2~Y,b3~pY).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!1).R(r1!3,r3~pY,r4~pY!2)" ) 
-  s109 ( "A(r!1).B(b1!2,b2~pY,b3~Y).L(r!3,r).R(r1!3,r3~pY!1,r4~pY!2)" ) 
-  s110 ( "A(r!1).B(b1!2,b2~Y,b3~pY).L(r!3,r).R(r1!3,r3~pY!1,r4~pY!2)" ) 
-  s111 ( "A(r!1).B(b1!2,b2~pY,b3~Y).R(r1,r3~pY!1,r4~pY!2)" ) 
-  s112 ( "A(r!1).B(b1!2,b2~Y,b3~pY).R(r1,r3~pY!1,r4~pY!2)" ) 
-  s113 ( "A(r!1).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!4,r3~pY!1,r4~pY!2).R(r1!3,r3~pY,r4~Y)" ) 
-  s114 ( "A(r!1).B(b1!2,b2~Y,b3~pY).L(r!3,r!4).R(r1!4,r3~pY!1,r4~pY!2).R(r1!3,r3~pY,r4~Y)" ) 
-  s115 ( "A(r!1).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!3,r3~Y,r4~pY).R(r1!4,r3~pY!1,r4~pY!2)" ) 
-  s116 ( "A(r!1).B(b1!2,b2~Y,b3~pY).L(r!3,r!4).R(r1!3,r3~Y,r4~pY).R(r1!4,r3~pY!1,r4~pY!2)" ) 
-  s117 ( "B(b1,b2~pY,b3~pY)" ) 
-  s118 ( "A(r!1).B(b1!2,b2~Y,b3~Y).L(r!3,r!4).R(r1!4,r3~pY!1,r4~pY!2).R(r1!3,r3~pY,r4~pY)" ) 
-  s119 ( "B(b1!1,b2~pY,b3~pY).L(r!2,r!3).R(r1!3,r3~Y,r4~pY!1).R(r1!2,r3~pY,r4~pY)" ) 
-  s120 ( "A(r!1).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!4,r3~pY!1,r4~pY!2).R(r1!3,r3~pY,r4~pY)" ) 
-  s121 ( "A(r!1).B(b1!2,b2~Y,b3~pY).L(r!3,r!4).R(r1!4,r3~pY!1,r4~pY!2).R(r1!3,r3~pY,r4~pY)" ) 
-  s122 ( "A(r!1).A(r!2).B(b1!3,b2~Y,b3~Y).L(r!4,r!5).R(r1!4,r3~pY!1,r4~Y).R(r1!5,r3~pY!2,r4~pY!3)" ) 
-  s123 ( "A(r!1).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!2).R(r1!3,r3~pY!1,r4~Y)" ) 
-  s124 ( "A(r!1).A(r!2).B(b1!3,b2~pY,b3~Y).L(r!4,r!5).R(r1!4,r3~pY!1,r4~Y).R(r1!5,r3~pY!2,r4~pY!3)" ) 
-  s125 ( "A(r!1).A(r!2).B(b1!3,b2~Y,b3~pY).L(r!4,r!5).R(r1!4,r3~pY!1,r4~Y).R(r1!5,r3~pY!2,r4~pY!3)" ) 
-  s126 ( "A(r!1).B(b1!2,b2~Y,b3~Y).B(b1!3,b2~Y,b3~Y).L(r!4,r!5).R(r1!4,r3~Y,r4~pY!2).R(r1!5,r3~pY!1,r4~pY!3)" ) 
-  s127 ( "B(b1!1,b2~Y,b3~Y).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!1).R(r1!4,r3~Y,r4~pY!2)" ) 
-  s128 ( "A(r!1).B(b1!2,b2~Y,b3~Y).B(b1!3,b2~pY,b3~Y).L(r!4,r!5).R(r1!4,r3~Y,r4~pY!2).R(r1!5,r3~pY!1,r4~pY!3)" ) 
-  s129 ( "A(r!1).B(b1!2,b2~Y,b3~Y).B(b1!3,b2~Y,b3~pY).L(r!4,r!5).R(r1!4,r3~Y,r4~pY!2).R(r1!5,r3~pY!1,r4~pY!3)" ) 
-  s130 ( "B(b1!1,b2~Y,b3~Y).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!3,r3~pY,r4~pY!1).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s131 ( "B(b1!1,b2~Y,b3~Y).B(b1!2,b2~Y,b3~pY).L(r!3,r!4).R(r1!3,r3~pY,r4~pY!1).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s132 ( "A(r!1).B(b1!2,b2~Y,b3~Y).B(b1!3,b2~Y,b3~Y).L(r!4,r!5).R(r1!5,r3~pY!1,r4~pY!3).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s133 ( "B(b1!1,b2~Y,b3~Y).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!2).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s134 ( "A(r!1).B(b1!2,b2~Y,b3~Y).B(b1!3,b2~pY,b3~Y).L(r!4,r!5).R(r1!5,r3~pY!1,r4~pY!3).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s135 ( "A(r!1).B(b1!2,b2~Y,b3~Y).B(b1!3,b2~Y,b3~pY).L(r!4,r!5).R(r1!5,r3~pY!1,r4~pY!3).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s136 ( "A(r!1).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!3,r3~pY!1,r4~pY).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s137 ( "A(r!1).B(b1!2,b2~Y,b3~pY).L(r!3,r!4).R(r1!3,r3~pY!1,r4~pY).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s138 ( "A(r!1).A(r!2).B(b1!3,b2~Y,b3~Y).L(r!4,r!5).R(r1!5,r3~pY!2,r4~pY!3).R(r1!4,r3~pY!1,r4~pY)" ) 
-  s139 ( "A(r!1).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!2).R(r1!3,r3~pY!1,r4~pY)" ) 
-  s140 ( "A(r!1).A(r!2).B(b1!3,b2~pY,b3~Y).L(r!4,r!5).R(r1!5,r3~pY!2,r4~pY!3).R(r1!4,r3~pY!1,r4~pY)" ) 
-  s141 ( "A(r!1).A(r!2).B(b1!3,b2~Y,b3~pY).L(r!4,r!5).R(r1!5,r3~pY!2,r4~pY!3).R(r1!4,r3~pY!1,r4~pY)" ) 
-  s142 ( "B(b1!1,b2~pY,b3~Y).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!1).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s143 ( "B(b1!1,b2~Y,b3~pY).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!2).R(r1!4,r3~pY,r4~pY!1)" ) 
-  s144 ( "A(r!1).B(b1!2,b2~Y,b3~Y).B(b1!3,b2~pY,b3~Y).L(r!4,r!5).R(r1!4,r3~Y,r4~pY!3).R(r1!5,r3~pY!1,r4~pY!2)" ) 
-  s145 ( "B(b1!1,b2~pY,b3~Y).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!1).R(r1!4,r3~Y,r4~pY!2)" ) 
-  s146 ( "A(r!1).B(b1!2,b2~pY,b3~Y).B(b1!3,b2~pY,b3~Y).L(r!4,r!5).R(r1!4,r3~Y,r4~pY!2).R(r1!5,r3~pY!1,r4~pY!3)" ) 
-  s147 ( "A(r!1).B(b1!2,b2~Y,b3~pY).B(b1!3,b2~pY,b3~Y).L(r!4,r!5).R(r1!4,r3~Y,r4~pY!3).R(r1!5,r3~pY!1,r4~pY!2)" ) 
-  s148 ( "B(b1!1,b2~Y,b3~pY).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!1).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s149 ( "B(b1!1,b2~Y,b3~pY).B(b1!2,b2~Y,b3~pY).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!1).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s150 ( "A(r!1).B(b1!2,b2~Y,b3~Y).B(b1!3,b2~Y,b3~pY).L(r!4,r!5).R(r1!4,r3~Y,r4~pY!3).R(r1!5,r3~pY!1,r4~pY!2)" ) 
-  s151 ( "B(b1!1,b2~Y,b3~pY).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!1).R(r1!4,r3~Y,r4~pY!2)" ) 
-  s152 ( "A(r!1).B(b1!2,b2~Y,b3~pY).B(b1!3,b2~pY,b3~Y).L(r!4,r!5).R(r1!4,r3~Y,r4~pY!2).R(r1!5,r3~pY!1,r4~pY!3)" ) 
-  s153 ( "A(r!1).B(b1!2,b2~Y,b3~pY).B(b1!3,b2~Y,b3~pY).L(r!4,r!5).R(r1!4,r3~Y,r4~pY!2).R(r1!5,r3~pY!1,r4~pY!3)" ) 
-  s154 ( "B(b1!1,b2~pY,b3~Y).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!3,r3~pY,r4~pY!1).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s155 ( "B(b1!1,b2~Y,b3~pY).B(b1!2,b2~pY,b3~Y).L(r!3,r!4).R(r1!3,r3~pY,r4~pY!2).R(r1!4,r3~pY,r4~pY!1)" ) 
-  s156 ( "A(r!1).B(b1!2,b2~Y,b3~Y).B(b1!3,b2~pY,b3~Y).L(r!4,r!5).R(r1!5,r3~pY!1,r4~pY!2).R(r1!4,r3~pY,r4~pY!3)" ) 
-  s157 ( "B(b1!1,b2~pY,b3~Y).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!2).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s158 ( "A(r!1).B(b1!2,b2~pY,b3~Y).B(b1!3,b2~pY,b3~Y).L(r!4,r!5).R(r1!5,r3~pY!1,r4~pY!3).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s159 ( "A(r!1).B(b1!2,b2~Y,b3~pY).B(b1!3,b2~pY,b3~Y).L(r!4,r!5).R(r1!5,r3~pY!1,r4~pY!2).R(r1!4,r3~pY,r4~pY!3)" ) 
-  s160 ( "B(b1!1,b2~Y,b3~pY).B(b1!2,b2~Y,b3~pY).L(r!3,r!4).R(r1!3,r3~pY,r4~pY!1).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s161 ( "A(r!1).B(b1!2,b2~Y,b3~Y).B(b1!3,b2~Y,b3~pY).L(r!4,r!5).R(r1!5,r3~pY!1,r4~pY!2).R(r1!4,r3~pY,r4~pY!3)" ) 
-  s162 ( "B(b1!1,b2~Y,b3~pY).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!2).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s163 ( "A(r!1).B(b1!2,b2~Y,b3~pY).B(b1!3,b2~pY,b3~Y).L(r!4,r!5).R(r1!5,r3~pY!1,r4~pY!3).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s164 ( "A(r!1).B(b1!2,b2~Y,b3~pY).B(b1!3,b2~Y,b3~pY).L(r!4,r!5).R(r1!5,r3~pY!1,r4~pY!3).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s165 ( "A(r!1).A(r!2).B(b1!3,b2~Y,b3~Y).B(b1!4,b2~Y,b3~Y).L(r!5,r!6).R(r1!5,r3~pY!1,r4~pY!3).R(r1!6,r3~pY!2,r4~pY!4)" ) 
-  s166 ( "A(r!1).B(b1!2,b2~Y,b3~Y).B(b1!3,b2~pY,b3~pY).L(r!4,r!5).R(r1!5,r3~Y,r4~pY!3).R(r1!4,r3~pY!1,r4~pY!2)" ) 
-  s167 ( "A(r!1).A(r!2).B(b1!3,b2~Y,b3~Y).B(b1!4,b2~pY,b3~Y).L(r!5,r!6).R(r1!5,r3~pY!1,r4~pY!3).R(r1!6,r3~pY!2,r4~pY!4)" ) 
-  s168 ( "A(r!1).A(r!2).B(b1!3,b2~Y,b3~Y).B(b1!4,b2~Y,b3~pY).L(r!5,r!6).R(r1!5,r3~pY!1,r4~pY!3).R(r1!6,r3~pY!2,r4~pY!4)" ) 
-  s169 ( "B(b1!1,b2~pY,b3~pY).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!1).R(r1!4,r3~Y,r4~pY!2)" ) 
-  s170 ( "A(r!1).B(b1!2,b2~pY,b3~Y).B(b1!3,b2~pY,b3~pY).L(r!4,r!5).R(r1!4,r3~Y,r4~pY!3).R(r1!5,r3~pY!1,r4~pY!2)" ) 
-  s171 ( "A(r!1).B(b1!2,b2~Y,b3~pY).B(b1!3,b2~pY,b3~pY).L(r!4,r!5).R(r1!4,r3~Y,r4~pY!3).R(r1!5,r3~pY!1,r4~pY!2)" ) 
-  s172 ( "A(r!1).A(r!2).B(b1!3,b2~pY,b3~Y).B(b1!4,b2~pY,b3~Y).L(r!5,r!6).R(r1!5,r3~pY!1,r4~pY!3).R(r1!6,r3~pY!2,r4~pY!4)" ) 
-  s173 ( "A(r!1).A(r!2).B(b1!3,b2~Y,b3~pY).B(b1!4,b2~pY,b3~Y).L(r!5,r!6).R(r1!5,r3~pY!1,r4~pY!4).R(r1!6,r3~pY!2,r4~pY!3)" ) 
-  s174 ( "A(r!1).A(r!2).B(b1!3,b2~Y,b3~pY).B(b1!4,b2~Y,b3~pY).L(r!5,r!6).R(r1!5,r3~pY!1,r4~pY!3).R(r1!6,r3~pY!2,r4~pY!4)" ) 
-  s175 ( "B(b1!1,b2~pY,b3~pY).L(r!2,r).R(r1!2,r3~pY,r4~pY!1)" ) 
-  s176 ( "B(b1!1,b2~pY,b3~pY).R(r1,r3~pY,r4~pY!1)" ) 
-  s177 ( "B(b1!1,b2~pY,b3~pY).L(r!2,r!3).R(r1!2,r3~pY,r4~Y).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s178 ( "B(b1!1,b2~pY,b3~pY).L(r!2,r!3).R(r1!2,r3~Y,r4~pY).R(r1!3,r3~pY,r4~pY!1)" ) 
-  s179 ( "A(r!1).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!3,r3~Y,r4~Y).R(r1!4,r3~pY!1,r4~pY!2)" ) 
-  s180 ( "B(b1!1,b2~pY,b3~pY).L(r!2,r!3).R(r1!2,r3~pY,r4~pY!1).R(r1!3,r3~pY,r4~pY)" ) 
-  s181 ( "A(r!1).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!4,r3~pY!1,r4~Y).R(r1!3,r3~pY,r4~pY!2)" ) 
-  s182 ( "B(b1!1,b2~Y,b3~Y).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!1).R(r1!3,r3~pY,r4~pY!2)" ) 
-  s183 ( "A(r!1).B(b1!2,b2~pY,b3~pY).L(r!3,r).R(r1!3,r3~pY!1,r4~pY!2)" ) 
-  s184 ( "A(r!1).B(b1!2,b2~pY,b3~pY).R(r1,r3~pY!1,r4~pY!2)" ) 
-  s185 ( "A(r!1).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!4,r3~pY!1,r4~pY!2).R(r1!3,r3~pY,r4~Y)" ) 
-  s186 ( "A(r!1).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!3,r3~Y,r4~pY).R(r1!4,r3~pY!1,r4~pY!2)" ) 
-  s187 ( "B(b1!1,b2~Y,b3~Y).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!4,r3~pY,r4~pY!1).R(r1!3,r3~pY,r4~pY!2)" ) 
-  s188 ( "A(r!1).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!4,r3~pY!1,r4~pY!2).R(r1!3,r3~pY,r4~pY)" ) 
-  s189 ( "A(r!1).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!4,r3~pY!1,r4~pY).R(r1!3,r3~pY,r4~pY!2)" ) 
-  s190 ( "B(b1!1,b2~pY,b3~Y).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!1).R(r1!3,r3~pY,r4~pY!2)" ) 
-  s191 ( "B(b1!1,b2~Y,b3~pY).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!4,r3~Y,r4~pY!1).R(r1!3,r3~pY,r4~pY!2)" ) 
-  s192 ( "A(r!1).A(r!2).B(b1!3,b2~pY,b3~pY).L(r!4,r!5).R(r1!4,r3~pY!1,r4~Y).R(r1!5,r3~pY!2,r4~pY!3)" ) 
-  s193 ( "A(r!1).B(b1!2,b2~Y,b3~Y).B(b1!3,b2~pY,b3~pY).L(r!4,r!5).R(r1!4,r3~Y,r4~pY!2).R(r1!5,r3~pY!1,r4~pY!3)" ) 
-  s194 ( "A(r!1).B(b1!2,b2~Y,b3~Y).B(b1!3,b2~pY,b3~pY).L(r!4,r!5).R(r1!5,r3~pY!1,r4~pY!3).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s195 ( "A(r!1).A(r!2).B(b1!3,b2~pY,b3~pY).L(r!4,r!5).R(r1!4,r3~pY!1,r4~pY!3).R(r1!5,r3~pY!2,r4~pY)" ) 
-  s196 ( "A(r!1).B(b1!2,b2~pY,b3~Y).B(b1!3,b2~pY,b3~pY).L(r!4,r!5).R(r1!5,r3~Y,r4~pY!2).R(r1!4,r3~pY!1,r4~pY!3)" ) 
-  s197 ( "A(r!1).B(b1!2,b2~Y,b3~pY).B(b1!3,b2~pY,b3~pY).L(r!4,r!5).R(r1!5,r3~Y,r4~pY!2).R(r1!4,r3~pY!1,r4~pY!3)" ) 
-  s198 ( "B(b1!1,b2~pY,b3~Y).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!3,r3~pY,r4~pY!1).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s199 ( "B(b1!1,b2~Y,b3~pY).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!3,r3~pY,r4~pY!1).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s200 ( "A(r!1).B(b1!2,b2~pY,b3~Y).B(b1!3,b2~pY,b3~pY).L(r!4,r!5).R(r1!5,r3~pY!1,r4~pY!3).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s201 ( "A(r!1).B(b1!2,b2~Y,b3~pY).B(b1!3,b2~pY,b3~pY).L(r!4,r!5).R(r1!5,r3~pY!1,r4~pY!3).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s202 ( "A(r!1).B(b1!2,b2~Y,b3~Y).B(b1!3,b2~pY,b3~pY).L(r!4,r!5).R(r1!4,r3~pY!1,r4~pY!2).R(r1!5,r3~pY,r4~pY!3)" ) 
-  s203 ( "A(r!1).A(r!2).B(b1!3,b2~Y,b3~Y).B(b1!4,b2~pY,b3~pY).L(r!5,r!6).R(r1!5,r3~pY!1,r4~pY!3).R(r1!6,r3~pY!2,r4~pY!4)" ) 
-  s204 ( "B(b1!1,b2~pY,b3~pY).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!3,r3~Y,r4~pY!1).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s205 ( "A(r!1).B(b1!2,b2~pY,b3~pY).B(b1!3,b2~pY,b3~pY).L(r!4,r!5).R(r1!4,r3~Y,r4~pY!2).R(r1!5,r3~pY!1,r4~pY!3)" ) 
-  s206 ( "A(r!1).B(b1!2,b2~pY,b3~Y).B(b1!3,b2~pY,b3~pY).L(r!4,r!5).R(r1!4,r3~pY!1,r4~pY!2).R(r1!5,r3~pY,r4~pY!3)" ) 
-  s207 ( "A(r!1).A(r!2).B(b1!3,b2~pY,b3~Y).B(b1!4,b2~pY,b3~pY).L(r!5,r!6).R(r1!5,r3~pY!1,r4~pY!3).R(r1!6,r3~pY!2,r4~pY!4)" ) 
-  s208 ( "A(r!1).B(b1!2,b2~Y,b3~pY).B(b1!3,b2~pY,b3~pY).L(r!4,r!5).R(r1!4,r3~pY!1,r4~pY!2).R(r1!5,r3~pY,r4~pY!3)" ) 
-  s209 ( "A(r!1).A(r!2).B(b1!3,b2~Y,b3~pY).B(b1!4,b2~pY,b3~pY).L(r!5,r!6).R(r1!5,r3~pY!1,r4~pY!3).R(r1!6,r3~pY!2,r4~pY!4)" ) 
-  s210 ( "B(b1!1,b2~pY,b3~pY).B(b1!2,b2~pY,b3~pY).L(r!3,r!4).R(r1!3,r3~pY,r4~pY!1).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s211 ( "A(r!1).B(b1!2,b2~pY,b3~pY).B(b1!3,b2~pY,b3~pY).L(r!4,r!5).R(r1!5,r3~pY!1,r4~pY!3).R(r1!4,r3~pY,r4~pY!2)" ) 
-  s212 ( "A(r!1).A(r!2).B(b1!3,b2~pY,b3~pY).B(b1!4,b2~pY,b3~pY).L(r!5,r!6).R(r1!5,r3~pY!1,r4~pY!3).R(r1!6,r3~pY!2,r4~pY!4)" ) 
+  s0 = 100
+  s1 = 100
+  s2 = 100
+  s3 = 100
+  s4 
+  s5 
+  s6 
+  s7 
+  s8 
+  s9 
+  s10 
+  s11 
+  s12 
+  s13 
+  s14 
+  s15 
+  s16 
+  s17 
+  s18 
+  s19 
+  s20 
+  s21 
+  s22 
+  s23 
+  s24 
+  s25 
+  s26 
+  s27 
+  s28 
+  s29 
+  s30 
+  s31 
+  s32 
+  s33 
+  s34 
+  s35 
+  s36 
+  s37 
+  s38 
+  s39 
+  s40 
+  s41 
+  s42 
+  s43 
+  s44 
+  s45 
+  s46 
+  s47 
+  s48 
+  s49 
+  s50 
+  s51 
+  s52 
+  s53 
+  s54 
+  s55 
+  s56 
+  s57 
+  s58 
+  s59 
+  s60 
+  s61 
+  s62 
+  s63 
+  s64 
+  s65 
+  s66 
+  s67 
+  s68 
+  s69 
+  s70 
+  s71 
+  s72 
+  s73 
+  s74 
+  s75 
+  s76 
+  s77 
+  s78 
+  s79 
+  s80 
+  s81 
+  s82 
+  s83 
+  s84 
+  s85 
+  s86 
+  s87 
+  s88 
+  s89 
+  s90 
+  s91 
+  s92 
+  s93 
+  s94 
+  s95 
+  s96 
+  s97 
+  s98 
+  s99 
+  s100 
+  s101 
+  s102 
+  s103 
+  s104 
+  s105 
+  s106 
+  s107 
+  s108 
+  s109 
+  s110 
+  s111 
+  s112 
+  s113 
+  s114 
+  s115 
+  s116 
+  s117 
+  s118 
+  s119 
+  s120 
+  s121 
+  s122 
+  s123 
+  s124 
+  s125 
+  s126 
+  s127 
+  s128 
+  s129 
+  s130 
+  s131 
+  s132 
+  s133 
+  s134 
+  s135 
+  s136 
+  s137 
+  s138 
+  s139 
+  s140 
+  s141 
+  s142 
+  s143 
+  s144 
+  s145 
+  s146 
+  s147 
+  s148 
+  s149 
+  s150 
+  s151 
+  s152 
+  s153 
+  s154 
+  s155 
+  s156 
+  s157 
+  s158 
+  s159 
+  s160 
+  s161 
+  s162 
+  s163 
+  s164 
+  s165 
+  s166 
+  s167 
+  s168 
+  s169 
+  s170 
+  s171 
+  s172 
+  s173 
+  s174 
+  s175 
+  s176 
+  s177 
+  s178 
+  s179 
+  s180 
+  s181 
+  s182 
+  s183 
+  s184 
+  s185 
+  s186 
+  s187 
+  s188 
+  s189 
+  s190 
+  s191 
+  s192 
+  s193 
+  s194 
+  s195 
+  s196 
+  s197 
+  s198 
+  s199 
+  s200 
+  s201 
+  s202 
+  s203 
+  s204 
+  s205 
+  s206 
+  s207 
+  s208 
+  s209 
+  s210 
+  s211 
+  s212 
  end init
  begin partition
   {s0},
