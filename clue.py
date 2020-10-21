@@ -88,7 +88,7 @@ class SparseVector(object):
         """
         if not self._nonzero:
             return 0
-        return max(len(c.digits()) for c in self._data.values())
+        return max(len(str(c)) for c in self._data.values())
 
     #--------------------------------------------------------------------------
 
