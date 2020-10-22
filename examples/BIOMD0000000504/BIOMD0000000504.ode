@@ -1,4 +1,212 @@
 begin model BIOMD0000000504
+ begin init
+  ADAMTS4_mRNA
+  cFos
+  cFos_mRNA
+  cJun = 100.0
+  cJun_mRNA = 5.0
+  DUSP16
+  IRAK2 = 100.0
+  IRAK2_TRAF6
+  IRAK2_TRAF6_PP4
+  JAK1 = 100.0
+  JAK1_P
+  JNK = 100.0
+  JNK_P
+  Matriptase = 100.0
+  MKP1
+  MMP1_mRNA
+  MMP3_mRNA
+  MMP13_mRNA
+  p38 = 100.0
+  p38_P
+  PP4
+  proMMP1
+  proMMP3
+  proMMP13
+  PTPRT
+  SOCS3
+  SOCS3_mRNA
+  STAT3_cyt = 100.0
+  STAT3_P_cyt
+  TIMP1_mRNA = 20.0
+  TIMP3_mRNA = 20.0
+  TRAF6 = 100.0
+  TRAF6_PP4
+  ADAMTS4
+  ADAMTS4_TIMP1
+  ADAMTS4_TIMP3
+  Aggrecan
+  Aggrecan_Collagen2 = 100000.0
+  AggFrag
+  ColFrag
+  Collagen2
+  IL1 = 100.0
+  MMP1
+  MMP1_TIMP1
+  MMP1_TIMP3
+  MMP3
+  MMP3_TIMP1
+  MMP3_TIMP3
+  MMP13
+  MMP13_TIMP1
+  MMP13_TIMP3
+  OSM = 1000.0
+  TIMP1 = 200.0
+  TIMP3 = 200.0
+  IL1_IL1R
+  IL1_IL1Ra
+  IL1_IL1R_IRAK2
+  IL1R = 100.0
+  IL1Ra
+  OSM_OSMR
+  OSM_OSMRa
+  OSMR_SOCS3
+  OSMR = 100.0
+  OSMRa
+  cFos_cJun
+  cFos_P
+  cJun_P
+  cJun_dimer
+  SP1
+  SP1_TIMP1_DNA
+  STAT3_nuc
+  STAT3_P_nuc
+  TIMP1_DNA = 2.0
+  Source = 1.0
+  Sink = 1.0
+  pkactMMP13mmp3 = 5.0E-8
+  pkactMMP1mat = 1.0E-9
+  pkactMMP1mmp3 = 1.0E-8
+  pkactMMP3mat = 4.0E-6
+  pkAP1activity = 1.0
+  pkbincFoscJun = 5.0E-5
+  pkbinIL1IL1R = 1.0E-4
+  pkbinIL1IL1Ra = 1.0E-4
+  pkbinIRAK2 = 5.0E-5
+  pkbinOSMOSMR = 1.0E-5
+  pkbinOSMOSMRa = 1.0E-4
+  pkbinSOCS3OSMR = 0.005
+  pkbinSP1TIMP1DNA = 1.0E-5
+  pkbinTRAF6 = 1.0E-5
+  pkcyt2nucSTAT3 = 0.001
+  pkdedimercJun = 0.01
+  pkdegADAMTS4 = 5.0E-5
+  pkdegADAMTS4mRNA = 1.4E-5
+  pkdegAggrecan = 3.0E-8
+  pkdegcFos = 2.0E-4
+  pkdegcFosmRNA = 0.003
+  pkdegcJun = 1.3E-4
+  pkdegcJunmRNA = 0.003
+  pkdegCollagen2mmp1 = 5.0E-12
+  pkdegCollagen2mmp13 = 5.0E-11
+  pkdegDUSP16 = 1.3E-4
+  pkdegIL1 = 2.0E-4
+  pkdegMatriptase = 8.0E-6
+  pkdegMKP1 = 1.0E-4
+  pkdegMMP1 = 1.0E-6
+  pkdegMMP13 = 1.0E-6
+  pkdegMMP13mRNA = 6.4E-6
+  pkdegMMP1mRNA = 6.4E-6
+  pkdegMMP3 = 1.0E-6
+  pkdegMMP3mRNA = 6.4E-6
+  pkdegOSM = 4.8E-5
+  pkdegPP4 = 1.0E-4
+  pkdegPTPRT = 5.0E-5
+  pkdegSOCS3 = 8.0E-4
+  pkdegSOCS3mRNA = 4.0E-4
+  pkdegSP1 = 2.0E-5
+  pkdegTIMP1 = 2.0E-5
+  pkdegTIMP1mRNA = 1.4E-5
+  pkdegTIMP3 = 2.0E-5
+  pkdegTIMP3mRNA = 1.4E-5
+  pkdephoscFos = 1.0E-4
+  pkdephoscFosDUSP16 = 1.0E-4
+  pkdephoscJun = 0.01
+  pkdephosJAK1 = 4.0E-4
+  pkdephosJAK1PTPRT = 0.004
+  pkdephosJNK = 0.001
+  pkdephosJNKDUSP16 = 0.001
+  pkdephosp38 = 0.001
+  pkdephosp38MKP1 = 1.0E-5
+  pkdephosSTAT3 = 1.0E-5
+  pkdephosSTAT3nuc = 1.0E-7
+  pkdephosSTAT3nucPTPRT = 5.0E-4
+  pkdephosSTAT3PTPRT = 8.0E-4
+  pkdimercJun = 5.0E-5
+  pkinhibADAMTS4TIMP1 = 3.0E-6
+  pkinhibADAMTS4TIMP3 = 5.0E-4
+  pkinhibMMP13TIMP1 = 3.0E-7
+  pkinhibMMP13TIMP3 = 1.0E-8
+  pkinhibMMP1TIMP1 = 3.0E-7
+  pkinhibMMP1TIMP3 = 1.0E-8
+  pkinhibMMP3TIMP1 = 3.0E-7
+  pkinhibMMP3TIMP3 = 1.0E-8
+  pkinhibTRAF6 = 0.5
+  pknuc2cytSTAT3 = 0.001
+  pkphoscFos = 5.0E-7
+  pkphoscJun = 1.0E-4
+  pkphosJAK1 = 1.0E-5
+  pkphosJNK = 1.0E-4
+  pkphosp38 = 1.0E-4
+  pkphosSTAT3 = 0.005
+  pkrelADAMTS4TIMP1 = 0.001
+  pkrelADAMTS4TIMP3 = 0.001
+  pkrelcFoscJun = 4.0E-5
+  pkrelIL1IL1R = 0.001
+  pkrelIL1IL1Ra = 1.0E-4
+  pkrelIRAK2 = 0.001
+  pkrelMMP1 = 0.001
+  pkrelMMP13 = 0.001
+  pkrelMMP13TIMP3 = 0.001
+  pkrelMMP1TIMP3 = 0.001
+  pkrelMMP3 = 0.001
+  pkrelMMP3TIMP3 = 0.001
+  pkrelOSMOSMR = 1.0E-5
+  pkrelOSMOSMRa = 1.0E-5
+  pkrelSOCS3OSMR = 1.0E-5
+  pkrelSP1TIMP1DNA = 5.0E-6
+  pkrelTRAF6 = 1.0E-4
+  pkrelTRAF6PP4 = 1.0E-6
+  pksynADAMTS4 = 5.0E-4
+  pksynADAMTS4mRNA = 5.0E-4
+  pksynADAMTS4mRNAcJun = 4.0E-6
+  pksynbasalcJunmRNA = 0.015
+  pksynbasalTIMP1mRNA = 1.4E-4
+  pksynbasalTIMP3mRNA = 2.8E-4
+  pksyncFos = 0.001
+  pksyncFosmRNA = 5.0E-6
+  pksyncFosmRNAStat3 = 0.05
+  pksyncJun = 0.0026
+  pksyncJunmRNA = 0.0125
+  pksyncJunmRNAcJun = 0.005
+  pksynDUSP16 = 0.005
+  pksynDUSP16cJun = 2.0E-4
+  pksynMatriptase = 9.0E-10
+  pksynMKP1 = 2.5E-5
+  pksynMKP1cJun = 1.0E-6
+  pksynMMP1 = 1.5E-4
+  pksynMMP13 = 1.5E-5
+  pksynMMP13mRNA = 5.0E-4
+  pksynMMP13mRNAcJun = 2.0E-5
+  pksynMMP1mRNA = 0.005
+  pksynMMP1mRNAcJun = 2.0E-4
+  pksynMMP3 = 3.0E-5
+  pksynMMP3mRNA = 0.005
+  pksynMMP3mRNAcJun = 2.0E-4
+  pksynPP4 = 0.005
+  pksynPP4cJun = 2.0E-4
+  pksynPTPRT = 1.0E-4
+  pksynSOCS3 = 0.001
+  pksynSOCS3mRNA = 0.006
+  pksynSP1 = 2.0E-5
+  pksynTIMP1 = 2.0E-4
+  pksynTIMP1mRNA = 5.0E-7
+  pksynTIMP1mRNAStat3 = 4.0E-5
+  pksynTIMP3 = 4.0E-4
+  pksynTIMP3mRNA = 5.0E-7
+  pksynTIMP3mRNAStat3 = 4.0E-5
+ end init
  begin reactions
   2*IL1 + 2*IL1R  -> IL1 + IL1_IL1R + IL1R  , pkbinIL1IL1R
   2*IL1_IL1R  -> IL1 + IL1_IL1R + IL1R  , pkrelIL1IL1R
