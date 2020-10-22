@@ -1,4 +1,5 @@
 from bisect import bisect
+import copy
 import logging
 import math
 
@@ -7,6 +8,15 @@ from sympy import vring, GF, QQ, mod_inverse, gcd, nextprime, sympify
 from sympy.ntheory.modular import crt, isprime
 
 from sparse_polynomial import SparsePolynomial
+
+#------------------------------------------------------------------------------
+
+# the constant responsible for switching to the modular algorithm
+
+TOO_BIG_LENGTH = 10000
+
+class ExpressionSwell(Exception):
+    pass
 
 #------------------------------------------------------------------------------
 
@@ -71,6 +81,14 @@ class SparseVector(object):
 
     def nonzero_iter(self):
         return iter(self._nonzero)
+
+    def digits(self):
+        """
+        Only over Q: the length of the representation of the longest coordinate
+        """
+        if not self._nonzero:
+            return 0
+        return max(len(str(c)) for c in self._data.values())
 
     #--------------------------------------------------------------------------
 
@@ -355,6 +373,14 @@ class Subspace(object):
     def dim(self):
         return len(self._echelon_form)
 
+    def digits(self):
+        """
+        Only over Q: the maximal number of digits in the rational numbers used
+        """
+        if not self._echelon_form:
+            return 0
+        return max([v.digits() for v in self._echelon_form.values()])
+
     #--------------------------------------------------------------------------
 
     def absorb_new_vector(self, new_vector):
@@ -381,10 +407,12 @@ class Subspace(object):
 
     #--------------------------------------------------------------------------
 
-    def apply_matrices_inplace(self, matrices):
+    def apply_matrices_inplace(self, matrices, monitor_length=False):
         """
           Input
             - matrices - a list of matrices (SparseMatrix)
+            - monitor_length - if set True, the ExpressionSwell expception will be raised
+                if there will be an intermediate result exceeding TOO_BIG_LENGTH (only over Q!)
           Output
             No output. The subspace is transformed to the smallest invariant subspace
             of the matrices containing the original one
@@ -404,6 +432,8 @@ class Subspace(object):
                         new_pivot = self.absorb_new_vector(prod)
                         if new_pivot != -1:
                             new_pivots.add(new_pivot)
+                            if monitor_length and self.digits() > TOO_BIG_LENGTH:
+                                raise ExpressionSwell
 
     #--------------------------------------------------------------------------
 
@@ -547,30 +577,37 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
         original_subspace.apply_matrices_inplace(matrices)
         return original_subspace
 
-    modulus = 2**31 - 1
-    primes_used = 1
-    while True:
-        logging.debug("Working modulo: %d", modulus)
-        try:
-            matrices_reduced = [matr.reduce_mod(modulus) for matr in matrices]
-            subspace_reduced = original_subspace.reduce_mod(modulus)
-            subspace_reduced.apply_matrices_inplace(matrices_reduced)
-            reconstruction = subspace_reduced.rational_reconstruction()
-            if reconstruction.check_invariance(matrices):
-                if reconstruction.check_inclusion(original_subspace):
-                    logging.debug("We used %d primes", primes_used)
-                    return reconstruction
+    space_copy = copy.deepcopy(original_subspace)
+    try:
+        original_subspace.apply_matrices_inplace(matrices, monitor_length=True)
+        return original_subspace
+    except ExpressionSwell:
+        original_subspace = space_copy
+        logging.debug("Rationals are getting too long, switching to the modular algorithm")
+        modulus = 2**31 - 1
+        primes_used = 1
+        while True:
+            logging.debug("Working modulo: %d", modulus)
+            try:
+                matrices_reduced = [matr.reduce_mod(modulus) for matr in matrices]
+                subspace_reduced = original_subspace.reduce_mod(modulus)
+                subspace_reduced.apply_matrices_inplace(matrices_reduced)
+                reconstruction = subspace_reduced.rational_reconstruction()
+                if reconstruction.check_invariance(matrices):
+                    if reconstruction.check_inclusion(original_subspace):
+                        logging.debug("We used %d primes", primes_used)
+                        return reconstruction
+                    else:
+                        logging.debug("Didn't pass the inclusion check")
                 else:
-                    logging.debug("Didn't pass the inclusion check")
-            else:
-                logging.debug("Didn't pass the invariance check")
-        except ValueError:
-            pass
-        except ZeroDivisionError:
-            logging.debug(f"{modulus} was a bad prime for reduction, going for the next one")
-        modulus = nextprime(modulus**2)
-        primes_used += 1
-
+                    logging.debug("Didn't pass the invariance check")
+            except ValueError:
+                pass
+            except ZeroDivisionError:
+                logging.debug(f"{modulus} was a bad prime for reduction, going for the next one")
+            modulus = nextprime(modulus**2)
+            primes_used += 1
+    
 #------------------------------------------------------------------------------
 
 def construct_matrices(polys):
@@ -602,12 +639,11 @@ def construct_matrices(polys):
                 jacobians[m_der].increment(var, p_ind, entry)
 
     result = jacobians.values()
-    #print(sorted([m.nonzero_count() for m in result]))
     return result
 
 #------------------------------------------------------------------------------
 
-def do_lumping_internal(polys, observable, new_vars_name='y', verbose=True):
+def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True, print_reduction=False, ic=None):
     """
       Performs a lumping of a polynomial ODE system represented by SparsePolynomial
       Input
@@ -651,14 +687,23 @@ def do_lumping_internal(polys, observable, new_vars_name='y', verbose=True):
 
     lumped_polys = lumping_subspace.perform_change_of_variables(polys, new_vars_name)
 
+    new_ic = None
+    if ic is not None:
+        eval_point = [ic.get(v, 0) for v in polys[0].gens]
+        new_ic = []
+        for vect in lumping_subspace.basis():
+            new_ic.append(sum([p[0] * p[1] for p in zip(eval_point, vect.to_list())]))
+
+
     # Nice printing
-    if verbose:
-        vars_new = lumped_polys[0].gens
+    vars_new = lumped_polys[0].gens
+    if print_system:
         print("Original system:")
         for i in range(len(polys)):
             print(f"{vars_old[i]}' = {polys[i]}")
         print("Outputs to fix:")
         print(", ".join(map(str, observable)))
+    if print_reduction:
         print("New variables:")
         for i in range(lumping_subspace.dim()):
             new_var = SparsePolynomial(vars_old, field)
@@ -666,16 +711,28 @@ def do_lumping_internal(polys, observable, new_vars_name='y', verbose=True):
                 if lumping_subspace.basis()[i][j] != 0:
                     new_var += SparsePolynomial(vars_old, field, {((j, 1),) : lumping_subspace.basis()[i][j]})
             print(f"{vars_new[i]} = {new_var}")
+        if new_ic is not None:
+            print("New initial conditions:")
+            for v, val in zip(vars_new, new_ic):
+                print(f"{v}(0) = {float(val)}")
 
         print("Lumped system:")
         for i in range(lumping_subspace.dim()):
             print(f"{vars_new[i]}' = {lumped_polys[i]}")
 
-    return {"polynomials" : lumped_polys, "subspace" : [v.to_list() for v in lumping_subspace.basis()]}
+    return {"polynomials" : lumped_polys, "subspace" : [v.to_list() for v in lumping_subspace.basis()], "new_ic" : new_ic}
 
 #------------------------------------------------------------------------------
 
-def do_lumping(polys, observable, new_vars_name='y', verbose=True, out_format="sympy", loglevel="INFO"):
+def do_lumping(
+        polys, observable, 
+        new_vars_name='y', 
+        print_system=False, 
+        print_reduction=True, 
+        out_format="sympy", 
+        loglevel="INFO",
+        initial_conditions=None
+    ):
     """
       Main function, performs a lumping of a polynomial ODE system
       Input
@@ -683,7 +740,7 @@ def do_lumping(polys, observable, new_vars_name='y', verbose=True, out_format="s
         - observable - a nonempty list of linear forms in state variables
                        that must be kept nonlumped
         - new_vars_name (optional) - the name for variables in the lumped polynomials
-        - verbose (optional) - whether to report the result on the screen or not
+        - print_system and print_reduction (optional) - whether to print the original system and the result, respectively on the screen
         - out_format - "sympy" or "internal", the way the output polynomials should be represeted
           the options are sympy polynomials and SparsePolynomial
         - loglevel - INFO (only essential information) or DEBUG (a lot of infromation about the computation process)
@@ -706,7 +763,13 @@ def do_lumping(polys, observable, new_vars_name='y', verbose=True, out_format="s
         polys = [SparsePolynomial.from_sympy(p) for p in polys]
         observable = [SparsePolynomial.from_sympy(ob) for ob in observable]
 
-    result = do_lumping_internal(polys, observable, new_vars_name, verbose)
+    result = do_lumping_internal(polys, observable, new_vars_name, print_system, print_reduction, initial_conditions)
+
+    if initial_conditions is not None:
+        eval_point = [initial_conditions.get(v, 0) for v in polys[0].gens]
+        result["new_ic"] = []
+        for vect in result["subspace"]:
+            result["new_ic"].append(sum([p[0] * p[1] for p in zip(eval_point, vect)]))
 
     if out_format == "sympy":
         out_ring = result["polynomials"][0].get_sympy_ring()

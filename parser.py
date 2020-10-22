@@ -8,7 +8,7 @@ from sympy.core.numbers import Rational
 from sympy import QQ
 from sympy.core.compatibility import exec_
 
-from sparse_polynomial import SparsePolynomial
+from sparse_polynomial import SparsePolynomial, to_rational
 
 #------------------------------------------------------------------------------
 
@@ -216,7 +216,18 @@ def get_varnames(strings):
 
 #------------------------------------------------------------------------------
 
-def read_system(filename):
+def parse_initial_conditions(lines):
+    result = dict()
+    for l in lines:
+        if "=" in l:
+            rhs, lhs = l.split("=")
+            result[rhs.strip()] = to_rational(lhs.strip())
+    return result
+
+
+#------------------------------------------------------------------------------
+
+def read_system(filename, read_ic=False):
     """
     Takes a name of an *.ode file, and read the ODE system together with the observables
     subs_params flag corresponds to whether use the paramereter values from the parameters section 
@@ -238,6 +249,10 @@ def read_system(filename):
         equations = parse_reactions(sections_raw['reactions'], varnames)
 
     obs = extract_observables(sections_raw['partition'], varnames) if 'partition' in sections_raw else None
-    return {'name' : name, 'equations' : equations, 'observables' : obs, 'variables' : varnames}
+
+    ic = None
+    if read_ic:
+        ic = parse_initial_conditions(sections_raw.get('init', []) + sections_raw.get('parameters', []))
+    return {'name' : name, 'equations' : equations, 'observables' : obs, 'variables' : varnames, 'ic' : ic}
 
 #------------------------------------------------------------------------------
