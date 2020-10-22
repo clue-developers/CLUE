@@ -1,3 +1,4 @@
+import timeit
 import random
 import sys
 
@@ -47,25 +48,66 @@ def check_lumping(test_name, polys, lumping, correct_size):
 ###############################################
 
 if __name__ == "__main__":
-    # Example 1
-    R = sympy.polys.rings.vring(["x0", "x1", "x2"], QQ)
-    polys = [x0**2 + x1 + x2, x2, x1]
-    lumping = do_lumping(polys, [x0], print_reduction=False, initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
-    check_lumping("Example 1", polys, lumping, 2)
-    assert lumping["new_ic"] == [QQ(1), QQ(7)]
 
-    # Example 2
-    polys = [x1**2 + 4 * x1 * x2 + 4 * x2**2, x1 + 2 * x0**2, x2 - x0**2]
-    lumping = do_lumping(polys, [x0], print_reduction=False)
-    check_lumping("Example 2", polys, lumping, 2)
+    N = 1
 
-    # PP for n = 2
-    system = read_system("e2.ode") 
-    lumping = do_lumping(
-            system["equations"],
-            [SparsePolynomial.from_string("S0", system["variables"])], 
-            print_reduction=False
-    )
-    check_lumping("PP for n = 2", system["equations"], lumping, 12)
-    
+    totaltime = 0
+    for i in range(N):
+        starttime = timeit.default_timer()
+
+        print(f"TEST ITERATION {i+1}")
+
+        # Example 1
+        R = sympy.polys.rings.vring(["x0", "x1", "x2"], QQ)
+        polys = [x0**2 + x1 + x2, x2, x1]
+        lumping = do_lumping(polys, [x0], print_reduction=False, initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
+        check_lumping("Example 1", polys, lumping, 2)
+        assert lumping["new_ic"] == [QQ(1), QQ(7)]
+
+        # Example 2
+        polys = [x1**2 + 4 * x1 * x2 + 4 * x2**2, x1 + 2 * x0**2, x2 - x0**2]
+        lumping = do_lumping(polys, [x0], print_reduction=False)
+        check_lumping("Example 2", polys, lumping, 2)
+
+        # PP for n = 2
+        system = read_system("e2.ode") 
+        lumping = do_lumping(
+                system["equations"],
+                [SparsePolynomial.from_string("S0", system["variables"])], 
+                print_reduction=False
+        )
+        check_lumping("PP for n = 2", system["equations"], lumping, 12)
+        
+        # BIOMD0000000101
+        system = read_system("BIOMD0000000101.ode")
+        lumping = do_lumping(
+                system["equations"],
+                [SparsePolynomial.from_string("RI", system["variables"])], 
+                print_reduction=False
+        )
+        check_lumping("BIOMD0000000101", system["equations"], lumping, 14)
+
+        # MODEL1504160000
+        system = read_system("MODEL1504160000.ode")
+        lumping = do_lumping(
+                system["equations"],
+                [SparsePolynomial.from_string("cd8_in_spleen", system["variables"])], 
+                print_reduction=False
+        )
+        check_lumping("MODEL1504160000", system["equations"], lumping, 8)
+
+        # MODEL9085850385
+        system = read_system("MODEL9085850385.ode")
+        lumping = do_lumping(
+                system["equations"],
+                [SparsePolynomial.from_string("PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx", system["variables"])], 
+                print_reduction=False
+        )
+        check_lumping("MODEL9085850385", system["equations"], lumping, 54)
+
+        totaltime += timeit.default_timer() - starttime
+        print("############################################")
+
+    print("AVERAGE TIME TAKEN:", totaltime/N)
+
 ############################################ 

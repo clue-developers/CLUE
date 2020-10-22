@@ -671,12 +671,15 @@ def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True,
 
     # Proceed only with matrices that are linearly independant
     vectors_of_matrices = [m.to_vector() for m in matrices]
+    assert len(matrices) == len(vectors_of_matrices)
     subspace = Subspace(field)
+    deleted = 0
     for i in range(len(vectors_of_matrices)):
         pivot_index = subspace.absorb_new_vector(vectors_of_matrices[i])
         if pivot_index < 0:
-            logging.debug(f"Discarding a linearly dependant matrix {matrices[i]}")
-            del matrices[i]
+            logging.debug(f"Discarding a linearly dependant matrix {matrices[i - deleted]}")
+            del matrices[i - deleted]
+            deleted +=1
 
     # Find a lumping
     vectors_to_include = []
