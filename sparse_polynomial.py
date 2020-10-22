@@ -23,7 +23,7 @@ def to_rational(s):
     if ('E' in s) or ('e' in s):
         s, exp = re.split("[Ee]", s)
         if exp[0] == "-":
-            denom = 10**(int(exp))
+            denom = 10**(-int(exp))
         else:
             extra_num = 10**(int(exp))
 
