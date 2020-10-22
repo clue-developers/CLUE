@@ -318,12 +318,19 @@ class SparseRowMatrix(object):
 
     def to_vector(self):
         """
-        Returns SparseVector
-        """
-        vec = SparseVector(self._dim)
-        # TODO
-        return vec
+        Returns SparseVector representation of matrix
 
+        a b -> a
+        c d    b
+               c
+               d
+        """
+        result = SparseVector(self._dim**2)
+        for i in self.nonzero_iter():
+            ith_column = self._data[i]
+            for j in ith_column.nonzero_iter():
+                result[self._dim*i + j] = ith_column[j]
+        return result
 
 #------------------------------------------------------------------------------
 
@@ -355,7 +362,7 @@ class Subspace(object):
         Input
           - new_vector - a SparseVector
         Output
-          the index of the pivot of the new basis vecor if such emerges, -1 otherwise
+          the index of the pivot of the new basis vector if such emerges, -1 otherwise
         """
         for piv, vect in self._echelon_form.items():
             if new_vector[piv]:
@@ -600,24 +607,6 @@ def construct_matrices(polys):
 
 #------------------------------------------------------------------------------
 
-def subspace_dimension(vectors):
-    """
-      Computes the dimension of a span of several vectors represented by 
-      SparseVectors using the Subspace class
-      Input
-        - vectors - a list of vectors represented by SparseVector 
-      Output
-        the dimension of the subspace spanned by the vectors
-    """
-
-    logging.debug("Computing subspace dimension of vectors")
-
-    result = 0 #TODO
-
-    return result
-
-#------------------------------------------------------------------------------
-
 def do_lumping_internal(polys, observable, new_vars_name='y', verbose=True):
     """
       Performs a lumping of a polynomial ODE system represented by SparsePolynomial
@@ -642,12 +631,16 @@ def do_lumping_internal(polys, observable, new_vars_name='y', verbose=True):
     # Reduce the problem to the common invariant subspace problem
     vars_old = polys[0].gens
     field = polys[0].domain
-    matrices = construct_matrices(polys)
+    matrices = list(construct_matrices(polys))
 
-    # TODO
+    # Proceed only with matrices that are linearly independant
     vectors_of_matrices = [m.to_vector() for m in matrices]
-    print(vectors_of_matrices)
-    print(subspace_dimension(vectors_of_matrices))
+    subspace = Subspace(field)
+    for i in range(len(vectors_of_matrices)):
+        pivot_index = subspace.absorb_new_vector(vectors_of_matrices[i])
+        if pivot_index < 0:
+            logging.debug(f"Discarding a linearly dependant matrix {matrices[i]}")
+            del matrices[i]
 
     # Find a lumping
     vectors_to_include = []
