@@ -23,7 +23,7 @@ def to_rational(s):
     if ('E' in s) or ('e' in s):
         s, exp = re.split("[Ee]", s)
         if exp[0] == "-":
-            denom = 10**(int(exp))
+            denom = 10**(-int(exp))
         else:
             extra_num = 10**(int(exp))
 
@@ -257,7 +257,6 @@ class SparsePolynomial(object):
         The code is an adapted version of fourFn example for pyparsing library by Paul McGuire
         https://github.com/pyparsing/pyparsing/blob/master/examples/fourFn.py
         """
-
         def push_first(toks):
             SparsePolynomial.__parser_stack.append(toks[0])
 
@@ -296,7 +295,11 @@ class SparsePolynomial(object):
             SparsePolynomial.__parser = expr
     
         # parsing
-        SparsePolynomial.__parser.parseString(s, parseAll=True)
+        try:
+            SparsePolynomial.__parser.parseString(s, parseAll=True)
+        except:
+            print(s)
+            raise
 
         # for fast lookup
         var_ind_map = {v : i for i, v in enumerate(varnames)} if var_to_ind is None else var_to_ind
