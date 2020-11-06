@@ -1,0 +1,30 @@
+begin model BIOMD0000000460
+ begin parameters
+  kbd = 5.8E-9
+  kbs = 100.0
+  kbx = 8.4E-5
+  kxd = 1.2E-13
+  kxs = 2.0E-6
+  kzd = 0.052
+  kzs = 1.7E-6
+ end parameters
+ begin init
+  IPTG = 100.0
+  sigb
+  lacz
+  x
+ end init
+ begin reactions
+  IPTG -> IPTG + sigb , kbs
+  sigb -> sigb + lacz , kzs
+  sigb -> sigb + x , kxs
+  sigb -> 2*sigb , ( -1) * (kxs)+( -1) * (kzs)+-(kbd)
+  sigb + x -> 2*sigb + x , -(kbx)
+  lacz -> sigb + lacz , ( -1) * (-(kzd))
+  lacz -> 2*lacz , -(kzd)
+  x -> sigb + x , ( -1) * (-(kxd))
+  x -> 2*x , -(kxd)
+ end reactions
+
+end model
+

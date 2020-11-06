@@ -1,0 +1,60 @@
+begin model MODEL9080388197
+ begin init
+  PKC_slash_PKC_minus_Ca = 3.72083333333333E-17
+  PKC_slash_PKC_minus_DAG_minus_AA_star_ = 4.91366666666667E-18
+  PKC_slash_PKC_minus_Ca_minus_AA_star_ = 1.75E-16
+  PKC_slash_PKC_minus_Ca_minus_memb_star_ = 1.3896E-17
+  PKC_slash_PKC_minus_DAG_minus_memb_star_ = 9.43516666666667E-21
+  PKC_slash_PKC_minus_basal_star_ = 0.02
+  PKC_slash_PKC_minus_AA_star_ = 1.81333333333333E-17
+  PKC_slash_PKC_minus_Ca_minus_DAG = 8.46316666666667E-23
+  PKC_slash_PKC_minus_DAG = 1.16101666666667E-16
+  PKC_slash_PKC_minus_DAG_minus_AA = 2.51883333333333E-19
+  PKC_slash_PKC_minus_cytosolic = 1.0
+  DAG = 11.0
+  Ca = 0.08
+  AA = 5.0
+  PKC_minus_active = 2.12216666666667E-16
+ end init
+ begin reactions
+  PKC_slash_PKC_minus_Ca -> PKC_slash_PKC_minus_Ca + PKC_slash_PKC_minus_Ca_minus_memb_star_ , 1.2705E-12
+  PKC_slash_PKC_minus_Ca -> PKC_slash_PKC_minus_Ca + PKC_slash_PKC_minus_cytosolic , ( -1) * (-(5.0E-13))
+  PKC_slash_PKC_minus_Ca -> 2*PKC_slash_PKC_minus_Ca , ( -1) * (1.2705E-12)+-(5.0E-13)
+  PKC_slash_PKC_minus_Ca + DAG -> PKC_slash_PKC_minus_Ca + PKC_slash_PKC_minus_Ca_minus_DAG + DAG , 7.9998E-15
+  PKC_slash_PKC_minus_Ca + DAG -> 2*PKC_slash_PKC_minus_Ca + DAG , ( -1) * (7.9998E-15)
+  PKC_slash_PKC_minus_Ca + AA -> PKC_slash_PKC_minus_Ca + PKC_slash_PKC_minus_Ca_minus_AA_star_ + AA , 1.2E-15
+  PKC_slash_PKC_minus_Ca + AA -> 2*PKC_slash_PKC_minus_Ca + AA , ( -1) * (1.2E-15)
+  PKC_slash_PKC_minus_DAG_minus_AA_star_ -> PKC_slash_PKC_minus_DAG_minus_AA_star_ + PKC_slash_PKC_minus_DAG_minus_AA , ( -1) * (-(2.0E-13))
+  PKC_slash_PKC_minus_DAG_minus_AA_star_ -> 2*PKC_slash_PKC_minus_DAG_minus_AA_star_ , -(2.0E-13)
+  PKC_slash_PKC_minus_Ca_minus_AA_star_ -> PKC_slash_PKC_minus_Ca + PKC_slash_PKC_minus_Ca_minus_AA_star_ , ( -1) * (-(1.0E-13))
+  PKC_slash_PKC_minus_Ca_minus_AA_star_ -> 2*PKC_slash_PKC_minus_Ca_minus_AA_star_ , -(1.0E-13)
+  PKC_slash_PKC_minus_Ca_minus_memb_star_ -> PKC_slash_PKC_minus_Ca + PKC_slash_PKC_minus_Ca_minus_memb_star_ , ( -1) * (-(3.5026E-12))
+  PKC_slash_PKC_minus_Ca_minus_memb_star_ -> 2*PKC_slash_PKC_minus_Ca_minus_memb_star_ , -(3.5026E-12)
+  PKC_slash_PKC_minus_DAG_minus_memb_star_ -> PKC_slash_PKC_minus_DAG_minus_memb_star_ + PKC_slash_PKC_minus_Ca_minus_DAG , ( -1) * (-(1.0E-13))
+  PKC_slash_PKC_minus_DAG_minus_memb_star_ -> 2*PKC_slash_PKC_minus_DAG_minus_memb_star_ , -(1.0E-13)
+  PKC_slash_PKC_minus_basal_star_ -> PKC_slash_PKC_minus_basal_star_ + PKC_slash_PKC_minus_cytosolic , ( -1) * (-(5.0E-11))
+  PKC_slash_PKC_minus_basal_star_ -> 2*PKC_slash_PKC_minus_basal_star_ , -(5.0E-11)
+  PKC_slash_PKC_minus_AA_star_ -> PKC_slash_PKC_minus_AA_star_ + PKC_slash_PKC_minus_cytosolic , ( -1) * (-(1.0E-13))
+  PKC_slash_PKC_minus_AA_star_ -> 2*PKC_slash_PKC_minus_AA_star_ , -(1.0E-13)
+  PKC_slash_PKC_minus_Ca_minus_DAG -> PKC_slash_PKC_minus_Ca + PKC_slash_PKC_minus_Ca_minus_DAG , ( -1) * (-(8.6348E-12))
+  PKC_slash_PKC_minus_Ca_minus_DAG -> PKC_slash_PKC_minus_DAG_minus_memb_star_ + PKC_slash_PKC_minus_Ca_minus_DAG , 1.0E-12
+  PKC_slash_PKC_minus_Ca_minus_DAG -> 2*PKC_slash_PKC_minus_Ca_minus_DAG , -(8.6348E-12)+( -1) * (1.0E-12)
+  PKC_slash_PKC_minus_DAG -> PKC_slash_PKC_minus_DAG + PKC_slash_PKC_minus_cytosolic , ( -1) * (-(1.0E-13))
+  PKC_slash_PKC_minus_DAG -> 2*PKC_slash_PKC_minus_DAG , -(1.0E-13)
+  PKC_slash_PKC_minus_DAG + AA -> PKC_slash_PKC_minus_DAG + PKC_slash_PKC_minus_DAG_minus_AA + AA , 1.8E-14
+  PKC_slash_PKC_minus_DAG + AA -> 2*PKC_slash_PKC_minus_DAG + AA , ( -1) * (1.8E-14)
+  PKC_slash_PKC_minus_DAG_minus_AA -> PKC_slash_PKC_minus_DAG_minus_AA_star_ + PKC_slash_PKC_minus_DAG_minus_AA , 2.0E-12
+  PKC_slash_PKC_minus_DAG_minus_AA -> PKC_slash_PKC_minus_DAG + PKC_slash_PKC_minus_DAG_minus_AA , ( -1) * (-(2.0E-12))
+  PKC_slash_PKC_minus_DAG_minus_AA -> 2*PKC_slash_PKC_minus_DAG_minus_AA , ( -1) * (2.0E-12)+-(2.0E-12)
+  PKC_slash_PKC_minus_cytosolic -> PKC_slash_PKC_minus_basal_star_ + PKC_slash_PKC_minus_cytosolic , 1.0E-12
+  PKC_slash_PKC_minus_cytosolic -> 2*PKC_slash_PKC_minus_cytosolic , ( -1) * (1.0E-12)
+  PKC_slash_PKC_minus_cytosolic + DAG -> PKC_slash_PKC_minus_DAG + PKC_slash_PKC_minus_cytosolic + DAG , 6.0E-16
+  PKC_slash_PKC_minus_cytosolic + DAG -> 2*PKC_slash_PKC_minus_cytosolic + DAG , ( -1) * (6.0E-16)
+  PKC_slash_PKC_minus_cytosolic + Ca -> PKC_slash_PKC_minus_Ca + PKC_slash_PKC_minus_cytosolic + Ca , 6.0E-13
+  PKC_slash_PKC_minus_cytosolic + Ca -> 2*PKC_slash_PKC_minus_cytosolic + Ca , ( -1) * (6.0E-13)
+  PKC_slash_PKC_minus_cytosolic + AA -> PKC_slash_PKC_minus_AA_star_ + PKC_slash_PKC_minus_cytosolic + AA , 1.2E-16
+  PKC_slash_PKC_minus_cytosolic + AA -> 2*PKC_slash_PKC_minus_cytosolic + AA , ( -1) * (1.2E-16)
+ end reactions
+
+end model
+

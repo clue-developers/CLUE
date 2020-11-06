@@ -1,0 +1,66 @@
+begin model MODEL4780181279
+ begin init
+  sNO = 0.1
+  NO_GC
+  NO_GC_slash_kenz_slash_kenz_cplx
+  NOdegrade
+  GTP = 10.0
+  cGMP
+  PDE = 5.0
+  PDE_slash_kenz_slash_kenz_cplx
+  PKG = 2.5
+  cGMP_dot_PKG
+  cGMP_dot_PKG_slash_kenz_slash_kenz_cplx
+  Gsub = 10.7
+  Gsub_star_
+  PP2A = 2.7
+  PP2A_Gsub_star_
+  num_5prime_GMP
+  GC = 3.0
+ end init
+ begin reactions
+  sNO -> sNO + NOdegrade , 1.12166666666667E-18
+  sNO -> 2*sNO , ( -1) * (1.12166666666667E-18)
+  sNO + GC -> sNO + NO_GC + GC , 1.66666666666667E-20
+  sNO + GC -> 2*sNO + GC , ( -1) * (1.66666666666667E-20)
+  NO_GC -> sNO + NO_GC , ( -1) * (-(4.16666666666667E-21))
+  NO_GC -> 2*NO_GC , -(4.16666666666667E-21)
+  NO_GC + GTP -> NO_GC + NO_GC_slash_kenz_slash_kenz_cplx + GTP , 1.36111666666667E-18
+  NO_GC + GTP -> NO_GC + 2*GTP , ( -1) * (1.36111666666667E-18)
+  NO_GC + GTP -> 2*NO_GC + GTP , ( -1) * (1.36111666666667E-18)
+  NO_GC_slash_kenz_slash_kenz_cplx -> NO_GC + NO_GC_slash_kenz_slash_kenz_cplx , 1.225E-17+( -1) * (-(4.9E-17))
+  NO_GC_slash_kenz_slash_kenz_cplx -> NO_GC_slash_kenz_slash_kenz_cplx + GTP , ( -1) * (-(4.9E-17))
+  NO_GC_slash_kenz_slash_kenz_cplx -> NO_GC_slash_kenz_slash_kenz_cplx + cGMP , 1.225E-17
+  NO_GC_slash_kenz_slash_kenz_cplx -> 2*NO_GC_slash_kenz_slash_kenz_cplx , -(4.9E-17)+( -1) * (1.225E-17)
+  cGMP + PDE -> cGMP + PDE + PDE_slash_kenz_slash_kenz_cplx , 1.6125E-17
+  cGMP + PDE -> cGMP + 2*PDE , ( -1) * (1.6125E-17)
+  cGMP + PDE -> 2*cGMP + PDE , ( -1) * (1.6125E-17)
+  cGMP + PKG -> cGMP + PKG + cGMP_dot_PKG , 1.66666666666667E-17
+  cGMP + PKG -> cGMP + 2*PKG , ( -1) * (1.66666666666667E-17)
+  cGMP + PKG -> 2*cGMP + PKG , ( -1) * (1.66666666666667E-17)
+  PDE_slash_kenz_slash_kenz_cplx -> cGMP + PDE_slash_kenz_slash_kenz_cplx , ( -1) * (-(2.58E-17))
+  PDE_slash_kenz_slash_kenz_cplx -> PDE + PDE_slash_kenz_slash_kenz_cplx , 6.45E-18+( -1) * (-(2.58E-17))
+  PDE_slash_kenz_slash_kenz_cplx -> PDE_slash_kenz_slash_kenz_cplx + num_5prime_GMP , 6.45E-18
+  PDE_slash_kenz_slash_kenz_cplx -> 2*PDE_slash_kenz_slash_kenz_cplx , -(2.58E-17)+( -1) * (6.45E-18)
+  cGMP_dot_PKG -> cGMP + cGMP_dot_PKG , ( -1) * (-(8.33333333333333E-19))
+  cGMP_dot_PKG -> PKG + cGMP_dot_PKG , ( -1) * (-(8.33333333333333E-19))
+  cGMP_dot_PKG -> 2*cGMP_dot_PKG , -(8.33333333333333E-19)
+  cGMP_dot_PKG + Gsub -> cGMP_dot_PKG + cGMP_dot_PKG_slash_kenz_slash_kenz_cplx + Gsub , 3.0E-17
+  cGMP_dot_PKG + Gsub -> cGMP_dot_PKG + 2*Gsub , ( -1) * (3.0E-17)
+  cGMP_dot_PKG + Gsub -> 2*cGMP_dot_PKG + Gsub , ( -1) * (3.0E-17)
+  cGMP_dot_PKG_slash_kenz_slash_kenz_cplx -> cGMP_dot_PKG + cGMP_dot_PKG_slash_kenz_slash_kenz_cplx , 1.2E-18+( -1) * (-(4.8E-18))
+  cGMP_dot_PKG_slash_kenz_slash_kenz_cplx -> cGMP_dot_PKG_slash_kenz_slash_kenz_cplx + Gsub , ( -1) * (-(4.8E-18))
+  cGMP_dot_PKG_slash_kenz_slash_kenz_cplx -> cGMP_dot_PKG_slash_kenz_slash_kenz_cplx + Gsub_star_ , 1.2E-18
+  cGMP_dot_PKG_slash_kenz_slash_kenz_cplx -> 2*cGMP_dot_PKG_slash_kenz_slash_kenz_cplx , -(4.8E-18)+( -1) * (1.2E-18)
+  Gsub_star_ -> Gsub + Gsub_star_ , 1.66666666666667E-22
+  Gsub_star_ -> 2*Gsub_star_ , ( -1) * (1.66666666666667E-22)
+  Gsub_star_ + PP2A -> Gsub_star_ + PP2A + PP2A_Gsub_star_ , 1.66666666666667E-18
+  Gsub_star_ + PP2A -> Gsub_star_ + 2*PP2A , ( -1) * (1.66666666666667E-18)
+  Gsub_star_ + PP2A -> 2*Gsub_star_ + PP2A , ( -1) * (1.66666666666667E-18)
+  PP2A_Gsub_star_ -> Gsub_star_ + PP2A_Gsub_star_ , ( -1) * (-(4.5E-19))
+  PP2A_Gsub_star_ -> PP2A + PP2A_Gsub_star_ , ( -1) * (-(4.5E-19))
+  PP2A_Gsub_star_ -> 2*PP2A_Gsub_star_ , -(4.5E-19)
+ end reactions
+
+end model
+

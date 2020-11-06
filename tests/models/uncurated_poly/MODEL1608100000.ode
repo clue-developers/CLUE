@@ -1,0 +1,22 @@
+begin model MODEL1608100000
+ begin init
+  mRNA = 10.0
+  Protein = 100.0
+  SINK
+  source = 1.0
+ end init
+ begin reactions
+  mRNA -> mRNA + Protein , ( 1.0) * (0.1)
+  mRNA -> mRNA + SINK , ( -1) * (( 1.0) * (0.03))
+  mRNA -> 2*mRNA , ( 1.0) * (0.03)
+  Protein -> Protein + SINK , ( -1) * (( 1.0) * (0.03))
+  Protein -> 2*Protein , ( 1.0) * (0.03)
+  source -> mRNA + source , ( 1.0) * (5.0)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

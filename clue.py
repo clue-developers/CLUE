@@ -643,7 +643,7 @@ def construct_matrices(polys):
 
 #------------------------------------------------------------------------------
 
-def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True, print_reduction=False, ic=None):
+def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True, print_reduction=False, ic=None, discard_useless_matrices=True):
     """
       Performs a lumping of a polynomial ODE system represented by SparsePolynomial
       Input
@@ -667,19 +667,29 @@ def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True,
     # Reduce the problem to the common invariant subspace problem
     vars_old = polys[0].gens
     field = polys[0].domain
-    matrices = list(construct_matrices(polys))
+    matrices = sorted(construct_matrices(polys), key=lambda m: len(m._nonzero))
 
-    # Proceed only with matrices that are linearly independant
-    vectors_of_matrices = [m.to_vector() for m in matrices]
-    assert len(matrices) == len(vectors_of_matrices)
-    subspace = Subspace(field)
-    deleted = 0
-    for i in range(len(vectors_of_matrices)):
-        pivot_index = subspace.absorb_new_vector(vectors_of_matrices[i])
-        if pivot_index < 0:
-            logging.debug(f"Discarding a linearly dependant matrix {matrices[i - deleted]}")
-            del matrices[i - deleted]
-            deleted +=1
+    if discard_useless_matrices:
+
+        mb = len(matrices) #!
+
+        # Proceed only with matrices that are linearly independant
+        vectors_of_matrices = [m.to_vector() for m in matrices]
+        assert len(matrices) == len(vectors_of_matrices)
+        subspace = Subspace(field)
+        deleted = 0
+        for i in range(len(vectors_of_matrices)):
+            pivot_index = subspace.absorb_new_vector(vectors_of_matrices[i])
+            if pivot_index < 0:
+                logging.debug(f"Discarding a linearly dependant matrix {matrices[i - deleted]}")
+                del matrices[i - deleted]
+                deleted +=1
+
+        if deleted > 0:
+            print(f"\tMatrices before: {mb}") #!
+            print(f"\tMatrices after: {len(matrices)}") #!
+            print(f"\tMartices discarded: {deleted}") #!
+            print(f"\t% Discarded Matrices = {deleted/mb * 100}%")
 
     # Find a lumping
     vectors_to_include = []
@@ -734,7 +744,8 @@ def do_lumping(
         print_reduction=True, 
         out_format="sympy", 
         loglevel="INFO",
-        initial_conditions=None
+        initial_conditions=None,
+        discard_useless_matrices=True #! 
     ):
     """
       Main function, performs a lumping of a polynomial ODE system
@@ -766,7 +777,7 @@ def do_lumping(
         polys = [SparsePolynomial.from_sympy(p) for p in polys]
         observable = [SparsePolynomial.from_sympy(ob) for ob in observable]
 
-    result = do_lumping_internal(polys, observable, new_vars_name, print_system, print_reduction, initial_conditions)
+    result = do_lumping_internal(polys, observable, new_vars_name, print_system, print_reduction, initial_conditions, discard_useless_matrices=discard_useless_matrices)
 
     if initial_conditions is not None:
         eval_point = [initial_conditions.get(v, 0) for v in polys[0].gens]

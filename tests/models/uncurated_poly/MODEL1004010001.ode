@@ -1,0 +1,271 @@
+begin model MODEL1004010001
+ begin parameters
+  PfimE_total = 1.0
+  kf_r_PfimE_RNAP = 0.333333333
+  kr_r_PfimE_RNAP = 10.0
+  kf_r_PfimE_HNS = 0.005524862
+  kr_r_PfimE_HNS = 10.0
+  k_Prod_FimE = 0.666666667
+  k_Deg_FimE = 0.001625
+  PfimB_total = 1.0
+  k_Prod_FimB = 0.666666667
+  kf_r_PfimB_RNAP = 0.333333333
+  kr_r_PfimB_RNAP = 10.0
+  kf_r_PfimB_HNS = 0.001
+  kr_r_PfimB_HNS = 10.0
+  k_Deg_FimB = 0.001625
+  Prom_total = 1.0
+  k_prod3 = 6.53E-8
+  k_prod4 = 6.5E-7
+  k_prod5 = 3.0E-4
+  k_prod6 = 8.0E-5
+  k_prod7 = 3.7E-6
+  k_prod8 = 7.5E-7
+  kf_r2 = 1.41884
+  kf_r3 = 0.0155555
+  kf_r4 = 0.0155555
+  kf_r5 = 0.00122395
+  kf_r6 = 5.58342E-4
+  kf_r7 = 0.00122395
+  kf_r8 = 5.58342E-4
+  kf_r17 = 0.0109635
+  kf_r18 = 0.0109635
+  kf_r19 = 8.62637E-4
+  kf_r20 = 3.93519E-4
+  kf_r21 = 8.62637E-4
+  kf_r22 = 3.93519E-4
+  kf_r23 = 0.0786826
+  kf_r24 = 0.0358936
+  kf_r25 = 0.111638
+  kf_r26 = 0.0509273
+  kr_r2 = 1.0
+  kr_r3 = 1.0
+  kr_r4 = 1.0
+  kr_r5 = 1.0
+  kr_r6 = 1.0
+  kr_r7 = 1.0
+  kr_r8 = 1.0
+  kr_r17 = 1.0
+  kr_r18 = 1.0
+  kr_r19 = 1.0
+  kr_r20 = 1.0
+  kr_r21 = 1.0
+  kr_r22 = 1.0
+  kr_r23 = 1.0
+  kr_r24 = 1.0
+  kr_r25 = 1.0
+  kr_r26 = 1.0
+ end parameters
+ begin init
+  FimE = 31.0
+  FimB = 100.0
+  Lrp = 5.0
+  IHF = 10.0
+  HNS = 20000.0
+  RNAP = 30.0
+  switch
+  PfimE = 1.0
+  PfimB = 1.0
+  s4
+  PfimB_RNAP
+  PfimE_HNS
+  Prom = 1.0
+  s6
+  s25
+  s22
+  s21
+  s23
+  s19
+  s8
+  PfimE_RNAP
+  PfimB_HNS
+  s17
+  s20
+  s7
+  s5
+  s2
+  s26
+  s3
+  s18
+  s24
+  SINK
+ end init
+ begin reactions
+  FimE -> FimE + SINK , ( -1) * (k_Deg_FimE)
+  FimE -> 2*FimE , k_Deg_FimE
+  FimE + 2*Lrp + IHF + Prom -> FimE + 2*Lrp + IHF + Prom + s5 , kf_r5
+  FimE + 2*Lrp + IHF + Prom -> FimE + 2*Lrp + IHF + 2*Prom , ( -1) * (kf_r5)
+  FimE + 2*Lrp + IHF + Prom -> FimE + 2*Lrp + 2*IHF + Prom , ( -1) * (kf_r5)
+  FimE + 2*Lrp + IHF + Prom -> FimE + 3*Lrp + IHF + Prom , ( -2) * (kf_r5)
+  FimE + 2*Lrp + IHF + Prom -> 2*FimE + 2*Lrp + IHF + Prom , ( -1) * (kf_r5)
+  FimE + 2*Lrp + Prom -> FimE + 2*Lrp + Prom + s19 , kf_r19
+  FimE + 2*Lrp + Prom -> FimE + 2*Lrp + 2*Prom , ( -1) * (kf_r19)
+  FimE + 2*Lrp + Prom -> FimE + 3*Lrp + Prom , ( -2) * (kf_r19)
+  FimE + 2*Lrp + Prom -> 2*FimE + 2*Lrp + Prom , ( -1) * (kf_r19)
+  FimE + 3*Lrp + IHF + Prom -> FimE + 3*Lrp + IHF + Prom + s6 , kf_r6
+  FimE + 3*Lrp + IHF + Prom -> FimE + 3*Lrp + IHF + 2*Prom , ( -1) * (kf_r6)
+  FimE + 3*Lrp + IHF + Prom -> FimE + 3*Lrp + 2*IHF + Prom , ( -1) * (kf_r6)
+  FimE + 3*Lrp + IHF + Prom -> FimE + 4*Lrp + IHF + Prom , ( -3) * (kf_r6)
+  FimE + 3*Lrp + IHF + Prom -> 2*FimE + 3*Lrp + IHF + Prom , ( -1) * (kf_r6)
+  FimE + 3*Lrp + Prom -> FimE + 3*Lrp + Prom + s20 , kf_r20
+  FimE + 3*Lrp + Prom -> FimE + 3*Lrp + 2*Prom , ( -1) * (kf_r20)
+  FimE + 3*Lrp + Prom -> FimE + 4*Lrp + Prom , ( -3) * (kf_r20)
+  FimE + 3*Lrp + Prom -> 2*FimE + 3*Lrp + Prom , ( -1) * (kf_r20)
+  FimE + IHF + Prom -> FimE + IHF + Prom + s3 , kf_r3
+  FimE + IHF + Prom -> FimE + IHF + 2*Prom , ( -1) * (kf_r3)
+  FimE + IHF + Prom -> FimE + 2*IHF + Prom , ( -1) * (kf_r3)
+  FimE + IHF + Prom -> 2*FimE + IHF + Prom , ( -1) * (kf_r3)
+  FimE + Prom -> FimE + Prom + s17 , kf_r17
+  FimE + Prom -> FimE + 2*Prom , ( -1) * (kf_r17)
+  FimE + Prom -> 2*FimE + Prom , ( -1) * (kf_r17)
+  FimB -> FimB + SINK , ( -1) * (k_Deg_FimB)
+  FimB -> 2*FimB , k_Deg_FimB
+  FimB + 2*Lrp + IHF + Prom -> FimB + 2*Lrp + IHF + Prom + s7 , kf_r7
+  FimB + 2*Lrp + IHF + Prom -> FimB + 2*Lrp + IHF + 2*Prom , ( -1) * (kf_r7)
+  FimB + 2*Lrp + IHF + Prom -> FimB + 2*Lrp + 2*IHF + Prom , ( -1) * (kf_r7)
+  FimB + 2*Lrp + IHF + Prom -> FimB + 3*Lrp + IHF + Prom , ( -2) * (kf_r7)
+  FimB + 2*Lrp + IHF + Prom -> 2*FimB + 2*Lrp + IHF + Prom , ( -1) * (kf_r7)
+  FimB + 2*Lrp + Prom -> FimB + 2*Lrp + Prom + s21 , kf_r21
+  FimB + 2*Lrp + Prom -> FimB + 2*Lrp + 2*Prom , ( -1) * (kf_r21)
+  FimB + 2*Lrp + Prom -> FimB + 3*Lrp + Prom , ( -2) * (kf_r21)
+  FimB + 2*Lrp + Prom -> 2*FimB + 2*Lrp + Prom , ( -1) * (kf_r21)
+  FimB + 3*Lrp + IHF + Prom -> FimB + 3*Lrp + IHF + Prom + s8 , kf_r8
+  FimB + 3*Lrp + IHF + Prom -> FimB + 3*Lrp + IHF + 2*Prom , ( -1) * (kf_r8)
+  FimB + 3*Lrp + IHF + Prom -> FimB + 3*Lrp + 2*IHF + Prom , ( -1) * (kf_r8)
+  FimB + 3*Lrp + IHF + Prom -> FimB + 4*Lrp + IHF + Prom , ( -3) * (kf_r8)
+  FimB + 3*Lrp + IHF + Prom -> 2*FimB + 3*Lrp + IHF + Prom , ( -1) * (kf_r8)
+  FimB + 3*Lrp + Prom -> FimB + 3*Lrp + Prom + s22 , kf_r22
+  FimB + 3*Lrp + Prom -> FimB + 3*Lrp + 2*Prom , ( -1) * (kf_r22)
+  FimB + 3*Lrp + Prom -> FimB + 4*Lrp + Prom , ( -3) * (kf_r22)
+  FimB + 3*Lrp + Prom -> 2*FimB + 3*Lrp + Prom , ( -1) * (kf_r22)
+  FimB + IHF + Prom -> FimB + IHF + s4 + Prom , kf_r4
+  FimB + IHF + Prom -> FimB + IHF + 2*Prom , ( -1) * (kf_r4)
+  FimB + IHF + Prom -> FimB + 2*IHF + Prom , ( -1) * (kf_r4)
+  FimB + IHF + Prom -> 2*FimB + IHF + Prom , ( -1) * (kf_r4)
+  FimB + Prom -> FimB + Prom + s18 , kf_r18
+  FimB + Prom -> FimB + 2*Prom , ( -1) * (kf_r18)
+  FimB + Prom -> 2*FimB + Prom , ( -1) * (kf_r18)
+  2*Lrp + IHF + Prom -> 2*Lrp + IHF + Prom + s25 , kf_r25
+  2*Lrp + IHF + Prom -> 2*Lrp + IHF + 2*Prom , ( -1) * (kf_r25)
+  2*Lrp + IHF + Prom -> 2*Lrp + 2*IHF + Prom , ( -1) * (kf_r25)
+  2*Lrp + IHF + Prom -> 3*Lrp + IHF + Prom , ( -2) * (kf_r25)
+  2*Lrp + Prom -> 2*Lrp + Prom + s23 , kf_r23
+  2*Lrp + Prom -> 2*Lrp + 2*Prom , ( -1) * (kf_r23)
+  2*Lrp + Prom -> 3*Lrp + Prom , ( -2) * (kf_r23)
+  3*Lrp + IHF + Prom -> 3*Lrp + IHF + Prom + s26 , kf_r26
+  3*Lrp + IHF + Prom -> 3*Lrp + IHF + 2*Prom , ( -1) * (kf_r26)
+  3*Lrp + IHF + Prom -> 3*Lrp + 2*IHF + Prom , ( -1) * (kf_r26)
+  3*Lrp + IHF + Prom -> 4*Lrp + IHF + Prom , ( -3) * (kf_r26)
+  3*Lrp + Prom -> 3*Lrp + Prom + s24 , kf_r24
+  3*Lrp + Prom -> 3*Lrp + 2*Prom , ( -1) * (kf_r24)
+  3*Lrp + Prom -> 4*Lrp + Prom , ( -3) * (kf_r24)
+  IHF + Prom -> IHF + Prom + s2 , kf_r2
+  IHF + Prom -> IHF + 2*Prom , ( -1) * (kf_r2)
+  IHF + Prom -> 2*IHF + Prom , ( -1) * (kf_r2)
+  HNS + PfimE -> HNS + PfimE + PfimE_HNS , kf_r_PfimE_HNS
+  HNS + PfimE -> HNS + 2*PfimE , ( -1) * (kf_r_PfimE_HNS)
+  HNS + PfimE -> 2*HNS + PfimE , ( -1) * (kf_r_PfimE_HNS)
+  HNS + PfimB -> HNS + PfimB + PfimB_HNS , kf_r_PfimB_HNS
+  HNS + PfimB -> HNS + 2*PfimB , ( -1) * (kf_r_PfimB_HNS)
+  HNS + PfimB -> 2*HNS + PfimB , ( -1) * (kf_r_PfimB_HNS)
+  RNAP + PfimE -> RNAP + PfimE + PfimE_RNAP , kf_r_PfimE_RNAP
+  RNAP + PfimE -> RNAP + 2*PfimE , ( -1) * (kf_r_PfimE_RNAP)
+  RNAP + PfimE -> 2*RNAP + PfimE , ( -1) * (kf_r_PfimE_RNAP)
+  RNAP + PfimB -> RNAP + PfimB + PfimB_RNAP , kf_r_PfimB_RNAP
+  RNAP + PfimB -> RNAP + 2*PfimB , ( -1) * (kf_r_PfimB_RNAP)
+  RNAP + PfimB -> 2*RNAP + PfimB , ( -1) * (kf_r_PfimB_RNAP)
+  s4 -> FimB + s4 , ( -1) * (-(kr_r4))
+  s4 -> IHF + s4 , ( -1) * (-(kr_r4))
+  s4 -> switch + s4 , k_prod4
+  s4 -> s4 + Prom , ( -1) * (-(kr_r4))
+  s4 -> 2*s4 , -(kr_r4)
+  PfimB_RNAP -> FimB + PfimB_RNAP , k_Prod_FimB
+  PfimB_RNAP -> RNAP + PfimB_RNAP , ( -1) * (-(kr_r_PfimB_RNAP))
+  PfimB_RNAP -> PfimB + PfimB_RNAP , ( -1) * (-(kr_r_PfimB_RNAP))
+  PfimB_RNAP -> 2*PfimB_RNAP , -(kr_r_PfimB_RNAP)
+  PfimE_HNS -> HNS + PfimE_HNS , ( -1) * (-(kr_r_PfimE_HNS))
+  PfimE_HNS -> PfimE + PfimE_HNS , ( -1) * (-(kr_r_PfimE_HNS))
+  PfimE_HNS -> 2*PfimE_HNS , -(kr_r_PfimE_HNS)
+  s6 -> FimE + s6 , ( -1) * (-(kr_r6))
+  s6 -> Lrp + s6 , ( -3) * (-(kr_r6))
+  s6 -> IHF + s6 , ( -1) * (-(kr_r6))
+  s6 -> switch + s6 , k_prod6
+  s6 -> Prom + s6 , ( -1) * (-(kr_r6))
+  s6 -> 2*s6 , -(kr_r6)
+  s25 -> Lrp + s25 , ( -2) * (-(kr_r25))
+  s25 -> IHF + s25 , ( -1) * (-(kr_r25))
+  s25 -> Prom + s25 , ( -1) * (-(kr_r25))
+  s25 -> 2*s25 , -(kr_r25)
+  s22 -> FimB + s22 , ( -1) * (-(kr_r22))
+  s22 -> Lrp + s22 , ( -3) * (-(kr_r22))
+  s22 -> Prom + s22 , ( -1) * (-(kr_r22))
+  s22 -> 2*s22 , -(kr_r22)
+  s21 -> FimB + s21 , ( -1) * (-(kr_r21))
+  s21 -> Lrp + s21 , ( -2) * (-(kr_r21))
+  s21 -> Prom + s21 , ( -1) * (-(kr_r21))
+  s21 -> 2*s21 , -(kr_r21)
+  s23 -> Lrp + s23 , ( -2) * (-(kr_r23))
+  s23 -> Prom + s23 , ( -1) * (-(kr_r23))
+  s23 -> 2*s23 , -(kr_r23)
+  s19 -> FimE + s19 , ( -1) * (-(kr_r19))
+  s19 -> Lrp + s19 , ( -2) * (-(kr_r19))
+  s19 -> Prom + s19 , ( -1) * (-(kr_r19))
+  s19 -> 2*s19 , -(kr_r19)
+  s8 -> FimB + s8 , ( -1) * (-(kr_r8))
+  s8 -> Lrp + s8 , ( -3) * (-(kr_r8))
+  s8 -> IHF + s8 , ( -1) * (-(kr_r8))
+  s8 -> switch + s8 , k_prod8
+  s8 -> Prom + s8 , ( -1) * (-(kr_r8))
+  s8 -> 2*s8 , -(kr_r8)
+  PfimE_RNAP -> FimE + PfimE_RNAP , k_Prod_FimE
+  PfimE_RNAP -> RNAP + PfimE_RNAP , ( -1) * (-(kr_r_PfimE_RNAP))
+  PfimE_RNAP -> PfimE + PfimE_RNAP , ( -1) * (-(kr_r_PfimE_RNAP))
+  PfimE_RNAP -> 2*PfimE_RNAP , -(kr_r_PfimE_RNAP)
+  PfimB_HNS -> HNS + PfimB_HNS , ( -1) * (-(kr_r_PfimB_HNS))
+  PfimB_HNS -> PfimB + PfimB_HNS , ( -1) * (-(kr_r_PfimB_HNS))
+  PfimB_HNS -> 2*PfimB_HNS , -(kr_r_PfimB_HNS)
+  s17 -> FimE + s17 , ( -1) * (-(kr_r17))
+  s17 -> Prom + s17 , ( -1) * (-(kr_r17))
+  s17 -> 2*s17 , -(kr_r17)
+  s20 -> FimE + s20 , ( -1) * (-(kr_r20))
+  s20 -> Lrp + s20 , ( -3) * (-(kr_r20))
+  s20 -> Prom + s20 , ( -1) * (-(kr_r20))
+  s20 -> 2*s20 , -(kr_r20)
+  s7 -> FimB + s7 , ( -1) * (-(kr_r7))
+  s7 -> Lrp + s7 , ( -2) * (-(kr_r7))
+  s7 -> IHF + s7 , ( -1) * (-(kr_r7))
+  s7 -> switch + s7 , k_prod7
+  s7 -> Prom + s7 , ( -1) * (-(kr_r7))
+  s7 -> 2*s7 , -(kr_r7)
+  s5 -> FimE + s5 , ( -1) * (-(kr_r5))
+  s5 -> Lrp + s5 , ( -2) * (-(kr_r5))
+  s5 -> IHF + s5 , ( -1) * (-(kr_r5))
+  s5 -> switch + s5 , k_prod5
+  s5 -> Prom + s5 , ( -1) * (-(kr_r5))
+  s5 -> 2*s5 , -(kr_r5)
+  s2 -> IHF + s2 , ( -1) * (-(kr_r2))
+  s2 -> Prom + s2 , ( -1) * (-(kr_r2))
+  s2 -> 2*s2 , -(kr_r2)
+  s26 -> Lrp + s26 , ( -3) * (-(kr_r26))
+  s26 -> IHF + s26 , ( -1) * (-(kr_r26))
+  s26 -> Prom + s26 , ( -1) * (-(kr_r26))
+  s26 -> 2*s26 , -(kr_r26)
+  s3 -> FimE + s3 , ( -1) * (-(kr_r3))
+  s3 -> IHF + s3 , ( -1) * (-(kr_r3))
+  s3 -> switch + s3 , k_prod3
+  s3 -> Prom + s3 , ( -1) * (-(kr_r3))
+  s3 -> 2*s3 , -(kr_r3)
+  s18 -> FimB + s18 , ( -1) * (-(kr_r18))
+  s18 -> Prom + s18 , ( -1) * (-(kr_r18))
+  s18 -> 2*s18 , -(kr_r18)
+  s24 -> Lrp + s24 , ( -3) * (-(kr_r24))
+  s24 -> Prom + s24 , ( -1) * (-(kr_r24))
+  s24 -> 2*s24 , -(kr_r24)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

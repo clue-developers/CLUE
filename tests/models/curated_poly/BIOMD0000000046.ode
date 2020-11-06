@@ -1,0 +1,73 @@
+begin model BIOMD0000000046
+ begin init
+  NADH
+  O2
+  H2O2
+  per3 = 1.4
+  coI
+  ArH = 500.0
+  coII
+  Ar
+  NADrad
+  super
+  coIII
+  per2
+  NAD2
+  NAD
+  O2g = 12.0
+  NADHres
+  I = 1
+ end init
+ begin reactions
+  NADH + O2 -> NADH + O2 + H2O2 , ( 1.0) * (3.0E-6)
+  NADH + O2 -> NADH + O2 + NAD , ( 1.0) * (3.0E-6)
+  NADH + O2 -> NADH + 2*O2 , ( -1) * (( 1.0) * (3.0E-6))
+  NADH + O2 -> 2*NADH + O2 , ( -1) * (( 1.0) * (3.0E-6))
+  NADH + Ar -> NADH + ArH + Ar , ( 1.0) * (0.7)
+  NADH + Ar -> NADH + Ar + NADrad , ( 1.0) * (0.7)
+  NADH + Ar -> NADH + 2*Ar , ( -1) * (( 1.0) * (0.7))
+  NADH + Ar -> 2*NADH + Ar , ( -1) * (( 1.0) * (0.7))
+  O2 -> O2 + O2g , ( 1.0) * (0.006)
+  O2 -> 2*O2 , ( -1) * (( 1.0) * (0.006))
+  O2 + NADrad -> O2 + NADrad + super , ( 1.0) * (20.0)
+  O2 + NADrad -> O2 + NADrad + NAD , ( 1.0) * (20.0)
+  O2 + NADrad -> O2 + 2*NADrad , ( -1) * (( 1.0) * (20.0))
+  O2 + NADrad -> 2*O2 + NADrad , ( -1) * (( 1.0) * (20.0))
+  O2 + per2 -> O2 + coIII + per2 , ( 1.0) * (0.1)
+  O2 + per2 -> O2 + 2*per2 , ( -1) * (( 1.0) * (0.1))
+  O2 + per2 -> 2*O2 + per2 , ( -1) * (( 1.0) * (0.1))
+  H2O2 + per3 -> H2O2 + per3 + coI , ( 1.0) * (18.0)
+  H2O2 + per3 -> H2O2 + 2*per3 , ( -1) * (( 1.0) * (18.0))
+  H2O2 + per3 -> 2*H2O2 + per3 , ( -1) * (( 1.0) * (18.0))
+  per3 + NADrad -> per3 + NADrad + per2 , ( 1.0) * (1.8)
+  per3 + NADrad -> per3 + NADrad + NAD , ( 1.0) * (1.8)
+  per3 + NADrad -> per3 + 2*NADrad , ( -1) * (( 1.0) * (1.8))
+  per3 + NADrad -> 2*per3 + NADrad , ( -1) * (( 1.0) * (1.8))
+  per3 + super -> per3 + super + coIII , ( 1.0) * (17.0)
+  per3 + super -> per3 + 2*super , ( -1) * (( 1.0) * (17.0))
+  per3 + super -> 2*per3 + super , ( -1) * (( 1.0) * (17.0))
+  coI + ArH -> coI + ArH + coII , ( 1.0) * (0.15)
+  coI + ArH -> coI + ArH + Ar , ( 1.0) * (0.15)
+  coI + ArH -> coI + 2*ArH , ( -1) * (( 1.0) * (0.15))
+  coI + ArH -> 2*coI + ArH , ( -1) * (( 1.0) * (0.15))
+  ArH + coII -> per3 + ArH + coII , ( 1.0) * (0.0052)
+  ArH + coII -> ArH + coII + Ar , ( 1.0) * (0.0052)
+  ArH + coII -> ArH + 2*coII , ( -1) * (( 1.0) * (0.0052))
+  ArH + coII -> 2*ArH + coII , ( -1) * (( 1.0) * (0.0052))
+  NADrad + coIII -> coI + NADrad + coIII , ( 1.0) * (40.0)
+  NADrad + coIII -> NADrad + coIII + NAD , ( 1.0) * (40.0)
+  NADrad + coIII -> NADrad + 2*coIII , ( -1) * (( 1.0) * (40.0))
+  NADrad + coIII -> 2*NADrad + coIII , ( -1) * (( 1.0) * (40.0))
+  2*NADrad -> 2*NADrad + NAD2 , ( 1.0) * (60.0)
+  2*NADrad -> 3*NADrad , ( -2) * (( 1.0) * (60.0))
+  2*super -> O2 + 2*super , ( 1.0) * (20.0)
+  2*super -> H2O2 + 2*super , ( 1.0) * (20.0)
+  2*super -> 3*super , ( -2) * (( 1.0) * (20.0))
+  O2g -> O2 + O2g , ( 1.0) * (0.006)
+  O2g -> 2*O2g , ( -1) * (( 1.0) * (0.006))
+  I -> NADH + I , ( 1.0) * (0.08)
+  I -> NADHres + I , ( -1) * (( 1.0) * (0.08))
+ end reactions
+
+end model
+

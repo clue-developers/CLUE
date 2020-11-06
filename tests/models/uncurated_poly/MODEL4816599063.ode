@@ -1,0 +1,74 @@
+begin model MODEL4816599063
+ begin parameters
+  k1 = 0.35
+  k_1 = 0.35
+  k2 = 200.0
+  k_2 = 120.0
+  k3 = 0.4
+  k_3 = 0.4
+  k4 = 80.0
+  k_4 = 3.2
+  k5 = 4.0
+  k_5 = 0.0
+  k6 = 35.0
+  k_6 = 0.0
+  k7 = 0.3
+  k_7 = 0.7
+  k8 = 0.5
+  k_8 = 0.0
+  EPratio = 0.0
+ end parameters
+ begin init
+  E2Aux = 0.0333
+  E1Aux
+  Ca2plus = 0.268
+  Ca_E1Aux
+  Ca_E1Auxprime
+  Ca2_E1Auxprime
+  ATP = 1.0
+  ATP_Ca2_E1Auxprime
+  ADP
+  EP
+  EPi
+  Pi
+ end init
+ begin reactions
+  E2Aux -> E2Aux + E1Aux , ( 1.0) * (k1)
+  E2Aux -> 2*E2Aux , ( -1) * (( 1.0) * (k1))
+  E2Aux + Pi -> E2Aux + EPi + Pi , ( -1) * (( 1.0) * (-(k_8)))
+  E2Aux + Pi -> E2Aux + 2*Pi , ( 1.0) * (-(k_8))
+  E2Aux + Pi -> 2*E2Aux + Pi , ( 1.0) * (-(k_8))
+  E1Aux -> E2Aux + E1Aux , ( -1) * (( 1.0) * (-(k_1)))
+  E1Aux -> 2*E1Aux , ( 1.0) * (-(k_1))
+  E1Aux + Ca2plus -> E1Aux + Ca2plus + Ca_E1Aux , ( 1.0) * (k2)
+  E1Aux + Ca2plus -> 2*E1Aux + Ca2plus , ( -1) * (( 1.0) * (k2))
+  Ca2plus + Ca_E1Auxprime -> Ca2plus + Ca_E1Auxprime + Ca2_E1Auxprime , ( 1.0) * (k4)
+  Ca2plus + Ca_E1Auxprime -> Ca2plus + 2*Ca_E1Auxprime , ( -1) * (( 1.0) * (k4))
+  Ca_E1Aux -> E1Aux + Ca_E1Aux , ( -1) * (( 1.0) * (-(k_2)))
+  Ca_E1Aux -> Ca_E1Aux + Ca_E1Auxprime , ( 1.0) * (k3)
+  Ca_E1Aux -> 2*Ca_E1Aux , ( 1.0) * (-(k_2))+( -1) * (( 1.0) * (k3))
+  Ca_E1Auxprime -> Ca_E1Aux + Ca_E1Auxprime , ( -1) * (( 1.0) * (-(k_3)))
+  Ca_E1Auxprime -> 2*Ca_E1Auxprime , ( 1.0) * (-(k_3))
+  Ca2_E1Auxprime -> Ca_E1Auxprime + Ca2_E1Auxprime , ( -1) * (( 1.0) * (-(k_4)))
+  Ca2_E1Auxprime -> 2*Ca2_E1Auxprime , ( 1.0) * (-(k_4))
+  Ca2_E1Auxprime + ATP -> Ca2_E1Auxprime + ATP + ATP_Ca2_E1Auxprime , ( 1.0) * (k5)
+  Ca2_E1Auxprime + ATP -> Ca2_E1Auxprime + 2*ATP , ( -1) * (( 1.0) * (k5))
+  Ca2_E1Auxprime + ATP -> 2*Ca2_E1Auxprime + ATP , ( -1) * (( 1.0) * (k5))
+  ATP_Ca2_E1Auxprime -> Ca2_E1Auxprime + ATP_Ca2_E1Auxprime , ( -1) * (( 1.0) * (-(k_5)))
+  ATP_Ca2_E1Auxprime -> ATP + ATP_Ca2_E1Auxprime , ( -1) * (( 1.0) * (-(k_5)))
+  ATP_Ca2_E1Auxprime -> ATP_Ca2_E1Auxprime + ADP , ( 1.0) * (k6)
+  ATP_Ca2_E1Auxprime -> ATP_Ca2_E1Auxprime + EP , ( 1.0) * (k6)
+  ATP_Ca2_E1Auxprime -> 2*ATP_Ca2_E1Auxprime , ( -1) * (( 1.0) * (k6))+( 1.0) * (-(k_5))
+  ADP + EP -> ATP_Ca2_E1Auxprime + ADP + EP , ( -1) * (( 1.0) * (-(k_6)))
+  ADP + EP -> ADP + 2*EP , ( 1.0) * (-(k_6))
+  ADP + EP -> 2*ADP + EP , ( 1.0) * (-(k_6))
+  EP -> EP + EPi , ( 1.0) * (k7)
+  EP -> 2*EP , ( -1) * (( 1.0) * (k7))
+  EPi -> E2Aux + EPi , ( 1.0) * (k8)
+  EPi -> EP + EPi , ( -1) * (( 1.0) * (-(k_7)))
+  EPi -> EPi + Pi , ( 1.0) * (k8)
+  EPi -> 2*EPi , ( 1.0) * (-(k_7))+( -1) * (( 1.0) * (k8))
+ end reactions
+
+end model
+

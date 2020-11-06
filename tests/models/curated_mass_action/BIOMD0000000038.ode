@@ -1,0 +1,45 @@
+begin model BIOMD0000000038
+ begin init
+  EI = 3.0
+  PyrPI
+  EIP = 2.0
+  HPr = 25.0
+  EIPHPr
+  HPrP = 25.0
+  EIIA = 20.0
+  HPrPIIA
+  EIIAP = 20.0
+  EIICB = 5.0
+  EIIAPIICB
+  EIICBP = 5.0
+  EIICBPGlc
+  PEP = 2800.0
+  Pyr = 900.0
+  GlcP = 50.0
+  Glc = 500.0
+ end init
+ begin reactions
+  EI + PEP -> PyrPI , ( 1.0) * (1960.0) [v1_forw]
+  PyrPI -> EI + PEP , ( -1) * (( 1.0) * (-(480000.0))) [v1_rev]
+  PyrPI -> EIP + Pyr , ( 1.0) * (108000.0) [v2_forw]
+  EIP + Pyr -> PyrPI , ( -1) * (( 1.0) * (-(294.0))) [v2_rev]
+  EIP + HPr -> EIPHPr , ( 1.0) * (14000.0) [v3_forw]
+  EIPHPr -> EIP + HPr , ( -1) * (( 1.0) * (-(14000.0))) [v3_rev]
+  EIPHPr -> EI + HPrP , ( 1.0) * (84000.0) [v4_forw]
+  EI + HPrP -> EIPHPr , ( -1) * (( 1.0) * (-(3360.0))) [v4_rev]
+  HPrP + EIIA -> HPrPIIA , ( 1.0) * (21960.0) [v5_forw]
+  HPrPIIA -> HPrP + EIIA , ( -1) * (( 1.0) * (-(21960.0))) [v5_rev]
+  HPrPIIA -> HPr + EIIAP , ( 1.0) * (4392.0) [v6_forw]
+  HPr + EIIAP -> HPrPIIA , ( -1) * (( 1.0) * (-(3384.0))) [v6_rev]
+  EIIAP + EIICB -> EIIAPIICB , ( 1.0) * (880.0) [v7_forw]
+  EIIAPIICB -> EIIAP + EIICB , ( -1) * (( 1.0) * (-(880.0))) [v7_rev]
+  EIIAPIICB -> EIIA + EIICBP , ( 1.0) * (2640.0) [v8_forw]
+  EIIA + EIICBP -> EIIAPIICB , ( -1) * (( 1.0) * (-(960.0))) [v8_rev]
+  EIICBP + Glc -> EIICBPGlc , ( 1.0) * (260.0) [v9_forw]
+  EIICBPGlc -> EIICBP + Glc , ( -1) * (( 1.0) * (-(389.0))) [v9_rev]
+  EIICBPGlc -> EIICB + GlcP , ( 1.0) * (4800.0) [v10_forw]
+  EIICB + GlcP -> EIICBPGlc , ( -1) * (( 1.0) * (-(0.0054))) [v10_rev]
+ end reactions
+
+end model
+

@@ -1,0 +1,23 @@
+begin model BIOMD0000000282
+ begin parameters
+  k1 = 11.0
+  k2 = 0.0
+  k4_prime = 16.6
+  k4 = 0.72
+ end parameters
+ begin init
+  e = 1.36 ( "enzyme E (catalase)" ) 
+  x = 2.0 ( "substrate S (hydrogen peroxide)" ) 
+  p ( "enzyme-substrate complex ES (catalase - hydrogen peroxide)" ) 
+  p1 ( "product 1" ) 
+  a ( "donor AH2" ) 
+  p2 ( "product 2" ) 
+ end init
+ begin reactions
+  e + x -> p , ( 1.0) * (k1) [r1_forw]
+  x + p -> e + p1 , ( 1.0) * (k4_prime) [r2_forw]
+  p + a -> e + a + p2 , ( 1.0) * (k4) [r3_forw]
+ end reactions
+
+end model
+

@@ -1,0 +1,17 @@
+begin model BIOMD0000000629
+ begin init
+  L = 5.0E-4 ( "Ligand" ) 
+  LR ( "Ligand-Receptor" ) 
+  R = 0.0035 ( "Receptor" ) 
+  CA = 30.0 ( "CoActivator" ) 
+  LRCA ( "Ligand-Receptor-CoActivator" ) 
+ end init
+ begin reactions
+  L + R -> LR , ( 1.0) * (0.6) [LR_complx_forw]
+  LR -> L + R , ( -1) * (( 1.0) * (-(0.1))) [LR_complx_rev]
+  LR + CA -> LRCA , ( 1.0) * (0.014) [LRCA_complx_forw]
+  LRCA -> LR + CA , ( -1) * (( 1.0) * (-(0.2))) [LRCA_complx_rev]
+ end reactions
+
+end model
+

@@ -1,0 +1,253 @@
+begin model MODEL1604100000
+ begin parameters
+  ek_on = 1.0E-4
+  ek_off = 10.0
+  ek_cat = 10.0
+  fk_on = 1.0E-4
+  fk_off = 10.0
+  fk_cat = 10.0
+  zap_on = 1.0
+  zap_off1 = 10.0
+  zap_off2 = 1.0
+  zap_off3 = 0.1
+  E_T = 100.0
+  F_T = 100.0
+  S_T = 100.0
+  Z_T = 5000.0
+  Bound_ZAP = 0.0
+  Szero = 0.0
+  Sone = 0.0
+  Stwo = 0.0
+  Sthree = 0.0
+  Sfour = 0.0
+  Sfive = 0.0
+  Ssix = 0.0
+ end parameters
+ begin init
+  S1 = 100.0 ( "S(Y1~U,Y2~U,Y3~U,b~0)" ) 
+  S2 = 100.0 ( "E(b)" ) 
+  S3 = 100.0 ( "F(b)" ) 
+  S4 = 5000.0 ( "Z(b)" ) 
+  S5 ( "E(b!1).S(Y1~U!1,Y2~U,Y3~U,b~1)" ) 
+  S6 ( "S(Y1~P,Y2~U,Y3~U,b~0)" ) 
+  S7 ( "F(b!1).S(Y1~P!1,Y2~U,Y3~U,b~1)" ) 
+  S8 ( "E(b!1).S(Y1~P!1,Y2~U,Y3~U,b~1)" ) 
+  S9 ( "S(Y1~2P,Y2~U,Y3~U,b~0)" ) 
+  S10 ( "F(b!1).S(Y1~2P!1,Y2~U,Y3~U,b~1)" ) 
+  S11 ( "E(b!1).S(Y1~2P,Y2~U!1,Y3~U,b~1)" ) 
+  S12 ( "S(Y1~2P!1,Y2~U,Y3~U,b~0).Z(b!1)" ) 
+  S13 ( "E(b!1).S(Y1~2P!2,Y2~U!1,Y3~U,b~1).Z(b!2)" ) 
+  S14 ( "S(Y1~2P,Y2~P,Y3~U,b~0)" ) 
+  S15 ( "S(Y1~2P!1,Y2~P,Y3~U,b~0).Z(b!1)" ) 
+  S16 ( "F(b!1).S(Y1~2P,Y2~P!1,Y3~U,b~1)" ) 
+  S17 ( "E(b!1).S(Y1~2P,Y2~P!1,Y3~U,b~1)" ) 
+  S18 ( "F(b!1).S(Y1~2P!2,Y2~P!1,Y3~U,b~1).Z(b!2)" ) 
+  S19 ( "E(b!1).S(Y1~2P!2,Y2~P!1,Y3~U,b~1).Z(b!2)" ) 
+  S20 ( "S(Y1~2P,Y2~2P,Y3~U,b~0)" ) 
+  S21 ( "S(Y1~2P!1,Y2~2P,Y3~U,b~0).Z(b!1)" ) 
+  S22 ( "F(b!1).S(Y1~2P,Y2~2P!1,Y3~U,b~1)" ) 
+  S23 ( "E(b!1).S(Y1~2P,Y2~2P,Y3~U!1,b~1)" ) 
+  S24 ( "S(Y1~2P,Y2~2P!1,Y3~U,b~0).Z(b!1)" ) 
+  S25 ( "F(b!1).S(Y1~2P!2,Y2~2P!1,Y3~U,b~1).Z(b!2)" ) 
+  S26 ( "E(b!1).S(Y1~2P!2,Y2~2P,Y3~U!1,b~1).Z(b!2)" ) 
+  S27 ( "E(b!1).S(Y1~2P,Y2~2P!2,Y3~U!1,b~1).Z(b!2)" ) 
+  S28 ( "S(Y1~2P,Y2~2P,Y3~P,b~0)" ) 
+  S29 ( "S(Y1~2P!1,Y2~2P!2,Y3~U,b~0).Z(b!1).Z(b!2)" ) 
+  S30 ( "E(b!1).S(Y1~2P!2,Y2~2P!3,Y3~U!1,b~1).Z(b!2).Z(b!3)" ) 
+  S31 ( "S(Y1~2P!1,Y2~2P,Y3~P,b~0).Z(b!1)" ) 
+  S32 ( "S(Y1~2P,Y2~2P!1,Y3~P,b~0).Z(b!1)" ) 
+  S33 ( "F(b!1).S(Y1~2P,Y2~2P,Y3~P!1,b~1)" ) 
+  S34 ( "E(b!1).S(Y1~2P,Y2~2P,Y3~P!1,b~1)" ) 
+  S35 ( "S(Y1~2P!1,Y2~2P!2,Y3~P,b~0).Z(b!1).Z(b!2)" ) 
+  S36 ( "F(b!1).S(Y1~2P!2,Y2~2P,Y3~P!1,b~1).Z(b!2)" ) 
+  S37 ( "F(b!1).S(Y1~2P,Y2~2P!2,Y3~P!1,b~1).Z(b!2)" ) 
+  S38 ( "E(b!1).S(Y1~2P!2,Y2~2P,Y3~P!1,b~1).Z(b!2)" ) 
+  S39 ( "E(b!1).S(Y1~2P,Y2~2P!2,Y3~P!1,b~1).Z(b!2)" ) 
+  S40 ( "S(Y1~2P,Y2~2P,Y3~2P,b~0)" ) 
+  S41 ( "F(b!1).S(Y1~2P!2,Y2~2P!3,Y3~P!1,b~1).Z(b!2).Z(b!3)" ) 
+  S42 ( "E(b!1).S(Y1~2P!2,Y2~2P!3,Y3~P!1,b~1).Z(b!2).Z(b!3)" ) 
+  S43 ( "S(Y1~2P!1,Y2~2P,Y3~2P,b~0).Z(b!1)" ) 
+  S44 ( "S(Y1~2P,Y2~2P!1,Y3~2P,b~0).Z(b!1)" ) 
+  S45 ( "F(b!1).S(Y1~2P,Y2~2P,Y3~2P!1,b~1)" ) 
+  S46 ( "S(Y1~2P,Y2~2P,Y3~2P!1,b~0).Z(b!1)" ) 
+  S47 ( "S(Y1~2P!1,Y2~2P!2,Y3~2P,b~0).Z(b!1).Z(b!2)" ) 
+  S48 ( "F(b!1).S(Y1~2P!2,Y2~2P,Y3~2P!1,b~1).Z(b!2)" ) 
+  S49 ( "F(b!1).S(Y1~2P,Y2~2P!2,Y3~2P!1,b~1).Z(b!2)" ) 
+  S50 ( "S(Y1~2P!1,Y2~2P,Y3~2P!2,b~0).Z(b!1).Z(b!2)" ) 
+  S51 ( "S(Y1~2P,Y2~2P!1,Y3~2P!2,b~0).Z(b!1).Z(b!2)" ) 
+  S52 ( "F(b!1).S(Y1~2P!2,Y2~2P!3,Y3~2P!1,b~1).Z(b!2).Z(b!3)" ) 
+  S53 ( "S(Y1~2P!1,Y2~2P!2,Y3~2P!3,b~0).Z(b!1).Z(b!2).Z(b!3)" ) 
+ end init
+ begin reactions
+  S1 + S2 -> S5 , ek_on [R1_forw]
+  S5 -> S1 + S2 , ek_off [R2_forw]
+  S5 -> S2 + S6 , ek_cat [R3_forw]
+  S3 + S6 -> S7 , fk_on [R4_forw]
+  S2 + S6 -> S8 , ek_on [R5_forw]
+  S7 -> S3 + S6 , fk_off [R6_forw]
+  S7 -> S1 + S3 , fk_cat [R7_forw]
+  S8 -> S2 + S6 , ek_off [R8_forw]
+  S8 -> S2 + S9 , ek_cat [R9_forw]
+  S3 + S9 -> S10 , fk_on [R10_forw]
+  S2 + S9 -> S11 , ek_on [R11_forw]
+  S4 + S9 -> S12 , zap_on [R12_forw]
+  S10 -> S3 + S9 , fk_off [R13_forw]
+  S10 -> S3 + S6 , fk_cat [R14_forw]
+  S2 + S12 -> S13 , ek_on [R15_forw]
+  S11 -> S2 + S9 , ek_off [R16_forw]
+  S11 -> S2 + S14 , ek_cat [R17_forw]
+  S4 + S11 -> S13 , zap_on [R18_forw]
+  S12 -> S4 + S9 , zap_off1 [R19_forw]
+  S13 -> S2 + S12 , ek_off [R20_forw]
+  S13 -> S2 + S15 , ek_cat [R21_forw]
+  S3 + S14 -> S16 , fk_on [R22_forw]
+  S2 + S14 -> S17 , ek_on [R23_forw]
+  S4 + S14 -> S15 , zap_on [R24_forw]
+  S13 -> S4 + S11 , zap_off1 [R25_forw]
+  S3 + S15 -> S18 , fk_on [R26_forw]
+  S16 -> S3 + S14 , fk_off [R27_forw]
+  S16 -> S3 + S9 , fk_cat [R28_forw]
+  S2 + S15 -> S19 , ek_on [R29_forw]
+  S17 -> S2 + S14 , ek_off [R30_forw]
+  S17 -> S2 + S20 , ek_cat [R31_forw]
+  S4 + S16 -> S18 , zap_on [R32_forw]
+  S4 + S17 -> S19 , zap_on [R33_forw]
+  S15 -> S4 + S14 , zap_off1 [R34_forw]
+  S18 -> S3 + S15 , fk_off [R35_forw]
+  S18 -> S3 + S12 , fk_cat [R36_forw]
+  S19 -> S2 + S15 , ek_off [R37_forw]
+  S19 -> S2 + S21 , ek_cat [R38_forw]
+  S3 + S20 -> S22 , fk_on [R39_forw]
+  S2 + S20 -> S23 , ek_on [R40_forw]
+  S4 + S20 -> S21 , zap_on [R41_forw]
+  S18 -> S4 + S16 , zap_off1 [R42_forw]
+  S19 -> S4 + S17 , zap_off1 [R43_forw]
+  S4 + S20 -> S24 , zap_on [R44_forw]
+  S3 + S21 -> S25 , fk_on [R45_forw]
+  S22 -> S3 + S20 , fk_off [R46_forw]
+  S22 -> S3 + S14 , fk_cat [R47_forw]
+  S2 + S21 -> S26 , ek_on [R48_forw]
+  S2 + S24 -> S27 , ek_on [R49_forw]
+  S23 -> S2 + S20 , ek_off [R50_forw]
+  S23 -> S2 + S28 , ek_cat [R51_forw]
+  S4 + S22 -> S25 , zap_on [R52_forw]
+  S4 + S23 -> S26 , zap_on [R53_forw]
+  S4 + S24 -> S29 , zap_on [R54_forw]
+  S21 -> S4 + S20 , zap_off1 [R55_forw]
+  S4 + S21 -> S29 , zap_on [R56_forw]
+  S4 + S23 -> S27 , zap_on [R57_forw]
+  S24 -> S4 + S20 , zap_off2 [R58_forw]
+  S25 -> S3 + S21 , fk_off [R59_forw]
+  S25 -> S3 + S15 , fk_cat [R60_forw]
+  S2 + S29 -> S30 , ek_on [R61_forw]
+  S26 -> S2 + S21 , ek_off [R62_forw]
+  S27 -> S2 + S24 , ek_off [R63_forw]
+  S26 -> S2 + S31 , ek_cat [R64_forw]
+  S27 -> S2 + S32 , ek_cat [R65_forw]
+  S3 + S28 -> S33 , fk_on [R66_forw]
+  S2 + S28 -> S34 , ek_on [R67_forw]
+  S4 + S27 -> S30 , zap_on [R68_forw]
+  S4 + S28 -> S31 , zap_on [R69_forw]
+  S25 -> S4 + S22 , zap_off1 [R70_forw]
+  S26 -> S4 + S23 , zap_off1 [R71_forw]
+  S29 -> S4 + S24 , zap_off1 [R72_forw]
+  S4 + S26 -> S30 , zap_on [R73_forw]
+  S4 + S28 -> S32 , zap_on [R74_forw]
+  S27 -> S4 + S23 , zap_off2 [R75_forw]
+  S29 -> S4 + S21 , zap_off2 [R76_forw]
+  S30 -> S2 + S29 , ek_off [R77_forw]
+  S30 -> S2 + S35 , ek_cat [R78_forw]
+  S3 + S31 -> S36 , fk_on [R79_forw]
+  S3 + S32 -> S37 , fk_on [R80_forw]
+  S33 -> S3 + S28 , fk_off [R81_forw]
+  S33 -> S3 + S20 , fk_cat [R82_forw]
+  S2 + S31 -> S38 , ek_on [R83_forw]
+  S2 + S32 -> S39 , ek_on [R84_forw]
+  S34 -> S2 + S28 , ek_off [R85_forw]
+  S34 -> S2 + S40 , ek_cat [R86_forw]
+  S4 + S32 -> S35 , zap_on [R87_forw]
+  S4 + S33 -> S36 , zap_on [R88_forw]
+  S4 + S34 -> S38 , zap_on [R89_forw]
+  S30 -> S4 + S27 , zap_off1 [R90_forw]
+  S31 -> S4 + S28 , zap_off1 [R91_forw]
+  S4 + S31 -> S35 , zap_on [R92_forw]
+  S4 + S33 -> S37 , zap_on [R93_forw]
+  S4 + S34 -> S39 , zap_on [R94_forw]
+  S30 -> S4 + S26 , zap_off2 [R95_forw]
+  S32 -> S4 + S28 , zap_off2 [R96_forw]
+  S3 + S35 -> S41 , fk_on [R97_forw]
+  S36 -> S3 + S31 , fk_off [R98_forw]
+  S37 -> S3 + S32 , fk_off [R99_forw]
+  S36 -> S3 + S21 , fk_cat [R100_forw]
+  S37 -> S3 + S24 , fk_cat [R101_forw]
+  S2 + S35 -> S42 , ek_on [R102_forw]
+  S38 -> S2 + S31 , ek_off [R103_forw]
+  S39 -> S2 + S32 , ek_off [R104_forw]
+  S38 -> S2 + S43 , ek_cat [R105_forw]
+  S39 -> S2 + S44 , ek_cat [R106_forw]
+  S3 + S40 -> S45 , fk_on [R107_forw]
+  S4 + S37 -> S41 , zap_on [R108_forw]
+  S4 + S39 -> S42 , zap_on [R109_forw]
+  S4 + S40 -> S43 , zap_on [R110_forw]
+  S35 -> S4 + S32 , zap_off1 [R111_forw]
+  S36 -> S4 + S33 , zap_off1 [R112_forw]
+  S38 -> S4 + S34 , zap_off1 [R113_forw]
+  S4 + S36 -> S41 , zap_on [R114_forw]
+  S4 + S38 -> S42 , zap_on [R115_forw]
+  S4 + S40 -> S44 , zap_on [R116_forw]
+  S35 -> S4 + S31 , zap_off2 [R117_forw]
+  S37 -> S4 + S33 , zap_off2 [R118_forw]
+  S39 -> S4 + S34 , zap_off2 [R119_forw]
+  S4 + S40 -> S46 , zap_on [R120_forw]
+  S41 -> S3 + S35 , fk_off [R121_forw]
+  S41 -> S3 + S29 , fk_cat [R122_forw]
+  S42 -> S2 + S35 , ek_off [R123_forw]
+  S42 -> S2 + S47 , ek_cat [R124_forw]
+  S3 + S43 -> S48 , fk_on [R125_forw]
+  S3 + S44 -> S49 , fk_on [R126_forw]
+  S45 -> S3 + S40 , fk_off [R127_forw]
+  S45 -> S3 + S28 , fk_cat [R128_forw]
+  S4 + S44 -> S47 , zap_on [R129_forw]
+  S4 + S45 -> S48 , zap_on [R130_forw]
+  S4 + S46 -> S50 , zap_on [R131_forw]
+  S41 -> S4 + S37 , zap_off1 [R132_forw]
+  S42 -> S4 + S39 , zap_off1 [R133_forw]
+  S43 -> S4 + S40 , zap_off1 [R134_forw]
+  S4 + S43 -> S47 , zap_on [R135_forw]
+  S4 + S45 -> S49 , zap_on [R136_forw]
+  S4 + S46 -> S51 , zap_on [R137_forw]
+  S41 -> S4 + S36 , zap_off2 [R138_forw]
+  S42 -> S4 + S38 , zap_off2 [R139_forw]
+  S44 -> S4 + S40 , zap_off2 [R140_forw]
+  S4 + S43 -> S50 , zap_on [R141_forw]
+  S4 + S44 -> S51 , zap_on [R142_forw]
+  S46 -> S4 + S40 , zap_off3 [R143_forw]
+  S3 + S47 -> S52 , fk_on [R144_forw]
+  S48 -> S3 + S43 , fk_off [R145_forw]
+  S49 -> S3 + S44 , fk_off [R146_forw]
+  S48 -> S3 + S31 , fk_cat [R147_forw]
+  S49 -> S3 + S32 , fk_cat [R148_forw]
+  S4 + S49 -> S52 , zap_on [R149_forw]
+  S4 + S51 -> S53 , zap_on [R150_forw]
+  S47 -> S4 + S44 , zap_off1 [R151_forw]
+  S48 -> S4 + S45 , zap_off1 [R152_forw]
+  S50 -> S4 + S46 , zap_off1 [R153_forw]
+  S4 + S48 -> S52 , zap_on [R154_forw]
+  S4 + S50 -> S53 , zap_on [R155_forw]
+  S47 -> S4 + S43 , zap_off2 [R156_forw]
+  S49 -> S4 + S45 , zap_off2 [R157_forw]
+  S51 -> S4 + S46 , zap_off2 [R158_forw]
+  S4 + S47 -> S53 , zap_on [R159_forw]
+  S50 -> S4 + S43 , zap_off3 [R160_forw]
+  S51 -> S4 + S44 , zap_off3 [R161_forw]
+  S52 -> S3 + S47 , fk_off [R162_forw]
+  S52 -> S3 + S35 , fk_cat [R163_forw]
+  S52 -> S4 + S49 , zap_off1 [R164_forw]
+  S53 -> S4 + S51 , zap_off1 [R165_forw]
+  S52 -> S4 + S48 , zap_off2 [R166_forw]
+  S53 -> S4 + S50 , zap_off2 [R167_forw]
+  S53 -> S4 + S47 , zap_off3 [R168_forw]
+ end reactions
+
+end model
+

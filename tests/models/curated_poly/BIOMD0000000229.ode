@@ -1,0 +1,55 @@
+begin model BIIOMD0000000229
+ begin parameters
+  k1 = 2.0
+  k2 = 0.9
+  k3 = 2.5
+  k4 = 1.5
+  k5 = 0.6
+  k6 = 0.8
+  k7 = 1.0
+  k8 = 1.3
+  k9 = 0.3
+  k10 = 0.8
+  k11 = 0.7
+  k12 = 4.9
+  k13 = 23.0
+  k14 = 4.5
+ end parameters
+ begin init
+  ACA = 3.39
+  CAR1 = 2.45
+  PKA = 1.6
+  incAMP = 1.2
+  ERK2 = 1.13
+  REGA = 0.9
+  excAMP = 0.48
+  SIINK
+  source = 1.0
+  II = 1
+ end init
+ begin reactions
+  ACA -> ACA + incAMP , k9
+  ACA -> ACA + excAMP , k11
+  ACA + PKA -> 2*ACA + PKA , ( -1) * (k2)
+  CAR1 -> ACA + CAR1 , k1
+  CAR1 -> CAR1 + ERK2 , k5
+  CAR1 -> CAR1 + SIINK , ( -1) * (k14)
+  CAR1 -> 2*CAR1 , k14
+  PKA -> PKA + SIINK , ( -1) * (k4)
+  PKA -> 2*PKA , k4
+  PKA + ERK2 -> PKA + 2*ERK2 , ( -1) * (k6)
+  incAMP -> PKA + incAMP , k3
+  incAMP + REGA -> 2*incAMP + REGA , ( -1) * (k10)
+  ERK2 + REGA -> ERK2 + 2*REGA , ( -1) * (k8)
+  excAMP -> CAR1 + excAMP , k13
+  excAMP -> excAMP + SIINK , ( -1) * (k12)
+  excAMP -> 2*excAMP , k12
+  II -> REGA + II , k7
+ end reactions
+
+//Comments associated to the species
+//SIINK:  
+  //This is the null species. IIt has been added because some reactions became with empty products after the transformations.
+
+end model
+

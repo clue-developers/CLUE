@@ -1,0 +1,36 @@
+begin model BIOMD0000000487
+ begin parameters
+  k1 = 1.0
+  k2 = 1.0
+  k3 = 0.1
+  k4 = 1.0
+  k5 = 1.0
+  k6 = 0.1
+ end parameters
+ begin init
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+ end init
+ begin reactions
+  S1 + S2 -> S1 + S2 + S3 , k1
+  S1 + S2 -> S1 + 2*S2 , ( -1) * (k1)
+  S1 + S2 -> 2*S1 + S2 , ( -1) * (k1)
+  S3 -> S1 + S3 , k3+k2
+  S3 -> S2 + S3 , k2
+  S3 -> S3 + S5 , k3
+  S3 -> 2*S3 , ( -1) * (k2)+( -1) * (k3)
+  S4 + S5 -> S4 + S5 + S6 , k4
+  S4 + S5 -> S4 + 2*S5 , ( -1) * (k4)
+  S4 + S5 -> 2*S4 + S5 , ( -1) * (k4)
+  S6 -> S2 + S6 , k6
+  S6 -> S4 + S6 , k6+k5
+  S6 -> S5 + S6 , k5
+  S6 -> 2*S6 , ( -1) * (k5)+( -1) * (k6)
+ end reactions
+
+end model
+

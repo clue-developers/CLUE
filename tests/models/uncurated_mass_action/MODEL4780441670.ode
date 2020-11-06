@@ -1,0 +1,25 @@
+begin model MODEL4780441670
+ begin init
+  GC_slash_NO_sGCpart_act
+  GC_slash_NO_sGCfull_act
+  GC_slash_NO_sGCfull_act_slash_full_act_sGC_slash_full_act_sGC_cplx
+  GC_slash_GTP = 1000.0
+  GC_slash_cGMP
+  GC_slash_NO_a = 0.1
+  GC_slash_sGC_basal = 3.0
+  GC_slash_NO
+ end init
+ begin reactions
+  GC_slash_sGC_basal + GC_slash_NO -> GC_slash_NO_sGCpart_act , 1.63333333333333E-15 [GC_slash_NObind_sGC_forw]
+  GC_slash_NO_sGCpart_act -> GC_slash_sGC_basal + GC_slash_NO , ( -1) * (-(5.83333333333333E-16)) [GC_slash_NObind_sGC_rev]
+  GC_slash_NO_sGCpart_act + GC_slash_NO_a -> GC_slash_NO_sGCfull_act , 2.8E-18 [GC_slash_NOdepPway_forw]
+  GC_slash_NO_sGCpart_act -> GC_slash_NO_sGCfull_act , 1.015E-19 [GC_slash_NOindePway_forw]
+  GC_slash_NO_sGCfull_act -> GC_slash_NO_sGCpart_act , ( -1) * (-(2.33333333333333E-20)) [GC_slash_NOindePway_rev]
+  GC_slash_NO_sGCfull_act -> GC_slash_sGC_basal + GC_slash_NO , 1.16666666666667E-19 [GC_slash_dissoNO_forw]
+  GC_slash_NO_sGCfull_act + GC_slash_GTP -> GC_slash_NO_sGCfull_act_slash_full_act_sGC_slash_full_act_sGC_cplx , 5.74716666666667E-18 [GC_slash_NO_sGCfull_act_slash_full_act_sGC_1_forw]
+  GC_slash_NO_sGCfull_act_slash_full_act_sGC_slash_full_act_sGC_cplx -> GC_slash_NO_sGCfull_act + GC_slash_GTP , ( -1) * (-(2.66666666666667E-16)) [GC_slash_NO_sGCfull_act_slash_full_act_sGC_1_rev]
+  GC_slash_NO_sGCfull_act_slash_full_act_sGC_slash_full_act_sGC_cplx -> GC_slash_NO_sGCfull_act + GC_slash_cGMP , 6.66666666666667E-17 [GC_slash_NO_sGCfull_act_slash_full_act_sGC_2_forw]
+ end reactions
+
+end model
+

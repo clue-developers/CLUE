@@ -1,0 +1,124 @@
+begin model BIOMD0000000270
+ begin parameters
+  JAK2_phosphorylation_by_Epo = 0.0122149
+  EpoR_phosphorylation_by_pJAK2 = 3.15714
+  SHP1_activation_by_pEpoR = 0.408408
+  SHP1_delay = 0.408408
+  actSHP1_deactivation = 0.0248773
+  pEpoR_dephosphorylation_by_actSHP1 = 1.19995
+  pJAK2_dephosphorylation_by_actSHP1 = 0.368384
+  SOS_recruitment_by_pEpoR = 0.10271
+  mSOS_release_from_membrane = 15.5956
+  mSOS_induced_Raf_phosphorylation = 0.144515
+  pRaf_dephosphorylation = 0.374228
+  First_MEK2_phosphorylation_by_pRaf = 3.11919
+  Second_MEK2_phosphorylation_by_pRaf = 215.158
+  First_MEK1_phosphorylation_by_pRaf = 0.687193
+  Second_MEK1_phosphorylation_by_pRaf = 667.957
+  First_MEK_dephosphorylation = 0.130937
+  Second_MEK_dephosphorylation = 0.0732724
+  First_ERK1_phosphorylation_by_ppMEK = 2.4927
+  Second_ERK1_phosphorylation_by_ppMEK = 59.5251
+  First_ERK2_phosphorylation_by_ppMEK = 2.44361
+  Second_ERK2_phosphorylation_by_ppMEK = 53.0816
+  First_ERK_dephosphorylation = 39.0886
+  Second_ERK_dephosphorylation = 3.00453
+  ppERK_neg_feedback_on_mSOS = 5122.68
+  pSOS_dephosphorylation = 0.124944
+  scale_pEpoR = 0.493312
+  scale_pJAK2 = 0.21008
+  scale_ppERK = 13.5981
+  scale_SOS = 1.10228
+  scale_ppMEK = 40.5364
+  rescaled_pEpoR = 0.0
+  rescaled_ppMEK1 = 0.0
+  rescaled_ppMEK2 = 0.0
+  rescaled_ppERK1 = 0.0
+  rescaled_ppERK2 = 0.0
+  rescaled_pJAK2 = 0.0
+  rescaled_pSOS = 0.0
+  rescaled_SOS = 0.0
+  rescaled_mSOS = 0.0
+ end parameters
+ begin init
+  JAK2 = 2.0
+  EpoR = 1.0
+  SHP1 = 10.7991
+  SOS = 2.5101
+  Raf = 3.7719
+  MEK2 = 11.0
+  MEK1 = 24.0
+  ERK1 = 7.0
+  ERK2 = 21.0
+  pJAK2
+  pEpoR
+  mSHP1
+  actSHP1
+  mSOS
+  pRaf
+  ppMEK2
+  ppMEK1
+  ppERK1
+  ppERK2
+  pSOS
+  pMEK2
+  pMEK1
+  pERK1
+  pERK2
+  Delay01_mSHP1
+  Delay02_mSHP1
+  Delay03_mSHP1
+  Delay04_mSHP1
+  Delay05_mSHP1
+  Delay06_mSHP1
+  Delay07_mSHP1
+  Delay08_mSHP1
+  Epo = 50.0
+ end init
+ begin reactions
+  JAK2 + Epo -> pJAK2 + Epo , ( JAK2_phosphorylation_by_Epo) * (1.0) [reaction_1_forw]
+  EpoR + pJAK2 -> pJAK2 + pEpoR , ( EpoR_phosphorylation_by_pJAK2) * (1.0) [reaction_2_forw]
+  SHP1 + pEpoR -> pEpoR + mSHP1 , ( SHP1_activation_by_pEpoR) * (1.0) [reaction_3_forw]
+  mSHP1 -> Delay01_mSHP1 , ( SHP1_delay) * (1.0) [reaction_4_forw]
+  Delay01_mSHP1 -> Delay02_mSHP1 , ( SHP1_delay) * (1.0) [reaction_5_forw]
+  Delay02_mSHP1 -> Delay03_mSHP1 , ( SHP1_delay) * (1.0) [reaction_6_forw]
+  Delay03_mSHP1 -> Delay04_mSHP1 , ( SHP1_delay) * (1.0) [reaction_7_forw]
+  Delay04_mSHP1 -> Delay05_mSHP1 , ( SHP1_delay) * (1.0) [reaction_8_forw]
+  Delay05_mSHP1 -> Delay06_mSHP1 , ( SHP1_delay) * (1.0) [reaction_9_forw]
+  Delay06_mSHP1 -> Delay07_mSHP1 , ( SHP1_delay) * (1.0) [reaction_10_forw]
+  Delay07_mSHP1 -> Delay08_mSHP1 , ( SHP1_delay) * (1.0) [reaction_11_forw]
+  Delay08_mSHP1 -> actSHP1 , ( SHP1_delay) * (1.0) [reaction_12_forw]
+  actSHP1 -> SHP1 , ( actSHP1_deactivation) * (1.0) [reaction_13_forw]
+  pEpoR + actSHP1 -> EpoR + actSHP1 , ( pEpoR_dephosphorylation_by_actSHP1) * (1.0) [reaction_14_forw]
+  pJAK2 + actSHP1 -> JAK2 + actSHP1 , ( pJAK2_dephosphorylation_by_actSHP1) * (1.0) [reaction_15_forw]
+  SOS + pEpoR -> pEpoR + mSOS , ( SOS_recruitment_by_pEpoR) * (1.0) [reaction_16_forw]
+  mSOS -> SOS , ( mSOS_release_from_membrane) * (1.0) [reaction_17_forw]
+  Raf + mSOS -> mSOS + pRaf , ( mSOS_induced_Raf_phosphorylation) * (1.0) [reaction_18_forw]
+  pRaf -> Raf , ( pRaf_dephosphorylation) * (1.0) [reaction_19_forw]
+  MEK2 + pRaf -> pRaf + pMEK2 , ( First_MEK2_phosphorylation_by_pRaf) * (1.0) [reaction_20_forw]
+  MEK1 + pRaf -> pRaf + pMEK1 , ( First_MEK1_phosphorylation_by_pRaf) * (1.0) [reaction_21_forw]
+  pRaf + pMEK2 -> pRaf + ppMEK2 , ( Second_MEK2_phosphorylation_by_pRaf) * (1.0) [reaction_22_forw]
+  pRaf + pMEK1 -> pRaf + ppMEK1 , ( Second_MEK1_phosphorylation_by_pRaf) * (1.0) [reaction_23_forw]
+  ppMEK2 -> pMEK2 , ( First_MEK_dephosphorylation) * (1.0) [reaction_24_forw]
+  ppMEK1 -> pMEK1 , ( First_MEK_dephosphorylation) * (1.0) [reaction_25_forw]
+  pMEK2 -> MEK2 , ( Second_MEK_dephosphorylation) * (1.0) [reaction_26_forw]
+  pMEK1 -> MEK1 , ( Second_MEK_dephosphorylation) * (1.0) [reaction_27_forw]
+  ERK1 + ppMEK2 -> ppMEK2 + pERK1 , ( First_ERK1_phosphorylation_by_ppMEK) * (1.0) [reaction_28_forw]
+  ERK2 + ppMEK2 -> ppMEK2 + pERK2 , ( First_ERK2_phosphorylation_by_ppMEK) * (1.0) [reaction_29_forw]
+  ERK1 + ppMEK1 -> ppMEK1 + pERK1 , ( First_ERK1_phosphorylation_by_ppMEK) * (1.0) [reaction_30_forw]
+  ERK2 + ppMEK1 -> ppMEK1 + pERK2 , ( First_ERK2_phosphorylation_by_ppMEK) * (1.0) [reaction_31_forw]
+  ppMEK2 + pERK1 -> ppMEK2 + ppERK1 , ( Second_ERK1_phosphorylation_by_ppMEK) * (1.0) [reaction_32_forw]
+  ppMEK2 + pERK2 -> ppMEK2 + ppERK2 , ( Second_ERK2_phosphorylation_by_ppMEK) * (1.0) [reaction_33_forw]
+  ppMEK1 + pERK1 -> ppMEK1 + ppERK1 , ( Second_ERK1_phosphorylation_by_ppMEK) * (1.0) [reaction_34_forw]
+  ppMEK1 + pERK2 -> ppMEK1 + ppERK2 , ( Second_ERK2_phosphorylation_by_ppMEK) * (1.0) [reaction_35_forw]
+  ppERK1 -> pERK1 , ( First_ERK_dephosphorylation) * (1.0) [reaction_36_forw]
+  ppERK2 -> pERK2 , ( First_ERK_dephosphorylation) * (1.0) [reaction_37_forw]
+  pERK1 -> ERK1 , ( Second_ERK_dephosphorylation) * (1.0) [reaction_38_forw]
+  pERK2 -> ERK2 , ( Second_ERK_dephosphorylation) * (1.0) [reaction_39_forw]
+  mSOS + ppERK1 -> ppERK1 + pSOS , ( ppERK_neg_feedback_on_mSOS) * (1.0) [reaction_40_forw]
+  mSOS + ppERK2 -> ppERK2 + pSOS , ( ppERK_neg_feedback_on_mSOS) * (1.0) [reaction_41_forw]
+  pSOS -> SOS , ( pSOS_dephosphorylation) * (1.0) [reaction_42_forw]
+ end reactions
+
+end model
+

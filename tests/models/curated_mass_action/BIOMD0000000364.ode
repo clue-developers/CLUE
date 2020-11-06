@@ -1,0 +1,68 @@
+begin model BIOMD0000000364
+ begin parameters
+  k1 = 91.8
+  k2 = 82.4
+  k9 = 3.12E-8
+  k3 = 38.1
+  k3a = 151.5
+  k4 = 38.1
+  k4a = 209.9
+  k5 = 5.16
+  k6 = 32.3
+  k10 = 7.23E-10
+  k7 = 6.76E-8
+  k7a = 4.7
+  k8 = 0.00599
+  k8a = 42.6
+  kC1 = 2.39E-6
+  kC2 = 0.031
+  j1 = 33.4
+  j3 = 1.58E-6
+  j3a = 0.185
+  j5 = 21.8
+  j7 = 4.46E-9
+  j7a = 2.66E-5
+ end parameters
+ begin init
+  E = 1.5E-4
+  E_P_1
+  P = 1.0
+  M
+  M1
+  E_M1
+  E_M
+  T
+  E_P_2
+  P2
+  P21
+  E_P21
+  E_P2
+  E_P1
+ end init
+ begin reactions
+  E + P -> E_P_1 , k1 [r1]
+  E_P_1 -> E + P , j1 [r1]
+  E_P_1 -> E + M , k2 [r2]
+  M -> M1 , k9 [r3]
+  E + M1 -> E_M1 , k3 [r4]
+  E_M1 -> E + M1 , j3 [r4]
+  E + M -> E_M , k3a [r5]
+  E_M -> E + M , j3a [r5]
+  E_M1 -> E + T , k4 [r6]
+  E_M -> E + T , k4a [r7]
+  E + P -> E_P_2 , k5 [r8]
+  E_P_2 -> E + P , j5 [r8]
+  E_P_2 -> E + P2 , k6 [r9]
+  P2 -> P21 , k10 [r10]
+  E + P21 -> E_P21 , k7 [r11]
+  E_P21 -> E + P21 , j7 [r11]
+  E + P2 -> E_P2 , k7a [r12]
+  E_P2 -> E + P2 , j7a [r12]
+  E_P21 -> E + T , k8 [r13]
+  E_P2 -> E + T , k8a [r14]
+  E_P_1 -> T , kC1 [r15]
+  E_P_2 -> T , kC2 [r16]
+ end reactions
+
+end model
+

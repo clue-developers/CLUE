@@ -1,0 +1,39 @@
+begin model MODEL4821294342
+ begin init
+  LacZ_slash_Protein
+  LacZ_slash_RBS
+  LacZ_slash_RibRBS
+  LacZ_slash_elRIB
+  LacZ_slash_P_RNAP
+  LacZ_slash_P = 0.00166672222407414
+  LacZ_slash_ElRNAP
+  LacZ_slash_TrRNAP
+  LacZ_slash_Ribosome = 0.583352778425947
+  LacZ_slash_AAs
+  LacZ_slash_RNAP = 0.0583352778425947
+  LacZ_slash_nucleotides
+ end init
+ begin reactions
+  LacZ_slash_Protein -> 2*LacZ_slash_Protein , ( -1) * (6.419786E-20)
+  LacZ_slash_RBS -> 2*LacZ_slash_RBS , ( -1) * (2.9999E-16)
+  LacZ_slash_RBS + LacZ_slash_Ribosome -> LacZ_slash_RBS + LacZ_slash_RibRBS + LacZ_slash_Ribosome , 9.99893337111067E-14
+  LacZ_slash_RBS + LacZ_slash_Ribosome -> 2*LacZ_slash_RBS + LacZ_slash_Ribosome , ( -1) * (9.99893337111067E-14)
+  LacZ_slash_RibRBS -> LacZ_slash_RBS + LacZ_slash_RibRBS , 4.99983333333333E-16+( -1) * (-(2.249925E-15))
+  LacZ_slash_RibRBS -> LacZ_slash_RibRBS + LacZ_slash_elRIB , 4.99983333333333E-16
+  LacZ_slash_RibRBS -> 2*LacZ_slash_RibRBS , -(2.249925E-15)+( -1) * (4.99983333333333E-16)
+  LacZ_slash_elRIB -> LacZ_slash_Protein + LacZ_slash_elRIB , 1.49995E-17
+  LacZ_slash_elRIB -> 2*LacZ_slash_elRIB , ( -1) * (1.49995E-17)
+  LacZ_slash_P_RNAP -> LacZ_slash_P_RNAP + LacZ_slash_P , ( -1) * (-(9.99966666666667E-15))
+  LacZ_slash_P_RNAP -> LacZ_slash_P_RNAP + LacZ_slash_TrRNAP , 9.99966666666667E-16
+  LacZ_slash_P_RNAP -> 2*LacZ_slash_P_RNAP , -(9.99966666666667E-15)+( -1) * (9.99966666666667E-16)
+  LacZ_slash_P + LacZ_slash_RNAP -> LacZ_slash_P_RNAP + LacZ_slash_P + LacZ_slash_RNAP , 9.99893337111067E-14
+  LacZ_slash_P + LacZ_slash_RNAP -> 2*LacZ_slash_P + LacZ_slash_RNAP , ( -1) * (9.99893337111067E-14)
+  LacZ_slash_ElRNAP -> 2*LacZ_slash_ElRNAP , ( -1) * (2.9999E-16)
+  LacZ_slash_TrRNAP -> LacZ_slash_RBS + LacZ_slash_TrRNAP , 9.99966666666667E-16
+  LacZ_slash_TrRNAP -> LacZ_slash_P + LacZ_slash_TrRNAP , 9.99966666666667E-16
+  LacZ_slash_TrRNAP -> LacZ_slash_ElRNAP + LacZ_slash_TrRNAP , 9.99966666666667E-16
+  LacZ_slash_TrRNAP -> 2*LacZ_slash_TrRNAP , ( -1) * (9.99966666666667E-16)
+ end reactions
+
+end model
+

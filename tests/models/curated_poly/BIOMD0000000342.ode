@@ -1,0 +1,131 @@
+begin model BIOMD0000000342
+ begin parameters
+  stimulation_type = 1.0
+  single_pulse_duration = 0.5
+  totalNumT1R = 10005.0
+  totalNumT2R = 2272.0
+  totalNumLRC = 0.0
+  totalNumPSmad2 = 0.0
+  totalNuclearPSmad2 = 0.0
+  totalSmad2c = 60.6
+  totalSmad2n = 28.5
+  medium_TGF_beta_amount = 0.0
+  TGF_beta_dose_mol_per_cell = 0.0
+  ki = 0.333
+  kr = 0.0333
+  k_T1R = 0.0167
+  k_T2R = 0.0190076
+  kdeg_T1R = 0.00256
+  kdeg_T2R = 0.0132
+  kdeg_LRC = 0.00256
+  kdeg_TGF_beta = 0.347
+  klid = 0.0233678
+  ka_LRC = 117.897
+  kdiss_LRC = 0.0438111
+  kimp_Smad2 = 0.156
+  kexp_Smad2 = 0.763
+  kimp_Smad4 = 0.156
+  kexp_Smad4 = 0.359
+  kpho_Smad2 = 0.0488268
+  kon_Smads = 0.198472
+  koff_Smads = 1.0
+  kimp_Smads = 0.889
+  kdepho_Smad2 = 0.394
+  kon_ns = 0.0505413
+  koff_ns = 2.03306
+  KD_ns = 40.2257
+ end parameters
+ begin init
+  TGF_beta_ex = 0.05
+  T1R_surf = 0.702494
+  T1R_endo = 6.52344
+  T2R_surf = 0.201077
+  T2R_endo = 1.43997
+  LRC_surf
+  LRC_endo
+  Smad2c = 60.6
+  Smad2n = 28.5
+  Smad4c = 50.8
+  Smad4n = 50.8
+  PSmad2c
+  PSmad2_PSmad2_c
+  PSmad2_Smad4_c
+  PSmad2n
+  PSmad2_PSmad2_n
+  PSmad2_Smad4_n
+  TGF_beta_endo
+  TGF_beta_ns
+  AA
+  empty_degraded
+  I = 1
+ end init
+ begin reactions
+  TGF_beta_ex -> TGF_beta_ex + TGF_beta_ns , ( 2.0E-9) * (kon_ns)
+  TGF_beta_ex -> 2*TGF_beta_ex , ( -1) * (( 2.0E-9) * (kon_ns))
+  TGF_beta_ex + T1R_surf + T2R_surf -> TGF_beta_ex + T1R_surf + T2R_surf + LRC_surf , ( 2.3E-12) * (ka_LRC)
+  TGF_beta_ex + T1R_surf + T2R_surf -> TGF_beta_ex + T1R_surf + 2*T2R_surf , ( -1) * (( 2.3E-12) * (ka_LRC))
+  TGF_beta_ex + T1R_surf + T2R_surf -> TGF_beta_ex + 2*T1R_surf + T2R_surf , ( -1) * (( 2.3E-12) * (ka_LRC))
+  TGF_beta_ex + T1R_surf + T2R_surf -> 2*TGF_beta_ex + T1R_surf + T2R_surf , ( -1) * (( 2.3E-12) * (ka_LRC))
+  T1R_surf -> T1R_surf + T1R_endo , ( 2.3E-12) * (ki)
+  T1R_surf -> 2*T1R_surf , ( -1) * (( 2.3E-12) * (ki))
+  T1R_endo -> T1R_surf + T1R_endo , ( 2.3E-12) * (kr)
+  T1R_endo -> 2*T1R_endo , ( -1) * (( 2.3E-12) * (kr))+( -1) * (( 2.3E-12) * (kdeg_T1R))
+  T2R_surf -> T2R_surf + T2R_endo , ( 2.3E-12) * (ki)
+  T2R_surf -> 2*T2R_surf , ( -1) * (( 2.3E-12) * (ki))
+  T2R_endo -> T2R_surf + T2R_endo , ( 2.3E-12) * (kr)
+  T2R_endo -> 2*T2R_endo , ( -1) * (( 2.3E-12) * (kr))+( -1) * (( 2.3E-12) * (kdeg_T2R))
+  LRC_surf -> LRC_surf + LRC_endo , ( 2.3E-12) * (ki)
+  LRC_surf -> 2*LRC_surf , ( -1) * (( 2.3E-12) * (ki))
+  LRC_surf + PSmad2n -> 2*LRC_surf + PSmad2n , ( -1) * (( 2.3E-12) * (klid))
+  LRC_surf + PSmad2_PSmad2_n -> 2*LRC_surf + PSmad2_PSmad2_n , ( -1) * (( ( 2.3E-12) * (klid)) * (2.0))
+  LRC_surf + PSmad2_Smad4_n -> 2*LRC_surf + PSmad2_Smad4_n , ( -1) * (( 2.3E-12) * (klid))
+  LRC_endo -> T1R_endo + LRC_endo , ( 2.3E-12) * (kdiss_LRC)
+  LRC_endo -> T2R_endo + LRC_endo , ( 2.3E-12) * (kdiss_LRC)
+  LRC_endo -> LRC_endo + TGF_beta_endo , ( 2.3E-12) * (kdiss_LRC)
+  LRC_endo -> 2*LRC_endo , ( -1) * (( 2.3E-12) * (kdiss_LRC))+( -1) * (( 2.3E-12) * (kdeg_LRC))
+  LRC_endo + Smad2c -> LRC_endo + Smad2c + PSmad2c , ( 2.3E-12) * (kpho_Smad2)
+  LRC_endo + Smad2c -> LRC_endo + 2*Smad2c , ( -1) * (( 2.3E-12) * (kpho_Smad2))
+  Smad2c -> Smad2c + Smad2n , ( 2.3E-12) * (kimp_Smad2)
+  Smad2c -> 2*Smad2c , ( -1) * (( 2.3E-12) * (kimp_Smad2))
+  Smad2n -> Smad2c + Smad2n , ( 1.0E-12) * (kexp_Smad2)
+  Smad2n -> 2*Smad2n , ( -1) * (( 1.0E-12) * (kexp_Smad2))
+  Smad4c -> Smad4c + Smad4n , ( 2.3E-12) * (kimp_Smad4)
+  Smad4c -> 2*Smad4c , ( -1) * (( 2.3E-12) * (kimp_Smad4))
+  Smad4c + PSmad2c -> Smad4c + PSmad2c + PSmad2_Smad4_c , ( 2.3E-12) * (kon_Smads)
+  Smad4c + PSmad2c -> Smad4c + 2*PSmad2c , ( -1) * (( 2.3E-12) * (kon_Smads))
+  Smad4c + PSmad2c -> 2*Smad4c + PSmad2c , ( -1) * (( 2.3E-12) * (kon_Smads))
+  Smad4n -> Smad4c + Smad4n , ( 1.0E-12) * (kexp_Smad4)
+  Smad4n -> 2*Smad4n , ( -1) * (( 1.0E-12) * (kexp_Smad4))
+  Smad4n + PSmad2n -> Smad4n + PSmad2n + PSmad2_Smad4_n , ( -1) * (( 1.0E-12) * (-(kon_Smads)))
+  Smad4n + PSmad2n -> Smad4n + 2*PSmad2n , ( 1.0E-12) * (-(kon_Smads))
+  Smad4n + PSmad2n -> 2*Smad4n + PSmad2n , ( 1.0E-12) * (-(kon_Smads))
+  PSmad2c -> PSmad2c + PSmad2n , ( 2.3E-12) * (kimp_Smad2)
+  PSmad2c -> 2*PSmad2c , ( -1) * (( 2.3E-12) * (kimp_Smad2))
+  2*PSmad2c -> 2*PSmad2c + PSmad2_PSmad2_c , ( 2.3E-12) * (kon_Smads)
+  2*PSmad2c -> 3*PSmad2c , ( -2) * (( 2.3E-12) * (kon_Smads))
+  PSmad2_PSmad2_c -> PSmad2c + PSmad2_PSmad2_c , ( -2) * (( 2.3E-12) * (-(koff_Smads)))
+  PSmad2_PSmad2_c -> PSmad2_PSmad2_c + PSmad2_PSmad2_n , ( 2.3E-12) * (kimp_Smads)
+  PSmad2_PSmad2_c -> 2*PSmad2_PSmad2_c , ( 2.3E-12) * (-(koff_Smads))+( -1) * (( 2.3E-12) * (kimp_Smads))
+  PSmad2_Smad4_c -> Smad4c + PSmad2_Smad4_c , ( -1) * (( 2.3E-12) * (-(koff_Smads)))
+  PSmad2_Smad4_c -> PSmad2c + PSmad2_Smad4_c , ( -1) * (( 2.3E-12) * (-(koff_Smads)))
+  PSmad2_Smad4_c -> PSmad2_Smad4_c + PSmad2_Smad4_n , ( 2.3E-12) * (kimp_Smads)
+  PSmad2_Smad4_c -> 2*PSmad2_Smad4_c , ( 2.3E-12) * (-(koff_Smads))+( -1) * (( 2.3E-12) * (kimp_Smads))
+  PSmad2n -> Smad2n + PSmad2n , ( 1.0E-12) * (kdepho_Smad2)
+  PSmad2n -> PSmad2c + PSmad2n , ( 1.0E-12) * (kexp_Smad2)
+  PSmad2n -> 2*PSmad2n , ( -1) * (( 1.0E-12) * (kexp_Smad2))+( -1) * (( 1.0E-12) * (kdepho_Smad2))
+  2*PSmad2n -> 2*PSmad2n + PSmad2_PSmad2_n , ( -1) * (( 1.0E-12) * (-(kon_Smads)))
+  2*PSmad2n -> 3*PSmad2n , ( 2) * (( 1.0E-12) * (-(kon_Smads)))
+  PSmad2_PSmad2_n -> PSmad2n + PSmad2_PSmad2_n , ( 2) * (( 1.0E-12) * (koff_Smads))
+  PSmad2_PSmad2_n -> 2*PSmad2_PSmad2_n , ( -1) * (( 1.0E-12) * (koff_Smads))
+  PSmad2_Smad4_n -> Smad4n + PSmad2_Smad4_n , ( 1.0E-12) * (koff_Smads)
+  PSmad2_Smad4_n -> PSmad2n + PSmad2_Smad4_n , ( 1.0E-12) * (koff_Smads)
+  PSmad2_Smad4_n -> 2*PSmad2_Smad4_n , ( -1) * (( 1.0E-12) * (koff_Smads))
+  TGF_beta_endo -> 2*TGF_beta_endo , ( -1) * (( 2.3E-12) * (kdeg_TGF_beta))
+  TGF_beta_ns -> TGF_beta_ex + TGF_beta_ns , ( -1) * (( 2.0E-9) * (-(( kon_ns) * (KD_ns))))
+  TGF_beta_ns -> 2*TGF_beta_ns , ( 2.0E-9) * (-(( kon_ns) * (KD_ns)))
+  I -> T1R_surf + I , ( 2.3E-12) * (k_T1R)
+  I -> T2R_surf + I , ( 2.3E-12) * (k_T2R)
+ end reactions
+
+end model
+

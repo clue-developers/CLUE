@@ -1,0 +1,54 @@
+begin model BIOMD0000000259
+ begin init
+  s1 = 100.0 ( "iron_in_Plasma" ) 
+  s2 ( "iron_in_Bone Marrow" ) 
+  s3 ( "iron_in_RBC" ) 
+  s4 ( "iron_in_Spleen" ) 
+  s5 ( "iron_in_Liver" ) 
+  s6 ( "iron_in_Muscle" ) 
+  s7 ( "iron_in_Duodenum" ) 
+  s8 ( "iron_in_Integument" ) 
+  s9 ( "iron_in_Intestine" ) 
+  s10 ( "iron_Ions_Outside" ) 
+  s11 ( "iron_in_Heart" ) 
+  s12 ( "iron_in_Lungs" ) 
+  s13 ( "iron_in_Kidneys" ) 
+  s14 ( "iron_in_Testes" ) 
+  s15 ( "iron_in_Stomach" ) 
+  s16 ( "iron_in_Fat" ) 
+  s17 ( "iron_in_Brain" ) 
+ end init
+ begin reactions
+  s1 -> s2 , 13.22 [re1_forw]
+  s2 -> s3 , 1.85 [re2_forw]
+  s3 -> s4 , 0.03 [re3_forw]
+  s4 -> s1 , 14.61 [re4_forw]
+  s2 -> s4 , 0.56 [re5_forw]
+  s1 -> s5 , 2.27 [re6_forw]
+  s5 -> s1 , 0.25 [re7_forw]
+  s1 -> s6 , 0.96 [re8_forw]
+  s6 -> s1 , 0.03 [re9_forw]
+  s1 -> s7 , 0.02 [re10_forw]
+  s1 -> s9 , 0.98 [re11_forw]
+  s1 -> s8 , 1.04 [re12_forw]
+  s9 -> s10 , 0.3 [re14_forw]
+  s8 -> s10 , 0.03 [re15_forw]
+  s1 -> s11 , 0.11 [re16_forw]
+  s11 -> s1 , 0.06 [re17_forw]
+  s1 -> s12 , 0.79 [re18_forw]
+  s12 -> s1 , 0.41 [re19_forw]
+  s1 -> s13 , 0.42 [re22_forw]
+  s13 -> s1 , 0.2 [re23_forw]
+  s1 -> s14 , 0.04 [re24_forw]
+  s14 -> s1 , 0.05 [re25_forw]
+  s1 -> s15 , 0.09 [re26_forw]
+  s1 -> s16 , 0.04 [re28_forw]
+  s16 -> s1 , 0.1 [re29_forw]
+  s1 -> s17 , 0.03 [re30_forw]
+  s17 -> s1 , 0.02 [re31_forw]
+  s7 -> s1 , 0.17 [re33_forw]
+  s15 -> s10 , 0.18 [re34_forw]
+ end reactions
+
+end model
+

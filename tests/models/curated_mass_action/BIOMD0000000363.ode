@@ -1,0 +1,16 @@
+begin model BIOMD0000000363
+ begin init
+  II = 1.0
+  M
+  IIa
+  P2
+ end init
+ begin reactions
+  II -> M , 0.005 [r1]
+  M -> IIa , 0.01 [r2]
+  II -> P2 , 1.0E-5 [r3]
+  P2 -> IIa , 2.5E-5 [r4]
+ end reactions
+
+end model
+

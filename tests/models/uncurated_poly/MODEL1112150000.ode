@@ -1,0 +1,52 @@
+begin model MODEL1112150000
+ begin init
+  species_1 = 1.9366 ( "FC" ) 
+  species_2 = 0.6624 ( "CE_cyt" ) 
+  species_3 ( "CE_ER" ) 
+  species_4 = 3.1832 ( "TG_cyt" ) 
+  species_5 ( "TG_ER" ) 
+  species_6 = 0.46 ( "TG_plasma" ) 
+  species_7 = 0.61 ( "CE_plasma" ) 
+  species_8 = 1.35 ( "CE_HDL" ) 
+  species_9 = 0.34 ( "FFA" ) 
+  SINK
+  source = 1.0
+ end init
+ begin reactions
+  species_1 -> species_1 + species_2 , ( 0.0025) * (5.3418)
+  species_1 -> species_1 + species_3 , ( 0.0025) * (0.252437)
+  species_1 -> species_1 + SINK , ( -1) * (( 0.0025) * (0.0488485))
+  species_1 -> 2*species_1 , ( -1) * (( 0.0025) * (5.3418))+( -1) * (( 0.0025) * (0.252437))+( 0.0025) * (0.0488485)
+  species_2 -> species_1 + species_2 , ( 0.0025) * (27.0264)
+  species_2 -> 2*species_2 , ( -1) * (( 0.0025) * (27.0264))
+  species_3 -> species_1 + species_3 , ( 0.0025) * (0.610892)
+  species_3 -> species_3 + species_7 , 0.00308588
+  species_3 -> 2*species_3 , ( -1) * (0.00308588)+( -1) * (( 0.0025) * (0.610892))
+  species_4 -> species_4 + species_5 , ( 0.0025) * (3.05246)
+  species_4 -> species_4 + SINK , ( -1) * (( 0.0025) * (0.701735))
+  species_4 -> 2*species_4 , ( -1) * (( 0.0025) * (3.05246))+( 0.0025) * (0.701735)
+  species_5 -> species_4 + species_5 , ( 0.0025) * (5.60892)
+  species_5 -> species_5 + species_6 , 0.019342
+  species_5 -> species_5 + SINK , ( -1) * (( 0.0025) * (0.340947))
+  species_5 -> 2*species_5 , ( -1) * (0.019342)+( -1) * (( 0.0025) * (5.60892))+( 0.0025) * (0.340947)
+  species_6 -> species_4 + species_6 , 0.00132591+0.0226027
+  species_6 -> species_6 + SINK , ( -1) * (( 0.0025) * (0.185873))+( -1) * (( 0.0025) * (0.0057377))
+  species_6 -> 2*species_6 , ( -1) * (0.0226027)+( -1) * (0.00132591)+( 0.0025) * (0.0057377)+( 0.0025) * (0.185873)
+  species_7 -> species_2 + species_7 , 0.00132591
+  species_7 -> species_7 + SINK , ( -1) * (( 0.0025) * (0.0057377))
+  species_7 -> 2*species_7 , ( -1) * (0.00132591)+( 0.0025) * (0.0057377)
+  species_8 -> species_2 + species_8 , 1.36296E-4
+  species_8 -> 2*species_8 , ( -1) * (1.36296E-4)
+  species_9 -> species_4 + species_9 , 0.0155327
+  source -> species_1 + source , ( 0.0025) * (0.0245)
+  source -> species_4 + source , ( 0.0025) * (1.80635E-5)
+  source -> species_5 + source , ( 0.0025) * (1.30725E-5)
+  source -> species_8 + source , ( 0.0025) * (0.0736)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

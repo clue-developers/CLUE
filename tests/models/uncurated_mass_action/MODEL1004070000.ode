@@ -1,0 +1,89 @@
+begin model MODEL1004070000
+ begin init
+  glucose_inside_cell = 1.0E-9 ( "glucose (inside cell)" ) 
+  glucose_outside_cell = 50.0 ( "glucose (outside cell)" ) 
+  lactose = 1.0E-9
+  glucose_hexokinase = 1.0E-9 ( "glucose-hexokinase" ) 
+  hexokinase = 0.001
+  glucose_6_phosphate = 0.058 ( "glucose 6-phosphate" ) 
+  hexokinase_inhibited = 1.0E-9 ( "hexokinase (inhibited)" ) 
+  fructose_6_phosphate = 0.0312 ( "fructose 6-phosphate" ) 
+  fructose_16_diphosphate = 0.0125 ( "fructose 1,6 diphosphate" ) 
+  dihydroxyacetone_3_phosphate = 0.0352 ( "dihydroxyacetone 3-phosphate" ) 
+  glyceraldehyde_3_phosphate = 0.01 ( "glyceraldehyde 3-phosphate" ) 
+  glycerol = 0.437
+  pyruvate = 0.059
+  s_6_phosphogluconolactone = 0.094 ( "6-phosphogluconolactone" ) 
+  NADP = 0.019 ( "NADP+" ) 
+  NADPH = 3.8
+  s_6_phosphogluconate = 0.094 ( "6-phosphogluconate" ) 
+  CO2A = 1.0E-9
+  ribulose_5_phosphate = 0.5 ( "ribulose 5-phosphate" ) 
+  ribose_5_phosphate = 0.5 ( "ribose 5-phosphate" ) 
+  xylulose_5_phosphate = 0.5 ( "xylulose 5-phosphate" ) 
+  sedoheptulose_7_phosphate = 0.06 ( "sedoheptulose 7-phosphate" ) 
+  erythrose_4_phosphate = 0.004 ( "erythrose 4-phosphate" ) 
+  lactate = 6.4
+  acetyl_CoA = 0.1 ( "acetyl-CoA" ) 
+  CO2B = 1.0E-9
+  CIT0C = 0.307 ( "CIT0C: all C4 compounds in the tricarboxylic acid cycle" ) 
+  CO2C = 1.0E-9
+  CO2D = 1.0E-9
+  fatty_acids = 6.67 ( "fatty acids" ) 
+  CIT2C = 0.09 ( "CIT2C: all C6 compounds in the tricarboxylic acid cycle" ) 
+  CIT1C = 0.017 ( "CIT1C: alpha-oxoglutarate" ) 
+ end init
+ begin reactions
+  glucose_outside_cell -> glucose_inside_cell , ( 1.0) * (0.05) [reaction_1_forw]
+  glucose_inside_cell -> glucose_outside_cell , ( -1) * (( 1.0) * (-(0.886))) [reaction_1_rev]
+  glucose_inside_cell -> lactose , ( 1.0) * (0.009) [reaction_2_forw]
+  glucose_inside_cell + hexokinase -> glucose_hexokinase , ( 1.0) * (378.0) [reaction_3_forw]
+  glucose_hexokinase -> glucose_inside_cell + hexokinase , ( -1) * (( 1.0) * (-(37.8))) [reaction_3_rev]
+  glucose_hexokinase -> hexokinase + glucose_6_phosphate , ( 1.0) * (1000.0) [reaction_4_forw]
+  hexokinase + glucose_6_phosphate -> hexokinase_inhibited , ( 1.0) * (1.667) [reaction_5_forw]
+  hexokinase_inhibited -> hexokinase + glucose_6_phosphate , ( -1) * (( 1.0) * (-(0.1))) [reaction_5_rev]
+  glucose_6_phosphate -> fructose_6_phosphate , ( 1.0) * (0.36) [reaction_6_forw]
+  fructose_6_phosphate -> glucose_6_phosphate , ( -1) * (( 1.0) * (-(0.01))) [reaction_6_rev]
+  fructose_6_phosphate -> fructose_16_diphosphate , ( 1.0) * (2.5) [reaction_7_forw]
+  fructose_16_diphosphate -> fructose_6_phosphate , ( -1) * (( 1.0) * (-(0.3))) [reaction_7_rev]
+  fructose_16_diphosphate -> dihydroxyacetone_3_phosphate + glyceraldehyde_3_phosphate , ( 1.0) * (10.0) [reaction_8_forw]
+  dihydroxyacetone_3_phosphate + glyceraldehyde_3_phosphate -> fructose_16_diphosphate , ( -1) * (( 1.0) * (-(0.442))) [reaction_8_rev]
+  dihydroxyacetone_3_phosphate -> glyceraldehyde_3_phosphate , ( 1.0) * (30.0) [reaction_9_forw]
+  glyceraldehyde_3_phosphate -> dihydroxyacetone_3_phosphate , ( -1) * (( 1.0) * (-(75.6))) [reaction_9_rev]
+  dihydroxyacetone_3_phosphate -> glycerol , ( 1.0) * (225.0) [reaction_10_forw]
+  glycerol -> dihydroxyacetone_3_phosphate , ( -1) * (( 1.0) * (-(50.0))) [reaction_10_rev]
+  glyceraldehyde_3_phosphate -> pyruvate , ( 1.0) * (7.5) [reaction_11_forw]
+  glucose_6_phosphate + NADP -> s_6_phosphogluconolactone + NADPH , ( 1.0) * (35.0) [reaction_12_forw]
+  s_6_phosphogluconolactone + NADPH -> glucose_6_phosphate + NADP , ( -1) * (( 1.0) * (-(2.07))) [reaction_12_rev]
+  s_6_phosphogluconolactone -> s_6_phosphogluconate , ( 1.0) * (0.191) [reaction_13_forw]
+  s_6_phosphogluconate -> s_6_phosphogluconolactone , ( -1) * (( 1.0) * (-(0.0191))) [reaction_13_rev]
+  NADP + s_6_phosphogluconate -> NADPH + CO2A + ribulose_5_phosphate , ( 1.0) * (17.2) [reaction_14_forw]
+  NADPH + CO2A + ribulose_5_phosphate -> NADP + s_6_phosphogluconate , ( -1) * (( 1.0) * (-(1.0))) [reaction_14_rev]
+  ribulose_5_phosphate -> ribose_5_phosphate , ( 1.0) * (0.05) [reaction_15_forw]
+  ribose_5_phosphate -> ribulose_5_phosphate , ( -1) * (( 1.0) * (-(0.0162))) [reaction_15_rev]
+  ribulose_5_phosphate -> xylulose_5_phosphate , ( 1.0) * (0.102) [reaction_16_forw]
+  xylulose_5_phosphate -> ribulose_5_phosphate , ( -1) * (( 1.0) * (-(0.069))) [reaction_16_rev]
+  ribose_5_phosphate + xylulose_5_phosphate -> glyceraldehyde_3_phosphate + sedoheptulose_7_phosphate , ( 1.0) * (0.72) [reaction_17_forw]
+  glyceraldehyde_3_phosphate + sedoheptulose_7_phosphate -> ribose_5_phosphate + xylulose_5_phosphate , ( -1) * (( 1.0) * (-(0.6))) [reaction_17_rev]
+  xylulose_5_phosphate + erythrose_4_phosphate -> fructose_6_phosphate + glyceraldehyde_3_phosphate , ( 1.0) * (28.5) [reaction_18_forw]
+  fructose_6_phosphate + glyceraldehyde_3_phosphate -> xylulose_5_phosphate + erythrose_4_phosphate , ( -1) * (( 1.0) * (-(2.75))) [reaction_18_rev]
+  glyceraldehyde_3_phosphate + sedoheptulose_7_phosphate -> fructose_6_phosphate + erythrose_4_phosphate , ( 1.0) * (20.5) [reaction_19_forw]
+  fructose_6_phosphate + erythrose_4_phosphate -> glyceraldehyde_3_phosphate + sedoheptulose_7_phosphate , ( -1) * (( 1.0) * (-(19.5))) [reaction_19_rev]
+  pyruvate -> lactate , ( 1.0) * (0.03) [reaction_20_forw]
+  lactate -> pyruvate , ( -1) * (( 1.0) * (-(5.0E-4))) [reaction_20_rev]
+  pyruvate -> acetyl_CoA + CO2B , ( 1.0) * (1.0) [reaction_21_forw]
+  pyruvate + CO2A -> CIT0C , ( 1.0) * (0.05) [reaction_22_forw]
+  pyruvate + CO2B -> CIT0C , ( 1.0) * (0.05) [reaction_23_forw]
+  pyruvate + CO2C -> CIT0C , ( 1.0) * (0.05) [reaction_24_forw]
+  pyruvate + CO2D -> CIT0C , ( 1.0) * (0.05) [reaction_25_forw]
+  NADPH -> NADP , ( 1.0) * (0.015) [reaction_26_forw]
+  NADPH + acetyl_CoA -> NADP + fatty_acids , ( 1.0) * (0.78) [reaction_27_forw]
+  NADP + fatty_acids -> NADPH + acetyl_CoA , ( -1) * (( 1.0) * (-(1.12E-4))) [reaction_27_rev]
+  acetyl_CoA + CIT0C -> CIT2C , ( 1.0) * (1.7) [reaction_28_forw]
+  CIT2C -> acetyl_CoA + CIT0C , ( -1) * (( 1.0) * (-(0.5))) [reaction_28_rev]
+  CIT2C -> CO2C + CIT1C , ( 1.0) * (0.375) [reaction_29_forw]
+  CIT1C -> CIT0C + CO2D , ( 1.0) * (0.375) [reaction_30_forw]
+ end reactions
+
+end model
+

@@ -1,0 +1,172 @@
+begin model BIOMD0000000582
+ begin parameters
+  Akt_S473_phos_by_insulin = 0.588783148144923
+  Akt_pS473_dephos_by_mTORC1_pS2448 = 0.114598191621279
+  AMPK_T172_phos = 0.355183987378767
+  AMPK_pT172_dephos_by_Mito_membr_pot_new = 0.117744691539618
+  AMPK_pT172_dephos_by_Mito_membr_pot_old = 1.00000000000003E-6
+  mTORC1_S2448_phos_by_AA = 1.00008999860285E-6
+  mTORC1_S2448_phos_by_AA_n_Akt_pS473 = 162.471039450073
+  mTORC1_pS2448_dephos_by_AMPK_pT172 = 191.297262771509
+  mitophagy_activ_by_FoxO3a_n_AMPK_pT172 = 1319.84219165251
+  mitophagy_inactiv_by_mTORC1_pS2448 = 645.999307230137
+  FoxO3a_phos_by_Akt_pS473 = 6.83511123229576
+  FoxO3a_phos_by_JNK_pT183 = 0.112877630496044
+  FoxO3a_pS253_degrad = 39.4068609318082
+  FoxO3a_synthesis = 407.307409980937
+  CDKN1A_transcr_by_FoxO3a_n_DNA_damage = 0.0852182335681166
+  CDKN1A_inactiv_by_Akt_pS473 = 0.0667971061916905
+  CDKN1B_transcr_by_FoxO3a_n_DNA_damage = 0.0920526565951487
+  CDKN1B_inactiv_by_Akt_pS473 = 0.0596841598127919
+  DNA_damaged_by_irradiation = 9237.72311545872
+  DNA_repair = 0.325724769122274
+  DNA_damaged_by_ROS = 0.118873655169353
+  ROS_prod_by_Mito_membr_pot_new = 4.55464788075885
+  ROS_prod_by_Mito_membr_pot_old = 772.829490967078
+  ROS_turnover = 3.23082321168464
+  JNK_activ_by_ROS = 0.00502329152478409
+  JNK_pT183_inactiv = 0.0718429173444438
+  IKKbeta_activ_by_ROS = 1.0
+  IKKbeta_inactiv = 1.0
+  mTORC1_S2448_phos_by_AA_n_IKKbeta = 1.00008996727694E-5
+  sen_ass_beta_gal_inc_by_ROS = 0.0701139988718817
+  sen_ass_beta_gal_inc_by_Mitophagy = 1.00000000000011E-6
+  sen_ass_beta_gal_dec = 0.154821166783837
+  mito_biogenesis_by_mTORC1_pS2448 = 0.0133620123598202
+  mito_biogenesis_by_AMPK_pT172 = 5.8915457309741E-5
+  mitophagy_new = 0.22465992989378
+  mitophagy_old = 0.00122607614891116
+  mito_dysfunction = 0.0270695257507146
+  mito_membr_pot_new_inc = 9882.02736076158
+  mito_membr_pot_old_inc = 0.00586017882122243
+  mito_membr_pot_new_dec = 1094.58423149719
+  mito_membr_pot_old_dec = 0.954903499913184
+  scale_Akt_pS473_obs = 1.0
+  scale_FoxO3a_pS253_obs = 1.0
+  scale_FoxO3a_total_obs = 1.0
+  scale_AMPK_pT172_obs = 1.0
+  scale_mTOR_pS2448_obs = 1.0
+  scale_Mitophagy_obs = 1.0
+  scale_Mito_Mass_obs = 1.0
+  scale_Mito_Membr_Pot_obs = 1.0
+  scale_CDKN1A_obs = 1.0
+  scale_CDKN1B_obs = 1.0
+  scale_ROS_obs = 1.0
+  scale_DNA_damage_gammaH2AX_obs = 1.0
+  scale_JNK_pT183_obs = 1.0
+  scale_SA_beta_gal_obs = 1.0
+ end parameters
+ begin init
+  Akt = 10.0
+  Akt_pS473 = 10.0
+  AMPK = 10.0
+  AMPK_pT172 = 10.0
+  mTORC1 = 10.0
+  mTORC1_pS2448 = 10.0
+  Mitophagy = 10.0
+  FoxO3a = 10.0
+  FoxO3a_pS253 = 10.0
+  CDKN1A = 10.0
+  CDKN1B = 10.0
+  JNK = 25.0
+  JNK_pT183 = 10.0
+  ROS = 10.0
+  DNA_damage = 1.0
+  SA_beta_gal = 0.81
+  IKKbeta = 10.0
+  Mito_mass_new = 1.0
+  Mito_mass_old
+  Mito_mass_turnover = 25.0
+  Mito_membr_pot_new = 12.12
+  Mito_membr_pot_old
+  Nil
+  Insulin = 1.0
+  Amino_Acids = 1.0
+  Irradiation = 1.0
+  DNA_damage_gammaH2AX_obs = 1.0
+  Akt_pS473_obs = 10.0
+  mTOR_pS2448_obs = 10.0
+  AMPK_pT172_obs = 10.0
+  CDKN1A_obs = 10.0
+  CDKN1B_obs = 10.0
+  FoxO3a_pS253_obs = 10.0
+  FoxO3a_total_obs = 20.0
+  Mito_Mass_obs = 1.0
+  Mito_Membr_Pot_obs = 12.12
+  Mitophagy_obs = 10.0
+  ROS_obs = 10.0
+  JNK_pT183_obs = 10.0
+  SA_beta_gal_obs = 0.81
+  source = 1.0
+ end init
+ begin reactions
+  Akt + Insulin -> Akt + Akt_pS473 + Insulin , ( 1.0) * (Akt_S473_phos_by_insulin)
+  Akt + Insulin -> 2*Akt + Insulin , ( -1) * (( 1.0) * (Akt_S473_phos_by_insulin))
+  Akt_pS473 + mTORC1 + Amino_Acids -> Akt_pS473 + mTORC1 + mTORC1_pS2448 + Amino_Acids , ( 1.0) * (mTORC1_S2448_phos_by_AA_n_Akt_pS473)
+  Akt_pS473 + mTORC1 + Amino_Acids -> Akt_pS473 + 2*mTORC1 + Amino_Acids , ( -1) * (( 1.0) * (mTORC1_S2448_phos_by_AA_n_Akt_pS473))
+  Akt_pS473 + mTORC1_pS2448 -> Akt + Akt_pS473 + mTORC1_pS2448 , ( 1.0) * (Akt_pS473_dephos_by_mTORC1_pS2448)
+  Akt_pS473 + mTORC1_pS2448 -> 2*Akt_pS473 + mTORC1_pS2448 , ( -1) * (( 1.0) * (Akt_pS473_dephos_by_mTORC1_pS2448))
+  Akt_pS473 + FoxO3a -> Akt_pS473 + FoxO3a + FoxO3a_pS253 , ( 1.0) * (FoxO3a_phos_by_Akt_pS473)
+  Akt_pS473 + FoxO3a -> Akt_pS473 + 2*FoxO3a , ( -1) * (( 1.0) * (FoxO3a_phos_by_Akt_pS473))
+  Akt_pS473 + CDKN1A -> Akt_pS473 + CDKN1A + Nil , ( 1.0) * (CDKN1A_inactiv_by_Akt_pS473)
+  Akt_pS473 + CDKN1A -> Akt_pS473 + 2*CDKN1A , ( -1) * (( 1.0) * (CDKN1A_inactiv_by_Akt_pS473))
+  Akt_pS473 + CDKN1B -> Akt_pS473 + CDKN1B + Nil , ( 1.0) * (CDKN1B_inactiv_by_Akt_pS473)
+  Akt_pS473 + CDKN1B -> Akt_pS473 + 2*CDKN1B , ( -1) * (( 1.0) * (CDKN1B_inactiv_by_Akt_pS473))
+  AMPK -> AMPK + AMPK_pT172 , ( 1.0) * (AMPK_T172_phos)
+  AMPK -> 2*AMPK , ( -1) * (( 1.0) * (AMPK_T172_phos))
+  AMPK_pT172 + mTORC1_pS2448 -> AMPK_pT172 + mTORC1 + mTORC1_pS2448 , ( 1.0) * (mTORC1_pS2448_dephos_by_AMPK_pT172)
+  AMPK_pT172 + mTORC1_pS2448 -> AMPK_pT172 + 2*mTORC1_pS2448 , ( -1) * (( 1.0) * (mTORC1_pS2448_dephos_by_AMPK_pT172))
+  AMPK_pT172 + FoxO3a -> AMPK_pT172 + Mitophagy + FoxO3a , ( 1.0) * (mitophagy_activ_by_FoxO3a_n_AMPK_pT172)
+  AMPK_pT172 + Mito_membr_pot_new -> AMPK + AMPK_pT172 + Mito_membr_pot_new , ( 1.0) * (AMPK_pT172_dephos_by_Mito_membr_pot_new)
+  AMPK_pT172 + Mito_membr_pot_new -> 2*AMPK_pT172 + Mito_membr_pot_new , ( -1) * (( 1.0) * (AMPK_pT172_dephos_by_Mito_membr_pot_new))
+  AMPK_pT172 + Mito_membr_pot_old -> AMPK + AMPK_pT172 + Mito_membr_pot_old , ( 1.0) * (AMPK_pT172_dephos_by_Mito_membr_pot_old)
+  AMPK_pT172 + Mito_membr_pot_old -> 2*AMPK_pT172 + Mito_membr_pot_old , ( -1) * (( 1.0) * (AMPK_pT172_dephos_by_Mito_membr_pot_old))
+  mTORC1 + IKKbeta + Amino_Acids -> mTORC1 + mTORC1_pS2448 + IKKbeta + Amino_Acids , ( 1.0) * (mTORC1_S2448_phos_by_AA_n_IKKbeta)
+  mTORC1 + IKKbeta + Amino_Acids -> 2*mTORC1 + IKKbeta + Amino_Acids , ( -1) * (( 1.0) * (mTORC1_S2448_phos_by_AA_n_IKKbeta))
+  mTORC1 + Amino_Acids -> mTORC1 + mTORC1_pS2448 + Amino_Acids , ( 1.0) * (mTORC1_S2448_phos_by_AA)
+  mTORC1 + Amino_Acids -> 2*mTORC1 + Amino_Acids , ( -1) * (( 1.0) * (mTORC1_S2448_phos_by_AA))
+  mTORC1_pS2448 + Mitophagy -> mTORC1_pS2448 + Mitophagy + Nil , ( 1.0) * (mitophagy_inactiv_by_mTORC1_pS2448)
+  mTORC1_pS2448 + Mitophagy -> mTORC1_pS2448 + 2*Mitophagy , ( -1) * (( 1.0) * (mitophagy_inactiv_by_mTORC1_pS2448))
+  mTORC1_pS2448 + Mito_mass_turnover -> mTORC1_pS2448 + Mito_mass_new + Mito_mass_turnover , ( 1.0) * (mito_biogenesis_by_AMPK_pT172)+( 1.0) * (mito_biogenesis_by_mTORC1_pS2448)
+  mTORC1_pS2448 + Mito_mass_turnover -> mTORC1_pS2448 + 2*Mito_mass_turnover , ( -1) * (( 1.0) * (mito_biogenesis_by_mTORC1_pS2448))+( -1) * (( 1.0) * (mito_biogenesis_by_AMPK_pT172))
+  Mitophagy -> Mitophagy + SA_beta_gal , ( 1.0) * (sen_ass_beta_gal_inc_by_Mitophagy)
+  Mitophagy + Mito_mass_new -> Mitophagy + Mito_mass_new + Mito_mass_turnover , ( 1.0) * (mitophagy_new)
+  Mitophagy + Mito_mass_new -> Mitophagy + 2*Mito_mass_new , ( -1) * (( 1.0) * (mitophagy_new))
+  Mitophagy + Mito_mass_old -> Mitophagy + Mito_mass_old + Mito_mass_turnover , ( 1.0) * (mitophagy_old)
+  Mitophagy + Mito_mass_old -> Mitophagy + 2*Mito_mass_old , ( -1) * (( 1.0) * (mitophagy_old))
+  FoxO3a + DNA_damage -> FoxO3a + CDKN1A + DNA_damage , ( 1.0) * (CDKN1A_transcr_by_FoxO3a_n_DNA_damage)
+  FoxO3a + DNA_damage -> FoxO3a + CDKN1B + DNA_damage , ( 1.0) * (CDKN1B_transcr_by_FoxO3a_n_DNA_damage)
+  FoxO3a_pS253 -> FoxO3a_pS253 + Nil , ( 1.0) * (FoxO3a_pS253_degrad)
+  FoxO3a_pS253 -> 2*FoxO3a_pS253 , ( -1) * (( 1.0) * (FoxO3a_pS253_degrad))
+  FoxO3a_pS253 + JNK_pT183 -> FoxO3a + FoxO3a_pS253 + JNK_pT183 , ( 1.0) * (FoxO3a_phos_by_JNK_pT183)
+  FoxO3a_pS253 + JNK_pT183 -> 2*FoxO3a_pS253 + JNK_pT183 , ( -1) * (( 1.0) * (FoxO3a_phos_by_JNK_pT183))
+  CDKN1A + Mito_mass_new -> CDKN1A + Mito_mass_new + Mito_mass_old , ( 1.0) * (mito_dysfunction)
+  CDKN1A + Mito_mass_new -> CDKN1A + 2*Mito_mass_new , ( -1) * (( 1.0) * (mito_dysfunction))
+  JNK + ROS -> JNK + JNK_pT183 + ROS , ( 1.0) * (JNK_activ_by_ROS)
+  JNK + ROS -> 2*JNK + ROS , ( -1) * (( 1.0) * (JNK_activ_by_ROS))
+  JNK_pT183 -> JNK + JNK_pT183 , ( 1.0) * (JNK_pT183_inactiv)
+  JNK_pT183 -> 2*JNK_pT183 , ( -1) * (( 1.0) * (JNK_pT183_inactiv))
+  ROS -> ROS + DNA_damage , ( 1.0) * (DNA_damaged_by_ROS)
+  ROS -> ROS + SA_beta_gal , ( 1.0) * (sen_ass_beta_gal_inc_by_ROS)
+  ROS -> ROS + IKKbeta , ( 1.0) * (IKKbeta_activ_by_ROS)
+  ROS -> ROS + Nil , ( 1.0) * (ROS_turnover)
+  ROS -> 2*ROS , ( -1) * (( 1.0) * (ROS_turnover))
+  DNA_damage -> DNA_damage + Nil , ( 1.0) * (DNA_repair)
+  DNA_damage -> 2*DNA_damage , ( -1) * (( 1.0) * (DNA_repair))
+  SA_beta_gal -> 2*SA_beta_gal , ( -1) * (( 1.0) * (sen_ass_beta_gal_dec))
+  IKKbeta -> IKKbeta + Nil , ( 1.0) * (IKKbeta_inactiv)
+  IKKbeta -> 2*IKKbeta , ( -1) * (( 1.0) * (IKKbeta_inactiv))
+  Mito_mass_new -> Mito_mass_new + Mito_membr_pot_new , ( 1.0) * (mito_membr_pot_new_inc)
+  Mito_mass_old -> Mito_mass_old + Mito_membr_pot_old , ( 1.0) * (mito_membr_pot_old_inc)
+  Mito_membr_pot_new -> ROS + Mito_membr_pot_new , ( 1.0) * (ROS_prod_by_Mito_membr_pot_new)
+  Mito_membr_pot_new -> Mito_membr_pot_new + Nil , ( 1.0) * (mito_membr_pot_new_dec)
+  Mito_membr_pot_new -> 2*Mito_membr_pot_new , ( -1) * (( 1.0) * (mito_membr_pot_new_dec))
+  Mito_membr_pot_old -> ROS + Mito_membr_pot_old , ( 1.0) * (ROS_prod_by_Mito_membr_pot_old)
+  Mito_membr_pot_old -> Mito_membr_pot_old + Nil , ( 1.0) * (mito_membr_pot_old_dec)
+  Mito_membr_pot_old -> 2*Mito_membr_pot_old , ( -1) * (( 1.0) * (mito_membr_pot_old_dec))
+  Irradiation -> DNA_damage + Irradiation , ( 1.0) * (DNA_damaged_by_irradiation)
+  source -> FoxO3a + source , ( 1.0) * (FoxO3a_synthesis)
+ end reactions
+
+end model
+

@@ -1,0 +1,92 @@
+begin model BIOMD0000000188
+ begin parameters
+  IR = 0.0
+  ksynMdm2 = 4.95E-4
+  kdegMdm2 = 4.33E-4
+  ksynp53 = 0.006
+  kdegp53 = 8.25E-4
+  kbinMdm2p53 = 0.001155
+  krelMdm2p53 = 1.155E-5
+  ksynMdm2mRNA = 1.0E-4
+  kdegMdm2mRNA = 1.0E-4
+  kactATM = 1.0E-4
+  kdegATMMdm2 = 4.0E-4
+  kinactATM = 5.0E-4
+  kphosp53 = 5.0E-4
+  kdephosp53 = 0.5
+  kphosMdm2 = 2.0
+  kdephosMdm2 = 0.5
+  kdam = 0.08
+  krepair = 2.0E-5
+  kproteff = 1.0
+  ksynp53mRNA = 0.001
+  kdegp53mRNA = 1.0E-4
+ end parameters
+ begin init
+  Mdm2 = 5.0
+  p53 = 5.0
+  Mdm2_p53 = 95.0
+  Mdm2_mRNA = 10.0
+  p53_mRNA = 10.0
+  ATMA
+  ATMI = 200.0
+  p53_P
+  Mdm2_P
+  damDNA
+  Sink = 1.0
+  Source = 1.0
+  p53deg
+  p53syn
+  mdm2deg
+  mdm2syn
+  Mdm2mRNAdeg
+  Mdm2mRNAsyn
+  totp53
+  totMdm2
+  source = 1.0
+ end init
+ begin reactions
+  Mdm2 -> Mdm2 + mdm2deg , ( kdegMdm2) * (kproteff)
+  Mdm2 -> 2*Mdm2 , ( -1) * (( kdegMdm2) * (kproteff))
+  Mdm2 + p53 -> Mdm2 + p53 + Mdm2_p53 , kbinMdm2p53
+  Mdm2 + p53 -> Mdm2 + 2*p53 , ( -1) * (kbinMdm2p53)
+  Mdm2 + p53 -> 2*Mdm2 + p53 , ( -1) * (kbinMdm2p53)
+  Mdm2 + ATMA -> Mdm2 + ATMA + Mdm2_P , kphosMdm2
+  Mdm2 + ATMA -> 2*Mdm2 + ATMA , ( -1) * (kphosMdm2)
+  p53 -> p53 + Mdm2_mRNA , ksynMdm2mRNA
+  p53 -> p53 + Mdm2mRNAsyn , ksynMdm2mRNA
+  p53 + ATMA -> p53 + ATMA + p53_P , kphosp53
+  p53 + ATMA -> 2*p53 + ATMA , ( -1) * (kphosp53)
+  Mdm2_p53 -> Mdm2 + Mdm2_p53 , krelMdm2p53+( kdegp53) * (kproteff)
+  Mdm2_p53 -> p53 + Mdm2_p53 , krelMdm2p53
+  Mdm2_p53 -> Mdm2_p53 + p53deg , ( kdegp53) * (kproteff)
+  Mdm2_p53 -> 2*Mdm2_p53 , ( -1) * (( kdegp53) * (kproteff))+( -1) * (krelMdm2p53)
+  Mdm2_mRNA -> Mdm2 + Mdm2_mRNA , ksynMdm2
+  Mdm2_mRNA -> Mdm2_mRNA + mdm2syn , ksynMdm2
+  Mdm2_mRNA -> Mdm2_mRNA + Mdm2mRNAdeg , kdegMdm2mRNA
+  Mdm2_mRNA -> 2*Mdm2_mRNA , ( -1) * (kdegMdm2mRNA)
+  p53_mRNA -> p53 + p53_mRNA , ksynp53
+  p53_mRNA -> p53_mRNA + p53syn , ksynp53
+  p53_mRNA -> 2*p53_mRNA , ( -1) * (kdegp53mRNA)
+  ATMA -> ATMA + ATMI , kinactATM
+  ATMA -> 2*ATMA , ( -1) * (kinactATM)
+  ATMI + damDNA -> ATMA + ATMI + damDNA , kactATM
+  ATMI + damDNA -> 2*ATMI + damDNA , ( -1) * (kactATM)
+  p53_P -> p53 + p53_P , kdephosp53
+  p53_P -> Mdm2_mRNA + p53_P , ksynMdm2mRNA
+  p53_P -> p53_P + Mdm2mRNAsyn , ksynMdm2mRNA
+  p53_P -> 2*p53_P , ( -1) * (kdephosp53)
+  Mdm2_P -> Mdm2 + Mdm2_P , kdephosMdm2
+  Mdm2_P -> Mdm2_P + mdm2deg , kdegATMMdm2
+  Mdm2_P -> 2*Mdm2_P , ( -1) * (kdephosMdm2)+( -1) * (kdegATMMdm2)
+  damDNA -> 2*damDNA , ( -1) * (krepair)
+  Source -> p53_mRNA + Source , ksynp53mRNA
+  source -> damDNA + source , ( kdam) * (IR)
+ end reactions
+
+//Comments associated to the species
+//Sink:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

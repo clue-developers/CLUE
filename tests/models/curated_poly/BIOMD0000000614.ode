@@ -1,0 +1,26 @@
+begin model BIOMD0000000614
+ begin parameters
+  k1 = 2.79E-6
+  k2 = 2.29
+  a = 5.85E-5
+ end parameters
+ begin init
+  f ( "fibril fraction" ) 
+  SINK
+  source = 1.0
+  I = 1
+ end init
+ begin reactions
+  f -> f + SINK , ( -1) * (( 1.0) * (k1))
+  f -> 2*f , ( 1.0) * (k1)+( ( 1.0) * (k2)) * (a)
+  2*f -> 2*f + SINK , ( -1) * (( ( 1.0) * (k2)) * (a))
+  2*f -> 3*f , ( ( 1.0) * (k2)) * (a)
+  I -> f + I , ( 1.0) * (k1)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

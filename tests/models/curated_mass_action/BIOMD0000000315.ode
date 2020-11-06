@@ -1,0 +1,122 @@
+begin model BIOMD0000000315
+ begin parameters
+  k0d = 0.0294
+  k0r = 3.43457943925
+  k1d = 3.43457943925
+  k1r = 0.0294
+  k2d = 3.43457943925
+  k2r = 0.0294
+  k3d = 3.43457943925
+  k3r = 0.0294
+  k4d = 15.2
+  k5d = 11.8408
+  k6d = 3.34
+  k7d = 0.0294
+  k7r = 3.43457943925
+  k8d = 0.610714285714
+  k8r = 0.0171
+  k9d = 0.610714285714
+  k9r = 0.0171
+  k10d = 3.43457943925
+  k10r = 0.0294
+  k11d = 11.8408
+  k12d = 9.2239832
+  k13d = 2.60186
+  k14d = 0.0171
+  k14r = 0.610714285714
+  k15d = 0.00186296832954
+  k15r = 0.027
+  k16d = 0.027
+  k16r = 0.00186296832954
+  k17d = 0.0171
+  k17r = 0.610714285714
+  k18d = 17.024
+  k19d = 5.566848
+  k20d = 3.2064
+  k21d = 0.027
+  k21r = 0.00608108108108
+  k22d = 0.021546
+  k22r = 4.15391351351E-5
+  k23d = 4.15391351351E-5
+  k23r = 0.021546
+  k24d = 0.411
+  k25d = 0.485802
+  k26d = 1.7262
+  Bp_concentration = 0.0
+  fluorescence = 0.0
+  Inh_total = 0.0
+  beta_total = 0.0
+  alpha_total = 0.0
+ end parameters
+ begin init
+  T1 = 38.5
+  alpha = 10.0
+  alpha_T1
+  alpha_T1_alpha
+  T1_alpha
+  alpha_alpha_T1
+  T2 = 3.89
+  alpha_T2
+  alpha_T2_beta
+  beta
+  T2_beta
+  alpha_beta_T2
+  T3 = 38.5
+  beta_T3
+  beta_T3_Inh
+  Inh
+  T3_Inh
+  beta_Inh_T3
+  Inh_T1
+  empty
+ end init
+ begin reactions
+  T1 + alpha -> alpha_T1 , k0d [ass_aa_l]
+  alpha_T1 -> T1 + alpha , k0r [ass_aa_l]
+  alpha_T1_alpha -> alpha + alpha_T1 , k1d [m_ass_aa_lr]
+  alpha + alpha_T1 -> alpha_T1_alpha , k1r [m_ass_aa_lr]
+  T1_alpha -> T1 + alpha , k2d [m_ass_aa_r]
+  T1 + alpha -> T1_alpha , k2r [m_ass_aa_r]
+  alpha_T1_alpha -> alpha + T1_alpha , k3d [m_ass_aa_rl]
+  alpha + T1_alpha -> alpha_T1_alpha , k3r [m_ass_aa_rl]
+  alpha_T1 -> alpha_alpha_T1 , k4d [pol_aa]
+  alpha_T1_alpha -> alpha + alpha_alpha_T1 , k5d [dis_aa]
+  alpha_alpha_T1 -> alpha_T1_alpha , k6d [nick_aa]
+  alpha + T2 -> alpha_T2 , k7d [ass_ab_l]
+  alpha_T2 -> alpha + T2 , k7r [ass_ab_l]
+  alpha_T2_beta -> alpha_T2 + beta , k8d [m_ass_ab_lr]
+  alpha_T2 + beta -> alpha_T2_beta , k8r [m_ass_ab_lr]
+  T2_beta -> T2 + beta , k9d [m_ass_ab_r]
+  T2 + beta -> T2_beta , k9r [m_ass_ab_r]
+  alpha_T2_beta -> alpha + T2_beta , k10d [m_ass_ab_rl]
+  alpha + T2_beta -> alpha_T2_beta , k10r [m_ass_ab_rl]
+  alpha_T2 -> alpha_beta_T2 , k11d [pol_ab]
+  alpha_T2_beta -> beta + alpha_beta_T2 , k12d [dis_ab]
+  alpha_beta_T2 -> alpha_T2_beta , k13d [nick_ab]
+  beta + T3 -> beta_T3 , k14d [ass_bc_l]
+  beta_T3 -> beta + T3 , k14r [ass_bc_l]
+  beta_T3_Inh -> beta_T3 + Inh , k15d [m_ass_bc_lr]
+  beta_T3 + Inh -> beta_T3_Inh , k15r [m_ass_bc_lr]
+  T3 + Inh -> T3_Inh , k16d [ass_bc_r]
+  T3_Inh -> T3 + Inh , k16r [ass_bc_r]
+  beta + T3_Inh -> beta_T3_Inh , k17d [ass_bc_rl]
+  beta_T3_Inh -> beta + T3_Inh , k17r [ass_bc_rl]
+  beta_T3 -> beta_Inh_T3 , k18d [pol_bc]
+  beta_T3_Inh -> Inh + beta_Inh_T3 , k19d [dis_bc]
+  beta_Inh_T3 -> beta_T3_Inh , k20d [nick_bc]
+  T1 + Inh -> Inh_T1 , k21d [inh_ac]
+  Inh_T1 -> T1 + Inh , k21r [inh_ac]
+  T1_alpha + Inh -> alpha + Inh_T1 , k22d [inh_displ_ac]
+  alpha + Inh_T1 -> T1_alpha + Inh , k22r [inh_displ_ac]
+  alpha + Inh_T1 -> alpha_T1 + Inh , k23d [m_inh_displ_ca]
+  alpha_T1 + Inh -> alpha + Inh_T1 , k23r [m_inh_displ_ca]
+  alpha -> empty , k24d [exo_a]
+  empty -> alpha , k24d [exo_a]
+  beta -> empty , k25d [exo_b]
+  empty -> beta , k25d [exo_b]
+  Inh -> empty , k26d [exo_c]
+  empty -> Inh , k26d [exo_c]
+ end reactions
+
+end model
+

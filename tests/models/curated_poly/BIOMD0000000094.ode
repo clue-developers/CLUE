@@ -1,0 +1,203 @@
+begin model BIOMD0000000094
+ begin init
+  R = 10.0 ( "Receptor" ) 
+  JAK = 10.0
+  RJ ( "Receptor JAK complex" ) 
+  IFNRJ ( "Interferon-Receptor-JAK complex" ) 
+  IFNRJ2 ( "IFNRJ dimer" ) 
+  IFNRJ2_star ( "Activated IFNRJ complex" ) 
+  STAT1c = 1000.0
+  IFNRJ2_star_STAT1c
+  STAT1c_star
+  IFNRJ2_star_STAT1c_star
+  STAT1c_star_STAT1c_star
+  SHP2 = 100.0
+  IFNRJ2_star_SHP2
+  PPX = 50.0
+  STAT1c_star_PPX
+  STAT1c_STAT1c_star
+  STAT1n_star_STAT1n_star
+  STAT1n_star
+  PPN = 60.0
+  STAT1n_star_PPN
+  STAT1n
+  STAT1n_STAT1n_star
+  mRNAn
+  mRNAc
+  SOCS1
+  IFNRJ2_star_SOCS1
+  IFNRJ2_star_SHP2_SOCS1_STAT1c
+  STAT1c_star_STAT1c_star_PPX
+  STAT1n_star_STAT1n_star_PPN
+  IFNRJ2_star_SOCS1_STAT1c
+  IFN = 10.0
+  IFNRJ2_star_SHP2_STAT1c
+  IFNRJ2_star_SHP2_SOCS1
+  IFNR
+  SINK
+ end init
+ begin reactions
+  R + JAK -> R + JAK + RJ , ( 1.0) * (0.1)
+  R + JAK -> R + 2*JAK , ( -1) * (( 1.0) * (0.1))
+  R + JAK -> 2*R + JAK , ( -1) * (( 1.0) * (0.1))
+  R + IFN -> R + IFN + IFNR , ( 1.0) * (0.02)
+  R + IFN -> 2*R + IFN , ( -1) * (( 1.0) * (0.02))
+  JAK + IFNR -> JAK + IFNRJ + IFNR , ( 1.0) * (0.1)
+  JAK + IFNR -> JAK + 2*IFNR , ( -1) * (( 1.0) * (0.1))
+  JAK + IFNR -> 2*JAK + IFNR , ( -1) * (( 1.0) * (0.1))
+  RJ -> R + RJ , ( -1) * (( 1.0) * (-(0.05)))
+  RJ -> JAK + RJ , ( -1) * (( 1.0) * (-(0.05)))
+  RJ -> 2*RJ , ( 1.0) * (-(0.05))
+  RJ + IFN -> RJ + IFNRJ + IFN , ( 1.0) * (0.02)
+  RJ + IFN -> 2*RJ + IFN , ( -1) * (( 1.0) * (0.02))
+  IFNRJ -> JAK + IFNRJ , ( -1) * (( 1.0) * (-(0.05)))
+  IFNRJ -> RJ + IFNRJ , ( -1) * (( 1.0) * (-(0.02)))
+  IFNRJ -> IFNRJ + IFNR , ( -1) * (( 1.0) * (-(0.05)))
+  IFNRJ -> 2*IFNRJ , ( 1.0) * (-(0.05))+( 1.0) * (-(0.02))
+  2*IFNRJ -> 2*IFNRJ + IFNRJ2 , ( 1.0) * (0.04)
+  2*IFNRJ -> 3*IFNRJ , ( -2) * (( 1.0) * (0.04))
+  IFNRJ2 -> IFNRJ + IFNRJ2 , ( -2) * (( 1.0) * (-(0.2)))
+  IFNRJ2 -> IFNRJ2 + IFNRJ2_star , ( 1.0) * (0.005)
+  IFNRJ2 -> 2*IFNRJ2 , ( 1.0) * (-(0.2))+( -1) * (( 1.0) * (0.005))
+  IFNRJ2_star + STAT1c -> IFNRJ2_star + STAT1c + IFNRJ2_star_STAT1c , ( 1.0) * (0.008)
+  IFNRJ2_star + STAT1c -> IFNRJ2_star + 2*STAT1c , ( -1) * (( 1.0) * (0.008))
+  IFNRJ2_star + STAT1c -> 2*IFNRJ2_star + STAT1c , ( -1) * (( 1.0) * (0.008))
+  IFNRJ2_star + STAT1c_star -> IFNRJ2_star + STAT1c_star + IFNRJ2_star_STAT1c_star , ( 1.0) * (0.005)
+  IFNRJ2_star + STAT1c_star -> IFNRJ2_star + 2*STAT1c_star , ( -1) * (( 1.0) * (0.005))
+  IFNRJ2_star + STAT1c_star -> 2*IFNRJ2_star + STAT1c_star , ( -1) * (( 1.0) * (0.005))
+  IFNRJ2_star + SHP2 -> IFNRJ2_star + SHP2 + IFNRJ2_star_SHP2 , ( 1.0) * (0.001)
+  IFNRJ2_star + SHP2 -> IFNRJ2_star + 2*SHP2 , ( -1) * (( 1.0) * (0.001))
+  IFNRJ2_star + SHP2 -> 2*IFNRJ2_star + SHP2 , ( -1) * (( 1.0) * (0.001))
+  IFNRJ2_star + SOCS1 -> IFNRJ2_star + SOCS1 + IFNRJ2_star_SOCS1 , ( 1.0) * (0.02)
+  IFNRJ2_star + SOCS1 -> IFNRJ2_star + 2*SOCS1 , ( -1) * (( 1.0) * (0.02))
+  IFNRJ2_star + SOCS1 -> 2*IFNRJ2_star + SOCS1 , ( -1) * (( 1.0) * (0.02))
+  STAT1c + STAT1c_star -> STAT1c + STAT1c_star + STAT1c_STAT1c_star , ( 1.0) * (2.0E-7)
+  STAT1c + STAT1c_star -> STAT1c + 2*STAT1c_star , ( -1) * (( 1.0) * (2.0E-7))
+  STAT1c + STAT1c_star -> 2*STAT1c + STAT1c_star , ( -1) * (( 1.0) * (2.0E-7))
+  STAT1c + IFNRJ2_star_SOCS1 -> STAT1c + IFNRJ2_star_SOCS1 + IFNRJ2_star_SOCS1_STAT1c , ( 1.0) * (0.008)
+  STAT1c + IFNRJ2_star_SOCS1 -> STAT1c + 2*IFNRJ2_star_SOCS1 , ( -1) * (( 1.0) * (0.008))
+  STAT1c + IFNRJ2_star_SOCS1 -> 2*STAT1c + IFNRJ2_star_SOCS1 , ( -1) * (( 1.0) * (0.008))
+  STAT1c + IFNRJ2_star_SHP2_SOCS1 -> STAT1c + IFNRJ2_star_SHP2_SOCS1_STAT1c + IFNRJ2_star_SHP2_SOCS1 , ( 1.0) * (0.008)
+  STAT1c + IFNRJ2_star_SHP2_SOCS1 -> STAT1c + 2*IFNRJ2_star_SHP2_SOCS1 , ( -1) * (( 1.0) * (0.008))
+  STAT1c + IFNRJ2_star_SHP2_SOCS1 -> 2*STAT1c + IFNRJ2_star_SHP2_SOCS1 , ( -1) * (( 1.0) * (0.008))
+  IFNRJ2_star_STAT1c -> IFNRJ2_star + IFNRJ2_star_STAT1c , ( 1.0) * (0.4)+( -1) * (( 1.0) * (-(0.8)))
+  IFNRJ2_star_STAT1c -> STAT1c + IFNRJ2_star_STAT1c , ( -1) * (( 1.0) * (-(0.8)))
+  IFNRJ2_star_STAT1c -> IFNRJ2_star_STAT1c + STAT1c_star , ( 1.0) * (0.4)
+  IFNRJ2_star_STAT1c -> 2*IFNRJ2_star_STAT1c , ( 1.0) * (-(0.8))+( -1) * (( 1.0) * (0.4))
+  IFNRJ2_star_STAT1c + SHP2 -> IFNRJ2_star_STAT1c + SHP2 + IFNRJ2_star_SHP2_STAT1c , ( 1.0) * (0.001)
+  IFNRJ2_star_STAT1c + SHP2 -> IFNRJ2_star_STAT1c + 2*SHP2 , ( -1) * (( 1.0) * (0.001))
+  IFNRJ2_star_STAT1c + SHP2 -> 2*IFNRJ2_star_STAT1c + SHP2 , ( -1) * (( 1.0) * (0.001))
+  IFNRJ2_star_STAT1c + SOCS1 -> IFNRJ2_star_STAT1c + SOCS1 + IFNRJ2_star_SOCS1_STAT1c , ( 1.0) * (0.02)
+  IFNRJ2_star_STAT1c + SOCS1 -> IFNRJ2_star_STAT1c + 2*SOCS1 , ( -1) * (( 1.0) * (0.02))
+  IFNRJ2_star_STAT1c + SOCS1 -> 2*IFNRJ2_star_STAT1c + SOCS1 , ( -1) * (( 1.0) * (0.02))
+  STAT1c_star + PPX -> STAT1c_star + PPX + STAT1c_star_PPX , ( 1.0) * (0.001)
+  STAT1c_star + PPX -> STAT1c_star + 2*PPX , ( -1) * (( 1.0) * (0.001))
+  STAT1c_star + PPX -> 2*STAT1c_star + PPX , ( -1) * (( 1.0) * (0.001))
+  2*STAT1c_star -> 2*STAT1c_star + STAT1c_star_STAT1c_star , ( 1.0) * (0.02)
+  2*STAT1c_star -> 3*STAT1c_star , ( -2) * (( 1.0) * (0.02))
+  IFNRJ2_star_STAT1c_star -> IFNRJ2_star + IFNRJ2_star_STAT1c_star , ( -1) * (( 1.0) * (-(0.5)))
+  IFNRJ2_star_STAT1c_star -> STAT1c_star + IFNRJ2_star_STAT1c_star , ( -1) * (( 1.0) * (-(0.5)))
+  IFNRJ2_star_STAT1c_star -> 2*IFNRJ2_star_STAT1c_star , ( 1.0) * (-(0.5))
+  STAT1c_star_STAT1c_star -> STAT1c_star + STAT1c_star_STAT1c_star , ( -2) * (( 1.0) * (-(0.1)))
+  STAT1c_star_STAT1c_star -> STAT1c_star_STAT1c_star + STAT1n_star_STAT1n_star , ( 1.0) * (0.005)
+  STAT1c_star_STAT1c_star -> 2*STAT1c_star_STAT1c_star , ( 1.0) * (-(0.1))+( -1) * (( 1.0) * (0.005))
+  STAT1c_star_STAT1c_star + PPX -> STAT1c_star_STAT1c_star + PPX + STAT1c_star_STAT1c_star_PPX , ( 1.0) * (0.001)
+  STAT1c_star_STAT1c_star + PPX -> STAT1c_star_STAT1c_star + 2*PPX , ( -1) * (( 1.0) * (0.001))
+  STAT1c_star_STAT1c_star + PPX -> 2*STAT1c_star_STAT1c_star + PPX , ( -1) * (( 1.0) * (0.001))
+  SHP2 + IFNRJ2_star_SOCS1 -> SHP2 + IFNRJ2_star_SOCS1 + IFNRJ2_star_SHP2_SOCS1 , ( 1.0) * (0.001)
+  SHP2 + IFNRJ2_star_SOCS1 -> SHP2 + 2*IFNRJ2_star_SOCS1 , ( -1) * (( 1.0) * (0.001))
+  SHP2 + IFNRJ2_star_SOCS1 -> 2*SHP2 + IFNRJ2_star_SOCS1 , ( -1) * (( 1.0) * (0.001))
+  SHP2 + IFNRJ2_star_SOCS1_STAT1c -> SHP2 + IFNRJ2_star_SHP2_SOCS1_STAT1c + IFNRJ2_star_SOCS1_STAT1c , ( 1.0) * (0.001)
+  SHP2 + IFNRJ2_star_SOCS1_STAT1c -> SHP2 + 2*IFNRJ2_star_SOCS1_STAT1c , ( -1) * (( 1.0) * (0.001))
+  SHP2 + IFNRJ2_star_SOCS1_STAT1c -> 2*SHP2 + IFNRJ2_star_SOCS1_STAT1c , ( -1) * (( 1.0) * (0.001))
+  IFNRJ2_star_SHP2 -> IFNRJ2 + IFNRJ2_star_SHP2 , ( 1.0) * (0.003)
+  IFNRJ2_star_SHP2 -> IFNRJ2_star + IFNRJ2_star_SHP2 , ( -1) * (( 1.0) * (-(0.2)))
+  IFNRJ2_star_SHP2 -> SHP2 + IFNRJ2_star_SHP2 , ( 1.0) * (0.003)+( -1) * (( 1.0) * (-(0.2)))
+  IFNRJ2_star_SHP2 -> 2*IFNRJ2_star_SHP2 , ( 1.0) * (-(0.2))+( -1) * (( 1.0) * (0.003))
+  IFNRJ2_star_SHP2 + SOCS1 -> IFNRJ2_star_SHP2 + SOCS1 + IFNRJ2_star_SHP2_SOCS1 , ( 1.0) * (0.02)
+  IFNRJ2_star_SHP2 + SOCS1 -> IFNRJ2_star_SHP2 + 2*SOCS1 , ( -1) * (( 1.0) * (0.02))
+  IFNRJ2_star_SHP2 + SOCS1 -> 2*IFNRJ2_star_SHP2 + SOCS1 , ( -1) * (( 1.0) * (0.02))
+  STAT1c_star_PPX -> STAT1c + STAT1c_star_PPX , ( 1.0) * (0.003)
+  STAT1c_star_PPX -> STAT1c_star + STAT1c_star_PPX , ( -1) * (( 1.0) * (-(0.2)))
+  STAT1c_star_PPX -> PPX + STAT1c_star_PPX , ( 1.0) * (0.003)+( -1) * (( 1.0) * (-(0.2)))
+  STAT1c_star_PPX -> 2*STAT1c_star_PPX , ( 1.0) * (-(0.2))+( -1) * (( 1.0) * (0.003))
+  STAT1c_STAT1c_star -> STAT1c + STAT1c_STAT1c_star , ( -1) * (( 1.0) * (-(0.2)))
+  STAT1c_STAT1c_star -> STAT1c_star + STAT1c_STAT1c_star , ( -1) * (( 1.0) * (-(0.2)))
+  STAT1c_STAT1c_star -> 2*STAT1c_STAT1c_star , ( 1.0) * (-(0.2))
+  STAT1n_star_STAT1n_star -> STAT1n_star_STAT1n_star + STAT1n_star , ( -2) * (( 1.0) * (-(0.1)))
+  STAT1n_star_STAT1n_star -> 2*STAT1n_star_STAT1n_star , ( 1.0) * (-(0.1))
+  STAT1n_star_STAT1n_star + PPN -> STAT1n_star_STAT1n_star + PPN + STAT1n_star_STAT1n_star_PPN , ( 1.0) * (0.001)
+  STAT1n_star_STAT1n_star + PPN -> STAT1n_star_STAT1n_star + 2*PPN , ( -1) * (( 1.0) * (0.001))
+  STAT1n_star_STAT1n_star + PPN -> 2*STAT1n_star_STAT1n_star + PPN , ( -1) * (( 1.0) * (0.001))
+  STAT1n_star + PPN -> STAT1n_star + PPN + STAT1n_star_PPN , ( 1.0) * (0.001)
+  STAT1n_star + PPN -> STAT1n_star + 2*PPN , ( -1) * (( 1.0) * (0.001))
+  STAT1n_star + PPN -> 2*STAT1n_star + PPN , ( -1) * (( 1.0) * (0.001))
+  STAT1n_star + STAT1n -> STAT1n_star + STAT1n + STAT1n_STAT1n_star , ( 1.0) * (2.0E-7)
+  STAT1n_star + STAT1n -> STAT1n_star + 2*STAT1n , ( -1) * (( 1.0) * (2.0E-7))
+  STAT1n_star + STAT1n -> 2*STAT1n_star + STAT1n , ( -1) * (( 1.0) * (2.0E-7))
+  2*STAT1n_star -> STAT1n_star_STAT1n_star + 2*STAT1n_star , ( 1.0) * (0.02)
+  2*STAT1n_star -> 3*STAT1n_star , ( -2) * (( 1.0) * (0.02))
+  STAT1n_star_PPN -> STAT1n_star + STAT1n_star_PPN , ( -1) * (( 1.0) * (-(0.2)))
+  STAT1n_star_PPN -> PPN + STAT1n_star_PPN , ( 1.0) * (0.005)+( -1) * (( 1.0) * (-(0.2)))
+  STAT1n_star_PPN -> STAT1n_star_PPN + STAT1n , ( 1.0) * (0.005)
+  STAT1n_star_PPN -> 2*STAT1n_star_PPN , ( 1.0) * (-(0.2))+( -1) * (( 1.0) * (0.005))
+  STAT1n -> STAT1c + STAT1n , ( 1.0) * (0.05)
+  STAT1n -> 2*STAT1n , ( -1) * (( 1.0) * (0.05))
+  STAT1n_STAT1n_star -> STAT1n_star + STAT1n_STAT1n_star , ( -1) * (( 1.0) * (-(0.2)))
+  STAT1n_STAT1n_star -> STAT1n + STAT1n_STAT1n_star , ( -1) * (( 1.0) * (-(0.2)))
+  STAT1n_STAT1n_star -> 2*STAT1n_STAT1n_star , ( 1.0) * (-(0.2))
+  mRNAn -> mRNAn + mRNAc , ( 1.0) * (0.001)
+  mRNAn -> 2*mRNAn , ( -1) * (( 1.0) * (0.001))
+  mRNAc -> mRNAc + SOCS1 , ( 1.0) * (0.01)
+  mRNAc -> mRNAc + SINK , ( -1) * (( 1.0) * (5.0E-4))
+  mRNAc -> 2*mRNAc , ( 1.0) * (5.0E-4)
+  SOCS1 -> SOCS1 + SINK , ( -1) * (( 1.0) * (5.0E-4))
+  SOCS1 -> 2*SOCS1 , ( 1.0) * (5.0E-4)
+  SOCS1 + IFNRJ2_star_SHP2_STAT1c -> SOCS1 + IFNRJ2_star_SHP2_SOCS1_STAT1c + IFNRJ2_star_SHP2_STAT1c , ( 1.0) * (0.02)
+  SOCS1 + IFNRJ2_star_SHP2_STAT1c -> SOCS1 + 2*IFNRJ2_star_SHP2_STAT1c , ( -1) * (( 1.0) * (0.02))
+  SOCS1 + IFNRJ2_star_SHP2_STAT1c -> 2*SOCS1 + IFNRJ2_star_SHP2_STAT1c , ( -1) * (( 1.0) * (0.02))
+  IFNRJ2_star_SOCS1 -> IFNRJ2_star + IFNRJ2_star_SOCS1 , ( 1.0) * (5.0E-4)+( -1) * (( 1.0) * (-(0.1)))
+  IFNRJ2_star_SOCS1 -> SOCS1 + IFNRJ2_star_SOCS1 , ( -1) * (( 1.0) * (-(0.1)))
+  IFNRJ2_star_SOCS1 -> 2*IFNRJ2_star_SOCS1 , ( 1.0) * (-(0.1))+( -1) * (( 1.0) * (5.0E-4))
+  IFNRJ2_star_SHP2_SOCS1_STAT1c -> IFNRJ2 + IFNRJ2_star_SHP2_SOCS1_STAT1c , ( 1.0) * (0.003)
+  IFNRJ2_star_SHP2_SOCS1_STAT1c -> STAT1c + IFNRJ2_star_SHP2_SOCS1_STAT1c , ( 1.0) * (0.003)+( -1) * (( 1.0) * (-(0.8)))
+  IFNRJ2_star_SHP2_SOCS1_STAT1c -> SHP2 + IFNRJ2_star_SHP2_SOCS1_STAT1c , ( 1.0) * (0.003)+( -1) * (( 1.0) * (-(0.2)))
+  IFNRJ2_star_SHP2_SOCS1_STAT1c -> SOCS1 + IFNRJ2_star_SHP2_SOCS1_STAT1c , ( 1.0) * (0.003)+( -1) * (( 1.0) * (-(0.1)))
+  IFNRJ2_star_SHP2_SOCS1_STAT1c -> IFNRJ2_star_SHP2_SOCS1_STAT1c + IFNRJ2_star_SOCS1_STAT1c , ( -1) * (( 1.0) * (-(0.2)))
+  IFNRJ2_star_SHP2_SOCS1_STAT1c -> IFNRJ2_star_SHP2_SOCS1_STAT1c + IFNRJ2_star_SHP2_STAT1c , ( 1.0) * (5.0E-4)+( -1) * (( 1.0) * (-(0.1)))
+  IFNRJ2_star_SHP2_SOCS1_STAT1c -> IFNRJ2_star_SHP2_SOCS1_STAT1c + IFNRJ2_star_SHP2_SOCS1 , ( -1) * (( 1.0) * (-(0.8)))
+  IFNRJ2_star_SHP2_SOCS1_STAT1c -> 2*IFNRJ2_star_SHP2_SOCS1_STAT1c , ( 1.0) * (-(0.8))+( 1.0) * (-(0.2))+( 1.0) * (-(0.1))+( -1) * (( 1.0) * (0.003))+( -1) * (( 1.0) * (5.0E-4))
+  STAT1c_star_STAT1c_star_PPX -> STAT1c_star_STAT1c_star + STAT1c_star_STAT1c_star_PPX , ( -1) * (( 1.0) * (-(0.2)))
+  STAT1c_star_STAT1c_star_PPX -> PPX + STAT1c_star_STAT1c_star_PPX , ( 1.0) * (0.003)+( -1) * (( 1.0) * (-(0.2)))
+  STAT1c_star_STAT1c_star_PPX -> STAT1c_STAT1c_star + STAT1c_star_STAT1c_star_PPX , ( 1.0) * (0.003)
+  STAT1c_star_STAT1c_star_PPX -> 2*STAT1c_star_STAT1c_star_PPX , ( 1.0) * (-(0.2))+( -1) * (( 1.0) * (0.003))
+  STAT1n_star_STAT1n_star_PPN -> STAT1n_star_STAT1n_star + STAT1n_star_STAT1n_star_PPN , ( -1) * (( 1.0) * (-(0.2)))
+  STAT1n_star_STAT1n_star_PPN -> PPN + STAT1n_star_STAT1n_star_PPN , ( 1.0) * (0.005)+( -1) * (( 1.0) * (-(0.2)))
+  STAT1n_star_STAT1n_star_PPN -> STAT1n_STAT1n_star + STAT1n_star_STAT1n_star_PPN , ( 1.0) * (0.005)
+  STAT1n_star_STAT1n_star_PPN -> 2*STAT1n_star_STAT1n_star_PPN , ( 1.0) * (-(0.2))+( -1) * (( 1.0) * (0.005))
+  IFNRJ2_star_SOCS1_STAT1c -> STAT1c + IFNRJ2_star_SOCS1_STAT1c , ( -1) * (( 1.0) * (-(0.8)))
+  IFNRJ2_star_SOCS1_STAT1c -> IFNRJ2_star_STAT1c + IFNRJ2_star_SOCS1_STAT1c , ( 1.0) * (5.0E-4)+( -1) * (( 1.0) * (-(0.1)))
+  IFNRJ2_star_SOCS1_STAT1c -> SOCS1 + IFNRJ2_star_SOCS1_STAT1c , ( -1) * (( 1.0) * (-(0.1)))
+  IFNRJ2_star_SOCS1_STAT1c -> IFNRJ2_star_SOCS1 + IFNRJ2_star_SOCS1_STAT1c , ( -1) * (( 1.0) * (-(0.8)))
+  IFNRJ2_star_SOCS1_STAT1c -> 2*IFNRJ2_star_SOCS1_STAT1c , ( 1.0) * (-(0.8))+( 1.0) * (-(0.1))+( -1) * (( 1.0) * (5.0E-4))
+  IFNRJ2_star_SHP2_STAT1c -> IFNRJ2 + IFNRJ2_star_SHP2_STAT1c , ( 1.0) * (0.003)
+  IFNRJ2_star_SHP2_STAT1c -> STAT1c + IFNRJ2_star_SHP2_STAT1c , ( 1.0) * (0.003)
+  IFNRJ2_star_SHP2_STAT1c -> IFNRJ2_star_STAT1c + IFNRJ2_star_SHP2_STAT1c , ( -1) * (( 1.0) * (-(0.2)))
+  IFNRJ2_star_SHP2_STAT1c -> SHP2 + IFNRJ2_star_SHP2_STAT1c , ( 1.0) * (0.003)+( -1) * (( 1.0) * (-(0.2)))
+  IFNRJ2_star_SHP2_STAT1c -> 2*IFNRJ2_star_SHP2_STAT1c , ( 1.0) * (-(0.2))+( -1) * (( 1.0) * (0.003))
+  IFNRJ2_star_SHP2_SOCS1 -> IFNRJ2 + IFNRJ2_star_SHP2_SOCS1 , ( 1.0) * (0.003)
+  IFNRJ2_star_SHP2_SOCS1 -> SHP2 + IFNRJ2_star_SHP2_SOCS1 , ( 1.0) * (0.003)+( -1) * (( 1.0) * (-(0.2)))
+  IFNRJ2_star_SHP2_SOCS1 -> IFNRJ2_star_SHP2 + IFNRJ2_star_SHP2_SOCS1 , ( 1.0) * (5.0E-4)+( -1) * (( 1.0) * (-(0.1)))
+  IFNRJ2_star_SHP2_SOCS1 -> SOCS1 + IFNRJ2_star_SHP2_SOCS1 , ( 1.0) * (0.003)+( -1) * (( 1.0) * (-(0.1)))
+  IFNRJ2_star_SHP2_SOCS1 -> IFNRJ2_star_SOCS1 + IFNRJ2_star_SHP2_SOCS1 , ( -1) * (( 1.0) * (-(0.2)))
+  IFNRJ2_star_SHP2_SOCS1 -> 2*IFNRJ2_star_SHP2_SOCS1 , ( 1.0) * (-(0.2))+( 1.0) * (-(0.1))+( -1) * (( 1.0) * (0.003))+( -1) * (( 1.0) * (5.0E-4))
+  IFNR -> R + IFNR , ( -1) * (( 1.0) * (-(0.02)))
+  IFNR -> 2*IFNR , ( 1.0) * (-(0.02))
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

@@ -1,0 +1,47 @@
+begin model BIOMD0000000271
+ begin parameters
+  kt = 0.0329366
+  Bmax = 516.0
+  kon = 1.0496E-4
+  koff = 0.0172135
+  ke = 0.0748267
+  kex = 0.00993805
+  kdi = 0.00317871
+  kde = 0.0164042
+  Epo_medium = 0.0
+  Epo_cells = 0.0
+ end parameters
+ begin init
+  EpoR = 516.0
+  Epo = 2030.19
+  Epo_EpoR
+  Epo_EpoRi
+  dEpoi
+  dEpoe
+  SINK
+  source = 1.0
+ end init
+ begin reactions
+  EpoR -> EpoR + SINK , ( -1) * (( kt) * (1.0))
+  EpoR -> 2*EpoR , ( kt) * (1.0)
+  EpoR + Epo -> EpoR + Epo + Epo_EpoR , ( kon) * (1.0)
+  EpoR + Epo -> EpoR + 2*Epo , ( -1) * (( kon) * (1.0))
+  EpoR + Epo -> 2*EpoR + Epo , ( -1) * (( kon) * (1.0))
+  Epo_EpoR -> EpoR + Epo_EpoR , ( koff) * (1.0)
+  Epo_EpoR -> Epo + Epo_EpoR , ( koff) * (1.0)
+  Epo_EpoR -> Epo_EpoR + Epo_EpoRi , ( ke) * (1.0)
+  Epo_EpoR -> 2*Epo_EpoR , ( -1) * (( ke) * (1.0))+( -1) * (( koff) * (1.0))
+  Epo_EpoRi -> EpoR + Epo_EpoRi , ( kex) * (1.0)
+  Epo_EpoRi -> Epo + Epo_EpoRi , ( kex) * (1.0)
+  Epo_EpoRi -> Epo_EpoRi + dEpoi , ( kdi) * (1.0)
+  Epo_EpoRi -> Epo_EpoRi + dEpoe , ( kde) * (1.0)
+  Epo_EpoRi -> 2*Epo_EpoRi , ( -1) * (( kde) * (1.0))+( -1) * (( kex) * (1.0))+( -1) * (( kdi) * (1.0))
+  source -> EpoR + source , ( ( kt) * (Bmax)) * (1.0)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+
