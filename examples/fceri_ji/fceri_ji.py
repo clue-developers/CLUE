@@ -12,10 +12,10 @@ from sparse_polynomial import SparsePolynomial
 system = parser.read_system("fceri_ji.ode")
 
 obs_sets = [
-    #["S0"],
-    #["S2", "S178", "S267", "S77"],
-    #["S2 + S178 + S267 + S77"],
-    #["S7"],
+    ["S0"],
+    ["S2", "S178", "S267", "S77"],
+    ["S2 + S178 + S267 + S77"],
+    ["S7"],
     ["S1"]
 ]
 
