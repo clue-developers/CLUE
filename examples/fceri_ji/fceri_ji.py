@@ -1,7 +1,3 @@
-# Model fceri_ji from Sneddon, M. W., Faeder, J. R., & Emonet, T. (2011). 
-# Efficient modeling, simulation and coarse-graining of biological complexity with NFsim.
-# Nature methods, 8(2), 177.
-
 import sys
 import time
 
