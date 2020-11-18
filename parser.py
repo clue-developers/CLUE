@@ -14,12 +14,12 @@ from sparse_polynomial import SparsePolynomial, to_rational
 
 def readfile(name):
     """
-    Reads a file and removes C-style comments
+    Reads a file and removes C-style comments and []-type comments
     """
     f = open(name)
     s = f.read()
     f.close()
-    return comment_remover(s)
+    return bracket_comment_remover(comment_remover(s))
 
 #------------------------------------------------------------------------------
 
@@ -36,6 +36,9 @@ def comment_remover(text):
         re.DOTALL | re.MULTILINE
     )
     return re.sub(pattern, replacer, text)
+
+def bracket_comment_remover(text):
+    return re.sub('\[[^\[\]]*\]', '', text)
 
 #------------------------------------------------------------------------------
 
@@ -209,8 +212,10 @@ def get_varnames(strings):
     for s in strings:
         # replace is used not to consider d in "d(X) =". As a variable
         # a bit too hacky, to be replaced
-        new_names = re.split(r'[\s\*\+\-\(\),<>\^=\.]', s.replace("d(", ""))
-        new_names = filter(lambda v: not re.match('^(\d*|Rational)$', v), new_names)
+        s = s.replace("d(", "")
+        new_names = re.split(r'[\s\*\+\-\(\),<>\^=\.]', s)
+        # the second condition removes pieces of number in the exp notation
+        new_names = filter(lambda v: v != 'Rational' and v != '' and v[0] not in [str(i) for i in range(10)], new_names)
         names_set.update(new_names)
     return sorted(list(names_set))
 
@@ -223,7 +228,6 @@ def parse_initial_conditions(lines):
             rhs, lhs = l.split("=")
             result[rhs.strip()] = to_rational(lhs.strip())
     return result
-
 
 #------------------------------------------------------------------------------
 
