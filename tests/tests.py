@@ -1,6 +1,7 @@
 import random
 import sys
 
+import csv
 import timeit
 import os
 import glob
@@ -10,7 +11,7 @@ from sympy import QQ
 
 sys.path.insert(0, "../")
 sys.path.insert(0, "./")
-import clue
+
 from clue import do_lumping
 from parser import read_system
 from sparse_polynomial import SparsePolynomial
@@ -86,11 +87,11 @@ def lump_reducible_models():
              "./models/curated_poly/BIOMD0000000640.ode",
              "./models/curated_poly/BIOMD0000000314.ode",
              "./models/curated_poly/BIOMD0000000139.ode",
-            #  "./models/curated_poly/BIOMD0000000581.ode",
+             "./models/curated_poly/BIOMD0000000581.ode",
              "./models/curated_poly/BIOMD0000000102.ode",
              "./models/curated_poly/BIOMD0000000500.ode",
              "./models/curated_poly/BIOMD0000000439.ode",
-            #  "./models/curated_poly/BIOMD0000000479.ode",
+             "./models/curated_poly/BIOMD0000000479.ode",
              "./models/curated_poly/BIOMD0000000501.ode",
              "./models/curated_poly/BIOMD0000000227.ode",
              "./models/curated_poly/BIOMD0000000156.ode",
@@ -99,18 +100,42 @@ def lump_reducible_models():
              "./models/curated_poly/BIOMD0000000069.ode",
              "./models/curated_poly/BIOMD0000000226.ode",
              "./models/curated_poly/BIOMD0000000140.ode",
-            #  "./models/curated_poly/BIOMD0000000342.ode",
+             "./models/curated_poly/BIOMD0000000342.ode",
              "./models/curated_poly/BIOMD0000000103.ode",
              "./models/curated_poly/BIOMD0000000289.ode",
-             "./models/curated_poly/BIOMD0000000447.ode"]
-             # TODO: add uncurated poly tests
+             "./models/curated_poly/BIOMD0000000447.ode",
+             "./models/uncurated_poly/MODEL1109150002.ode",
+             "./models/uncurated_poly/MODEL9079179924.ode",
+             "./models/uncurated_poly/MODEL2937159804.ode",
+             "./models/uncurated_poly/MODEL9080747936.ode",
+             "./models/uncurated_poly/MODEL1012080000.ode",
+             "./models/uncurated_poly/MODEL9071122126.ode",
+             "./models/uncurated_poly/MODEL9147091146.ode",
+             "./models/uncurated_poly/MODEL9147232940.ode",
+             "./models/uncurated_poly/MODEL1112260000.ode",
+             "./models/uncurated_poly/MODEL1705030001.ode",
+             "./models/uncurated_poly/MODEL1008060000.ode",
+             "./models/uncurated_poly/MODEL1504160000.ode",
+             "./models/uncurated_poly/MODEL1101170000.ode",
+             "./models/uncurated_poly/MODEL1112260002.ode",
+             "./models/uncurated_poly/MODEL1308080003.ode",
+             "./models/uncurated_poly/MODEL1112260001.ode",
+             "./models/uncurated_poly/MODEL1009230000.ode",
+             "./models/uncurated_poly/MODEL7743631122.ode",
+             "./models/uncurated_poly/MODEL1109150000.ode",
+             "./models/uncurated_poly/MODEL1705030000.ode"]
+
+    results = []
 
     for test in tests:
         print(test)
+        result = []
+        result.append(test)
         system = read_system(test)
         # number_of_variables = len(system['variables'])
         # print(f"\tNo. Of Variables = {number_of_variables}")
         var = list(filter(lambda v: v[0] != '[', system["variables"]))[0]
+        result.append(var)
         print(f"\tVariable: {var}")
 
         starttime = timeit.default_timer()
@@ -121,6 +146,7 @@ def lump_reducible_models():
             discard_useless_matrices=False
         )
         time_taken_without_discarding = timeit.default_timer() - starttime
+
         print(f"TIME TAKEN (without discarding) = {time_taken_without_discarding}")
 
         starttime = timeit.default_timer()
@@ -133,10 +159,27 @@ def lump_reducible_models():
         time_taken_with_discarding = timeit.default_timer() - starttime
         print(f"TIME TAKEN (with discarding) = {time_taken_with_discarding}")
 
+        from clue import _TOTAL_MATRICES, _DISCARDED_MATRICES, _DIM
+        result.append(_DIM)
+        result.append(_TOTAL_MATRICES)
+        result.append(_DISCARDED_MATRICES)
+        result.append(f"{_DISCARDED_MATRICES/_TOTAL_MATRICES * 100}%")
+        result.append(time_taken_without_discarding)
+        result.append(time_taken_with_discarding - time_taken_without_discarding)
+        result.append(f"{(time_taken_with_discarding - time_taken_without_discarding)/time_taken_without_discarding * 100}%")
+
         print(f"TIME DIFFERENCE = {time_taken_with_discarding - time_taken_without_discarding}")
 
         print(f"RELATIVE TIME CHANGE = {(time_taken_with_discarding - time_taken_without_discarding)/time_taken_without_discarding * 100}%")
+        results.append(result)
         print("===============================================================")
+
+
+    with open('results.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Model", "Variable", "Dimension", "Total Matrices", "Discarded Matrices", "% Discarded Matrices", "Time Without Discarding (s)", "Time Difference (s)", "% Time Difference"])
+        for row in results:
+            writer.writerow(row)
 
 
 

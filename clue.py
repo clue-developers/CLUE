@@ -15,6 +15,10 @@ from sparse_polynomial import SparsePolynomial
 
 TOO_BIG_LENGTH = 10000
 
+_TOTAL_MATRICES = -1
+_DISCARDED_MATRICES = -1
+_DIM = -1
+
 class ExpressionSwell(Exception):
     pass
 
@@ -667,11 +671,19 @@ def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True,
     # Reduce the problem to the common invariant subspace problem
     vars_old = polys[0].gens
     field = polys[0].domain
-    matrices = sorted(construct_matrices(polys), key=lambda m: len(m._nonzero))
+    # matrices = sorted(construct_matrices(polys), key=lambda m: len(m._nonzero))
+    matrices = list(construct_matrices(polys))
+
+    global _TOTAL_MATRICES
+    global _DISCARDED_MATRICES
+    global _DIM
+
+    _DIM = matrices[0].dim
 
     if discard_useless_matrices:
-
+        
         mb = len(matrices) #!
+        _TOTAL_MATRICES = mb
 
         # Proceed only with matrices that are linearly independant
         vectors_of_matrices = [m.to_vector() for m in matrices]
@@ -689,7 +701,12 @@ def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True,
             print(f"\tMatrices before: {mb}") #!
             print(f"\tMatrices after: {len(matrices)}") #!
             print(f"\tMartices discarded: {deleted}") #!
+            _DISCARDED_MATRICES = deleted
             print(f"\t% Discarded Matrices = {deleted/mb * 100}%")
+
+    else:
+        _TOTAL_MATRICES = -2
+        _DISCARDED_MATRICES = -2
 
     # Find a lumping
     vectors_to_include = []
