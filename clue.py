@@ -727,7 +727,7 @@ def construct_matrices_from_rational_functions(rational_functions):
                 if m == ():
                     if m not in jacobians:
                         jacobians[m] = SparseRowMatrix(len(variables), field)
-                    jacobians[m].increment(col_ind, row_ind, coef)
+                    jacobians[m].increment(row_ind, col_ind, coef)
                 for i in range(len(m)):
                     var, _ = m[i]
                     if m not in jacobians:
@@ -916,10 +916,7 @@ def do_lumping(
         if isinstance(result["rhs"][0], SparsePolynomial):
             result["rhs"] = [out_ring(p.get_sympy_dict()) for p in result["rhs"]]
         elif isinstance(result["rhs"][0], RationalFunction):
-            # print("\t",[out_ring(p.num.get_sympy_dict()) for p in result["rhs"]])
-            # print("\t",[out_ring(p.denom.get_sympy_dict()) for p in result["rhs"]])
-            # result["rhs"] = 
-            # result["rhs"] = [(out_ring(p.num.get_sympy_dict()))/(out_ring(p.denom.get_sympy_dict())) for p in result["rhs"]] #? what?
+            result["rhs"] = [(out_ring(p.num.get_sympy_dict()))/(out_ring(p.denom.get_sympy_dict())) for p in result["rhs"]]
             pass
     elif out_format == "internal":
         pass
