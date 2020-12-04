@@ -1,11 +1,6 @@
 import random
 import sys
 
-import csv
-import timeit
-import os
-import glob
-
 import sympy
 from sympy import QQ
 
@@ -15,9 +10,10 @@ sys.path.insert(0, "./")
 from clue import do_lumping
 from parser import read_system
 from sparse_polynomial import SparsePolynomial
+from rational_function import RationalFunction
 
 def evalp(poly, point):
-    if isinstance(poly, clue.SparsePolynomial):
+    if isinstance(poly, SparsePolynomial):
         pdict = poly.get_sympy_dict()
     else:
         pdict = poly.to_dict()
@@ -34,7 +30,7 @@ def dot_product(a, b):
     return sum([x * y for x, y in zip(a, b)])
 
 def check_lumping(test_name, polys, lumping, correct_size):
-    lumped_system = lumping["polynomials"]
+    lumped_system = lumping["rhs"]
     new_vars = lumping["subspace"]
     assert(len(lumped_system) == correct_size)
     print(test_name + ": size is correct")
@@ -48,206 +44,80 @@ def check_lumping(test_name, polys, lumping, correct_size):
 
     assert(polys_values_lumped == lumped_polys_values)
     print(test_name + ": lumping is correct")
-        
-###############################################
-
-def lump_all_models():
-
-    tests = glob.glob('./models/uncurated_poly/*.ode')
-
-    for test in tests:
-        print(test)
-        try:
-            system = read_system(test)
-        except:
-            print("\t PARSING FAILED!")
-            continue
-        number_of_variables = len(system['variables'])
-        print(f"\tNo. Of Variables = {number_of_variables}")
-        if number_of_variables > 1000: 
-            print("\tSKIPING! Too large...")
-            continue
-        var = list(filter(lambda v: v[0] != '[', system["variables"]))[-1]
-        print(f"\tVariable: {var}")
-        do_lumping(
-            system["equations"],
-            [SparsePolynomial.from_string(var, system["variables"])], 
-            print_reduction=False
-        )
-        print("\tDONE!")
-
-def lump_reducible_models():
-    tests = ["./models/curated_mass_action/BIOMD0000000315.ode",
-             "./models/curated_mass_action/BIOMD0000000362.ode",
-             "./models/curated_mass_action/BIOMD0000000270.ode",
-             "./models/curated_mass_action/BIOMD0000000335.ode",
-             "./models/uncurated_mass_action/MODEL1001150000.ode",
-             "./models/curated_poly/BIOMD0000000504.ode",
-             "./models/curated_poly/BIOMD0000000582.ode",
-             "./models/curated_poly/BIOMD0000000640.ode",
-             "./models/curated_poly/BIOMD0000000314.ode",
-             "./models/curated_poly/BIOMD0000000139.ode",
-             "./models/curated_poly/BIOMD0000000581.ode",
-             "./models/curated_poly/BIOMD0000000102.ode",
-             "./models/curated_poly/BIOMD0000000500.ode",
-             "./models/curated_poly/BIOMD0000000439.ode",
-             "./models/curated_poly/BIOMD0000000479.ode",
-             "./models/curated_poly/BIOMD0000000501.ode",
-             "./models/curated_poly/BIOMD0000000227.ode",
-             "./models/curated_poly/BIOMD0000000156.ode",
-             "./models/curated_poly/BIOMD0000000460.ode",
-             "./models/curated_poly/BIOMD0000000459.ode",
-             "./models/curated_poly/BIOMD0000000069.ode",
-             "./models/curated_poly/BIOMD0000000226.ode",
-             "./models/curated_poly/BIOMD0000000140.ode",
-             "./models/curated_poly/BIOMD0000000342.ode",
-             "./models/curated_poly/BIOMD0000000103.ode",
-             "./models/curated_poly/BIOMD0000000289.ode",
-             "./models/curated_poly/BIOMD0000000447.ode",
-             "./models/uncurated_poly/MODEL1109150002.ode",
-             "./models/uncurated_poly/MODEL9079179924.ode",
-             "./models/uncurated_poly/MODEL2937159804.ode",
-             "./models/uncurated_poly/MODEL9080747936.ode",
-             "./models/uncurated_poly/MODEL1012080000.ode",
-             "./models/uncurated_poly/MODEL9071122126.ode",
-             "./models/uncurated_poly/MODEL9147091146.ode",
-             "./models/uncurated_poly/MODEL9147232940.ode",
-             "./models/uncurated_poly/MODEL1112260000.ode",
-             "./models/uncurated_poly/MODEL1705030001.ode",
-             "./models/uncurated_poly/MODEL1008060000.ode",
-             "./models/uncurated_poly/MODEL1504160000.ode",
-             "./models/uncurated_poly/MODEL1101170000.ode",
-             "./models/uncurated_poly/MODEL1112260002.ode",
-             "./models/uncurated_poly/MODEL1308080003.ode",
-             "./models/uncurated_poly/MODEL1112260001.ode",
-             "./models/uncurated_poly/MODEL1009230000.ode",
-             "./models/uncurated_poly/MODEL7743631122.ode",
-             "./models/uncurated_poly/MODEL1109150000.ode",
-             "./models/uncurated_poly/MODEL1705030000.ode"]
-
-    results = []
-
-    for test in tests:
-        print(test)
-        result = []
-        result.append(test)
-        system = read_system(test)
-        # number_of_variables = len(system['variables'])
-        # print(f"\tNo. Of Variables = {number_of_variables}")
-        var = list(filter(lambda v: v[0] != '[', system["variables"]))[0]
-        result.append(var)
-        print(f"\tVariable: {var}")
-
-        starttime = timeit.default_timer()
-        do_lumping(
-            system["equations"],
-            [SparsePolynomial.from_string(var, system["variables"])], 
-            print_reduction=False,
-            discard_useless_matrices=False
-        )
-        time_taken_without_discarding = timeit.default_timer() - starttime
-
-        print(f"TIME TAKEN (without discarding) = {time_taken_without_discarding}")
-
-        starttime = timeit.default_timer()
-        do_lumping(
-            system["equations"],
-            [SparsePolynomial.from_string(var, system["variables"])], 
-            print_reduction=False,
-            discard_useless_matrices=True
-        )
-        time_taken_with_discarding = timeit.default_timer() - starttime
-        print(f"TIME TAKEN (with discarding) = {time_taken_with_discarding}")
-
-        from clue import _TOTAL_MATRICES, _DISCARDED_MATRICES, _DIM
-        result.append(_DIM)
-        result.append(_TOTAL_MATRICES)
-        result.append(_DISCARDED_MATRICES)
-        result.append(f"{_DISCARDED_MATRICES/_TOTAL_MATRICES * 100}%")
-        result.append(time_taken_without_discarding)
-        result.append(time_taken_with_discarding - time_taken_without_discarding)
-        result.append(f"{(time_taken_with_discarding - time_taken_without_discarding)/time_taken_without_discarding * 100}%")
-
-        print(f"TIME DIFFERENCE = {time_taken_with_discarding - time_taken_without_discarding}")
-
-        print(f"RELATIVE TIME CHANGE = {(time_taken_with_discarding - time_taken_without_discarding)/time_taken_without_discarding * 100}%")
-        results.append(result)
-        print("===============================================================")
-
-
-    with open('results.csv', 'w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(["Model", "Variable", "Dimension", "Total Matrices", "Discarded Matrices", "% Discarded Matrices", "Time Without Discarding (s)", "Time Difference (s)", "% Time Difference"])
-        for row in results:
-            writer.writerow(row)
-
-
 
 if __name__ == "__main__":
 
-    # lump_all_models()
+    # Example 1
+    R = sympy.polys.rings.vring(["x0", "x1", "x2"], QQ)
+    polys = [x0**2 + x1 + x2, x2, x1]
+    lumping = do_lumping(polys, [x0], print_reduction=False, initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
+    check_lumping("Example 1", polys, lumping, 2)
+    # assert lumping["new_ic"] == [QQ(1), QQ(7)]
+    print(lumping)
 
-    lump_reducible_models()
+    # Example 1 (Rational Version)
+    varnames = ["x0", "x1", "x2"]
+    rhs = [RationalFunction.from_string("(x0**2 + x1 + x2)/1", varnames),
+           RationalFunction.from_string("x2/1", varnames),
+           RationalFunction.from_string("x1/1", varnames)]
+    lumping = do_lumping(rhs,
+                         [SparsePolynomial.from_string("x0", varnames)],
+                         print_reduction=False,
+                         initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
+    # check_lumping("Example 1 (Rational Version)", rhs, lumping, 2)
+    # assert lumping["new_ic"] == [QQ(1), QQ(7)]
+    print(lumping)
 
-    # N = 1
+    # Example 2
+    polys = [x1**2 + 4 * x1 * x2 + 4 * x2**2, x1 + 2 * x0**2, x2 - x0**2]
+    lumping = do_lumping(polys, [x0], print_reduction=False)
+    check_lumping("Example 2", polys, lumping, 2)
 
-    # totaltime = 0
-    # for i in range(N):
-    #     starttime = timeit.default_timer()
+    # PP for n = 2
+    system = read_system("e2.ode") 
+    lumping = do_lumping(
+            system["equations"],
+            [SparsePolynomial.from_string("S0", system["variables"])], 
+            print_reduction=False
+    )
+    check_lumping("PP for n = 2", system["equations"], lumping, 12)
+    
+    # BIOMD0000000101
+    system = read_system("BIOMD0000000101.ode")
+    lumping = do_lumping(
+            system["equations"],
+            [SparsePolynomial.from_string("RI", system["variables"])], 
+            print_reduction=False
+    )
+    check_lumping("BIOMD0000000101", system["equations"], lumping, 14)
 
-    #     print(f"TEST ITERATION {i+1}")
+    # MODEL1504160000
+    system = read_system("MODEL1504160000.ode")
+    lumping = do_lumping(
+            system["equations"],
+            [SparsePolynomial.from_string("cd8_in_spleen", system["variables"])], 
+            print_reduction=False
+    )
+    check_lumping("MODEL1504160000", system["equations"], lumping, 8)
 
-    #     # Example 1
-    #     R = sympy.polys.rings.vring(["x0", "x1", "x2"], QQ)
-    #     polys = [x0**2 + x1 + x2, x2, x1]
-    #     lumping = do_lumping(polys, [x0], print_reduction=False, initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
-    #     check_lumping("Example 1", polys, lumping, 2)
-    #     assert lumping["new_ic"] == [QQ(1), QQ(7)]
+    # MODEL9085850385
+    system = read_system("MODEL9085850385.ode")
+    lumping = do_lumping(
+            system["equations"],
+            [SparsePolynomial.from_string("PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx", system["variables"])], 
+            print_reduction=False
+    )
+    check_lumping("MODEL9085850385", system["equations"], lumping, 54)
 
-    #     # Example 2
-    #     polys = [x1**2 + 4 * x1 * x2 + 4 * x2**2, x1 + 2 * x0**2, x2 - x0**2]
-    #     lumping = do_lumping(polys, [x0], print_reduction=False)
-    #     check_lumping("Example 2", polys, lumping, 2)
+    # Rational Function Example
+    varnames = ["x", "y"]
+    rhs = [RationalFunction.from_string("y/(x-y)", varnames),
+           RationalFunction.from_string("x/(x-y)", varnames)]
+    lumping = do_lumping(rhs,
+                         [SparsePolynomial.from_string("x-y", varnames)],
+                         print_reduction=False, initial_conditions={"x" : 1, "y" : 2 },
+                         loglevel="DEBUG")
+    print(lumping)
 
-    #     # PP for n = 2
-    #     system = read_system("e2.ode") 
-    #     lumping = do_lumping(
-    #             system["equations"],
-    #             [SparsePolynomial.from_string("S0", system["variables"])], 
-    #             print_reduction=False
-    #     )
-    #     check_lumping("PP for n = 2", system["equations"], lumping, 12)
-        
-    #     # BIOMD0000000101
-    #     system = read_system("BIOMD0000000101.ode")
-    #     lumping = do_lumping(
-    #             system["equations"],
-    #             [SparsePolynomial.from_string("RI", system["variables"])], 
-    #             print_reduction=False
-    #     )
-    #     check_lumping("BIOMD0000000101", system["equations"], lumping, 14)
-
-    #     # MODEL1504160000
-    #     system = read_system("MODEL1504160000.ode")
-    #     lumping = do_lumping(
-    #             system["equations"],
-    #             [SparsePolynomial.from_string("cd8_in_spleen", system["variables"])], 
-    #             print_reduction=False
-    #     )
-    #     check_lumping("MODEL1504160000", system["equations"], lumping, 8)
-
-    #     # MODEL9085850385
-    #     system = read_system("MODEL9085850385.ode")
-    #     lumping = do_lumping(
-    #             system["equations"],
-    #             [SparsePolynomial.from_string("PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx", system["variables"])], 
-    #             print_reduction=False
-    #     )
-    #     check_lumping("MODEL9085850385", system["equations"], lumping, 54)
-
-    #     totaltime += timeit.default_timer() - starttime
-    #     print("############################################")
-
-    # print("AVERAGE TIME TAKEN:", totaltime/N)
 
 ############################################ 

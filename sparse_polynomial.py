@@ -192,7 +192,7 @@ class SparsePolynomial(object):
 
     #--------------------------------------------------------------------------
 
-    def __str__(self):
+    def __repr__(self):
         if not self._data:
             return "0"
         return " + ".join([self._monom_to_str(m, c) for m, c in self._data.items()])
@@ -217,6 +217,29 @@ class SparsePolynomial(object):
 
     def get_sympy_ring(self):
         return sympy.polys.rings.ring(self.gens, self.domain)[0]
+
+    #--------------------------------------------------------------------------
+    def derivative(self, var_name):
+        """
+        Returns derivative of polynomial with respect to var_name
+        """
+        if var_name in self._varnames:
+            var = self._varnames.index(var_name)
+        else:
+            return 0
+
+        data = dict()
+        for monom, coeff in self._data.items():
+            for i in range(len(monom)):
+                v, exp = monom[i]
+                if v == var:
+                    if exp == 1:
+                        m_der = tuple(list(monom[:i]) + list(monom[(i + 1):]))
+                    else:
+                        m_der = tuple(list(monom[:i]) + [(var, exp - 1)] + list(monom[(i + 1):]))
+                    data[m_der] = coeff * exp
+
+        return SparsePolynomial(self._varnames, domain=self._domain, data=data)
 
     #--------------------------------------------------------------------------
 
