@@ -331,7 +331,7 @@ class SparsePolynomial(object):
             op = s.pop()
             if op == "unary -":
                 return -evaluate_stack(s)
-            if op in "+-*":
+            if op in "+-*/":
                 # note: operands are pushed onto the stack in reverse order
                 op2 = evaluate_stack(s)
                 op1 = evaluate_stack(s)
@@ -345,6 +345,8 @@ class SparsePolynomial(object):
                     return op1
                 if op == "*":
                     return op1 * op2
+                # if op == "/":
+                #     print("WHAT")
             if op == "^" or op == "**":
                 exp = int(s.pop())
                 base = evaluate_stack(s)

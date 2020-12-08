@@ -14,7 +14,6 @@ from rational_function import RationalFunction
 #------------------------------------------------------------------------------
 
 # the constant responsible for switching to the modular algorithm
-
 TOO_BIG_LENGTH = 10000
 
 class ExpressionSwell(Exception):
@@ -500,8 +499,8 @@ class Subspace(object):
 
     def perform_change_of_variables(self, rhs, new_vars_name='y'):
         """
-          Restrict a polynomial system of ODEs with the rhs given by 
-          polys (SparsePolynomial) to the subspace
+          Restrict a system of ODEs with the rhs given by 
+          rhs (SparsePolynomial or RationalFunction) to the subspace
           new_vars_name (optional) - the name for variables in the lumped polynomials
         """
         old_vars = rhs[0].gens
@@ -513,6 +512,7 @@ class Subspace(object):
 
         logging.debug("Plugging zero to nonpivot coordinates")
 
+        # SparsePolynomial
         if isinstance(rhs[0], SparsePolynomial):
             # plugging all nonpivot variables with zeroes
             shrinked_polys = []
@@ -544,7 +544,9 @@ class Subspace(object):
         
             return new_polys
 
+        # RationalFunction
         elif isinstance(rhs[0], RationalFunction):
+            # plugging all nonpivot variables with zeroes
             shrinked_rfs = []
             for rf in rhs:
                 num_filtered_dict = dict()
@@ -671,7 +673,8 @@ def construct_matrices(rhs):
 
 def construct_matrices_from_rational_functions(rational_functions):
     """
-      TODO: write description
+      Computes Jacobian, pulls out common denominator, and constructs matrices
+      J_1^T, ..., J_N^T from the remaining polynomial matrix
       Input
         - rational_functions - the right-hand side of the system of ODEs (f_1, ..., f_n)
                                represented by RationalFunction
@@ -685,56 +688,56 @@ def construct_matrices_from_rational_functions(rational_functions):
 
     # Compute Jacobian
     J = [[rf.derivative(v) for rf in rational_functions] for v in variables]
-    
-    def print_m(matrix):
-        s = [[str(e) for e in row] for row in matrix]
-        lens = [max(map(len, col)) for col in zip(*s)]
-        fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
-        table = [fmt.format(*row) for row in s]
-        print('\n'.join(table))
 
+    print(f"I computed the Jacobian. It is of size {len(J)}x{len(J)}.")
+    
+    # def print_m(matrix):
+    #     s = [[str(e) for e in row] for row in matrix]
+    #     lens = [max(map(len, col)) for col in zip(*s)]
+    #     fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
+    #     table = [fmt.format(*row) for row in s]
+    #     print('\n'.join(table))
+
+    # print_m(J)
+    # print()
 
     denoms = [rf.denom for row in J for rf in row]
 
-    # sympy_denoms = [sympy.Poly(denom.get_sympy_dict(), denom.get_sympy_ring()) for denom in denoms]
-    # out_ring = result["polynomials"][0].get_sympy_ring()
-    # result["polynomials"] = [out_ring(p.get_sympy_dict()) for p in result["polynomials"]] 
-    # sympy_lcm = sympy.lcm(sympy_denoms)
-    # lcm = SparsePolynomial.from_sympy(sympy_lcm)
+    print(f"I got all {len(denoms)} denominators.")
 
-    common_multiple = reduce((lambda x,y: x * y), denoms)
+    # for denom in denoms:
+    #     print()
+    #     print(denom)
+    # print('\n\n')
 
     # Pull out the common denominator
     poly_J = []
     for i in range(len(J)):
+
         poly_J_row = []
         for j in range(len(J[i])):
             other_denoms = denoms[:]
             other_denoms.pop(i*len(J[i])+j)
             p = reduce((lambda x,y: x * y), other_denoms)
             poly_J_row.append(J[i][j].num * p)
+            print(f"Pulled out common denominator for row {i}, column {j}.")
         poly_J.append(poly_J_row)
 
-    print_m(poly_J)
+    print("I pulled out the common denominator.")
 
-    # Work with remaining polynomial matrix as usual
+    # Work with remaining polynomial matrix as in construct_matrices_from_polys
     jacobians = dict()
     for row_ind, poly_row in enumerate(poly_J):
         for col_ind, poly in enumerate(poly_row):
             p_ind = row_ind*len(poly_row) + col_ind
             logging.debug("Processing numerator polynomial number %d", p_ind)
             for m, coef in poly.dataiter():
-                if m == ():
-                    if m not in jacobians:
-                        jacobians[m] = SparseRowMatrix(len(variables), field)
-                    jacobians[m].increment(row_ind, col_ind, coef)
-                for i in range(len(m)):
-                    var, _ = m[i]
-                    if m not in jacobians:
-                        jacobians[m] = SparseRowMatrix(len(variables), field)
-                    jacobians[m].increment(var, p_ind, coef)
+                if m not in jacobians:
+                    jacobians[m] = SparseRowMatrix(len(variables), field)
+                jacobians[m].increment(row_ind, col_ind, coef)
 
-    print(jacobians.values())
+    print("I constructed matrices.")
+
     return jacobians.values()
 
 #------------------------------------------------------------------------------
@@ -796,11 +799,9 @@ def do_lumping_internal(rhs, observable, new_vars_name='y', print_system=True, p
     # Reduce the problem to the common invariant subspace problem
     vars_old = rhs[0].gens
     field = rhs[0].domain
-    # matrices = sorted(construct_matrices(rhs), key=lambda m: len(m._nonzero))
-    matrices = list(construct_matrices(rhs))
+    matrices = sorted(construct_matrices(rhs), key=lambda m: m.nonzero_count())
 
     if discard_useless_matrices:
-
         # Proceed only with matrices that are linearly independant
         vectors_of_matrices = [m.to_vector() for m in matrices]
         assert len(matrices) == len(vectors_of_matrices)
@@ -811,7 +812,6 @@ def do_lumping_internal(rhs, observable, new_vars_name='y', print_system=True, p
             if pivot_index < 0:
                 del matrices[i - deleted]
                 deleted +=1
-
         logging.debug(f"Discarded {deleted} linearly dependant matrices")
 
     # Find a lumping
@@ -916,7 +916,7 @@ def do_lumping(
         if isinstance(result["rhs"][0], SparsePolynomial):
             result["rhs"] = [out_ring(p.get_sympy_dict()) for p in result["rhs"]]
         elif isinstance(result["rhs"][0], RationalFunction):
-            result["rhs"] = [(out_ring(p.num.get_sympy_dict()))/(out_ring(p.denom.get_sympy_dict())) for p in result["rhs"]]
+            result["rhs"] = [(out_ring(p.num.get_sympy_dict()))/(out_ring(p.denom.get_sympy_dict())) for p in result["rhs"]] # There is an issue with this. Example: x^4/x^3 = x but x^3/x^4 = 0. Cannot represent 1/(PolyElement)
             pass
     elif out_format == "internal":
         pass
