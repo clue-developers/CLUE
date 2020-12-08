@@ -703,10 +703,17 @@ def construct_matrices_from_rational_functions(rational_functions):
 
     denoms = [rf.denom for row in J for rf in row]
 
-    common_multiple = reduce((lambda x,y: x * y), denoms) # THIS IS SUPER SLOW. MY PC RUNS OUT OF MEMORY HERE.
+    print(f"I got all {len(denoms)} denominators.")
+
+    # common_multiple = reduce((lambda x,y: x * y), denoms) # THIS IS SUPER SLOW. MY PC RUNS OUT OF MEMORY HERE.
+
+    common_multiple = denoms[0]
+    for i in range(1,len(denoms)):
+        common_multiple *= denoms[i]
+
     print(common_multiple)
 
-    print(f"I got all {len(denoms)} denominators.")
+    print("I found a common multiple.")
 
     # for denom in denoms:
     #     print()

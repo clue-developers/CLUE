@@ -110,9 +110,62 @@ if __name__ == "__main__":
     # Tests
     varnames = ['x','y','z']
 
+    print("Simplification Tests ------------------------------------------------")
+
+    print()
+
     not_simple_rf = RationalFunction.from_string("(5*x**10*y)/(10*x**8*y+20*y**2)", ['x','y'])
-    print("(x**10)/(2*x**8 + 4*y)")
-    print(not_simple_rf)
+    print("Simplifying \t", not_simple_rf)
+    print("Expected: \t (x**10)/(2*x**8 + 4*y)")
+    out_ring = not_simple_rf.get_sympy_ring()
+    sympy_num = out_ring(not_simple_rf.num.get_sympy_dict())
+    sympy_denom = out_ring(not_simple_rf.denom.get_sympy_dict())
+    print("Actual: \t",(sympy_num)/(sympy_denom))
+
+    print()
+
+    not_simple_rf = RationalFunction.from_string("(x**4)/(x**3)", ['x'])
+    print("Simplifying \t", not_simple_rf)
+    print("Expected: \t x")
+    out_ring = not_simple_rf.get_sympy_ring()
+    sympy_num = out_ring(not_simple_rf.num.get_sympy_dict())
+    sympy_denom = out_ring(not_simple_rf.denom.get_sympy_dict())
+    print("Actual: \t",(sympy_num)/(sympy_denom))
+
+    print()
+
+    not_simple_rf = RationalFunction.from_string("(x**3)/(x**4)", ['x'])
+    print("Simplifying \t", not_simple_rf)
+    print("Expected: \t x**(-1)")
+    out_ring = not_simple_rf.get_sympy_ring()
+    sympy_num = out_ring(not_simple_rf.num.get_sympy_dict())
+    sympy_denom = out_ring(not_simple_rf.denom.get_sympy_dict())
+    print("Actual: \t",(sympy_num)/(sympy_denom))
+
+    print()
+
+    not_simple_rf = RationalFunction.from_string("(x**3 + 1)/(x**4)", ['x'])
+    print("Simplifying \t", not_simple_rf)
+    print("Expected: \t x**(-1) + x**(-4)")
+    out_ring = not_simple_rf.get_sympy_ring()
+    sympy_num = out_ring(not_simple_rf.num.get_sympy_dict())
+    sympy_denom = out_ring(not_simple_rf.denom.get_sympy_dict())
+    print("Actual: \t",(sympy_num)/(sympy_denom))
+
+    print()
+
+    not_simple_rf = RationalFunction.from_string("(x**3)/(x**4 + 1)", ['x'])
+    print("Simplifying \t", not_simple_rf)
+    print("Expected: \t x**3/(x**4 + 1)")
+    out_ring = not_simple_rf.get_sympy_ring()
+    sympy_num = out_ring(not_simple_rf.num.get_sympy_dict())
+    sympy_denom = out_ring(not_simple_rf.denom.get_sympy_dict())
+    print("Actual: \t",(sympy_num)/(sympy_denom))
+
+    print('\n')
+    print("Derevative Tests ----------------------------------------------------")
+
+    print()
 
     rf1 = RationalFunction.from_string("(3 * x**2 * y**4 * z**7)/(7*x**4 + 3*y**2 * z**9)", varnames)
     rf2 = RationalFunction.from_string("(x**2*y**2)/(z**2)", varnames)
