@@ -126,7 +126,7 @@ if __name__ == "__main__":
     )
     check_lumping("MODEL1504160000", system["equations"], lumping, 8)
 
-    # MODEL9085850385
+    # MODEL9085850385 (SLOW!)
     system = read_system("MODEL9085850385.ode")
     lumping = do_lumping(
             system["equations"],
@@ -136,19 +136,25 @@ if __name__ == "__main__":
     check_lumping("MODEL9085850385", system["equations"], lumping, 54)
 
     # RationalFunction Models --------------------------------------------------
-
-    # MODEL1502270000
-
-
-    # BIOMD0000000033
     print('\n\n')
+
+    # BIOMD0000000033 (SO SLOW THAT IT DOESN'T WORK!)
     system = read_system("../examples/RationalFunctions/BIOMD0000000033.ode")
-    # print('I finished parsing.')
     lumping = do_lumping(
             system["equations"],
             [SparsePolynomial.from_string("AktActive", system["variables"])], 
             print_reduction=False
     )
     print(lumping)
+
+    # MODEL1502270000
+    # TODO: Modify parser.
+    # system = read_system("../examples/RationalFunctions/MODEL1502270000.ode")
+    # lumping = do_lumping(
+    #         system["equations"],
+    #         [SparsePolynomial.from_string("AktActive", system["variables"])], 
+    #         print_reduction=False
+    # )
+    # print(lumping)
 
 ############################################ 

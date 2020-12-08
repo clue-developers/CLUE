@@ -55,9 +55,7 @@ class RationalFunction:
         """
         d_num = self.denom * self.num.derivative(var) - self.num * self.denom.derivative(var)
         d_denom = self.denom*self.denom
-        d = RationalFunction(d_num,d_denom)
-        # d.simplify()
-        return d
+        return RationalFunction(d_num,d_denom)
 
     @staticmethod
     def from_string(s, varnames, var_to_ind = None):

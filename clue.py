@@ -703,6 +703,9 @@ def construct_matrices_from_rational_functions(rational_functions):
 
     denoms = [rf.denom for row in J for rf in row]
 
+    common_multiple = reduce((lambda x,y: x * y), denoms) # THIS IS SUPER SLOW. MY PC RUNS OUT OF MEMORY HERE.
+    print(common_multiple)
+
     print(f"I got all {len(denoms)} denominators.")
 
     # for denom in denoms:
@@ -710,17 +713,16 @@ def construct_matrices_from_rational_functions(rational_functions):
     #     print(denom)
     # print('\n\n')
 
-    # Pull out the common denominator
+    # Pull out the common denominator (SUPER SUPER SLOW; BASICALLY LINE 706 BUT len(J) TIMES)
     poly_J = []
     for i in range(len(J)):
-
         poly_J_row = []
         for j in range(len(J[i])):
             other_denoms = denoms[:]
             other_denoms.pop(i*len(J[i])+j)
             p = reduce((lambda x,y: x * y), other_denoms)
             poly_J_row.append(J[i][j].num * p)
-            print(f"Pulled out common denominator for row {i}, column {j}.")
+            # print(f"Pulled out common denominator for row {i}, column {j}.")
         poly_J.append(poly_J_row)
 
     print("I pulled out the common denominator.")
