@@ -689,7 +689,7 @@ def construct_matrices_from_rational_functions(rational_functions):
     # Compute Jacobian
     J = [[rf.derivative(v) for rf in rational_functions] for v in variables]
 
-    print(f"I computed the Jacobian. It is of size {len(J)}x{len(J)}.")
+    print(f"-> I computed the Jacobian. It is of size {len(J)}x{len(J)}.")
     
     # def print_m(matrix):
     #     s = [[str(e) for e in row] for row in matrix]
@@ -701,38 +701,32 @@ def construct_matrices_from_rational_functions(rational_functions):
     # print_m(J)
     # print()
 
-    denoms = [rf.denom for row in J for rf in row]
+    denoms = [[row[i].denom for row in J][0] for i in range(len(J[0]))]
 
-    print(f"I got all {len(denoms)} denominators.")
-
-    # common_multiple = reduce((lambda x,y: x * y), denoms) # THIS IS SUPER SLOW. MY PC RUNS OUT OF MEMORY HERE.
-
-    common_multiple = denoms[0]
-    for i in range(1,len(denoms)):
-        common_multiple *= denoms[i]
-
-    print(common_multiple)
-
-    print("I found a common multiple.")
-
-    # for denom in denoms:
-    #     print()
-    #     print(denom)
-    # print('\n\n')
-
-    # Pull out the common denominator (SUPER SUPER SLOW; BASICALLY LINE 706 BUT len(J) TIMES)
+    # Pull out the common denominator (SUPER SUPER SLOW)
     poly_J = []
     for i in range(len(J)):
+        print(f"\t -> I am computing new numerators for the row J[{i}].")
         poly_J_row = []
         for j in range(len(J[i])):
             other_denoms = denoms[:]
-            other_denoms.pop(i*len(J[i])+j)
-            p = reduce((lambda x,y: x * y), other_denoms)
-            poly_J_row.append(J[i][j].num * p)
-            # print(f"Pulled out common denominator for row {i}, column {j}.")
+            other_denoms.pop(j)
+            other_denoms = list(filter(lambda x: x != SparsePolynomial.from_string("1",[]), other_denoms))
+            if len(other_denoms) > 0 and not J[i][j].num.is_zero():
+                print(f"\t -> Finding the product of {len(other_denoms) + 1} polynomials for J[{i}][{j}]:")
+                # p = reduce((lambda x,y: x * y), other_denoms)
+                p = other_denoms[0]
+                for denom_i in range(1,len(other_denoms)):
+                    print("\t MULTIPLYING ",other_denoms[denom_i])
+                    print(f"Finished multiplying polynomial {denom_i}.")
+                    p *= other_denoms[denom_i]
+                poly_J_row.append(J[i][j].num * p)
+            else:
+                # print(f"Skppied some complicated computations for J[{i}][{j}].")
+                poly_J_row.append(J[i][j].num)
         poly_J.append(poly_J_row)
 
-    print("I pulled out the common denominator.")
+    print("-> I pulled out the common denominator.")
 
     # Work with remaining polynomial matrix as in construct_matrices_from_polys
     jacobians = dict()
@@ -745,7 +739,7 @@ def construct_matrices_from_rational_functions(rational_functions):
                     jacobians[m] = SparseRowMatrix(len(variables), field)
                 jacobians[m].increment(row_ind, col_ind, coef)
 
-    print("I constructed matrices.")
+    print("-> I constructed matrices.")
 
     return jacobians.values()
 
@@ -925,7 +919,8 @@ def do_lumping(
         if isinstance(result["rhs"][0], SparsePolynomial):
             result["rhs"] = [out_ring(p.get_sympy_dict()) for p in result["rhs"]]
         elif isinstance(result["rhs"][0], RationalFunction):
-            result["rhs"] = [(out_ring(p.num.get_sympy_dict()))/(out_ring(p.denom.get_sympy_dict())) for p in result["rhs"]] # There is an issue with this. Example: x^4/x^3 = x but x^3/x^4 = 0. Cannot represent 1/(PolyElement)
+            F = sympy.FractionField(sympy.QQ, result["rhs"][0].gens)
+            result["rhs"] = [F(out_ring(p.num.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict())) for p in result["rhs"]]
             pass
     elif out_format == "internal":
         pass

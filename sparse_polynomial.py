@@ -111,6 +111,17 @@ class SparsePolynomial(object):
 
     #--------------------------------------------------------------------------
 
+    def __hash__(self):
+        return hash(frozenset(self._data)) #?
+    
+    def __eq__(self, other):
+        if self._data != other._data:
+            return False
+        else:
+            return True
+
+    #--------------------------------------------------------------------------
+
     def __mul__(self, other):
         """
         Multiplication by a scalar or another polynomial
@@ -156,6 +167,11 @@ class SparsePolynomial(object):
             return self.exp(power // 2) * self.exp(power // 2)
         return self * self.exp(power // 2) * self.exp(power // 2)
 
+    #--------------------------------------------------------------------------
+
+    def is_zero(self):
+        if len(self._data) == 0:
+            return True
     #--------------------------------------------------------------------------
 
     def _pair_to_str(self, pair):
