@@ -15,8 +15,6 @@ class RationalFunction:
         self._varnames = num.gens
         self.num = num
         self.denom = denom
-        # self.simplify()
-        # print(self)
 
     @property
     def domain(self):
@@ -25,29 +23,6 @@ class RationalFunction:
     @property
     def gens(self):
         return self._varnames.copy()
-
-    def simplify(self):
-        """
-        Simplify self through smypy.
-        """
-        out_ring = self.get_sympy_ring()
-        sympy_num = out_ring(self.num.get_sympy_dict())
-        sympy_denom = out_ring(self.denom.get_sympy_dict())
-        # ! FIX AWFUL SIMPLIFICATION 
-        simple_sympy_rf = sympy.simplify('('+str(sympy_num)+')/('+str(sympy_denom)+')', rational=True)
-        s = str(simple_sympy_rf)
-        if "/" not in s:
-            num_str = s
-            denom_str = "1"
-        else:
-            split = s.split("/")
-            if len(split) == 2:
-                num_str = s.split("/")[0]
-                denom_str = s.split("/")[1]
-            else:
-                raise RuntimeError
-        self.num = SparsePolynomial.from_string(num_str, self._varnames)
-        self.denom = SparsePolynomial.from_string(denom_str, self._varnames)
 
     def derivative(self, var):
         """
@@ -74,12 +49,10 @@ class RationalFunction:
                 num_str = s.split("/")[0]
                 denom_str = s.split("/")[1]
             else:
-                raise RuntimeError
+                raise NotImplemented
 
         num = SparsePolynomial.from_string(num_str, varnames, var_to_ind)
         denom = SparsePolynomial.from_string(denom_str, varnames, var_to_ind)
-
-        # print(f"({num})/({denom})")
 
         return RationalFunction(num, denom)
 
@@ -104,63 +77,15 @@ class RationalFunction:
     def get_sympy_ring(self):
         return sympy.polys.rings.ring(self.gens, self.domain)[0]
 
+    def __eq__(self, other):
+        if not isinstance(other, type(self)): return NotImplemented
+        return self.num == other.num and self.denom == other.denom
+
 
 if __name__ == "__main__":
 
     # Tests
     varnames = ['x','y','z']
-
-    print("Simplification Tests ------------------------------------------------")
-
-    print()
-
-    not_simple_rf = RationalFunction.from_string("(5*x**10*y)/(10*x**8*y+20*y**2)", ['x','y'])
-    print("Simplifying \t", not_simple_rf)
-    print("Expected: \t (x**10)/(2*x**8 + 4*y)")
-    out_ring = not_simple_rf.get_sympy_ring()
-    sympy_num = out_ring(not_simple_rf.num.get_sympy_dict())
-    sympy_denom = out_ring(not_simple_rf.denom.get_sympy_dict())
-    print("Actual: \t",(sympy_num)/(sympy_denom))
-
-    print()
-
-    not_simple_rf = RationalFunction.from_string("(x**4)/(x**3)", ['x'])
-    print("Simplifying \t", not_simple_rf)
-    print("Expected: \t x")
-    out_ring = not_simple_rf.get_sympy_ring()
-    sympy_num = out_ring(not_simple_rf.num.get_sympy_dict())
-    sympy_denom = out_ring(not_simple_rf.denom.get_sympy_dict())
-    print("Actual: \t",(sympy_num)/(sympy_denom))
-
-    print()
-
-    not_simple_rf = RationalFunction.from_string("(x**3)/(x**4)", ['x'])
-    print("Simplifying \t", not_simple_rf)
-    print("Expected: \t x**(-1)")
-    out_ring = not_simple_rf.get_sympy_ring()
-    sympy_num = out_ring(not_simple_rf.num.get_sympy_dict())
-    sympy_denom = out_ring(not_simple_rf.denom.get_sympy_dict())
-    print("Actual: \t",(sympy_num)/(sympy_denom))
-
-    print()
-
-    not_simple_rf = RationalFunction.from_string("(x**3 + 1)/(x**4)", ['x'])
-    print("Simplifying \t", not_simple_rf)
-    print("Expected: \t x**(-1) + x**(-4)")
-    out_ring = not_simple_rf.get_sympy_ring()
-    sympy_num = out_ring(not_simple_rf.num.get_sympy_dict())
-    sympy_denom = out_ring(not_simple_rf.denom.get_sympy_dict())
-    print("Actual: \t",(sympy_num)/(sympy_denom))
-
-    print()
-
-    not_simple_rf = RationalFunction.from_string("(x**3)/(x**4 + 1)", ['x'])
-    print("Simplifying \t", not_simple_rf)
-    print("Expected: \t x**3/(x**4 + 1)")
-    out_ring = not_simple_rf.get_sympy_ring()
-    sympy_num = out_ring(not_simple_rf.num.get_sympy_dict())
-    sympy_denom = out_ring(not_simple_rf.denom.get_sympy_dict())
-    print("Actual: \t",(sympy_num)/(sympy_denom))
 
     print('\n')
     print("Derevative Tests ----------------------------------------------------")
@@ -173,16 +98,38 @@ if __name__ == "__main__":
 
     rf1dx_expected = RationalFunction.from_string("(-(6*y**4*z**7*x*(7*x**4-3*y**2*z**9)))/((7*x**4+3*y**2*z**9)**2)", varnames)
     rf1dx_test = rf1.derivative('x')
-    print(rf1dx_expected)
-    print(rf1dx_test)
+    print("Expected: \t", rf1dx_expected)
+    print("Actual: \t", rf1dx_test)
 
     rf2dx_expected = RationalFunction.from_string("(2*y**2*x)/(z**2)", varnames)
     rf2dx_test = rf2.derivative('x')
-    print(rf2dx_expected)
-    print(rf2dx_test)
+    print("Expected: \t", rf2dx_expected)
+    print("Actual: \t", rf2dx_test)
 
     rf2dz_expected = RationalFunction.from_string("(-(2*x**2*y**2))/(z**3)", varnames)
     rf2dz_test = rf2.derivative('z')
-    print(rf2dz_expected)
-    print(rf2dz_test)
+    print("Expected: \t", rf2dz_expected)
+    print("Actual: \t", rf2dz_test)
+
+    rf = RationalFunction.from_string("(x)/(2 * y**2)", varnames)
+    rf_dz = rf.derivative('z')
+    print(rf_dz)
+
+    # print('\n')
+    # print("Equality Tests ----------------------------------------------------")
+
+    # print()
+
+    sp1 = SparsePolynomial.from_string("2*x**23 + 4", ['x'])
+    sp2 = SparsePolynomial.from_string("2*x**23 + 4", ['x'])
+
+    assert sp1 == sp2
+
+    rf1 = RationalFunction.from_string("x/y",['x','y'])
+    rf2 = RationalFunction.from_string("x/y",['x','y'])
+    rf3 = RationalFunction.from_string("(2*x)/y",['x','y'])
+
+    assert rf1 == rf2
+
+
 
