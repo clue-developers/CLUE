@@ -30,14 +30,13 @@ def dot_product(a, b):
     return sum([x * y for x, y in zip(a, b)])
 
 def check_lumping(test_name, polys, lumping, correct_size):
-    pass
-    # TODO: Update for sympy FracElement.
-    # lumped_system = lumping["rhs"]
-    # new_vars = lumping["subspace"]
-    # assert(len(lumped_system) == correct_size)
-    # print(test_name + ": size is correct")
+    lumped_system = lumping["rhs"]
+    new_vars = lumping["subspace"]
+    assert(len(lumped_system) == correct_size)
+    print(test_name + ": size is correct")
 
     # if isinstance(polys[0], sympy.polys.rings.PolyElement):
+    #     if isinstance(lumped_system[0], sympy.polys.fields.FracElement): return
     #     specialization = [random.randint(1, 100) for _ in range(len(polys))]
     #     polys_values = [evalp(p, specialization) for p in polys]
     #     polys_values_lumped = [dot_product(polys_values, var) for var in new_vars]
@@ -88,7 +87,7 @@ if __name__ == "__main__":
                           print_reduction=False)
     check_lumping("Example 2 (RationalFunction)", polys, lumping, 2)
 
-    # Actual Rational Function Example -----------------------------------------
+    # # Actual Rational Function Example -----------------------------------------
 
     varnames = ["x", "y"]
     rhs = [RationalFunction.from_string("y/(x-y)", varnames),
@@ -97,7 +96,8 @@ if __name__ == "__main__":
                          [SparsePolynomial.from_string("x-y", varnames)],
                           print_reduction=False, 
                           initial_conditions={"x" : 1, "y" : 2 })
-    assert lumping["rhs"] == [-1]
+    print(lumping)
+    # assert lumping["rhs"] == [-1]
 
     # SparsePolynomial Models --------------------------------------------------
 
@@ -138,14 +138,15 @@ if __name__ == "__main__":
     check_lumping("MODEL9085850385", system["equations"], lumping, 54)
 
     # RationalFunction Models --------------------------------------------------
-    print('\n\n')
+
+    print('\n----- THE MAIN TEST -------------------------------------------\n')
 
     # BIOMD0000000033 (SO SLOW THAT IT DOESN'T WORK!)
     system = read_system("../examples/RationalFunctions/BIOMD0000000033.ode")
     lumping = do_lumping(
             system["equations"],
             [SparsePolynomial.from_string("AktActive", system["variables"])], 
-            print_reduction=False
+            print_reduction=True
     )
     print(lumping)
 
@@ -154,7 +155,7 @@ if __name__ == "__main__":
     # system = read_system("../examples/RationalFunctions/MODEL1502270000.ode")
     # lumping = do_lumping(
     #         system["equations"],
-    #         [SparsePolynomial.from_string("AktActive", system["variables"])], 
+    #         [SparsePolynomial.from_string("gmax", system["variables"])], 
     #         print_reduction=False
     # )
     # print(lumping)

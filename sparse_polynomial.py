@@ -110,9 +110,6 @@ class SparsePolynomial(object):
         return self
 
     #--------------------------------------------------------------------------
-
-    def __hash__(self):
-        return hash(frozenset(self._data)) #?
     
     def __eq__(self, other):
         if self._data != other._data:
@@ -152,6 +149,28 @@ class SparsePolynomial(object):
                 for m, c in self._data.items():
                     result._data[m] = c * other
             return result
+
+    #--------------------------------------------------------------------------
+
+    def __floordiv__(self, other):
+        """
+        Exact division implemented with SymPy
+
+        self // other
+        """
+        R = self.get_sympy_ring()
+        num = R(self.get_sympy_dict()).as_expr()
+        denom = R(other.get_sympy_dict()).as_expr()
+        # print("Numerator: ", num)
+        # print("Denominator: ", denom)
+        if num.is_zero:
+            return SparsePolynomial.from_string('0', self._varnames)
+        elif num == denom:
+            return SparsePolynomial.from_string('1', self._varnames)
+        elif denom == 1:
+            return self
+        quo = R(sympy.polys.polytools.quo(num, denom))
+        return SparsePolynomial.from_sympy(quo)
 
     #--------------------------------------------------------------------------
 
@@ -257,6 +276,25 @@ class SparsePolynomial(object):
 
         return SparsePolynomial(self._varnames, domain=self._domain, data=data)
 
+    #--------------------------------------------------------------------------
+        
+    @staticmethod
+    def lcm(polys):
+        """
+        Returns lowest common mutiple of given polynomials (computed w/ SymPy)
+        """
+        R = polys[0].get_sympy_ring()
+        lcm = R(sympy.lcm([R(poly.get_sympy_dict()).as_expr() for poly in polys]))
+        return SparsePolynomial.from_sympy(lcm)
+
+    @staticmethod
+    def gcd(polys):
+        """
+        Returns greatest common divisor of given polynomials (computed w/ SymPy)
+        """
+        R = polys[0].get_sympy_ring()
+        gcd = R(sympy.gcd([R(poly.get_sympy_dict()).as_expr() for poly in polys]))
+        return SparsePolynomial.from_sympy(gcd)
     #--------------------------------------------------------------------------
 
     @staticmethod
