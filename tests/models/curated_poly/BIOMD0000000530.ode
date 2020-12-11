@@ -1,0 +1,46 @@
+begin model BIOMD0000000530
+ begin init
+  species_1 = 1.0 ( "mRNA" ) 
+  species_2 ( "miRNA_1" ) 
+  species_3 ( "miRNA_2" ) 
+  species_4 ( "duplex_1" ) 
+  species_5 ( "duplex_2" ) 
+  species_6 ( "triplex" ) 
+  species_7 = 1.0 ( "TF_mRNA" ) 
+  species_8 = 1.0 ( "TF_miRNA_1" ) 
+  species_9 = 1.0 ( "TF_miRNA_2" ) 
+  species_10 = 1.0 ( "protein" ) 
+ end init
+ begin reactions
+  species_1 -> species_1 + species_10 , ( 1.0) * (1.0)
+  species_1 -> 2*species_1 , ( -1) * (( 1.0) * (1.0))
+  species_1 + species_2 -> species_1 + species_2 + species_4 , ( 1.0) * (4.5298E-4)
+  species_1 + species_2 -> species_1 + 2*species_2 , ( -1) * (( 1.0) * (4.5298E-4))
+  species_1 + species_2 -> 2*species_1 + species_2 , ( -1) * (( 1.0) * (4.5298E-4))
+  species_1 + species_2 + species_3 -> species_1 + species_2 + species_3 + species_6 , ( 1.0) * (0.999534)
+  species_1 + species_2 + species_3 -> species_1 + species_2 + 2*species_3 , ( -1) * (( 1.0) * (0.999534))
+  species_1 + species_2 + species_3 -> species_1 + 2*species_2 + species_3 , ( -1) * (( 1.0) * (0.999534))
+  species_1 + species_2 + species_3 -> 2*species_1 + species_2 + species_3 , ( -1) * (( 1.0) * (0.999534))
+  species_1 + species_3 -> species_1 + species_3 + species_5 , ( 1.0) * (1.30837E-5)
+  species_1 + species_3 -> species_1 + 2*species_3 , ( -1) * (( 1.0) * (1.30837E-5))
+  species_1 + species_3 -> 2*species_1 + species_3 , ( -1) * (( 1.0) * (1.30837E-5))
+  species_2 -> 2*species_2 , ( -1) * (( 1.0) * (1.0))
+  species_3 -> 2*species_3 , ( -1) * (( 1.0) * (1.0))
+  species_4 -> species_1 + species_4 , ( 1.0) * (0.249955)
+  species_4 -> species_2 + species_4 , ( 1.0) * (0.249955)
+  species_4 -> 2*species_4 , ( -1) * (( 1.0) * (1.0))+( -1) * (( 1.0) * (0.249955))
+  species_5 -> species_1 + species_5 , ( 1.0) * (0.241033)
+  species_5 -> species_3 + species_5 , ( 1.0) * (0.241033)
+  species_5 -> 2*species_5 , ( -1) * (( 1.0) * (1.0))+( -1) * (( 1.0) * (0.241033))
+  species_6 -> species_1 + species_6 , ( 1.0) * (0.187796)
+  species_6 -> species_2 + species_6 , ( 1.0) * (0.187796)
+  species_6 -> species_3 + species_6 , ( 1.0) * (0.187796)
+  species_6 -> 2*species_6 , ( -1) * (( 1.0) * (1.0))+( -1) * (( 1.0) * (0.187796))
+  species_7 -> species_1 + species_7 , ( 1.0) * (1.0)
+  species_8 -> species_2 + species_8 , ( 1.0) * (1.0)
+  species_9 -> species_3 + species_9 , ( 1.0) * (1.0)
+  species_10 -> 2*species_10 , ( -1) * (( 1.0) * (1.0))
+ end reactions
+
+end model
+

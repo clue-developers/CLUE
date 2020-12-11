@@ -1,0 +1,22 @@
+begin model BIOMD0000000552
+ begin parameters
+  k1 = 0.007
+  k2 = 0.33
+  k3 = 0.0042
+  k4 = 0.01
+ end parameters
+ begin init
+  a = 50.0
+  b
+  aRel = 1.0
+  source = 1.0
+ end init
+ begin reactions
+  a -> a + b , ( -1) * (( 1.0) * (k3))
+  a + b -> 2*a + b , ( -1) * (( 1.0) * (k1))
+  b -> 2*b , ( -1) * (( 1.0) * (k4))
+  source -> b + source , ( 1.0) * (k2)
+ end reactions
+
+end model
+

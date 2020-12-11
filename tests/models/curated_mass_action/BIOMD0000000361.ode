@@ -1,0 +1,25 @@
+begin model BIOMD0000000361
+ begin init
+  VIIa_TF = 0.9999997
+  X = 169.9999
+  VIIa_TF_X
+  VIIa_TF_Xa
+  Xa
+  TFPI = 2.399999
+  Xa_TFPI
+  Xa_TFPI_VIIa_TF
+ end init
+ begin reactions
+  VIIa_TF + X -> VIIa_TF_X , 5.0 [reaction_1]
+  VIIa_TF_X -> VIIa_TF + X , 770.0 [reaction_1]
+  VIIa_TF_X -> VIIa_TF_Xa , 420.0 [reaction_2]
+  VIIa_TF_Xa -> VIIa_TF + Xa , 770.0 [reaction_3]
+  VIIa_TF + Xa -> VIIa_TF_Xa , 5.0 [reaction_3]
+  Xa + TFPI -> Xa_TFPI , 0.054 [reaction_4]
+  Xa_TFPI -> Xa + TFPI , 0.02 [reaction_4]
+  VIIa_TF + Xa_TFPI -> Xa_TFPI_VIIa_TF , 0.44 [reaction_5]
+  Xa_TFPI_VIIa_TF -> VIIa_TF + Xa_TFPI , 0.066 [reaction_5]
+ end reactions
+
+end model
+

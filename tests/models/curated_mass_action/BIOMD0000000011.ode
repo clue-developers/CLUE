@@ -1,0 +1,60 @@
+begin model BIOMD0000000011
+ begin init
+  MAPK = 0.4
+  MAPKMEKpp ( "MAPK_MEK-PP" ) 
+  MAPKp ( "MAPK-P" ) 
+  MAPKPH = 0.3 ( "MAPK phosphatase" ) 
+  MAPKpMAPKPH ( "MAPK-P_MAPKPase" ) 
+  MAPKpMEKpp ( "MAPK-P_MEK-PP" ) 
+  MAPKpp ( "MAPK-PP" ) 
+  MAPKppMAPKPH ( "MAPK-PP_MAPKPase" ) 
+  MEK = 0.2
+  MEKp ( "MEK-P" ) 
+  MEKPH = 0.2 ( "MEK phosphatase" ) 
+  MEKpMEKPH ( "MEK-P_MEKPase" ) 
+  MEKpp ( "MEK-PP" ) 
+  MEKppMEKPH ( "MEK-PP_MEKPase" ) 
+  MEKpRAFp ( "MEK-P_RAF-P" ) 
+  MEKRAFp ( "MEK_RAF-P" ) 
+  RAF = 0.3
+  RAFK = 0.2
+  RAFp ( "RAF-P" ) 
+  RAFPH = 0.3 ( "RAF phosphatase" ) 
+  RAFpRAFPH ( "RAF-P_RAFPase" ) 
+  RAFRAFK ( "RAF_RAFK" ) 
+ end init
+ begin reactions
+  RAF + RAFK -> RAFRAFK , 1.0 [Reaction1_forw]
+  RAFRAFK -> RAF + RAFK , 0.4 [Reaction2_forw]
+  RAFRAFK -> RAFK + RAFp , 0.1 [Reaction3_forw]
+  RAFp + RAFPH -> RAFpRAFPH , 0.5 [Reaction4_forw]
+  RAFpRAFPH -> RAFp + RAFPH , 0.5 [Reaction5_forw]
+  RAFpRAFPH -> RAF + RAFPH , 0.1 [Reaction6_forw]
+  MEK + RAFp -> MEKRAFp , 3.3 [Reaction7_forw]
+  MEKRAFp -> MEK + RAFp , 0.42 [Reaction8_forw]
+  MEKRAFp -> MEKp + RAFp , 0.1 [Reaction9_forw]
+  MEKp + MEKPH -> MEKpMEKPH , 10.0 [Reaction10_forw]
+  MEKpMEKPH -> MEKp + MEKPH , 0.8 [Reaction11_forw]
+  MEKpMEKPH -> MEK + MEKPH , 0.1 [Reaction12_forw]
+  MEKp + RAFp -> MEKpRAFp , 3.3 [Reaction13_forw]
+  MEKpRAFp -> MEKp + RAFp , 0.4 [Reaction14_forw]
+  MEKpRAFp -> MEKpp + RAFp , 0.1 [Reaction15_forw]
+  MEKPH + MEKpp -> MEKppMEKPH , 10.0 [Reaction16_forw]
+  MEKppMEKPH -> MEKPH + MEKpp , 0.8 [Reaction17_forw]
+  MEKppMEKPH -> MEKp + MEKPH , 0.1 [Reaction18_forw]
+  MAPK + MEKpp -> MAPKMEKpp , 20.0 [Reaction19_forw]
+  MAPKMEKpp -> MAPK + MEKpp , 0.6 [Reaction20_forw]
+  MAPKMEKpp -> MAPKp + MEKpp , 0.1 [Reaction21_forw]
+  MAPKp + MAPKPH -> MAPKpMAPKPH , 5.0 [Reaction22_forw]
+  MAPKpMAPKPH -> MAPKp + MAPKPH , 0.4 [Reaction23_forw]
+  MAPKpMAPKPH -> MAPK + MAPKPH , 0.1 [Reaction24_forw]
+  MAPKp + MEKpp -> MAPKpMEKpp , 20.0 [Reaction25_forw]
+  MAPKpMEKpp -> MAPKp + MEKpp , 0.6 [Reaction26_forw]
+  MAPKpMEKpp -> MAPKpp + MEKpp , 0.1 [Reaction27_forw]
+  MAPKPH + MAPKpp -> MAPKppMAPKPH , 5.0 [Reaction28_forw]
+  MAPKppMAPKPH -> MAPKPH + MAPKpp , 0.4 [Reaction29_forw]
+  MAPKppMAPKPH -> MAPKp + MAPKPH , 0.1 [Reaction30_forw]
+ end reactions
+
+end model
+

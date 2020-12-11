@@ -1,0 +1,169 @@
+begin model BIOMD0000000033
+ begin parameters
+  krbEGF = 2.18503E-5
+  kruEGF = 0.0121008
+  krbNGF = 1.38209E-7
+  kruNGF = 0.00723811
+  kEGF = 694.731
+  KmEGF = 6086070.0
+  kNGF = 389.428
+  KmNGF = 2112.66
+  kdSos = 1611.97
+  KmdSos = 896896.0
+  kSos = 32.344
+  KmSos = 35954.3
+  kRasGap = 1509.36
+  KmRasGap = 1432410.0
+  kRasToRaf1 = 0.884096
+  KmRasToRaf1 = 62464.6
+  kpRaf1 = 185.759
+  KmpRaf1 = 4768350.0
+  kpBRaf = 125.089
+  KmpBRaf = 157948.0
+  kdMek = 2.83243
+  KmdMek = 518753.0
+  kpMekCytoplasmic = 9.85367
+  KmpMekCytoplasmic = 1007340.0
+  kdErk = 8.8912
+  KmdErk = 3496490.0
+  kpP90Rsk = 0.0213697
+  KmpP90Rsk = 763523.0
+  kPI3K = 10.6737
+  KmPI3K = 184912.0
+  kPI3KRas = 0.0771067
+  KmPI3KRas = 272056.0
+  kAkt = 0.0566279
+  KmAkt = 653951.0
+  kdRaf1ByAkt = 15.1212
+  KmRaf1ByAkt = 119355.0
+  kC3GNGF = 146.912
+  KmC3GNGF = 12876.2
+  kC3G = 1.40145
+  KmC3G = 10965.6
+  kRapGap = 27.265
+  KmRapGap = 295990.0
+  kRap1ToBRaf = 2.20995
+  KmRap1ToBRaf = 1025460.0
+  kdRaf1 = 0.126329
+  KmdRaf1 = 1061.71
+  kdBRaf = 441.287
+  KmdBRaf = 1.08795E7
+ end parameters
+ begin init
+  EGF = 1.0002E7
+  NGF = 456000.0
+  freeEGFReceptor = 80000.0
+  boundEGFReceptor
+  freeNGFReceptor = 10000.0
+  boundNGFReceptor
+  SosInactive = 120000.0
+  SosActive
+  P90RskInactive = 120000.0
+  P90RskActive
+  RasInactive = 120000.0
+  RasActive
+  RasGapActive = 120000.0
+  Raf1Inactive = 120000.0
+  Raf1Active
+  BRafInactive = 120000.0
+  BRafActive
+  MekInactive = 600000.0
+  MekActive
+  ErkInactive = 600000.0
+  ErkActive
+  PI3KInactive = 120000.0
+  PI3KActive
+  AktInactive = 120000.0
+  AktActive
+  C3GInactive = 120000.0
+  C3GActive
+  Rap1Inactive = 120000.0
+  Rap1Active
+  RapGapActive = 120000.0
+  PP2AActive = 120000.0
+  Raf1PPtase = 120000.0
+ end init
+ begin reactions
+  EGF + freeEGFReceptor -> boundEGFReceptor ,  1*krbEGF*EGF*freeEGFReceptor
+  boundEGFReceptor -> EGF + freeEGFReceptor ,  1*kruEGF*boundEGFReceptor
+  NGF + freeNGFReceptor -> boundNGFReceptor ,  krbNGF*NGF*freeNGFReceptor*1
+  boundNGFReceptor -> NGF + freeNGFReceptor ,  kruNGF*boundNGFReceptor*1
+  boundEGFReceptor + SosInactive -> boundEGFReceptor + SosActive ,  1*kEGF*boundEGFReceptor*SosInactive/(SosInactive+KmEGF)
+  boundNGFReceptor + SosInactive -> boundNGFReceptor + SosActive ,  1*kNGF*boundNGFReceptor*SosInactive/(SosInactive+KmNGF)
+  SosActive + P90RskActive -> SosInactive + P90RskActive ,  1*kdSos*P90RskActive*SosActive/(SosActive+KmdSos)
+  SosActive + RasInactive -> SosActive + RasActive ,  1*kSos*SosActive*RasInactive/(RasInactive+KmSos)
+  RasActive + RasGapActive -> RasInactive + RasGapActive ,  1*kRasGap*RasGapActive*RasActive/(RasActive+KmRasGap)
+  RasActive + Raf1Inactive -> RasActive + Raf1Active ,  1*kRasToRaf1*RasActive*Raf1Inactive/(Raf1Inactive+KmRasToRaf1)
+  Raf1Active + MekInactive -> Raf1Active + MekActive ,  1*kpRaf1*Raf1Active*MekInactive/(MekInactive+KmpRaf1)
+  BRafActive + MekInactive -> BRafActive + MekActive ,  1*kpBRaf*BRafActive*MekInactive/(MekInactive+KmpBRaf)
+  MekActive + ErkInactive -> MekActive + ErkActive ,  1*kpMekCytoplasmic*MekActive*ErkInactive/(ErkInactive+KmpMekCytoplasmic)
+  MekActive + PP2AActive -> MekInactive + PP2AActive ,  1*kdMek*PP2AActive*MekActive/(MekActive+KmdMek)
+  ErkActive + PP2AActive -> ErkInactive + PP2AActive ,  1*kdErk*PP2AActive*ErkActive/(ErkActive+KmdErk)
+  Raf1Active + Raf1PPtase -> Raf1Inactive + Raf1PPtase ,  1*kdRaf1*Raf1PPtase*Raf1Active/(Raf1Active+KmdRaf1)
+  P90RskInactive + ErkActive -> P90RskActive + ErkActive ,  1*kpP90Rsk*ErkActive*P90RskInactive/(P90RskInactive+KmpP90Rsk)
+  boundEGFReceptor + PI3KInactive -> boundEGFReceptor + PI3KActive ,  1*kPI3K*boundEGFReceptor*PI3KInactive/(PI3KInactive+KmPI3K)
+  RasActive + PI3KInactive -> RasActive + PI3KActive ,  1*kPI3KRas*RasActive*PI3KInactive/(PI3KInactive+KmPI3KRas)
+  PI3KActive + AktInactive -> PI3KActive + AktActive ,  1*kAkt*PI3KActive*AktInactive/(AktInactive+KmAkt)
+  Raf1Active + AktActive -> Raf1Inactive + AktActive ,  1*kdRaf1ByAkt*AktActive*Raf1Active/(Raf1Active+KmRaf1ByAkt)
+  boundNGFReceptor + C3GInactive -> boundNGFReceptor + C3GActive ,  1*kC3GNGF*boundNGFReceptor*C3GInactive/(C3GInactive+KmC3GNGF)
+  C3GActive + Rap1Inactive -> C3GActive + Rap1Active ,  1*kC3G*C3GActive*Rap1Inactive/(Rap1Inactive+KmC3G)
+  Rap1Active + RapGapActive -> Rap1Inactive + RapGapActive ,  1*kRapGap*RapGapActive*Rap1Active/(Rap1Active+KmRapGap)
+  BRafInactive + Rap1Active -> BRafActive + Rap1Active ,  1*kRap1ToBRaf*Rap1Active*BRafInactive/(BRafInactive+KmRap1ToBRaf)
+  BRafActive + Raf1PPtase -> BRafInactive + Raf1PPtase ,  1*kdBRaf*Raf1PPtase*BRafActive/(BRafActive+KmdBRaf)
+ end reactions
+//Comments associated to the reactions
+//EGFBindingReaction:  
+  //EGF binding
+//EGFUnbindingReaction:  
+  //EFG unbinding
+//NGFBindingReaction:  
+  //NGF binding
+//NGFUnbindingReaction:  
+  //NGF unbinding
+//SosActivationByEGFReaction:  
+  //SOS activation by EGF
+//SosActivationByNGFReaction:  
+  //SOS activation by NGF
+//SosDeactivationReaction:  
+  //SOS deactivation
+//RasActivationReaction:  
+  //Ras activation
+//RasDeactivationReaction:  
+  //Ras deactivation
+//Raf1ByRasActivationReaction:  
+  //Raf1 activation by Ras
+//MekbyRaf1ActivationReaction:  
+  //Mek activation by Raf1
+//MekbyBRafActivationReaction:  
+  //Mek activation by B-Raf
+//ErkActivationReaction:  
+  //Erk activation
+//MekDeactivationReaction:  
+  //Mek deactivation
+//ErkDeactivationReaction:  
+  //Erk deactivation
+//Raf1byPPtaseDeactivationReaction:  
+  //Raf1 deactivation by PPase
+//P90RskActivationReaction:  
+  //P90Rsk activation
+//PI3KbyEGFRActivationReaction:  
+  //PI3K activation by EGFR
+//PI3KbyRasActivationReaction:  
+  //PI3K activation by Ras
+//AktActivationReaction:  
+  //Akt activation
+//Raf1ByAktDeactivationReaction:  
+  //Raf1 deactivation by Akt
+//C3GActivationReaction:  
+  //C3G activation
+//Rap1ActivationReaction:  
+  //Rap1 activation
+//Rap1DeactivationReaction:  
+  //Rap1 deactivation
+//BRafByRap1ActivationReaction:  
+  //BRaf activation by Rap1
+//BRafbyPPtaseDeactivationReaction:  
+  //BRaf deactivation by PPase
+reduceFDE(reducedFile="reductions/BIOMD0000000033_FDE.ode")
+end model
+

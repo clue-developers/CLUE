@@ -1,0 +1,248 @@
+begin model BIOMD0000000407
+ begin init
+  TNFR_E = 0.005
+  TNF_E = 0.2688
+  TNF_TNFR_E ( "TNF:TNFR_E" ) 
+  TNFR = 2.8E-4
+  RIP = 0.20256
+  TRADD = 0.29344
+  TRAF2 = 0.33056
+  FADD = 0.30944
+  TNF_TNFR_TRADD ( "TNF:TNFR:TRADD" ) 
+  TNFRC1
+  TNFRCint1
+  TNFRCint2
+  TNFRCint3
+  TNFRC2
+  FLIP = 0.0320472
+  TNFRC2_FLIP ( "TNFRC2:FLIP" ) 
+  TNFRC2_pCasp8 ( "TNFRC2:pCasp8" ) 
+  TNFRC2_FLIP_FLIP ( "TNFRC2:FLIP:FLIP" ) 
+  TNFRC2_pCasp8_pCasp8 ( "TNFRC2:pCasp8:pCasp8" ) 
+  TNFRC2_FLIP_pCasp8 ( "TNFRC2:FLIP:pCasp8" ) 
+  TNFRC2_FLIP_pCasp8_RIP_TRAF2 ( "TNFRC2:FLIP:pCasp8:RIP:TRAF2" ) 
+  IKK = 0.64
+  IKKa
+  A20 = 0.104434
+  NFkB = 1.15365E-4
+  IkBa = 0.00101518
+  IkBa_NFkB = 0.0151032 ( "IkBa:NFkB" ) 
+  PIkBa
+  NFkB_N = 6.91431E-4
+  IkBa_N = 0.0013839
+  IkBa_NFkB_N = 9.00189E-5 ( "IkBa:NFkB_N" ) 
+  A20_mRNA = 5.56657E-5
+  IkBa_mRNA = 5.31517E-5
+  XIAP_mRNA = 2.19646E-4
+  FLIP_mRNA = 1.39056E-4
+  BAR = 0.28789
+  XIAP = 7.83371
+  pCasp8 = 3.2
+  pCasp3 = 0.8
+  pCasp6 = 0.064
+  Casp8
+  Casp3
+  Casp6
+  BAR_Casp8 ( "BAR:Casp8" ) 
+  XIAP_Casp3 ( "XIAP:Casp3" ) 
+  PARP = 1.66667
+  cPARP
+  SINK
+  source = 1.0
+  I = 1
+ end init
+ begin reactions
+  TNFR_E -> TNFR_E + SINK , ( -1) * (5.6E-5)
+  TNFR_E -> 2*TNFR_E , 5.6E-5
+  TNFR_E + TNF_E -> TNFR_E + TNF_E + TNF_TNFR_E , 0.00953471
+  TNFR_E + TNF_E -> TNFR_E + 2*TNF_E , ( -1) * (0.00953471)
+  TNFR_E + TNF_E -> 2*TNFR_E + TNF_E , ( -1) * (0.00953471)
+  TNF_TNFR_E -> TNFR_E + TNF_TNFR_E , ( -1) * (-(6.60377E-5))
+  TNF_TNFR_E -> TNF_E + TNF_TNFR_E , ( -1) * (-(6.60377E-5))
+  TNF_TNFR_E -> TNF_TNFR_E + SINK , ( -1) * (5.6E-5)
+  TNF_TNFR_E -> 2*TNF_TNFR_E , -(6.60377E-5)+5.6E-5
+  TNF_TNFR_E + TRADD -> TNF_TNFR_E + TRADD + TNF_TNFR_TRADD , 0.00427827
+  TNF_TNFR_E + TRADD -> TNF_TNFR_E + 2*TRADD , ( -1) * (0.00427827)
+  TNF_TNFR_E + TRADD -> 2*TNF_TNFR_E + TRADD , ( -1) * (0.00427827)
+  TNFR -> TNFR_E + TNFR , 0.001
+  TNFR -> 2*TNFR , ( -1) * (0.001)
+  RIP -> 2*RIP , -(1.0E-4)
+  RIP + TRAF2 + TNF_TNFR_TRADD -> RIP + TRAF2 + TNF_TNFR_TRADD + TNFRC1 , 0.0976562
+  RIP + TRAF2 + TNF_TNFR_TRADD -> RIP + TRAF2 + 2*TNF_TNFR_TRADD , ( -1) * (0.0976562)
+  RIP + TRAF2 + TNF_TNFR_TRADD -> RIP + 2*TRAF2 + TNF_TNFR_TRADD , ( -1) * (0.0976562)
+  RIP + TRAF2 + TNF_TNFR_TRADD -> 2*RIP + TRAF2 + TNF_TNFR_TRADD , ( -1) * (0.0976562)
+  RIP + TRAF2 + TNFRC2_FLIP_pCasp8 -> RIP + TRAF2 + TNFRC2_FLIP_pCasp8 + TNFRC2_FLIP_pCasp8_RIP_TRAF2 , 0.00976562
+  RIP + TRAF2 + TNFRC2_FLIP_pCasp8 -> RIP + TRAF2 + 2*TNFRC2_FLIP_pCasp8 , ( -1) * (0.00976562)
+  RIP + TRAF2 + TNFRC2_FLIP_pCasp8 -> RIP + 2*TRAF2 + TNFRC2_FLIP_pCasp8 , ( -1) * (0.00976562)
+  RIP + TRAF2 + TNFRC2_FLIP_pCasp8 -> 2*RIP + TRAF2 + TNFRC2_FLIP_pCasp8 , ( -1) * (0.00976562)
+  RIP + Casp3 -> 2*RIP + Casp3 , ( -1) * (0.15625)
+  TRADD -> 2*TRADD , -(1.0E-4)
+  TRAF2 -> 2*TRAF2 , -(1.0E-4)
+  FADD -> 2*FADD , -(1.0E-4)
+  2*FADD + TNFRCint2 -> 2*FADD + TNFRCint2 + TNFRCint3 , 0.0118534
+  2*FADD + TNFRCint2 -> 2*FADD + 2*TNFRCint2 , ( -1) * (0.0118534)
+  2*FADD + TNFRCint2 -> 3*FADD + TNFRCint2 , ( -2) * (0.0118534)
+  TNF_TNFR_TRADD -> TNF_TNFR_TRADD + SINK , ( -1) * (0.02352)
+  TNF_TNFR_TRADD -> 2*TNF_TNFR_TRADD , 0.02352
+  TNFRC1 -> TNFRC1 + TNFRCint1 , 0.001135
+  TNFRC1 -> TNFRC1 + SINK , ( -1) * (5.6E-5)
+  TNFRC1 -> 2*TNFRC1 , ( -1) * (0.001135)+5.6E-5
+  TNFRC1 + IKK -> TNFRC1 + IKK + IKKa , 93.75
+  TNFRC1 + IKK -> TNFRC1 + 2*IKK , ( -1) * (93.75)
+  TNFRC1 + A20 -> TRAF2 + TNFRC1 + A20 , 0.00625
+  TNFRC1 + A20 -> TNF_TNFR_TRADD + TNFRC1 + A20 , 0.00625
+  TNFRC1 + A20 -> 2*TNFRC1 + A20 , ( -1) * (0.00625)
+  TNFRCint1 -> RIP + TNFRCint1 , 0.001135
+  TNFRCint1 -> TRAF2 + TNFRCint1 , 0.001135
+  TNFRCint1 -> TNFRCint1 + TNFRCint2 , 0.001135
+  TNFRCint1 -> 2*TNFRCint1 , ( -1) * (0.001135)
+  TNFRCint3 -> TNFRCint3 + TNFRC2 , 0.1135
+  TNFRCint3 -> 2*TNFRCint3 , ( -1) * (0.1135)
+  TNFRC2 -> TNFRC2 + SINK , ( -1) * (5.6E-5)
+  TNFRC2 -> 2*TNFRC2 , 5.6E-5
+  TNFRC2 + FLIP -> TNFRC2 + FLIP + TNFRC2_FLIP , 0.3125
+  TNFRC2 + FLIP -> TNFRC2 + 2*FLIP , ( -1) * (0.3125)
+  TNFRC2 + FLIP -> 2*TNFRC2 + FLIP , ( -1) * (0.3125)
+  TNFRC2 + pCasp8 -> TNFRC2 + TNFRC2_pCasp8 + pCasp8 , 0.03125
+  TNFRC2 + pCasp8 -> TNFRC2 + 2*pCasp8 , ( -1) * (0.03125)
+  TNFRC2 + pCasp8 -> 2*TNFRC2 + pCasp8 , ( -1) * (0.03125)
+  FLIP -> 2*FLIP , -(1.0E-4)
+  FLIP + TNFRC2_FLIP -> FLIP + TNFRC2_FLIP + TNFRC2_FLIP_FLIP , 0.3125
+  FLIP + TNFRC2_FLIP -> FLIP + 2*TNFRC2_FLIP , ( -1) * (0.3125)
+  FLIP + TNFRC2_FLIP -> 2*FLIP + TNFRC2_FLIP , ( -1) * (0.3125)
+  FLIP + TNFRC2_pCasp8 -> FLIP + TNFRC2_pCasp8 + TNFRC2_FLIP_pCasp8 , 0.3125
+  FLIP + TNFRC2_pCasp8 -> FLIP + 2*TNFRC2_pCasp8 , ( -1) * (0.3125)
+  FLIP + TNFRC2_pCasp8 -> 2*FLIP + TNFRC2_pCasp8 , ( -1) * (0.3125)
+  FLIP + Casp3 -> 2*FLIP + Casp3 , ( -1) * (0.15625)
+  TNFRC2_FLIP -> TNFRC2_FLIP + SINK , ( -1) * (5.6E-5)
+  TNFRC2_FLIP -> 2*TNFRC2_FLIP , 5.6E-5
+  TNFRC2_FLIP + pCasp8 -> TNFRC2_FLIP + TNFRC2_FLIP_pCasp8 + pCasp8 , 0.3125
+  TNFRC2_FLIP + pCasp8 -> TNFRC2_FLIP + 2*pCasp8 , ( -1) * (0.3125)
+  TNFRC2_FLIP + pCasp8 -> 2*TNFRC2_FLIP + pCasp8 , ( -1) * (0.3125)
+  TNFRC2_pCasp8 -> TNFRC2_pCasp8 + SINK , ( -1) * (5.6E-5)
+  TNFRC2_pCasp8 -> 2*TNFRC2_pCasp8 , 5.6E-5
+  TNFRC2_pCasp8 + pCasp8 -> TNFRC2_pCasp8 + TNFRC2_pCasp8_pCasp8 + pCasp8 , 0.03125
+  TNFRC2_pCasp8 + pCasp8 -> TNFRC2_pCasp8 + 2*pCasp8 , ( -1) * (0.03125)
+  TNFRC2_pCasp8 + pCasp8 -> 2*TNFRC2_pCasp8 + pCasp8 , ( -1) * (0.03125)
+  TNFRC2_FLIP_FLIP -> TNFRC2_FLIP_FLIP + SINK , ( -1) * (5.6E-5)
+  TNFRC2_FLIP_FLIP -> 2*TNFRC2_FLIP_FLIP , 5.6E-5
+  TNFRC2_pCasp8_pCasp8 -> TNFRC2 + TNFRC2_pCasp8_pCasp8 , 0.45
+  TNFRC2_pCasp8_pCasp8 -> TNFRC2_pCasp8_pCasp8 + Casp8 , 0.45
+  TNFRC2_pCasp8_pCasp8 -> TNFRC2_pCasp8_pCasp8 + SINK , ( -1) * (5.6E-5)
+  TNFRC2_pCasp8_pCasp8 -> 2*TNFRC2_pCasp8_pCasp8 , ( -1) * (0.45)+5.6E-5
+  TNFRC2_FLIP_pCasp8 -> TNFRC2 + TNFRC2_FLIP_pCasp8 , 0.3
+  TNFRC2_FLIP_pCasp8 -> TNFRC2_FLIP_pCasp8 + Casp8 , 0.3
+  TNFRC2_FLIP_pCasp8 -> TNFRC2_FLIP_pCasp8 + SINK , ( -1) * (5.6E-5)
+  TNFRC2_FLIP_pCasp8 -> 2*TNFRC2_FLIP_pCasp8 , ( -1) * (0.3)+5.6E-5
+  TNFRC2_FLIP_pCasp8_RIP_TRAF2 -> TNFRC2_FLIP_pCasp8_RIP_TRAF2 + SINK , ( -1) * (5.6E-5)
+  TNFRC2_FLIP_pCasp8_RIP_TRAF2 -> 2*TNFRC2_FLIP_pCasp8_RIP_TRAF2 , 5.6E-5
+  TNFRC2_FLIP_pCasp8_RIP_TRAF2 + IKK -> TNFRC2_FLIP_pCasp8_RIP_TRAF2 + IKK + IKKa , 0.03125
+  TNFRC2_FLIP_pCasp8_RIP_TRAF2 + IKK -> TNFRC2_FLIP_pCasp8_RIP_TRAF2 + 2*IKK , ( -1) * (0.03125)
+  IKK -> 2*IKK , -(1.0E-4)
+  IKKa -> IKK + IKKa , 0.1
+  IKKa -> IKKa + SINK , ( -1) * (1.0E-4)
+  IKKa -> 2*IKKa , ( -1) * (0.1)+1.0E-4
+  IKKa + IkBa_NFkB -> IKKa + NFkB + IkBa_NFkB , 0.104167
+  IKKa + IkBa_NFkB -> IKKa + IkBa_NFkB + PIkBa , 0.104167
+  IKKa + IkBa_NFkB -> IKKa + 2*IkBa_NFkB , ( -1) * (0.104167)
+  A20 -> 2*A20 , -(1.0E-4)
+  NFkB -> NFkB + NFkB_N , 0.0125
+  NFkB -> 2*NFkB , ( -1) * (0.0125)+-(1.0E-4)
+  NFkB + IkBa -> NFkB + IkBa + IkBa_NFkB , 1.25
+  NFkB + IkBa -> NFkB + 2*IkBa , ( -1) * (1.25)
+  NFkB + IkBa -> 2*NFkB + IkBa , ( -1) * (1.25)
+  IkBa -> IkBa + IkBa_N , 0.005
+  IkBa -> IkBa + SINK , ( -1) * (0.00154022)
+  IkBa -> 2*IkBa , ( -1) * (0.005)+0.00154022
+  IkBa_NFkB -> IkBa_NFkB + SINK , ( -1) * (1.0E-4)
+  IkBa_NFkB -> 2*IkBa_NFkB , 1.0E-4
+  PIkBa -> PIkBa + SINK , ( -1) * (0.0115517)
+  PIkBa -> 2*PIkBa , 0.0115517
+  NFkB_N -> NFkB_N + A20_mRNA , 3.78788E-5
+  NFkB_N -> NFkB_N + IkBa_mRNA , 3.0303E-5
+  NFkB_N -> NFkB_N + XIAP_mRNA , 3.33333E-5
+  NFkB_N -> NFkB_N + FLIP_mRNA , 3.33333E-5
+  NFkB_N -> NFkB_N + SINK , ( -1) * (1.0E-4)
+  NFkB_N -> 2*NFkB_N , 1.0E-4
+  NFkB_N + IkBa_N -> NFkB_N + IkBa_N + IkBa_NFkB_N , 1.4348
+  NFkB_N + IkBa_N -> NFkB_N + 2*IkBa_N , ( -1) * (1.4348)
+  NFkB_N + IkBa_N -> 2*NFkB_N + IkBa_N , ( -1) * (1.4348)
+  IkBa_N -> IkBa + IkBa_N , ( -1) * (-(0.00257576))
+  IkBa_N -> IkBa_N + SINK , ( -1) * (1.0E-4)
+  IkBa_N -> 2*IkBa_N , -(0.00257576)+1.0E-4
+  IkBa_NFkB_N -> IkBa_NFkB + IkBa_NFkB_N , 0.0151515
+  IkBa_NFkB_N -> IkBa_NFkB_N + SINK , ( -1) * (1.0E-4)
+  IkBa_NFkB_N -> 2*IkBa_NFkB_N , ( -1) * (0.0151515)+1.0E-4
+  A20_mRNA -> A20 + A20_mRNA , 0.0151515
+  A20_mRNA -> A20_mRNA + SINK , ( -1) * (4.70498E-4)
+  A20_mRNA -> 2*A20_mRNA , 4.70498E-4
+  IkBa_mRNA -> IkBa + IkBa_mRNA , 0.0606061
+  IkBa_mRNA -> IkBa_mRNA + SINK , ( -1) * (3.94201E-4)
+  IkBa_mRNA -> 2*IkBa_mRNA , 3.94201E-4
+  XIAP_mRNA -> XIAP_mRNA + XIAP , 0.0506061
+  XIAP_mRNA -> XIAP_mRNA + SINK , ( -1) * (1.04931E-4)
+  XIAP_mRNA -> 2*XIAP_mRNA , 1.04931E-4
+  FLIP_mRNA -> FLIP + FLIP_mRNA , 0.00687273
+  FLIP_mRNA -> FLIP_mRNA + SINK , ( -1) * (1.65744E-4)
+  FLIP_mRNA -> 2*FLIP_mRNA , 1.65744E-4
+  BAR -> 2*BAR , -(5.78704E-6)
+  BAR + Casp8 -> BAR + Casp8 + BAR_Casp8 , 0.520833
+  BAR + Casp8 -> BAR + 2*Casp8 , ( -1) * (0.520833)
+  BAR + Casp8 -> 2*BAR + Casp8 , ( -1) * (0.520833)
+  XIAP -> 2*XIAP , -(1.0E-4)
+  XIAP + Casp3 -> XIAP + Casp3 + XIAP_Casp3 , 0.625
+  XIAP + Casp3 -> XIAP + 2*Casp3 , ( -1) * (0.625)
+  XIAP + Casp3 -> 2*XIAP + Casp3 , ( -1) * (1.875)+( -1) * (0.625)
+  pCasp8 -> 2*pCasp8 , -(6.17284E-5)
+  pCasp8 + Casp6 -> pCasp8 + Casp8 + Casp6 , 0.0015625
+  pCasp8 + Casp6 -> 2*pCasp8 + Casp6 , ( -1) * (0.0015625)
+  pCasp3 -> 2*pCasp3 , -(6.17284E-5)
+  pCasp3 + Casp8 -> pCasp3 + Casp8 + Casp3 , 0.015625
+  pCasp3 + Casp8 -> 2*pCasp3 + Casp8 , ( -1) * (0.015625)
+  pCasp6 -> 2*pCasp6 , -(6.17284E-5)
+  pCasp6 + Casp3 -> pCasp6 + Casp3 + Casp6 , 0.009375
+  pCasp6 + Casp3 -> 2*pCasp6 + Casp3 , ( -1) * (0.009375)
+  Casp8 -> Casp8 + SINK , ( -1) * (5.78704E-5)
+  Casp8 -> 2*Casp8 , 5.78704E-5
+  Casp3 -> Casp3 + SINK , ( -1) * (5.78704E-5)
+  Casp3 -> 2*Casp3 , 5.78704E-5
+  Casp3 + PARP -> Casp3 + PARP + cPARP , 0.1875
+  Casp3 + PARP -> Casp3 + 2*PARP , ( -1) * (0.1875)
+  Casp6 -> Casp6 + SINK , ( -1) * (5.78704E-5)
+  Casp6 -> 2*Casp6 , 5.78704E-5
+  BAR_Casp8 -> BAR + BAR_Casp8 , ( -1) * (-(0.001))
+  BAR_Casp8 -> Casp8 + BAR_Casp8 , ( -1) * (-(0.001))
+  BAR_Casp8 -> BAR_Casp8 + SINK , ( -1) * (5.78704E-5)
+  BAR_Casp8 -> 2*BAR_Casp8 , -(0.001)+5.78704E-5
+  XIAP_Casp3 -> XIAP + XIAP_Casp3 , 5.0E-5+( -1) * (-(0.001))
+  XIAP_Casp3 -> Casp3 + XIAP_Casp3 , ( -1) * (-(0.001))
+  XIAP_Casp3 -> XIAP_Casp3 + SINK , ( -1) * (5.78704E-5)
+  XIAP_Casp3 -> 2*XIAP_Casp3 , -(0.001)+( -1) * (5.0E-5)+5.78704E-5
+  PARP -> PARP + SINK , ( -1) * (5.78704E-6)
+  PARP -> 2*PARP , 5.78704E-6
+  cPARP -> cPARP + SINK , ( -1) * (5.78704E-6)
+  cPARP -> 2*cPARP , 5.78704E-6
+  source -> TNFR + source , 2.8E-7
+  I -> RIP + I , 2.0256E-5
+  I -> TRADD + I , 2.9344E-5
+  I -> TRAF2 + I , 3.3056E-5
+  I -> FADD + I , 3.0944E-5
+  I -> FLIP + I , 2.24902E-6
+  I -> IKK + I , 6.4E-5
+  I -> A20 + I , 9.6E-6
+  I -> NFkB + I , 1.6E-6
+  I -> BAR + I , 1.66603E-6
+  I -> XIAP + I , 7.72256E-4
+  I -> pCasp8 + I , 1.97531E-4
+  I -> pCasp3 + I , 4.93827E-5
+  I -> pCasp6 + I , 3.95062E-6
+  I -> PARP + I , -(9.64506E-6)
+  I -> SINK + I , ( -1) * (-(9.64506E-6))
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

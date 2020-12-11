@@ -1,0 +1,31 @@
+begin model MODEL1202270001
+ begin init
+  T0 = 100.0 ( "total TF level" ) 
+  T = 100.0 ( "free TF activator" ) 
+  x = 50.0 ( "free dox" ) 
+  Tx ( "TF activator_dox complex1" ) 
+  xTx ( "TF activator_dox complex3" ) 
+  x0 = 50.0 ( "total intracellular dox" ) 
+  N = 30.0 ( "decoy sites" ) 
+  TN ( "total decoy sites" ) 
+  N0 = 30.0 ( "decoy sites balance" ) 
+  P = 7.0 ( "promotor" ) 
+  TP ( "total promotor" ) 
+  P0 = 7.0 ( "promotor balance" ) 
+  xT ( "TF activator_dox complex2" ) 
+ end init
+ begin reactions
+  T + x -> Tx , 0.01 [reaction_Tx_forw]
+  Tx -> T + x , ( -1) * (-(0.0021)) [reaction_Tx_rev]
+  x + Tx -> xTx , 0.01 [reaction_xTx_forw]
+  xTx -> x + Tx , ( -1) * (-(0.0021)) [reaction_xTx_rev]
+  T + N -> TN , 0.01 [reaction_TN_forw]
+  TN -> T + N , ( -1) * (-(0.42)) [reaction_TN_rev]
+  T + P -> TP , 0.01 [reaction_TP_forw]
+  TP -> T + P , ( -1) * (-(0.42)) [reaction_TP_rev]
+  T + x -> xT , 0.01 [reaction_xT_forw]
+  xT -> T + x , ( -1) * (-(0.0021)) [reaction_xT_rev]
+ end reactions
+
+end model
+

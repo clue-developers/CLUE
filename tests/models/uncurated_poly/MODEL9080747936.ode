@@ -1,0 +1,276 @@
+begin model MODEL9080747936
+ begin init
+  PKC_minus_active_slash_PKC_minus_phosph_minus_neurogranin_slash_PKC_minus_phosph_minus_neurogranin_cplx
+  PKC_minus_active_slash_PKC_minus_phosph_minus_ng_minus_CaM_slash_PKC_minus_phosph_minus_ng_minus_CaM_cplx
+  PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx
+  PKA_minus_active_slash_phosph_minus_PDE_slash_phosph_minus_PDE_cplx
+  CaM_minus_Ca4
+  CaMKII_slash_CaMKII = 70.0
+  CaMKII_slash_CaMKII_minus_CaM
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM
+  CaMKII_slash_CaMKII_star__star__star_
+  CaMKII_slash_CaMKII_minus_thr286
+  CaMKII_slash_CaMK_minus_thr306
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx
+  PP1_minus_active = 1.8
+  PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx
+  PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx
+  PP1_minus_active_slash_Deph_minus_thr306_slash_Deph_minus_thr306_cplx
+  PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx
+  PP1_minus_active_slash_Deph_thr286b_slash_Deph_thr286b_cplx
+  CaM_slash_CaM = 20.0
+  CaM_slash_neurogranin_minus_CaM
+  CaM_slash_neurogranin_star_
+  CaM_slash_neurogranin = 10.0
+  CaM_minus_Ca3
+  CaM_minus_TR2_minus_Ca2
+  CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_neurogranin_slash_dephosph_neurogranin_cplx
+  CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx
+  CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx
+  PP1_slash_I1 = 1.8
+  PP1_slash_I1_star_ = 0.001
+  PP1_slash_PP1_minus_I1_star_
+  PP1_slash_PP1_minus_I1
+  PP2A = 0.12
+  PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx
+  PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx
+  CaNAB_minus_Ca4
+  CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx
+  PP2B_slash_CaNAB = 1.0
+  PP2B_slash_CaNAB_minus_Ca2
+  PP2B_slash_CaMCa3_minus_CaNAB
+  PP2B_slash_CaMCa2_minus_CANAB
+  PP2B_slash_CaMCa4_minus_CaNAB
+  PKC_minus_active = 0.09
+  PKA_minus_active = 0.015
+  Ca = 0.08
+  CaMKII_slash_tot_CaM_CaMKII
+  CaMKII_slash_tot_autonomous_CaMKII
+  CaM_po_Ca_pc_n_minus_CaNAB
+ end init
+ begin reactions
+  PKC_minus_active_slash_PKC_minus_phosph_minus_neurogranin_slash_PKC_minus_phosph_minus_neurogranin_cplx -> PKC_minus_active_slash_PKC_minus_phosph_minus_neurogranin_slash_PKC_minus_phosph_minus_neurogranin_cplx + CaM_slash_neurogranin_star_ , 5.8E-13
+  PKC_minus_active_slash_PKC_minus_phosph_minus_neurogranin_slash_PKC_minus_phosph_minus_neurogranin_cplx -> PKC_minus_active_slash_PKC_minus_phosph_minus_neurogranin_slash_PKC_minus_phosph_minus_neurogranin_cplx + CaM_slash_neurogranin , ( -1) * (-(2.34E-12))
+  PKC_minus_active_slash_PKC_minus_phosph_minus_neurogranin_slash_PKC_minus_phosph_minus_neurogranin_cplx -> 2*PKC_minus_active_slash_PKC_minus_phosph_minus_neurogranin_slash_PKC_minus_phosph_minus_neurogranin_cplx , -(2.34E-12)+( -1) * (5.8E-13)
+  PKC_minus_active_slash_PKC_minus_phosph_minus_ng_minus_CaM_slash_PKC_minus_phosph_minus_ng_minus_CaM_cplx -> PKC_minus_active_slash_PKC_minus_phosph_minus_ng_minus_CaM_slash_PKC_minus_phosph_minus_ng_minus_CaM_cplx + CaM_slash_CaM , 3.5E-13
+  PKC_minus_active_slash_PKC_minus_phosph_minus_ng_minus_CaM_slash_PKC_minus_phosph_minus_ng_minus_CaM_cplx -> PKC_minus_active_slash_PKC_minus_phosph_minus_ng_minus_CaM_slash_PKC_minus_phosph_minus_ng_minus_CaM_cplx + CaM_slash_neurogranin_minus_CaM , ( -1) * (-(1.4E-12))
+  PKC_minus_active_slash_PKC_minus_phosph_minus_ng_minus_CaM_slash_PKC_minus_phosph_minus_ng_minus_CaM_cplx -> PKC_minus_active_slash_PKC_minus_phosph_minus_ng_minus_CaM_slash_PKC_minus_phosph_minus_ng_minus_CaM_cplx + CaM_slash_neurogranin_star_ , 3.5E-13
+  PKC_minus_active_slash_PKC_minus_phosph_minus_ng_minus_CaM_slash_PKC_minus_phosph_minus_ng_minus_CaM_cplx -> 2*PKC_minus_active_slash_PKC_minus_phosph_minus_ng_minus_CaM_slash_PKC_minus_phosph_minus_ng_minus_CaM_cplx , -(1.4E-12)+( -1) * (3.5E-13)
+  PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx -> PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx + PP1_slash_I1 , ( -1) * (-(3.6E-11))
+  PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx -> PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx + PP1_slash_I1_star_ , 9.0E-12
+  PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx -> 2*PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx , -(3.6E-11)+( -1) * (9.0E-12)
+  CaM_minus_Ca4 -> CaM_minus_Ca4 + CaM_minus_Ca3 , ( -1) * (-(1.0E-11))
+  CaM_minus_Ca4 -> 2*CaM_minus_Ca4 , -(1.0E-11)
+  CaM_minus_Ca4 + CaMKII_slash_CaMKII -> CaM_minus_Ca4 + CaMKII_slash_CaMKII + CaMKII_slash_CaMKII_minus_CaM , 4.99998E-11
+  CaM_minus_Ca4 + CaMKII_slash_CaMKII -> CaM_minus_Ca4 + 2*CaMKII_slash_CaMKII , ( -1) * (4.99998E-11)
+  CaM_minus_Ca4 + CaMKII_slash_CaMKII -> 2*CaM_minus_Ca4 + CaMKII_slash_CaMKII , ( -1) * (4.99998E-11)
+  CaM_minus_Ca4 + CaMKII_slash_CaMKII_minus_thr286 -> CaM_minus_Ca4 + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_CaMKII_minus_thr286 , 1.0002E-9
+  CaM_minus_Ca4 + CaMKII_slash_CaMKII_minus_thr286 -> CaM_minus_Ca4 + 2*CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (1.0002E-9)
+  CaM_minus_Ca4 + CaMKII_slash_CaMKII_minus_thr286 -> 2*CaM_minus_Ca4 + CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (1.0002E-9)
+  CaM_minus_Ca4 + CaNAB_minus_Ca4 -> CaM_minus_Ca4 + CaNAB_minus_Ca4 + PP2B_slash_CaMCa4_minus_CaNAB , 6.0E-10
+  CaM_minus_Ca4 + CaNAB_minus_Ca4 -> CaM_minus_Ca4 + 2*CaNAB_minus_Ca4 , ( -1) * (6.0E-10)
+  CaM_minus_Ca4 + CaNAB_minus_Ca4 -> 2*CaM_minus_Ca4 + CaNAB_minus_Ca4 , ( -1) * (6.0E-10)
+  CaMKII_slash_CaMKII -> CaMKII_slash_CaMKII + CaMKII_slash_CaMKII_minus_thr286 , 3.0E-15
+  CaMKII_slash_CaMKII -> 2*CaMKII_slash_CaMKII , ( -1) * (3.0E-15)
+  CaMKII_slash_CaMKII_minus_CaM -> CaM_minus_Ca4 + CaMKII_slash_CaMKII_minus_CaM , ( -1) * (-(5.0E-12))
+  CaMKII_slash_CaMKII_minus_CaM -> CaMKII_slash_CaMKII + CaMKII_slash_CaMKII_minus_CaM , ( -1) * (-(5.0E-12))
+  CaMKII_slash_CaMKII_minus_CaM -> 2*CaMKII_slash_CaMKII_minus_CaM , -(5.0E-12)
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx , 2.20068E-14
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_tot_CaM_CaMKII , ( -1) * (2.20068E-14)
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM -> 2*CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM , ( -1) * (2.20068E-14)
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_star__star__star_ -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx , 1.4286E-14
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_star__star__star_ -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_tot_autonomous_CaMKII , ( -1) * (1.4286E-14)
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_star__star__star_ -> 2*CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_star__star__star_ , ( -1) * (1.4286E-14)
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx , 2.64084E-13
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx , 1.4286E-14
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_CaM_CaMKII , ( -1) * (2.64084E-13)
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_autonomous_CaMKII , ( -1) * (1.4286E-14)
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_minus_CaM + 2*CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (2.64084E-13)
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> 2*CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (1.4286E-14)
+  2*CaMKII_slash_CaMKII_minus_CaM -> 2*CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx , 2.20068E-14
+  2*CaMKII_slash_CaMKII_minus_CaM -> 2*CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_tot_CaM_CaMKII , ( -1) * (2.20068E-14)
+  2*CaMKII_slash_CaMKII_minus_CaM -> 3*CaMKII_slash_CaMKII_minus_CaM , ( -1) * (2.20068E-14)
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM -> CaM_minus_Ca4 + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM , ( -1) * (-(1.0E-13))
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (-(1.0E-13))
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM -> 2*CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM , -(1.0E-13)
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx , 2.64084E-13
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_CaM_CaMKII , ( -1) * (2.64084E-13)
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + 2*CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (2.64084E-13)
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + PP1_minus_active -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx , 3.432E-13
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + PP1_minus_active -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + 2*PP1_minus_active , ( -1) * (3.432E-13)
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + PP1_minus_active -> 2*CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + PP1_minus_active , ( -1) * (3.432E-13)
+  CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx , 1.71426E-13
+  CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_autonomous_CaMKII , ( -1) * (1.71426E-13)
+  CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_star__star__star_ + 2*CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (1.71426E-13)
+  CaMKII_slash_CaMKII_star__star__star_ + PP1_minus_active -> CaMKII_slash_CaMKII_star__star__star_ + PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx , 3.432E-13
+  CaMKII_slash_CaMKII_star__star__star_ + PP1_minus_active -> CaMKII_slash_CaMKII_star__star__star_ + PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx , 3.432E-13
+  CaMKII_slash_CaMKII_star__star__star_ + PP1_minus_active -> CaMKII_slash_CaMKII_star__star__star_ + 2*PP1_minus_active , ( -1) * (3.432E-13)+( -1) * (3.432E-13)
+  CaMKII_slash_CaMKII_star__star__star_ + PP1_minus_active -> 2*CaMKII_slash_CaMKII_star__star__star_ + PP1_minus_active , ( -1) * (3.432E-13)+( -1) * (3.432E-13)
+  CaMKII_slash_CaMKII_minus_thr286 + PP1_minus_active -> CaMKII_slash_CaMKII_minus_thr286 + PP1_minus_active + PP1_minus_active_slash_Deph_thr286b_slash_Deph_thr286b_cplx , 3.432E-13
+  CaMKII_slash_CaMKII_minus_thr286 + PP1_minus_active -> CaMKII_slash_CaMKII_minus_thr286 + 2*PP1_minus_active , ( -1) * (3.432E-13)
+  CaMKII_slash_CaMKII_minus_thr286 + PP1_minus_active -> 2*CaMKII_slash_CaMKII_minus_thr286 + PP1_minus_active , ( -1) * (3.432E-13)
+  2*CaMKII_slash_CaMKII_minus_thr286 -> 2*CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx , 1.71426E-13
+  2*CaMKII_slash_CaMKII_minus_thr286 -> 2*CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_autonomous_CaMKII , ( -1) * (1.71426E-13)
+  2*CaMKII_slash_CaMKII_minus_thr286 -> 3*CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (1.71426E-13)
+  CaMKII_slash_CaMK_minus_thr306 + PP1_minus_active -> CaMKII_slash_CaMK_minus_thr306 + PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr306_slash_Deph_minus_thr306_cplx , 3.432E-13
+  CaMKII_slash_CaMK_minus_thr306 + PP1_minus_active -> CaMKII_slash_CaMK_minus_thr306 + 2*PP1_minus_active , ( -1) * (3.432E-13)
+  CaMKII_slash_CaMK_minus_thr306 + PP1_minus_active -> 2*CaMKII_slash_CaMK_minus_thr306 + PP1_minus_active , ( -1) * (3.432E-13)
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx -> CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx , 6.0E-12
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx -> CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx , ( -1) * (-(2.4E-11))
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx -> CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx + CaMKII_slash_tot_CaM_CaMKII , 6.0E-12+( -1) * (-(2.4E-11))
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx -> 2*CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx , -(2.4E-11)+( -1) * (6.0E-12)
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx , ( -1) * (-(2.0E-12))
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx , 5.0E-13
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx -> CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx + CaMKII_slash_tot_CaM_CaMKII , 5.0E-13+( -1) * (-(2.0E-12))
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx -> 2*CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx , -(2.0E-12)+( -1) * (5.0E-13)
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx -> CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx , 6.0E-12
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx -> CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx , ( -1) * (-(2.4E-11))
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx -> CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx + CaMKII_slash_tot_autonomous_CaMKII , 6.0E-12+( -1) * (-(2.4E-11))
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx -> 2*CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx , -(2.4E-11)+( -1) * (6.0E-12)
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx , ( -1) * (-(2.0E-12))
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx , 5.0E-13
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx -> CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx + CaMKII_slash_tot_autonomous_CaMKII , 5.0E-13+( -1) * (-(2.0E-12))
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx -> 2*CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx , -(2.0E-12)+( -1) * (5.0E-13)
+  PP1_minus_active + PP1_slash_I1_star_ -> PP1_minus_active + PP1_slash_I1_star_ + PP1_slash_PP1_minus_I1_star_ , 4.9998E-10
+  PP1_minus_active + PP1_slash_I1_star_ -> PP1_minus_active + 2*PP1_slash_I1_star_ , ( -1) * (4.9998E-10)
+  PP1_minus_active + PP1_slash_I1_star_ -> 2*PP1_minus_active + PP1_slash_I1_star_ , ( -1) * (4.9998E-10)
+  PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx -> CaMKII_slash_CaMKII_minus_CaM + PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx , 3.5E-13
+  PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx , ( -1) * (-(1.4E-12))
+  PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx -> PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx , 3.5E-13+( -1) * (-(1.4E-12))
+  PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx -> 2*PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx , -(1.4E-12)+( -1) * (3.5E-13)
+  PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx -> CaMKII_slash_CaMKII_star__star__star_ + PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx , ( -1) * (-(1.4E-12))
+  PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx -> CaMKII_slash_CaMKII_minus_thr286 + PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx , 3.5E-13
+  PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx -> PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx , 3.5E-13+( -1) * (-(1.4E-12))
+  PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx -> 2*PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx , -(1.4E-12)+( -1) * (3.5E-13)
+  PP1_minus_active_slash_Deph_minus_thr306_slash_Deph_minus_thr306_cplx -> CaMKII_slash_CaMKII + PP1_minus_active_slash_Deph_minus_thr306_slash_Deph_minus_thr306_cplx , 3.5E-13
+  PP1_minus_active_slash_Deph_minus_thr306_slash_Deph_minus_thr306_cplx -> CaMKII_slash_CaMK_minus_thr306 + PP1_minus_active_slash_Deph_minus_thr306_slash_Deph_minus_thr306_cplx , ( -1) * (-(1.4E-12))
+  PP1_minus_active_slash_Deph_minus_thr306_slash_Deph_minus_thr306_cplx -> PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr306_slash_Deph_minus_thr306_cplx , 3.5E-13+( -1) * (-(1.4E-12))
+  PP1_minus_active_slash_Deph_minus_thr306_slash_Deph_minus_thr306_cplx -> 2*PP1_minus_active_slash_Deph_minus_thr306_slash_Deph_minus_thr306_cplx , -(1.4E-12)+( -1) * (3.5E-13)
+  PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx -> CaMKII_slash_CaMKII_star__star__star_ + PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx , ( -1) * (-(1.4E-12))
+  PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx -> CaMKII_slash_CaMK_minus_thr306 + PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx , 3.5E-13
+  PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx -> PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx , 3.5E-13+( -1) * (-(1.4E-12))
+  PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx -> 2*PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx , -(1.4E-12)+( -1) * (3.5E-13)
+  PP1_minus_active_slash_Deph_thr286b_slash_Deph_thr286b_cplx -> CaMKII_slash_CaMKII + PP1_minus_active_slash_Deph_thr286b_slash_Deph_thr286b_cplx , 3.5E-13
+  PP1_minus_active_slash_Deph_thr286b_slash_Deph_thr286b_cplx -> CaMKII_slash_CaMKII_minus_thr286 + PP1_minus_active_slash_Deph_thr286b_slash_Deph_thr286b_cplx , ( -1) * (-(1.4E-12))
+  PP1_minus_active_slash_Deph_thr286b_slash_Deph_thr286b_cplx -> PP1_minus_active + PP1_minus_active_slash_Deph_thr286b_slash_Deph_thr286b_cplx , 3.5E-13+( -1) * (-(1.4E-12))
+  PP1_minus_active_slash_Deph_thr286b_slash_Deph_thr286b_cplx -> 2*PP1_minus_active_slash_Deph_thr286b_slash_Deph_thr286b_cplx , -(1.4E-12)+( -1) * (3.5E-13)
+  CaM_slash_CaM + CaM_slash_neurogranin -> CaM_slash_CaM + CaM_slash_neurogranin_minus_CaM + CaM_slash_neurogranin , 3.0E-13
+  CaM_slash_CaM + CaM_slash_neurogranin -> CaM_slash_CaM + 2*CaM_slash_neurogranin , ( -1) * (3.0E-13)
+  CaM_slash_CaM + CaM_slash_neurogranin -> 2*CaM_slash_CaM + CaM_slash_neurogranin , ( -1) * (3.0E-13)
+  CaM_slash_CaM + 2*Ca -> CaM_slash_CaM + CaM_minus_TR2_minus_Ca2 + 2*Ca , 7.2E-11
+  CaM_slash_CaM + 2*Ca -> 2*CaM_slash_CaM + 2*Ca , ( -1) * (7.2E-11)
+  CaM_slash_neurogranin_minus_CaM -> CaM_slash_CaM + CaM_slash_neurogranin_minus_CaM , ( -1) * (-(1.0E-12))
+  CaM_slash_neurogranin_minus_CaM -> CaM_slash_neurogranin_minus_CaM + CaM_slash_neurogranin , ( -1) * (-(1.0E-12))
+  CaM_slash_neurogranin_minus_CaM -> 2*CaM_slash_neurogranin_minus_CaM , -(1.0E-12)
+  CaM_slash_neurogranin_minus_CaM + PKC_minus_active -> PKC_minus_active_slash_PKC_minus_phosph_minus_ng_minus_CaM_slash_PKC_minus_phosph_minus_ng_minus_CaM_cplx + CaM_slash_neurogranin_minus_CaM + PKC_minus_active , 6.12E-14
+  CaM_slash_neurogranin_minus_CaM + PKC_minus_active -> 2*CaM_slash_neurogranin_minus_CaM + PKC_minus_active , ( -1) * (6.12E-14)
+  CaM_slash_neurogranin_star_ -> CaM_slash_neurogranin_star_ + CaM_slash_neurogranin , 5.0E-15
+  CaM_slash_neurogranin_star_ -> 2*CaM_slash_neurogranin_star_ , ( -1) * (5.0E-15)
+  CaM_slash_neurogranin_star_ + PP2B_slash_CaMCa3_minus_CaNAB -> CaM_slash_neurogranin_star_ + CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_neurogranin_slash_dephosph_neurogranin_cplx + PP2B_slash_CaMCa3_minus_CaNAB , 3.336E-13
+  CaM_slash_neurogranin_star_ + PP2B_slash_CaMCa3_minus_CaNAB -> CaM_slash_neurogranin_star_ + PP2B_slash_CaMCa3_minus_CaNAB + CaM_po_Ca_pc_n_minus_CaNAB , ( -1) * (3.336E-13)
+  CaM_slash_neurogranin_star_ + PP2B_slash_CaMCa3_minus_CaNAB -> 2*CaM_slash_neurogranin_star_ + PP2B_slash_CaMCa3_minus_CaNAB , ( -1) * (3.336E-13)
+  CaM_slash_neurogranin_star_ + PP2B_slash_CaMCa2_minus_CANAB -> CaM_slash_neurogranin_star_ + CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_neurogranin_slash_dephosph_neurogranin_cplx + PP2B_slash_CaMCa2_minus_CANAB , 3.336E-13
+  CaM_slash_neurogranin_star_ + PP2B_slash_CaMCa2_minus_CANAB -> CaM_slash_neurogranin_star_ + PP2B_slash_CaMCa2_minus_CANAB + CaM_po_Ca_pc_n_minus_CaNAB , ( -1) * (3.336E-13)
+  CaM_slash_neurogranin_star_ + PP2B_slash_CaMCa2_minus_CANAB -> 2*CaM_slash_neurogranin_star_ + PP2B_slash_CaMCa2_minus_CANAB , ( -1) * (3.336E-13)
+  CaM_slash_neurogranin_star_ + PP2B_slash_CaMCa4_minus_CaNAB -> CaM_slash_neurogranin_star_ + CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_neurogranin_slash_dephosph_neurogranin_cplx + PP2B_slash_CaMCa4_minus_CaNAB , 3.336E-13
+  CaM_slash_neurogranin_star_ + PP2B_slash_CaMCa4_minus_CaNAB -> CaM_slash_neurogranin_star_ + PP2B_slash_CaMCa4_minus_CaNAB + CaM_po_Ca_pc_n_minus_CaNAB , ( -1) * (3.336E-13)
+  CaM_slash_neurogranin_star_ + PP2B_slash_CaMCa4_minus_CaNAB -> 2*CaM_slash_neurogranin_star_ + PP2B_slash_CaMCa4_minus_CaNAB , ( -1) * (3.336E-13)
+  CaM_slash_neurogranin + PKC_minus_active -> PKC_minus_active_slash_PKC_minus_phosph_minus_neurogranin_slash_PKC_minus_phosph_minus_neurogranin_cplx + CaM_slash_neurogranin + PKC_minus_active , 1.02E-13
+  CaM_slash_neurogranin + PKC_minus_active -> 2*CaM_slash_neurogranin + PKC_minus_active , ( -1) * (1.02E-13)
+  CaM_minus_Ca3 -> CaM_minus_Ca3 + CaM_minus_TR2_minus_Ca2 , ( -1) * (-(1.0E-11))
+  CaM_minus_Ca3 -> 2*CaM_minus_Ca3 , -(1.0E-11)
+  CaM_minus_Ca3 + CaNAB_minus_Ca4 -> CaM_minus_Ca3 + CaNAB_minus_Ca4 + PP2B_slash_CaMCa3_minus_CaNAB , 2.238E-12
+  CaM_minus_Ca3 + CaNAB_minus_Ca4 -> CaM_minus_Ca3 + 2*CaNAB_minus_Ca4 , ( -1) * (2.238E-12)
+  CaM_minus_Ca3 + CaNAB_minus_Ca4 -> 2*CaM_minus_Ca3 + CaNAB_minus_Ca4 , ( -1) * (2.238E-12)
+  CaM_minus_Ca3 + Ca -> CaM_minus_Ca4 + CaM_minus_Ca3 + Ca , 4.65E-13
+  CaM_minus_Ca3 + Ca -> 2*CaM_minus_Ca3 + Ca , ( -1) * (4.65E-13)
+  CaM_minus_TR2_minus_Ca2 -> CaM_slash_CaM + CaM_minus_TR2_minus_Ca2 , ( -1) * (-(7.2E-11))
+  CaM_minus_TR2_minus_Ca2 -> 2*CaM_minus_TR2_minus_Ca2 , -(7.2E-11)
+  CaM_minus_TR2_minus_Ca2 + CaNAB_minus_Ca4 -> CaM_minus_TR2_minus_Ca2 + CaNAB_minus_Ca4 + PP2B_slash_CaMCa2_minus_CANAB , 2.4E-13
+  CaM_minus_TR2_minus_Ca2 + CaNAB_minus_Ca4 -> CaM_minus_TR2_minus_Ca2 + 2*CaNAB_minus_Ca4 , ( -1) * (2.4E-13)
+  CaM_minus_TR2_minus_Ca2 + CaNAB_minus_Ca4 -> 2*CaM_minus_TR2_minus_Ca2 + CaNAB_minus_Ca4 , ( -1) * (2.4E-13)
+  CaM_minus_TR2_minus_Ca2 + Ca -> CaM_minus_Ca3 + CaM_minus_TR2_minus_Ca2 + Ca , 3.6E-12
+  CaM_minus_TR2_minus_Ca2 + Ca -> 2*CaM_minus_TR2_minus_Ca2 + Ca , ( -1) * (3.6E-12)
+  CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_neurogranin_slash_dephosph_neurogranin_cplx -> CaM_slash_neurogranin_star_ + CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_neurogranin_slash_dephosph_neurogranin_cplx , ( -1) * (-(2.67E-12))
+  CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_neurogranin_slash_dephosph_neurogranin_cplx -> CaM_slash_neurogranin + CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_neurogranin_slash_dephosph_neurogranin_cplx , 6.7E-13
+  CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_neurogranin_slash_dephosph_neurogranin_cplx -> CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_neurogranin_slash_dephosph_neurogranin_cplx + CaM_po_Ca_pc_n_minus_CaNAB , 6.7E-13+( -1) * (-(2.67E-12))
+  CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_neurogranin_slash_dephosph_neurogranin_cplx -> 2*CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_neurogranin_slash_dephosph_neurogranin_cplx , -(2.67E-12)+( -1) * (6.7E-13)
+  CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx -> CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx + PP1_slash_I1 , 3.4E-13
+  CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx -> CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx + PP1_slash_I1_star_ , ( -1) * (-(1.36E-12))
+  CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx -> CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx + CaM_po_Ca_pc_n_minus_CaNAB , 3.4E-13+( -1) * (-(1.36E-12))
+  CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx -> 2*CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx , -(1.36E-12)+( -1) * (3.4E-13)
+  CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx -> CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx + PP1_slash_PP1_minus_I1_star_ , ( -1) * (-(1.36E-12))
+  CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx -> CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx + PP1_slash_PP1_minus_I1 , 3.4E-13
+  CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx -> CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx + CaM_po_Ca_pc_n_minus_CaNAB , 3.4E-13+( -1) * (-(1.36E-12))
+  CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx -> 2*CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx , -(1.36E-12)+( -1) * (3.4E-13)
+  PP1_slash_I1 + PKA_minus_active -> PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx + PP1_slash_I1 + PKA_minus_active , 6.0E-12
+  PP1_slash_I1 + PKA_minus_active -> 2*PP1_slash_I1 + PKA_minus_active , ( -1) * (6.0E-12)
+  PP1_slash_I1_star_ + PP2A -> PP1_slash_I1_star_ + PP2A + PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx , 3.96E-12
+  PP1_slash_I1_star_ + PP2A -> PP1_slash_I1_star_ + 2*PP2A , ( -1) * (3.96E-12)
+  PP1_slash_I1_star_ + PP2A -> 2*PP1_slash_I1_star_ + PP2A , ( -1) * (3.96E-12)
+  PP1_slash_I1_star_ + CaNAB_minus_Ca4 -> PP1_slash_I1_star_ + CaNAB_minus_Ca4 + CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx , 3.42E-14
+  PP1_slash_I1_star_ + CaNAB_minus_Ca4 -> PP1_slash_I1_star_ + 2*CaNAB_minus_Ca4 , ( -1) * (3.42E-14)
+  PP1_slash_I1_star_ + CaNAB_minus_Ca4 -> 2*PP1_slash_I1_star_ + CaNAB_minus_Ca4 , ( -1) * (3.42E-14)
+  PP1_slash_I1_star_ + PP2B_slash_CaMCa3_minus_CaNAB -> CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx + PP1_slash_I1_star_ + PP2B_slash_CaMCa3_minus_CaNAB , 3.42E-13
+  PP1_slash_I1_star_ + PP2B_slash_CaMCa3_minus_CaNAB -> PP1_slash_I1_star_ + PP2B_slash_CaMCa3_minus_CaNAB + CaM_po_Ca_pc_n_minus_CaNAB , ( -1) * (3.42E-13)
+  PP1_slash_I1_star_ + PP2B_slash_CaMCa3_minus_CaNAB -> 2*PP1_slash_I1_star_ + PP2B_slash_CaMCa3_minus_CaNAB , ( -1) * (3.42E-13)
+  PP1_slash_I1_star_ + PP2B_slash_CaMCa2_minus_CANAB -> CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx + PP1_slash_I1_star_ + PP2B_slash_CaMCa2_minus_CANAB , 3.42E-13
+  PP1_slash_I1_star_ + PP2B_slash_CaMCa2_minus_CANAB -> PP1_slash_I1_star_ + PP2B_slash_CaMCa2_minus_CANAB + CaM_po_Ca_pc_n_minus_CaNAB , ( -1) * (3.42E-13)
+  PP1_slash_I1_star_ + PP2B_slash_CaMCa2_minus_CANAB -> 2*PP1_slash_I1_star_ + PP2B_slash_CaMCa2_minus_CANAB , ( -1) * (3.42E-13)
+  PP1_slash_I1_star_ + PP2B_slash_CaMCa4_minus_CaNAB -> CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx + PP1_slash_I1_star_ + PP2B_slash_CaMCa4_minus_CaNAB , 3.42E-13
+  PP1_slash_I1_star_ + PP2B_slash_CaMCa4_minus_CaNAB -> PP1_slash_I1_star_ + PP2B_slash_CaMCa4_minus_CaNAB + CaM_po_Ca_pc_n_minus_CaNAB , ( -1) * (3.42E-13)
+  PP1_slash_I1_star_ + PP2B_slash_CaMCa4_minus_CaNAB -> 2*PP1_slash_I1_star_ + PP2B_slash_CaMCa4_minus_CaNAB , ( -1) * (3.42E-13)
+  PP1_slash_PP1_minus_I1_star_ -> PP1_minus_active + PP1_slash_PP1_minus_I1_star_ , ( -1) * (-(1.0E-13))
+  PP1_slash_PP1_minus_I1_star_ -> PP1_slash_I1_star_ + PP1_slash_PP1_minus_I1_star_ , ( -1) * (-(1.0E-13))
+  PP1_slash_PP1_minus_I1_star_ -> 2*PP1_slash_PP1_minus_I1_star_ , -(1.0E-13)
+  PP1_slash_PP1_minus_I1_star_ + PP2A -> PP1_slash_PP1_minus_I1_star_ + PP2A + PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx , 3.96E-12
+  PP1_slash_PP1_minus_I1_star_ + PP2A -> PP1_slash_PP1_minus_I1_star_ + 2*PP2A , ( -1) * (3.96E-12)
+  PP1_slash_PP1_minus_I1_star_ + PP2A -> 2*PP1_slash_PP1_minus_I1_star_ + PP2A , ( -1) * (3.96E-12)
+  PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa3_minus_CaNAB -> CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx + PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa3_minus_CaNAB , 3.42E-13
+  PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa3_minus_CaNAB -> PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa3_minus_CaNAB + CaM_po_Ca_pc_n_minus_CaNAB , ( -1) * (3.42E-13)
+  PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa3_minus_CaNAB -> 2*PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa3_minus_CaNAB , ( -1) * (3.42E-13)
+  PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa2_minus_CANAB -> CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx + PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa2_minus_CANAB , 3.42E-13
+  PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa2_minus_CANAB -> PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa2_minus_CANAB + CaM_po_Ca_pc_n_minus_CaNAB , ( -1) * (3.42E-13)
+  PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa2_minus_CANAB -> 2*PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa2_minus_CANAB , ( -1) * (3.42E-13)
+  PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa4_minus_CaNAB -> CaM_po_Ca_pc_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx + PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa4_minus_CaNAB , 3.42E-13
+  PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa4_minus_CaNAB -> PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa4_minus_CaNAB + CaM_po_Ca_pc_n_minus_CaNAB , ( -1) * (3.42E-13)
+  PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa4_minus_CaNAB -> 2*PP1_slash_PP1_minus_I1_star_ + PP2B_slash_CaMCa4_minus_CaNAB , ( -1) * (3.42E-13)
+  PP1_slash_PP1_minus_I1 -> PP1_minus_active + PP1_slash_PP1_minus_I1 , 1.0E-12
+  PP1_slash_PP1_minus_I1 -> PP1_slash_I1 + PP1_slash_PP1_minus_I1 , 1.0E-12
+  PP1_slash_PP1_minus_I1 -> 2*PP1_slash_PP1_minus_I1 , ( -1) * (1.0E-12)
+  PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx -> PP1_slash_I1 + PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx , 6.0E-12
+  PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx -> PP1_slash_I1_star_ + PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx , ( -1) * (-(2.5E-11))
+  PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx -> PP2A + PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx , 6.0E-12+( -1) * (-(2.5E-11))
+  PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx -> 2*PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx , -(2.5E-11)+( -1) * (6.0E-12)
+  PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx -> PP1_slash_PP1_minus_I1_star_ + PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx , ( -1) * (-(2.5E-11))
+  PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx -> PP1_slash_PP1_minus_I1 + PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx , 6.0E-12
+  PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx -> PP2A + PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx , 6.0E-12+( -1) * (-(2.5E-11))
+  PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx -> 2*PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx , -(2.5E-11)+( -1) * (6.0E-12)
+  CaNAB_minus_Ca4 -> CaNAB_minus_Ca4 + PP2B_slash_CaNAB_minus_Ca2 , ( -1) * (-(1.0E-12))
+  CaNAB_minus_Ca4 -> 2*CaNAB_minus_Ca4 , -(1.0E-12)
+  CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx -> PP1_slash_I1 + CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx , 3.4E-14
+  CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx -> PP1_slash_I1_star_ + CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx , ( -1) * (-(1.36E-13))
+  CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx -> CaNAB_minus_Ca4 + CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx , 3.4E-14+( -1) * (-(1.36E-13))
+  CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx -> 2*CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx , -(1.36E-13)+( -1) * (3.4E-14)
+  PP2B_slash_CaNAB + 2*Ca -> PP2B_slash_CaNAB + PP2B_slash_CaNAB_minus_Ca2 + 2*Ca , 1.0008E-8
+  PP2B_slash_CaNAB + 2*Ca -> 2*PP2B_slash_CaNAB + 2*Ca , ( -1) * (1.0008E-8)
+  PP2B_slash_CaNAB_minus_Ca2 -> PP2B_slash_CaNAB + PP2B_slash_CaNAB_minus_Ca2 , ( -1) * (-(1.0E-12))
+  PP2B_slash_CaNAB_minus_Ca2 -> 2*PP2B_slash_CaNAB_minus_Ca2 , -(1.0E-12)
+  PP2B_slash_CaNAB_minus_Ca2 + 2*Ca -> CaNAB_minus_Ca4 + PP2B_slash_CaNAB_minus_Ca2 + 2*Ca , 3.6E-12
+  PP2B_slash_CaNAB_minus_Ca2 + 2*Ca -> 2*PP2B_slash_CaNAB_minus_Ca2 + 2*Ca , ( -1) * (3.6E-12)
+  PP2B_slash_CaMCa3_minus_CaNAB -> CaM_minus_Ca3 + PP2B_slash_CaMCa3_minus_CaNAB , ( -1) * (-(1.0E-12))
+  PP2B_slash_CaMCa3_minus_CaNAB -> CaNAB_minus_Ca4 + PP2B_slash_CaMCa3_minus_CaNAB , ( -1) * (-(1.0E-12))
+  PP2B_slash_CaMCa3_minus_CaNAB -> 2*PP2B_slash_CaMCa3_minus_CaNAB , -(1.0E-12)
+  PP2B_slash_CaMCa2_minus_CANAB -> CaM_minus_TR2_minus_Ca2 + PP2B_slash_CaMCa2_minus_CANAB , ( -1) * (-(1.0E-12))
+  PP2B_slash_CaMCa2_minus_CANAB -> CaNAB_minus_Ca4 + PP2B_slash_CaMCa2_minus_CANAB , ( -1) * (-(1.0E-12))
+  PP2B_slash_CaMCa2_minus_CANAB -> 2*PP2B_slash_CaMCa2_minus_CANAB , -(1.0E-12)
+  PP2B_slash_CaMCa4_minus_CaNAB -> CaM_minus_Ca4 + PP2B_slash_CaMCa4_minus_CaNAB , ( -1) * (-(1.0E-12))
+  PP2B_slash_CaMCa4_minus_CaNAB -> CaNAB_minus_Ca4 + PP2B_slash_CaMCa4_minus_CaNAB , ( -1) * (-(1.0E-12))
+  PP2B_slash_CaMCa4_minus_CaNAB -> 2*PP2B_slash_CaMCa4_minus_CaNAB , -(1.0E-12)
+ end reactions
+
+end model
+

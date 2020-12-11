@@ -1,0 +1,51 @@
+begin model MODEL4780784080
+ begin init
+  NOS_slash_nNOS = 0.5
+  NOS_slash_NOS_star_
+  NOS_slash_Ca_minus_CaMnNOS
+  NOS_slash_Ca_minus_CaMnNOS_slash_kenz_slash_kenz_cplx
+  NOS_slash_NO
+  NOS_slash_cit
+  NOS_slash_Larg = 100.0
+  NOS_slash_CaMKIV_slash_kenz_slash_kenz_cplx
+  NOS_slash_CaMKIIalpha_slash_kenz_slash_kenz_cplx
+  NOS_slash_CaMKIalpha_slash_kenz_slash_kenz_cplx
+  NOS_slash_CaMKIV = 1.0
+  NOS_slash_CaMKIIalpha = 1.0
+  NOS_slash_CaMKIalpha = 1.0
+  NOS_slash_CaM_minus_Ca4 = 20.0
+ end init
+ begin reactions
+  NOS_slash_nNOS + NOS_slash_CaMKIV -> NOS_slash_nNOS + NOS_slash_CaMKIV_slash_kenz_slash_kenz_cplx + NOS_slash_CaMKIV , 3.0E-17
+  NOS_slash_nNOS + NOS_slash_CaMKIV -> 2*NOS_slash_nNOS + NOS_slash_CaMKIV , ( -1) * (3.0E-17)
+  NOS_slash_nNOS + NOS_slash_CaMKIIalpha -> NOS_slash_nNOS + NOS_slash_CaMKIIalpha_slash_kenz_slash_kenz_cplx + NOS_slash_CaMKIIalpha , 4.75E-17
+  NOS_slash_nNOS + NOS_slash_CaMKIIalpha -> 2*NOS_slash_nNOS + NOS_slash_CaMKIIalpha , ( -1) * (4.75E-17)
+  NOS_slash_nNOS + NOS_slash_CaMKIalpha -> NOS_slash_nNOS + NOS_slash_CaMKIalpha_slash_kenz_slash_kenz_cplx + NOS_slash_CaMKIalpha , 2.83333333333333E-17
+  NOS_slash_nNOS + NOS_slash_CaMKIalpha -> 2*NOS_slash_nNOS + NOS_slash_CaMKIalpha , ( -1) * (2.83333333333333E-17)
+  NOS_slash_nNOS + NOS_slash_CaM_minus_Ca4 -> NOS_slash_nNOS + NOS_slash_Ca_minus_CaMnNOS + NOS_slash_CaM_minus_Ca4 , 5.41666666666667E-18
+  NOS_slash_nNOS + NOS_slash_CaM_minus_Ca4 -> 2*NOS_slash_nNOS + NOS_slash_CaM_minus_Ca4 , ( -1) * (5.41666666666667E-18)
+  NOS_slash_NOS_star_ -> NOS_slash_nNOS + NOS_slash_NOS_star_ , 2.31666666666667E-17
+  NOS_slash_NOS_star_ -> 2*NOS_slash_NOS_star_ , ( -1) * (2.31666666666667E-17)
+  NOS_slash_Ca_minus_CaMnNOS -> NOS_slash_nNOS + NOS_slash_Ca_minus_CaMnNOS , ( -1) * (-(8.33333333333333E-20))
+  NOS_slash_Ca_minus_CaMnNOS -> 2*NOS_slash_Ca_minus_CaMnNOS , -(8.33333333333333E-20)
+  NOS_slash_Ca_minus_CaMnNOS + NOS_slash_Larg -> NOS_slash_Ca_minus_CaMnNOS + NOS_slash_Ca_minus_CaMnNOS_slash_kenz_slash_kenz_cplx + NOS_slash_Larg , 1.38891666666667E-17
+  NOS_slash_Ca_minus_CaMnNOS + NOS_slash_Larg -> NOS_slash_Ca_minus_CaMnNOS + 2*NOS_slash_Larg , ( -1) * (1.38891666666667E-17)
+  NOS_slash_Ca_minus_CaMnNOS + NOS_slash_Larg -> 2*NOS_slash_Ca_minus_CaMnNOS + NOS_slash_Larg , ( -1) * (1.38891666666667E-17)
+  NOS_slash_Ca_minus_CaMnNOS_slash_kenz_slash_kenz_cplx -> NOS_slash_Ca_minus_CaMnNOS + NOS_slash_Ca_minus_CaMnNOS_slash_kenz_slash_kenz_cplx , 2.77783333333333E-17+( -1) * (-(1.11113333333333E-16))
+  NOS_slash_Ca_minus_CaMnNOS_slash_kenz_slash_kenz_cplx -> NOS_slash_Ca_minus_CaMnNOS_slash_kenz_slash_kenz_cplx + NOS_slash_NO , 2.77783333333333E-17
+  NOS_slash_Ca_minus_CaMnNOS_slash_kenz_slash_kenz_cplx -> NOS_slash_Ca_minus_CaMnNOS_slash_kenz_slash_kenz_cplx + NOS_slash_cit , 2.77783333333333E-17
+  NOS_slash_Ca_minus_CaMnNOS_slash_kenz_slash_kenz_cplx -> NOS_slash_Ca_minus_CaMnNOS_slash_kenz_slash_kenz_cplx + NOS_slash_Larg , ( -1) * (-(1.11113333333333E-16))
+  NOS_slash_Ca_minus_CaMnNOS_slash_kenz_slash_kenz_cplx -> 2*NOS_slash_Ca_minus_CaMnNOS_slash_kenz_slash_kenz_cplx , -(1.11113333333333E-16)+( -1) * (2.77783333333333E-17)
+  NOS_slash_CaMKIV_slash_kenz_slash_kenz_cplx -> NOS_slash_nNOS + NOS_slash_CaMKIV_slash_kenz_slash_kenz_cplx , ( -1) * (-(1.2E-16))
+  NOS_slash_CaMKIV_slash_kenz_slash_kenz_cplx -> NOS_slash_NOS_star_ + NOS_slash_CaMKIV_slash_kenz_slash_kenz_cplx , 3.0E-17
+  NOS_slash_CaMKIV_slash_kenz_slash_kenz_cplx -> 2*NOS_slash_CaMKIV_slash_kenz_slash_kenz_cplx , -(1.2E-16)+( -1) * (3.0E-17)
+  NOS_slash_CaMKIIalpha_slash_kenz_slash_kenz_cplx -> NOS_slash_nNOS + NOS_slash_CaMKIIalpha_slash_kenz_slash_kenz_cplx , ( -1) * (-(1.9E-16))
+  NOS_slash_CaMKIIalpha_slash_kenz_slash_kenz_cplx -> NOS_slash_NOS_star_ + NOS_slash_CaMKIIalpha_slash_kenz_slash_kenz_cplx , 4.75E-17
+  NOS_slash_CaMKIIalpha_slash_kenz_slash_kenz_cplx -> 2*NOS_slash_CaMKIIalpha_slash_kenz_slash_kenz_cplx , -(1.9E-16)+( -1) * (4.75E-17)
+  NOS_slash_CaMKIalpha_slash_kenz_slash_kenz_cplx -> NOS_slash_nNOS + NOS_slash_CaMKIalpha_slash_kenz_slash_kenz_cplx , ( -1) * (-(1.13333333333333E-16))
+  NOS_slash_CaMKIalpha_slash_kenz_slash_kenz_cplx -> NOS_slash_NOS_star_ + NOS_slash_CaMKIalpha_slash_kenz_slash_kenz_cplx , 2.83333333333333E-17
+  NOS_slash_CaMKIalpha_slash_kenz_slash_kenz_cplx -> 2*NOS_slash_CaMKIalpha_slash_kenz_slash_kenz_cplx , -(1.13333333333333E-16)+( -1) * (2.83333333333333E-17)
+ end reactions
+
+end model
+

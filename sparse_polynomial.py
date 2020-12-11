@@ -110,6 +110,14 @@ class SparsePolynomial(object):
         return self
 
     #--------------------------------------------------------------------------
+    
+    def __eq__(self, other):
+        if self._data != other._data:
+            return False
+        else:
+            return True
+
+    #--------------------------------------------------------------------------
 
     def __mul__(self, other):
         """
@@ -144,6 +152,28 @@ class SparsePolynomial(object):
 
     #--------------------------------------------------------------------------
 
+    def __floordiv__(self, other):
+        """
+        Exact division implemented with SymPy
+
+        self // other
+        """
+        R = self.get_sympy_ring()
+        num = R(self.get_sympy_dict()).as_expr()
+        denom = R(other.get_sympy_dict()).as_expr()
+        # print("Numerator: ", num)
+        # print("Denominator: ", denom)
+        if num.is_zero:
+            return SparsePolynomial.from_string('0', self._varnames)
+        elif num == denom:
+            return SparsePolynomial.from_string('1', self._varnames)
+        elif denom == 1:
+            return self
+        quo = R(sympy.polys.polytools.quo(num, denom))
+        return SparsePolynomial.from_sympy(quo)
+
+    #--------------------------------------------------------------------------
+
     def exp(self, power):
         """
         Exponentiation, exp is a *positive* integer
@@ -156,6 +186,11 @@ class SparsePolynomial(object):
             return self.exp(power // 2) * self.exp(power // 2)
         return self * self.exp(power // 2) * self.exp(power // 2)
 
+    #--------------------------------------------------------------------------
+
+    def is_zero(self):
+        if len(self._data) == 0:
+            return True
     #--------------------------------------------------------------------------
 
     def _pair_to_str(self, pair):
@@ -192,7 +227,7 @@ class SparsePolynomial(object):
 
     #--------------------------------------------------------------------------
 
-    def __str__(self):
+    def __repr__(self):
         if not self._data:
             return "0"
         return " + ".join([self._monom_to_str(m, c) for m, c in self._data.items()])
@@ -218,6 +253,48 @@ class SparsePolynomial(object):
     def get_sympy_ring(self):
         return sympy.polys.rings.ring(self.gens, self.domain)[0]
 
+    #--------------------------------------------------------------------------
+    def derivative(self, var_name):
+        """
+        Returns derivative of polynomial with respect to var_name
+        """
+        if var_name in self._varnames:
+            var = self._varnames.index(var_name)
+        else:
+            return 0
+
+        data = dict()
+        for monom, coeff in self._data.items():
+            for i in range(len(monom)):
+                v, exp = monom[i]
+                if v == var:
+                    if exp == 1:
+                        m_der = tuple(list(monom[:i]) + list(monom[(i + 1):]))
+                    else:
+                        m_der = tuple(list(monom[:i]) + [(var, exp - 1)] + list(monom[(i + 1):]))
+                    data[m_der] = coeff * exp
+
+        return SparsePolynomial(self._varnames, domain=self._domain, data=data)
+
+    #--------------------------------------------------------------------------
+        
+    @staticmethod
+    def lcm(polys):
+        """
+        Returns lowest common mutiple of given polynomials (computed w/ SymPy)
+        """
+        R = polys[0].get_sympy_ring()
+        lcm = R(sympy.lcm([R(poly.get_sympy_dict()).as_expr() for poly in polys]))
+        return SparsePolynomial.from_sympy(lcm)
+
+    @staticmethod
+    def gcd(polys):
+        """
+        Returns greatest common divisor of given polynomials (computed w/ SymPy)
+        """
+        R = polys[0].get_sympy_ring()
+        gcd = R(sympy.gcd([R(poly.get_sympy_dict()).as_expr() for poly in polys]))
+        return SparsePolynomial.from_sympy(gcd)
     #--------------------------------------------------------------------------
 
     @staticmethod
@@ -257,7 +334,6 @@ class SparsePolynomial(object):
         The code is an adapted version of fourFn example for pyparsing library by Paul McGuire
         https://github.com/pyparsing/pyparsing/blob/master/examples/fourFn.py
         """
-
         def push_first(toks):
             SparsePolynomial.__parser_stack.append(toks[0])
 
@@ -296,7 +372,11 @@ class SparsePolynomial(object):
             SparsePolynomial.__parser = expr
     
         # parsing
-        SparsePolynomial.__parser.parseString(s, parseAll=True)
+        try:
+            SparsePolynomial.__parser.parseString(s, parseAll=True)
+        except:
+            print(s)
+            raise
 
         # for fast lookup
         var_ind_map = {v : i for i, v in enumerate(varnames)} if var_to_ind is None else var_to_ind
@@ -305,7 +385,7 @@ class SparsePolynomial(object):
             op = s.pop()
             if op == "unary -":
                 return -evaluate_stack(s)
-            if op in "+-*":
+            if op in "+-*/":
                 # note: operands are pushed onto the stack in reverse order
                 op2 = evaluate_stack(s)
                 op1 = evaluate_stack(s)
@@ -319,6 +399,8 @@ class SparsePolynomial(object):
                     return op1
                 if op == "*":
                     return op1 * op2
+                # if op == "/":
+                #     print("WHAT")
             if op == "^" or op == "**":
                 exp = int(s.pop())
                 base = evaluate_stack(s)

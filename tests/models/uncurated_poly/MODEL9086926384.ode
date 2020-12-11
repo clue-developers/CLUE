@@ -1,0 +1,480 @@
+begin model MODEL9086926384
+ begin init
+  CaM_minus_Ca4
+  PP1_minus_active = 1.8
+  PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx
+  PP1_minus_active_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx
+  PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx
+  PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx
+  PP1_minus_active_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx
+  Ca = 0.08
+  PKA_minus_active = 0.0185185185185185
+  PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx
+  PKA_minus_active_slash_PKA_minus_phosph_minus_I1_PSD_slash_PKA_minus_phosph_minus_I1_PSD_cplx
+  CaMKII_slash_CaMKII = 20.0
+  CaMKII_slash_CaMKII_minus_CaM
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM
+  CaMKII_slash_CaMKII_star__star__star_
+  CaMKII_slash_CaMKII_minus_thr286
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx = 6.3262962962963E-11
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx = 2.44537037037037E-8
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx = 4.90055555555556E-8
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx = 1.89444444444444E-5
+  CaMKII_slash_CaMK_minus_thr305
+  CaM_slash_CaM = 26.3333333333333
+  CaM_slash_CaM_minus_PSD = 26.3333333333333
+  CaM_minus_Ca3
+  CaM_minus_TR2_minus_Ca2
+  PP1_slash_I1 = 1.8
+  PP1_slash_I1_star_
+  PP1_slash_PP1_minus_I1_star_
+  PP1_slash_PP1_minus_I1
+  PP2A = 0.111111111111111
+  PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx = 1.99333333333333E-6
+  PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx = 0.00691
+  PP2A_slash_PP2A_minus_dephosph_minus_I1_PSD_slash_PP2A_minus_dephosph_minus_I1_PSD_cplx = 2.21555555555556E-7
+  PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_cplx = 0.00127907407407407
+  CaNAB_minus_Ca4
+  CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx
+  CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_PSD_slash_dephosph_inhib1_noCaM_PSD_cplx
+  PP2B_slash_CaNAB = 1.0
+  PP2B_slash_CaNAB_minus_Ca2
+  CaMKII_minus_thr286_minus_CaM_minus_PSD
+  CaMKII_minus_CaM_minus_PSD
+  CaMKII_minus_thr286_minus_PSD
+  CaMKII_minus_PSD
+  CaMKII_star__star__star__minus_PSD
+  tot_minus_auto_minus_PSD_slash_auton_minus_305_minus_PSD_slash_auton_minus_305_minus_PSD_cplx
+  tot_minus_auto_minus_PSD_slash_auton_minus_286_minus_PSD_slash_auton_minus_286_minus_PSD_cplx
+  tot_minus_auto_minus_PSD_slash_auton_minus_autoph_slash_auton_minus_autoph_cplx
+  CaM_minus_TR2_minus_Ca2_minus_PSD
+  CaM_minus_Ca3_minus_PSD = 0.00254583333333333
+  CaM_minus_Ca4_minus_PSD
+  Ca_minus_PSD = 0.08
+  PP1_PSD_slash_I1 = 4.0
+  PP1_PSD_slash_I1_star_
+  PP1_PSD_slash_PP1_minus_I1_star_
+  PP1_PSD_slash_PP1_minus_I1
+  PP1_minus_active_PSD = 4.0
+  PP1_minus_active_PSD_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx
+  PP1_minus_active_PSD_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx
+  PP1_minus_active_PSD_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx
+  PP1_minus_active_PSD_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx
+  PP1_minus_active_PSD_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx
+  NMDAR = 120.0
+  CaM_Ca_n_minus_CaNAB
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_PSD_slash_dephosph_inhib1_PSD_cplx
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__PSD_slash_dephosph_minus_PP1_minus_I_star__PSD_cplx
+  basal_CaMKII_PSD = 2.0
+  tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_cplx
+  tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_cplx
+  tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_act_autoph_slash_CaM_act_autoph_cplx
+  CaMKII_minus_thr305_minus_PSD
+  basal_CaMKII_cyt = 2.0
+  Ca_control_cyt = 0.08
+  Ca_control_PSD = 0.08
+  basal_CaMKII_PSD_control = 2.0
+  CaMKII_slash_tot_CaM_CaMKII
+  CaMKII_slash_tot_autonomous_CaMKII = 2.0
+  tot_minus_auto_minus_PSD = 2.0
+  num_286P_minus_PSD
+  actCaMKII_minus_PSD = 2.0
+  tot_CaMKII_PSD = 2.0
+  tot_CaMKII_cyt = 22.0
+  act_CaMKII_cyt = 2.0
+  tot_minus_CaM_minus_CaMKII_minus_PSD
+ end init
+ begin reactions
+  CaM_minus_Ca4 -> CaM_minus_Ca4 + Ca , ( -1) * (-(9.0E-16))
+  CaM_minus_Ca4 -> CaM_minus_Ca4 + CaM_minus_Ca3 , ( -1) * (-(9.0E-16))
+  CaM_minus_Ca4 -> CaM_minus_Ca4 + CaM_minus_Ca4_minus_PSD , ( -1) * (-(5.4E-15))
+  CaM_minus_Ca4 -> 2*CaM_minus_Ca4 , -(5.4E-15)+-(9.0E-16)
+  CaM_minus_Ca4 + CaMKII_slash_CaMKII -> CaM_minus_Ca4 + CaMKII_slash_CaMKII + CaMKII_slash_CaMKII_minus_CaM , 4.4999712E-15
+  CaM_minus_Ca4 + CaMKII_slash_CaMKII -> CaM_minus_Ca4 + 2*CaMKII_slash_CaMKII , ( -1) * (4.4999712E-15)
+  CaM_minus_Ca4 + CaMKII_slash_CaMKII -> 2*CaM_minus_Ca4 + CaMKII_slash_CaMKII , ( -1) * (4.4999712E-15)
+  CaM_minus_Ca4 + CaMKII_slash_CaMKII_minus_thr286 -> CaM_minus_Ca4 + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_CaMKII_minus_thr286 , 9.001692E-14
+  CaM_minus_Ca4 + CaMKII_slash_CaMKII_minus_thr286 -> CaM_minus_Ca4 + 2*CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (9.001692E-14)
+  CaM_minus_Ca4 + CaMKII_slash_CaMKII_minus_thr286 -> 2*CaM_minus_Ca4 + CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (9.001692E-14)
+  CaM_minus_Ca4 + CaNAB_minus_Ca4 -> CaM_minus_Ca4 + CaNAB_minus_Ca4 + CaM_Ca_n_minus_CaNAB , 5.399946E-14
+  CaM_minus_Ca4 + CaNAB_minus_Ca4 -> CaM_minus_Ca4 + 2*CaNAB_minus_Ca4 , ( -1) * (5.399946E-14)
+  CaM_minus_Ca4 + CaNAB_minus_Ca4 -> 2*CaM_minus_Ca4 + CaNAB_minus_Ca4 , ( -1) * (5.399946E-14)
+  PP1_minus_active + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM -> PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM , 2.2062942E-16
+  PP1_minus_active + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM -> PP1_minus_active + 2*CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM , ( -1) * (2.2062942E-16)
+  PP1_minus_active + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM -> 2*PP1_minus_active + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM , ( -1) * (2.2062942E-16)
+  PP1_minus_active + CaMKII_slash_CaMKII_star__star__star_ -> PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx + CaMKII_slash_CaMKII_star__star__star_ , 2.2062942E-16
+  PP1_minus_active + CaMKII_slash_CaMKII_star__star__star_ -> PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx + CaMKII_slash_CaMKII_star__star__star_ , 2.2062942E-16
+  PP1_minus_active + CaMKII_slash_CaMKII_star__star__star_ -> PP1_minus_active + 2*CaMKII_slash_CaMKII_star__star__star_ , ( -1) * (2.2062942E-16)+( -1) * (2.2062942E-16)
+  PP1_minus_active + CaMKII_slash_CaMKII_star__star__star_ -> 2*PP1_minus_active + CaMKII_slash_CaMKII_star__star__star_ , ( -1) * (2.2062942E-16)+( -1) * (2.2062942E-16)
+  PP1_minus_active + CaMKII_slash_CaMKII_minus_thr286 -> PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx + CaMKII_slash_CaMKII_minus_thr286 , 2.2062942E-16
+  PP1_minus_active + CaMKII_slash_CaMKII_minus_thr286 -> PP1_minus_active + 2*CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (2.2062942E-16)
+  PP1_minus_active + CaMKII_slash_CaMKII_minus_thr286 -> 2*PP1_minus_active + CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (2.2062942E-16)
+  PP1_minus_active + CaMKII_slash_CaMK_minus_thr305 -> PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx + CaMKII_slash_CaMK_minus_thr305 , 2.2062942E-16
+  PP1_minus_active + CaMKII_slash_CaMK_minus_thr305 -> PP1_minus_active + 2*CaMKII_slash_CaMK_minus_thr305 , ( -1) * (2.2062942E-16)
+  PP1_minus_active + CaMKII_slash_CaMK_minus_thr305 -> 2*PP1_minus_active + CaMKII_slash_CaMK_minus_thr305 , ( -1) * (2.2062942E-16)
+  PP1_minus_active + PP1_slash_I1_star_ -> PP1_minus_active + PP1_slash_I1_star_ + PP1_slash_PP1_minus_I1_star_ , 4.4998254E-14
+  PP1_minus_active + PP1_slash_I1_star_ -> PP1_minus_active + 2*PP1_slash_I1_star_ , ( -1) * (4.4998254E-14)
+  PP1_minus_active + PP1_slash_I1_star_ -> 2*PP1_minus_active + PP1_slash_I1_star_ , ( -1) * (4.4998254E-14)
+  PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx -> PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx , 2.25E-16+( -1) * (-(9.0E-16))
+  PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx -> PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx + CaMKII_slash_CaMKII_minus_CaM , 2.25E-16
+  PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx -> PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM , ( -1) * (-(9.0E-16))
+  PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx -> 2*PP1_minus_active_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx , -(9.0E-16)+( -1) * (2.25E-16)
+  PP1_minus_active_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx -> PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx , 2.25E-16+( -1) * (-(9.0E-16))
+  PP1_minus_active_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx -> PP1_minus_active_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx + CaMKII_slash_CaMKII , 2.25E-16
+  PP1_minus_active_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx -> PP1_minus_active_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx + CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (-(9.0E-16))
+  PP1_minus_active_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx -> 2*PP1_minus_active_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx , -(9.0E-16)+( -1) * (2.25E-16)
+  PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx -> PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx , 2.25E-16+( -1) * (-(9.0E-16))
+  PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx -> PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx + CaMKII_slash_CaMKII_star__star__star_ , ( -1) * (-(9.0E-16))
+  PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx -> PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx + CaMKII_slash_CaMKII_minus_thr286 , 2.25E-16
+  PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx -> 2*PP1_minus_active_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx , -(9.0E-16)+( -1) * (2.25E-16)
+  PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx -> PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx , 2.25E-16+( -1) * (-(9.0E-16))
+  PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx -> PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx + CaMKII_slash_CaMKII_star__star__star_ , ( -1) * (-(9.0E-16))
+  PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx -> PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx + CaMKII_slash_CaMK_minus_thr305 , 2.25E-16
+  PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx -> 2*PP1_minus_active_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx , -(9.0E-16)+( -1) * (2.25E-16)
+  PP1_minus_active_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx -> PP1_minus_active + PP1_minus_active_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx , 2.25E-16+( -1) * (-(9.0E-16))
+  PP1_minus_active_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx -> PP1_minus_active_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx + CaMKII_slash_CaMKII , 2.25E-16
+  PP1_minus_active_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx -> PP1_minus_active_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx + CaMKII_slash_CaMK_minus_thr305 , ( -1) * (-(9.0E-16))
+  PP1_minus_active_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx -> 2*PP1_minus_active_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx , -(9.0E-16)+( -1) * (2.25E-16)
+  Ca -> 2*Ca , -(9.0E-15)
+  Ca + CaM_minus_Ca3 -> CaM_minus_Ca4 + Ca + CaM_minus_Ca3 , 4.1849946E-17
+  Ca + CaM_minus_Ca3 -> Ca + 2*CaM_minus_Ca3 , ( -1) * (4.1849946E-17)
+  Ca + CaM_minus_Ca3 -> 2*Ca + CaM_minus_Ca3 , ( -1) * (4.1849946E-17)
+  Ca + CaM_minus_TR2_minus_Ca2 -> Ca + CaM_minus_Ca3 + CaM_minus_TR2_minus_Ca2 , 3.2400162E-16
+  Ca + CaM_minus_TR2_minus_Ca2 -> Ca + 2*CaM_minus_TR2_minus_Ca2 , ( -1) * (3.2400162E-16)
+  Ca + CaM_minus_TR2_minus_Ca2 -> 2*Ca + CaM_minus_TR2_minus_Ca2 , ( -1) * (3.2400162E-16)
+  2*Ca + CaM_slash_CaM -> 2*Ca + CaM_slash_CaM + CaM_minus_TR2_minus_Ca2 , 6.47990604E-15
+  2*Ca + CaM_slash_CaM -> 2*Ca + 2*CaM_slash_CaM , ( -1) * (6.47990604E-15)
+  2*Ca + CaM_slash_CaM -> 3*Ca + CaM_slash_CaM , ( -2) * (6.47990604E-15)
+  2*Ca + PP2B_slash_CaNAB -> 2*Ca + PP2B_slash_CaNAB + PP2B_slash_CaNAB_minus_Ca2 , 9.00720324E-13
+  2*Ca + PP2B_slash_CaNAB -> 2*Ca + 2*PP2B_slash_CaNAB , ( -1) * (9.00720324E-13)
+  2*Ca + PP2B_slash_CaNAB -> 3*Ca + PP2B_slash_CaNAB , ( -2) * (9.00720324E-13)
+  2*Ca + PP2B_slash_CaNAB_minus_Ca2 -> 2*Ca + CaNAB_minus_Ca4 + PP2B_slash_CaNAB_minus_Ca2 , 3.24008424E-16
+  2*Ca + PP2B_slash_CaNAB_minus_Ca2 -> 2*Ca + 2*PP2B_slash_CaNAB_minus_Ca2 , ( -1) * (3.24008424E-16)
+  2*Ca + PP2B_slash_CaNAB_minus_Ca2 -> 3*Ca + PP2B_slash_CaNAB_minus_Ca2 , ( -2) * (3.24008424E-16)
+  PKA_minus_active + PP1_slash_I1 -> PKA_minus_active + PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx + PP1_slash_I1 , 5.399946E-16
+  PKA_minus_active + PP1_slash_I1 -> PKA_minus_active + 2*PP1_slash_I1 , ( -1) * (5.399946E-16)
+  PKA_minus_active + PP1_slash_I1 -> 2*PKA_minus_active + PP1_slash_I1 , ( -1) * (5.399946E-16)
+  PKA_minus_active + PP1_PSD_slash_I1 -> PKA_minus_active + PKA_minus_active_slash_PKA_minus_phosph_minus_I1_PSD_slash_PKA_minus_phosph_minus_I1_PSD_cplx + PP1_PSD_slash_I1 , 5.99994E-17
+  PKA_minus_active + PP1_PSD_slash_I1 -> PKA_minus_active + 2*PP1_PSD_slash_I1 , ( -1) * (5.99994E-17)
+  PKA_minus_active + PP1_PSD_slash_I1 -> 2*PKA_minus_active + PP1_PSD_slash_I1 , ( -1) * (5.99994E-17)
+  PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx -> PKA_minus_active + PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx , 8.1E-16+( -1) * (-(3.24E-15))
+  PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx -> PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx + PP1_slash_I1 , ( -1) * (-(3.24E-15))
+  PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx -> PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx + PP1_slash_I1_star_ , 8.1E-16
+  PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx -> 2*PKA_minus_active_slash_PKA_minus_phosph_minus_I1_slash_PKA_minus_phosph_minus_I1_cplx , -(3.24E-15)+( -1) * (8.1E-16)
+  PKA_minus_active_slash_PKA_minus_phosph_minus_I1_PSD_slash_PKA_minus_phosph_minus_I1_PSD_cplx -> PKA_minus_active + PKA_minus_active_slash_PKA_minus_phosph_minus_I1_PSD_slash_PKA_minus_phosph_minus_I1_PSD_cplx , 8.1E-16+( -1) * (-(3.24E-15))
+  PKA_minus_active_slash_PKA_minus_phosph_minus_I1_PSD_slash_PKA_minus_phosph_minus_I1_PSD_cplx -> PKA_minus_active_slash_PKA_minus_phosph_minus_I1_PSD_slash_PKA_minus_phosph_minus_I1_PSD_cplx + PP1_PSD_slash_I1 , ( -1) * (-(3.24E-15))
+  PKA_minus_active_slash_PKA_minus_phosph_minus_I1_PSD_slash_PKA_minus_phosph_minus_I1_PSD_cplx -> PKA_minus_active_slash_PKA_minus_phosph_minus_I1_PSD_slash_PKA_minus_phosph_minus_I1_PSD_cplx + PP1_PSD_slash_I1_star_ , 8.1E-16
+  PKA_minus_active_slash_PKA_minus_phosph_minus_I1_PSD_slash_PKA_minus_phosph_minus_I1_PSD_cplx -> 2*PKA_minus_active_slash_PKA_minus_phosph_minus_I1_PSD_slash_PKA_minus_phosph_minus_I1_PSD_cplx , -(3.24E-15)+( -1) * (8.1E-16)
+  CaMKII_slash_CaMKII + NMDAR -> CaMKII_slash_CaMKII + CaMKII_minus_PSD + NMDAR , ( -1) * (-(5.4E-21))
+  CaMKII_slash_CaMKII + NMDAR -> CaMKII_slash_CaMKII + 2*NMDAR , -(5.4E-21)
+  CaMKII_slash_CaMKII + NMDAR -> 2*CaMKII_slash_CaMKII + NMDAR , -(5.4E-21)
+  CaMKII_slash_CaMKII_minus_CaM -> CaM_minus_Ca4 + CaMKII_slash_CaMKII_minus_CaM , ( -1) * (-(4.5E-16))
+  CaMKII_slash_CaMKII_minus_CaM -> CaMKII_slash_CaMKII + CaMKII_slash_CaMKII_minus_CaM , ( -1) * (-(4.5E-16))
+  CaMKII_slash_CaMKII_minus_CaM -> 2*CaMKII_slash_CaMKII_minus_CaM , -(4.5E-16)
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx , 9.91197E-19
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_tot_CaM_CaMKII , ( -1) * (9.91197E-19)
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM -> 2*CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM , ( -1) * (9.91197E-19)
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_star__star__star_ -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx , 6.428808E-19
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_star__star__star_ -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_tot_autonomous_CaMKII , ( -1) * (6.428808E-19)
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_star__star__star_ -> 2*CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_star__star__star_ , ( -1) * (6.428808E-19)
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx , 1.1894364E-17
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx , 6.428808E-19
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_CaM_CaMKII , ( -1) * (1.1894364E-17)
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_autonomous_CaMKII , ( -1) * (6.428808E-19)
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_minus_CaM + 2*CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (1.1894364E-17)
+  CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> 2*CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (6.428808E-19)
+  CaMKII_slash_CaMKII_minus_CaM + NMDAR -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_minus_CaM_minus_PSD + NMDAR , 1.08E-20
+  CaMKII_slash_CaMKII_minus_CaM + NMDAR -> CaMKII_slash_CaMKII_minus_CaM + 2*NMDAR , ( -1) * (1.08E-20)
+  CaMKII_slash_CaMKII_minus_CaM + NMDAR -> 2*CaMKII_slash_CaMKII_minus_CaM + NMDAR , ( -1) * (1.08E-20)
+  CaMKII_slash_CaMKII_minus_CaM + basal_CaMKII_cyt -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx + basal_CaMKII_cyt , 6.428808E-19
+  CaMKII_slash_CaMKII_minus_CaM + basal_CaMKII_cyt -> CaMKII_slash_CaMKII_minus_CaM + basal_CaMKII_cyt + CaMKII_slash_tot_autonomous_CaMKII , ( -1) * (6.428808E-19)
+  CaMKII_slash_CaMKII_minus_CaM + basal_CaMKII_cyt -> 2*CaMKII_slash_CaMKII_minus_CaM + basal_CaMKII_cyt , ( -1) * (6.428808E-19)
+  2*CaMKII_slash_CaMKII_minus_CaM -> 2*CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx , 9.91197E-19
+  2*CaMKII_slash_CaMKII_minus_CaM -> 2*CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_tot_CaM_CaMKII , ( -1) * (9.91197E-19)
+  2*CaMKII_slash_CaMKII_minus_CaM -> 3*CaMKII_slash_CaMKII_minus_CaM , ( -1) * (9.91197E-19)
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM -> CaM_minus_Ca4 + CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM , ( -1) * (-(9.0E-18))
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (-(9.0E-18))
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM -> 2*CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM , -(9.0E-18)
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx , 1.1894364E-17
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_CaM_CaMKII , ( -1) * (1.1894364E-17)
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + 2*CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (1.1894364E-17)
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + NMDAR -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_minus_thr286_minus_CaM_minus_PSD + NMDAR , 1.08E-20
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + NMDAR -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + 2*NMDAR , ( -1) * (1.08E-20)
+  CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + NMDAR -> 2*CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + NMDAR , ( -1) * (1.08E-20)
+  CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx , 7.714278E-18
+  CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_autonomous_CaMKII , ( -1) * (7.714278E-18)
+  CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_CaMKII_minus_thr286 -> CaMKII_slash_CaMKII_star__star__star_ + 2*CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (7.714278E-18)
+  CaMKII_slash_CaMKII_minus_thr286 + basal_CaMKII_cyt -> CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx + basal_CaMKII_cyt , 7.714278E-18
+  CaMKII_slash_CaMKII_minus_thr286 + basal_CaMKII_cyt -> CaMKII_slash_CaMKII_minus_thr286 + basal_CaMKII_cyt + CaMKII_slash_tot_autonomous_CaMKII , ( -1) * (7.714278E-18)
+  CaMKII_slash_CaMKII_minus_thr286 + basal_CaMKII_cyt -> 2*CaMKII_slash_CaMKII_minus_thr286 + basal_CaMKII_cyt , ( -1) * (7.714278E-18)
+  2*CaMKII_slash_CaMKII_minus_thr286 -> 2*CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx , 7.714278E-18
+  2*CaMKII_slash_CaMKII_minus_thr286 -> 2*CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_autonomous_CaMKII , ( -1) * (7.714278E-18)
+  2*CaMKII_slash_CaMKII_minus_thr286 -> 3*CaMKII_slash_CaMKII_minus_thr286 , ( -1) * (7.714278E-18)
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx -> CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx , 5.4E-16
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx -> CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx , ( -1) * (-(2.16E-15))
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx -> CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx + CaMKII_slash_tot_CaM_CaMKII , 5.4E-16+( -1) * (-(2.16E-15))
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx -> 2*CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_305_slash_CaM_act_305_cplx , -(2.16E-15)+( -1) * (5.4E-16)
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx , ( -1) * (-(1.8E-16))
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx , 4.5E-17
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx -> CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx + CaMKII_slash_tot_CaM_CaMKII , 4.5E-17+( -1) * (-(1.8E-16))
+  CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx -> 2*CaMKII_slash_tot_CaM_CaMKII_slash_CaM_act_286_slash_CaM_act_286_cplx , -(1.8E-16)+( -1) * (4.5E-17)
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx -> CaMKII_slash_CaMKII_star__star__star_ + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx , 5.4E-16
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx -> CaMKII_slash_CaMKII_minus_thr286 + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx , ( -1) * (-(2.16E-15))
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx -> CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx + CaMKII_slash_tot_autonomous_CaMKII , 5.4E-16+( -1) * (-(2.16E-15))
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx -> 2*CaMKII_slash_tot_autonomous_CaMKII_slash_auton_305_slash_auton_305_cplx , -(2.16E-15)+( -1) * (5.4E-16)
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx -> CaMKII_slash_CaMKII_minus_CaM + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx , ( -1) * (-(1.8E-16))
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx -> CaMKII_slash_CaMKII_minus_thr286_star__minus_CaM + CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx , 4.5E-17
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx -> CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx + CaMKII_slash_tot_autonomous_CaMKII , 4.5E-17+( -1) * (-(1.8E-16))
+  CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx -> 2*CaMKII_slash_tot_autonomous_CaMKII_slash_auton_286_slash_auton_286_cplx , -(1.8E-16)+( -1) * (4.5E-17)
+  CaMKII_slash_CaMK_minus_thr305 + NMDAR -> CaMKII_slash_CaMK_minus_thr305 + NMDAR + CaMKII_minus_thr305_minus_PSD , ( -1) * (-(5.4E-21))
+  CaMKII_slash_CaMK_minus_thr305 + NMDAR -> CaMKII_slash_CaMK_minus_thr305 + 2*NMDAR , -(5.4E-21)
+  CaMKII_slash_CaMK_minus_thr305 + NMDAR -> 2*CaMKII_slash_CaMK_minus_thr305 + NMDAR , -(5.4E-21)
+  CaM_slash_CaM_minus_PSD + 2*Ca_minus_PSD -> CaM_slash_CaM_minus_PSD + CaM_minus_TR2_minus_Ca2_minus_PSD + 2*Ca_minus_PSD , 7.2E-16
+  CaM_slash_CaM_minus_PSD + 2*Ca_minus_PSD -> CaM_slash_CaM_minus_PSD + 3*Ca_minus_PSD , ( -2) * (7.2E-16)
+  CaM_slash_CaM_minus_PSD + 2*Ca_minus_PSD -> 2*CaM_slash_CaM_minus_PSD + 2*Ca_minus_PSD , ( -1) * (7.2E-16)
+  CaM_minus_Ca3 -> Ca + CaM_minus_Ca3 , ( -1) * (-(9.0E-16))
+  CaM_minus_Ca3 -> CaM_minus_Ca3 + CaM_minus_TR2_minus_Ca2 , ( -1) * (-(9.0E-16))
+  CaM_minus_Ca3 -> 2*CaM_minus_Ca3 , -(9.0E-16)
+  CaM_minus_TR2_minus_Ca2 -> Ca + CaM_minus_TR2_minus_Ca2 , ( -2) * (-(6.48E-15))
+  CaM_minus_TR2_minus_Ca2 -> CaM_slash_CaM + CaM_minus_TR2_minus_Ca2 , ( -1) * (-(6.48E-15))
+  CaM_minus_TR2_minus_Ca2 -> 2*CaM_minus_TR2_minus_Ca2 , -(6.48E-15)
+  PP1_slash_I1_star_ + PP2A -> PP1_slash_I1_star_ + PP2A + PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx , 5.81256E-17
+  PP1_slash_I1_star_ + PP2A -> PP1_slash_I1_star_ + 2*PP2A , ( -1) * (5.81256E-17)
+  PP1_slash_I1_star_ + PP2A -> 2*PP1_slash_I1_star_ + PP2A , ( -1) * (5.81256E-17)
+  PP1_slash_I1_star_ + CaNAB_minus_Ca4 -> PP1_slash_I1_star_ + CaNAB_minus_Ca4 + CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx , 3.0779838E-18
+  PP1_slash_I1_star_ + CaNAB_minus_Ca4 -> PP1_slash_I1_star_ + 2*CaNAB_minus_Ca4 , ( -1) * (3.0779838E-18)
+  PP1_slash_I1_star_ + CaNAB_minus_Ca4 -> 2*PP1_slash_I1_star_ + CaNAB_minus_Ca4 , ( -1) * (3.0779838E-18)
+  PP1_slash_I1_star_ + CaM_Ca_n_minus_CaNAB -> PP1_slash_I1_star_ + CaM_Ca_n_minus_CaNAB + CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx , 3.0779838E-17
+  PP1_slash_I1_star_ + CaM_Ca_n_minus_CaNAB -> PP1_slash_I1_star_ + 2*CaM_Ca_n_minus_CaNAB , ( -1) * (3.0779838E-17)
+  PP1_slash_I1_star_ + CaM_Ca_n_minus_CaNAB -> 2*PP1_slash_I1_star_ + CaM_Ca_n_minus_CaNAB , ( -1) * (3.0779838E-17)
+  PP1_slash_PP1_minus_I1_star_ -> PP1_minus_active + PP1_slash_PP1_minus_I1_star_ , ( -1) * (-(9.0E-18))
+  PP1_slash_PP1_minus_I1_star_ -> PP1_slash_I1_star_ + PP1_slash_PP1_minus_I1_star_ , ( -1) * (-(9.0E-18))
+  PP1_slash_PP1_minus_I1_star_ -> 2*PP1_slash_PP1_minus_I1_star_ , -(9.0E-18)
+  PP1_slash_PP1_minus_I1_star_ + PP2A -> PP1_slash_PP1_minus_I1_star_ + PP2A + PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx , 5.81256E-17
+  PP1_slash_PP1_minus_I1_star_ + PP2A -> PP1_slash_PP1_minus_I1_star_ + 2*PP2A , ( -1) * (5.81256E-17)
+  PP1_slash_PP1_minus_I1_star_ + PP2A -> 2*PP1_slash_PP1_minus_I1_star_ + PP2A , ( -1) * (5.81256E-17)
+  PP1_slash_PP1_minus_I1_star_ + CaM_Ca_n_minus_CaNAB -> PP1_slash_PP1_minus_I1_star_ + CaM_Ca_n_minus_CaNAB + CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx , 3.0779838E-17
+  PP1_slash_PP1_minus_I1_star_ + CaM_Ca_n_minus_CaNAB -> PP1_slash_PP1_minus_I1_star_ + 2*CaM_Ca_n_minus_CaNAB , ( -1) * (3.0779838E-17)
+  PP1_slash_PP1_minus_I1_star_ + CaM_Ca_n_minus_CaNAB -> 2*PP1_slash_PP1_minus_I1_star_ + CaM_Ca_n_minus_CaNAB , ( -1) * (3.0779838E-17)
+  PP1_slash_PP1_minus_I1 -> PP1_minus_active + PP1_slash_PP1_minus_I1 , 9.0E-17
+  PP1_slash_PP1_minus_I1 -> PP1_slash_I1 + PP1_slash_PP1_minus_I1 , 9.0E-17
+  PP1_slash_PP1_minus_I1 -> 2*PP1_slash_PP1_minus_I1 , ( -1) * (9.0E-17)
+  PP2A + PP1_PSD_slash_I1_star_ -> PP2A + PP2A_slash_PP2A_minus_dephosph_minus_I1_PSD_slash_PP2A_minus_dephosph_minus_I1_PSD_cplx + PP1_PSD_slash_I1_star_ , 6.4584E-18
+  PP2A + PP1_PSD_slash_I1_star_ -> PP2A + 2*PP1_PSD_slash_I1_star_ , ( -1) * (6.4584E-18)
+  PP2A + PP1_PSD_slash_I1_star_ -> 2*PP2A + PP1_PSD_slash_I1_star_ , ( -1) * (6.4584E-18)
+  PP2A + PP1_PSD_slash_PP1_minus_I1_star_ -> PP2A + PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_cplx + PP1_PSD_slash_PP1_minus_I1_star_ , 6.4584E-18
+  PP2A + PP1_PSD_slash_PP1_minus_I1_star_ -> PP2A + 2*PP1_PSD_slash_PP1_minus_I1_star_ , ( -1) * (6.4584E-18)
+  PP2A + PP1_PSD_slash_PP1_minus_I1_star_ -> 2*PP2A + PP1_PSD_slash_PP1_minus_I1_star_ , ( -1) * (6.4584E-18)
+  PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx -> PP1_slash_I1 + PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx , 1.8E-16
+  PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx -> PP1_slash_I1_star_ + PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx , ( -1) * (-(7.50006E-16))
+  PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx -> PP2A + PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx , 1.8E-16+( -1) * (-(7.50006E-16))
+  PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx -> 2*PP2A_slash_PP2A_minus_dephosph_minus_I1_slash_PP2A_minus_dephosph_minus_I1_cplx , -(7.50006E-16)+( -1) * (1.8E-16)
+  PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx -> PP1_slash_PP1_minus_I1_star_ + PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx , ( -1) * (-(7.50006E-16))
+  PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx -> PP1_slash_PP1_minus_I1 + PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx , 1.8E-16
+  PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx -> PP2A + PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx , 1.8E-16+( -1) * (-(7.50006E-16))
+  PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx -> 2*PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__cplx , -(7.50006E-16)+( -1) * (1.8E-16)
+  PP2A_slash_PP2A_minus_dephosph_minus_I1_PSD_slash_PP2A_minus_dephosph_minus_I1_PSD_cplx -> PP2A + PP2A_slash_PP2A_minus_dephosph_minus_I1_PSD_slash_PP2A_minus_dephosph_minus_I1_PSD_cplx , 1.8E-16+( -1) * (-(7.50006E-16))
+  PP2A_slash_PP2A_minus_dephosph_minus_I1_PSD_slash_PP2A_minus_dephosph_minus_I1_PSD_cplx -> PP2A_slash_PP2A_minus_dephosph_minus_I1_PSD_slash_PP2A_minus_dephosph_minus_I1_PSD_cplx + PP1_PSD_slash_I1 , 1.8E-16
+  PP2A_slash_PP2A_minus_dephosph_minus_I1_PSD_slash_PP2A_minus_dephosph_minus_I1_PSD_cplx -> PP2A_slash_PP2A_minus_dephosph_minus_I1_PSD_slash_PP2A_minus_dephosph_minus_I1_PSD_cplx + PP1_PSD_slash_I1_star_ , ( -1) * (-(7.50006E-16))
+  PP2A_slash_PP2A_minus_dephosph_minus_I1_PSD_slash_PP2A_minus_dephosph_minus_I1_PSD_cplx -> 2*PP2A_slash_PP2A_minus_dephosph_minus_I1_PSD_slash_PP2A_minus_dephosph_minus_I1_PSD_cplx , -(7.50006E-16)+( -1) * (1.8E-16)
+  PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_cplx -> PP2A + PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_cplx , 1.8E-16+( -1) * (-(7.50006E-16))
+  PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_cplx -> PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_cplx + PP1_PSD_slash_PP1_minus_I1_star_ , ( -1) * (-(7.50006E-16))
+  PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_cplx -> PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_cplx + PP1_PSD_slash_PP1_minus_I1 , 1.8E-16
+  PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_cplx -> 2*PP2A_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_slash_PP2A_minus_dephosph_minus_PP1_minus_I_star__PSD_cplx , -(7.50006E-16)+( -1) * (1.8E-16)
+  CaNAB_minus_Ca4 -> Ca + CaNAB_minus_Ca4 , ( -2) * (-(9.0E-17))
+  CaNAB_minus_Ca4 -> CaNAB_minus_Ca4 + PP2B_slash_CaNAB_minus_Ca2 , ( -1) * (-(9.0E-17))
+  CaNAB_minus_Ca4 -> 2*CaNAB_minus_Ca4 , -(9.0E-17)
+  CaNAB_minus_Ca4 + PP1_PSD_slash_I1_star_ -> CaNAB_minus_Ca4 + CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_PSD_slash_dephosph_inhib1_noCaM_PSD_cplx + PP1_PSD_slash_I1_star_ , 3.420036E-19
+  CaNAB_minus_Ca4 + PP1_PSD_slash_I1_star_ -> CaNAB_minus_Ca4 + 2*PP1_PSD_slash_I1_star_ , ( -1) * (3.420036E-19)
+  CaNAB_minus_Ca4 + PP1_PSD_slash_I1_star_ -> 2*CaNAB_minus_Ca4 + PP1_PSD_slash_I1_star_ , ( -1) * (3.420036E-19)
+  CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx -> PP1_slash_I1 + CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx , 3.06E-18
+  CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx -> PP1_slash_I1_star_ + CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx , ( -1) * (-(1.224E-17))
+  CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx -> CaNAB_minus_Ca4 + CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx , 3.06E-18+( -1) * (-(1.224E-17))
+  CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx -> 2*CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_slash_dephosph_inhib1_noCaM_cplx , -(1.224E-17)+( -1) * (3.06E-18)
+  CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_PSD_slash_dephosph_inhib1_noCaM_PSD_cplx -> CaNAB_minus_Ca4 + CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_PSD_slash_dephosph_inhib1_noCaM_PSD_cplx , 3.06E-18+( -1) * (-(1.224E-17))
+  CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_PSD_slash_dephosph_inhib1_noCaM_PSD_cplx -> CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_PSD_slash_dephosph_inhib1_noCaM_PSD_cplx + PP1_PSD_slash_I1 , 3.06E-18
+  CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_PSD_slash_dephosph_inhib1_noCaM_PSD_cplx -> CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_PSD_slash_dephosph_inhib1_noCaM_PSD_cplx + PP1_PSD_slash_I1_star_ , ( -1) * (-(1.224E-17))
+  CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_PSD_slash_dephosph_inhib1_noCaM_PSD_cplx -> 2*CaNAB_minus_Ca4_slash_dephosph_inhib1_noCaM_PSD_slash_dephosph_inhib1_noCaM_PSD_cplx , -(1.224E-17)+( -1) * (3.06E-18)
+  PP2B_slash_CaNAB_minus_Ca2 -> Ca + PP2B_slash_CaNAB_minus_Ca2 , ( -2) * (-(9.0E-17))
+  PP2B_slash_CaNAB_minus_Ca2 -> PP2B_slash_CaNAB + PP2B_slash_CaNAB_minus_Ca2 , ( -1) * (-(9.0E-17))
+  PP2B_slash_CaNAB_minus_Ca2 -> 2*PP2B_slash_CaNAB_minus_Ca2 , -(9.0E-17)
+  CaMKII_minus_thr286_minus_CaM_minus_PSD -> CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD , ( -1) * (-(1.0E-18))
+  CaMKII_minus_thr286_minus_CaM_minus_PSD -> CaMKII_minus_thr286_minus_CaM_minus_PSD + CaM_minus_Ca4_minus_PSD , ( -1) * (-(1.0E-18))
+  CaMKII_minus_thr286_minus_CaM_minus_PSD -> 2*CaMKII_minus_thr286_minus_CaM_minus_PSD , -(1.0E-18)
+  CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_CaM_minus_PSD -> CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_CaM_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_cplx , 7.8126E-20
+  CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_CaM_minus_PSD -> CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_CaM_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD , ( -1) * (7.8126E-20)
+  CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_CaM_minus_PSD -> CaMKII_minus_thr286_minus_CaM_minus_PSD + 2*CaMKII_minus_CaM_minus_PSD , ( -1) * (7.8126E-20)
+  CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD -> CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_cplx , 9.375E-19
+  CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD -> CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD , ( -1) * (9.375E-19)
+  CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD -> CaMKII_minus_thr286_minus_CaM_minus_PSD + 2*CaMKII_minus_thr286_minus_PSD , ( -1) * (9.375E-19)
+  CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_PSD -> CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_act_autoph_slash_CaM_act_autoph_cplx , 3.12498E-19
+  CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_PSD -> CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD , ( -1) * (3.12498E-19)
+  CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_PSD -> CaMKII_minus_thr286_minus_CaM_minus_PSD + 2*CaMKII_minus_PSD , ( -1) * (3.12498E-19)
+  CaMKII_minus_thr286_minus_CaM_minus_PSD + PP1_minus_active_PSD -> CaMKII_minus_thr286_minus_CaM_minus_PSD + PP1_minus_active_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx , 4.99998E-18
+  CaMKII_minus_thr286_minus_CaM_minus_PSD + PP1_minus_active_PSD -> CaMKII_minus_thr286_minus_CaM_minus_PSD + 2*PP1_minus_active_PSD , ( -1) * (4.99998E-18)
+  CaMKII_minus_thr286_minus_CaM_minus_PSD + PP1_minus_active_PSD -> 2*CaMKII_minus_thr286_minus_CaM_minus_PSD + PP1_minus_active_PSD , ( -1) * (4.99998E-18)
+  CaMKII_minus_CaM_minus_PSD -> CaMKII_minus_CaM_minus_PSD + CaMKII_minus_PSD , 5.0E-17
+  CaMKII_minus_CaM_minus_PSD -> CaMKII_minus_CaM_minus_PSD + CaM_minus_Ca4_minus_PSD , 5.0E-17
+  CaMKII_minus_CaM_minus_PSD -> 2*CaMKII_minus_CaM_minus_PSD , ( -1) * (5.0E-17)
+  CaMKII_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD -> CaMKII_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD + tot_minus_auto_minus_PSD_slash_auton_minus_286_minus_PSD_slash_auton_minus_286_minus_PSD_cplx , 4.99998E-20
+  CaMKII_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD -> CaMKII_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_cplx , 9.375E-19
+  CaMKII_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD -> CaMKII_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD + tot_minus_auto_minus_PSD , ( -1) * (4.99998E-20)
+  CaMKII_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD -> CaMKII_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD , ( -1) * (9.375E-19)
+  CaMKII_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD -> CaMKII_minus_CaM_minus_PSD + 2*CaMKII_minus_thr286_minus_PSD , ( -1) * (9.375E-19)
+  CaMKII_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD -> 2*CaMKII_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD , ( -1) * (4.99998E-20)
+  CaMKII_minus_CaM_minus_PSD + CaMKII_minus_PSD -> CaMKII_minus_CaM_minus_PSD + CaMKII_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_act_autoph_slash_CaM_act_autoph_cplx , 3.12498E-19
+  CaMKII_minus_CaM_minus_PSD + CaMKII_minus_PSD -> CaMKII_minus_CaM_minus_PSD + CaMKII_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD , ( -1) * (3.12498E-19)
+  CaMKII_minus_CaM_minus_PSD + CaMKII_minus_PSD -> CaMKII_minus_CaM_minus_PSD + 2*CaMKII_minus_PSD , ( -1) * (3.12498E-19)
+  CaMKII_minus_CaM_minus_PSD + CaMKII_star__star__star__minus_PSD -> CaMKII_minus_CaM_minus_PSD + CaMKII_star__star__star__minus_PSD + tot_minus_auto_minus_PSD_slash_auton_minus_286_minus_PSD_slash_auton_minus_286_minus_PSD_cplx , 4.99998E-20
+  CaMKII_minus_CaM_minus_PSD + CaMKII_star__star__star__minus_PSD -> CaMKII_minus_CaM_minus_PSD + CaMKII_star__star__star__minus_PSD + tot_minus_auto_minus_PSD , ( -1) * (4.99998E-20)
+  CaMKII_minus_CaM_minus_PSD + CaMKII_star__star__star__minus_PSD -> 2*CaMKII_minus_CaM_minus_PSD + CaMKII_star__star__star__minus_PSD , ( -1) * (4.99998E-20)
+  CaMKII_minus_CaM_minus_PSD + basal_CaMKII_PSD -> CaMKII_minus_CaM_minus_PSD + tot_minus_auto_minus_PSD_slash_auton_minus_286_minus_PSD_slash_auton_minus_286_minus_PSD_cplx + basal_CaMKII_PSD , 4.99998E-20
+  CaMKII_minus_CaM_minus_PSD + basal_CaMKII_PSD -> CaMKII_minus_CaM_minus_PSD + basal_CaMKII_PSD + tot_minus_auto_minus_PSD , ( -1) * (4.99998E-20)
+  CaMKII_minus_CaM_minus_PSD + basal_CaMKII_PSD -> 2*CaMKII_minus_CaM_minus_PSD + basal_CaMKII_PSD , ( -1) * (4.99998E-20)
+  2*CaMKII_minus_CaM_minus_PSD -> 2*CaMKII_minus_CaM_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_cplx , 7.8126E-20
+  2*CaMKII_minus_CaM_minus_PSD -> 2*CaMKII_minus_CaM_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD , ( -1) * (7.8126E-20)
+  2*CaMKII_minus_CaM_minus_PSD -> 3*CaMKII_minus_CaM_minus_PSD , ( -1) * (7.8126E-20)
+  CaMKII_minus_thr286_minus_PSD + CaMKII_minus_PSD -> CaMKII_minus_thr286_minus_PSD + CaMKII_minus_PSD + tot_minus_auto_minus_PSD_slash_auton_minus_autoph_slash_auton_minus_autoph_cplx , 1.99998E-19
+  CaMKII_minus_thr286_minus_PSD + CaMKII_minus_PSD -> CaMKII_minus_thr286_minus_PSD + CaMKII_minus_PSD + tot_minus_auto_minus_PSD , ( -1) * (1.99998E-19)
+  CaMKII_minus_thr286_minus_PSD + CaMKII_minus_PSD -> CaMKII_minus_thr286_minus_PSD + 2*CaMKII_minus_PSD , ( -1) * (1.99998E-19)
+  CaMKII_minus_thr286_minus_PSD + CaMKII_star__star__star__minus_PSD -> CaMKII_minus_thr286_minus_PSD + CaMKII_star__star__star__minus_PSD + tot_minus_auto_minus_PSD_slash_auton_minus_305_minus_PSD_slash_auton_minus_305_minus_PSD_cplx , 6.0E-19
+  CaMKII_minus_thr286_minus_PSD + CaMKII_star__star__star__minus_PSD -> CaMKII_minus_thr286_minus_PSD + CaMKII_star__star__star__minus_PSD + tot_minus_auto_minus_PSD , ( -1) * (6.0E-19)
+  CaMKII_minus_thr286_minus_PSD + CaMKII_star__star__star__minus_PSD -> 2*CaMKII_minus_thr286_minus_PSD + CaMKII_star__star__star__minus_PSD , ( -1) * (6.0E-19)
+  CaMKII_minus_thr286_minus_PSD + CaM_minus_Ca4_minus_PSD -> CaMKII_minus_thr286_minus_CaM_minus_PSD + CaMKII_minus_thr286_minus_PSD + CaM_minus_Ca4_minus_PSD , 1.00002E-14
+  CaMKII_minus_thr286_minus_PSD + CaM_minus_Ca4_minus_PSD -> CaMKII_minus_thr286_minus_PSD + 2*CaM_minus_Ca4_minus_PSD , ( -1) * (1.00002E-14)
+  CaMKII_minus_thr286_minus_PSD + CaM_minus_Ca4_minus_PSD -> 2*CaMKII_minus_thr286_minus_PSD + CaM_minus_Ca4_minus_PSD , ( -1) * (1.00002E-14)
+  CaMKII_minus_thr286_minus_PSD + PP1_minus_active_PSD -> CaMKII_minus_thr286_minus_PSD + PP1_minus_active_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx , 4.99998E-18
+  CaMKII_minus_thr286_minus_PSD + PP1_minus_active_PSD -> CaMKII_minus_thr286_minus_PSD + 2*PP1_minus_active_PSD , ( -1) * (4.99998E-18)
+  CaMKII_minus_thr286_minus_PSD + PP1_minus_active_PSD -> 2*CaMKII_minus_thr286_minus_PSD + PP1_minus_active_PSD , ( -1) * (4.99998E-18)
+  CaMKII_minus_thr286_minus_PSD + basal_CaMKII_PSD -> CaMKII_minus_thr286_minus_PSD + tot_minus_auto_minus_PSD_slash_auton_minus_305_minus_PSD_slash_auton_minus_305_minus_PSD_cplx + basal_CaMKII_PSD , 6.0E-19
+  CaMKII_minus_thr286_minus_PSD + basal_CaMKII_PSD -> CaMKII_minus_thr286_minus_PSD + basal_CaMKII_PSD + tot_minus_auto_minus_PSD , ( -1) * (6.0E-19)
+  CaMKII_minus_thr286_minus_PSD + basal_CaMKII_PSD -> 2*CaMKII_minus_thr286_minus_PSD + basal_CaMKII_PSD , ( -1) * (6.0E-19)
+  2*CaMKII_minus_thr286_minus_PSD -> 2*CaMKII_minus_thr286_minus_PSD + tot_minus_auto_minus_PSD_slash_auton_minus_305_minus_PSD_slash_auton_minus_305_minus_PSD_cplx , 6.0E-19
+  2*CaMKII_minus_thr286_minus_PSD -> 2*CaMKII_minus_thr286_minus_PSD + tot_minus_auto_minus_PSD , ( -1) * (6.0E-19)
+  2*CaMKII_minus_thr286_minus_PSD -> 3*CaMKII_minus_thr286_minus_PSD , ( -1) * (6.0E-19)
+  CaMKII_minus_PSD -> CaMKII_slash_CaMKII + CaMKII_minus_PSD , 3.0E-18
+  CaMKII_minus_PSD -> CaMKII_minus_PSD + NMDAR , 3.0E-18
+  CaMKII_minus_PSD -> 2*CaMKII_minus_PSD , ( -1) * (3.0E-18)
+  CaMKII_minus_PSD + CaMKII_star__star__star__minus_PSD -> CaMKII_minus_PSD + CaMKII_star__star__star__minus_PSD + tot_minus_auto_minus_PSD_slash_auton_minus_autoph_slash_auton_minus_autoph_cplx , 1.99998E-19
+  CaMKII_minus_PSD + CaMKII_star__star__star__minus_PSD -> CaMKII_minus_PSD + CaMKII_star__star__star__minus_PSD + tot_minus_auto_minus_PSD , ( -1) * (1.99998E-19)
+  CaMKII_minus_PSD + CaMKII_star__star__star__minus_PSD -> 2*CaMKII_minus_PSD + CaMKII_star__star__star__minus_PSD , ( -1) * (1.99998E-19)
+  CaMKII_minus_PSD + CaM_minus_Ca4_minus_PSD -> CaMKII_minus_CaM_minus_PSD + CaMKII_minus_PSD + CaM_minus_Ca4_minus_PSD , 4.99998E-16
+  CaMKII_minus_PSD + CaM_minus_Ca4_minus_PSD -> CaMKII_minus_PSD + 2*CaM_minus_Ca4_minus_PSD , ( -1) * (4.99998E-16)
+  CaMKII_minus_PSD + CaM_minus_Ca4_minus_PSD -> 2*CaMKII_minus_PSD + CaM_minus_Ca4_minus_PSD , ( -1) * (4.99998E-16)
+  CaMKII_minus_PSD + basal_CaMKII_PSD -> CaMKII_minus_PSD + tot_minus_auto_minus_PSD_slash_auton_minus_autoph_slash_auton_minus_autoph_cplx + basal_CaMKII_PSD , 1.99998E-19
+  CaMKII_minus_PSD + basal_CaMKII_PSD -> CaMKII_minus_PSD + basal_CaMKII_PSD + tot_minus_auto_minus_PSD , ( -1) * (1.99998E-19)
+  CaMKII_minus_PSD + basal_CaMKII_PSD -> 2*CaMKII_minus_PSD + basal_CaMKII_PSD , ( -1) * (1.99998E-19)
+  CaMKII_star__star__star__minus_PSD + PP1_minus_active_PSD -> CaMKII_star__star__star__minus_PSD + PP1_minus_active_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx , 4.99998E-18
+  CaMKII_star__star__star__minus_PSD + PP1_minus_active_PSD -> CaMKII_star__star__star__minus_PSD + PP1_minus_active_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx , 4.99998E-18
+  CaMKII_star__star__star__minus_PSD + PP1_minus_active_PSD -> CaMKII_star__star__star__minus_PSD + 2*PP1_minus_active_PSD , ( -1) * (4.99998E-18)+( -1) * (4.99998E-18)
+  CaMKII_star__star__star__minus_PSD + PP1_minus_active_PSD -> 2*CaMKII_star__star__star__minus_PSD + PP1_minus_active_PSD , ( -1) * (4.99998E-18)+( -1) * (4.99998E-18)
+  tot_minus_auto_minus_PSD_slash_auton_minus_305_minus_PSD_slash_auton_minus_305_minus_PSD_cplx -> CaMKII_minus_thr286_minus_PSD + tot_minus_auto_minus_PSD_slash_auton_minus_305_minus_PSD_slash_auton_minus_305_minus_PSD_cplx , ( -1) * (-(2.4E-16))
+  tot_minus_auto_minus_PSD_slash_auton_minus_305_minus_PSD_slash_auton_minus_305_minus_PSD_cplx -> CaMKII_star__star__star__minus_PSD + tot_minus_auto_minus_PSD_slash_auton_minus_305_minus_PSD_slash_auton_minus_305_minus_PSD_cplx , 6.0E-17
+  tot_minus_auto_minus_PSD_slash_auton_minus_305_minus_PSD_slash_auton_minus_305_minus_PSD_cplx -> tot_minus_auto_minus_PSD_slash_auton_minus_305_minus_PSD_slash_auton_minus_305_minus_PSD_cplx + tot_minus_auto_minus_PSD , 6.0E-17+( -1) * (-(2.4E-16))
+  tot_minus_auto_minus_PSD_slash_auton_minus_305_minus_PSD_slash_auton_minus_305_minus_PSD_cplx -> 2*tot_minus_auto_minus_PSD_slash_auton_minus_305_minus_PSD_slash_auton_minus_305_minus_PSD_cplx , -(2.4E-16)+( -1) * (6.0E-17)
+  tot_minus_auto_minus_PSD_slash_auton_minus_286_minus_PSD_slash_auton_minus_286_minus_PSD_cplx -> CaMKII_minus_thr286_minus_CaM_minus_PSD + tot_minus_auto_minus_PSD_slash_auton_minus_286_minus_PSD_slash_auton_minus_286_minus_PSD_cplx , 5.0E-18
+  tot_minus_auto_minus_PSD_slash_auton_minus_286_minus_PSD_slash_auton_minus_286_minus_PSD_cplx -> CaMKII_minus_CaM_minus_PSD + tot_minus_auto_minus_PSD_slash_auton_minus_286_minus_PSD_slash_auton_minus_286_minus_PSD_cplx , ( -1) * (-(2.0E-17))
+  tot_minus_auto_minus_PSD_slash_auton_minus_286_minus_PSD_slash_auton_minus_286_minus_PSD_cplx -> tot_minus_auto_minus_PSD_slash_auton_minus_286_minus_PSD_slash_auton_minus_286_minus_PSD_cplx + tot_minus_auto_minus_PSD , 5.0E-18+( -1) * (-(2.0E-17))
+  tot_minus_auto_minus_PSD_slash_auton_minus_286_minus_PSD_slash_auton_minus_286_minus_PSD_cplx -> 2*tot_minus_auto_minus_PSD_slash_auton_minus_286_minus_PSD_slash_auton_minus_286_minus_PSD_cplx , -(2.0E-17)+( -1) * (5.0E-18)
+  tot_minus_auto_minus_PSD_slash_auton_minus_autoph_slash_auton_minus_autoph_cplx -> CaMKII_minus_thr286_minus_PSD + tot_minus_auto_minus_PSD_slash_auton_minus_autoph_slash_auton_minus_autoph_cplx , 2.0E-17
+  tot_minus_auto_minus_PSD_slash_auton_minus_autoph_slash_auton_minus_autoph_cplx -> CaMKII_minus_PSD + tot_minus_auto_minus_PSD_slash_auton_minus_autoph_slash_auton_minus_autoph_cplx , ( -1) * (-(8.0E-17))
+  tot_minus_auto_minus_PSD_slash_auton_minus_autoph_slash_auton_minus_autoph_cplx -> tot_minus_auto_minus_PSD_slash_auton_minus_autoph_slash_auton_minus_autoph_cplx + tot_minus_auto_minus_PSD , 2.0E-17+( -1) * (-(8.0E-17))
+  tot_minus_auto_minus_PSD_slash_auton_minus_autoph_slash_auton_minus_autoph_cplx -> 2*tot_minus_auto_minus_PSD_slash_auton_minus_autoph_slash_auton_minus_autoph_cplx , -(8.0E-17)+( -1) * (2.0E-17)
+  CaM_minus_TR2_minus_Ca2_minus_PSD -> CaM_slash_CaM_minus_PSD + CaM_minus_TR2_minus_Ca2_minus_PSD , ( -1) * (-(7.2E-16))
+  CaM_minus_TR2_minus_Ca2_minus_PSD -> CaM_minus_TR2_minus_Ca2_minus_PSD + Ca_minus_PSD , ( -2) * (-(7.2E-16))
+  CaM_minus_TR2_minus_Ca2_minus_PSD -> 2*CaM_minus_TR2_minus_Ca2_minus_PSD , -(7.2E-16)
+  CaM_minus_TR2_minus_Ca2_minus_PSD + Ca_minus_PSD -> CaM_minus_TR2_minus_Ca2_minus_PSD + CaM_minus_Ca3_minus_PSD + Ca_minus_PSD , 3.6E-17
+  CaM_minus_TR2_minus_Ca2_minus_PSD + Ca_minus_PSD -> CaM_minus_TR2_minus_Ca2_minus_PSD + 2*Ca_minus_PSD , ( -1) * (3.6E-17)
+  CaM_minus_TR2_minus_Ca2_minus_PSD + Ca_minus_PSD -> 2*CaM_minus_TR2_minus_Ca2_minus_PSD + Ca_minus_PSD , ( -1) * (3.6E-17)
+  CaM_minus_Ca3_minus_PSD -> CaM_minus_TR2_minus_Ca2_minus_PSD + CaM_minus_Ca3_minus_PSD , ( -1) * (-(1.0E-16))
+  CaM_minus_Ca3_minus_PSD -> CaM_minus_Ca3_minus_PSD + Ca_minus_PSD , ( -1) * (-(1.0E-16))
+  CaM_minus_Ca3_minus_PSD -> 2*CaM_minus_Ca3_minus_PSD , -(1.0E-16)
+  CaM_minus_Ca3_minus_PSD + Ca_minus_PSD -> CaM_minus_Ca3_minus_PSD + CaM_minus_Ca4_minus_PSD + Ca_minus_PSD , 4.65012E-18
+  CaM_minus_Ca3_minus_PSD + Ca_minus_PSD -> CaM_minus_Ca3_minus_PSD + 2*Ca_minus_PSD , ( -1) * (4.65012E-18)
+  CaM_minus_Ca3_minus_PSD + Ca_minus_PSD -> 2*CaM_minus_Ca3_minus_PSD + Ca_minus_PSD , ( -1) * (4.65012E-18)
+  CaM_minus_Ca4_minus_PSD -> CaM_minus_Ca4 + CaM_minus_Ca4_minus_PSD , 5.4E-15
+  CaM_minus_Ca4_minus_PSD -> CaM_minus_Ca3_minus_PSD + CaM_minus_Ca4_minus_PSD , ( -1) * (-(1.0E-16))
+  CaM_minus_Ca4_minus_PSD -> CaM_minus_Ca4_minus_PSD + Ca_minus_PSD , ( -1) * (-(1.0E-16))
+  CaM_minus_Ca4_minus_PSD -> 2*CaM_minus_Ca4_minus_PSD , ( -1) * (5.4E-15)+-(1.0E-16)
+  Ca_minus_PSD -> 2*Ca_minus_PSD , -(1.0E-15)
+  PP1_PSD_slash_I1_star_ + PP1_minus_active_PSD -> PP1_PSD_slash_I1_star_ + PP1_PSD_slash_PP1_minus_I1_star_ + PP1_minus_active_PSD , 4.9998E-15
+  PP1_PSD_slash_I1_star_ + PP1_minus_active_PSD -> PP1_PSD_slash_I1_star_ + 2*PP1_minus_active_PSD , ( -1) * (4.9998E-15)
+  PP1_PSD_slash_I1_star_ + PP1_minus_active_PSD -> 2*PP1_PSD_slash_I1_star_ + PP1_minus_active_PSD , ( -1) * (4.9998E-15)
+  PP1_PSD_slash_I1_star_ + CaM_Ca_n_minus_CaNAB -> PP1_PSD_slash_I1_star_ + CaM_Ca_n_minus_CaNAB + CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_PSD_slash_dephosph_inhib1_PSD_cplx , 3.420036E-18
+  PP1_PSD_slash_I1_star_ + CaM_Ca_n_minus_CaNAB -> PP1_PSD_slash_I1_star_ + 2*CaM_Ca_n_minus_CaNAB , ( -1) * (3.420036E-18)
+  PP1_PSD_slash_I1_star_ + CaM_Ca_n_minus_CaNAB -> 2*PP1_PSD_slash_I1_star_ + CaM_Ca_n_minus_CaNAB , ( -1) * (3.420036E-18)
+  PP1_PSD_slash_PP1_minus_I1_star_ -> PP1_PSD_slash_I1_star_ + PP1_PSD_slash_PP1_minus_I1_star_ , ( -1) * (-(1.0E-18))
+  PP1_PSD_slash_PP1_minus_I1_star_ -> PP1_PSD_slash_PP1_minus_I1_star_ + PP1_minus_active_PSD , ( -1) * (-(1.0E-18))
+  PP1_PSD_slash_PP1_minus_I1_star_ -> 2*PP1_PSD_slash_PP1_minus_I1_star_ , -(1.0E-18)
+  PP1_PSD_slash_PP1_minus_I1_star_ + CaM_Ca_n_minus_CaNAB -> PP1_PSD_slash_PP1_minus_I1_star_ + CaM_Ca_n_minus_CaNAB + CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__PSD_slash_dephosph_minus_PP1_minus_I_star__PSD_cplx , 3.420036E-18
+  PP1_PSD_slash_PP1_minus_I1_star_ + CaM_Ca_n_minus_CaNAB -> PP1_PSD_slash_PP1_minus_I1_star_ + 2*CaM_Ca_n_minus_CaNAB , ( -1) * (3.420036E-18)
+  PP1_PSD_slash_PP1_minus_I1_star_ + CaM_Ca_n_minus_CaNAB -> 2*PP1_PSD_slash_PP1_minus_I1_star_ + CaM_Ca_n_minus_CaNAB , ( -1) * (3.420036E-18)
+  PP1_PSD_slash_PP1_minus_I1 -> PP1_PSD_slash_I1 + PP1_PSD_slash_PP1_minus_I1 , 1.0E-17
+  PP1_PSD_slash_PP1_minus_I1 -> PP1_PSD_slash_PP1_minus_I1 + PP1_minus_active_PSD , 1.0E-17
+  PP1_PSD_slash_PP1_minus_I1 -> 2*PP1_PSD_slash_PP1_minus_I1 , ( -1) * (1.0E-17)
+  PP1_minus_active_PSD + CaMKII_minus_thr305_minus_PSD -> PP1_minus_active_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx + CaMKII_minus_thr305_minus_PSD , 4.99998E-18
+  PP1_minus_active_PSD + CaMKII_minus_thr305_minus_PSD -> PP1_minus_active_PSD + 2*CaMKII_minus_thr305_minus_PSD , ( -1) * (4.99998E-18)
+  PP1_minus_active_PSD + CaMKII_minus_thr305_minus_PSD -> 2*PP1_minus_active_PSD + CaMKII_minus_thr305_minus_PSD , ( -1) * (4.99998E-18)
+  PP1_minus_active_PSD_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx -> CaMKII_minus_thr286_minus_CaM_minus_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx , ( -1) * (-(8.0E-18))
+  PP1_minus_active_PSD_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx -> CaMKII_minus_CaM_minus_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx , 2.0E-18
+  PP1_minus_active_PSD_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx -> PP1_minus_active_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx , 2.0E-18+( -1) * (-(8.0E-18))
+  PP1_minus_active_PSD_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx -> 2*PP1_minus_active_PSD_slash_Deph_minus_thr286_slash_Deph_minus_thr286_cplx , -(8.0E-18)+( -1) * (2.0E-18)
+  PP1_minus_active_PSD_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx -> CaMKII_minus_thr286_minus_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx , ( -1) * (-(8.0E-18))
+  PP1_minus_active_PSD_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx -> CaMKII_minus_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx , 2.0E-18
+  PP1_minus_active_PSD_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx -> PP1_minus_active_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx , 2.0E-18+( -1) * (-(8.0E-18))
+  PP1_minus_active_PSD_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx -> 2*PP1_minus_active_PSD_slash_Deph_minus_thr286b_slash_Deph_minus_thr286b_cplx , -(8.0E-18)+( -1) * (2.0E-18)
+  PP1_minus_active_PSD_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx -> CaMKII_star__star__star__minus_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx , ( -1) * (-(8.0E-18))
+  PP1_minus_active_PSD_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx -> PP1_minus_active_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx , 2.0E-18+( -1) * (-(8.0E-18))
+  PP1_minus_active_PSD_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx -> PP1_minus_active_PSD_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx + CaMKII_minus_thr305_minus_PSD , 2.0E-18
+  PP1_minus_active_PSD_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx -> 2*PP1_minus_active_PSD_slash_Deph_minus_thr286c_slash_Deph_minus_thr286c_cplx , -(8.0E-18)+( -1) * (2.0E-18)
+  PP1_minus_active_PSD_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx -> CaMKII_minus_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx , 2.0E-18
+  PP1_minus_active_PSD_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx -> PP1_minus_active_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx , 2.0E-18+( -1) * (-(8.0E-18))
+  PP1_minus_active_PSD_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx -> PP1_minus_active_PSD_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx + CaMKII_minus_thr305_minus_PSD , ( -1) * (-(8.0E-18))
+  PP1_minus_active_PSD_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx -> 2*PP1_minus_active_PSD_slash_Deph_minus_thr305a_slash_Deph_minus_thr305a_cplx , -(8.0E-18)+( -1) * (2.0E-18)
+  PP1_minus_active_PSD_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx -> CaMKII_minus_thr286_minus_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx , 2.0E-18
+  PP1_minus_active_PSD_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx -> CaMKII_star__star__star__minus_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx , ( -1) * (-(8.0E-18))
+  PP1_minus_active_PSD_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx -> PP1_minus_active_PSD + PP1_minus_active_PSD_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx , 2.0E-18+( -1) * (-(8.0E-18))
+  PP1_minus_active_PSD_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx -> 2*PP1_minus_active_PSD_slash_Deph_minus_thr305_slash_Deph_minus_thr305_cplx , -(8.0E-18)+( -1) * (2.0E-18)
+  CaM_Ca_n_minus_CaNAB -> CaM_minus_Ca4 + CaM_Ca_n_minus_CaNAB , ( -1) * (-(9.0E-17))
+  CaM_Ca_n_minus_CaNAB -> CaNAB_minus_Ca4 + CaM_Ca_n_minus_CaNAB , ( -1) * (-(9.0E-17))
+  CaM_Ca_n_minus_CaNAB -> 2*CaM_Ca_n_minus_CaNAB , -(9.0E-17)
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx -> PP1_slash_I1 + CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx , 3.06E-17
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx -> PP1_slash_I1_star_ + CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx , ( -1) * (-(1.224E-16))
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx -> CaM_Ca_n_minus_CaNAB + CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx , 3.06E-17+( -1) * (-(1.224E-16))
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx -> 2*CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_slash_dephosph_inhib1_cplx , -(1.224E-16)+( -1) * (3.06E-17)
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx -> PP1_slash_PP1_minus_I1_star_ + CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx , ( -1) * (-(1.224E-16))
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx -> PP1_slash_PP1_minus_I1 + CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx , 3.06E-17
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx -> CaM_Ca_n_minus_CaNAB + CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx , 3.06E-17+( -1) * (-(1.224E-16))
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx -> 2*CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__slash_dephosph_minus_PP1_minus_I_star__cplx , -(1.224E-16)+( -1) * (3.06E-17)
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_PSD_slash_dephosph_inhib1_PSD_cplx -> PP1_PSD_slash_I1 + CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_PSD_slash_dephosph_inhib1_PSD_cplx , 3.06E-17
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_PSD_slash_dephosph_inhib1_PSD_cplx -> PP1_PSD_slash_I1_star_ + CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_PSD_slash_dephosph_inhib1_PSD_cplx , ( -1) * (-(1.224E-16))
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_PSD_slash_dephosph_inhib1_PSD_cplx -> CaM_Ca_n_minus_CaNAB + CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_PSD_slash_dephosph_inhib1_PSD_cplx , 3.06E-17+( -1) * (-(1.224E-16))
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_PSD_slash_dephosph_inhib1_PSD_cplx -> 2*CaM_Ca_n_minus_CaNAB_slash_dephosph_inhib1_PSD_slash_dephosph_inhib1_PSD_cplx , -(1.224E-16)+( -1) * (3.06E-17)
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__PSD_slash_dephosph_minus_PP1_minus_I_star__PSD_cplx -> PP1_PSD_slash_PP1_minus_I1_star_ + CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__PSD_slash_dephosph_minus_PP1_minus_I_star__PSD_cplx , ( -1) * (-(1.224E-16))
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__PSD_slash_dephosph_minus_PP1_minus_I_star__PSD_cplx -> PP1_PSD_slash_PP1_minus_I1 + CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__PSD_slash_dephosph_minus_PP1_minus_I_star__PSD_cplx , 3.06E-17
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__PSD_slash_dephosph_minus_PP1_minus_I_star__PSD_cplx -> CaM_Ca_n_minus_CaNAB + CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__PSD_slash_dephosph_minus_PP1_minus_I_star__PSD_cplx , 3.06E-17+( -1) * (-(1.224E-16))
+  CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__PSD_slash_dephosph_minus_PP1_minus_I_star__PSD_cplx -> 2*CaM_Ca_n_minus_CaNAB_slash_dephosph_minus_PP1_minus_I_star__PSD_slash_dephosph_minus_PP1_minus_I_star__PSD_cplx , -(1.224E-16)+( -1) * (3.06E-17)
+  basal_CaMKII_PSD -> 2*basal_CaMKII_PSD , -(1.0E-17)
+  tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_cplx -> CaMKII_minus_thr286_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_cplx , ( -1) * (-(2.4E-16))
+  tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_cplx -> CaMKII_star__star__star__minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_cplx , 6.0E-17
+  tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_cplx -> tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_cplx + tot_minus_CaM_minus_CaMKII_minus_PSD , 6.0E-17+( -1) * (-(2.4E-16))
+  tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_cplx -> 2*tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_slash_CaM_minus_act_minus_305_minus_PSD_cplx , -(2.4E-16)+( -1) * (6.0E-17)
+  tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_cplx -> CaMKII_minus_thr286_minus_CaM_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_cplx , 5.0E-18
+  tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_cplx -> CaMKII_minus_CaM_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_cplx , ( -1) * (-(2.0E-17))
+  tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_cplx -> tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_cplx + tot_minus_CaM_minus_CaMKII_minus_PSD , 5.0E-18+( -1) * (-(2.0E-17))
+  tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_cplx -> 2*tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_slash_CaM_minus_act_minus_286_minus_PSD_cplx , -(2.0E-17)+( -1) * (5.0E-18)
+  tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_act_autoph_slash_CaM_act_autoph_cplx -> CaMKII_minus_thr286_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_act_autoph_slash_CaM_act_autoph_cplx , 2.0E-17
+  tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_act_autoph_slash_CaM_act_autoph_cplx -> CaMKII_minus_PSD + tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_act_autoph_slash_CaM_act_autoph_cplx , ( -1) * (-(8.0E-17))
+  tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_act_autoph_slash_CaM_act_autoph_cplx -> tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_act_autoph_slash_CaM_act_autoph_cplx + tot_minus_CaM_minus_CaMKII_minus_PSD , 2.0E-17+( -1) * (-(8.0E-17))
+  tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_act_autoph_slash_CaM_act_autoph_cplx -> 2*tot_minus_CaM_minus_CaMKII_minus_PSD_slash_CaM_act_autoph_slash_CaM_act_autoph_cplx , -(8.0E-17)+( -1) * (2.0E-17)
+  CaMKII_minus_thr305_minus_PSD -> CaMKII_slash_CaMK_minus_thr305 + CaMKII_minus_thr305_minus_PSD , 3.0E-18
+  CaMKII_minus_thr305_minus_PSD -> NMDAR + CaMKII_minus_thr305_minus_PSD , 3.0E-18
+  CaMKII_minus_thr305_minus_PSD -> 2*CaMKII_minus_thr305_minus_PSD , ( -1) * (3.0E-18)
+  Ca_control_cyt -> Ca + Ca_control_cyt , 9.0E-15
+  Ca_control_PSD -> Ca_minus_PSD + Ca_control_PSD , 1.0E-15
+  basal_CaMKII_PSD_control -> basal_CaMKII_PSD + basal_CaMKII_PSD_control , 1.0E-17
+ end reactions
+
+end model
+

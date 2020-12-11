@@ -1,0 +1,28 @@
+begin model MODEL1303140000
+ begin init
+  species_1 = 16365.0 ( "BetaCyt" ) 
+  species_2 = 4.0 ( "Axin" ) 
+  species_3 ( "AxinP" ) 
+  species_4 = 1000.0 ( "Wnt" ) 
+  species_6 = 6655.0 ( "BetaNuc" ) 
+  source = 1.0
+ end init
+ begin reactions
+  species_1 -> species_1 + species_6 , 0.0549
+  species_1 -> 2*species_1 , ( -1) * (0.0549)+( -1) * (( 1.0) * (1.13E-4))
+  species_1 + species_3 -> 2*species_1 + species_3 , ( -1) * (( 1.0) * (0.1))
+  species_2 -> species_2 + species_3 , ( 1.0) * (0.001619)
+  species_2 -> 2*species_2 , ( -1) * (( 1.0) * (0.0167))+( -1) * (( 1.0) * (0.001619))
+  species_3 -> species_2 + species_3 , ( 1.0) * (0.0182)
+  species_3 -> 2*species_3 , ( -1) * (( 1.0) * (0.167))+( -1) * (( 1.0) * (0.0182))
+  species_3 + species_4 -> species_2 + species_3 + species_4 , ( 1.0) * (10.0)
+  species_3 + species_4 -> 2*species_3 + species_4 , ( -1) * (( 1.0) * (10.0))
+  species_4 -> 2*species_4 , ( -1) * (( 1.0) * (0.27))
+  species_6 -> species_1 + species_6 , 0.135
+  species_6 -> species_2 + species_6 , 9.9E-5
+  species_6 -> 2*species_6 , ( -1) * (0.135)
+  source -> species_1 + source , ( 1.0) * (300.0)
+ end reactions
+
+end model
+

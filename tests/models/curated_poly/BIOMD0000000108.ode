@@ -1,0 +1,81 @@
+begin model BIOMD0000000108
+ begin parameters
+  k1 = 6.6E-7
+  k2 = 1.6E9
+  k3 = 1.6E9
+  k4 = 100000.0
+  k5 = 20000.0
+  k6 = 1.0
+  k7 = 3.4E7
+  k9 = 1000000.0
+  k10 = 1000.0
+  k11 = 2.5E8
+  k12 = 0.38
+  k13a = 0.0087
+  k13b = 0.0087
+  k17 = 30000.0
+  k18 = 7.0
+  k19 = 88000.0
+  HO2star = 0.0
+  Cu_I_ZnSOD = 0.0
+ end parameters
+ begin init
+  species_0000001 ( "O2*-" ) 
+  species_0000002 = 5.0E-6 ( "Cu(II)ZnSOD" ) 
+  species_0000006 ( "H2O2" ) 
+  species_0000007 ( "LOO*" ) 
+  species_0000008 ( "HO*" ) 
+  species_0000009 ( "LOOH" ) 
+  species_0000011 ( "L*" ) 
+  species_0000016 = 1.0E-5 ( "SODtotal" ) 
+  species_0000017 = 1.0E-5 ( "Cat" ) 
+  SINK
+  source = 1.0
+  I = 1
+ end init
+ begin reactions
+  species_0000001 + species_0000002 -> species_0000001 + species_0000002 + species_0000006 , ( ( 1.0) * (k3)) * (-(1))
+  species_0000001 + species_0000002 -> species_0000001 + species_0000002 + SINK , ( -1) * (( 1.0) * (k2))
+  species_0000001 + species_0000002 -> species_0000001 + 2*species_0000002 , ( ( 1.0) * (k3)) * (-(1))+( 1.0) * (k2)
+  species_0000001 + species_0000002 -> 2*species_0000001 + species_0000002 , ( 1.0) * (k2)+( -1) * (( ( 1.0) * (k3)) * (-(1)))
+  species_0000001 + species_0000006 -> species_0000001 + species_0000006 + species_0000008 , ( 2) * (( 1.0) * (k5))
+  species_0000001 + species_0000006 -> species_0000001 + 2*species_0000006 , ( -1) * (( 1.0) * (k5))
+  species_0000001 + species_0000006 -> 2*species_0000001 + species_0000006 , ( -1) * (( 1.0) * (k5))
+  species_0000001 + species_0000007 -> species_0000001 + species_0000007 + species_0000009 , ( 1.0) * (k4)
+  species_0000001 + species_0000007 -> species_0000001 + 2*species_0000007 , ( -1) * (( 1.0) * (k4))
+  species_0000001 + species_0000007 -> 2*species_0000001 + species_0000007 , ( -1) * (( 1.0) * (k4))
+  species_0000001 + species_0000016 -> species_0000001 + species_0000002 + species_0000016 , ( 1.0) * (k3)
+  species_0000001 + species_0000016 -> species_0000001 + species_0000006 + species_0000016 , ( 1.0) * (k3)
+  species_0000001 + species_0000016 -> 2*species_0000001 + species_0000016 , ( -1) * (( 1.0) * (k3))
+  species_0000002 -> species_0000002 + SINK , ( -1) * (( 1.0) * (k13b))
+  species_0000002 -> 2*species_0000002 , ( 1.0) * (k13b)
+  species_0000002 + species_0000006 -> species_0000002 + species_0000006 + species_0000008 , ( 2) * (( 1.0) * (k6))
+  species_0000002 + species_0000006 -> species_0000002 + 2*species_0000006 , ( -1) * (( 1.0) * (k6))
+  species_0000002 + source -> 2*species_0000002 + source , ( ( 1.0) * (k13a)) * (-(1))
+  species_0000006 + species_0000017 -> 2*species_0000006 + species_0000017 , ( -1) * (( 1.0) * (k7))
+  species_0000007 -> species_0000007 + species_0000009 , ( 1.0) * (k18)
+  species_0000007 -> species_0000007 + species_0000011 , ( 1.0) * (k18)
+  species_0000007 -> 2*species_0000007 , ( -1) * (( 1.0) * (k18))
+  2*species_0000007 -> 2*species_0000007 + SINK , ( -1) * (( 1.0) * (k19))
+  2*species_0000007 -> 3*species_0000007 , ( 2) * (( 1.0) * (k19))
+  species_0000008 -> species_0000008 + species_0000011 , ( 1.0) * (k11)
+  species_0000008 -> species_0000008 + SINK , ( -1) * (( 1.0) * (k9))
+  species_0000008 -> 2*species_0000008 , ( -1) * (( 1.0) * (k11))+( 1.0) * (k9)
+  species_0000009 -> species_0000009 + SINK , ( -1) * (( 1.0) * (k12))
+  species_0000009 -> 2*species_0000009 , ( 1.0) * (k12)
+  species_0000011 -> species_0000007 + species_0000011 , ( 1.0) * (k17)
+  species_0000011 -> 2*species_0000011 , ( -1) * (( 1.0) * (k17))
+  species_0000016 + source -> species_0000002 + species_0000016 + source , ( 1.0) * (k13a)
+  source -> species_0000001 + source , ( 1.0) * (k1)
+  source -> species_0000006 + source , ( ( 1.0) * (k10)) * ((1)/(100.0))
+  source -> species_0000011 + source , ( ( 1.0) * (k10)) * ((1)/(100.0))
+  I -> species_0000001 + I , ( ( k10) * ((1)/(100.0))) * (1.0)
+  I -> SINK + I , ( -1) * (( ( k10) * ((1)/(100.0))) * (1.0))
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

@@ -1,4 +1,5 @@
 from bisect import bisect
+from functools import reduce
 import copy
 import logging
 import math
@@ -8,11 +9,11 @@ from sympy import vring, GF, QQ, mod_inverse, gcd, nextprime, sympify
 from sympy.ntheory.modular import crt, isprime
 
 from sparse_polynomial import SparsePolynomial
+from rational_function import RationalFunction
 
 #------------------------------------------------------------------------------
 
 # the constant responsible for switching to the modular algorithm
-
 TOO_BIG_LENGTH = 10000
 
 class ExpressionSwell(Exception):
@@ -496,49 +497,101 @@ class Subspace(object):
 
     #--------------------------------------------------------------------------
 
-    def perform_change_of_variables(self, polys, new_vars_name='y'):
+    def perform_change_of_variables(self, rhs, new_vars_name='y'):
         """
-          Restrict a polynomial system of ODEs with the rhs given by 
-          polys (SparsePolynomial) to the subspace
+          Restrict a system of ODEs with the rhs given by 
+          rhs (SparsePolynomial or RationalFunction) to the subspace
           new_vars_name (optional) - the name for variables in the lumped polynomials
         """
-        old_vars = polys[0].gens
-        domain = polys[0].domain
+        old_vars = rhs[0].gens
+        domain = rhs[0].domain
         new_vars = [new_vars_name + str(i) for i in range(self.dim())]
         pivots = set(self.parametrizing_coordinates())
         lpivots = sorted(pivots)
         basis = self.basis()
 
-        # plugging all nonpivot variables with zeroes
         logging.debug("Plugging zero to nonpivot coordinates")
-        shrinked_polys = []
-        for p in polys:
-            filtered_dict = dict()
-            for monom, coef in p.dataiter():
-                new_monom = []
-                skip = False
-                for var, exp in monom:
-                    if var not in pivots:
-                        skip = True
-                        break
-                    else:
-                        new_monom.append((lpivots.index(var), exp))
-                if not skip:
-                    new_monom = tuple(new_monom)
-                    filtered_dict[new_monom] = coef
 
-            shrinked_polys.append(SparsePolynomial(new_vars, domain, filtered_dict))
- 
-        logging.debug("Constructing new polys")
-        new_polys = [SparsePolynomial(new_vars, domain) for _ in range(self.dim())]
-        for i, vec in enumerate(basis):
-            logging.debug(f"    Polynomial number {i}")
-            for j in vec.nonzero_iter():
-                # ordering is important due to the implementation of
-                # multiplication for SparsePolynomial
-                new_polys[i] += shrinked_polys[j] * vec._data[j]
+        # SparsePolynomial
+        if isinstance(rhs[0], SparsePolynomial):
+            # plugging all nonpivot variables with zeroes
+            shrinked_polys = []
+            for p in rhs:
+                filtered_dict = dict()
+                for monom, coef in p.dataiter():
+                    new_monom = []
+                    skip = False
+                    for var, exp in monom:
+                        if var not in pivots:
+                            skip = True
+                            break
+                        else:
+                            new_monom.append((lpivots.index(var), exp))
+                    if not skip:
+                        new_monom = tuple(new_monom)
+                        filtered_dict[new_monom] = coef
+
+                shrinked_polys.append(SparsePolynomial(new_vars, domain, filtered_dict))
     
-        return new_polys
+            logging.debug("Constructing new polys")
+            new_polys = [SparsePolynomial(new_vars, domain) for _ in range(self.dim())]
+            for i, vec in enumerate(basis):
+                logging.debug(f"    Polynomial number {i}")
+                for j in vec.nonzero_iter():
+                    # ordering is important due to the implementation of
+                    # multiplication for SparsePolynomial
+                    new_polys[i] += shrinked_polys[j] * vec._data[j]
+        
+            return new_polys
+
+        # RationalFunction
+        elif isinstance(rhs[0], RationalFunction):
+            # plugging all nonpivot variables with zeroes
+            shrinked_rfs = []
+            for rf in rhs:
+                num_filtered_dict = dict()
+                for monom, coef in rf.num.dataiter():
+                    new_monom = []
+                    skip = False
+                    for var, exp in monom:
+                        if var not in pivots:
+                            skip = True
+                            break
+                        else:
+                            new_monom.append((lpivots.index(var), exp))
+                    if not skip:
+                        new_monom = tuple(new_monom)
+                        num_filtered_dict[new_monom] = coef
+                denom_filtered_dict = dict()
+                for monom, coef in rf.denom.dataiter():
+                    new_monom = []
+                    skip = False
+                    for var, exp in monom:
+                        if var not in pivots:
+                            skip = True
+                            break
+                        else:
+                            new_monom.append((lpivots.index(var), exp))
+                    if not skip:
+                        new_monom = tuple(new_monom)
+                        denom_filtered_dict[new_monom] = coef
+
+                shrinked_rfs.append(RationalFunction(
+                    SparsePolynomial(new_vars, domain, num_filtered_dict),
+                    SparsePolynomial(new_vars, domain, denom_filtered_dict)
+                ))
+
+
+            logging.debug("Constructing new rfs")
+            new_rfs = [RationalFunction(SparsePolynomial(new_vars, domain),SparsePolynomial.from_string("1", new_vars)) for _ in range(self.dim())]
+            for i, vec in enumerate(basis):
+                logging.debug(f"    Rational Function number {i}")
+                for j in vec.nonzero_iter():
+                    # ordering is important due to the implementation of
+                    # multiplication for SparsePolynomial
+                    new_rfs[i] += shrinked_rfs[j] * vec._data[j]
+
+            return new_rfs
 
     #--------------------------------------------------------------------------
 
@@ -610,7 +663,112 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
     
 #------------------------------------------------------------------------------
 
-def construct_matrices(polys):
+def construct_matrices(rhs):
+    if isinstance(rhs[0], SparsePolynomial):
+        return construct_matrices_from_polys(rhs)
+    elif isinstance(rhs[0], RationalFunction):
+        return construct_matrices_from_rational_functions(rhs)
+
+#------------------------------------------------------------------------------
+
+def construct_matrices_from_rational_functions(rational_functions):
+    """
+      Computes Jacobian, pulls out common denominator, and constructs matrices
+      J_1^T, ..., J_N^T from the remaining polynomial matrix
+      Input
+        - rational_functions - the right-hand side of the system of ODEs (f_1, ..., f_n)
+                               represented by RationalFunction
+      Output
+        a list of matrices (SparseMatrix) J_1^T, ..., J_N^T
+    """
+    logging.debug("Starting constructing matrices (RationalFunction)")
+
+    variables = rational_functions[0].gens
+    field = rational_functions[0].domain
+
+    # Compute Jacobian
+    J = [[rf.derivative(v) for rf in rational_functions] for v in variables]
+
+    print(f"-> I computed the Jacobian. It is of size {len(J)}x{len(J)}.")
+    
+    # def print_m(matrix):
+    #     s = [[str(e) for e in row] for row in matrix]
+    #     lens = [max(map(len, col)) for col in zip(*s)]
+    #     fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
+    #     table = [fmt.format(*row) for row in s]
+    #     print('\n'.join(table))
+
+    # print_m(J)
+    # print()
+
+    denoms = [[row[i].denom for row in J][0] for i in range(len(J[0]))]
+
+    print("-> I got all the denominators.")
+
+    lcm = denoms[0]
+    d = list(filter((lambda x: x != SparsePolynomial.from_string("1",[])),denoms))
+    for i in range(1, len(d)):
+        print(f"--> I am finding LCM with polynomial {i+1} of {len(d)}")
+        lcm = SparsePolynomial.lcm([lcm, denoms[i]])
+
+    # filtered_denoms = list(filter((lambda x: x != SparsePolynomial.from_string("1",[])),denoms))
+    # print(f"I am finding the LCM of {len(filtered_denoms)} denominators.")
+    # lcm = SparsePolynomial.lcm(filtered_denoms)
+
+    print("-> I found the LCM.")
+
+    p = [lcm//denom for denom in denoms]
+
+    print("-> For each column, I have divided the LCM by the denominator and stored the value.")
+
+    # Pull out the common denominator 
+    poly_J = []
+    for i in range(len(J)):
+        # print(f"--> I am computing new numerators for the row J[{i}].")
+        poly_J_row = []
+        for j in range(len(J[i])):
+            # NEW METHOD 
+            poly_J_row.append(J[i][j].num * p[j])
+            # # OLD METHOD (SUPER SUPER SLOW)
+            # other_denoms = denoms[:]
+            # other_denoms.pop(j)
+            # other_denoms = list(filter(lambda x: x != SparsePolynomial.from_string("1",[]), other_denoms))
+            # if len(other_denoms) > 0 and not J[i][j].num.is_zero():
+            #     # print(f"\t -> Finding the product of {len(other_denoms) + 1} polynomials for J[{i}][{j}]:")
+            #     # p = reduce((lambda x,y: x * y), other_denoms)
+            #     p = other_denoms[0]
+            #     for denom_i in range(1,len(other_denoms)):
+            #         # print("\t MULTIPLYING ",other_denoms[denom_i])
+            #         # print(f"Finished multiplying polynomial {denom_i}.")
+            #         p *= other_denoms[denom_i]
+            #     poly_J_row.append(J[i][j].num * p)
+            # else:
+            #     # print(f"Skppied some complicated computations for J[{i}][{j}].")
+            #     poly_J_row.append(J[i][j].num)
+        poly_J.append(poly_J_row)
+
+    print("-> I pulled out the common denominator.")
+
+    # print_m(poly_J)
+
+    # Work with remaining polynomial matrix as in construct_matrices_from_polys
+    jacobians = dict()
+    for row_ind, poly_row in enumerate(poly_J):
+        for col_ind, poly in enumerate(poly_row):
+            p_ind = row_ind*len(poly_row) + col_ind
+            logging.debug("Processing numerator polynomial number %d", p_ind)
+            for m, coef in poly.dataiter():
+                if m not in jacobians:
+                    jacobians[m] = SparseRowMatrix(len(variables), field)
+                jacobians[m].increment(row_ind, col_ind, coef)
+
+    print("-> I constructed matrices.")
+
+    return jacobians.values()
+
+#------------------------------------------------------------------------------
+
+def construct_matrices_from_polys(polys):
     """
       Constructs matrices J_1^T, ..., J_N^T (see Step (2) of Algorithm 1 in the paper)
       Input
@@ -619,7 +777,7 @@ def construct_matrices(polys):
       Output
         a list of matrices (SparseMatrix) J_1^T, ..., J_N^T
     """
-    logging.debug("Starting constructing matrices")
+    logging.debug("Starting constructing matrices (SparsePolynomial)")
 
     variables = polys[0].gens
     field = polys[0].domain
@@ -643,7 +801,7 @@ def construct_matrices(polys):
 
 #------------------------------------------------------------------------------
 
-def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True, print_reduction=False, ic=None):
+def do_lumping_internal(rhs, observable, new_vars_name='y', print_system=True, print_reduction=False, ic=None, discard_useless_matrices=True):
     """
       Performs a lumping of a polynomial ODE system represented by SparsePolynomial
       Input
@@ -665,21 +823,24 @@ def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True,
     logging.debug("Starting aggregation")
 
     # Reduce the problem to the common invariant subspace problem
-    vars_old = polys[0].gens
-    field = polys[0].domain
-    matrices = list(construct_matrices(polys))
+    vars_old = rhs[0].gens
+    field = rhs[0].domain
+    matrices = sorted(construct_matrices(rhs), key=lambda m: m.nonzero_count())
 
-    # Proceed only with matrices that are linearly independent
-    vectors_of_matrices = [m.to_vector() for m in matrices]
-    assert len(matrices) == len(vectors_of_matrices)
-    subspace = Subspace(field)
-    deleted = 0
-    for i in range(len(vectors_of_matrices)):
-        pivot_index = subspace.absorb_new_vector(vectors_of_matrices[i])
-        if pivot_index < 0:
-            logging.debug(f"Discarding a linearly dependant matrix {matrices[i - deleted]}")
-            del matrices[i - deleted]
-            deleted +=1
+    if discard_useless_matrices:
+        # Proceed only with matrices that are linearly independent
+        vectors_of_matrices = [m.to_vector() for m in matrices]
+        assert len(matrices) == len(vectors_of_matrices)
+        subspace = Subspace(field)
+        deleted = 0
+        for i in range(len(vectors_of_matrices)):
+            pivot_index = subspace.absorb_new_vector(vectors_of_matrices[i])
+            if pivot_index < 0:
+                del matrices[i - deleted]
+                deleted +=1
+        logging.debug(f"Discarded {deleted} linearly dependant matrices")
+
+    print(f"-> I discarded {deleted} linearly dependant matrices.")
 
     # Find a lumping
     vectors_to_include = []
@@ -688,22 +849,23 @@ def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True,
         vectors_to_include.append(vec)
     lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include)
 
-    lumped_polys = lumping_subspace.perform_change_of_variables(polys, new_vars_name)
+    lumped_rhs = lumping_subspace.perform_change_of_variables(rhs, new_vars_name)
 
     new_ic = None
     if ic is not None:
-        eval_point = [ic.get(v, 0) for v in polys[0].gens]
+        eval_point = [ic.get(v, 0) for v in rhs[0].gens]
         new_ic = []
         for vect in lumping_subspace.basis():
             new_ic.append(sum([p[0] * p[1] for p in zip(eval_point, vect.to_list())]))
 
 
     # Nice printing
-    vars_new = lumped_polys[0].gens
+    # TODO: Adapt for rational functions
+    vars_new = lumped_rhs[0].gens
     if print_system:
         print("Original system:")
-        for i in range(len(polys)):
-            print(f"{vars_old[i]}' = {polys[i]}")
+        for i in range(len(rhs)):
+            print(f"{vars_old[i]}' = {rhs[i]}")
         print("Outputs to fix:")
         print(", ".join(map(str, observable)))
     if print_reduction:
@@ -721,25 +883,26 @@ def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True,
 
         print("Lumped system:")
         for i in range(lumping_subspace.dim()):
-            print(f"{vars_new[i]}' = {lumped_polys[i]}")
+            print(f"{vars_new[i]}' = {lumped_rhs[i]}")
 
-    return {"polynomials" : lumped_polys, "subspace" : [v.to_list() for v in lumping_subspace.basis()], "new_ic" : new_ic}
+    return {"rhs" : lumped_rhs, "subspace" : [v.to_list() for v in lumping_subspace.basis()], "new_ic" : new_ic}
 
 #------------------------------------------------------------------------------
 
 def do_lumping(
-        polys, observable, 
+        rhs, observable, 
         new_vars_name='y', 
         print_system=False, 
         print_reduction=True, 
         out_format="sympy", 
         loglevel="INFO",
-        initial_conditions=None
+        initial_conditions=None,
+        discard_useless_matrices=True
     ):
     """
       Main function, performs a lumping of a polynomial ODE system
       Input
-        - polys - the right-hand side of the system
+        - rhs - the right-hand side of the system
         - observable - a nonempty list of linear forms in state variables
                        that must be kept nonlumped
         - new_vars_name (optional) - the name for variables in the lumped polynomials
@@ -759,24 +922,31 @@ def do_lumping(
     )
     logging.debug("Starting aggregation")
 
-    if isinstance(polys[0], SparsePolynomial):
+    if isinstance(rhs[0], SparsePolynomial):
         logging.debug("Input is in the SparsePolynomial format")
+    elif isinstance(rhs[0], RationalFunction):
+        logging.debug("Input is in the RationalFunction format")
     else:
         logging.debug("Input is expected to be in SymPy format")
-        polys = [SparsePolynomial.from_sympy(p) for p in polys]
+        rhs = [SparsePolynomial.from_sympy(p) for p in rhs]
         observable = [SparsePolynomial.from_sympy(ob) for ob in observable]
 
-    result = do_lumping_internal(polys, observable, new_vars_name, print_system, print_reduction, initial_conditions)
+    result = do_lumping_internal(rhs, observable, new_vars_name, print_system, print_reduction, initial_conditions, discard_useless_matrices=discard_useless_matrices)
 
     if initial_conditions is not None:
-        eval_point = [initial_conditions.get(v, 0) for v in polys[0].gens]
+        eval_point = [initial_conditions.get(v, 0) for v in rhs[0].gens]
         result["new_ic"] = []
         for vect in result["subspace"]:
             result["new_ic"].append(sum([p[0] * p[1] for p in zip(eval_point, vect)]))
 
     if out_format == "sympy":
-        out_ring = result["polynomials"][0].get_sympy_ring()
-        result["polynomials"] = [out_ring(p.get_sympy_dict()) for p in result["polynomials"]]
+        out_ring = result["rhs"][0].get_sympy_ring()
+        if isinstance(result["rhs"][0], SparsePolynomial):
+            result["rhs"] = [out_ring(p.get_sympy_dict()) for p in result["rhs"]]
+        elif isinstance(result["rhs"][0], RationalFunction):
+            # F = sympy.FractionField(sympy.QQ, result["rhs"][0].gens)
+            # result["rhs"] = [F(out_ring(p.num.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict())) for p in result["rhs"]]
+            pass
     elif out_format == "internal":
         pass
     else:

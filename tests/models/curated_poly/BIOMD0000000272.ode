@@ -1,0 +1,45 @@
+begin model BIOMD0000000272
+ begin parameters
+  kt = 0.0329366
+  Bmax_SAv = 76.0
+  kon_SAv = 2.29402E-6
+  koff_SAv = 0.00679946
+  kex_SAv = 0.01101
+  kdi = 0.00317871
+  kde = 0.0164042
+  SAv_medium = 0.0
+  SAv_cells = 0.0
+ end parameters
+ begin init
+  EpoR = 76.0
+  SAv = 999.293
+  SAv_EpoR
+  SAv_EpoRi
+  dSAvi
+  dSAve
+  SINK
+  src = 1.0
+ end init
+ begin reactions
+  EpoR -> EpoR + SINK , ( -1) * (( kt) * (1.0))
+  EpoR -> 2*EpoR , ( kt) * (1.0)
+  EpoR + SAv -> EpoR + SAv + SAv_EpoR , ( kon_SAv) * (1.0)
+  EpoR + SAv -> EpoR + 2*SAv , ( -1) * (( kon_SAv) * (1.0))
+  EpoR + SAv -> 2*EpoR + SAv , ( -1) * (( kon_SAv) * (1.0))
+  SAv_EpoR -> EpoR + SAv_EpoR , ( koff_SAv) * (1.0)
+  SAv_EpoR -> SAv + SAv_EpoR , ( koff_SAv) * (1.0)
+  SAv_EpoR -> SAv_EpoR + SAv_EpoRi , ( kt) * (1.0)
+  SAv_EpoR -> 2*SAv_EpoR , ( -1) * (( kt) * (1.0))+( -1) * (( koff_SAv) * (1.0))
+  SAv_EpoRi -> SAv + SAv_EpoRi , ( kex_SAv) * (1.0)
+  SAv_EpoRi -> SAv_EpoRi + dSAvi , ( kdi) * (1.0)
+  SAv_EpoRi -> SAv_EpoRi + dSAve , ( kde) * (1.0)
+  SAv_EpoRi -> 2*SAv_EpoRi , ( -1) * (( kde) * (1.0))+( -1) * (( kex_SAv) * (1.0))+( -1) * (( kdi) * (1.0))
+  src -> EpoR + src , ( ( kt) * (Bmax_SAv)) * (1.0)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

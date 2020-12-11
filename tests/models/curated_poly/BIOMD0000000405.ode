@@ -1,0 +1,43 @@
+begin model BIOMD0000000405
+ begin parameters
+  parameter_1 = 500.0
+  parameter_2 = 500.0
+  parameter_3 = 10.0
+  parameter_4 = 1000.0
+  parameter_5 = 0.03465735902799
+ end parameters
+ begin init
+  species_1 ( "x1" ) 
+  species_2 ( "x2" ) 
+  species_3 ( "E1" ) 
+  species_4 ( "E2" ) 
+  species_5 = 100.0 ( "E" ) 
+  species_6 = 1.0 ( "E+x1" ) 
+  SINK
+  source = 1.0
+ end init
+ begin reactions
+  species_1 -> species_1 + SINK , ( -1) * (( 1.0) * (parameter_5))
+  species_1 -> 2*species_1 , ( 1.0) * (parameter_5)
+  species_1 + species_5 -> species_1 + species_3 + species_5 , ( 1.0) * (parameter_4)
+  species_1 + species_5 -> species_1 + 2*species_5 , ( -1) * (( 1.0) * (parameter_4))
+  species_1 + species_5 -> 2*species_1 + species_5 , ( -1) * (( 1.0) * (parameter_4))
+  species_2 -> species_2 + SINK , ( -1) * (( 1.0) * (parameter_5))
+  species_2 -> 2*species_2 , ( 1.0) * (parameter_5)
+  species_2 + species_5 -> species_2 + species_4 + species_5 , ( 1.0) * (parameter_4)
+  species_2 + species_5 -> species_2 + 2*species_5 , ( -1) * (( 1.0) * (parameter_4))
+  species_2 + species_5 -> 2*species_2 + species_5 , ( -1) * (( 1.0) * (parameter_4))
+  species_3 -> species_3 + species_5 , ( 1.0) * (parameter_3)
+  species_3 -> 2*species_3 , ( -1) * (( 1.0) * (parameter_3))
+  species_4 -> species_4 + species_5 , ( 1.0) * (parameter_3)
+  species_4 -> 2*species_4 , ( -1) * (( 1.0) * (parameter_3))
+  source -> species_1 + source , ( 1.0) * (parameter_1)
+  source -> species_2 + source , ( 1.0) * (parameter_2)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

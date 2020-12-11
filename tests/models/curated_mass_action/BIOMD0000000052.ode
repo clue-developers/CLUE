@@ -1,0 +1,30 @@
+begin model BIOMD0000000052
+ begin init
+  Glu = 160.0
+  Fru
+  Formic_acid
+  Triose
+  Acetic_acid
+  Cn
+  Amadori
+  AMP
+  C5
+  lys_R = 15.0
+  Melanoidin
+ end init
+ begin reactions
+  Glu -> Fru , 0.01 [_J1_forw]
+  Fru -> Glu , 0.00509 [_J2_forw]
+  Glu -> Formic_acid + C5 , 4.7E-4 [_J3_forw]
+  Fru -> Formic_acid + C5 , 0.0011 [_J4_forw]
+  Fru -> 2*Triose , 0.00712 [_J5_forw]
+  Triose -> Acetic_acid + Cn , 0.00439 [_J6_forw]
+  Glu + lys_R -> Amadori , 1.8E-4 [_J7_forw]
+  Amadori -> Acetic_acid + lys_R , 0.11134 [_J8_forw]
+  Amadori -> AMP , 0.14359 [_J9_forw]
+  Fru + lys_R -> AMP , 1.5E-4 [_J10_forw]
+  AMP -> Melanoidin , 0.12514 [_J11_forw]
+ end reactions
+
+end model
+

@@ -1,0 +1,138 @@
+begin model BIOMD0000000580
+ begin parameters
+  IR_beta_phosphorylation_by_Insulin = 0.124273166818913
+  IR_beta_pY1146_dephosphorylation = 0.396235078561935
+  IR_beta_ready = 0.0532769862975496
+  IRS1_phosphorylation_by_IR_beta_pY1146 = 0.00491598674814158
+  IRS1_p_phosphorylation_by_p70S6K_pT389 = 1682.74838380846
+  IRS1_pS636_dephosphorylation = 0.0130499987407289
+  AMPK_T172_phosphorylation = 9.79765849087796
+  AMPK_pT172_dephosphorylation = 0.0107214736590526
+  Akt_pT308_dephosphorylation = 0.00335544587646129
+  Akt_pS473_dephosphorylation = 0.00640215551178824
+  Akt_S473_phosphorylation_by_mTORC2_pS2481_n_IRS1_p = 13.1441708920036
+  Akt_T308_phosphorylation_by_IRS1_p = 6.91810637938108
+  mTORC1_pS2448_dephosphorylation_by_TSC1_TSC2_pS1387 = 0.0106651971237991
+  mTORC1_S2448_activation_by_Amino_Acids = 0.00438915524637669
+  mTORC2_pS2481_dephosphorylation = 0.0183734532316308
+  mTORC2_S2481_phosphorylation_by_PI3K_variant_p = 0.37535264623552
+  p70S6K_pT389_dephosphorylation = 0.0113511588360422
+  p70S6K_T389_phosphorylation_by_mTORC1_pS2448 = 0.00184042775983938
+  PRAS40_pS183_dephosphorylation = 2.33014390064544
+  PRAS40_pT246_dephosphorylation = 1.60512543108081
+  PRAS40_S183_phosphorylation_by_mTORC1_pS2448 = 0.187621138099883
+  PRAS40_T246_phosphorylation_by_Akt_pT308 = 0.137729484208433
+  TSC1_TSC2_S1387_phosphorylation_by_AMPK_pT172 = 0.036558856656738
+  TSC1_TSC2_T1462_phosphorylation_by_Akt_pT308 = 0.0177561800881718
+  PI3K_variant_p_dephosphorylation = 10.0
+  PI3K_variant_phosphorylation_by_IR_beta_pY1146 = 0.01
+  scale_IR_beta_pY1146_obs = 1.0
+  scale_IRS1_pS636_obs = 1.0
+  scale_AMPK_pT172_obs = 1.0
+  scale_Akt_pT308_obs = 1.0
+  scale_Akt_pS473_obs = 1.0
+  scale_TSC1_TSC2_pS1387_obs = 1.0
+  scale_mTOR_pS2448_obs = 1.0
+  scale_mTOR_pS2481_obs = 1.0
+  scale_p70S6K_pT389_obs = 1.0
+  scale_PRAS40_pT246_obs = 1.0
+  scale_PRAS40_pS183_obs = 1.0
+ end parameters
+ begin init
+  IR_beta = 16.5607
+  IR_beta_pY1146
+  IR_beta_refractory
+  IRS1 = 18.9345
+  IRS1_p
+  IRS1_pS636
+  AMPK = 20.5064
+  AMPK_pT172
+  Akt_T308 = 21.4109
+  Akt_pT308
+  Akt_S473 = 12.2517
+  Akt_pS473
+  mTORC1 = 25.14
+  mTORC1_pS2448
+  mTORC2 = 18.7959
+  mTORC2_pS2481
+  p70S6K = 14.301
+  p70S6K_pT389
+  PRAS40_T246 = 13.5613
+  PRAS40_pT246
+  PRAS40_S183 = 17.55
+  PRAS40_pS183
+  TSC1_TSC2_pT1462 = 14.9175
+  TSC1_TSC2_pS1387
+  PI3K_variant = 18.9345
+  PI3K_variant_p
+  Insulin = 10.0
+  Amino_Acids = 10.0
+  IR_beta_pY1146_obs
+  IRS1_pS636_obs
+  AMPK_pT172_obs
+  Akt_pT308_obs
+  Akt_pS473_obs
+  TSC1_TSC2_pS1387_obs
+  mTOR_pS2448_obs
+  mTOR_pS2481_obs
+  p70S6K_pT389_obs
+  PRAS40_pT246_obs
+  PRAS40_pS183_obs
+ end init
+ begin reactions
+  IR_beta + Insulin -> IR_beta + IR_beta_pY1146 + Insulin , ( 1.0) * (IR_beta_phosphorylation_by_Insulin)
+  IR_beta + Insulin -> 2*IR_beta + Insulin , ( -1) * (( 1.0) * (IR_beta_phosphorylation_by_Insulin))
+  IR_beta_pY1146 -> IR_beta_pY1146 + IR_beta_refractory , ( 1.0) * (IR_beta_pY1146_dephosphorylation)
+  IR_beta_pY1146 -> 2*IR_beta_pY1146 , ( -1) * (( 1.0) * (IR_beta_pY1146_dephosphorylation))
+  IR_beta_pY1146 + IRS1 -> IR_beta_pY1146 + IRS1 + IRS1_p , ( 1.0) * (IRS1_phosphorylation_by_IR_beta_pY1146)
+  IR_beta_pY1146 + IRS1 -> IR_beta_pY1146 + 2*IRS1 , ( -1) * (( 1.0) * (IRS1_phosphorylation_by_IR_beta_pY1146))
+  IR_beta_pY1146 + PI3K_variant -> IR_beta_pY1146 + PI3K_variant + PI3K_variant_p , ( 1.0) * (PI3K_variant_phosphorylation_by_IR_beta_pY1146)
+  IR_beta_pY1146 + PI3K_variant -> IR_beta_pY1146 + 2*PI3K_variant , ( -1) * (( 1.0) * (PI3K_variant_phosphorylation_by_IR_beta_pY1146))
+  IR_beta_refractory -> IR_beta + IR_beta_refractory , ( 1.0) * (IR_beta_ready)
+  IR_beta_refractory -> 2*IR_beta_refractory , ( -1) * (( 1.0) * (IR_beta_ready))
+  IRS1_p + AMPK -> IRS1_p + AMPK + AMPK_pT172 , ( 1.0) * (AMPK_T172_phosphorylation)
+  IRS1_p + AMPK -> IRS1_p + 2*AMPK , ( -1) * (( 1.0) * (AMPK_T172_phosphorylation))
+  IRS1_p + Akt_T308 -> IRS1_p + Akt_T308 + Akt_pT308 , ( 1.0) * (Akt_T308_phosphorylation_by_IRS1_p)
+  IRS1_p + Akt_T308 -> IRS1_p + 2*Akt_T308 , ( -1) * (( 1.0) * (Akt_T308_phosphorylation_by_IRS1_p))
+  IRS1_p + Akt_S473 + mTORC2_pS2481 -> IRS1_p + Akt_S473 + Akt_pS473 + mTORC2_pS2481 , ( 1.0) * (Akt_S473_phosphorylation_by_mTORC2_pS2481_n_IRS1_p)
+  IRS1_p + Akt_S473 + mTORC2_pS2481 -> IRS1_p + 2*Akt_S473 + mTORC2_pS2481 , ( -1) * (( 1.0) * (Akt_S473_phosphorylation_by_mTORC2_pS2481_n_IRS1_p))
+  IRS1_p + p70S6K_pT389 -> IRS1_p + IRS1_pS636 + p70S6K_pT389 , ( 1.0) * (IRS1_p_phosphorylation_by_p70S6K_pT389)
+  IRS1_p + p70S6K_pT389 -> 2*IRS1_p + p70S6K_pT389 , ( -1) * (( 1.0) * (IRS1_p_phosphorylation_by_p70S6K_pT389))
+  IRS1_pS636 -> IRS1 + IRS1_pS636 , ( 1.0) * (IRS1_pS636_dephosphorylation)
+  IRS1_pS636 -> 2*IRS1_pS636 , ( -1) * (( 1.0) * (IRS1_pS636_dephosphorylation))
+  AMPK_pT172 -> AMPK + AMPK_pT172 , ( 1.0) * (AMPK_pT172_dephosphorylation)
+  AMPK_pT172 -> 2*AMPK_pT172 , ( -1) * (( 1.0) * (AMPK_pT172_dephosphorylation))
+  AMPK_pT172 + TSC1_TSC2_pT1462 -> AMPK_pT172 + TSC1_TSC2_pT1462 + TSC1_TSC2_pS1387 , ( 1.0) * (TSC1_TSC2_S1387_phosphorylation_by_AMPK_pT172)
+  AMPK_pT172 + TSC1_TSC2_pT1462 -> AMPK_pT172 + 2*TSC1_TSC2_pT1462 , ( -1) * (( 1.0) * (TSC1_TSC2_S1387_phosphorylation_by_AMPK_pT172))
+  Akt_pT308 -> Akt_T308 + Akt_pT308 , ( 1.0) * (Akt_pT308_dephosphorylation)
+  Akt_pT308 -> 2*Akt_pT308 , ( -1) * (( 1.0) * (Akt_pT308_dephosphorylation))
+  Akt_pT308 + PRAS40_T246 -> Akt_pT308 + PRAS40_T246 + PRAS40_pT246 , ( 1.0) * (PRAS40_T246_phosphorylation_by_Akt_pT308)
+  Akt_pT308 + PRAS40_T246 -> Akt_pT308 + 2*PRAS40_T246 , ( -1) * (( 1.0) * (PRAS40_T246_phosphorylation_by_Akt_pT308))
+  Akt_pT308 + TSC1_TSC2_pS1387 -> Akt_pT308 + TSC1_TSC2_pT1462 + TSC1_TSC2_pS1387 , ( 1.0) * (TSC1_TSC2_T1462_phosphorylation_by_Akt_pT308)
+  Akt_pT308 + TSC1_TSC2_pS1387 -> Akt_pT308 + 2*TSC1_TSC2_pS1387 , ( -1) * (( 1.0) * (TSC1_TSC2_T1462_phosphorylation_by_Akt_pT308))
+  Akt_pS473 -> Akt_S473 + Akt_pS473 , ( 1.0) * (Akt_pS473_dephosphorylation)
+  Akt_pS473 -> 2*Akt_pS473 , ( -1) * (( 1.0) * (Akt_pS473_dephosphorylation))
+  mTORC1 + Amino_Acids -> mTORC1 + mTORC1_pS2448 + Amino_Acids , ( 1.0) * (mTORC1_S2448_activation_by_Amino_Acids)
+  mTORC1 + Amino_Acids -> 2*mTORC1 + Amino_Acids , ( -1) * (( 1.0) * (mTORC1_S2448_activation_by_Amino_Acids))
+  mTORC1_pS2448 + p70S6K -> mTORC1_pS2448 + p70S6K + p70S6K_pT389 , ( 1.0) * (p70S6K_T389_phosphorylation_by_mTORC1_pS2448)
+  mTORC1_pS2448 + p70S6K -> mTORC1_pS2448 + 2*p70S6K , ( -1) * (( 1.0) * (p70S6K_T389_phosphorylation_by_mTORC1_pS2448))
+  mTORC1_pS2448 + PRAS40_S183 -> mTORC1_pS2448 + PRAS40_S183 + PRAS40_pS183 , ( 1.0) * (PRAS40_S183_phosphorylation_by_mTORC1_pS2448)
+  mTORC1_pS2448 + PRAS40_S183 -> mTORC1_pS2448 + 2*PRAS40_S183 , ( -1) * (( 1.0) * (PRAS40_S183_phosphorylation_by_mTORC1_pS2448))
+  mTORC1_pS2448 + TSC1_TSC2_pS1387 -> mTORC1 + mTORC1_pS2448 + TSC1_TSC2_pS1387 , ( 1.0) * (mTORC1_pS2448_dephosphorylation_by_TSC1_TSC2_pS1387)
+  mTORC1_pS2448 + TSC1_TSC2_pS1387 -> 2*mTORC1_pS2448 + TSC1_TSC2_pS1387 , ( -1) * (( 1.0) * (mTORC1_pS2448_dephosphorylation_by_TSC1_TSC2_pS1387))
+  mTORC2 + PI3K_variant_p -> mTORC2 + mTORC2_pS2481 + PI3K_variant_p , ( 1.0) * (mTORC2_S2481_phosphorylation_by_PI3K_variant_p)
+  mTORC2 + PI3K_variant_p -> 2*mTORC2 + PI3K_variant_p , ( -1) * (( 1.0) * (mTORC2_S2481_phosphorylation_by_PI3K_variant_p))
+  mTORC2_pS2481 -> mTORC2 + mTORC2_pS2481 , ( 1.0) * (mTORC2_pS2481_dephosphorylation)
+  mTORC2_pS2481 -> 2*mTORC2_pS2481 , ( -1) * (( 1.0) * (mTORC2_pS2481_dephosphorylation))
+  p70S6K_pT389 -> p70S6K + p70S6K_pT389 , ( 1.0) * (p70S6K_pT389_dephosphorylation)
+  p70S6K_pT389 -> 2*p70S6K_pT389 , ( -1) * (( 1.0) * (p70S6K_pT389_dephosphorylation))
+  PRAS40_pT246 -> PRAS40_T246 + PRAS40_pT246 , ( 1.0) * (PRAS40_pT246_dephosphorylation)
+  PRAS40_pT246 -> 2*PRAS40_pT246 , ( -1) * (( 1.0) * (PRAS40_pT246_dephosphorylation))
+  PRAS40_pS183 -> PRAS40_S183 + PRAS40_pS183 , ( 1.0) * (PRAS40_pS183_dephosphorylation)
+  PRAS40_pS183 -> 2*PRAS40_pS183 , ( -1) * (( 1.0) * (PRAS40_pS183_dephosphorylation))
+  PI3K_variant_p -> PI3K_variant + PI3K_variant_p , ( 1.0) * (PI3K_variant_p_dephosphorylation)
+  PI3K_variant_p -> 2*PI3K_variant_p , ( -1) * (( 1.0) * (PI3K_variant_p_dephosphorylation))
+ end reactions
+
+end model
+

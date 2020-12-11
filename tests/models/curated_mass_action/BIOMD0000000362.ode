@@ -1,0 +1,134 @@
+begin model BIOMD0000000362
+ begin parameters
+  k1 = 0.0031
+  k2 = 3200000.0
+  k3 = 0.0031
+  k4 = 2.3E7
+  k5 = 440000.0
+  k6 = 1.3E7
+  k7 = 23000.0
+  k8 = 1.05
+  k9 = 2.5E7
+  k10 = 6.0
+  k11 = 19.0
+  k12 = 2.2E7
+  k13 = 2.4
+  k14 = 1.0E7
+  k15 = 1.8
+  k16 = 7500.0
+  k17 = 2.0E7
+  k18 = 0.005
+  k19 = 1.0E7
+  k20 = 0.001
+  k21 = 1.0E8
+  k22 = 8.2
+  k23 = 22000.0
+  k24 = 0.006
+  k25 = 0.001
+  k26 = 2.0E7
+  k27 = 0.2
+  k28 = 4.0E8
+  k29 = 103.0
+  k30 = 1.0E8
+  k31 = 63.5
+  k32 = 1.5E7
+  k33 = 3.6E-4
+  k34 = 900000.0
+  k35 = 1.1E-4
+  k36 = 3.2E8
+  k37 = 5.0E7
+  k38 = 1500.0
+  k39 = 7100.0
+  k40 = 490.0
+  k41 = 7100.0
+  k42 = 230.0
+  IIa_plus_1_2mIIa = 1.0E-9
+  k43 = 5700.0
+  k44 = 3000000.0
+ end parameters
+ begin init
+  TF
+  TF_VII
+  VII = 1.0E-8
+  TF_VIIa
+  VIIa = 1.0E-10
+  Xa = 9.4E-11
+  IIa = 1.0E-9
+  TF_VIIa_X
+  X = 1.6E-7
+  TF_VIIa_Xa
+  IX = 9.0E-8
+  TF_VIIa_IX
+  IXa = 2.1E-10
+  II = 1.4E-6
+  VIII = 7.0E-10
+  VIIIa
+  IXa_VIIIa
+  IXa_VIIIa_X
+  VIIIa1_L
+  VIIIa2
+  V = 2.0E-8
+  Va
+  Xa_Va
+  Xa_Va_II
+  mIIa
+  TFPI = 2.5E-9
+  Xa_TFPI
+  TF_VIIa_Xa_TFPI
+  ATIII = 3.4E-6
+  Xa_ATIII
+  mIIa_ATIII
+  IXa_ATIII
+  IIa_ATIII
+  TF_VIIa_ATIII
+ end init
+ begin reactions
+  TF + VII -> TF_VII , k2 [R1]
+  TF_VII -> TF + VII , k1 [R1]
+  TF + VIIa -> TF_VIIa , k4 [R2]
+  TF_VIIa -> TF + VIIa , k3 [R2]
+  VII + TF_VIIa -> TF_VIIa + VIIa , k5 [R3]
+  VII + Xa -> VIIa + Xa , k6 [R4]
+  VII + IIa -> VIIa + IIa , k7 [R5]
+  TF_VIIa + X -> TF_VIIa_X , k9 [R6]
+  TF_VIIa_X -> TF_VIIa + X , k8 [R6]
+  TF_VIIa + Xa -> TF_VIIa_Xa , k12 [R7]
+  TF_VIIa_Xa -> TF_VIIa + Xa , k11 [R7]
+  TF_VIIa + IX -> TF_VIIa_IX , k14 [R8]
+  TF_VIIa_IX -> TF_VIIa + IX , k13 [R8]
+  Xa + II -> Xa + IIa , k16 [R9]
+  IIa + VIII -> IIa + VIIIa , k17 [R10]
+  IXa + VIIIa -> IXa_VIIIa , k19 [R11]
+  IXa_VIIIa -> IXa + VIIIa , k18 [R11]
+  X + IXa_VIIIa -> IXa_VIIIa_X , k21 [R12]
+  IXa_VIIIa_X -> X + IXa_VIIIa , k20 [R12]
+  VIIIa -> VIIIa1_L + VIIIa2 , k24 [R13]
+  VIIIa1_L + VIIIa2 -> VIIIa , k23 [R13]
+  IXa_VIIIa_X -> X + IXa + VIIIa1_L + VIIIa2 , k25 [R14]
+  IXa_VIIIa -> IXa + VIIIa1_L + VIIIa2 , k25 [R15]
+  IIa + V -> IIa + Va , k26 [R16]
+  Xa + Va -> Xa_Va , k28 [R17]
+  Xa_Va -> Xa + Va , k27 [R17]
+  II + Xa_Va -> Xa_Va_II , k30 [R18]
+  Xa_Va_II -> II + Xa_Va , k29 [R18]
+  Xa_Va + mIIa -> IIa + Xa_Va , k32 [R19]
+  Xa + TFPI -> Xa_TFPI , k34 [R20]
+  Xa_TFPI -> Xa + TFPI , k33 [R20]
+  TF_VIIa_Xa + TFPI -> TF_VIIa_Xa_TFPI , k36 [R21]
+  TF_VIIa_Xa_TFPI -> TF_VIIa_Xa + TFPI , k35 [R21]
+  TF_VIIa + Xa_TFPI -> TF_VIIa_Xa_TFPI , k37 [R22]
+  Xa + ATIII -> Xa_ATIII , k38 [R23]
+  mIIa + ATIII -> mIIa_ATIII , k39 [R24]
+  IXa + ATIII -> IXa_ATIII , k40 [R25]
+  IIa + ATIII -> IIa_ATIII , k41 [R26]
+  TF_VIIa + ATIII -> TF_VIIa_ATIII , k42 [R27]
+  TF_VIIa_X -> TF_VIIa_Xa , k10 [R6b]
+  TF_VIIa_IX -> TF_VIIa + IXa , k15 [R8b]
+  IXa_VIIIa_X -> Xa + IXa_VIIIa , k22 [R12b]
+  Xa_Va_II -> Xa_Va + mIIa , k31 [R18b]
+  X + IXa -> Xa + IXa , k43 [R28]
+  V + mIIa -> Va + mIIa , k44 [R29]
+ end reactions
+
+end model
+

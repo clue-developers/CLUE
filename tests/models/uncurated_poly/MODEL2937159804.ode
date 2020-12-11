@@ -1,0 +1,65 @@
+begin model MODEL2937159804
+ begin parameters
+  J9_k = 0.1
+  J10_k = 0.05
+  g_mR = 0.05
+  mRecADegradation_k = 0.02
+  g_mL = 0.03
+  mLexADegradation_k = 0.003
+  g_L = 0.1
+  LexADegradation_k = 0.002
+  g_R = 0.04
+  RecADegradation_k = 0.02
+  LexAUnbindingAuto_k = 0.01
+  LexAUnbindingRecAPromoter_k = 0.04
+  c_R = 0.02
+  c_L = 0.01
+ end parameters
+ begin init
+  bLexA
+  mLexA
+  LexA
+  bRecA
+  mRecA
+  RecA
+  fluxL = 1.0
+  fluxR = 1.0
+  degradation
+ end init
+ begin reactions
+  bLexA -> bLexA + LexA , LexAUnbindingAuto_k
+  bLexA -> 2*bLexA , ( -1) * (LexAUnbindingAuto_k)
+  bLexA + LexA -> bLexA + 2*LexA , ( -1) * (( c_L) * (-(1)))
+  bLexA + LexA -> 2*bLexA + LexA , ( c_L) * (-(1))
+  bLexA + fluxL -> bLexA + mLexA + fluxL , ( g_mL) * (-(1))
+  bLexA + fluxL -> bLexA + 2*fluxL , ( -1) * (( g_mL) * (-(1)))
+  mLexA -> mLexA + degradation , mLexADegradation_k
+  mLexA -> 2*mLexA , ( -1) * (mLexADegradation_k)
+  mLexA + fluxL -> mLexA + LexA + fluxL , g_L
+  mLexA + fluxL -> mLexA + 2*fluxL , ( -1) * (g_L)
+  LexA -> bLexA + LexA , ( c_L) * (1.0)
+  LexA -> LexA + bRecA , ( c_R) * (1.0)
+  LexA -> LexA + degradation , LexADegradation_k
+  LexA -> 2*LexA , ( -1) * (( c_R) * (1.0))+( -1) * (( c_L) * (1.0))+( -1) * (LexADegradation_k)
+  LexA + bRecA -> LexA + 2*bRecA , ( c_R) * (-(1))
+  LexA + bRecA -> 2*LexA + bRecA , ( -1) * (( c_R) * (-(1)))
+  LexA + RecA -> LexA + RecA + degradation , J10_k
+  LexA + RecA -> 2*LexA + RecA , ( -1) * (J10_k)
+  bRecA -> LexA + bRecA , LexAUnbindingRecAPromoter_k
+  bRecA -> 2*bRecA , ( -1) * (LexAUnbindingRecAPromoter_k)
+  bRecA + fluxR -> bRecA + mRecA + fluxR , ( g_mR) * (-(1))
+  bRecA + fluxR -> bRecA + 2*fluxR , ( -1) * (( g_mR) * (-(1)))
+  mRecA -> mRecA + degradation , mRecADegradation_k
+  mRecA -> 2*mRecA , ( -1) * (mRecADegradation_k)
+  mRecA + fluxR -> mRecA + RecA + fluxR , g_R
+  mRecA + fluxR -> mRecA + 2*fluxR , ( -1) * (g_R)
+  RecA -> RecA + degradation , RecADegradation_k
+  RecA -> 2*RecA , ( -1) * (RecADegradation_k)
+  fluxL -> mLexA + fluxL , ( g_mL) * (1.0)
+  fluxL -> 2*fluxL , ( -1) * (( g_mL) * (1.0))
+  fluxR -> mRecA + fluxR , ( g_mR) * (1.0)
+  fluxR -> 2*fluxR , ( -1) * (( g_mR) * (1.0))
+ end reactions
+
+end model
+

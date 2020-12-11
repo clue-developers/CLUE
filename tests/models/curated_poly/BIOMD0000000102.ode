@@ -1,0 +1,153 @@
+begin model BIOMD0000000102
+ begin parameters
+  k1 = 0.002
+  kb1 = 0.1
+  k2 = 5.0E-6
+  k3 = 3.5E-4
+  k4 = 2.0E-4
+  k5 = 2.0E-4
+  k6 = 5.0E-5
+  k7 = 0.0035
+  k8 = 0.002
+  k8b = 0.1
+  k9 = 0.001
+  k9b = 0.001
+  k10 = 0.001
+  k10b = 0.001
+  k11 = 0.001
+  k11b = 0.001
+  k12 = 0.001
+  k12b = 0.001
+  k13 = 0.002
+  k13b = 0.1
+  k14 = 0.002
+  k14b = 0.1
+  k15 = 0.003
+  k15b = 0.001
+  k16 = 0.001
+  k16prod = 0.02
+  k17 = 0.001
+  k17prod = 0.02
+  k18 = 0.001
+  k18prod = 0.04
+  k19 = 0.001
+  k20 = 0.001
+  k21 = 0.001
+  k22 = 0.001
+  k22prod = 0.2
+  k23 = 0.001
+  k24 = 0.001
+  k25 = 0.001
+  k26 = 0.001
+  k27 = 0.001
+  k28 = 0.001
+ end parameters
+ begin init
+  A = 20.0 ( "APAF-1" ) 
+  C9 = 20.0 ( "Caspase 9" ) 
+  C9X ( "Caspase 9-XIAP complex" ) 
+  X = 40.0 ( "XIAP" ) 
+  AC9X ( "APAF-1-Caspase 9-XIAP complex" ) 
+  AC9 ( "APAF-1-Caspase 9 complex" ) 
+  C3 = 200.0 ( "Caspase 3" ) 
+  C3_star ( "Caspase 3 cleaved" ) 
+  C3_starX ( "Caspase 3 cleaved - XIAP complex" ) 
+  C9_starX ( "Caspase 9 cleaved-XIAP complex" ) 
+  C9_star ( "Caspase 9 cleaved" ) 
+  AC9_star ( "APAF-1-Caspase 9 cleaved complex" ) 
+  AC9_starX ( "Apaf-1-Caspase 9 cleaved -XIAP complex" ) 
+  SINK
+  source = 1.0
+ end init
+ begin reactions
+  A + C9 -> A + C9 + AC9 , ( 1.0) * (k1)
+  A + C9 -> A + 2*C9 , ( -1) * (( 1.0) * (k1))
+  A + C9 -> 2*A + C9 , ( -1) * (( 1.0) * (k1))
+  A + C9X -> A + C9X + AC9X , ( 1.0) * (k13)
+  A + C9X -> A + 2*C9X , ( -1) * (( 1.0) * (k13))
+  A + C9X -> 2*A + C9X , ( -1) * (( 1.0) * (k13))
+  A + C9_starX -> A + C9_starX + AC9_starX , ( 1.0) * (k14)
+  A + C9_starX -> A + 2*C9_starX , ( -1) * (( 1.0) * (k14))
+  A + C9_starX -> 2*A + C9_starX , ( -1) * (( 1.0) * (k14))
+  A + C9_star -> A + C9_star + AC9_star , ( 1.0) * (k8)
+  A + C9_star -> A + 2*C9_star , ( -1) * (( 1.0) * (k8))
+  A + C9_star -> 2*A + C9_star , ( -1) * (( 1.0) * (k8))
+  A + source -> 2*A + source , ( 1.0) * (-(k16))
+  C9 + X -> C9 + C9X + X , ( 1.0) * (k9)
+  C9 + X -> C9 + 2*X , ( -1) * (( 1.0) * (k9))
+  C9 + X -> 2*C9 + X , ( -1) * (( 1.0) * (k9))
+  C9 + C3 -> C9 + C3 + C3_star , ( 1.0) * (k2)
+  C9 + C3 -> C9 + 2*C3 , ( -1) * (( 1.0) * (k2))
+  C9 + C3_star -> C9 + C3_star + C9_star , ( 1.0) * (k4)
+  C9 + C3_star -> 2*C9 + C3_star , ( -1) * (( 1.0) * (k4))
+  C9 + source -> 2*C9 + source , ( 1.0) * (-(k17))
+  C9X -> C9 + C9X , ( -1) * (( 1.0) * (-(k9b)))
+  C9X -> C9X + X , ( -1) * (( 1.0) * (-(k9b)))
+  C9X -> C9X + SINK , ( -1) * (( 1.0) * (k19))
+  C9X -> 2*C9X , ( 1.0) * (-(k9b))+( 1.0) * (k19)
+  X + AC9 -> X + AC9X + AC9 , ( 1.0) * (k10)
+  X + AC9 -> X + 2*AC9 , ( -1) * (( 1.0) * (k10))
+  X + AC9 -> 2*X + AC9 , ( -1) * (( 1.0) * (k10))
+  X + C3_star -> X + C3_star + C3_starX , ( 1.0) * (k15)
+  X + C3_star -> X + 2*C3_star , ( -1) * (( 1.0) * (k15))
+  X + C3_star -> 2*X + C3_star , ( -1) * (( 1.0) * (k15))
+  X + C9_star -> X + C9_starX + C9_star , ( 1.0) * (k11)
+  X + C9_star -> X + 2*C9_star , ( -1) * (( 1.0) * (k11))
+  X + C9_star -> 2*X + C9_star , ( -1) * (( 1.0) * (k11))
+  X + AC9_star -> X + AC9_star + AC9_starX , ( 1.0) * (k12)
+  X + AC9_star -> X + 2*AC9_star , ( -1) * (( 1.0) * (k12))
+  X + AC9_star -> 2*X + AC9_star , ( -1) * (( 1.0) * (k12))
+  X + source -> 2*X + source , ( 1.0) * (-(k18))
+  AC9X -> A + AC9X , ( -1) * (( 1.0) * (-(k13b)))
+  AC9X -> C9X + AC9X , ( -1) * (( 1.0) * (-(k13b)))
+  AC9X -> X + AC9X , ( -1) * (( 1.0) * (-(k10b)))
+  AC9X -> AC9X + AC9 , ( -1) * (( 1.0) * (-(k10b)))
+  AC9X -> AC9X + SINK , ( -1) * (( 1.0) * (k20))
+  AC9X -> 2*AC9X , ( 1.0) * (-(k13b))+( 1.0) * (-(k10b))+( 1.0) * (k20)
+  AC9 -> A + AC9 , ( -1) * (( 1.0) * (-(kb1)))
+  AC9 -> C9 + AC9 , ( -1) * (( 1.0) * (-(kb1)))
+  AC9 -> AC9 + SINK , ( -1) * (( 1.0) * (k21))
+  AC9 -> 2*AC9 , ( 1.0) * (-(kb1))+( 1.0) * (k21)
+  AC9 + C3 -> AC9 + C3 + C3_star , ( 1.0) * (k3)
+  AC9 + C3 -> AC9 + 2*C3 , ( -1) * (( 1.0) * (k3))
+  AC9 + C3_star -> AC9 + C3_star + AC9_star , ( 1.0) * (k5)
+  AC9 + C3_star -> 2*AC9 + C3_star , ( -1) * (( 1.0) * (k5))
+  C3 + C9_star -> C3 + C3_star + C9_star , ( 1.0) * (k6)
+  C3 + C9_star -> 2*C3 + C9_star , ( -1) * (( 1.0) * (k6))
+  C3 + AC9_star -> C3 + C3_star + AC9_star , ( 1.0) * (k7)
+  C3 + AC9_star -> 2*C3 + AC9_star , ( -1) * (( 1.0) * (k7))
+  C3 + source -> 2*C3 + source , ( 1.0) * (-(k22))
+  C3_star -> C3_star + SINK , ( -1) * (( 1.0) * (k23))
+  C3_star -> 2*C3_star , ( 1.0) * (k23)
+  C3_starX -> X + C3_starX , ( -1) * (( 1.0) * (-(k15b)))
+  C3_starX -> C3_star + C3_starX , ( -1) * (( 1.0) * (-(k15b)))
+  C3_starX -> C3_starX + SINK , ( -1) * (( 1.0) * (k24))
+  C3_starX -> 2*C3_starX , ( 1.0) * (-(k15b))+( 1.0) * (k24)
+  C9_starX -> X + C9_starX , ( -1) * (( 1.0) * (-(k11b)))
+  C9_starX -> C9_starX + C9_star , ( -1) * (( 1.0) * (-(k11b)))
+  C9_starX -> C9_starX + SINK , ( -1) * (( 1.0) * (k25))
+  C9_starX -> 2*C9_starX , ( 1.0) * (-(k11b))+( 1.0) * (k25)
+  C9_star -> C9_star + SINK , ( -1) * (( 1.0) * (k26))
+  C9_star -> 2*C9_star , ( 1.0) * (k26)
+  AC9_star -> A + AC9_star , ( -1) * (( 1.0) * (-(k8b)))
+  AC9_star -> C9_star + AC9_star , ( -1) * (( 1.0) * (-(k8b)))
+  AC9_star -> AC9_star + SINK , ( -1) * (( 1.0) * (k27))
+  AC9_star -> 2*AC9_star , ( 1.0) * (-(k8b))+( 1.0) * (k27)
+  AC9_starX -> A + AC9_starX , ( -1) * (( 1.0) * (-(k14b)))
+  AC9_starX -> X + AC9_starX , ( -1) * (( 1.0) * (-(k12b)))
+  AC9_starX -> C9_starX + AC9_starX , ( -1) * (( 1.0) * (-(k14b)))
+  AC9_starX -> AC9_star + AC9_starX , ( -1) * (( 1.0) * (-(k12b)))
+  AC9_starX -> AC9_starX + SINK , ( -1) * (( 1.0) * (k28))
+  AC9_starX -> 2*AC9_starX , ( 1.0) * (-(k14b))+( 1.0) * (-(k12b))+( 1.0) * (k28)
+  source -> A + source , ( 1.0) * (k16prod)
+  source -> C9 + source , ( 1.0) * (k17prod)
+  source -> X + source , ( 1.0) * (k18prod)
+  source -> C3 + source , ( 1.0) * (k22prod)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

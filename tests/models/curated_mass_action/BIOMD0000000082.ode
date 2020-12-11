@@ -1,0 +1,28 @@
+begin model BIOMD0000000082
+ begin init
+  agonist = 1.0E-8 ( "D" ) 
+  DR
+  DRG_GDP
+  DRG
+  GDP
+  DRG_GTP
+  GTP = 1.0E-5
+  Recptor = 1.0E-9 ( "R" ) 
+  G_GDP = 1.0E-9
+  G_GTP
+ end init
+ begin reactions
+  agonist + Recptor -> DR , ( 1.0) * (5000000.0) [Forming_forw]
+  DR -> agonist + Recptor , ( -1) * (( 1.0) * (-(0.5))) [Forming_rev]
+  DR + G_GDP -> DRG_GDP , ( 1.0) * (1.0E8) [reaction_1_forw]
+  DRG_GDP -> DR + G_GDP , ( -1) * (( 1.0) * (-(0.1))) [reaction_1_rev]
+  DRG_GDP -> DRG + GDP , ( 1.0) * (0.1) [reaction_2_forw]
+  DRG + GDP -> DRG_GDP , ( -1) * (( 1.0) * (-(100000.0))) [reaction_2_rev]
+  DRG + GTP -> DRG_GTP , ( 1.0) * (1.0E7) [reaction_3_forw]
+  DRG_GTP -> DRG + GTP , ( -1) * (( 1.0) * (-(0.1))) [reaction_3_rev]
+  DRG_GTP -> DR + G_GTP , ( 1.0) * (0.05) [reaction_4_forw]
+  G_GTP -> G_GDP , ( 1.0) * (0.1) [reaction_5_forw]
+ end reactions
+
+end model
+

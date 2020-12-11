@@ -1,0 +1,26 @@
+begin model MODEL4968912141
+ begin init
+  Pi
+  RasGTP = 1.0
+  RasGTP_minus_NF1
+  RasGTP_minus_NF1_star_
+  RasGDP_minus_NF1_Pi
+  RasGDP_NF1
+  RasGDP
+  NF1 = 9.99936338171632
+ end init
+ begin reactions
+  RasGTP_minus_NF1_star_ -> RasGDP_minus_NF1_Pi , 1.02102E-11 [GTP_hydrolysis_sbo_1_sbc__forw]
+  RasGDP_minus_NF1_Pi -> RasGTP_minus_NF1_star_ , ( -1) * (-(1.15192E-13)) [GTP_hydrolysis_sbo_1_sbc__rev]
+  RasGDP_minus_NF1_Pi -> Pi + RasGDP_NF1 , 2.0944E-11 [GTP_hydrolysis_sbo_2_sbc__forw]
+  Pi + RasGDP_NF1 -> RasGDP_minus_NF1_Pi , ( -1) * (-(5.654816288352E-17)) [GTP_hydrolysis_sbo_2_sbc__rev]
+  RasGTP_minus_NF1 -> RasGTP_minus_NF1_star_ , 2.188648E-10 [Ras_activation_forw]
+  RasGTP_minus_NF1_star_ -> RasGTP_minus_NF1 , ( -1) * (-(2.8798E-12)) [Ras_activation_rev]
+  RasGDP_NF1 -> RasGDP + NF1 , 2.43474E-11 [GAP_dissociation_forw]
+  RasGDP + NF1 -> RasGDP_NF1 , ( -1) * (-(6.283184040672E-13)) [GAP_dissociation_rev]
+  RasGTP + NF1 -> RasGTP_minus_NF1 , 6.283184040672E-13 [NF1_binding_forw]
+  RasGTP_minus_NF1 -> RasGTP + NF1 , ( -1) * (-(3.330096E-12)) [NF1_binding_rev]
+ end reactions
+
+end model
+

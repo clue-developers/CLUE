@@ -1,0 +1,104 @@
+begin model BIOMD0000000163
+ begin parameters
+  v_T1R = 0.0103
+  v_T2R = 0.02869
+  ki_EE = 0.33
+  kr_EE = 0.033
+  ki_Cave = 0.33
+  kr_Cave = 0.03742
+  Kcd = 0.005
+  k_LRC = 2197.0
+  Klid = 0.02609
+  Kdeg_T1R_EE = 0.005
+  Kdeg_T2R_EE = 0.025
+  Kimp_Smad2c = 0.16
+  Kexp_Smad2n = 1.0
+  Kimp_Smad4c = 0.08
+  Kexp_Smad4n = 0.5
+  k_Smads_Complex_c = 6.85E-5
+  Kimp_Smads_Complex_c = 0.16
+  Kdiss_Smads_Complex_n = 0.1174
+  Total_Smad2n = 0.0
+  Total_Smad2c = 0.0
+ end parameters
+ begin init
+  Smad2c = 492.61
+  Smad2n = 236.45
+  Smad4c = 1149.4
+  Smad4n = 551.72
+  T1R_Surf = 0.237
+  T1R_Cave = 2.092
+  T1R_EE = 2.06
+  T2R_Surf = 0.202
+  T2R_Cave = 1.778
+  T2R_EE = 1.148
+  LRC_Surf
+  LRC_Cave
+  LRC_EE
+  Smads_Complex_c
+  Smads_Complex_n
+  TGF_beta = 0.08
+  SINK
+  source = 1.0
+ end init
+ begin reactions
+  Smad2c -> Smad2c + Smad2n , ( 0.00105) * (Kimp_Smad2c)
+  Smad2c -> 2*Smad2c , ( -1) * (( 0.00105) * (Kimp_Smad2c))
+  Smad2c + Smad4c + LRC_EE -> Smad2c + Smad4c + LRC_EE + Smads_Complex_c , ( 0.00105) * (k_Smads_Complex_c)
+  Smad2c + Smad4c + LRC_EE -> Smad2c + 2*Smad4c + LRC_EE , ( -1) * (( 0.00105) * (k_Smads_Complex_c))
+  Smad2c + Smad4c + LRC_EE -> 2*Smad2c + Smad4c + LRC_EE , ( -1) * (( 0.00105) * (k_Smads_Complex_c))
+  Smad2n -> Smad2c + Smad2n , ( 3.5E-4) * (Kexp_Smad2n)
+  Smad2n -> 2*Smad2n , ( -1) * (( 3.5E-4) * (Kexp_Smad2n))
+  Smad4c -> Smad4c + Smad4n , ( 0.00105) * (Kimp_Smad4c)
+  Smad4c -> 2*Smad4c , ( -1) * (( 0.00105) * (Kimp_Smad4c))
+  Smad4n -> Smad4c + Smad4n , ( 3.5E-4) * (Kexp_Smad4n)
+  Smad4n -> 2*Smad4n , ( -1) * (( 3.5E-4) * (Kexp_Smad4n))
+  T1R_Surf -> T1R_Surf + T1R_Cave , ( 0.00105) * (ki_Cave)
+  T1R_Surf -> T1R_Surf + T1R_EE , ( 0.00105) * (ki_EE)
+  T1R_Surf -> 2*T1R_Surf , ( -1) * (( 0.00105) * (ki_Cave))+( -1) * (( 0.00105) * (ki_EE))
+  T1R_Surf + T2R_Surf + TGF_beta -> T1R_Surf + T2R_Surf + LRC_Surf + TGF_beta , ( 0.00105) * (k_LRC)
+  T1R_Surf + T2R_Surf + TGF_beta -> T1R_Surf + T2R_Surf + 2*TGF_beta , ( -1) * (( 0.00105) * (k_LRC))
+  T1R_Surf + T2R_Surf + TGF_beta -> T1R_Surf + 2*T2R_Surf + TGF_beta , ( -1) * (( 0.00105) * (k_LRC))
+  T1R_Surf + T2R_Surf + TGF_beta -> 2*T1R_Surf + T2R_Surf + TGF_beta , ( -1) * (( 0.00105) * (k_LRC))
+  T1R_Cave -> T1R_Surf + T1R_Cave , ( 0.00105) * (kr_Cave)
+  T1R_Cave -> 2*T1R_Cave , ( -1) * (( 0.00105) * (kr_Cave))
+  T1R_EE -> T1R_Surf + T1R_EE , ( 0.00105) * (kr_EE)
+  T1R_EE -> T1R_EE + SINK , ( -1) * (( 0.00105) * (Kdeg_T1R_EE))
+  T1R_EE -> 2*T1R_EE , ( -1) * (( 0.00105) * (kr_EE))+( 0.00105) * (Kdeg_T1R_EE)
+  T2R_Surf -> T2R_Surf + T2R_Cave , ( 0.00105) * (ki_Cave)
+  T2R_Surf -> T2R_Surf + T2R_EE , ( 0.00105) * (ki_EE)
+  T2R_Surf -> 2*T2R_Surf , ( -1) * (( 0.00105) * (ki_Cave))+( -1) * (( 0.00105) * (ki_EE))
+  T2R_Cave -> T2R_Surf + T2R_Cave , ( 0.00105) * (kr_Cave)
+  T2R_Cave -> 2*T2R_Cave , ( -1) * (( 0.00105) * (kr_Cave))
+  T2R_EE -> T2R_Surf + T2R_EE , ( 0.00105) * (kr_EE)
+  T2R_EE -> T2R_EE + TGF_beta , ( 0.00105) * (kr_EE)
+  T2R_EE -> T2R_EE + SINK , ( -1) * (( 0.00105) * (Kdeg_T2R_EE))
+  T2R_EE -> 2*T2R_EE , ( -1) * (( 0.00105) * (kr_EE))+( 0.00105) * (Kdeg_T2R_EE)
+  LRC_Surf -> LRC_Surf + LRC_Cave , ( 0.00105) * (ki_Cave)
+  LRC_Surf -> LRC_Surf + LRC_EE , ( 0.00105) * (ki_EE)
+  LRC_Surf -> 2*LRC_Surf , ( -1) * (( 0.00105) * (ki_Cave))+( -1) * (( 0.00105) * (ki_EE))
+  LRC_Cave -> T1R_Surf + LRC_Cave , ( 0.00105) * (kr_Cave)
+  LRC_Cave -> T2R_Surf + LRC_Cave , ( 0.00105) * (kr_Cave)
+  LRC_Cave -> LRC_Cave + TGF_beta , ( 0.00105) * (kr_Cave)
+  LRC_Cave -> 2*LRC_Cave , ( -1) * (( 0.00105) * (kr_Cave))
+  LRC_Cave + Smads_Complex_n -> 2*LRC_Cave + Smads_Complex_n , ( -1) * (( 0.00105) * (Klid))
+  LRC_EE -> T1R_Surf + LRC_EE , ( 0.00105) * (kr_EE)
+  LRC_EE -> T2R_Surf + LRC_EE , ( 0.00105) * (kr_EE)
+  LRC_EE -> LRC_EE + TGF_beta , ( 0.00105) * (kr_EE)
+  LRC_EE -> LRC_EE + SINK , ( -1) * (( 0.00105) * (Kcd))
+  LRC_EE -> 2*LRC_EE , ( -1) * (( 0.00105) * (kr_EE))+( 0.00105) * (Kcd)
+  Smads_Complex_c -> Smads_Complex_c + Smads_Complex_n , ( 0.00105) * (Kimp_Smads_Complex_c)
+  Smads_Complex_c -> 2*Smads_Complex_c , ( -1) * (( 0.00105) * (Kimp_Smads_Complex_c))
+  Smads_Complex_n -> Smad2n + Smads_Complex_n , ( 3.5E-4) * (Kdiss_Smads_Complex_n)
+  Smads_Complex_n -> Smad4n + Smads_Complex_n , ( 3.5E-4) * (Kdiss_Smads_Complex_n)
+  Smads_Complex_n -> 2*Smads_Complex_n , ( -1) * (( 3.5E-4) * (Kdiss_Smads_Complex_n))
+  source -> T1R_Surf + source , ( 0.00105) * (v_T1R)
+  source -> T2R_Surf + source , ( 0.00105) * (v_T2R)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

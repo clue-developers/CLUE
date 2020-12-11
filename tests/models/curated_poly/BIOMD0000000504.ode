@@ -1,0 +1,460 @@
+begin model BIOMD0000000504
+ begin parameters
+  kactMMP13mmp3 = 5.0E-8
+  kactMMP1mat = 1.0E-9
+  kactMMP1mmp3 = 1.0E-8
+  kactMMP3mat = 4.0E-6
+  kAP1activity = 1.0
+  kbincFoscJun = 5.0E-5
+  kbinIL1IL1R = 1.0E-4
+  kbinIL1IL1Ra = 1.0E-4
+  kbinIRAK2 = 5.0E-5
+  kbinOSMOSMR = 1.0E-5
+  kbinOSMOSMRa = 1.0E-4
+  kbinSOCS3OSMR = 0.005
+  kbinSP1TIMP1DNA = 1.0E-5
+  kbinTRAF6 = 1.0E-5
+  kcyt2nucSTAT3 = 0.001
+  kdedimercJun = 0.01
+  kdegADAMTS4 = 5.0E-5
+  kdegADAMTS4mRNA = 1.4E-5
+  kdegAggrecan = 3.0E-8
+  kdegcFos = 2.0E-4
+  kdegcFosmRNA = 0.003
+  kdegcJun = 1.3E-4
+  kdegcJunmRNA = 0.003
+  kdegCollagen2mmp1 = 5.0E-12
+  kdegCollagen2mmp13 = 5.0E-11
+  kdegDUSP16 = 1.3E-4
+  kdegIL1 = 2.0E-4
+  kdegMatriptase = 8.0E-6
+  kdegMKP1 = 1.0E-4
+  kdegMMP1 = 1.0E-6
+  kdegMMP13 = 1.0E-6
+  kdegMMP13mRNA = 6.4E-6
+  kdegMMP1mRNA = 6.4E-6
+  kdegMMP3 = 1.0E-6
+  kdegMMP3mRNA = 6.4E-6
+  kdegOSM = 4.8E-5
+  kdegPP4 = 1.0E-4
+  kdegPTPRT = 5.0E-5
+  kdegSOCS3 = 8.0E-4
+  kdegSOCS3mRNA = 4.0E-4
+  kdegSP1 = 2.0E-5
+  kdegTIMP1 = 2.0E-5
+  kdegTIMP1mRNA = 1.4E-5
+  kdegTIMP3 = 2.0E-5
+  kdegTIMP3mRNA = 1.4E-5
+  kdephoscFos = 1.0E-4
+  kdephoscFosDUSP16 = 1.0E-4
+  kdephoscJun = 0.01
+  kdephosJAK1 = 4.0E-4
+  kdephosJAK1PTPRT = 0.004
+  kdephosJNK = 0.001
+  kdephosJNKDUSP16 = 0.001
+  kdephosp38 = 0.001
+  kdephosp38MKP1 = 1.0E-5
+  kdephosSTAT3 = 1.0E-5
+  kdephosSTAT3nuc = 1.0E-7
+  kdephosSTAT3nucPTPRT = 5.0E-4
+  kdephosSTAT3PTPRT = 8.0E-4
+  kdimercJun = 5.0E-5
+  kinhibADAMTS4TIMP1 = 3.0E-6
+  kinhibADAMTS4TIMP3 = 5.0E-4
+  kinhibMMP13TIMP1 = 3.0E-7
+  kinhibMMP13TIMP3 = 1.0E-8
+  kinhibMMP1TIMP1 = 3.0E-7
+  kinhibMMP1TIMP3 = 1.0E-8
+  kinhibMMP3TIMP1 = 3.0E-7
+  kinhibMMP3TIMP3 = 1.0E-8
+  kinhibTRAF6 = 0.5
+  knuc2cytSTAT3 = 0.001
+  kphoscFos = 5.0E-7
+  kphoscJun = 1.0E-4
+  kphosJAK1 = 1.0E-5
+  kphosJNK = 1.0E-4
+  kphosp38 = 1.0E-4
+  kphosSTAT3 = 0.005
+  krelADAMTS4TIMP1 = 0.001
+  krelADAMTS4TIMP3 = 0.001
+  krelcFoscJun = 4.0E-5
+  krelIL1IL1R = 0.001
+  krelIL1IL1Ra = 1.0E-4
+  krelIRAK2 = 0.001
+  krelMMP1 = 0.001
+  krelMMP13 = 0.001
+  krelMMP13TIMP3 = 0.001
+  krelMMP1TIMP3 = 0.001
+  krelMMP3 = 0.001
+  krelMMP3TIMP3 = 0.001
+  krelOSMOSMR = 1.0E-5
+  krelOSMOSMRa = 1.0E-5
+  krelSOCS3OSMR = 1.0E-5
+  krelSP1TIMP1DNA = 5.0E-6
+  krelTRAF6 = 1.0E-4
+  krelTRAF6PP4 = 1.0E-6
+  ksynADAMTS4 = 5.0E-4
+  ksynADAMTS4mRNA = 5.0E-4
+  ksynADAMTS4mRNAcJun = 4.0E-6
+  ksynbasalcJunmRNA = 0.015
+  ksynbasalTIMP1mRNA = 1.4E-4
+  ksynbasalTIMP3mRNA = 2.8E-4
+  ksyncFos = 0.001
+  ksyncFosmRNA = 5.0E-6
+  ksyncFosmRNAStat3 = 0.05
+  ksyncJun = 0.0026
+  ksyncJunmRNA = 0.0125
+  ksyncJunmRNAcJun = 0.005
+  ksynDUSP16 = 0.005
+  ksynDUSP16cJun = 2.0E-4
+  ksynMatriptase = 9.0E-10
+  ksynMKP1 = 2.5E-5
+  ksynMKP1cJun = 1.0E-6
+  ksynMMP1 = 1.5E-4
+  ksynMMP13 = 1.5E-5
+  ksynMMP13mRNA = 5.0E-4
+  ksynMMP13mRNAcJun = 2.0E-5
+  ksynMMP1mRNA = 0.005
+  ksynMMP1mRNAcJun = 2.0E-4
+  ksynMMP3 = 3.0E-5
+  ksynMMP3mRNA = 0.005
+  ksynMMP3mRNAcJun = 2.0E-4
+  ksynPP4 = 0.005
+  ksynPP4cJun = 2.0E-4
+  ksynPTPRT = 1.0E-4
+  ksynSOCS3 = 0.001
+  ksynSOCS3mRNA = 0.006
+  ksynSP1 = 2.0E-5
+  ksynTIMP1 = 2.0E-4
+  ksynTIMP1mRNA = 5.0E-7
+  ksynTIMP1mRNAStat3 = 4.0E-5
+  ksynTIMP3 = 4.0E-4
+  ksynTIMP3mRNA = 5.0E-7
+  ksynTIMP3mRNAStat3 = 4.0E-5
+ end parameters
+ begin init
+  ADAMTS4_mRNA
+  cFos
+  cFos_mRNA
+  cJun = 100.0
+  cJun_mRNA = 5.0
+  DUSP16
+  IRAK2 = 100.0
+  IRAK2_TRAF6
+  IRAK2_TRAF6_PP4
+  JAK1 = 100.0
+  JAK1_P
+  JNK = 100.0
+  JNK_P
+  Matriptase = 100.0
+  MKP1
+  MMP1_mRNA
+  MMP3_mRNA
+  MMP13_mRNA
+  p38 = 100.0
+  p38_P
+  PP4
+  proMMP1
+  proMMP3
+  proMMP13
+  PTPRT
+  SOCS3
+  SOCS3_mRNA
+  STAT3_cyt = 100.0
+  STAT3_P_cyt
+  TIMP1_mRNA = 20.0
+  TIMP3_mRNA = 20.0
+  TRAF6 = 100.0
+  TRAF6_PP4
+  ADAMTS4
+  ADAMTS4_TIMP1
+  ADAMTS4_TIMP3
+  Aggrecan
+  Aggrecan_Collagen2 = 100000.0
+  AggFrag
+  ColFrag
+  Collagen2
+  IL1 = 100.0
+  MMP1
+  MMP1_TIMP1
+  MMP1_TIMP3
+  MMP3
+  MMP3_TIMP1
+  MMP3_TIMP3
+  MMP13
+  MMP13_TIMP1
+  MMP13_TIMP3
+  OSM = 1000.0
+  TIMP1 = 200.0
+  TIMP3 = 200.0
+  IL1_IL1R
+  IL1_IL1Ra
+  IL1_IL1R_IRAK2
+  IL1R = 100.0
+  IL1Ra
+  OSM_OSMR
+  OSM_OSMRa
+  OSMR_SOCS3
+  OSMR = 100.0
+  OSMRa
+  cFos_cJun
+  cFos_P
+  cJun_P
+  cJun_dimer
+  SP1
+  SP1_TIMP1_DNA
+  STAT3_nuc
+  STAT3_P_nuc
+  TIMP1_DNA = 2.0
+  Source = 1.0
+  Sink = 1.0
+ end init
+ begin reactions
+  ADAMTS4_mRNA -> ADAMTS4_mRNA + ADAMTS4 , ksynADAMTS4
+  ADAMTS4_mRNA -> 2*ADAMTS4_mRNA , ( -1) * (kdegADAMTS4mRNA)
+  cFos -> 2*cFos , ( -1) * (kdegcFos)
+  cFos + p38_P -> cFos + p38_P + cFos_P , kphoscFos
+  cFos + p38_P -> 2*cFos + p38_P , ( -1) * (kphoscFos)
+  cFos_mRNA -> cFos + cFos_mRNA , ksyncFos
+  cFos_mRNA -> 2*cFos_mRNA , ( -1) * (kdegcFosmRNA)
+  cJun -> 2*cJun , ( -1) * (kdegcJun)
+  cJun + JNK_P -> cJun + JNK_P + cJun_P , kphoscJun
+  cJun + JNK_P -> 2*cJun + JNK_P , ( -1) * (kphoscJun)
+  cJun_mRNA -> cJun + cJun_mRNA , ksyncJun
+  cJun_mRNA -> 2*cJun_mRNA , ( -1) * (kdegcJunmRNA)
+  DUSP16 -> 2*DUSP16 , ( -1) * (kdegDUSP16)
+  DUSP16 + JNK_P -> DUSP16 + JNK + JNK_P , kdephosJNKDUSP16
+  DUSP16 + JNK_P -> DUSP16 + 2*JNK_P , ( -1) * (kdephosJNKDUSP16)
+  DUSP16 + cFos_P -> cFos + DUSP16 + cFos_P , kdephoscFosDUSP16
+  DUSP16 + cFos_P -> DUSP16 + 2*cFos_P , ( -1) * (kdephoscFosDUSP16)
+  IRAK2 + IL1_IL1R -> IRAK2 + IL1_IL1R + IL1_IL1R_IRAK2 , kbinIRAK2
+  IRAK2 + IL1_IL1R -> IRAK2 + 2*IL1_IL1R , ( -1) * (kbinIRAK2)
+  IRAK2 + IL1_IL1R -> 2*IRAK2 + IL1_IL1R , ( -1) * (kbinIRAK2)
+  IRAK2_TRAF6 -> IRAK2 + IRAK2_TRAF6 , krelTRAF6
+  IRAK2_TRAF6 -> IRAK2_TRAF6 + TRAF6 , krelTRAF6
+  IRAK2_TRAF6 -> 2*IRAK2_TRAF6 , ( -1) * (krelTRAF6)
+  IRAK2_TRAF6 + JNK -> IRAK2_TRAF6 + JNK + JNK_P , kphosJNK
+  IRAK2_TRAF6 + JNK -> IRAK2_TRAF6 + 2*JNK , ( -1) * (kphosJNK)
+  IRAK2_TRAF6 + p38 -> IRAK2_TRAF6 + p38 + p38_P , kphosp38
+  IRAK2_TRAF6 + p38 -> IRAK2_TRAF6 + 2*p38 , ( -1) * (kphosp38)
+  IRAK2_TRAF6 + PP4 -> IRAK2_TRAF6 + IRAK2_TRAF6_PP4 + PP4 , kinhibTRAF6
+  IRAK2_TRAF6 + PP4 -> IRAK2_TRAF6 + 2*PP4 , ( -1) * (kinhibTRAF6)
+  IRAK2_TRAF6 + PP4 -> 2*IRAK2_TRAF6 + PP4 , ( -1) * (kinhibTRAF6)
+  IRAK2_TRAF6_PP4 -> IRAK2_TRAF6 + IRAK2_TRAF6_PP4 , krelTRAF6PP4
+  IRAK2_TRAF6_PP4 -> IRAK2_TRAF6_PP4 + PP4 , krelTRAF6PP4
+  IRAK2_TRAF6_PP4 -> 2*IRAK2_TRAF6_PP4 , ( -1) * (krelTRAF6PP4)
+  JAK1 + OSM_OSMR -> JAK1 + JAK1_P + OSM_OSMR , kphosJAK1
+  JAK1 + OSM_OSMR -> 2*JAK1 + OSM_OSMR , ( -1) * (kphosJAK1)
+  JAK1_P -> JAK1 + JAK1_P , kdephosJAK1
+  JAK1_P -> 2*JAK1_P , ( -1) * (kdephosJAK1)
+  JAK1_P + PTPRT -> JAK1 + JAK1_P + PTPRT , kdephosJAK1PTPRT
+  JAK1_P + PTPRT -> 2*JAK1_P + PTPRT , ( -1) * (kdephosJAK1PTPRT)
+  JAK1_P + STAT3_cyt -> JAK1_P + STAT3_cyt + STAT3_P_cyt , kphosSTAT3
+  JAK1_P + STAT3_cyt -> JAK1_P + 2*STAT3_cyt , ( -1) * (kphosSTAT3)
+  JNK_P -> JNK + JNK_P , kdephosJNK
+  JNK_P -> 2*JNK_P , ( -1) * (kdephosJNK)
+  Matriptase -> 2*Matriptase , ( -1) * (kdegMatriptase)
+  Matriptase + proMMP1 -> Matriptase + proMMP1 + MMP1 , kactMMP1mat
+  Matriptase + proMMP1 -> Matriptase + 2*proMMP1 , ( -1) * (kactMMP1mat)
+  Matriptase + proMMP3 -> Matriptase + proMMP3 + MMP3 , kactMMP3mat
+  Matriptase + proMMP3 -> Matriptase + 2*proMMP3 , ( -1) * (kactMMP3mat)
+  MKP1 -> 2*MKP1 , ( -1) * (kdegMKP1)
+  MKP1 + p38_P -> MKP1 + p38 + p38_P , kdephosp38MKP1
+  MKP1 + p38_P -> MKP1 + 2*p38_P , ( -1) * (kdephosp38MKP1)
+  MMP1_mRNA -> MMP1_mRNA + proMMP1 , ksynMMP1
+  MMP1_mRNA -> 2*MMP1_mRNA , ( -1) * (kdegMMP1mRNA)
+  MMP3_mRNA -> MMP3_mRNA + proMMP3 , ksynMMP3
+  MMP3_mRNA -> 2*MMP3_mRNA , ( -1) * (kdegMMP3mRNA)
+  MMP13_mRNA -> MMP13_mRNA + proMMP13 , ksynMMP13
+  MMP13_mRNA -> 2*MMP13_mRNA , ( -1) * (kdegMMP13mRNA)
+  p38_P -> p38 + p38_P , kdephosp38
+  p38_P -> 2*p38_P , ( -1) * (kdephosp38)
+  PP4 -> 2*PP4 , ( -1) * (kdegPP4)
+  PP4 + TRAF6 -> PP4 + TRAF6 + TRAF6_PP4 , kinhibTRAF6
+  PP4 + TRAF6 -> PP4 + 2*TRAF6 , ( -1) * (kinhibTRAF6)
+  PP4 + TRAF6 -> 2*PP4 + TRAF6 , ( -1) * (kinhibTRAF6)
+  proMMP1 + MMP3 -> proMMP1 + MMP1 + MMP3 , kactMMP1mmp3
+  proMMP1 + MMP3 -> 2*proMMP1 + MMP3 , ( -1) * (kactMMP1mmp3)
+  proMMP13 + MMP3 -> proMMP13 + MMP3 + MMP13 , kactMMP13mmp3
+  proMMP13 + MMP3 -> 2*proMMP13 + MMP3 , ( -1) * (kactMMP13mmp3)
+  PTPRT -> 2*PTPRT , ( -1) * (kdegPTPRT)
+  PTPRT + STAT3_P_cyt -> PTPRT + STAT3_cyt + STAT3_P_cyt , kdephosSTAT3PTPRT
+  PTPRT + STAT3_P_cyt -> PTPRT + 2*STAT3_P_cyt , ( -1) * (kdephosSTAT3PTPRT)
+  PTPRT + STAT3_P_nuc -> PTPRT + STAT3_nuc + STAT3_P_nuc , kdephosSTAT3nucPTPRT
+  PTPRT + STAT3_P_nuc -> PTPRT + 2*STAT3_P_nuc , ( -1) * (kdephosSTAT3nucPTPRT)
+  SOCS3 -> 2*SOCS3 , ( -1) * (kdegSOCS3)
+  SOCS3 + OSMR -> SOCS3 + OSMR_SOCS3 + OSMR , kbinSOCS3OSMR
+  SOCS3 + OSMR -> SOCS3 + 2*OSMR , ( -1) * (kbinSOCS3OSMR)
+  SOCS3 + OSMR -> 2*SOCS3 + OSMR , ( -1) * (kbinSOCS3OSMR)
+  SOCS3_mRNA -> SOCS3 + SOCS3_mRNA , ksynSOCS3
+  SOCS3_mRNA -> 2*SOCS3_mRNA , ( -1) * (kdegSOCS3mRNA)
+  STAT3_P_cyt -> STAT3_cyt + STAT3_P_cyt , kdephosSTAT3
+  STAT3_P_cyt -> STAT3_P_cyt + STAT3_P_nuc , kcyt2nucSTAT3
+  STAT3_P_cyt -> 2*STAT3_P_cyt , ( -1) * (kcyt2nucSTAT3)+( -1) * (kdephosSTAT3)
+  TIMP1_mRNA -> TIMP1_mRNA + TIMP1 , ksynTIMP1
+  TIMP1_mRNA -> 2*TIMP1_mRNA , ( -1) * (kdegTIMP1mRNA)
+  TIMP3_mRNA -> TIMP3_mRNA + TIMP3 , ksynTIMP3
+  TIMP3_mRNA -> 2*TIMP3_mRNA , ( -1) * (kdegTIMP3mRNA)
+  TRAF6 + IL1_IL1R_IRAK2 -> IRAK2_TRAF6 + TRAF6 + IL1_IL1R_IRAK2 , kbinTRAF6
+  TRAF6 + IL1_IL1R_IRAK2 -> TRAF6 + IL1_IL1R + IL1_IL1R_IRAK2 , kbinTRAF6
+  TRAF6 + IL1_IL1R_IRAK2 -> TRAF6 + 2*IL1_IL1R_IRAK2 , ( -1) * (kbinTRAF6)
+  TRAF6 + IL1_IL1R_IRAK2 -> 2*TRAF6 + IL1_IL1R_IRAK2 , ( -1) * (kbinTRAF6)
+  TRAF6_PP4 -> PP4 + TRAF6_PP4 , krelTRAF6PP4
+  TRAF6_PP4 -> TRAF6 + TRAF6_PP4 , krelTRAF6PP4
+  TRAF6_PP4 -> 2*TRAF6_PP4 , ( -1) * (krelTRAF6PP4)
+  ADAMTS4 -> 2*ADAMTS4 , ( -1) * (kdegADAMTS4)
+  ADAMTS4 + Aggrecan_Collagen2 -> ADAMTS4 + Aggrecan_Collagen2 + AggFrag , kdegAggrecan
+  ADAMTS4 + Aggrecan_Collagen2 -> ADAMTS4 + Aggrecan_Collagen2 + Collagen2 , kdegAggrecan
+  ADAMTS4 + Aggrecan_Collagen2 -> ADAMTS4 + 2*Aggrecan_Collagen2 , ( -1) * (kdegAggrecan)
+  ADAMTS4 + TIMP1 -> ADAMTS4 + ADAMTS4_TIMP1 + TIMP1 , kinhibADAMTS4TIMP1
+  ADAMTS4 + TIMP1 -> ADAMTS4 + 2*TIMP1 , ( -1) * (kinhibADAMTS4TIMP1)
+  ADAMTS4 + TIMP1 -> 2*ADAMTS4 + TIMP1 , ( -1) * (kinhibADAMTS4TIMP1)
+  ADAMTS4 + TIMP3 -> ADAMTS4 + ADAMTS4_TIMP3 + TIMP3 , kinhibADAMTS4TIMP3
+  ADAMTS4 + TIMP3 -> ADAMTS4 + 2*TIMP3 , ( -1) * (kinhibADAMTS4TIMP3)
+  ADAMTS4 + TIMP3 -> 2*ADAMTS4 + TIMP3 , ( -1) * (kinhibADAMTS4TIMP3)
+  ADAMTS4_TIMP1 -> ADAMTS4 + ADAMTS4_TIMP1 , krelADAMTS4TIMP1
+  ADAMTS4_TIMP1 -> ADAMTS4_TIMP1 + TIMP1 , krelADAMTS4TIMP1
+  ADAMTS4_TIMP1 -> 2*ADAMTS4_TIMP1 , ( -1) * (krelADAMTS4TIMP1)
+  ADAMTS4_TIMP3 -> ADAMTS4 + ADAMTS4_TIMP3 , krelADAMTS4TIMP3
+  ADAMTS4_TIMP3 -> ADAMTS4_TIMP3 + TIMP3 , krelADAMTS4TIMP3
+  ADAMTS4_TIMP3 -> 2*ADAMTS4_TIMP3 , ( -1) * (krelADAMTS4TIMP3)
+  Collagen2 + MMP1 -> ColFrag + Collagen2 + MMP1 , kdegCollagen2mmp1
+  Collagen2 + MMP1 -> 2*Collagen2 + MMP1 , ( -1) * (kdegCollagen2mmp1)
+  Collagen2 + MMP13 -> ColFrag + Collagen2 + MMP13 , kdegCollagen2mmp13
+  Collagen2 + MMP13 -> 2*Collagen2 + MMP13 , ( -1) * (kdegCollagen2mmp13)
+  IL1 -> 2*IL1 , ( -1) * (kdegIL1)
+  IL1 + IL1R -> IL1 + IL1_IL1R + IL1R , kbinIL1IL1R
+  IL1 + IL1R -> IL1 + 2*IL1R , ( -1) * (kbinIL1IL1R)
+  IL1 + IL1R -> 2*IL1 + IL1R , ( -1) * (kbinIL1IL1R)
+  IL1 + IL1Ra -> IL1 + IL1_IL1Ra + IL1Ra , kbinIL1IL1Ra
+  IL1 + IL1Ra -> IL1 + 2*IL1Ra , ( -1) * (kbinIL1IL1Ra)
+  IL1 + IL1Ra -> 2*IL1 + IL1Ra , ( -1) * (kbinIL1IL1Ra)
+  MMP1 -> 2*MMP1 , ( -1) * (kdegMMP1)
+  MMP1 + TIMP1 -> MMP1 + MMP1_TIMP1 + TIMP1 , kinhibMMP1TIMP1
+  MMP1 + TIMP1 -> MMP1 + 2*TIMP1 , ( -1) * (kinhibMMP1TIMP1)
+  MMP1 + TIMP1 -> 2*MMP1 + TIMP1 , ( -1) * (kinhibMMP1TIMP1)
+  MMP1 + TIMP3 -> MMP1 + MMP1_TIMP3 + TIMP3 , kinhibMMP1TIMP3
+  MMP1 + TIMP3 -> MMP1 + 2*TIMP3 , ( -1) * (kinhibMMP1TIMP3)
+  MMP1 + TIMP3 -> 2*MMP1 + TIMP3 , ( -1) * (kinhibMMP1TIMP3)
+  MMP1_TIMP1 -> MMP1 + MMP1_TIMP1 , krelMMP1
+  MMP1_TIMP1 -> MMP1_TIMP1 + TIMP1 , krelMMP1
+  MMP1_TIMP1 -> 2*MMP1_TIMP1 , ( -1) * (krelMMP1)
+  MMP1_TIMP3 -> MMP1 + MMP1_TIMP3 , krelMMP1TIMP3
+  MMP1_TIMP3 -> MMP1_TIMP3 + TIMP3 , krelMMP1TIMP3
+  MMP1_TIMP3 -> 2*MMP1_TIMP3 , ( -1) * (krelMMP1TIMP3)
+  MMP3 -> 2*MMP3 , ( -1) * (kdegMMP3)
+  MMP3 + TIMP1 -> MMP3 + MMP3_TIMP1 + TIMP1 , kinhibMMP3TIMP1
+  MMP3 + TIMP1 -> MMP3 + 2*TIMP1 , ( -1) * (kinhibMMP3TIMP1)
+  MMP3 + TIMP1 -> 2*MMP3 + TIMP1 , ( -1) * (kinhibMMP3TIMP1)
+  MMP3 + TIMP3 -> MMP3 + MMP3_TIMP3 + TIMP3 , kinhibMMP3TIMP3
+  MMP3 + TIMP3 -> MMP3 + 2*TIMP3 , ( -1) * (kinhibMMP3TIMP3)
+  MMP3 + TIMP3 -> 2*MMP3 + TIMP3 , ( -1) * (kinhibMMP3TIMP3)
+  MMP3_TIMP1 -> MMP3 + MMP3_TIMP1 , krelMMP3
+  MMP3_TIMP1 -> MMP3_TIMP1 + TIMP1 , krelMMP3
+  MMP3_TIMP1 -> 2*MMP3_TIMP1 , ( -1) * (krelMMP3)
+  MMP3_TIMP3 -> MMP3 + MMP3_TIMP3 , krelMMP3TIMP3
+  MMP3_TIMP3 -> MMP3_TIMP3 + TIMP3 , krelMMP3TIMP3
+  MMP3_TIMP3 -> 2*MMP3_TIMP3 , ( -1) * (krelMMP3TIMP3)
+  MMP13 -> 2*MMP13 , ( -1) * (kdegMMP13)
+  MMP13 + TIMP1 -> MMP13 + MMP13_TIMP1 + TIMP1 , kinhibMMP13TIMP1
+  MMP13 + TIMP1 -> MMP13 + 2*TIMP1 , ( -1) * (kinhibMMP13TIMP1)
+  MMP13 + TIMP1 -> 2*MMP13 + TIMP1 , ( -1) * (kinhibMMP13TIMP1)
+  MMP13 + TIMP3 -> MMP13 + MMP13_TIMP3 + TIMP3 , kinhibMMP13TIMP3
+  MMP13 + TIMP3 -> MMP13 + 2*TIMP3 , ( -1) * (kinhibMMP13TIMP3)
+  MMP13 + TIMP3 -> 2*MMP13 + TIMP3 , ( -1) * (kinhibMMP13TIMP3)
+  MMP13_TIMP1 -> MMP13 + MMP13_TIMP1 , krelMMP13
+  MMP13_TIMP1 -> MMP13_TIMP1 + TIMP1 , krelMMP13
+  MMP13_TIMP1 -> 2*MMP13_TIMP1 , ( -1) * (krelMMP13)
+  MMP13_TIMP3 -> MMP13 + MMP13_TIMP3 , krelMMP13TIMP3
+  MMP13_TIMP3 -> MMP13_TIMP3 + TIMP3 , krelMMP13TIMP3
+  MMP13_TIMP3 -> 2*MMP13_TIMP3 , ( -1) * (krelMMP13TIMP3)
+  OSM -> 2*OSM , ( -1) * (kdegOSM)
+  OSM + OSMR -> OSM + OSM_OSMR + OSMR , kbinOSMOSMR
+  OSM + OSMR -> OSM + 2*OSMR , ( -1) * (kbinOSMOSMR)
+  OSM + OSMR -> 2*OSM + OSMR , ( -1) * (kbinOSMOSMR)
+  OSM + OSMRa -> OSM + OSM_OSMRa + OSMRa , kbinOSMOSMRa
+  OSM + OSMRa -> OSM + 2*OSMRa , ( -1) * (kbinOSMOSMRa)
+  OSM + OSMRa -> 2*OSM + OSMRa , ( -1) * (kbinOSMOSMRa)
+  TIMP1 -> 2*TIMP1 , ( -1) * (kdegTIMP1)
+  TIMP3 -> 2*TIMP3 , ( -1) * (kdegTIMP3)
+  IL1_IL1R -> IL1 + IL1_IL1R , krelIL1IL1R
+  IL1_IL1R -> IL1_IL1R + IL1R , krelIL1IL1R
+  IL1_IL1R -> 2*IL1_IL1R , ( -1) * (krelIL1IL1R)
+  IL1_IL1Ra -> IL1 + IL1_IL1Ra , krelIL1IL1Ra
+  IL1_IL1Ra -> IL1_IL1Ra + IL1Ra , krelIL1IL1Ra
+  IL1_IL1Ra -> 2*IL1_IL1Ra , ( -1) * (krelIL1IL1Ra)
+  IL1_IL1R_IRAK2 -> IRAK2 + IL1_IL1R_IRAK2 , krelIRAK2
+  IL1_IL1R_IRAK2 -> IL1_IL1R + IL1_IL1R_IRAK2 , krelIRAK2
+  IL1_IL1R_IRAK2 -> 2*IL1_IL1R_IRAK2 , ( -1) * (krelIRAK2)
+  OSM_OSMR -> OSM + OSM_OSMR , krelOSMOSMR
+  OSM_OSMR -> OSM_OSMR + OSMR , krelOSMOSMR
+  OSM_OSMR -> 2*OSM_OSMR , ( -1) * (krelOSMOSMR)
+  OSM_OSMRa -> OSM + OSM_OSMRa , krelOSMOSMRa
+  OSM_OSMRa -> OSM_OSMRa + OSMRa , krelOSMOSMRa
+  OSM_OSMRa -> 2*OSM_OSMRa , ( -1) * (krelOSMOSMRa)
+  OSMR_SOCS3 -> SOCS3 + OSMR_SOCS3 , krelSOCS3OSMR
+  OSMR_SOCS3 -> OSMR_SOCS3 + OSMR , krelSOCS3OSMR
+  OSMR_SOCS3 -> 2*OSMR_SOCS3 , ( -1) * (krelSOCS3OSMR)
+  cFos_cJun -> ADAMTS4_mRNA + cFos_cJun , ( ksynADAMTS4mRNA) * (kAP1activity)
+  cFos_cJun -> cFos_mRNA + cFos_cJun , ( ksyncFosmRNA) * (kAP1activity)
+  cFos_cJun -> cJun_mRNA + cFos_cJun , ( ksyncJunmRNA) * (kAP1activity)
+  cFos_cJun -> DUSP16 + cFos_cJun , ( ksynDUSP16) * (kAP1activity)
+  cFos_cJun -> Matriptase + cFos_cJun , ( ksynMatriptase) * (kAP1activity)
+  cFos_cJun -> MKP1 + cFos_cJun , ( ksynMKP1) * (kAP1activity)
+  cFos_cJun -> MMP1_mRNA + cFos_cJun , ( ksynMMP1mRNA) * (kAP1activity)
+  cFos_cJun -> MMP3_mRNA + cFos_cJun , ( ksynMMP3mRNA) * (kAP1activity)
+  cFos_cJun -> MMP13_mRNA + cFos_cJun , ( ksynMMP13mRNA) * (kAP1activity)
+  cFos_cJun -> PP4 + cFos_cJun , ( ksynPP4) * (kAP1activity)
+  cFos_cJun -> TIMP3_mRNA + cFos_cJun , ( ksynTIMP3mRNA) * (kAP1activity)
+  cFos_cJun -> cFos_cJun + cFos_P , krelcFoscJun
+  cFos_cJun -> cFos_cJun + cJun_P , krelcFoscJun
+  cFos_cJun -> cFos_cJun + SP1 , ( ksynSP1) * (kAP1activity)
+  cFos_cJun -> 2*cFos_cJun , ( -1) * (krelcFoscJun)
+  cFos_cJun + TIMP1_DNA -> TIMP1_mRNA + cFos_cJun + TIMP1_DNA , ( ksynTIMP1mRNA) * (kAP1activity)
+  cFos_P -> cFos + cFos_P , kdephoscFos
+  cFos_P -> 2*cFos_P , ( -1) * (kdephoscFos)
+  cFos_P + cJun_P -> cFos_cJun + cFos_P + cJun_P , kbincFoscJun
+  cFos_P + cJun_P -> cFos_P + 2*cJun_P , ( -1) * (kbincFoscJun)
+  cFos_P + cJun_P -> 2*cFos_P + cJun_P , ( -1) * (kbincFoscJun)
+  cJun_P -> cJun + cJun_P , kdephoscJun
+  cJun_P -> cJun_P + cJun_dimer , ( ( kdimercJun) * (-(1.0))) * (0.5)
+  cJun_P -> 2*cJun_P , ( -1) * (kdephoscJun)+( -2) * (( ( kdimercJun) * (-(1.0))) * (0.5))
+  2*cJun_P -> 2*cJun_P + cJun_dimer , ( kdimercJun) * (0.5)
+  2*cJun_P -> 3*cJun_P , ( -2) * (( kdimercJun) * (0.5))
+  cJun_dimer -> ADAMTS4_mRNA + cJun_dimer , ksynADAMTS4mRNAcJun
+  cJun_dimer -> cJun_mRNA + cJun_dimer , ksyncJunmRNAcJun
+  cJun_dimer -> DUSP16 + cJun_dimer , ksynDUSP16cJun
+  cJun_dimer -> MKP1 + cJun_dimer , ksynMKP1cJun
+  cJun_dimer -> MMP1_mRNA + cJun_dimer , ksynMMP1mRNAcJun
+  cJun_dimer -> MMP3_mRNA + cJun_dimer , ksynMMP3mRNAcJun
+  cJun_dimer -> MMP13_mRNA + cJun_dimer , ksynMMP13mRNAcJun
+  cJun_dimer -> PP4 + cJun_dimer , ksynPP4cJun
+  cJun_dimer -> cJun_P + cJun_dimer , ( 2) * (kdedimercJun)
+  cJun_dimer -> 2*cJun_dimer , ( -1) * (kdedimercJun)
+  SP1 -> 2*SP1 , ( -1) * (kdegSP1)
+  SP1 + TIMP1_DNA -> SP1 + SP1_TIMP1_DNA + TIMP1_DNA , kbinSP1TIMP1DNA
+  SP1 + TIMP1_DNA -> SP1 + 2*TIMP1_DNA , ( -1) * (kbinSP1TIMP1DNA)
+  SP1 + TIMP1_DNA -> 2*SP1 + TIMP1_DNA , ( -1) * (kbinSP1TIMP1DNA)
+  SP1_TIMP1_DNA -> SP1 + SP1_TIMP1_DNA , krelSP1TIMP1DNA
+  SP1_TIMP1_DNA -> SP1_TIMP1_DNA + TIMP1_DNA , krelSP1TIMP1DNA
+  SP1_TIMP1_DNA -> 2*SP1_TIMP1_DNA , ( -1) * (krelSP1TIMP1DNA)
+  STAT3_nuc -> STAT3_cyt + STAT3_nuc , knuc2cytSTAT3
+  STAT3_nuc -> 2*STAT3_nuc , ( -1) * (knuc2cytSTAT3)
+  STAT3_P_nuc -> cFos_mRNA + STAT3_P_nuc , ksyncFosmRNAStat3
+  STAT3_P_nuc -> PTPRT + STAT3_P_nuc , ksynPTPRT
+  STAT3_P_nuc -> SOCS3_mRNA + STAT3_P_nuc , ksynSOCS3mRNA
+  STAT3_P_nuc -> TIMP3_mRNA + STAT3_P_nuc , ( ksynTIMP3mRNAStat3) * (kAP1activity)
+  STAT3_P_nuc -> STAT3_nuc + STAT3_P_nuc , kdephosSTAT3nuc
+  STAT3_P_nuc -> 2*STAT3_P_nuc , ( -1) * (kdephosSTAT3nuc)
+  STAT3_P_nuc + TIMP1_DNA -> TIMP1_mRNA + STAT3_P_nuc + TIMP1_DNA , ksynTIMP1mRNAStat3
+  TIMP1_DNA -> TIMP1_mRNA + TIMP1_DNA , ksynbasalTIMP1mRNA
+  Source -> cJun_mRNA + Source , ksynbasalcJunmRNA
+  Source -> TIMP3_mRNA + Source , ksynbasalTIMP3mRNA
+ end reactions
+
+//Comments associated to the species
+//Sink:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

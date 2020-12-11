@@ -1,0 +1,71 @@
+begin model MODEL9086628127
+ begin init
+  Membrane_slash_PP1_minus_active = 0.333333333333333
+  Membrane_slash_PP1_minus_active_slash_PP1_slash_PP1_cplx
+  Membrane_slash_PP1_minus_active_slash_PP1_sbo_1_sbc__slash_PP1_sbo_1_sbc__cplx
+  Membrane_slash_MR_star_
+  Membrane_slash_MR
+  Membrane_slash_MR_star__star_
+  Internal_slash_IR_star__star_
+  Internal_slash_IR
+  Internal_slash_IR_star_
+  PKA_minus_active_slash_memb_minus_PKA_minus_act_slash_memb_minus_PKA_minus_act_cplx
+  PKA_minus_active_slash_internal_minus_PKA_minus_act_slash_internal_minus_PKA_minus_act_cplx
+  PKA_minus_active_slash_memb_minus_PKA_minus_act_sbo_1_sbc__slash_memb_minus_PKA_minus_act_sbo_1_sbc__cplx
+  PKA_minus_active_slash_internal_minus_PKA_minus_act_sbo_1_sbc__slash_internal_minus_PKA_minus_act_sbo_1_sbc__cplx
+  Anchor = 27.3333333333333
+  PKA_minus_active = 0.0185185185185185
+  Bulk_AMPAR = 0.003
+ end init
+ begin reactions
+  Membrane_slash_PP1_minus_active + Membrane_slash_MR_star_ -> Membrane_slash_PP1_minus_active + Membrane_slash_PP1_minus_active_slash_PP1_slash_PP1_cplx + Membrane_slash_MR_star_ , 1.75002E-17
+  Membrane_slash_PP1_minus_active + Membrane_slash_MR_star_ -> Membrane_slash_PP1_minus_active + 2*Membrane_slash_MR_star_ , ( -1) * (1.75002E-17)
+  Membrane_slash_PP1_minus_active + Membrane_slash_MR_star_ -> 2*Membrane_slash_PP1_minus_active + Membrane_slash_MR_star_ , ( -1) * (1.75002E-17)
+  Membrane_slash_PP1_minus_active + Membrane_slash_MR_star__star_ -> Membrane_slash_PP1_minus_active + Membrane_slash_PP1_minus_active_slash_PP1_sbo_1_sbc__slash_PP1_sbo_1_sbc__cplx + Membrane_slash_MR_star__star_ , 1.75002E-17
+  Membrane_slash_PP1_minus_active + Membrane_slash_MR_star__star_ -> Membrane_slash_PP1_minus_active + 2*Membrane_slash_MR_star__star_ , ( -1) * (1.75002E-17)
+  Membrane_slash_PP1_minus_active + Membrane_slash_MR_star__star_ -> 2*Membrane_slash_PP1_minus_active + Membrane_slash_MR_star__star_ , ( -1) * (1.75002E-17)
+  Membrane_slash_PP1_minus_active_slash_PP1_slash_PP1_cplx -> Membrane_slash_PP1_minus_active + Membrane_slash_PP1_minus_active_slash_PP1_slash_PP1_cplx , 3.5E-18+( -1) * (-(1.4E-17))
+  Membrane_slash_PP1_minus_active_slash_PP1_slash_PP1_cplx -> Membrane_slash_PP1_minus_active_slash_PP1_slash_PP1_cplx + Membrane_slash_MR_star_ , ( -1) * (-(1.4E-17))
+  Membrane_slash_PP1_minus_active_slash_PP1_slash_PP1_cplx -> Membrane_slash_PP1_minus_active_slash_PP1_slash_PP1_cplx + Membrane_slash_MR , 3.5E-18
+  Membrane_slash_PP1_minus_active_slash_PP1_slash_PP1_cplx -> 2*Membrane_slash_PP1_minus_active_slash_PP1_slash_PP1_cplx , -(1.4E-17)+( -1) * (3.5E-18)
+  Membrane_slash_PP1_minus_active_slash_PP1_sbo_1_sbc__slash_PP1_sbo_1_sbc__cplx -> Membrane_slash_PP1_minus_active + Membrane_slash_PP1_minus_active_slash_PP1_sbo_1_sbc__slash_PP1_sbo_1_sbc__cplx , 3.5E-18+( -1) * (-(1.4E-17))
+  Membrane_slash_PP1_minus_active_slash_PP1_sbo_1_sbc__slash_PP1_sbo_1_sbc__cplx -> Membrane_slash_PP1_minus_active_slash_PP1_sbo_1_sbc__slash_PP1_sbo_1_sbc__cplx + Membrane_slash_MR_star_ , 3.5E-18
+  Membrane_slash_PP1_minus_active_slash_PP1_sbo_1_sbc__slash_PP1_sbo_1_sbc__cplx -> Membrane_slash_PP1_minus_active_slash_PP1_sbo_1_sbc__slash_PP1_sbo_1_sbc__cplx + Membrane_slash_MR_star__star_ , ( -1) * (-(1.4E-17))
+  Membrane_slash_PP1_minus_active_slash_PP1_sbo_1_sbc__slash_PP1_sbo_1_sbc__cplx -> 2*Membrane_slash_PP1_minus_active_slash_PP1_sbo_1_sbc__slash_PP1_sbo_1_sbc__cplx , -(1.4E-17)+( -1) * (3.5E-18)
+  Membrane_slash_MR_star_ + PKA_minus_active -> Membrane_slash_MR_star_ + PKA_minus_active_slash_memb_minus_PKA_minus_act_sbo_1_sbc__slash_memb_minus_PKA_minus_act_sbo_1_sbc__cplx + PKA_minus_active , 8.0001E-17
+  Membrane_slash_MR_star_ + PKA_minus_active -> 2*Membrane_slash_MR_star_ + PKA_minus_active , ( -1) * (8.0001E-17)
+  Membrane_slash_MR -> Membrane_slash_MR + Internal_slash_IR , 8.0E-21
+  Membrane_slash_MR -> Membrane_slash_MR + Anchor , 8.0E-21
+  Membrane_slash_MR -> 2*Membrane_slash_MR , ( -1) * (8.0E-21)
+  Membrane_slash_MR + PKA_minus_active -> Membrane_slash_MR + PKA_minus_active_slash_memb_minus_PKA_minus_act_slash_memb_minus_PKA_minus_act_cplx + PKA_minus_active , 8.0001E-17
+  Membrane_slash_MR + PKA_minus_active -> 2*Membrane_slash_MR + PKA_minus_active , ( -1) * (8.0001E-17)
+  Membrane_slash_MR_star__star_ -> Membrane_slash_MR_star__star_ + Internal_slash_IR_star__star_ , ( -1) * (-(8.0E-20))
+  Membrane_slash_MR_star__star_ -> Membrane_slash_MR_star__star_ + Anchor , ( -1) * (-(8.0E-20))
+  Membrane_slash_MR_star__star_ -> 2*Membrane_slash_MR_star__star_ , -(8.0E-20)
+  Internal_slash_IR_star__star_ -> 2*Internal_slash_IR_star__star_ , ( -1) * (1.8E-21)
+  Internal_slash_IR_star__star_ + Anchor -> Membrane_slash_MR_star__star_ + Internal_slash_IR_star__star_ + Anchor , 1.08E-19
+  Internal_slash_IR_star__star_ + Anchor -> Internal_slash_IR_star__star_ + 2*Anchor , ( -1) * (1.08E-19)
+  Internal_slash_IR_star__star_ + Anchor -> 2*Internal_slash_IR_star__star_ + Anchor , ( -1) * (1.08E-19)
+  Internal_slash_IR -> 2*Internal_slash_IR , -(9.0E-17)
+  Internal_slash_IR + PKA_minus_active -> Internal_slash_IR + PKA_minus_active_slash_internal_minus_PKA_minus_act_slash_internal_minus_PKA_minus_act_cplx + PKA_minus_active , 7.20009E-16
+  Internal_slash_IR + PKA_minus_active -> 2*Internal_slash_IR + PKA_minus_active , ( -1) * (7.20009E-16)
+  Internal_slash_IR_star_ -> 2*Internal_slash_IR_star_ , ( -1) * (1.8E-21)
+  Internal_slash_IR_star_ + PKA_minus_active -> Internal_slash_IR_star_ + PKA_minus_active_slash_internal_minus_PKA_minus_act_sbo_1_sbc__slash_internal_minus_PKA_minus_act_sbo_1_sbc__cplx + PKA_minus_active , 7.20009E-16
+  Internal_slash_IR_star_ + PKA_minus_active -> 2*Internal_slash_IR_star_ + PKA_minus_active , ( -1) * (7.20009E-16)
+  PKA_minus_active_slash_memb_minus_PKA_minus_act_slash_memb_minus_PKA_minus_act_cplx -> Membrane_slash_MR_star_ + PKA_minus_active_slash_memb_minus_PKA_minus_act_slash_memb_minus_PKA_minus_act_cplx , 5.4E-16
+  PKA_minus_active_slash_memb_minus_PKA_minus_act_slash_memb_minus_PKA_minus_act_cplx -> Membrane_slash_MR + PKA_minus_active_slash_memb_minus_PKA_minus_act_slash_memb_minus_PKA_minus_act_cplx , ( -1) * (-(2.16E-15))
+  PKA_minus_active_slash_memb_minus_PKA_minus_act_slash_memb_minus_PKA_minus_act_cplx -> 2*PKA_minus_active_slash_memb_minus_PKA_minus_act_slash_memb_minus_PKA_minus_act_cplx , -(2.16E-15)+( -1) * (5.4E-16)
+  PKA_minus_active_slash_internal_minus_PKA_minus_act_slash_internal_minus_PKA_minus_act_cplx -> Internal_slash_IR + PKA_minus_active_slash_internal_minus_PKA_minus_act_slash_internal_minus_PKA_minus_act_cplx , ( -1) * (-(2.16E-15))
+  PKA_minus_active_slash_internal_minus_PKA_minus_act_slash_internal_minus_PKA_minus_act_cplx -> Internal_slash_IR_star_ + PKA_minus_active_slash_internal_minus_PKA_minus_act_slash_internal_minus_PKA_minus_act_cplx , 5.4E-16
+  PKA_minus_active_slash_internal_minus_PKA_minus_act_slash_internal_minus_PKA_minus_act_cplx -> 2*PKA_minus_active_slash_internal_minus_PKA_minus_act_slash_internal_minus_PKA_minus_act_cplx , -(2.16E-15)+( -1) * (5.4E-16)
+  PKA_minus_active_slash_memb_minus_PKA_minus_act_sbo_1_sbc__slash_memb_minus_PKA_minus_act_sbo_1_sbc__cplx -> Membrane_slash_MR_star_ + PKA_minus_active_slash_memb_minus_PKA_minus_act_sbo_1_sbc__slash_memb_minus_PKA_minus_act_sbo_1_sbc__cplx , ( -1) * (-(2.16E-15))
+  PKA_minus_active_slash_memb_minus_PKA_minus_act_sbo_1_sbc__slash_memb_minus_PKA_minus_act_sbo_1_sbc__cplx -> Membrane_slash_MR_star__star_ + PKA_minus_active_slash_memb_minus_PKA_minus_act_sbo_1_sbc__slash_memb_minus_PKA_minus_act_sbo_1_sbc__cplx , 5.4E-16
+  PKA_minus_active_slash_memb_minus_PKA_minus_act_sbo_1_sbc__slash_memb_minus_PKA_minus_act_sbo_1_sbc__cplx -> 2*PKA_minus_active_slash_memb_minus_PKA_minus_act_sbo_1_sbc__slash_memb_minus_PKA_minus_act_sbo_1_sbc__cplx , -(2.16E-15)+( -1) * (5.4E-16)
+  PKA_minus_active_slash_internal_minus_PKA_minus_act_sbo_1_sbc__slash_internal_minus_PKA_minus_act_sbo_1_sbc__cplx -> Internal_slash_IR_star__star_ + PKA_minus_active_slash_internal_minus_PKA_minus_act_sbo_1_sbc__slash_internal_minus_PKA_minus_act_sbo_1_sbc__cplx , 5.4E-16
+  PKA_minus_active_slash_internal_minus_PKA_minus_act_sbo_1_sbc__slash_internal_minus_PKA_minus_act_sbo_1_sbc__cplx -> Internal_slash_IR_star_ + PKA_minus_active_slash_internal_minus_PKA_minus_act_sbo_1_sbc__slash_internal_minus_PKA_minus_act_sbo_1_sbc__cplx , ( -1) * (-(2.16E-15))
+  PKA_minus_active_slash_internal_minus_PKA_minus_act_sbo_1_sbc__slash_internal_minus_PKA_minus_act_sbo_1_sbc__cplx -> 2*PKA_minus_active_slash_internal_minus_PKA_minus_act_sbo_1_sbc__slash_internal_minus_PKA_minus_act_sbo_1_sbc__cplx , -(2.16E-15)+( -1) * (5.4E-16)
+  Bulk_AMPAR -> Internal_slash_IR + Bulk_AMPAR , 9.0E-17
+ end reactions
+
+end model
+

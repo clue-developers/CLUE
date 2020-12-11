@@ -9,17 +9,18 @@ from sympy import QQ
 from sympy.core.compatibility import exec_
 
 from sparse_polynomial import SparsePolynomial, to_rational
+from rational_function import RationalFunction
 
 #------------------------------------------------------------------------------
 
 def readfile(name):
     """
-    Reads a file and removes C-style comments
+    Reads a file and removes C-style comments and []-type comments
     """
     f = open(name)
     s = f.read()
     f.close()
-    return comment_remover(s)
+    return bracket_comment_remover(comment_remover(s))
 
 #------------------------------------------------------------------------------
 
@@ -36,6 +37,9 @@ def comment_remover(text):
         re.DOTALL | re.MULTILINE
     )
     return re.sub(pattern, replacer, text)
+
+def bracket_comment_remover(text):
+    return re.sub('\[[^\[\]]*\]', '', text)
 
 #------------------------------------------------------------------------------
 
@@ -165,17 +169,25 @@ def parse_reactions(lines, varnames):
         lhs, rhs = reaction.split("->")
         raw_reactions.append((lhs.strip(), rhs.strip(), rate.strip()))
         
-    eqs = {v : SparsePolynomial(varnames, QQ) for v in varnames}
+    # eqs = {v : SparsePolynomial(varnames, QQ) for v in varnames}
+    eqs = {v : RationalFunction(SparsePolynomial(varnames, QQ),SparsePolynomial.from_string("1", varnames, var_to_ind)) for v in varnames}
     for lhs, rhs, rate in raw_reactions:
-        rate_poly = SparsePolynomial.from_string(rate, varnames, var_to_ind)
+        # print()
+        # print(rate)
+        # rate_poly = SparsePolynomial.from_string(rate, varnames, var_to_ind)
+        rate_poly = RationalFunction.from_string(rate, varnames, var_to_ind)
         ldict = species_to_multiset(lhs)
         rdict = species_to_multiset(rhs)
         monomial = tuple((var_to_ind[v], mult) for v, mult in ldict.items())
         reaction_poly = rate_poly * SparsePolynomial(varnames, QQ, {monomial : QQ(1)})
+        # print(reaction_poly)
+        # print("doing shit")
         for v, mult in rdict.items():
             eqs[v] += reaction_poly * mult
         for v, mult in ldict.items():
             eqs[v] += reaction_poly * (-mult)
+
+    # print(eqs)
     return [eqs[v] for v in varnames]
 
 
@@ -209,8 +221,10 @@ def get_varnames(strings):
     for s in strings:
         # replace is used not to consider d in "d(X) =". As a variable
         # a bit too hacky, to be replaced
-        new_names = re.split(r'[\s\*\+\-\(\),<>\^=\.]', s.replace("d(", ""))
-        new_names = filter(lambda v: not re.match('^(\d*|Rational)$', v), new_names)
+        s = s.replace("d(", "")
+        new_names = re.split(r'[\s\*\+\-\(\),<>\^=\.]', s)
+        # the second condition removes pieces of number in the exp notation
+        new_names = filter(lambda v: v != 'Rational' and v != '' and v[0] not in [str(i) for i in range(10)], new_names)
         names_set.update(new_names)
     return sorted(list(names_set))
 
@@ -223,7 +237,6 @@ def parse_initial_conditions(lines):
             rhs, lhs = l.split("=")
             result[rhs.strip()] = to_rational(lhs.strip())
     return result
-
 
 #------------------------------------------------------------------------------
 
@@ -247,6 +260,8 @@ def read_system(filename, read_ic=False):
         equations = parse_ode(sections_raw['ODE'], varnames)
     else:
         equations = parse_reactions(sections_raw['reactions'], varnames)
+
+    # Convert everything to rational function if one is a rational function.
 
     obs = extract_observables(sections_raw['partition'], varnames) if 'partition' in sections_raw else None
 

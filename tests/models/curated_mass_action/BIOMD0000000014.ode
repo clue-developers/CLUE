@@ -1,0 +1,314 @@
+begin model BIOMD0000000014
+ begin init
+  MAPKP = 0.3 ( "MAPK phosphatase" ) 
+  MEKP = 0.2 ( "MEK phosphatase" ) 
+  RAFK = 0.1 ( "RAF kinase" ) 
+  RAFP = 0.3 ( "RAF phosphatase" ) 
+  K_1_0 = 0.4 ( "MAPK" ) 
+  K_1_1 ( "MAPK-P" ) 
+  K_1_2 ( "MAPK-PP" ) 
+  K_2_0 = 0.2 ( "MEK" ) 
+  K_2_1 ( "MEK-P" ) 
+  K_2_2 ( "MEK-PP" ) 
+  K_3_0 = 0.3 ( "RAF" ) 
+  K_3_1 ( "RAF-P" ) 
+  K_K_1_0_2_2 ( "MAPK_MEK-PP" ) 
+  K_K_1_1_2_2 ( "MAPK-P_MEK-PP" ) 
+  K_K_2_0_3_1 ( "MEK_RAF-P" ) 
+  K_K_2_1_3_1 ( "MEK-P_RAF-P" ) 
+  K_MAPKP_1_1 ( "MAPK-P_MAPKPase" ) 
+  K_MAPKP_1_2 ( "MAPK-PP_MAPKPase" ) 
+  K_MEKP_2_1 ( "MEK-P_MEKPase" ) 
+  K_MEKP_2_2 ( "MEK-PP_MEKPase" ) 
+  K_RAFK_3_0 ( "RAF_RAFK" ) 
+  K_RAFP_3_1 ( "RAF-P_RAFPase" ) 
+  S_m1_m1_m1 = 0.1 ( "Scaffold" ) 
+  S_m1_m1_0 ( "Scaffold_RAF" ) 
+  S_m1_m1_1 ( "Scaffold_RAF-P" ) 
+  S_m1_0_m1 ( "Scaffold_MEK" ) 
+  S_m1_0_0 ( "Scaffold_MEK_RAF" ) 
+  S_m1_0_1 ( "Scaffold_MEK_RAF-P" ) 
+  S_m1_1_m1 ( "Scaffold_MEK-P" ) 
+  S_m1_1_0 ( "Scaffold_MEK-P_RAF" ) 
+  S_m1_1_1 ( "Scaffold_MEK-P_RAF-P" ) 
+  S_m1_2_m1 ( "Scaffold_MEK-PP" ) 
+  S_m1_2_0 ( "Scaffold_MEK-PP_RAF" ) 
+  S_m1_2_1 ( "Scaffold_MEK-PP_RAF-P" ) 
+  S_0_m1_m1 ( "Scaffold_MAPK" ) 
+  S_0_m1_0 ( "Scaffold_MAPK_RAF" ) 
+  S_0_m1_1 ( "Scaffold_MAPK_RAF-P" ) 
+  S_0_0_m1 ( "Scaffold_MAPK_MEK" ) 
+  S_0_0_0 ( "Scaffold_MAPK_MEK_RAF" ) 
+  S_0_0_1 ( "Scaffold_MAPK_MEK_RAF-P" ) 
+  S_0_1_m1 ( "Scaffold_MAPK_MEK-P" ) 
+  S_0_1_0 ( "Scaffold_MAPK_MEK-P_RAF" ) 
+  S_0_1_1 ( "Scaffold_MAPK_MEK-P_RAF-P" ) 
+  S_0_2_m1 ( "Scaffold_MAPK_MEK-PP" ) 
+  S_0_2_0 ( "Scaffold_MAPK_MEK-PP_RAF" ) 
+  S_0_2_1 ( "Scaffold_MAPK_MEK-PP_RAF-P" ) 
+  S_1_m1_m1 ( "Scaffold_MAPK-P" ) 
+  S_1_m1_0 ( "Scaffold_MAPK-P_RAF" ) 
+  S_1_m1_1 ( "Scaffold_MAPK-P_RAF-P" ) 
+  S_1_0_m1 ( "Scaffold_MAPK-P_MEK" ) 
+  S_1_0_0 ( "Scaffold_MAPK-P_MEK_RAF" ) 
+  S_1_0_1 ( "Scaffold_MAPK-P_MEK_RAF-P" ) 
+  S_1_1_m1 ( "Scaffold_MAPK-P_MEK-P" ) 
+  S_1_1_0 ( "Scaffold_MAPK-P_MEK-P_RAF" ) 
+  S_1_1_1 ( "Scaffold_MAPK-P_MEK-P_RAF-P" ) 
+  S_1_2_m1 ( "Scaffold_MAPK-P_MEK-PP" ) 
+  S_1_2_0 ( "Scaffold_MAPK-P_MEK-PP_RAF" ) 
+  S_1_2_1 ( "Scaffold_MAPK-P_MEK-PP_RAF-P" ) 
+  S_2_m1_m1 ( "Scaffold_MAPK-PP" ) 
+  S_2_m1_0 ( "Scaffold_MAPK-PP_RAF" ) 
+  S_2_m1_1 ( "Scaffold_MAPK-PP_RAF-P" ) 
+  S_2_0_m1 ( "Scaffold_MAPK-PP_MEK" ) 
+  S_2_0_0 ( "Scaffold_MAPK-PP_MEK_RAF" ) 
+  S_2_0_1 ( "Scaffold_MAPK-PP_MEK_RAF-P" ) 
+  S_2_1_m1 ( "Scaffold_MAPK-PP_MEK-P" ) 
+  S_2_1_0 ( "Scaffold_MAPK-PP_MEK-P_RAF" ) 
+  S_2_1_1 ( "Scaffold_MAPK-PP_MEK-P_RAF-P" ) 
+  S_2_2_m1 ( "Scaffold_MAPK-PP_MEK-PP" ) 
+  S_2_2_0 ( "Scaffold_MAPK-PP_MEK-PP_RAF" ) 
+  S_2_2_1 ( "Scaffold_MAPK-PP_MEK-PP_RAF-P" ) 
+  S_RAFK_m1_m1_0 ( "Scaffold_RAF" ) 
+  S_RAFK_m1_0_0 ( "Scaffold_MEK_RAF" ) 
+  S_RAFK_m1_1_0 ( "Scaffold_MEK-P_RAF" ) 
+  S_RAFK_m1_2_0 ( "Scaffold_MEK-PP_RAF" ) 
+  S_RAFK_0_m1_0 ( "Scaffold_MAPK_RAF" ) 
+  S_RAFK_0_0_0 ( "Scaffold_MAPK_MEK_RAF" ) 
+  S_RAFK_0_1_0 ( "Scaffold_MAPK_MEK-P_RAF" ) 
+  S_RAFK_0_2_0 ( "Scaffold_MAPK_MEK-PP_RAF" ) 
+  S_RAFK_1_m1_0 ( "Scaffold_MAPK-P_RAF" ) 
+  S_RAFK_1_0_0 ( "Scaffold_MAPK-P_MEK_RAF" ) 
+  S_RAFK_1_1_0 ( "Scaffold_MAPK-P_MEK-P_RAF" ) 
+  S_RAFK_1_2_0 ( "Scaffold_MAPK-P_MEK-PP_RAF" ) 
+  S_RAFK_2_m1_0 ( "Scaffold_MAPK-PP_RAF" ) 
+  S_RAFK_2_0_0 ( "Scaffold_MAPK-PP_MEK_RAF" ) 
+  S_RAFK_2_1_0 ( "Scaffold_MAPK-PP_MEK-P_RAF" ) 
+  S_RAFK_2_2_0 ( "Scaffold_MAPK-PP_MEK-PP_RAF" ) 
+ end init
+ begin reactions
+  RAFK + K_3_0 -> K_RAFK_3_0 , 1.0 [Reaction1_forw]
+  K_RAFK_3_0 -> RAFK + K_3_0 , 0.4 [Reaction2_forw]
+  K_RAFK_3_0 -> RAFK + K_3_1 , 0.1 [Reaction3_forw]
+  RAFP + K_3_1 -> K_RAFP_3_1 , 0.5 [Reaction4_forw]
+  K_RAFP_3_1 -> RAFP + K_3_1 , 0.5 [Reaction5_forw]
+  K_RAFP_3_1 -> RAFP + K_3_0 , 0.1 [Reaction6_forw]
+  K_2_0 + K_3_1 -> K_K_2_0_3_1 , 3.3 [Reaction7_forw]
+  K_K_2_0_3_1 -> K_2_0 + K_3_1 , 0.42 [Reaction8_forw]
+  K_K_2_0_3_1 -> K_2_1 + K_3_1 , 0.1 [Reaction9_forw]
+  MEKP + K_2_1 -> K_MEKP_2_1 , 10.0 [Reaction10_forw]
+  K_MEKP_2_1 -> MEKP + K_2_1 , 0.8 [Reaction11_forw]
+  K_MEKP_2_1 -> MEKP + K_2_0 , 0.1 [Reaction12_forw]
+  K_2_1 + K_3_1 -> K_K_2_1_3_1 , 3.3 [Reaction13_forw]
+  K_K_2_1_3_1 -> K_2_1 + K_3_1 , 0.4 [Reaction14_forw]
+  K_K_2_1_3_1 -> K_2_2 + K_3_1 , 0.1 [Reaction15_forw]
+  MEKP + K_2_2 -> K_MEKP_2_2 , 10.0 [Reaction16_forw]
+  K_MEKP_2_2 -> MEKP + K_2_2 , 0.8 [Reaction17_forw]
+  K_MEKP_2_2 -> MEKP + K_2_1 , 0.1 [Reaction18_forw]
+  K_1_0 + K_2_2 -> K_K_1_0_2_2 , 20.0 [Reaction19_forw]
+  K_K_1_0_2_2 -> K_1_0 + K_2_2 , 0.6 [Reaction20_forw]
+  K_K_1_0_2_2 -> K_1_1 + K_2_2 , 0.1 [Reaction21_forw]
+  MAPKP + K_1_1 -> K_MAPKP_1_1 , 5.0 [Reaction22_forw]
+  K_MAPKP_1_1 -> MAPKP + K_1_1 , 0.4 [Reaction23_forw]
+  K_MAPKP_1_1 -> MAPKP + K_1_0 , 0.1 [Reaction24_forw]
+  K_1_1 + K_2_2 -> K_K_1_1_2_2 , 20.0 [Reaction25_forw]
+  K_K_1_1_2_2 -> K_1_1 + K_2_2 , 0.6 [Reaction26_forw]
+  K_K_1_1_2_2 -> K_1_2 + K_2_2 , 0.1 [Reaction27_forw]
+  MAPKP + K_1_2 -> K_MAPKP_1_2 , 5.0 [Reaction28_forw]
+  K_MAPKP_1_2 -> MAPKP + K_1_2 , 0.4 [Reaction29_forw]
+  K_MAPKP_1_2 -> MAPKP + K_1_1 , 0.1 [Reaction30_forw]
+  K_1_0 + S_m1_m1_m1 -> S_0_m1_m1 , 10.0 [Reaction31_forw]
+  S_0_m1_m1 -> K_1_0 + S_m1_m1_m1 , 0.5 [Reaction32_forw]
+  K_1_0 + S_m1_m1_0 -> S_0_m1_0 , 10.0 [Reaction33_forw]
+  S_0_m1_0 -> K_1_0 + S_m1_m1_0 , 0.5 [Reaction34_forw]
+  K_1_0 + S_m1_m1_1 -> S_0_m1_1 , 10.0 [Reaction35_forw]
+  S_0_m1_1 -> K_1_0 + S_m1_m1_1 , 0.5 [Reaction36_forw]
+  K_1_0 + S_m1_0_m1 -> S_0_0_m1 , 10.0 [Reaction37_forw]
+  S_0_0_m1 -> K_1_0 + S_m1_0_m1 , 0.5 [Reaction38_forw]
+  K_1_0 + S_m1_0_0 -> S_0_0_0 , 10.0 [Reaction39_forw]
+  S_0_0_0 -> K_1_0 + S_m1_0_0 , 0.5 [Reaction40_forw]
+  K_1_0 + S_m1_0_1 -> S_0_0_1 , 10.0 [Reaction41_forw]
+  S_0_0_1 -> K_1_0 + S_m1_0_1 , 0.5 [Reaction42_forw]
+  K_1_0 + S_m1_1_m1 -> S_0_1_m1 , 10.0 [Reaction43_forw]
+  S_0_1_m1 -> K_1_0 + S_m1_1_m1 , 0.5 [Reaction44_forw]
+  K_1_0 + S_m1_1_0 -> S_0_1_0 , 10.0 [Reaction45_forw]
+  S_0_1_0 -> K_1_0 + S_m1_1_0 , 0.5 [Reaction46_forw]
+  K_1_0 + S_m1_1_1 -> S_0_1_1 , 10.0 [Reaction47_forw]
+  S_0_1_1 -> K_1_0 + S_m1_1_1 , 0.5 [Reaction48_forw]
+  K_1_0 + S_m1_2_m1 -> S_0_2_m1 , 10.0 [Reaction49_forw]
+  S_0_2_m1 -> K_1_0 + S_m1_2_m1 , 0.5 [Reaction50_forw]
+  K_1_0 + S_m1_2_0 -> S_0_2_0 , 10.0 [Reaction51_forw]
+  S_0_2_0 -> K_1_0 + S_m1_2_0 , 0.5 [Reaction52_forw]
+  K_1_0 + S_m1_2_1 -> S_0_2_1 , 10.0 [Reaction53_forw]
+  S_0_2_1 -> K_1_0 + S_m1_2_1 , 0.5 [Reaction54_forw]
+  S_1_m1_m1 -> K_1_1 + S_m1_m1_m1 , 0.05 [Reaction56_forw]
+  S_1_m1_0 -> K_1_1 + S_m1_m1_0 , 0.05 [Reaction58_forw]
+  S_1_m1_1 -> K_1_1 + S_m1_m1_1 , 0.05 [Reaction60_forw]
+  S_1_0_m1 -> K_1_1 + S_m1_0_m1 , 0.05 [Reaction62_forw]
+  S_1_0_0 -> K_1_1 + S_m1_0_0 , 0.05 [Reaction64_forw]
+  S_1_0_1 -> K_1_1 + S_m1_0_1 , 0.05 [Reaction66_forw]
+  S_1_1_m1 -> K_1_1 + S_m1_1_m1 , 0.05 [Reaction68_forw]
+  S_1_1_0 -> K_1_1 + S_m1_1_0 , 0.05 [Reaction70_forw]
+  S_1_1_1 -> K_1_1 + S_m1_1_1 , 0.05 [Reaction72_forw]
+  S_1_2_m1 -> K_1_1 + S_m1_2_m1 , 0.05 [Reaction74_forw]
+  S_1_2_0 -> K_1_1 + S_m1_2_0 , 0.05 [Reaction76_forw]
+  S_1_2_1 -> K_1_1 + S_m1_2_1 , 0.05 [Reaction78_forw]
+  S_2_m1_m1 -> K_1_2 + S_m1_m1_m1 , 0.05 [Reaction80_forw]
+  S_2_m1_0 -> K_1_2 + S_m1_m1_0 , 0.05 [Reaction82_forw]
+  S_2_m1_1 -> K_1_2 + S_m1_m1_1 , 0.05 [Reaction84_forw]
+  S_2_0_m1 -> K_1_2 + S_m1_0_m1 , 0.05 [Reaction86_forw]
+  S_2_0_0 -> K_1_2 + S_m1_0_0 , 0.05 [Reaction88_forw]
+  S_2_0_1 -> K_1_2 + S_m1_0_1 , 0.05 [Reaction90_forw]
+  S_2_1_m1 -> K_1_2 + S_m1_1_m1 , 0.05 [Reaction92_forw]
+  S_2_1_0 -> K_1_2 + S_m1_1_0 , 0.05 [Reaction94_forw]
+  S_2_1_1 -> K_1_2 + S_m1_1_1 , 0.05 [Reaction96_forw]
+  S_2_2_m1 -> K_1_2 + S_m1_2_m1 , 0.05 [Reaction98_forw]
+  S_2_2_0 -> K_1_2 + S_m1_2_0 , 0.05 [Reaction100_forw]
+  S_2_2_1 -> K_1_2 + S_m1_2_1 , 0.05 [Reaction102_forw]
+  K_2_0 + S_m1_m1_m1 -> S_m1_0_m1 , 10.0 [Reaction103_forw]
+  S_m1_0_m1 -> K_2_0 + S_m1_m1_m1 , 0.5 [Reaction104_forw]
+  K_2_0 + S_m1_m1_0 -> S_m1_0_0 , 10.0 [Reaction105_forw]
+  S_m1_0_0 -> K_2_0 + S_m1_m1_0 , 0.5 [Reaction106_forw]
+  K_2_0 + S_m1_m1_1 -> S_m1_0_1 , 10.0 [Reaction107_forw]
+  S_m1_0_1 -> K_2_0 + S_m1_m1_1 , 0.5 [Reaction108_forw]
+  S_m1_1_m1 -> K_2_1 + S_m1_m1_m1 , 0.05 [Reaction110_forw]
+  S_m1_1_0 -> K_2_1 + S_m1_m1_0 , 0.05 [Reaction112_forw]
+  S_m1_1_1 -> K_2_1 + S_m1_m1_1 , 0.05 [Reaction114_forw]
+  S_m1_2_m1 -> K_2_2 + S_m1_m1_m1 , 0.05 [Reaction116_forw]
+  S_m1_2_0 -> K_2_2 + S_m1_m1_0 , 0.05 [Reaction118_forw]
+  S_m1_2_1 -> K_2_2 + S_m1_m1_1 , 0.05 [Reaction120_forw]
+  K_2_0 + S_0_m1_m1 -> S_0_0_m1 , 10.0 [Reaction121_forw]
+  S_0_0_m1 -> K_2_0 + S_0_m1_m1 , 0.5 [Reaction122_forw]
+  K_2_0 + S_0_m1_0 -> S_0_0_0 , 10.0 [Reaction123_forw]
+  S_0_0_0 -> K_2_0 + S_0_m1_0 , 0.5 [Reaction124_forw]
+  K_2_0 + S_0_m1_1 -> S_0_0_1 , 10.0 [Reaction125_forw]
+  S_0_0_1 -> K_2_0 + S_0_m1_1 , 0.5 [Reaction126_forw]
+  S_0_1_m1 -> K_2_1 + S_0_m1_m1 , 0.05 [Reaction128_forw]
+  S_0_1_0 -> K_2_1 + S_0_m1_0 , 0.05 [Reaction130_forw]
+  S_0_1_1 -> K_2_1 + S_0_m1_1 , 0.05 [Reaction132_forw]
+  S_0_2_m1 -> K_2_2 + S_0_m1_m1 , 0.05 [Reaction134_forw]
+  S_0_2_0 -> K_2_2 + S_0_m1_0 , 0.05 [Reaction136_forw]
+  S_0_2_1 -> K_2_2 + S_0_m1_1 , 0.05 [Reaction138_forw]
+  K_2_0 + S_1_m1_m1 -> S_1_0_m1 , 10.0 [Reaction139_forw]
+  S_1_0_m1 -> K_2_0 + S_1_m1_m1 , 0.5 [Reaction140_forw]
+  K_2_0 + S_1_m1_0 -> S_1_0_0 , 10.0 [Reaction141_forw]
+  S_1_0_0 -> K_2_0 + S_1_m1_0 , 0.5 [Reaction142_forw]
+  K_2_0 + S_1_m1_1 -> S_1_0_1 , 10.0 [Reaction143_forw]
+  S_1_0_1 -> K_2_0 + S_1_m1_1 , 0.5 [Reaction144_forw]
+  S_1_1_m1 -> K_2_1 + S_1_m1_m1 , 0.05 [Reaction146_forw]
+  S_1_1_0 -> K_2_1 + S_1_m1_0 , 0.05 [Reaction148_forw]
+  S_1_1_1 -> K_2_1 + S_1_m1_1 , 0.05 [Reaction150_forw]
+  S_1_2_m1 -> K_2_2 + S_1_m1_m1 , 0.05 [Reaction152_forw]
+  S_1_2_0 -> K_2_2 + S_1_m1_0 , 0.05 [Reaction154_forw]
+  S_1_2_1 -> K_2_2 + S_1_m1_1 , 0.05 [Reaction156_forw]
+  K_2_0 + S_2_m1_m1 -> S_2_0_m1 , 10.0 [Reaction157_forw]
+  S_2_0_m1 -> K_2_0 + S_2_m1_m1 , 0.5 [Reaction158_forw]
+  K_2_0 + S_2_m1_0 -> S_2_0_0 , 10.0 [Reaction159_forw]
+  S_2_0_0 -> K_2_0 + S_2_m1_0 , 0.5 [Reaction160_forw]
+  K_2_0 + S_2_m1_1 -> S_2_0_1 , 10.0 [Reaction161_forw]
+  S_2_0_1 -> K_2_0 + S_2_m1_1 , 0.5 [Reaction162_forw]
+  S_2_1_m1 -> K_2_1 + S_2_m1_m1 , 0.05 [Reaction164_forw]
+  S_2_1_0 -> K_2_1 + S_2_m1_0 , 0.05 [Reaction166_forw]
+  S_2_1_1 -> K_2_1 + S_2_m1_1 , 0.05 [Reaction168_forw]
+  S_2_2_m1 -> K_2_2 + S_2_m1_m1 , 0.05 [Reaction170_forw]
+  S_2_2_0 -> K_2_2 + S_2_m1_0 , 0.05 [Reaction172_forw]
+  S_2_2_1 -> K_2_2 + S_2_m1_1 , 0.05 [Reaction174_forw]
+  K_3_0 + S_m1_m1_m1 -> S_m1_m1_0 , 10.0 [Reaction175_forw]
+  S_m1_m1_0 -> K_3_0 + S_m1_m1_m1 , 0.5 [Reaction176_forw]
+  S_m1_m1_1 -> K_3_1 + S_m1_m1_m1 , 0.05 [Reaction178_forw]
+  K_3_0 + S_m1_0_m1 -> S_m1_0_0 , 10.0 [Reaction179_forw]
+  S_m1_0_0 -> K_3_0 + S_m1_0_m1 , 0.5 [Reaction180_forw]
+  S_m1_0_1 -> K_3_1 + S_m1_0_m1 , 0.05 [Reaction182_forw]
+  K_3_0 + S_m1_1_m1 -> S_m1_1_0 , 10.0 [Reaction183_forw]
+  S_m1_1_0 -> K_3_0 + S_m1_1_m1 , 0.5 [Reaction184_forw]
+  S_m1_1_1 -> K_3_1 + S_m1_1_m1 , 0.05 [Reaction186_forw]
+  K_3_0 + S_m1_2_m1 -> S_m1_2_0 , 10.0 [Reaction187_forw]
+  S_m1_2_0 -> K_3_0 + S_m1_2_m1 , 0.5 [Reaction188_forw]
+  S_m1_2_1 -> K_3_1 + S_m1_2_m1 , 0.05 [Reaction190_forw]
+  K_3_0 + S_0_m1_m1 -> S_0_m1_0 , 10.0 [Reaction191_forw]
+  S_0_m1_0 -> K_3_0 + S_0_m1_m1 , 0.5 [Reaction192_forw]
+  S_0_m1_1 -> K_3_1 + S_0_m1_m1 , 0.05 [Reaction194_forw]
+  K_3_0 + S_0_0_m1 -> S_0_0_0 , 10.0 [Reaction195_forw]
+  S_0_0_0 -> K_3_0 + S_0_0_m1 , 0.5 [Reaction196_forw]
+  S_0_0_1 -> K_3_1 + S_0_0_m1 , 0.05 [Reaction198_forw]
+  K_3_0 + S_0_1_m1 -> S_0_1_0 , 10.0 [Reaction199_forw]
+  S_0_1_0 -> K_3_0 + S_0_1_m1 , 0.5 [Reaction200_forw]
+  S_0_1_1 -> K_3_1 + S_0_1_m1 , 0.05 [Reaction202_forw]
+  K_3_0 + S_0_2_m1 -> S_0_2_0 , 10.0 [Reaction203_forw]
+  S_0_2_0 -> K_3_0 + S_0_2_m1 , 0.5 [Reaction204_forw]
+  S_0_2_1 -> K_3_1 + S_0_2_m1 , 0.05 [Reaction206_forw]
+  K_3_0 + S_1_m1_m1 -> S_1_m1_0 , 10.0 [Reaction207_forw]
+  S_1_m1_0 -> K_3_0 + S_1_m1_m1 , 0.5 [Reaction208_forw]
+  S_1_m1_1 -> K_3_1 + S_1_m1_m1 , 0.05 [Reaction210_forw]
+  K_3_0 + S_1_0_m1 -> S_1_0_0 , 10.0 [Reaction211_forw]
+  S_1_0_0 -> K_3_0 + S_1_0_m1 , 0.5 [Reaction212_forw]
+  S_1_0_1 -> K_3_1 + S_1_0_m1 , 0.05 [Reaction214_forw]
+  K_3_0 + S_1_1_m1 -> S_1_1_0 , 10.0 [Reaction215_forw]
+  S_1_1_0 -> K_3_0 + S_1_1_m1 , 0.5 [Reaction216_forw]
+  S_1_1_1 -> K_3_1 + S_1_1_m1 , 0.05 [Reaction218_forw]
+  K_3_0 + S_1_2_m1 -> S_1_2_0 , 10.0 [Reaction219_forw]
+  S_1_2_0 -> K_3_0 + S_1_2_m1 , 0.5 [Reaction220_forw]
+  S_1_2_1 -> K_3_1 + S_1_2_m1 , 0.05 [Reaction222_forw]
+  K_3_0 + S_2_m1_m1 -> S_2_m1_0 , 10.0 [Reaction223_forw]
+  S_2_m1_0 -> K_3_0 + S_2_m1_m1 , 0.5 [Reaction224_forw]
+  S_2_m1_1 -> K_3_1 + S_2_m1_m1 , 0.05 [Reaction226_forw]
+  K_3_0 + S_2_0_m1 -> S_2_0_0 , 10.0 [Reaction227_forw]
+  S_2_0_0 -> K_3_0 + S_2_0_m1 , 0.5 [Reaction228_forw]
+  S_2_0_1 -> K_3_1 + S_2_0_m1 , 0.05 [Reaction230_forw]
+  K_3_0 + S_2_1_m1 -> S_2_1_0 , 10.0 [Reaction231_forw]
+  S_2_1_0 -> K_3_0 + S_2_1_m1 , 0.5 [Reaction232_forw]
+  S_2_1_1 -> K_3_1 + S_2_1_m1 , 0.05 [Reaction234_forw]
+  K_3_0 + S_2_2_m1 -> S_2_2_0 , 10.0 [Reaction235_forw]
+  S_2_2_0 -> K_3_0 + S_2_2_m1 , 0.5 [Reaction236_forw]
+  S_2_2_1 -> K_3_1 + S_2_2_m1 , 0.05 [Reaction238_forw]
+  S_0_2_m1 -> S_1_2_m1 , 0.1 [Reaction239_forw]
+  S_0_2_0 -> S_1_2_0 , 0.1 [Reaction240_forw]
+  S_0_2_1 -> S_1_2_1 , 0.1 [Reaction241_forw]
+  S_1_2_m1 -> S_2_2_m1 , 0.1 [Reaction242_forw]
+  S_1_2_0 -> S_2_2_0 , 0.1 [Reaction243_forw]
+  S_1_2_1 -> S_2_2_1 , 0.1 [Reaction244_forw]
+  S_m1_0_1 -> S_m1_1_1 , 0.1 [Reaction245_forw]
+  S_m1_1_1 -> S_m1_2_1 , 0.1 [Reaction246_forw]
+  S_0_0_1 -> S_0_1_1 , 0.1 [Reaction247_forw]
+  S_0_1_1 -> S_0_2_1 , 0.1 [Reaction248_forw]
+  S_1_0_1 -> S_1_1_1 , 0.1 [Reaction249_forw]
+  S_1_1_1 -> S_1_2_1 , 0.1 [Reaction250_forw]
+  S_2_0_1 -> S_2_1_1 , 0.1 [Reaction251_forw]
+  S_2_1_1 -> S_2_2_1 , 0.1 [Reaction252_forw]
+  RAFK + S_m1_m1_0 -> S_RAFK_m1_m1_0 , 100.0 [Reaction253_forw]
+  S_RAFK_m1_m1_0 -> RAFK + S_m1_m1_1 , 0.1 [Reaction255_forw]
+  RAFK + S_m1_0_0 -> S_RAFK_m1_0_0 , 100.0 [Reaction256_forw]
+  S_RAFK_m1_0_0 -> RAFK + S_m1_0_1 , 0.1 [Reaction258_forw]
+  RAFK + S_m1_1_0 -> S_RAFK_m1_1_0 , 100.0 [Reaction259_forw]
+  S_RAFK_m1_1_0 -> RAFK + S_m1_1_1 , 0.1 [Reaction261_forw]
+  RAFK + S_m1_2_0 -> S_RAFK_m1_2_0 , 100.0 [Reaction262_forw]
+  S_RAFK_m1_2_0 -> RAFK + S_m1_2_1 , 0.1 [Reaction264_forw]
+  RAFK + S_0_m1_0 -> S_RAFK_0_m1_0 , 100.0 [Reaction265_forw]
+  S_RAFK_0_m1_0 -> RAFK + S_0_m1_1 , 0.1 [Reaction267_forw]
+  RAFK + S_0_0_0 -> S_RAFK_0_0_0 , 100.0 [Reaction268_forw]
+  S_RAFK_0_0_0 -> RAFK + S_0_0_1 , 0.1 [Reaction270_forw]
+  RAFK + S_0_1_0 -> S_RAFK_0_1_0 , 100.0 [Reaction271_forw]
+  S_RAFK_0_1_0 -> RAFK + S_0_1_1 , 0.1 [Reaction273_forw]
+  RAFK + S_0_2_0 -> S_RAFK_0_2_0 , 100.0 [Reaction274_forw]
+  S_RAFK_0_2_0 -> RAFK + S_0_2_1 , 0.1 [Reaction276_forw]
+  RAFK + S_1_m1_0 -> S_RAFK_1_m1_0 , 100.0 [Reaction277_forw]
+  S_RAFK_1_m1_0 -> RAFK + S_1_m1_1 , 0.1 [Reaction279_forw]
+  RAFK + S_1_0_0 -> S_RAFK_1_0_0 , 100.0 [Reaction280_forw]
+  S_RAFK_1_0_0 -> RAFK + S_1_0_1 , 0.1 [Reaction282_forw]
+  RAFK + S_1_1_0 -> S_RAFK_1_1_0 , 100.0 [Reaction283_forw]
+  S_RAFK_1_1_0 -> RAFK + S_1_1_1 , 0.1 [Reaction285_forw]
+  RAFK + S_1_2_0 -> S_RAFK_1_2_0 , 100.0 [Reaction286_forw]
+  S_RAFK_1_2_0 -> RAFK + S_1_2_1 , 0.1 [Reaction288_forw]
+  RAFK + S_2_m1_0 -> S_RAFK_2_m1_0 , 100.0 [Reaction289_forw]
+  S_RAFK_2_m1_0 -> RAFK + S_2_m1_1 , 0.1 [Reaction291_forw]
+  RAFK + S_2_0_0 -> S_RAFK_2_0_0 , 100.0 [Reaction292_forw]
+  S_RAFK_2_0_0 -> RAFK + S_2_0_1 , 0.1 [Reaction294_forw]
+  RAFK + S_2_1_0 -> S_RAFK_2_1_0 , 100.0 [Reaction295_forw]
+  S_RAFK_2_1_0 -> RAFK + S_2_1_1 , 0.1 [Reaction297_forw]
+  RAFK + S_2_2_0 -> S_RAFK_2_2_0 , 100.0 [Reaction298_forw]
+  S_RAFK_2_2_0 -> RAFK + S_2_2_1 , 0.1 [Reaction300_forw]
+ end reactions
+
+end model
+

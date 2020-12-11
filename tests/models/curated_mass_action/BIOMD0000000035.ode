@@ -1,0 +1,34 @@
+begin model BIOMD0000000035
+ begin init
+  EmptySet
+  A
+  C
+  DA = 1.0
+  DAp
+  DR = 1.0
+  DRp
+  MA
+  MR
+  R
+ end init
+ begin reactions
+  A + R -> C , 2.0 [Reaction1_forw]
+  A -> EmptySet , 1.0 [Reaction2_forw]
+  C -> R , 1.0 [Reaction3_forw]
+  R -> EmptySet , 0.2 [Reaction4_forw]
+  A + DA -> DAp , 1.0 [Reaction5_forw]
+  DAp -> A + DA , 50.0 [Reaction6_forw]
+  DA -> DA + MA , 50.0 [Reaction7_forw]
+  DAp -> DAp + MA , 500.0 [Reaction8_forw]
+  MA -> EmptySet , 10.0 [Reaction9_forw]
+  MA -> A + MA , 50.0 [Reaction10_forw]
+  A + DR -> DRp , 1.0 [Reaction11_forw]
+  DRp -> A + DR , 100.0 [Reaction12_forw]
+  DR -> DR + MR , 0.01 [Reaction13_forw]
+  DRp -> DRp + MR , 50.0 [Reaction14_forw]
+  MR -> EmptySet , 0.5 [Reaction15_forw]
+  MR -> MR + R , 5.0 [Reaction16_forw]
+ end reactions
+
+end model
+

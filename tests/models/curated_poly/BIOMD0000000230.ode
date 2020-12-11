@@ -1,0 +1,221 @@
+begin model BIOMD0000000230
+ begin parameters
+  k1 = 0.5
+  k2 = 5.0E-4
+  k3 = 0.5
+  k4 = 5.0E-4
+  k5 = 0.5
+  k6 = 5.0E-4
+  k7 = 0.5
+  k8 = 5.0E-4
+  k9 = 0.0204
+  k10 = 0.5
+  k11 = 5.0E-4
+  k12 = 0.0075
+  k13 = 0.5
+  k14 = 5.0E-4
+  k15 = 0.011
+  k16 = 2.25E-5
+  k17 = 2.25E-5
+  k18 = 2.25E-5
+  k19 = 0.09
+  k20 = 8.0E-5
+  k21 = 0.5
+  k22 = 5.0E-4
+  k23 = 0.5
+  k24 = 5.0E-4
+  k25 = 0.5
+  k26 = 5.0E-4
+  k27 = 1.54E-6
+  k28 = 0.0165
+  k29 = 2.8E-4
+  k30 = 1.78E-7
+  k31 = 2.8E-4
+  k32 = 1.27E-7
+  k33 = 2.8E-4
+  k34 = 0.0225
+  k35 = 0.00125
+  k36 = 0.00408
+  k37 = 1.13E-4
+  k38 = 3.0E-4
+  k39 = 2.0E-4
+  k40 = 0.006
+  k41 = 0.00175
+  k42 = 0.00408
+  k43 = 1.13E-4
+  k44 = 1.5E-4
+  k45 = 1.0E-4
+  k46 = 0.009
+  k47 = 0.00175
+  k48 = 0.00408
+  k49 = 1.13E-4
+  k50 = 1.5E-4
+  k51 = 1.0E-4
+  k52 = 0.185
+  k53 = 0.00125
+  k54 = 0.0138
+  k55 = 0.048
+  k56 = 0.00175
+  k57 = 0.0052
+  k58 = 0.07
+  k59 = 0.00175
+  k60 = 0.0052
+  k61 = 1.2E-4
+  k62 = 0.00407
+  k63 = 0.0015
+  k64 = 0.0022
+ end parameters
+ begin init
+  NFkB = 2.5081E-4
+  IKKIkBa
+  IKKIkBaNFkB
+  IKK = 0.1
+  IkBa = 0.19028
+  IKKIkBb
+  IKKIkBbNFkB
+  IkBb = 0.021428
+  IKKIkBe
+  IKKIkBeNFkB
+  IkBe = 0.015307
+  IkBaNFkB = 0.082062
+  IkBbNFkB = 0.0090963
+  IkBeNFkB = 0.0064977
+  source = 1.0
+  IkBat = 0.0054868
+  sink
+  NFkBn = 2.0366E-4
+  IkBan = 0.19326
+  IkBanNFkBn = 0.0013739
+  IkBbn = 0.021887
+  IkBbnNFkBn = 3.0061E-4
+  IkBbt = 6.3696E-4
+  IkBen = 0.015635
+  IkBenNFkBn = 2.1473E-4
+  IkBet = 4.55E-4
+ end init
+ begin reactions
+  NFkB -> NFkB + NFkBn , k19
+  NFkB -> 2*NFkB , ( -1) * (k19)
+  NFkB + IKKIkBa -> NFkB + IKKIkBa + IKKIkBaNFkB , k7
+  NFkB + IKKIkBa -> NFkB + 2*IKKIkBa , ( -1) * (k7)
+  NFkB + IKKIkBa -> 2*NFkB + IKKIkBa , ( -1) * (k7)
+  NFkB + IkBa -> NFkB + IkBa + IkBaNFkB , k1
+  NFkB + IkBa -> NFkB + 2*IkBa , ( -1) * (k1)
+  NFkB + IkBa -> 2*NFkB + IkBa , ( -1) * (k1)
+  NFkB + IKKIkBb -> NFkB + IKKIkBb + IKKIkBbNFkB , k10
+  NFkB + IKKIkBb -> NFkB + 2*IKKIkBb , ( -1) * (k10)
+  NFkB + IKKIkBb -> 2*NFkB + IKKIkBb , ( -1) * (k10)
+  NFkB + IkBb -> NFkB + IkBb + IkBbNFkB , k3
+  NFkB + IkBb -> NFkB + 2*IkBb , ( -1) * (k3)
+  NFkB + IkBb -> 2*NFkB + IkBb , ( -1) * (k3)
+  NFkB + IKKIkBe -> NFkB + IKKIkBe + IKKIkBeNFkB , k13
+  NFkB + IKKIkBe -> NFkB + 2*IKKIkBe , ( -1) * (k13)
+  NFkB + IKKIkBe -> 2*NFkB + IKKIkBe , ( -1) * (k13)
+  NFkB + IkBe -> NFkB + IkBe + IkBeNFkB , k5
+  NFkB + IkBe -> NFkB + 2*IkBe , ( -1) * (k5)
+  NFkB + IkBe -> 2*NFkB + IkBe , ( -1) * (k5)
+  IKKIkBa -> IKKIkBa + IKK , k35+k62
+  IKKIkBa -> IKKIkBa + IkBa , k35
+  IKKIkBa -> 2*IKKIkBa , ( -1) * (k62)+( -1) * (k35)
+  IKKIkBaNFkB -> NFkB + IKKIkBaNFkB , k8+k9
+  IKKIkBaNFkB -> IKKIkBa + IKKIkBaNFkB , k8
+  IKKIkBaNFkB -> IKKIkBaNFkB + IKK , k53+k9
+  IKKIkBaNFkB -> IKKIkBaNFkB + IkBaNFkB , k53
+  IKKIkBaNFkB -> 2*IKKIkBaNFkB , ( -1) * (k9)+( -1) * (k53)+( -1) * (k8)
+  IKK -> 2*IKK , ( -1) * (k61)
+  IKK + IkBa -> IKKIkBa + IKK + IkBa , k34
+  IKK + IkBa -> IKK + 2*IkBa , ( -1) * (k34)
+  IKK + IkBa -> 2*IKK + IkBa , ( -1) * (k34)
+  IKK + IkBb -> IKK + IKKIkBb + IkBb , k40
+  IKK + IkBb -> IKK + 2*IkBb , ( -1) * (k40)
+  IKK + IkBb -> 2*IKK + IkBb , ( -1) * (k40)
+  IKK + IkBe -> IKK + IKKIkBe + IkBe , k46
+  IKK + IkBe -> IKK + 2*IkBe , ( -1) * (k46)
+  IKK + IkBe -> 2*IKK + IkBe , ( -1) * (k46)
+  IKK + IkBaNFkB -> IKKIkBaNFkB + IKK + IkBaNFkB , k52
+  IKK + IkBaNFkB -> IKK + 2*IkBaNFkB , ( -1) * (k52)
+  IKK + IkBaNFkB -> 2*IKK + IkBaNFkB , ( -1) * (k52)
+  IKK + IkBbNFkB -> IKK + IKKIkBbNFkB + IkBbNFkB , k55
+  IKK + IkBbNFkB -> IKK + 2*IkBbNFkB , ( -1) * (k55)
+  IKK + IkBbNFkB -> 2*IKK + IkBbNFkB , ( -1) * (k55)
+  IKK + IkBeNFkB -> IKK + IKKIkBeNFkB + IkBeNFkB , k58
+  IKK + IkBeNFkB -> IKK + 2*IkBeNFkB , ( -1) * (k58)
+  IKK + IkBeNFkB -> 2*IKK + IkBeNFkB , ( -1) * (k58)
+  IkBa -> IkBa + IkBan , k38
+  IkBa -> 2*IkBa , ( -1) * (k38)+( -1) * (k37)
+  IKKIkBb -> IKK + IKKIkBb , k63+k41
+  IKKIkBb -> IKKIkBb + IkBb , k41
+  IKKIkBb -> 2*IKKIkBb , ( -1) * (k41)+( -1) * (k63)
+  IKKIkBbNFkB -> NFkB + IKKIkBbNFkB , k11+k12
+  IKKIkBbNFkB -> IKK + IKKIkBbNFkB , k56+k12
+  IKKIkBbNFkB -> IKKIkBb + IKKIkBbNFkB , k11
+  IKKIkBbNFkB -> IKKIkBbNFkB + IkBbNFkB , k56
+  IKKIkBbNFkB -> 2*IKKIkBbNFkB , ( -1) * (k12)+( -1) * (k56)+( -1) * (k11)
+  IkBb -> IkBb + IkBbn , k44
+  IkBb -> 2*IkBb , ( -1) * (k44)+( -1) * (k43)
+  IKKIkBe -> IKK + IKKIkBe , k47+k64
+  IKKIkBe -> IKKIkBe + IkBe , k47
+  IKKIkBe -> 2*IKKIkBe , ( -1) * (k64)+( -1) * (k47)
+  IKKIkBeNFkB -> NFkB + IKKIkBeNFkB , k14+k15
+  IKKIkBeNFkB -> IKK + IKKIkBeNFkB , k59+k15
+  IKKIkBeNFkB -> IKKIkBe + IKKIkBeNFkB , k14
+  IKKIkBeNFkB -> IKKIkBeNFkB + IkBeNFkB , k59
+  IKKIkBeNFkB -> 2*IKKIkBeNFkB , ( -1) * (k15)+( -1) * (k59)+( -1) * (k14)
+  IkBe -> IkBe + IkBen , k50
+  IkBe -> 2*IkBe , ( -1) * (k50)+( -1) * (k49)
+  IkBaNFkB -> NFkB + IkBaNFkB , k16+k2
+  IkBaNFkB -> IkBa + IkBaNFkB , k2
+  IkBaNFkB -> 2*IkBaNFkB , ( -1) * (k2)+( -1) * (k16)
+  IkBbNFkB -> NFkB + IkBbNFkB , k17+k4
+  IkBbNFkB -> IkBb + IkBbNFkB , k4
+  IkBbNFkB -> 2*IkBbNFkB , ( -1) * (k4)+( -1) * (k17)
+  IkBeNFkB -> NFkB + IkBeNFkB , k18+k6
+  IkBeNFkB -> IkBe + IkBeNFkB , k6
+  IkBeNFkB -> 2*IkBeNFkB , ( -1) * (k6)+( -1) * (k18)
+  source -> source + IkBat , k27
+  source -> source + IkBbt , k30
+  source -> source + IkBet , k32
+  IkBat -> IkBa + IkBat , k36
+  IkBat -> 2*IkBat , ( -1) * (k29)
+  NFkBn -> NFkB + NFkBn , k20
+  NFkBn -> 2*NFkBn , ( -1) * (k20)
+  NFkBn + IkBan -> NFkBn + IkBan + IkBanNFkBn , k21
+  NFkBn + IkBan -> NFkBn + 2*IkBan , ( -1) * (k21)
+  NFkBn + IkBan -> 2*NFkBn + IkBan , ( -1) * (k21)
+  NFkBn + IkBbn -> NFkBn + IkBbn + IkBbnNFkBn , k23
+  NFkBn + IkBbn -> NFkBn + 2*IkBbn , ( -1) * (k23)
+  NFkBn + IkBbn -> 2*NFkBn + IkBbn , ( -1) * (k23)
+  NFkBn + IkBen -> NFkBn + IkBen + IkBenNFkBn , k25
+  NFkBn + IkBen -> NFkBn + 2*IkBen , ( -1) * (k25)
+  NFkBn + IkBen -> 2*NFkBn + IkBen , ( -1) * (k25)
+  2*NFkBn -> IkBat + 2*NFkBn , k28
+  IkBan -> IkBa + IkBan , k39
+  IkBan -> 2*IkBan , ( -1) * (k39)
+  IkBanNFkBn -> IkBaNFkB + IkBanNFkBn , k54
+  IkBanNFkBn -> NFkBn + IkBanNFkBn , k22
+  IkBanNFkBn -> IkBan + IkBanNFkBn , k22
+  IkBanNFkBn -> 2*IkBanNFkBn , ( -1) * (k54)+( -1) * (k22)
+  IkBbn -> IkBb + IkBbn , k45
+  IkBbn -> 2*IkBbn , ( -1) * (k45)
+  IkBbnNFkBn -> IkBbNFkB + IkBbnNFkBn , k57
+  IkBbnNFkBn -> NFkBn + IkBbnNFkBn , k24
+  IkBbnNFkBn -> IkBbn + IkBbnNFkBn , k24
+  IkBbnNFkBn -> 2*IkBbnNFkBn , ( -1) * (k57)+( -1) * (k24)
+  IkBbt -> IkBb + IkBbt , k42
+  IkBbt -> 2*IkBbt , ( -1) * (k31)
+  IkBen -> IkBe + IkBen , k51
+  IkBen -> 2*IkBen , ( -1) * (k51)
+  IkBenNFkBn -> IkBeNFkB + IkBenNFkBn , k60
+  IkBenNFkBn -> NFkBn + IkBenNFkBn , k26
+  IkBenNFkBn -> IkBen + IkBenNFkBn , k26
+  IkBenNFkBn -> 2*IkBenNFkBn , ( -1) * (k60)+( -1) * (k26)
+  IkBet -> IkBe + IkBet , k48
+  IkBet -> 2*IkBet , ( -1) * (k33)
+ end reactions
+
+//Comments associated to the species
+//sink:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

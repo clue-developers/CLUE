@@ -1,0 +1,28 @@
+begin model BIOMD0000000546
+ begin parameters
+  rho_E = 6.2E-8
+  beta_a = 2.4E-6
+  delta_Es = 0.6
+  pi_a = 100.0
+  c_V = 4.2
+ end parameters
+ begin init
+  s1 = 580000.0 ( "Ep" ) 
+  s2 ( "Eps" ) 
+  s3 = 1473.0 ( "V" ) 
+  s4
+  s5
+  s6
+  s7
+  I = 1
+ end init
+ begin reactions
+  I -> s1 + I , ( -1) * (( ( beta_a) * (580000.0)) * (1473.0))+( rho_E) * (580000.0)
+  I -> s2 + I , ( ( beta_a) * (580000.0)) * (1473.0)
+  I -> s3 + I , ( -1) * (( c_V) * (1473.0))
+  I -> s4 + I , ( -1) * (( rho_E) * (580000.0))
+  I -> s6 + I , ( c_V) * (1473.0)
+ end reactions
+
+end model
+
