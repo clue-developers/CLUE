@@ -669,7 +669,7 @@ def do_lumping_internal(polys, observable, new_vars_name='y', print_system=True,
     field = polys[0].domain
     matrices = list(construct_matrices(polys))
 
-    # Proceed only with matrices that are linearly independant
+    # Proceed only with matrices that are linearly independent
     vectors_of_matrices = [m.to_vector() for m in matrices]
     assert len(matrices) == len(vectors_of_matrices)
     subspace = Subspace(field)
