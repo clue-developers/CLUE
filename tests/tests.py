@@ -35,17 +35,17 @@ def check_lumping(test_name, polys, lumping, correct_size):
     assert(len(lumped_system) == correct_size)
     print(test_name + ": size is correct")
 
-    # if isinstance(polys[0], sympy.polys.rings.PolyElement):
-    #     if isinstance(lumped_system[0], sympy.polys.fields.FracElement): return
-    #     specialization = [random.randint(1, 100) for _ in range(len(polys))]
-    #     polys_values = [evalp(p, specialization) for p in polys]
-    #     polys_values_lumped = [dot_product(polys_values, var) for var in new_vars]
+    if isinstance(polys[0], sympy.polys.rings.PolyElement):
+        if isinstance(lumped_system[0], sympy.polys.fields.FracElement): return
+        specialization = [random.randint(1, 100) for _ in range(len(polys))]
+        polys_values = [evalp(p, specialization) for p in polys]
+        polys_values_lumped = [dot_product(polys_values, var) for var in new_vars]
 
-    #     specialization_lumped = [dot_product(specialization, var) for var in new_vars]
-    #     lumped_polys_values = [evalp(p, specialization_lumped) for p in lumped_system]
+        specialization_lumped = [dot_product(specialization, var) for var in new_vars]
+        lumped_polys_values = [evalp(p, specialization_lumped) for p in lumped_system]
 
-    #     assert(polys_values_lumped == lumped_polys_values)
-    #     print(test_name + ": lumping is correct")
+        assert(polys_values_lumped == lumped_polys_values)
+        print(test_name + ": lumping is correct")
 
 if __name__ == "__main__":
 
@@ -141,7 +141,7 @@ if __name__ == "__main__":
 
     print('\n----- THE MAIN TEST -------------------------------------------\n')
 
-    # BIOMD0000000033 (SO SLOW THAT IT DOESN'T WORK!)
+    # BIOMD0000000033 
     system = read_system("../examples/RationalFunctions/BIOMD0000000033.ode")
     lumping = do_lumping(
             system["equations"],
