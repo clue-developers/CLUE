@@ -142,3 +142,10 @@ if __name__ == "__main__":
     print("Expected: \t", "x + 1")
     print("Actual: \t", quo)
 
+    sp = SparsePolynomial.from_string("1",['x'])
+    assert sp.is_unitary()
+
+    sp = SparsePolynomial(['x'])
+    assert sp.is_zero()
+
+

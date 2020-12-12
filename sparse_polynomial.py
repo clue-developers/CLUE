@@ -161,8 +161,6 @@ class SparsePolynomial(object):
         R = self.get_sympy_ring()
         num = R(self.get_sympy_dict()).as_expr()
         denom = R(other.get_sympy_dict()).as_expr()
-        # print("Numerator: ", num)
-        # print("Denominator: ", denom)
         if num.is_zero:
             return SparsePolynomial.from_string('0', self._varnames)
         elif num == denom:
@@ -191,6 +189,12 @@ class SparsePolynomial(object):
     def is_zero(self):
         if len(self._data) == 0:
             return True
+        return False
+
+    def is_unitary(self):
+        if self._data == {():1}:
+            return True
+        return False
     #--------------------------------------------------------------------------
 
     def _pair_to_str(self, pair):
@@ -277,7 +281,7 @@ class SparsePolynomial(object):
         return SparsePolynomial(self._varnames, domain=self._domain, data=data)
 
     #--------------------------------------------------------------------------
-        
+
     @staticmethod
     def lcm(polys):
         """
@@ -293,7 +297,14 @@ class SparsePolynomial(object):
         Returns greatest common divisor of given polynomials (computed w/ SymPy)
         """
         R = polys[0].get_sympy_ring()
-        gcd = R(sympy.gcd([R(poly.get_sympy_dict()).as_expr() for poly in polys]))
+        sympy_polys = []
+        for poly in polys:
+            if poly.is_unitary():
+                return poly
+            sympy_dict = poly.get_sympy_dict()
+            if sympy_dict:
+                sympy_polys.append(R(sympy_dict).as_expr())
+        gcd = R(sympy.gcd(sympy_polys))
         return SparsePolynomial.from_sympy(gcd)
     #--------------------------------------------------------------------------
 
@@ -364,13 +375,13 @@ class SparsePolynomial(object):
                     | Group(lpar + expr + rpar)
                 )
             ).setParseAction(push_unary_minus)
-    
+
             factor = Forward()
             factor <<= atom + (expop + factor).setParseAction(push_first)[...]
             term = factor + (multop + factor).setParseAction(push_first)[...]
             expr <<= term + (addop + term).setParseAction(push_first)[...]
             SparsePolynomial.__parser = expr
-    
+
         # parsing
         try:
             SparsePolynomial.__parser.parseString(s, parseAll=True)
@@ -399,8 +410,8 @@ class SparsePolynomial(object):
                     return op1
                 if op == "*":
                     return op1 * op2
-                # if op == "/":
-                #     print("WHAT")
+                if op == "/":
+                    raise NotImplementedError
             if op == "^" or op == "**":
                 exp = int(s.pop())
                 base = evaluate_stack(s)

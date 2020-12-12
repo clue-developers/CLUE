@@ -499,7 +499,7 @@ class Subspace(object):
 
     def perform_change_of_variables(self, rhs, new_vars_name='y'):
         """
-          Restrict a system of ODEs with the rhs given by 
+          Restrict a system of ODEs with the rhs given by
           rhs (SparsePolynomial or RationalFunction) to the subspace
           new_vars_name (optional) - the name for variables in the lumped polynomials
         """
@@ -510,13 +510,23 @@ class Subspace(object):
         lpivots = sorted(pivots)
         basis = self.basis()
 
+        logging.debug("Constructing new rhs")
+        if isinstance(rhs[0], SparsePolynomial):
+            new_rhs = [SparsePolynomial(old_vars, domain) for _ in range(self.dim())]
+        elif isinstance(rhs[0], RationalFunction):
+            new_rhs = [RationalFunction(SparsePolynomial(old_vars, domain),SparsePolynomial.from_string("1", old_vars, domain)) for _ in range(self.dim())]
+        for i, vec in enumerate(basis):
+            logging.debug(f"    Equation number {i}")
+            for j in vec.nonzero_iter():
+                # ordering is important due to the implementation of
+                # multiplication for SparsePolynomial
+                new_rhs[i] += rhs[j] * vec._data[j]
+
         logging.debug("Plugging zero to nonpivot coordinates")
 
-        # SparsePolynomial
         if isinstance(rhs[0], SparsePolynomial):
-            # plugging all nonpivot variables with zeroes
             shrinked_polys = []
-            for p in rhs:
+            for p in new_rhs:
                 filtered_dict = dict()
                 for monom, coef in p.dataiter():
                     new_monom = []
@@ -532,23 +542,14 @@ class Subspace(object):
                         filtered_dict[new_monom] = coef
 
                 shrinked_polys.append(SparsePolynomial(new_vars, domain, filtered_dict))
-    
-            logging.debug("Constructing new polys")
-            new_polys = [SparsePolynomial(new_vars, domain) for _ in range(self.dim())]
-            for i, vec in enumerate(basis):
-                logging.debug(f"    Polynomial number {i}")
-                for j in vec.nonzero_iter():
-                    # ordering is important due to the implementation of
-                    # multiplication for SparsePolynomial
-                    new_polys[i] += shrinked_polys[j] * vec._data[j]
-        
-            return new_polys
 
-        # RationalFunction
+            return shrinked_polys
+
         elif isinstance(rhs[0], RationalFunction):
-            # plugging all nonpivot variables with zeroes
+            # plugging all nonpivot variables with zeros
             shrinked_rfs = []
-            for rf in rhs:
+            for rf in new_rhs:
+
                 num_filtered_dict = dict()
                 for monom, coef in rf.num.dataiter():
                     new_monom = []
@@ -562,6 +563,8 @@ class Subspace(object):
                     if not skip:
                         new_monom = tuple(new_monom)
                         num_filtered_dict[new_monom] = coef
+                new_num = SparsePolynomial(new_vars, domain, num_filtered_dict)
+
                 denom_filtered_dict = dict()
                 for monom, coef in rf.denom.dataiter():
                     new_monom = []
@@ -575,23 +578,22 @@ class Subspace(object):
                     if not skip:
                         new_monom = tuple(new_monom)
                         denom_filtered_dict[new_monom] = coef
+                new_denom = SparsePolynomial(new_vars, domain, denom_filtered_dict)
 
-                shrinked_rfs.append(RationalFunction(
-                    SparsePolynomial(new_vars, domain, num_filtered_dict),
-                    SparsePolynomial(new_vars, domain, denom_filtered_dict)
-                ))
+                if new_denom.is_zero():
+                    print()
+                    print("Before plugging all nonpivot variables with zeros:")
+                    print('\t', rf)
+                    print()
+                    print("After plugging all nonpivot variables with zeros:")
+                    print('\t',f"({new_num})/({new_denom})")
+                    print()
+                    raise ZeroDivisionError
 
+                shrinked_rfs.append(RationalFunction(new_num,new_denom))
 
-            logging.debug("Constructing new rfs")
-            new_rfs = [RationalFunction(SparsePolynomial(new_vars, domain),SparsePolynomial.from_string("1", new_vars)) for _ in range(self.dim())]
-            for i, vec in enumerate(basis):
-                logging.debug(f"    Rational Function number {i}")
-                for j in vec.nonzero_iter():
-                    # ordering is important due to the implementation of
-                    # multiplication for SparsePolynomial
-                    new_rfs[i] += shrinked_rfs[j] * vec._data[j]
+            return shrinked_rfs
 
-            return new_rfs
 
     #--------------------------------------------------------------------------
 
@@ -860,7 +862,6 @@ def do_lumping_internal(rhs, observable, new_vars_name='y', print_system=True, p
 
 
     # Nice printing
-    # TODO: Adapt for rational functions
     vars_new = lumped_rhs[0].gens
     if print_system:
         print("Original system:")
@@ -890,11 +891,11 @@ def do_lumping_internal(rhs, observable, new_vars_name='y', print_system=True, p
 #------------------------------------------------------------------------------
 
 def do_lumping(
-        rhs, observable, 
-        new_vars_name='y', 
-        print_system=False, 
-        print_reduction=True, 
-        out_format="sympy", 
+        rhs, observable,
+        new_vars_name='y',
+        print_system=False,
+        print_reduction=True,
+        out_format="sympy",
         loglevel="INFO",
         initial_conditions=None,
         discard_useless_matrices=True
@@ -944,9 +945,8 @@ def do_lumping(
         if isinstance(result["rhs"][0], SparsePolynomial):
             result["rhs"] = [out_ring(p.get_sympy_dict()) for p in result["rhs"]]
         elif isinstance(result["rhs"][0], RationalFunction):
-            # F = sympy.FractionField(sympy.QQ, result["rhs"][0].gens)
-            # result["rhs"] = [F(out_ring(p.num.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict())) for p in result["rhs"]]
-            pass
+            F = sympy.FractionField(sympy.QQ, result["rhs"][0].gens)
+            result["rhs"] = [F(out_ring(p.num.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict())) for p in result["rhs"]]
     elif out_format == "internal":
         pass
     else:
