@@ -288,8 +288,11 @@ class SparsePolynomial(object):
         Returns lowest common mutiple of given polynomials (computed w/ SymPy)
         """
         R = polys[0].get_sympy_ring()
-        lcm = R(sympy.lcm([R(poly.get_sympy_dict()).as_expr() for poly in polys]))
-        return SparsePolynomial.from_sympy(lcm)
+        sympy_polys = [R(poly.get_sympy_dict()) for poly in polys]
+        result = sympy_polys[0]
+        for p in sympy_polys[1:]:
+            result = result.lcm(p)
+        return SparsePolynomial.from_sympy(result)
 
     @staticmethod
     def gcd(polys):
