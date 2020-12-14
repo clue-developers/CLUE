@@ -691,67 +691,24 @@ def construct_matrices_from_rational_functions(rational_functions):
     # Compute Jacobian
     J = [[rf.derivative(v) for rf in rational_functions] for v in variables]
 
-    print(f"-> I computed the Jacobian. It is of size {len(J)}x{len(J)}.")
-    
-    # def print_m(matrix):
-    #     s = [[str(e) for e in row] for row in matrix]
-    #     lens = [max(map(len, col)) for col in zip(*s)]
-    #     fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
-    #     table = [fmt.format(*row) for row in s]
-    #     print('\n'.join(table))
-
-    # print_m(J)
-    # print()
-
+    # # # Find LCM
     denoms = [[row[i].denom for row in J][0] for i in range(len(J[0]))]
-
-    print("-> I got all the denominators.")
-
-    lcm = denoms[0]
-    d = list(filter((lambda x: x != SparsePolynomial.from_string("1",[])),denoms))
-    for i in range(1, len(d)):
-        print(f"--> I am finding LCM with polynomial {i+1} of {len(d)}")
-        lcm = SparsePolynomial.lcm([lcm, denoms[i]])
-
     # filtered_denoms = list(filter((lambda x: x != SparsePolynomial.from_string("1",[])),denoms))
-    # print(f"I am finding the LCM of {len(filtered_denoms)} denominators.")
-    # lcm = SparsePolynomial.lcm(filtered_denoms)
+    # lcm = filtered_denoms[0]
+    # for i in range(1, len(filtered_denoms)):
+    #     print(f"--> I am finding LCM with polynomial {i+1} of {len(filtered_denoms)}")
+    #     lcm = SparsePolynomial.lcm([lcm, filtered_denoms[i]])
 
-    print("-> I found the LCM.")
 
-    p = [lcm//denom for denom in denoms]
-
-    print("-> For each column, I have divided the LCM by the denominator and stored the value.")
+    p = [denom//denom for denom in denoms]
 
     # Pull out the common denominator 
     poly_J = []
     for i in range(len(J)):
-        # print(f"--> I am computing new numerators for the row J[{i}].")
         poly_J_row = []
         for j in range(len(J[i])):
-            # NEW METHOD 
             poly_J_row.append(J[i][j].num * p[j])
-            # # OLD METHOD (SUPER SUPER SLOW)
-            # other_denoms = denoms[:]
-            # other_denoms.pop(j)
-            # other_denoms = list(filter(lambda x: x != SparsePolynomial.from_string("1",[]), other_denoms))
-            # if len(other_denoms) > 0 and not J[i][j].num.is_zero():
-            #     # print(f"\t -> Finding the product of {len(other_denoms) + 1} polynomials for J[{i}][{j}]:")
-            #     # p = reduce((lambda x,y: x * y), other_denoms)
-            #     p = other_denoms[0]
-            #     for denom_i in range(1,len(other_denoms)):
-            #         # print("\t MULTIPLYING ",other_denoms[denom_i])
-            #         # print(f"Finished multiplying polynomial {denom_i}.")
-            #         p *= other_denoms[denom_i]
-            #     poly_J_row.append(J[i][j].num * p)
-            # else:
-            #     # print(f"Skppied some complicated computations for J[{i}][{j}].")
-            #     poly_J_row.append(J[i][j].num)
         poly_J.append(poly_J_row)
-
-    print("-> I pulled out the common denominator.")
-
-    # print_m(poly_J)
 
     # Work with remaining polynomial matrix as in construct_matrices_from_polys
     jacobians = dict()
@@ -763,8 +720,6 @@ def construct_matrices_from_rational_functions(rational_functions):
                 if m not in jacobians:
                     jacobians[m] = SparseRowMatrix(len(variables), field)
                 jacobians[m].increment(row_ind, col_ind, coef)
-
-    print("-> I constructed matrices.")
 
     return jacobians.values()
 
@@ -827,20 +782,21 @@ def do_lumping_internal(rhs, observable, new_vars_name='y', print_system=True, p
     # Reduce the problem to the common invariant subspace problem
     vars_old = rhs[0].gens
     field = rhs[0].domain
-    matrices = sorted(construct_matrices(rhs), key=lambda m: m.nonzero_count())
-
+    deleted = 0
     if discard_useless_matrices:
+        matrices = sorted(construct_matrices(rhs), key=lambda m: m.nonzero_count())
         # Proceed only with matrices that are linearly independent
         vectors_of_matrices = [m.to_vector() for m in matrices]
         assert len(matrices) == len(vectors_of_matrices)
         subspace = Subspace(field)
-        deleted = 0
         for i in range(len(vectors_of_matrices)):
             pivot_index = subspace.absorb_new_vector(vectors_of_matrices[i])
             if pivot_index < 0:
                 del matrices[i - deleted]
                 deleted +=1
         logging.debug(f"Discarded {deleted} linearly dependant matrices")
+    else:
+        matrices = construct_matrices(rhs)
 
     print(f"-> I discarded {deleted} linearly dependant matrices.")
 
