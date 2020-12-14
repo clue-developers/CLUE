@@ -665,15 +665,15 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
     
 #------------------------------------------------------------------------------
 
-def construct_matrices(rhs):
+def construct_matrices(rhs, ignore_denoms=False):
     if isinstance(rhs[0], SparsePolynomial):
         return construct_matrices_from_polys(rhs)
     elif isinstance(rhs[0], RationalFunction):
-        return construct_matrices_from_rational_functions(rhs)
+        return construct_matrices_from_rational_functions(rhs,ignore_denoms)
 
 #------------------------------------------------------------------------------
 
-def construct_matrices_from_rational_functions(rational_functions):
+def construct_matrices_from_rational_functions(rational_functions, ignore_denoms=False):
     """
       Computes Jacobian, pulls out common denominator, and constructs matrices
       J_1^T, ..., J_N^T from the remaining polynomial matrix
@@ -691,16 +691,23 @@ def construct_matrices_from_rational_functions(rational_functions):
     # Compute Jacobian
     J = [[rf.derivative(v) for rf in rational_functions] for v in variables]
 
-    # # # Find LCM
-    denoms = [[row[i].denom for row in J][0] for i in range(len(J[0]))]
-    # filtered_denoms = list(filter((lambda x: x != SparsePolynomial.from_string("1",[])),denoms))
-    # lcm = filtered_denoms[0]
-    # for i in range(1, len(filtered_denoms)):
-    #     print(f"--> I am finding LCM with polynomial {i+1} of {len(filtered_denoms)}")
-    #     lcm = SparsePolynomial.lcm([lcm, filtered_denoms[i]])
+    # ignore_denoms = True
+    
+    if ignore_denoms:
+        print("-> Ignoring Denominators Of The Jacobian!")
+        p = [SparsePolynomial.from_string("1",[]) for _ in range(len(J)*len(J))]
+    else:
+        # Find LCM
+        denoms = [[row[i].denom for row in J][0] for i in range(len(J[0]))]
+        filtered_denoms = list(filter((lambda x: x != SparsePolynomial.from_string("1",[])),denoms))
+        if filtered_denoms:
+            lcm = filtered_denoms[0]
+            for i in range(1, len(filtered_denoms)):
+                lcm = SparsePolynomial.lcm([lcm, filtered_denoms[i]])
+        else:
+            lcm = SparsePolynomial.from_string("1",[])
 
-
-    p = [denom//denom for denom in denoms]
+        p = [lcm//denom for denom in denoms]
 
     # Pull out the common denominator 
     poly_J = []
@@ -758,7 +765,14 @@ def construct_matrices_from_polys(polys):
 
 #------------------------------------------------------------------------------
 
-def do_lumping_internal(rhs, observable, new_vars_name='y', print_system=True, print_reduction=False, ic=None, discard_useless_matrices=True):
+def do_lumping_internal(rhs, 
+                        observable, 
+                        new_vars_name='y', 
+                        print_system=True, 
+                        print_reduction=False, 
+                        ic=None, 
+                        discard_useless_matrices=True, 
+                        ignore_denoms=False):
     """
       Performs a lumping of a polynomial ODE system represented by SparsePolynomial
       Input
@@ -784,7 +798,7 @@ def do_lumping_internal(rhs, observable, new_vars_name='y', print_system=True, p
     field = rhs[0].domain
     deleted = 0
     if discard_useless_matrices:
-        matrices = sorted(construct_matrices(rhs), key=lambda m: m.nonzero_count())
+        matrices = sorted(construct_matrices(rhs,ignore_denoms), key=lambda m: m.nonzero_count())
         # Proceed only with matrices that are linearly independent
         vectors_of_matrices = [m.to_vector() for m in matrices]
         assert len(matrices) == len(vectors_of_matrices)
@@ -796,9 +810,9 @@ def do_lumping_internal(rhs, observable, new_vars_name='y', print_system=True, p
                 deleted +=1
         logging.debug(f"Discarded {deleted} linearly dependant matrices")
     else:
-        matrices = construct_matrices(rhs)
+        matrices = construct_matrices(rhs,ignore_denoms)
 
-    # print(f"-> I discarded {deleted} linearly dependant matrices.")
+    print(f"-> I discarded {deleted} linearly dependant matrices.")
 
     # Find a lumping
     vectors_to_include = []
@@ -854,7 +868,8 @@ def do_lumping(
         out_format="sympy",
         loglevel="INFO",
         initial_conditions=None,
-        discard_useless_matrices=True
+        discard_useless_matrices=True,
+        ignore_denoms=False
     ):
     """
       Main function, performs a lumping of a polynomial ODE system
@@ -888,10 +903,14 @@ def do_lumping(
         rhs = [SparsePolynomial.from_sympy(p) for p in rhs]
         observable = [SparsePolynomial.from_sympy(ob) for ob in observable]
     
-    import timeit
-    starttime = timeit.default_timer()
-    result = do_lumping_internal(rhs, observable, new_vars_name, print_system, print_reduction, initial_conditions, discard_useless_matrices=discard_useless_matrices)
-    print("TIME: ", timeit.default_timer() - starttime)
+    result = do_lumping_internal(rhs,
+                                 observable,
+                                 new_vars_name,
+                                 print_system, 
+                                 print_reduction, 
+                                 initial_conditions, 
+                                 discard_useless_matrices=discard_useless_matrices,
+                                 ignore_denoms=ignore_denoms)
 
     if initial_conditions is not None:
         eval_point = [initial_conditions.get(v, 0) for v in rhs[0].gens]
