@@ -111,59 +111,6 @@ begin model BIOMD0000000033
   BRafInactive + Rap1Active -> BRafActive + Rap1Active ,  1*kRap1ToBRaf*Rap1Active*BRafInactive/(BRafInactive+KmRap1ToBRaf)
   BRafActive + Raf1PPtase -> BRafInactive + Raf1PPtase ,  1*kdBRaf*Raf1PPtase*BRafActive/(BRafActive+KmdBRaf)
  end reactions
-//Comments associated to the reactions
-//EGFBindingReaction:  
-  //EGF binding
-//EGFUnbindingReaction:  
-  //EFG unbinding
-//NGFBindingReaction:  
-  //NGF binding
-//NGFUnbindingReaction:  
-  //NGF unbinding
-//SosActivationByEGFReaction:  
-  //SOS activation by EGF
-//SosActivationByNGFReaction:  
-  //SOS activation by NGF
-//SosDeactivationReaction:  
-  //SOS deactivation
-//RasActivationReaction:  
-  //Ras activation
-//RasDeactivationReaction:  
-  //Ras deactivation
-//Raf1ByRasActivationReaction:  
-  //Raf1 activation by Ras
-//MekbyRaf1ActivationReaction:  
-  //Mek activation by Raf1
-//MekbyBRafActivationReaction:  
-  //Mek activation by B-Raf
-//ErkActivationReaction:  
-  //Erk activation
-//MekDeactivationReaction:  
-  //Mek deactivation
-//ErkDeactivationReaction:  
-  //Erk deactivation
-//Raf1byPPtaseDeactivationReaction:  
-  //Raf1 deactivation by PPase
-//P90RskActivationReaction:  
-  //P90Rsk activation
-//PI3KbyEGFRActivationReaction:  
-  //PI3K activation by EGFR
-//PI3KbyRasActivationReaction:  
-  //PI3K activation by Ras
-//AktActivationReaction:  
-  //Akt activation
-//Raf1ByAktDeactivationReaction:  
-  //Raf1 deactivation by Akt
-//C3GActivationReaction:  
-  //C3G activation
-//Rap1ActivationReaction:  
-  //Rap1 activation
-//Rap1DeactivationReaction:  
-  //Rap1 deactivation
-//BRafByRap1ActivationReaction:  
-  //BRaf activation by Rap1
-//BRafbyPPtaseDeactivationReaction:  
-  //BRaf deactivation by PPase
 reduceFDE(reducedFile="reductions/BIOMD0000000033_FDE.ode")
 end model
 
