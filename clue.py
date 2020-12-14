@@ -798,7 +798,7 @@ def do_lumping_internal(rhs, observable, new_vars_name='y', print_system=True, p
     else:
         matrices = construct_matrices(rhs)
 
-    print(f"-> I discarded {deleted} linearly dependant matrices.")
+    # print(f"-> I discarded {deleted} linearly dependant matrices.")
 
     # Find a lumping
     vectors_to_include = []
@@ -887,8 +887,11 @@ def do_lumping(
         logging.debug("Input is expected to be in SymPy format")
         rhs = [SparsePolynomial.from_sympy(p) for p in rhs]
         observable = [SparsePolynomial.from_sympy(ob) for ob in observable]
-
+    
+    import timeit
+    starttime = timeit.default_timer()
     result = do_lumping_internal(rhs, observable, new_vars_name, print_system, print_reduction, initial_conditions, discard_useless_matrices=discard_useless_matrices)
+    print("TIME: ", timeit.default_timer() - starttime)
 
     if initial_conditions is not None:
         eval_point = [initial_conditions.get(v, 0) for v in rhs[0].gens]
