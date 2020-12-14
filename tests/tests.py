@@ -12,42 +12,51 @@ from parser import read_system
 from sparse_polynomial import SparsePolynomial
 from rational_function import RationalFunction
 
-def evalp(poly, point):
-    if isinstance(poly, SparsePolynomial):
-        pdict = poly.get_sympy_dict()
-    elif isinstance(poly, RationalFunction):
-        raise NotImplementedError
-    else:
-        pdict = poly.to_dict()
+def eval_poly_dict(pdict, point):
     result = 0
     for m, c in pdict.items():
         to_add = c
         for i in range(len(m)):
             to_add = to_add * point[i]**m[i]
         result += to_add
-
     return result
+
+def eval_rhs(rhs, point):
+    if isinstance(rhs, RationalFunction):
+        pdict_num = rhs.num.get_sympy_dict()
+        pdict_denom = rhs.denom.get_sympy_dict()
+        return eval_poly_dict(pdict_num, point)/eval_poly_dict(pdict_denom, point)
+    elif isinstance(rhs, sympy.polys.fields.FracElement):
+        pdict_num = rhs.numer.to_dict()
+        pdict_denom = rhs.denom.to_dict()
+        return eval_poly_dict(pdict_num, point)/eval_poly_dict(pdict_denom, point)
+    elif isinstance(rhs, SparsePolynomial):
+        pdict = rhs.get_sympy_dict()
+        return eval_poly_dict(pdict, point)
+    else:
+        pdict = rhs.to_dict()
+        return eval_poly_dict(pdict, point)
+
 
 def dot_product(a, b):
     return sum([x * y for x, y in zip(a, b)])
 
 def check_lumping(test_name, polys, lumping, correct_size):
+    print()
     lumped_system = lumping["rhs"]
     new_vars = lumping["subspace"]
     assert(len(lumped_system) == correct_size)
     print(test_name + ": size is correct")
 
-    # if isinstance(polys[0], sympy.polys.rings.PolyElement):
-    #     if isinstance(lumped_system[0], sympy.polys.fields.FracElement): return
-    #     specialization = [random.randint(1, 100) for _ in range(len(polys))]
-    #     polys_values = [evalp(p, specialization) for p in polys]
-    #     polys_values_lumped = [dot_product(polys_values, var) for var in new_vars]
+    specialization = [random.randint(1, 100) for _ in range(len(polys))]
+    rhs_values = [eval_rhs(rhs, specialization) for rhs in polys]
+    rhs_values_lumped = [dot_product(rhs_values, var) for var in new_vars]
 
-    #     specialization_lumped = [dot_product(specialization, var) for var in new_vars]
-    #     lumped_polys_values = [evalp(p, specialization_lumped) for p in lumped_system]
+    specialization_lumped = [dot_product(specialization, var) for var in new_vars]
+    lumped_rhs_values = [eval_rhs(rhs, specialization_lumped) for rhs in lumped_system]
 
-    #     assert(polys_values_lumped == lumped_polys_values)
-    #     print(test_name + ": lumping is correct")
+    assert(rhs_values_lumped == lumped_rhs_values)
+    print(test_name + ": lumping is correct")
 
 if __name__ == "__main__":
 
@@ -99,9 +108,9 @@ if __name__ == "__main__":
                           print_reduction=True,
                           initial_conditions={"x" : 1, "y" : 2 })
     print(lumping)
-    # assert lumping["rhs"] == [-1]
+    check_lumping("Actual Rational Function Example ", rhs, lumping, 1)
 
-    # # SparsePolynomial Models --------------------------------------------------
+    # SparsePolynomial Models --------------------------------------------------
 
     # PP for n = 2
     system = read_system("e2.ode") 
@@ -116,7 +125,7 @@ if __name__ == "__main__":
     system = read_system("BIOMD0000000101.ode")
     lumping = do_lumping(
             system["equations"],
-            [SparsePolynomial.from_string("RI", system["variables"])], 
+            [SparsePolynomial.from_string("RI", system["variables"])],
             print_reduction=False
     )
     check_lumping("BIOMD0000000101", system["equations"], lumping, 14)
@@ -150,6 +159,6 @@ if __name__ == "__main__":
             [SparsePolynomial.from_string("C3GActive", system["variables"])],
             print_reduction=True
     )
-    print(lumping)
+    check_lumping("BIOMD0000000033", system["equations"], lumping, 9)
 
 ############################################

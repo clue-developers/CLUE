@@ -148,4 +148,16 @@ if __name__ == "__main__":
     sp = SparsePolynomial(['x'])
     assert sp.is_zero()
 
+    rf = RationalFunction.from_string("(PI3KInactive**3*boundEGFReceptor**2*kPI3K + PI3KInactive**3*RasActive**2*kPI3KRas + KmPI3K*PI3KInactive**2*RasActive**2*kPI3KRas + KmPI3KRas*PI3KInactive**2*boundEGFReceptor**2*kPI3K)/(PI3KInactive**2 + KmPI3K*KmPI3KRas + KmPI3K*PI3KInactive + KmPI3KRas*PI3KInactive)",
+                                        ['PI3KInactive',
+                                        'boundEGFReceptor',
+                                        'kPI3K',
+                                        'RasActive',
+                                        'kPI3KRas',
+                                        'KmPI3K',
+                                        'KmPI3KRas',
+                                        ])
+    print(rf)
+    rf.simplify()
+    print(rf)
 

@@ -828,8 +828,12 @@ def do_lumping_internal(rhs, observable, new_vars_name='y', print_system=True, p
     vars_old = rhs[0].gens
     field = rhs[0].domain
     matrices = sorted(construct_matrices(rhs), key=lambda m: m.nonzero_count())
+    # matrices = construct_matrices(rhs)
+    print(len(matrices))
 
-    if discard_useless_matrices:
+
+
+    if False:
         # Proceed only with matrices that are linearly independent
         vectors_of_matrices = [m.to_vector() for m in matrices]
         assert len(matrices) == len(vectors_of_matrices)
@@ -842,7 +846,7 @@ def do_lumping_internal(rhs, observable, new_vars_name='y', print_system=True, p
                 deleted +=1
         logging.debug(f"Discarded {deleted} linearly dependant matrices")
 
-    print(f"-> I discarded {deleted} linearly dependant matrices.")
+    # print(f"-> I discarded {deleted} linearly dependant matrices.")
 
     # Find a lumping
     vectors_to_include = []
@@ -931,8 +935,11 @@ def do_lumping(
         logging.debug("Input is expected to be in SymPy format")
         rhs = [SparsePolynomial.from_sympy(p) for p in rhs]
         observable = [SparsePolynomial.from_sympy(ob) for ob in observable]
-
+    
+    import timeit
+    starttime = timeit.default_timer()
     result = do_lumping_internal(rhs, observable, new_vars_name, print_system, print_reduction, initial_conditions, discard_useless_matrices=discard_useless_matrices)
+    print("TIME: ", timeit.default_timer() - starttime)
 
     if initial_conditions is not None:
         eval_point = [initial_conditions.get(v, 0) for v in rhs[0].gens]
