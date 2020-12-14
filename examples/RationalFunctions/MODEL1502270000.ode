@@ -67,10 +67,10 @@ begin model MODEL1502270000
  begin reactions
   2*rmt -> rmt + zmt ,  cl*k_cm*rmt
   2*zmt -> rmt + zmt ,  b*zmt
-  rmr + rmp + rmq + rmt + rmm + 2*zmm + a -> rmr + rmp + rmq + rmt + rmm + zmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*zmm
-  rmr + rmp + rmq + rmt + rmm + 2*q + a -> rmr + rmp + rmq + rmt + rmm + q + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*q
+  rmr + rmp + rmq + rmt + rmm + 2*zmm + a -> rmr + rmp + rmq + rmt + rmm + zmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*zmm/(gmax*Kp+a)
+  rmr + rmp + rmq + rmt + rmm + 2*q + a -> rmr + rmp + rmq + rmt + rmm + q + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*q/(gmax*Kp+a)
   2*zmp -> rmp + zmp ,  b*zmp 
-  rmr + rmp + rmq + rmt + rmm + 2*zmp + a -> rmr + rmp + rmq + rmt + rmm + zmp + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*zmp
+  rmr + rmp + rmq + rmt + rmm + 2*zmp + a -> rmr + rmp + rmq + rmt + rmm + zmp + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*zmp/(gmax*Kp+a)
   2*rmp -> rmp + zmp ,  cl*k_cm*rmp
   2*zmm -> rmm + zmm ,  b*zmm
   2*rmm -> rmm + zmm ,  cl*k_cm*rmm
@@ -78,24 +78,24 @@ begin model MODEL1502270000
   2*mm -> mm ,  dm*mm
   2*mp -> mp ,  dm*mp
   2*mq -> mq ,  dm*mq
-  rmr + rmp + rmq + rmt + rmm + 2*zmr + a -> rmr + rmp + rmq + rmt + rmm + zmr + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*zmr 
-  rmr + rmp + rmq + rmt + rmm + 2*zmt + a -> rmr + rmp + rmq + rmt + rmm + zmt + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*zmt 
-  rmr + rmp + rmq + rmt + rmm + 2*a -> rmr + rmp + rmq + rmt + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*a 
-  rmr + rmp + rmq + rmt + rmm + 2*si + a -> rmr + rmp + rmq + rmt + rmm + si + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*si 
-  rmr + rmp + rmq + rmt + rmm + 2*p + a -> rmr + rmp + rmq + rmt + rmm + p + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*p 
-  rmr + rmp + rmq + rmt + rmm + 2*mr + a -> rmr + rmp + rmq + rmt + rmm + mr + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*mr 
-  rmr + rmp + rmq + rmt + 2*et + rmm + a -> rmr + rmp + rmq + rmt + et + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*et 
-  rmr + 2*em + rmp + rmq + rmt + rmm + a -> rmr + em + rmp + rmq + rmt + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*em 
+  rmr + rmp + rmq + rmt + rmm + 2*zmr + a -> rmr + rmp + rmq + rmt + rmm + zmr + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*zmr/(gmax*Kp+a) 
+  rmr + rmp + rmq + rmt + rmm + 2*zmt + a -> rmr + rmp + rmq + rmt + rmm + zmt + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*zmt/(gmax*Kp+a) 
+  rmr + rmp + rmq + rmt + rmm + 2*a -> rmr + rmp + rmq + rmt + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*a/(gmax*Kp+a)
+  rmr + rmp + rmq + rmt + rmm + 2*si + a -> rmr + rmp + rmq + rmt + rmm + si + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*si/(gmax*Kp+a)
+  rmr + rmp + rmq + rmt + rmm + 2*p + a -> rmr + rmp + rmq + rmt + rmm + p + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*p/(gmax*Kp+a)
+  rmr + rmp + rmq + rmt + rmm + 2*mr + a -> rmr + rmp + rmq + rmt + rmm + mr + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*mr/(gmax*Kp+a)
+  rmr + rmp + rmq + rmt + 2*et + rmm + a -> rmr + rmp + rmq + rmt + et + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*et/(gmax*Kp+a)
+  rmr + 2*em + rmp + rmq + rmt + rmm + a -> rmr + em + rmp + rmq + rmt + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*em/(gmax*Kp+a)
   em + 2*si -> em + si ,  em*vm*si/(Km+si) 
-  2*et -> 2*et + si ,  et*vt*s0/(Kt+s0) 
-  rmr + rmp + rmq + rmt + rmm + 2*a -> rmr + rmp + rmq + rmt + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a) 
+  2*et -> 2*et + si ,  et*vt*s0/(Kt+s0)
+  rmr + rmp + rmq + rmt + rmm + 2*a -> rmr + rmp + rmq + rmt + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax*Kp+a) 
   em + si -> em + si + a ,  ns*em*vm*si/(Km+si) 
   2*a -> mt + 2*a ,  we*a/(thetax+a) 
   2*a -> mr + 2*a ,  wr*a/(thetar+a) 
   2*a -> mp + 2*a ,  wp*a/(thetax+a) 
   2*a -> mm + 2*a ,  we*a/(thetax+a) 
   //2*q + 2*a -> 2*q + mq + 2*a ,  wq*a/(thetax+a)/(1+(q/Kq)^nq) 
-  2*q + 2*a -> 2*q + mq + 2*a ,  wq*a/(thetax+a)/(1+(q/Kq)^4) 
+  2*q + 2*a -> 2*q + mq + 2*a ,  wq*a/((thetax+a)*(1+(q * Kq)^4))
   2*mt + 2*r -> rmt + mt + r ,  kb*r*mt 
   2*rmt -> rmt + mt + r ,  ku*rmt 
   2*mm + 2*r -> rmm + mm + r ,  kb*r*mm 
@@ -106,22 +106,22 @@ begin model MODEL1502270000
   2*rmq -> rmq + mq + r ,  ku*rmq 
   2*rmq -> rmq + zmq ,  cl*k_cm*rmq 
   2*mq + 2*r -> rmq + mq + r ,  kb*r*mq 
-  rmr + rmp + rmq + rmt + rmm + 2*r + a -> rmr + rmp + rmq + rmt + rmm + r + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*r 
-  rmr + rmp + 2*rmq + rmt + rmm + a -> rmr + rmp + rmq + rmt + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*rmq 
-  2*rmt + a -> rmt + et + mt + r + a ,  gmax*a/(gmax/Kp+a)/nx*rmt 
-  2*rmr + a -> rmr + mr + 2*r + a ,  gmax*a/(gmax/Kp+a)/nr*rmr 
-  2*rmp + a -> rmp + p + mp + r + a ,  gmax*a/(gmax/Kp+a)/nx*rmp 
-  2*rmm + a -> em + rmm + mm + r + a ,  gmax*a/(gmax/Kp+a)/nx*rmm 
-  2*rmq + a -> rmq + q + mq + r + a ,  gmax*a/(gmax/Kp+a)/nx*rmq 
-  rmr + rmp + rmq + rmt + rmm + 2*mm + a -> rmr + rmp + rmq + rmt + rmm + mm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*mm 
-  rmr + rmp + rmq + rmt + rmm + 2*mt + a -> rmr + rmp + rmq + rmt + rmm + mt + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*mt 
-  rmr + 2*rmp + rmq + rmt + rmm + a -> rmr + rmp + rmq + rmt + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*rmp 
-  rmr + rmp + rmq + rmt + 2*rmm + a -> rmr + rmp + rmq + rmt + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*rmm 
-  rmr + rmp + rmq + 2*rmt + rmm + a -> rmr + rmp + rmq + rmt + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*rmt 
-  2*rmr + rmp + rmq + rmt + rmm + a -> rmr + rmp + rmq + rmt + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*rmr 
-  rmr + rmp + rmq + rmt + rmm + 2*mq + a -> rmr + rmp + rmq + rmt + rmm + mq + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*mq 
-  rmr + rmp + rmq + rmt + rmm + 2*mp + a -> rmr + rmp + rmq + rmt + rmm + mp + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*mp 
-  rmr + rmp + rmq + rmt + rmm + 2*zmq + a -> rmr + rmp + rmq + rmt + rmm + zmq + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a/(gmax/Kp+a)/M*zmq 
+  rmr + rmp + rmq + rmt + rmm + 2*r + a -> rmr + rmp + rmq + rmt + rmm + r + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*r/(gmax*Kp+a) 
+  rmr + rmp + 2*rmq + rmt + rmm + a -> rmr + rmp + rmq + rmt + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*rmq/(gmax*Kp+a) 
+  2*rmt + a -> rmt + et + mt + r + a ,  gmax*a*nx*rmt/(gmax*Kp+a) 
+  2*rmr + a -> rmr + mr + 2*r + a ,  gmax*a*nr*rmr/(gmax*Kp+a) 
+  2*rmp + a -> rmp + p + mp + r + a ,  gmax*a*nx*rmp/(gmax*Kp+a) 
+  2*rmm + a -> em + rmm + mm + r + a ,  gmax*a*nx*rmm/(gmax*Kp+a)
+  2*rmq + a -> rmq + q + mq + r + a ,  gmax*a*nx*rmq/(gmax*Kp+a) 
+  rmr + rmp + rmq + rmt + rmm + 2*mm + a -> rmr + rmp + rmq + rmt + rmm + mm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*mm/(gmax*Kp+a) 
+  rmr + rmp + rmq + rmt + rmm + 2*mt + a -> rmr + rmp + rmq + rmt + rmm + mt + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*mt/(gmax*Kp+a) 
+  rmr + 2*rmp + rmq + rmt + rmm + a -> rmr + rmp + rmq + rmt + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*rmp/(gmax*Kp+a) 
+  rmr + rmp + rmq + rmt + 2*rmm + a -> rmr + rmp + rmq + rmt + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*rmm/(gmax*Kp+a) 
+  rmr + rmp + rmq + 2*rmt + rmm + a -> rmr + rmp + rmq + rmt + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*rmt/(gmax*Kp+a) 
+  2*rmr + rmp + rmq + rmt + rmm + a -> rmr + rmp + rmq + rmt + rmm + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*rmr/(gmax*Kp+a) 
+  rmr + rmp + rmq + rmt + rmm + 2*mq + a -> rmr + rmp + rmq + rmt + rmm + mq + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*mq/(gmax*Kp+a) 
+  rmr + rmp + rmq + rmt + rmm + 2*mp + a -> rmr + rmp + rmq + rmt + rmm + mp + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*mp/(gmax*Kp+a) 
+  rmr + rmp + rmq + rmt + rmm + 2*zmq + a -> rmr + rmp + rmq + rmt + rmm + zmq + a ,  (rmq+rmr+rmp+rmt+rmm)*gmax*a*M*zmq/(gmax*Kp+a) 
   2*zmr -> rmr + zmr ,  b*zmr 
   2*mr -> mr ,  dm*mr 
   2*mr + 2*r -> rmr + mr + r ,  kb*r*mr 
@@ -129,6 +129,6 @@ begin model MODEL1502270000
   2*rmr -> rmr + zmr ,  cl*k_cm*rmr 
  end reactions
 //write(fileOut="ODEs.ode",format=ODE)
- reduceBDE(reducedFile="reductions/MODEL1502270000_BDEIC.ode",prePartition=IC)
+ reduceBDE(reducedFile="reductions*MODEL1502270000_BDEIC.ode",prePartition=IC)
 end model
 
