@@ -46,8 +46,8 @@ class RationalFunction:
         else:
             split = s.split("/")
             if len(split) == 2:
-                num_str = s.split("/")[0]
-                denom_str = s.split("/")[1]
+                num_str = split[0]
+                denom_str = split[1]
             else:
                 raise NotImplementedError
 

@@ -104,20 +104,13 @@ if __name__ == "__main__":
 
     # varnames = ["x", "y"]
     # rhs = [RationalFunction.from_string("y/(x-y)", varnames),
-    #        RationalFunction.from_string("x/(x-3*y)", varnames)]
+    #        RationalFunction.from_string("x/(x-y)", varnames)]
     # lumping = do_lumping(rhs,
-    #                      [SparsePolynomial.from_string("x-y", varnames)],
+    #                      [SparsePolynomial.from_string("(x-y)", varnames)],
     #                       print_reduction=True,
     #                       initial_conditions={"x" : 1, "y" : 2 },
     #                       ignore_denoms=False)
-    # print()
-    # lumping2 = do_lumping(rhs,
-    #                      [SparsePolynomial.from_string("x-y", varnames)],
-    #                       print_reduction=True,
-    #                       initial_conditions={"x" : 1, "y" : 2 },
-    #                       ignore_denoms=True)
-    # assert lumping == lumping2
-    # check_lumping("Actual Rational Function Example", rhs, lumping, 2)
+    # check_lumping("Actual Rational Function Example", rhs, lumping, 1)
 
     # # SparsePolynomial Models --------------------------------------------------
 
@@ -159,24 +152,41 @@ if __name__ == "__main__":
 
     # RationalFunction Models --------------------------------------------------
 
-    print('\n----- THE MAIN TEST -------------------------------------------\n')
+    print('\n----- THE MAIN TESTS ------------------------------------------\n')
 
-    N = 1
-    # BIOMD0000000033
-    system = read_system("../examples/RationalFunctions/BIOMD0000000033.ode")
-    time = 0
-    for i in range(N):
-        start = timeit.default_timer()
-        lumping = do_lumping(
-                system["equations"],
-                [SparsePolynomial.from_string("C3GActive", system["variables"])],
-                print_reduction=False,
-                discard_useless_matrices=False,
-                ignore_denoms=True
-        )
-        time += timeit.default_timer() - start
-    print("Average Time: ", time/N)
-    check_lumping("BIOMD0000000033", system["equations"], lumping)
+    # N = 1
+    # # BIOMD0000000033
+    # system = read_system("../examples/RationalFunctions/BIOMD0000000033.ode")
+    # print(len(system['variables']))
+    # time = 0
+    # for i in range(N):
+    #     start = timeit.default_timer()
+    #     lumping = do_lumping(
+    #             system["equations"],
+    #             [SparsePolynomial.from_string("C3GActive", system["variables"])],
+    #             print_reduction=False,
+    #             discard_useless_matrices=True,
+    #     )
+    #     time += timeit.default_timer() - start
+    # print("Average Time: ", time/N)
+    # check_lumping("BIOMD0000000033", system["equations"], lumping)
     
+
+    # MODEL1502270000
+    system = read_system("../examples/RationalFunctions/MODEL1502270000.ode")
+    lumping = do_lumping(
+            system["equations"],
+            [SparsePolynomial.from_string("si", system["variables"])],
+            print_reduction=False,
+            discard_useless_matrices=True,
+    )
+    check_lumping("MODEL1502270000", system["equations"], lumping)
+    lumping = do_lumping(
+            system["equations"],
+            [SparsePolynomial.from_string("si", system["variables"])],
+            print_reduction=False,
+            discard_useless_matrices=False,
+    )
+    check_lumping("MODEL1502270000", system["equations"], lumping)
 
 ############################################

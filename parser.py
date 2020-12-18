@@ -172,22 +172,17 @@ def parse_reactions(lines, varnames):
     # eqs = {v : SparsePolynomial(varnames, QQ) for v in varnames}
     eqs = {v : RationalFunction(SparsePolynomial(varnames, QQ),SparsePolynomial.from_string("1", varnames, var_to_ind)) for v in varnames}
     for lhs, rhs, rate in raw_reactions:
-        # print()
-        # print(rate)
         # rate_poly = SparsePolynomial.from_string(rate, varnames, var_to_ind)
         rate_poly = RationalFunction.from_string(rate, varnames, var_to_ind)
         ldict = species_to_multiset(lhs)
         rdict = species_to_multiset(rhs)
         monomial = tuple((var_to_ind[v], mult) for v, mult in ldict.items())
         reaction_poly = rate_poly * SparsePolynomial(varnames, QQ, {monomial : QQ(1)})
-        # print(reaction_poly)
-        # print("doing shit")
         for v, mult in rdict.items():
             eqs[v] += reaction_poly * mult
         for v, mult in ldict.items():
             eqs[v] += reaction_poly * (-mult)
 
-    # print(eqs)
     return [eqs[v] for v in varnames]
 
 
@@ -222,7 +217,7 @@ def get_varnames(strings):
         # replace is used not to consider d in "d(X) =". As a variable
         # a bit too hacky, to be replaced
         s = s.replace("d(", "")
-        new_names = re.split(r'[\s\*\+\-\(\),<>\^=\.]', s)
+        new_names = re.split(r'[\s\*\+\-\(\)\(/),<>\^=\.]', s)
         # the second condition removes pieces of number in the exp notation
         new_names = filter(lambda v: v != 'Rational' and v != '' and v[0] not in [str(i) for i in range(10)], new_names)
         names_set.update(new_names)
