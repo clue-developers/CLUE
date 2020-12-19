@@ -176,10 +176,11 @@ if __name__ == "__main__":
     system = read_system("../examples/RationalFunctions/MODEL1502270000.ode")
     lumping = do_lumping(
             system["equations"],
-            [SparsePolynomial.from_string("si", system["variables"])],
+            [SparsePolynomial.from_string("gmax*Kp+a", system["variables"])],
             print_reduction=False,
             discard_useless_matrices=True,
     )
+    print("Lumping Size: ", len(lumping['rhs']))
     check_lumping("MODEL1502270000", system["equations"], lumping)
     lumping = do_lumping(
             system["equations"],
@@ -187,6 +188,8 @@ if __name__ == "__main__":
             print_reduction=False,
             discard_useless_matrices=False,
     )
+    print("Lumping Size: ", len(lumping['rhs']))
     check_lumping("MODEL1502270000", system["equations"], lumping)
+    # print(lumping)
 
 ############################################

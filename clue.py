@@ -705,7 +705,7 @@ def construct_matrices_from_rational_functions(rational_functions):
     lcm = lcm_rec(d, 0, len(d))
     lcm = lcm*lcm
 
-    p = [lcm // denom for denom in denoms]
+    p = [lcm // (denom*denom) for denom in denoms]
 
     # Pull out the common denominator 
     poly_J = []
