@@ -1,6 +1,6 @@
 # CLUE (Constrained LUmping for differential Equations)
 
-CLUE is a Python implementation of the algorithm from the paper ''CLUE: Exact maximal reduction of kinetic models by constrained lumping of differential equations'' (by A.Ovchinnikov, I. Pérez Verona, G. Pogudin, M. Tribastone).
+CLUE is a Python implementation of the algorithm from the paper [''CLUE: Exact maximal reduction of kinetic models by constrained lumping of differential equations'' (by A.Ovchinnikov, I. Pérez Verona, G. Pogudin, M. Tribastone)](https://arxiv.org/abs/2004.11961).
 
 ## What is constrained lumping?
 
