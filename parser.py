@@ -7,6 +7,7 @@ import sympy
 from sympy.core.numbers import Rational
 from sympy import QQ
 from sympy.core.compatibility import exec_
+from natsort import natsorted
 
 from sparse_polynomial import SparsePolynomial, to_rational
 
@@ -245,6 +246,7 @@ def read_system(filename, read_ic=False):
         raise KeyError("Neither ODE nor reactions sections is found, cannot generate an ODE system")
 
     varnames = get_varnames(sections_raw['ODE'] if 'ODE' in sections_raw else sections_raw['reactions'])
+    varnames = natsorted(varnames)
 
     equations = None
     if 'ODE' in sections_raw:
