@@ -287,6 +287,17 @@ class SparseRowMatrix(object):
     def nonzero_count(self):
         return sum([v.nonzero_count() for v in self._data.values()])
 
+    def export_as_triples(self):
+        """
+        Export the matrix as a list of tripes (row_idx, col_idx, entry)
+        for the nonzero entries
+        """
+        result = set()
+        for i in self._nonzero:
+            for j in self._data[i]._nonzero:
+                result.add((i, j, self[i, j]))
+        return result
+
     #--------------------------------------------------------------------------
 
     def __setitem__(self, cell, value):
