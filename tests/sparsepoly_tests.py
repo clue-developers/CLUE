@@ -5,8 +5,8 @@ from sympy import QQ
 
 sys.path.insert(0, "../")
 sys.path.insert(0, "./")
-import clue
-from sparse_polynomial import SparsePolynomial
+from clue import clue
+from clue.sparse_polynomial import SparsePolynomial
 
 exprs = [
     "a * (3 * a + b) - 8.5 * (a + b)**5 - 3 * c * b * (c - a)",

@@ -11,9 +11,9 @@ from sympy import QQ
 
 sys.path.insert(0, "../")
 sys.path.insert(0, "./../../")
-import parser
-import clue
-from sparse_polynomial import SparsePolynomial
+from clue import parser
+from clue import clue
+from clue.sparse_polynomial import SparsePolynomial
 
 for n in range(2, 9):
 

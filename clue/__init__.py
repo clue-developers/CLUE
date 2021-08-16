@@ -1,2 +1,2 @@
-from . import parser
-from . import clue
+from .clue import *
+from .parser import *

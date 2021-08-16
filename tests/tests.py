@@ -8,10 +8,10 @@ from sympy import QQ
 sys.path.insert(0, "../")
 sys.path.insert(0, "./")
 
-from clue import do_lumping
-from parser import read_system
-from sparse_polynomial import SparsePolynomial
-from rational_function import RationalFunction
+from clue.clue import do_lumping
+from clue.parser import read_system
+from clue.sparse_polynomial import SparsePolynomial
+from clue.rational_function import RationalFunction
 
 def eval_poly_dict(pdict, point):
     result = 0
