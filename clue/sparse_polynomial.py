@@ -189,6 +189,13 @@ class SparsePolynomial(object):
             sum_coef = c + other._data.get(m, self._domain(0))
             if sum_coef != 0:
                 resdata[m] = sum_coef
+        
+        if(not isinstance(other, SparsePolynomial)):
+            if(other in self.domain):
+                other = SparsePolynomial.from_const(other, self.gens)
+            else:
+                return NotImplemented
+
         for m, c in other._data.items():
             if m not in self._data:
                 resdata[m] = c
@@ -201,6 +208,12 @@ class SparsePolynomial(object):
     #--------------------------------------------------------------------------
 
     def __iadd__(self, other):
+        if(not isinstance(other, SparsePolynomial)):
+            if(other in self.domain):
+                other = SparsePolynomial.from_const(other, self.gens)
+            else:
+                return NotImplemented
+
         for m, c in other._data.items():
             sum_coef = c + self._data.get(m, self._domain(0))
             if sum_coef != 0:
@@ -479,7 +492,7 @@ class SparsePolynomial(object):
     @staticmethod
     def from_string(s, varnames, var_to_ind = None):
         """
-        Parsing a string to a polynomial, sting is allowed to include floating-point numbers
+        Parsing a string to a polynomial, string is allowed to include floating-point numbers
         in the standard and scientific notation, they will be converted to rationals
 
         The code is an adapted version of fourFn example for pyparsing library by Paul McGuire
