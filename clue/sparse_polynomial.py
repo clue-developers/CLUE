@@ -8,7 +8,6 @@ from pyparsing import (
     alphas,
     alphanums,
     Regex,
-    ParseException,
     Suppress,
 )
 
@@ -36,7 +35,7 @@ def to_rational(s):
 
 class SparsePolynomial(object):
     """
-    Simplictic class for representing polynomials with sparse exponent vectors
+    Simplistic class for representing polynomials with sparse exponent vectors
     Fields:
       - domain - coefficient domain
       - var_names - a list of names of variables
@@ -70,6 +69,117 @@ class SparsePolynomial(object):
     def gens(self):
         return self._varnames.copy()
 
+    @property
+    def monomials(self):
+        r'''
+            Monomials that have a non-zero coefficient in this polynomial.
+
+            This method returns a tuple with the monomials that have a non-zero coefficient
+            in this polynomial. This whole polynomial can be retrieved from these monomials
+            and the coefficients obtained by :func:`coefficients`.
+
+            Output
+                A tuple with :class:`SparsePolynomial` that are the monomials forming this polynomial.
+
+            Examples::
+
+                >>> from sympy import QQ
+                >>> from clue.sparse_polynomial import SparsePolynomial
+                >>> x = SparsePolynomial(["x", "y"], QQ, {tuple([(0,1)]): 1})
+                >>> y = SparsePolynomial(["x", "y"], QQ, {tuple([(1,1)]): 1})
+                >>> one = SparsePolynomial(["x", "y"], QQ, {(): 1})
+                >>> p = one + x//(2*one) + (3*one)*y + (5*one)*x*y
+                >>> p.monomials
+                (1, x, y, x*y)
+                >>> SparsePolynomial.from_const(1, ["x", "y"]).monomials
+                (1,)
+
+            This method return an empty tuple if no monomial is contained, i.e., the polynomial 
+            is equal to zero::
+
+                >>> SparsePolynomial(["x", "y"], QQ).monomials
+                ()
+                >>> SparsePolynomial.from_const(0, ["x", "y"]).monomials
+                ()
+
+            The same polynomial can be obtained using together the method :func:`coefficients`::
+
+                >>> n = len(p.dataiter())
+                >>> p == sum([p.coefficients[i]*p.monomials[i] for i in range(n)], SparsePolynomial(p.gens, p.domain))
+                True
+        '''
+        return tuple([SparsePolynomial.monomial(term[0], self.gens) for term in self.dataiter()])
+
+    @property
+    def coefficients(self):
+        r'''
+            Coefficients of this polynomial.
+
+            This method returns a tuple with the coefficients that appear
+            in this polynomial. This whole polynomial can be retrieved from these coefficients
+            and the monomials obtained by :func:`monomials`.
+
+            Output
+                A tuple with elements in ``self.domain`` that are the coefficients forming this polynomial.
+
+            Examples::
+
+                >>> from sympy import QQ
+                >>> from clue.sparse_polynomial import SparsePolynomial
+                >>> x = SparsePolynomial(["x", "y"], QQ, {tuple([(0,1)]): 1})
+                >>> y = SparsePolynomial(["x", "y"], QQ, {tuple([(1,1)]): 1})
+                >>> one = SparsePolynomial(["x", "y"], QQ, {(): 1})
+                >>> p = one + x//(2*one) + (3*one)*y + (5*one)*x*y
+                >>> p.monomials
+                (1, 1/2, 3, 5)
+                >>> SparsePolynomial.from_const(1, ["x", "y"]).monomials
+                (1,)
+
+            This method return an empty tuple if no monomial is contained, i.e., the polynomial 
+            is equal to zero::
+
+                >>> SparsePolynomial(["x", "y"], QQ).monomials
+                ()
+                >>> SparsePolynomial.from_const(0, ["x", "y"]).monomials
+                ()
+
+            The same polynomial can be obtained using together the method :func:`monomials`::
+
+                >>> n = len(p.dataiter())
+                >>> p == sum([p.coefficients[i]*p.monomials[i] for i in range(n)], SparsePolynomial(p.gens, p.domain))
+                True
+        '''
+        return tuple([el[1] for el in self.dataiter()])
+    
+    @property
+    def linear_components(self):
+        r'''
+            Linear components and coefficients from this polynomial.
+
+            This method returns a set of functions (:class:`SparsePolynomial`)
+            that are linearly independent w.r.t. the domain of this 
+            polynomial (see :func:`domain`) and a list of coefficients 
+            that allows to get the same polynomial again.
+
+            For a polynomial, this is the same as the set of monomials
+            of the polynomial and the list of coefficients.
+
+            Output
+                Two tuples `T, C` such that ``self == sum(C[i]*T[i] for i in range(len(T)))``.
+
+            Examples
+
+                >>> from sympy import QQ
+                >>> from clue.sparse_polynomial import SparsePolynomial
+                >>> x = SparsePolynomial(["x", "y"], QQ, {tuple([(0,1)]): 1})
+                >>> y = SparsePolynomial(["x", "y"], QQ, {tuple([(1,1)]): 1})
+                >>> one = SparsePolynomial(["x", "y"], QQ, {(): 1})
+                >>> p = one + x/(2*one) + (3*one)*y + (5*one)*x*y
+                >>> p.linear_components()
+                (1, x, y, x*y), (2, 1/2, 3, 5)
+        '''
+        return self.monomials, self.coefficients
+        
     #--------------------------------------------------------------------------
 
     def __add__(self, other):
@@ -84,6 +194,9 @@ class SparsePolynomial(object):
                 resdata[m] = c
         result._data = resdata
         return result
+
+    def __radd__(self, other):
+        return self.__add__(other)
 
     #--------------------------------------------------------------------------
 
@@ -105,6 +218,9 @@ class SparsePolynomial(object):
     def __sub__(self, other):
         return self + (-other)
 
+    def __rsub__(self, other):
+        return self.__neg__().__add__(other)
+
     def __isub__(self, other):
         self += (-other)
         return self
@@ -112,6 +228,11 @@ class SparsePolynomial(object):
     #--------------------------------------------------------------------------
     
     def __eq__(self, other):
+        if(not isinstance(other, SparsePolynomial)):
+            if(other in self.domain):
+                other = SparsePolynomial.from_const(other, self.gens)
+            else:
+                return False
         if self._data != other._data:
             return False
         else:
@@ -149,6 +270,12 @@ class SparsePolynomial(object):
                 for m, c in self._data.items():
                     result._data[m] = c * other
             return result
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
+
+    def __pow__(self, power):
+        return self.exp(power)
 
     #--------------------------------------------------------------------------
 
@@ -285,7 +412,7 @@ class SparsePolynomial(object):
     @staticmethod
     def lcm(polys):
         """
-        Returns lowest common mutiple of given polynomials (computed w/ SymPy)
+        Returns lowest common multiple of given polynomials (computed w/ SymPy)
         """
         R = polys[0].get_sympy_ring()
         sympy_polys = [R(poly.get_sympy_dict()) for poly in polys]
@@ -327,6 +454,16 @@ class SparsePolynomial(object):
         return SparsePolynomial(varnames, domain, data)
 
     #--------------------------------------------------------------------------
+
+    @staticmethod
+    def monomial(monomial, varnames):
+        each_var = []
+        for pair in monomial:
+            each_var += [SparsePolynomial.var_from_string(varnames[pair[0]], varnames) ** pair[1]]
+        result = SparsePolynomial.from_const(1, varnames)
+        for el in each_var:
+            result *= el
+        return result
 
     @staticmethod
     def var_from_string(vname, varnames):
