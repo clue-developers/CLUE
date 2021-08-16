@@ -52,7 +52,7 @@ class SparsePolynomial(object):
     def __init__(self, varnames, domain=QQ, data=None):
         self._varnames = varnames
         self._domain = domain
-        self._data = dict() if data is None else data
+        self._data = dict() if data is None else {key : data[key] for key in data if data[key] != QQ(0)}
 
     def dataiter(self):
         return self._data.items()
@@ -130,17 +130,17 @@ class SparsePolynomial(object):
                 >>> y = SparsePolynomial(["x", "y"], QQ, {tuple([(1,1)]): 1})
                 >>> one = SparsePolynomial(["x", "y"], QQ, {(): 1})
                 >>> p = one + x//(2*one) + (3*one)*y + (5*one)*x*y
-                >>> p.monomials
+                >>> p.coefficients
                 (1, 1/2, 3, 5)
-                >>> SparsePolynomial.from_const(1, ["x", "y"]).monomials
-                (1,)
+                >>> SparsePolynomial.from_const(10, ["x", "y"]).coefficients
+                (10,)
 
             This method return an empty tuple if no monomial is contained, i.e., the polynomial 
             is equal to zero::
 
-                >>> SparsePolynomial(["x", "y"], QQ).monomials
+                >>> SparsePolynomial(["x", "y"], QQ).coefficients
                 ()
-                >>> SparsePolynomial.from_const(0, ["x", "y"]).monomials
+                >>> SparsePolynomial.from_const(0, ["x", "y"]).coefficients
                 ()
 
             The same polynomial can be obtained using together the method :func:`monomials`::
@@ -174,12 +174,75 @@ class SparsePolynomial(object):
                 >>> x = SparsePolynomial(["x", "y"], QQ, {tuple([(0,1)]): 1})
                 >>> y = SparsePolynomial(["x", "y"], QQ, {tuple([(1,1)]): 1})
                 >>> one = SparsePolynomial(["x", "y"], QQ, {(): 1})
-                >>> p = one + x/(2*one) + (3*one)*y + (5*one)*x*y
-                >>> p.linear_components()
-                (1, x, y, x*y), (2, 1/2, 3, 5)
+                >>> p = one + x//(2*one) + (3*one)*y + (5*one)*x*y
+                >>> p.linear_components
+                ((1, x, y, x*y), (1, 1/2, 3, 5))
         '''
         return self.monomials, self.coefficients
+
+    def degree(self, var_name=None):
+        r'''
+            Obtain the degree of this polynomial (maybe with respect to some variable)
+
+            This method computes the degree of a :class:`SparsePolynomial`. If the input is 
+            ``None``, the result is the total degree of the polynomial. Otherwise, we 
+            return the degree of ``self`` w.r.t. the given variable.
+
+            Input
+                - ``var_name``: name (string) of the variable to compute the degree.
+            
+            Output
+                If ``var_name`` is ``None``, the total degree is returned, otherwise
+                we return the degree of ``self`` w.r.t. ```var_name``.
+
+            Examples::
+
+                >>> from sympy import QQ
+                >>> from clue.sparse_polynomial import SparsePolynomial
+                >>> x = SparsePolynomial(["x", "y"], QQ, {tuple([(0,1)]): 1})
+                >>> x.degree()
+                1
+                >>> x.degree('x')
+                1
+                >>> x.degree('y')
+                0
+                >>> y = SparsePolynomial(["x", "y"], QQ, {tuple([(1,1)]): 1})
+                >>> one = SparsePolynomial(["x", "y"], QQ, {(): 1})
+                >>> p = one + x//(2*one) + (3*one)*y + (5*one)*x*y
+                >>> p.degree()
+                2
+                >>> p.degree('x')
+                1
+                >>> p.degree('y')
+                1
+
+            In case a variable that does not exists is given, a ValueError is raised::
+
+                >>> p.degree('z')
+                Traceback (most recent call last):
+                ...
+                ValueError: the variable z is not valid for this polynomial
+
+            By convention, if the polynomial is zero, we stablish the degree to be -1
+            to any valid input.
+        ''' 
+        if(var_name is None):
+            size = lambda monomial : sum(el[1] for el in monomial)
+        elif(var_name not in self.gens):
+            raise ValueError("the variable %s is not valid for this polynomial" %var_name)
+        else:
+            def size(monomial):
+                var_index = self.gens.index(var_name)
+                red = [el for el in monomial if el[0] == var_index]
+                if(len(red) == 0):
+                    return 0
+                return red[0][1]
         
+        if(self.is_zero()):
+            return -1
+
+        return max([size(term[0]) for term in self.dataiter()])
+
     #--------------------------------------------------------------------------
 
     def __add__(self, other):
