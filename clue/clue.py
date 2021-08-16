@@ -8,8 +8,8 @@ import sympy
 from sympy import vring, GF, QQ, mod_inverse, gcd, nextprime, sympify
 from sympy.ntheory.modular import crt, isprime
 
-from sparse_polynomial import SparsePolynomial
-from rational_function import RationalFunction
+from .sparse_polynomial import SparsePolynomial
+from .rational_function import RationalFunction
 
 import timeit
 

@@ -1,5 +1,5 @@
 import sympy
-from sparse_polynomial import SparsePolynomial
+from .sparse_polynomial import SparsePolynomial
 
 class RationalFunction:
     """

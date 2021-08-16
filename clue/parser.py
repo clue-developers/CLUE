@@ -8,8 +8,8 @@ from sympy.core.numbers import Rational
 from sympy import QQ
 from sympy.core.compatibility import exec_
 
-from sparse_polynomial import SparsePolynomial, to_rational
-from rational_function import RationalFunction
+from .sparse_polynomial import SparsePolynomial, to_rational
+from .rational_function import RationalFunction
 
 #------------------------------------------------------------------------------
 
