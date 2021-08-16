@@ -96,7 +96,7 @@ if __name__ == "__main__":
     # Tests
     varnames = ['x','y','z']
 
-    print("--- Derevative Tests ----------------------------------------------")
+    print("--- Derivative Tests ----------------------------------------------")
 
     rf1 = RationalFunction.from_string("(3 * x**2 * y**4 * z**7)/(7*x**4 + 3*y**2 * z**9)", varnames)
     rf2 = RationalFunction.from_string("(x**2*y**2)/(z**2)", varnames)

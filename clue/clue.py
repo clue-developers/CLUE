@@ -1,12 +1,11 @@
 from bisect import bisect
-from functools import reduce
 import copy
 import logging
 import math
 
 import sympy
-from sympy import vring, GF, QQ, mod_inverse, gcd, nextprime, sympify
-from sympy.ntheory.modular import crt, isprime
+from sympy import GF, QQ, gcd, nextprime
+from sympy.ntheory.modular import isprime
 
 from .sparse_polynomial import SparsePolynomial
 from .rational_function import RationalFunction
@@ -62,7 +61,7 @@ def rational_reconstruction_sage(a, m):
 
 class SparseVector(object):
     """
-    A class for sparce vectors. Contains the following fields:
+    A class for sparse vectors. Contains the following fields:
       dim - the dimension of the ambient space
       nonzero - sorted list of the indiced of the nonzero coordinates
       data - dictionary containing nonzero coordinates in the form index_of_the_coordinate : value
@@ -215,7 +214,7 @@ class SparseVector(object):
         Defined only for field == QQ
         """
         if self.field != QQ:
-            raise ValueError(f"Reducion can be done only for a vector over rationals but the field is {self.field}")
+            raise ValueError(f"Reduction can be done only for a vector over rationals but the field is {self.field}")
         mod_field = GF(modulus)
         result = SparseVector(self.dim, mod_field)
         for i in self._nonzero:
@@ -245,7 +244,7 @@ class SparseVector(object):
           Input
             self
           Output
-            a SparceVector over rationals with given reductions
+            a SparseVector over rationals with given reductions
           Works only over fields of the form GF(p), where p is a prime number
         """
         if (not self.field.is_FiniteField) or (not isprime(self.field.characteristic())):
@@ -262,7 +261,7 @@ class SparseVector(object):
 
 class SparseRowMatrix(object):
     """
-    A class for sparce matrices. Contains the following fields:
+    A class for sparse matrices. Contains the following fields:
       dim - the dimension of the ambient space
       _nonzero - sorted list of the indiced of the nonzero rows
       _data - dictionary containing nonzero rows in the form index_of_the_row : SparseVector
@@ -326,7 +325,7 @@ class SparseRowMatrix(object):
         Works only if field == QQ
         """
         if self.field != QQ:
-            raise ValueError(f"Reducion can be done only for a vector over rationals but the field is {self.field}")
+            raise ValueError(f"Reduction can be done only for a vector over rationals but the field is {self.field}")
         result = SparseRowMatrix(self.dim, GF(modulus))
         for i in self._nonzero:
             row_reduced = self._data[i].reduce_mod(modulus)
@@ -414,7 +413,7 @@ class Subspace(object):
         """
           Input
             - matrices - a list of matrices (SparseMatrix)
-            - monitor_length - if set True, the ExpressionSwell expception will be raised
+            - monitor_length - if set True, the ExpressionSwell exception will be raised
                 if there will be an intermediate result exceeding TOO_BIG_LENGTH (only over Q!)
           Output
             No output. The subspace is transformed to the smallest invariant subspace
@@ -476,7 +475,7 @@ class Subspace(object):
         Works only for field == QQ
         """
         if self.field != QQ:
-            raise ValueError(f"Reducion can be done only for a vector over rationals but the field is {self.field}")
+            raise ValueError(f"Reduction can be done only for a vector over rationals but the field is {self.field}")
         result = Subspace(GF(modulus))
         for piv, vec in self._echelon_form.items():
             vec_red = vec.reduce_mod(modulus)
@@ -493,7 +492,7 @@ class Subspace(object):
 
     def parametrizing_coordinates(self):
         """
-        A list of self.dim coordiantes such that the projection onto these coordinates is surjective
+        A list of self.dim coordinates such that the projection onto these coordinates is surjective
         """
         return sorted(self._echelon_form.keys())
 
@@ -877,9 +876,9 @@ def do_lumping(
                        that must be kept nonlumped
         - new_vars_name (optional) - the name for variables in the lumped polynomials
         - print_system and print_reduction (optional) - whether to print the original system and the result, respectively on the screen
-        - out_format - "sympy" or "internal", the way the output polynomials should be represeted
+        - out_format - "sympy" or "internal", the way the output polynomials should be represented
           the options are sympy polynomials and SparsePolynomial
-        - loglevel - INFO (only essential information) or DEBUG (a lot of infromation about the computation process)
+        - loglevel - INFO (only essential information) or DEBUG (a lot of information about the computation process)
       Output
         a tuple (the right-hand side of an aggregated system, new_variables)
     """
