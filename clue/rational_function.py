@@ -24,6 +24,30 @@ class RationalFunction:
     def gens(self):
         return self._varnames.copy()
 
+    def valuation(self, var_name):
+        r'''
+            Valuation of a rational function w.r.t. a variable.
+
+            A valuation is a map `\nu: D \rightarrow \mathbb{Z}` such that
+
+            .. MATH::
+
+                nu(p\cdot q) = \nu(p) + \nu(q) \qquad \nu(p + q) \geq \min(\nu(p), \nu(q))
+
+            In particular, the functions `\nu_v(p/q) = \deg_v(p) - \deg_v(q)` is such a
+            valuation. This method returns the valuation w.r.t. a variable of this 
+            rational function. It is based on the method :func:`clue.sparse_polynomial.SparsePolynomial.degree`.
+
+            Input
+                ``var_name`` - name (string) of the variable to compute the degree.
+
+            Output
+                The valuation of ``self`` w.r.t. ```var_name``.
+
+            TODO: add examples and tests
+        '''
+        return self.num.degree(var_name) - self.denom.degree(var_name)
+
     def derivative(self, var):
         """
         Compute the derivative with respect to a given variable
