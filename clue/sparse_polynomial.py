@@ -12,7 +12,7 @@ from pyparsing import (
 )
 
 import sympy
-from sympy import QQ
+from sympy import QQ, oo
 
 #------------------------------------------------------------------------------
 
@@ -223,8 +223,20 @@ class SparsePolynomial(object):
                 ...
                 ValueError: the variable z is not valid for this polynomial
 
-            By convention, if the polynomial is zero, we stablish the degree to be -1
-            to any valid input.
+            By convention, if the polynomial is zero, we stablish the degree to be ``oo``
+            which is the infinity in :mod:`sympy`.
+
+                >>> zero = SparsePolynomial(['x','y','z'],QQ)
+                >>> zero.degree()
+                oo
+                >>> zero.degree('x')
+                oo
+                >>> zero.degree('a')
+                Traceback (most recent call last):
+                ...
+                ValueError: the variable a is not valid for this polynomial
+                >>> SparsePolynomial.from_const(0, ['x','y']).degree()
+                oo
         ''' 
         if(var_name is None):
             degree_fun = lambda monomial : sum(el[1] for el in monomial)
@@ -239,7 +251,7 @@ class SparsePolynomial(object):
                 return red[0][1]
         
         if(self.is_zero()):
-            return -1
+            return oo
 
         return max([degree_fun(term[0]) for term in self.dataiter()])
 
