@@ -189,7 +189,7 @@ class SparsePolynomial(object):
             return the degree of ``self`` w.r.t. the given variable.
 
             Input
-                - ``var_name``: name (string) of the variable to compute the degree.
+                ``var_name`` - name (string) of the variable to compute the degree.
             
             Output
                 If ``var_name`` is ``None``, the total degree is returned, otherwise
@@ -227,11 +227,11 @@ class SparsePolynomial(object):
             to any valid input.
         ''' 
         if(var_name is None):
-            size = lambda monomial : sum(el[1] for el in monomial)
+            degree_fun = lambda monomial : sum(el[1] for el in monomial)
         elif(var_name not in self.gens):
             raise ValueError("the variable %s is not valid for this polynomial" %var_name)
         else:
-            def size(monomial):
+            def degree_fun(monomial):
                 var_index = self.gens.index(var_name)
                 red = [el for el in monomial if el[0] == var_index]
                 if(len(red) == 0):
@@ -241,8 +241,53 @@ class SparsePolynomial(object):
         if(self.is_zero()):
             return -1
 
-        return max([size(term[0]) for term in self.dataiter()])
+        return max([degree_fun(term[0]) for term in self.dataiter()])
 
+    def variables(self, as_poly=False):
+        r'''
+            Variables that actually appear in the polynomial.
+
+            This method computes the variables that appear in the :class:`SparsePolynomial`
+            or, equivalently, the variables that have a positive degree.
+
+            Input
+                ``as_poly`` - (optional) decides whether to return the names of the 
+                variables (``False``) or the variables as :class:`SparsePolynomial` (``True``)
+
+
+            Output
+                A tuple with the variables that have positive degree.
+
+            Examples::
+
+                >>> from sympy import QQ
+                >>> from clue.sparse_polynomial import SparsePolynomial
+                >>> x = SparsePolynomial(["x", "y", "z"], QQ, {tuple([(0,1)]): 1})
+                >>> x.variables()
+                ('x',)
+                >>> x.variables(True)
+                (x,)
+                >>> y = SparsePolynomial(["x", "y", "z"], QQ, {tuple([(1,1)]): 1})
+                >>> one = SparsePolynomial(["x", "y", "z"], QQ, {(): 1})
+                >>> p = one + x//(2*one) + (3*one)*y + (5*one)*x*y
+                >>> p.variables()
+                ('x', 'y')
+                >>> p.variables(True)
+                (x, y)
+                
+            The constant polynomials provide an empty tuple as result::
+
+                >>> one.variables()
+                ()
+                >>> SparsePolynomial(["x", "y", "z"], QQ).variables() # checking the zero polynomial
+                ()
+        '''
+        var_index = list(set(sum([[var[0] for var in term[0]] for term in self.dataiter()], [])))
+
+        result = [self.gens[var_index[i]] for i in range(len(var_index))]
+        if(as_poly): result = [SparsePolynomial.var_from_string(name, self.gens) for name in result]
+
+        return tuple(result)
     #--------------------------------------------------------------------------
 
     def __add__(self, other):
