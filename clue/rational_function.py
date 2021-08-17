@@ -14,6 +14,7 @@ class RationalFunction:
         assert num.gens == denom.gens
         self._varnames = num.gens
         self.num = num
+        assert not denom.is_zero()
         self.denom = denom
 
     @property
