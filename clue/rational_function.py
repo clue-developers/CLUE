@@ -50,9 +50,64 @@ class RationalFunction:
         return self.num.degree(var_name) - self.denom.degree(var_name)
 
     def derivative(self, var):
-        """
-        Compute the derivative with respect to a given variable
-        """
+        r'''
+            Compute the derivative with respect to a given variable.
+
+            This method computes the derivative of the rational function represented by ``self``
+            with respect to a variable provided by ``var``.
+
+            A rational function `f(x) = p(x)/q(x)` always satisfies the quotient rule for derivations:
+
+            .. MATH::
+
+                f'(x) = \frac{p'(x)q(x) - q'(x)p(x)}{q(x)^2}
+
+            This method uses such formula and the method :func:`~clue.sparse_polynomial.SparsePolynomial.derivative`.
+
+            Input
+                ``var`` - name (string) of the variable with respect we compute the derivative.
+
+            Output
+                A rational function :class:`RationalFunction` with the derivative of ``self`` w.r.t. ``var``.
+
+            Examples::
+
+                >>> from clue.rational_function import *
+                >>> varnames = ['x','y','z']
+                >>> rf1 = RationalFunction.from_string("(3 * x**2 * y**4 * z**7)/(7*x**4 + 3*y**2 * z**9)", varnames)
+                >>> rf1dx_expected = RationalFunction.from_string("(-(6*y**4*z**7*x*(7*x**4-3*y**2*z**9)))/((7*x**4+3*y**2*z**9)**2)", varnames)
+                >>> rf1.derivative('x') == rf1dx_expected
+                True
+                >>> rf2 = RationalFunction.from_string("(x**2*y**2)/(z**2)", varnames)
+                >>> rf2dx_expected = RationalFunction.from_string("(2*y**2*x)/(z**2)", varnames)
+                >>> rf2.derivative('x') == rf2dx_expected
+                True
+                >>> rf2dz_expected = RationalFunction.from_string("(-(2*x**2*y**2))/(z**3)", varnames)
+                >>> rf2.derivative('z') == rf2dz_expected
+                >>> rf3 = RationalFunction.from_string("(x**2)/(y*z**2)", varnames)
+                >>> rf3dx_expected = RationalFunction.from_string("(2*x)/(y*z**2)", varnames)
+                >>> rf3.derivative('x') == rf3dx_expected
+                True
+                >>> rf3dy_expected = RationalFunction.from_string("(-x**2)/(y**2*z**2)", varnames)
+                >>> rf3.derivative('y') == rf3dy_expected
+                True
+                >>> rf3dz_expected = RationalFunction.from_string("(-2*x**2)/(y*z**3)", varnames)
+                >>> rf3.derivative('z') == rf3dz_expected
+                True
+
+            If the variable provided does not show up in the rational function, the zero function is returned::
+
+                >>> rf1.derivative('a')
+                RationalFunction(0, 49*x**8 + 42*x**4*y**2*z**9 + 9*y**4*z**18
+                >>> rf1.derivative('a') == 0
+                True
+                >>> rf1.derivative('xy') == 0
+                True
+                >>> rf = RationalFunction.from_string("(x)/(2 * y**2)", varnames)
+                >>> rf_dz = rf.derivative('z')
+                >>> print(rf_dz)
+                (0)/(4*y**4)
+        '''
         d_num = self.denom * self.num.derivative(var) - self.num * self.denom.derivative(var)
         d_denom = self.denom*self.denom
         return RationalFunction(d_num, d_denom)
@@ -112,46 +167,68 @@ class RationalFunction:
         return sympy.polys.rings.ring(self.gens, self.domain)[0]
 
     def __eq__(self, other):
-        if not isinstance(other, type(self)): return NotImplemented
-        return self.num == other.num and self.denom == other.denom
+        r'''
+            Equality method for :class:`RationalFunction`.
 
+            Two rational functions `p(x)/q(x)` and `r(x)/s(x)` are equal if and only if
+
+            .. MATH::
+
+                p(x)s(x) - q(x)r(x) = 0.
+
+            This method checks such identity for ``self`` and ``other``. In case that ``other``
+            is not a :class:`RationalFunction`, the method :func:`RationalFunction.from_string`
+            is used to try and convert ``other`` into a rational function.
+
+            Since we need to check and identity of polynomials, this method is based on 
+            :func:`clue.sparse_polynomial.SparsePolynomial.__eq__`.
+
+            Input
+                ``other`` - object to compare with ``self``.
+
+            Output
+                ``True`` if ``other`` and ``self`` are mathematically equal, ``False`` otherwise.
+
+            Examples::
+
+                >>> from clue.rational_function import *
+                >>> rf1 = RationalFunction.from_string("x/y",['x','y'])
+                >>> rf2 = RationalFunction.from_string("x/y",['x','y'])
+                >>> rf1 is rf2
+                False
+                >>> rf1 == rf2 
+                True
+
+            It is interesting to remark that this equality recognizes identical rational functions
+            without performing any simplification (see methid :func:`simplify`), so ``self`` does not 
+            change after executing an equality check::
+
+                >>> rf3 = RationalFunction.from_string("x**2/(x*y)", ['x','y'])
+                >>> rf3_str = str(rf3)
+                >>> rf1 == rf3
+                True
+                >>> str(rf3) == rf3_str
+                True
+                >>> rf3.simplify(); rf3 == rf3_str
+                False
+        '''
+        if not isinstance(other, type(self)): 
+            if(not isinstance(other, RationalFunction)):
+                try:
+                    other = RationalFunction.from_string(str(other), self.gens)
+                except:
+                    return NotImplemented
+        return self.num*other.denom == other.num*self.denom
 
 if __name__ == "__main__":
 
     # Tests
     varnames = ['x','y','z']
 
-    print("--- Derivative Tests ----------------------------------------------")
-
-    rf1 = RationalFunction.from_string("(3 * x**2 * y**4 * z**7)/(7*x**4 + 3*y**2 * z**9)", varnames)
-    rf2 = RationalFunction.from_string("(x**2*y**2)/(z**2)", varnames)
-    rf3 = RationalFunction.from_string("(x**2)/(y*z**2)", varnames)
-
-    rf1dx_expected = RationalFunction.from_string("(-(6*y**4*z**7*x*(7*x**4-3*y**2*z**9)))/((7*x**4+3*y**2*z**9)**2)", varnames)
-    rf1dx_test = rf1.derivative('x')
-    print("Expected: \t", rf1dx_expected)
-    print("Actual: \t", rf1dx_test)
-
-    rf2dx_expected = RationalFunction.from_string("(2*y**2*x)/(z**2)", varnames)
-    rf2dx_test = rf2.derivative('x')
-    print("Expected: \t", rf2dx_expected)
-    print("Actual: \t", rf2dx_test)
-
-    rf2dz_expected = RationalFunction.from_string("(-(2*x**2*y**2))/(z**3)", varnames)
-    rf2dz_test = rf2.derivative('z')
-    print("Expected: \t", rf2dz_expected)
-    print("Actual: \t", rf2dz_test)
-
-    rf = RationalFunction.from_string("(x)/(2 * y**2)", varnames)
-    rf_dz = rf.derivative('z')
-    print(rf_dz)
-
     sp1 = SparsePolynomial.from_string("2*x**23 + 4", ['x'])
     sp2 = SparsePolynomial.from_string("2*x**23 + 4", ['x'])
     assert sp1 == sp2
-    rf1 = RationalFunction.from_string("x/y",['x','y'])
-    rf2 = RationalFunction.from_string("x/y",['x','y'])
-    assert rf1 == rf2
+    
 
     print("--- LCM Test --------------------------------------------------------")
     sp1 = SparsePolynomial.from_string("x*y**2 + x**2*y", ['x','y'])
