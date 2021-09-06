@@ -84,11 +84,12 @@ class RationalFunction:
                 True
                 >>> rf2dz_expected = RationalFunction.from_string("(-(2*x**2*y**2))/(z**3)", varnames)
                 >>> rf2.derivative('z') == rf2dz_expected
+                True
                 >>> rf3 = RationalFunction.from_string("(x**2)/(y*z**2)", varnames)
                 >>> rf3dx_expected = RationalFunction.from_string("(2*x)/(y*z**2)", varnames)
                 >>> rf3.derivative('x') == rf3dx_expected
                 True
-                >>> rf3dy_expected = RationalFunction.from_string("(-x**2)/(y**2*z**2)", varnames)
+                >>> rf3dy_expected = RationalFunction.from_string("-(x**2)/(y**2*z**2)", varnames)
                 >>> rf3.derivative('y') == rf3dy_expected
                 True
                 >>> rf3dz_expected = RationalFunction.from_string("(-2*x**2)/(y*z**3)", varnames)
@@ -98,7 +99,7 @@ class RationalFunction:
             If the variable provided does not show up in the rational function, the zero function is returned::
 
                 >>> rf1.derivative('a')
-                RationalFunction(0, 49*x**8 + 42*x**4*y**2*z**9 + 9*y**4*z**18
+                RationalFunction(0, 49*x**8 + 42*x**4*y**2*z**9 + 9*y**4*z**18)
                 >>> rf1.derivative('a') == 0
                 True
                 >>> rf1.derivative('xy') == 0
@@ -209,7 +210,7 @@ class RationalFunction:
                 True
                 >>> str(rf3) == rf3_str
                 True
-                >>> rf3.simplify(); rf3 == rf3_str
+                >>> rf3.simplify(); str(rf3) == rf3_str
                 False
         '''
         if not isinstance(other, type(self)): 
