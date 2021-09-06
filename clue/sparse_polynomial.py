@@ -473,6 +473,8 @@ class SparsePolynomial(object):
                 >>> from clue.sparse_polynomial import *
                 >>> sp1 = SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x','y'])
                 >>> sp2 = SparsePolynomial.from_string("x+1", ['x'])
+                >>> sp1//sp2
+                2 + x**2 + 2*x
 
             Warning: when the variables of the divisor are not included in the variables of the dividend, 
             some weird phenomena could happen::
@@ -497,6 +499,61 @@ class SparsePolynomial(object):
         elif denom == 1:
             return self
         quo = R(sympy.polys.polytools.quo(num, denom))
+        return SparsePolynomial.from_sympy(quo)
+
+    def __mod__(self, other):
+        r'''
+            Remainder computation implemented with SymPy.
+
+            This method implements the magic logic behind ``%``. This method computes 
+            the *remainder* between two :class:`SparsePolynomials`. This, if we consider 
+            an Euclidean division of the type 
+            
+            .. MATH::
+
+                A(\mathbf{x}) = q(\mathbf{x})B(\mathbf{x}) + r(\mathbf{x}),
+
+            then this method returns the polynomial `r(\mathbf{x})`. It is based on the
+            SymPy computation of the exact division. The remainder can be obtained in a similar
+            way with the magic syntax ``%``.
+
+            Input
+                ``other`` - polynomial that will be the quotient (i.e., `B(\mathbf{x})`)
+
+            Output
+                The exact division polynomial `r(\mathbf{x})`.
+
+            Examples::
+
+                >>> from clue.sparse_polynomial import *
+                >>> sp1 = SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x','y'])
+                >>> sp2 = SparsePolynomial.from_string("x+1", ['x'])
+                >>> sp1%sp2
+                3
+
+            Warning: when the variables of the divisor are not included in the variables of the dividend, 
+            some weird phenomena could happen::
+
+                >>> sp1 = SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x','y'])
+                >>> sp2 = SparsePolynomial.from_string("x+y", ['x','y'])
+                >>> sp1%sp2
+                5 + -y**3 + -4*y + 3*y**2
+                >>> sp3 =  SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x'])
+                >>> sp3 == sp1
+                True
+                >>> sp3%sp2
+                3
+        '''
+        R = self.get_sympy_ring()
+        num = R(self.get_sympy_dict()).as_expr()
+        denom = R(other.get_sympy_dict()).as_expr()
+        if num.is_zero:
+            return SparsePolynomial.from_string('0', self._varnames)
+        elif num == denom:
+            return SparsePolynomial.from_string('1', self._varnames)
+        elif denom == 1:
+            return self
+        quo = R(sympy.polys.polytools.rem(num, denom))
         return SparsePolynomial.from_sympy(quo)
 
     #--------------------------------------------------------------------------
