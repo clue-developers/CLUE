@@ -361,6 +361,40 @@ class SparsePolynomial(object):
     #--------------------------------------------------------------------------
     
     def __eq__(self, other):
+        r'''
+            Equality method for :class:`SparsePolynomial`.
+
+            Input
+                ``other`` - object to compare with ``self``.
+
+            Output
+                ``True`` if ``other`` is a sparse polynomial (or a constant in the domain of ``self``, 
+                see property :func:`domain`) and has the same data as ``self``.
+
+            Examples::
+
+                >>> from clue.sparse_polynomial import *
+                >>> sp1 = SparsePolynomial.from_string("2*x**23 + 4", ['x'])
+                >>> sp2 = SparsePolynomial.from_string("2*x**23 + 4", ['x'])
+                >>> sp1 is sp2
+                False
+                >>> sp1 == sp2
+                True
+
+            This method also recognizes ``other`` to be elements in ``self.domain``::
+
+                >>> sp = SparsePolynomial.from_string("1 + 6", ['x'])
+                >>> sp == 7
+                True
+
+            This equality check do not distinguish between variable names: the order 
+            that is used in self.gens is critical here::
+
+                >>> sp1 = SparsePolynomial.from_string("x + 2*y", ['x','y'])
+                >>> sp2 = SparsePolynomial.from_string("2*x + y", ['y','x'])
+                >>> sp1 == sp2
+                True
+        '''
         if(not isinstance(other, SparsePolynomial)):
             if(other in self.domain):
                 other = SparsePolynomial.from_const(other, self.gens)
@@ -413,11 +447,46 @@ class SparsePolynomial(object):
     #--------------------------------------------------------------------------
 
     def __floordiv__(self, other):
-        """
-        Exact division implemented with SymPy
+        r'''
+            Exact division implemented with SymPy.
 
-        self // other
-        """
+            This method implements the magic logic behind ``//``. This method computes 
+            the *exact division* between two :class:`SparsePolynomials`. This, if we consider 
+            an Euclidean division of the type 
+            
+            .. MATH::
+
+                A(\mathbf{x}) = q(\mathbf{x})B(\mathbf{x}) + r(\mathbf{x}),
+
+            then this method returns the polynomial `q(\mathbf{x})`. It is based on the
+            SymPy computation of the exact division. The remainder can be obtained in a similar
+            way with the magic syntax ``%``.
+
+            Input
+                ``other`` - polynomial that will be the quotient (i.e., `B(\mathbf{x})`)
+
+            Output
+                The exact division polynomial `q(\mathbf{x})`.
+
+            Examples::
+
+                >>> from clue.sparse_polynomial import *
+                >>> sp1 = SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x','y'])
+                >>> sp2 = SparsePolynomial.from_string("x+1", ['x'])
+
+            Warning: when the variables of the divisor are not included in the variables of the dividend, 
+            some weird phenomena could happen::
+
+                >>> sp1 = SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x','y'])
+                >>> sp2 = SparsePolynomial.from_string("x+y", ['x','y'])
+                >>> sp1//sp2
+                4 + x**2 + y**2 + -3*y + 3*x + -x*y
+                >>> sp3 =  SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x'])
+                >>> sp3 == sp1
+                True
+                >>> sp3//sp2
+                2 + x**2 + 2*x
+        '''
         R = self.get_sympy_ring()
         num = R(self.get_sympy_dict()).as_expr()
         denom = R(other.get_sympy_dict()).as_expr()
@@ -447,11 +516,53 @@ class SparsePolynomial(object):
     #--------------------------------------------------------------------------
 
     def is_zero(self):
+        r'''
+            Checks equality with `0`.
+
+            This methods checks whether a :class:`SparsePolynomial` is exactly 0 or not.
+
+            Output
+                ``True`` if ``self == 0`` holds.
+
+            Examples::
+
+                >>> from clue.sparse_polynomial import *
+                >>> sp = SparsePolynomial.from_string("1",['x'])
+                >>> sp.is_zero()
+                False
+                >>> sp = SparsePolynomial(['x'])
+                >>> sp.is_zero()
+                True
+                >>> sp = SparsePolynomial.from_string("x**2*y - 2*x*y", ['x','y','z'])
+                >>> sp.is_zero()
+                False
+        '''
         if len(self._data) == 0:
             return True
         return False
 
     def is_unitary(self):
+        r'''
+            Checks equality with `1`.
+
+            This methods checks whether a :class:`SparsePolynomial` is exactly 1 or not.
+
+            Output
+                ``True`` if ``self == 1`` holds.
+
+            Examples::
+
+                >>> from clue.sparse_polynomial import *
+                >>> sp = SparsePolynomial.from_string("1",['x'])
+                >>> sp.is_unitary()
+                True
+                >>> sp = SparsePolynomial(['x'])
+                >>> sp.is_unitary()
+                False
+                >>> sp = SparsePolynomial.from_string("x**2*y - 2*x*y", ['x','y','z'])
+                >>> sp.is_unitary()
+                False
+        '''
         if self._data == {():1}:
             return True
         return False
@@ -544,9 +655,30 @@ class SparsePolynomial(object):
 
     @staticmethod
     def lcm(polys):
-        """
-        Returns lowest common multiple of given polynomials (computed w/ SymPy)
-        """
+        r'''
+            Returns lowest common multiple of given polynomials (computed w/ SymPy)
+
+            This method computes (using SymPy) the least common multiple of a list of 
+            sparse polynomials. This method assumes that all the :class:`SparsePolynomials`
+            generates the same SymPy ring (see method :func:`get_sympy_ring`) and 
+            can be casted naturally to it.
+
+            Input
+                ``polys`` - list of sparse polynomials to compute the least common multiple.
+
+            Output
+                A :class:`SparsePolynomial` with the least common multiple of all the 
+                polynomials in ``polys``.
+
+            Examples::
+
+                >>> from clue.sparse_polynomial import *
+                >>> sp1 = SparsePolynomial.from_string("x*y**2 + x**2*y", ['x','y'])
+                >>> sp2 = SparsePolynomial.from_string("x**2*y**2", ['x','y'])
+                >>> lcm = SparsePolynomial.lcm([sp1,sp2])
+                >>> lcm == SparsePolynomial.from_string("x**2*y**3 + x**3*y**2", ['x','y'])
+                True
+        '''
         R = polys[0].get_sympy_ring()
         sympy_polys = [R(poly.get_sympy_dict()) for poly in polys]
         result = sympy_polys[0]

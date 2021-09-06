@@ -222,34 +222,6 @@ class RationalFunction:
 
 if __name__ == "__main__":
 
-    # Tests
-    varnames = ['x','y','z']
-
-    sp1 = SparsePolynomial.from_string("2*x**23 + 4", ['x'])
-    sp2 = SparsePolynomial.from_string("2*x**23 + 4", ['x'])
-    assert sp1 == sp2
-    
-
-    print("--- LCM Test --------------------------------------------------------")
-    sp1 = SparsePolynomial.from_string("x*y**2 + x**2*y", ['x','y'])
-    sp2 = SparsePolynomial.from_string("x**2*y**2", ['x','y'])
-    lcm = SparsePolynomial.lcm([sp1,sp2])
-    print("Expected: \t", "x**2*y**3 + x**3*y**2")
-    print("Actual: \t", lcm)
-
-    print("--- Division Test ---------------------------------------------------")
-    sp1 = SparsePolynomial.from_string("x**2 - 1", ['x'])
-    sp2 = SparsePolynomial.from_string("x - 1", ['x'])
-    quo = sp1//sp2
-    print("Expected: \t", "x + 1")
-    print("Actual: \t", quo)
-
-    sp = SparsePolynomial.from_string("1",['x'])
-    assert sp.is_unitary()
-
-    sp = SparsePolynomial(['x'])
-    assert sp.is_zero()
-
     rf = RationalFunction.from_string("(PI3KInactive**3*boundEGFReceptor**2*kPI3K + PI3KInactive**3*RasActive**2*kPI3KRas + KmPI3K*PI3KInactive**2*RasActive**2*kPI3KRas + KmPI3KRas*PI3KInactive**2*boundEGFReceptor**2*kPI3K)/(PI3KInactive**2 + KmPI3K*KmPI3KRas + KmPI3K*PI3KInactive + KmPI3KRas*PI3KInactive)",
                                         ['PI3KInactive',
                                         'boundEGFReceptor',
