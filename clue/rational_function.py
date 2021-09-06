@@ -138,6 +138,42 @@ class RationalFunction:
         return RationalFunction(num, denom)
 
     def simplify(self):
+        r'''
+            Simplify a rational function in-place.
+
+            Method that removes the common factors between the numerator and 
+            denominator of ``self``. It is based on the method :func:`~clue.sparse_polynomial.SparsePolynomial`
+            and the exact division implementation.
+
+            The simplification is performed *in-place*, meaning there is no output for this method, but
+            instead, the result is stored within the same object.
+
+            Examples::
+
+                >>> from clue.rational_function import *
+                >>> f = RationalFunction.from_string("(x**2 + 2*x + 1)/(x+1)", ['x'])
+                >>> print(f)
+                (x**2 + 2*x + 1)/(x + 1)
+                >>> f.simplify(); print(f)
+                (1 + x)/(1)
+            
+            This method also works with multivariate polynomials::
+
+                >>> rf = RationalFunction.from_string("(PI3KInactive**3*boundEGFReceptor**2*kPI3K + PI3KInactive**3*RasActive**2*kPI3KRas + KmPI3K*PI3KInactive**2*RasActive**2*kP
+                ...: I3KRas + KmPI3KRas*PI3KInactive**2*boundEGFReceptor**2*kPI3K)/(PI3KInactive**2 + KmPI3K*KmPI3KRas + KmPI3K*PI3KInactive + KmPI3KRas*PI3KInactive)",
+                ...:                                         ['PI3KInactive',
+                ...:                                         'boundEGFReceptor',
+                ...:                                         'kPI3K',
+                ...:                                         'RasActive',
+                ...:                                         'kPI3KRas',
+                ...:                                         'KmPI3K',
+                ...:                                         'KmPI3KRas',
+                ...:                                         ])
+                >>> print(rf)
+                (PI3KInactive**3*boundEGFReceptor**2*kPI3K + PI3KInactive**3*RasActive**2*kPI3KRas + PI3KInactive**2*RasActive**2*kPI3KRas*KmPI3K + PI3KInactive**2*boundEGFReceptor**2*kPI3K*KmPI3KRas)/(PI3KInactive**2 + KmPI3K*KmPI3KRas + PI3KInactive*KmPI3K + PI3KInactive*KmPI3KRas)
+                >>> rf.simplify(); print(rf)
+                (PI3KInactive**3*boundEGFReceptor**2*kPI3K + PI3KInactive**3*RasActive**2*kPI3KRas + PI3KInactive**2*RasActive**2*kPI3KRas*KmPI3K + PI3KInactive**2*boundEGFReceptor**2*kPI3K*KmPI3KRas)/(PI3KInactive**2 + KmPI3K*KmPI3KRas + PI3KInactive*KmPI3K + PI3KInactive*KmPI3KRas)
+        '''
         gcd = SparsePolynomial.gcd([self.num, self.denom])
         self.num = self.num // gcd
         self.denom = self.denom // gcd
@@ -220,19 +256,4 @@ class RationalFunction:
                 except:
                     return NotImplemented
         return self.num*other.denom == other.num*self.denom
-
-if __name__ == "__main__":
-
-    rf = RationalFunction.from_string("(PI3KInactive**3*boundEGFReceptor**2*kPI3K + PI3KInactive**3*RasActive**2*kPI3KRas + KmPI3K*PI3KInactive**2*RasActive**2*kPI3KRas + KmPI3KRas*PI3KInactive**2*boundEGFReceptor**2*kPI3K)/(PI3KInactive**2 + KmPI3K*KmPI3KRas + KmPI3K*PI3KInactive + KmPI3KRas*PI3KInactive)",
-                                        ['PI3KInactive',
-                                        'boundEGFReceptor',
-                                        'kPI3K',
-                                        'RasActive',
-                                        'kPI3KRas',
-                                        'KmPI3K',
-                                        'KmPI3KRas',
-                                        ])
-    print(rf)
-    rf.simplify()
-    print(rf)
 
