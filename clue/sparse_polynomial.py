@@ -1,5 +1,7 @@
 import re
 
+from functools import reduce
+
 from pyparsing import (
     Literal,
     Word,
@@ -476,7 +478,7 @@ class SparsePolynomial(object):
                 >>> sp1//sp2
                 2 + x**2 + 2*x
 
-            Warning: when the variables of the divisor are not included in the variables of the dividend, 
+            **Warning:** when the variables of the divisor are not included in the variables of the dividend, 
             some weird phenomena could happen::
 
                 >>> sp1 = SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x','y'])
@@ -531,7 +533,7 @@ class SparsePolynomial(object):
                 >>> sp1%sp2
                 3
 
-            Warning: when the variables of the divisor are not included in the variables of the dividend, 
+            **Warning:** when the variables of the divisor are not included in the variables of the dividend, 
             some weird phenomena could happen::
 
                 >>> sp1 = SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x','y'])
@@ -558,9 +560,73 @@ class SparsePolynomial(object):
 
     #--------------------------------------------------------------------------
 
+    def eval(self, **values):
+        r'''
+            Method to evaluate a polynomial.
+
+            This method evaluates a polynomial subtituing its variables by given values simultaneously.
+            Currently, the only valid input for the values are elements contained in 
+            ``self.domain``.
+
+            TODO: include evaluation with elements that are :class:`SparsePolynomial`.
+            TODO: implement a wider evaluation with generic entries?
+
+            Input
+                values - dictionary containing the names fo the variables to be evaluated and the values to plug-in.
+
+            Output
+                the evaluated polynomial in the given values.
+
+            Examples::
+
+                >>> from clue.sparse_polynomial import *
+                >>> sp = SparsePolynomial.from_string("x**2*z + y", ['x','y','z'])
+                >>> sp.eval(x=2)
+                4*z + y
+                >>> sp.eval(x = 1/QQ(2), y = 3, z = 2)
+                7/2
+                >>> sp.eval(y=0)
+                x**2*z
+                >>> sp.eval()
+                x**2*z + y
+                >>> sp.eval(x=0, y=0)
+                0
+        '''
+        # analyzing the values given
+        rem_variables = [el for el in self.gens]
+        for el in values:
+            if(el in rem_variables):
+                rem_variables.remove(el)
+        rem_variables = [self.gens.index(el) for el in rem_variables]
+        values = {self.gens.index(el) : values[el] for el in values if el in self.gens}
+        ## Here `rem_variables` contains the indices of the variables remaining in the evaluation
+        ## and values `values` contains a dictionary index -> value (instead of the anme of the variable)
+        
+        new_data = {}
+        for monomial in self._data:
+            ## cleaning from monomial the variables evaluated
+            new_monomial = tuple([var for var in monomial if var[0] in rem_variables])
+            ## computing the new coefficient for the new monomial
+            value = reduce(lambda p, q : p*q, [self._data[monomial]] + [values[var[0]]**var[1] for var in monomial if not var[0] in rem_variables])
+
+            ## adding the new monomial
+            if(new_monomial in new_data):
+                new_data[new_monomial] += value
+            else:
+                new_data[new_monomial] = value
+        ## Creating the resulting polynomial
+        result = SparsePolynomial(self.gens, self.domain, new_data)
+        if(result.is_zero()):
+            return self.domain(0)
+        elif(result.is_constant()): ## If the result is a constant, we return the constant value instead of the polynomial
+            return result._data[()]
+        return result
+
+    #--------------------------------------------------------------------------
+
     def exp(self, power):
         """
-        Exponentiation, exp is a *positive* integer
+        Exponentiation, ``power`` is a *positive* integer
         """
         if power < 0:
             raise ValueError(f"Cannot raise to power {power}, {str(self)}")
@@ -623,6 +689,23 @@ class SparsePolynomial(object):
         if self._data == {():1}:
             return True
         return False
+    
+    def is_constant(self):
+        r'''
+            Checks wheter a polynomial is a constant
+
+            This method checks whether a :class:`SparsePolynomial` is a constant or not. For doing so
+            we simply check if ``self`` is zero (see :func:`is_zero`) or if the only monomial in the 
+            polynomial is `()` (i.e., the monomial `1`).
+
+            Output
+                ``True`` if ``self`` is a constant polynomial, ``False`` otherwise.
+
+            Examples::
+
+                TODO: add examples
+        '''
+        return self.is_zero() or (len(self._data) == 1 and () in self._data)
     #--------------------------------------------------------------------------
 
     def _pair_to_str(self, pair):
@@ -684,6 +767,33 @@ class SparsePolynomial(object):
 
     def get_sympy_ring(self):
         return sympy.polys.rings.ring(self.gens, self.domain)[0]
+
+    def to_sympy(self):
+        r'''
+            Returns the SymPy polynomial represented by ``self``.
+
+            All the elements of type :class:`SparsePolynomial` can be transformed into
+            an element in a SymPy polynomial ring. This is useful for some functionalities
+            (see :func:`lcm` and :func:`gcd`). 
+
+            This method is simply a natural sequence of the methods :func:`get_sympy_ring`
+            and :func:`get_sympy_dict`.
+
+            Output
+                A SymPy polynomial represented by ``self``.
+
+            Examples::
+
+                >>> from clue.sparse_polynomial import *
+                >>> sp = SparsePolynomial.from_string("x**2*y-x*z**2", ['x','y','z'])
+                >>> type(sp.to_sympy())
+                <class 'sympy.polys.rings.PolyElement'>
+                >>> sp.to_sympy()
+                x**2*y - x*z**2
+                >>> SparsePolynomial.from_sympy(sp.to_sympy()) == sp
+                True
+        '''
+        return self.get_sympy_ring()(self.get_sympy_dict())
 
     #--------------------------------------------------------------------------
     def derivative(self, var_name):
