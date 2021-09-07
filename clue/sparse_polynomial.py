@@ -614,13 +614,8 @@ class SparsePolynomial(object):
                 new_data[new_monomial] += value
             else:
                 new_data[new_monomial] = value
-        ## Creating the resulting polynomial
-        result = SparsePolynomial(self.gens, self.domain, new_data)
-        if(result.is_zero()):
-            return self.domain(0)
-        elif(result.is_constant()): ## If the result is a constant, we return the constant value instead of the polynomial
-            return result._data[()]
-        return result
+        ## Returning the resulting polynomial
+        return SparsePolynomial(self.gens, self.domain, new_data)
 
     #--------------------------------------------------------------------------
 
