@@ -236,6 +236,9 @@ class RationalFunction:
         
         return RationalFunction(num, denom)
 
+    def get_constant(self):
+        return self.num.get_constant()/self.denom.get_constant()
+
     def get_sympy_ring(self):
         return sympy.polys.rings.ring(self.gens, self.domain)[0]
 

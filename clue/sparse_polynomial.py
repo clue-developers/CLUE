@@ -760,6 +760,9 @@ class SparsePolynomial(object):
 
     #--------------------------------------------------------------------------
 
+    def get_constant(self):
+        return self._data.get((), self.domain.zero)
+
     def get_sympy_ring(self):
         return sympy.polys.rings.ring(self.gens, self.domain)[0]
 
