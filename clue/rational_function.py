@@ -195,6 +195,47 @@ class RationalFunction:
         rf.simplify()
         return rf
 
+    def eval(self, **values):
+        r'''
+            Method that evaluates a rational function. 
+
+            This method evaluates a rational function performing a simultaneous substitution of the 
+            given variables for some specific values. This is based on the method 
+            :func:`~clue.sparse_polynomial.SparsePolynomial.eval`. See that method for further 
+            limitations.
+
+            Input
+                values - dictionary containing the names fo the variables to be evaluated and the values to plug-in.
+
+            Output
+                the evaluation in the given values.
+
+            Examples::
+
+                >>> from clue.rational_function import *
+                >>> rf = RationalFunction.from_string("x/(y*z**2)", ['x','y','z'])
+                >>> print(rf.eval(x=0))
+                (0)/(y*z**2)
+                >>> print(rf.eval(y=1,z=2))
+                (x)/(4)
+                >>> print(rf.eval(y=2))
+                (x)/(2*z**2)
+
+            The denominator can not be evaluated to zero, or an :class:`ZeroDivisionError` would be raised::
+
+                >>> print(rf.eval(y=0))
+                Traceback (most recent call last)
+                ...
+                ZeroDivisionError: A zero from the denominator was found
+        '''
+        num = self.num.eval(**values)
+        denom = self.denom.eval(**values)
+
+        if(denom.is_zero()):
+            raise ZeroDivisionError("A zero from the denominator was found")
+        
+        return RationalFunction(num, denom)
+
     def get_sympy_ring(self):
         return sympy.polys.rings.ring(self.gens, self.domain)[0]
 
