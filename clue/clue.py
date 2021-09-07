@@ -2,6 +2,9 @@ from bisect import bisect
 import copy
 import logging
 import math
+import timeit
+
+from random import randint
 
 import sympy
 from sympy import GF, QQ, gcd, nextprime
@@ -10,7 +13,6 @@ from sympy.ntheory.modular import isprime
 from .sparse_polynomial import SparsePolynomial
 from .rational_function import RationalFunction
 
-import timeit
 
 #------------------------------------------------------------------------------
 
@@ -144,7 +146,7 @@ class SparseVector(object):
     #--------------------------------------------------------------------------
 
     def __getitem__(self, i):
-        return self._data.get(i, 0)
+        return self._data.get(i, self._field.convert(0))
 
     def __setitem__(self, i, value):
         if bisect(self._nonzero, i) == 0 or self._nonzero[bisect(self._nonzero, i) - 1] != i:
@@ -759,6 +761,81 @@ def construct_matrices_from_polys(polys):
 
     result = jacobians.values()
     return result
+
+#------------------------------------------------------------------------------
+
+def evaluate_matrix(matrix, values):
+    r'''
+        Method to evaluate a Matrix at a particular position
+
+        This method evaluates a list of lists (i.e., a matrix) of rational functions or polynomials
+        in a particular place. This method only works if all variables are provided for the evaluation.
+
+        This method assumes that all the information (concerning the variables) can be obtained from the 
+        first element of the matrix (the element ``matrix[0][0]``).
+
+        Input
+            ``matrix`` - a list of lists with either :class:`~clue.sparse_polynomial.SparsePolynomial`
+            or :class:`~clue.rational_function.RationalFunction`. In general, any class that 
+            provide a method ``eval`` could work.
+            ``values`` - a list of values of the same length as ``matrix[0][0].gens``, indicating the 
+            evaluation point.
+
+        Output
+            a :class:`SparseRowMatrix` with the evaluation of ``matrix`` at ``values``.
+
+        TODO: add examples and tests
+    '''
+    varnames = matrix[0][0].gens
+    domain = matrix[0][0].domain
+
+    if(len(values) != len(varnames)):
+        raise ValueError("Evaluation this matrix requires exactly %d values (%d given)" %(len(varnames), len(values)))
+
+    values = {varnames[i] : values[i] for i in range(len(values))}
+    result = SparseRowMatrix(len(matrix), domain)
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            evaluation = matrix[i][j].eval(**values).get_constant()
+            if(evaluation != 0):
+                result.increment(i,j,evaluation)
+    return result
+
+def build_random_evaluation_matrix(matrix, min=0, max=100, attempts=1000):
+    r'''
+        Evaluates a matrix (as a list of lists) in a random vector of integer coordinates.
+
+        This method generates a vector of integers (depending in the amount of variables)
+        and build a SparseRowMatrix with the evaluations of the entries in ``matrix`` in
+        such vector.
+
+        If any error occur during the evaluation (for example, we find a pole of a rational function)
+        this method will start over until we find a valid evaluation.
+
+        The coordinates will be generated between the values provided by ``min`` and ``max``.
+
+        Input
+            ``matrix`` - a list of lists with either :class:`~clue.sparse_polynomial.SparsePolynomial`
+            or :class:`~clue.rational_function.RationalFunction`. In general, any class that 
+            provide a method ``eval`` could work.
+            ``min`` - the minimal integer value for the coordinates in the evaluation vector.
+            ``max`` - the maximal integer value for the coordinates in the evaluation vector.
+
+        Output
+            a :class:`SparseRowMatrix` with the evaluation of ``matrix`` at a random palce.
+    '''
+    varnames  = matrix[0][0].gens
+
+    for _ in range(attempts):
+        values = tuple([randint(min, max) for _ in range(len(varnames))])
+        try:
+            return evaluate_matrix(matrix, values)
+        except KeyboardInterrupt as e:
+            raise e
+        except:
+            pass
+
+    raise ValueError("After %d attempts, we did not find a valid random evaluation. Consider changing the bounds." %attempts)
 
 #------------------------------------------------------------------------------
 
