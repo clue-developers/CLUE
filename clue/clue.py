@@ -672,9 +672,27 @@ def construct_matrices(rhs):
     if isinstance(rhs[0], SparsePolynomial):
         return construct_matrices_from_polys(rhs)
     elif isinstance(rhs[0], RationalFunction):
-        return construct_matrices_from_rational_functions(rhs)
+        #return construct_matrices_from_rational_functions(rhs)
+        return construct_matrices_evaluation_random(rhs)
 
 #------------------------------------------------------------------------------
+
+def construct_matrices_evaluation_random(rational_functions, extra_guess=5):
+    logging.debug("Starting constructing matrices (RationalFunction)")
+
+    variables = rational_functions[0].gens
+
+    # Compute Jacobian
+    J = [[rf.derivative(v) for rf in rational_functions] for v in variables]
+
+    nmatrices = sum([[el != 0 for el in row].count(True) for row in J])+extra_guess
+    random_matr = []
+    for i in range(1,nmatrices+1):
+        random_matr += [build_random_evaluation_matrix(J)]
+        if(i % 10 == 0):
+            logging.debug("Built matrix %d/%d" %(i,nmatrices))
+
+    return random_matr
 
 def construct_matrices_from_rational_functions(rational_functions):
     """
@@ -796,9 +814,10 @@ def evaluate_matrix(matrix, values):
     result = SparseRowMatrix(len(matrix), domain)
     for i in range(len(matrix)):
         for j in range(len(matrix[i])):
-            evaluation = matrix[i][j].eval(**values).get_constant()
-            if(evaluation != 0):
-                result.increment(i,j,evaluation)
+            if(matrix[i][j]!=0):
+                evaluation = matrix[i][j].eval(**values).get_constant()
+                if(evaluation != 0):
+                    result.increment(i,j,evaluation)
     return result
 
 def build_random_evaluation_matrix(matrix, min=0, max=100, attempts=1000):
@@ -959,12 +978,13 @@ def do_lumping(
       Output
         a tuple (the right-hand side of an aggregated system, new_variables)
     """
-
+    import sys
     logging.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
         level= logging.INFO if loglevel == "INFO" else logging.DEBUG,
         datefmt='%Y-%m-%d %H:%M:%S',
-        filename="lumper_debug.log"
+        #filename="lumper_debug.log"
+        handlers=[logging.FileHandler("lumper_debug.log"), logging.StreamHandler(sys.stdout)]
     )
     logging.debug("Starting aggregation")
 
