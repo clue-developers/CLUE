@@ -668,30 +668,117 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
     
 #------------------------------------------------------------------------------
 
-def construct_matrices(rhs):
-    if isinstance(rhs[0], SparsePolynomial):
-        return construct_matrices_from_polys(rhs)
-    elif isinstance(rhs[0], RationalFunction):
-        #return construct_matrices_from_rational_functions(rhs)
-        return construct_matrices_evaluation_random(rhs)
+def construct_matrices(rhs, random_evaluation=True, discard_useless_matrices=True):
+    r'''
+        Method to generate the matrices used for finding the invariant subspace.
+
+        This method decides between different algorithms to approach the problem:
+        
+        * If ``random_evaluation`` is ``True``, then we randomly evaluate the jacobian
+          of the ``rhs`` until we find with high probability the set of matrices desired.
+        * Otherwise, we split the execution depending on the structure of ``rhs``. If the 
+          elements ar :class:`SparsePolynomial` then the method :func:`construct_matrices_from_polys`
+          is used, otherwise the method :func:`construct_matrices_from_rational_functions` is used.
+
+        The input ``discard_useless_matrices`` is only used for the non-random apprach to 
+        discard (or not) the linearly dependent matrices.
+    '''
+    if(random_evaluation):
+        matrices = construct_matrices_evaluation_random(rhs)
+    else:
+        if isinstance(rhs[0], SparsePolynomial):
+            matrices = construct_matrices_from_polys(rhs)
+        elif isinstance(rhs[0], RationalFunction):
+            matrices = construct_matrices_from_rational_functions(rhs)
+        print(f"-> There are {len(matrices)} matrices in total.")
+
+        # Reduce the problem to the common invariant subspace problem
+        if(discard_useless_matrices):
+            field = rhs[0].domain
+            deleted = 0
+            start = timeit.default_timer()
+            # Proceed only with matrices that are linearly independent
+            if discard_useless_matrices:
+                matrices = sorted(matrices, key=lambda m: m.nonzero_count())
+                vectors_of_matrices = [m.to_vector() for m in matrices]
+                subspace = Subspace(field)
+                for i in range(len(vectors_of_matrices)):
+                    pivot_index = subspace.absorb_new_vector(vectors_of_matrices[i])
+                    if pivot_index < 0:
+                        del matrices[i - deleted]
+                        deleted +=1
+                logging.debug(f"Discarded {deleted} linearly dependant matrices")
+
+            print(f"-> I discarded {deleted} linearly dependant matrices in {timeit.default_timer()-start}s")
+
+    return matrices
 
 #------------------------------------------------------------------------------
 
-def construct_matrices_evaluation_random(rational_functions, extra_guess=5):
-    logging.debug("Starting constructing matrices (RationalFunction)")
+def construct_matrices_evaluation_random(rational_functions, prob_err=0.01):
+    from math import factorial
+
+    logging.debug("Starting constructing random matrices (RationalFunction)")
 
     variables = rational_functions[0].gens
 
     # Compute Jacobian
     J = [[rf.derivative(v) for rf in rational_functions] for v in variables]
 
-    nmatrices = sum([[el != 0 for el in row].count(True) for row in J])+extra_guess
-    random_matr = []
-    for i in range(1,nmatrices+1):
-        random_matr += [build_random_evaluation_matrix(J)]
-        if(i % 10 == 0):
-            logging.debug("Built matrix %d/%d" %(i,nmatrices))
+    # we create the matrices by evaluating the jacobian
+    field = rational_functions[0].domain
+    random_matr = [build_random_evaluation_matrix(J)]
+    subspace = Subspace(field)
+    pivot_index = subspace.absorb_new_vector(random_matr[0].to_vector())
+    n = sum(sum(1 for el in row if el != 0) for row in J) # number of non-zero entries 
+    m = 1 # number of random generated matrices
+    start = timeit.default_timer()
+    finished = False
+    D = None
+    while(not finished):
+        while(pivot_index >= 0):
+            new_matr = build_random_evaluation_matrix(J)
+            pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
+            if(pivot_index >= 0):
+                random_matr.append(new_matr)
+                m += 1
+            if(m % 10 == 0):
+                logging.debug(f"Generated {m} random matrices...")
+        ## We had a linearly dependant matrix: we check the probability of this being complete
+        logging.debug(f"Found a linearly dependant matrix after {m} attemps.")
+        if(m >= n): # we grew too much, reached the maximal
+            logging.debug(f"We found the maximal amount of linearly independent matrices")
+            finished = True
+        else: # we checked (probabilitic) if we have finished
+            logging.debug(f"We compute the maximal bound for the random coefficients to have less than {prob_err} probabilites \
+            to get an element in the current space.")
+            # D is the degree for Scharz-Zippel Lemma
+            if(D is None): # only computed once if ever needed
+                if(isinstance(rational_functions[0], SparsePolynomial)):
+                    D = max(max(el.degree() for el in row) for row in J)
+                elif(isinstance(rational_functions[0], RationalFunction)):
+                    D = 0; max_num = -1
+                    for row in J:
+                        for el in row:
+                            if(el != 0):
+                                max_num = max(el.num.degree(), max_num)
+                                D += el.denom.degree()
+            
+            N = int(math.ceil(D/prob_err))
 
+            logging.debug(f"Bound for the coefficients: {N}")
+
+            extra_matr = build_random_evaluation_matrix(J, max=N)
+            pivot_index = subspace.absorb_new_vector(extra_matr.to_vector())
+            if(pivot_index < 0): # we are finished
+                logging.debug("The new matrix is in the vector space: we are done")
+                finished = True
+            else: # we add the amtrix to the list
+                logging.debug("The new matrix is NOT in the vector space: we continue")
+                random_matr.append(extra_matr)
+            
+    logging.debug(f"There are {m} matrices in total.")
+    print(f"-> I created {m} linearly independant matrices in {timeit.default_timer()-start}s")
     return random_matr
 
 def construct_matrices_from_rational_functions(rational_functions):
@@ -864,7 +951,9 @@ def do_lumping_internal(rhs,
                         print_system=True, 
                         print_reduction=False, 
                         ic=None, 
-                        discard_useless_matrices=True):
+                        discard_useless_matrices=True,
+                        random_evaluations=True,
+    ):
     """
       Performs a lumping of a polynomial ODE system represented by SparsePolynomial
       Input
@@ -885,28 +974,12 @@ def do_lumping_internal(rhs,
     )
     logging.debug("Starting aggregation")
 
-    # Reduce the problem to the common invariant subspace problem
-    vars_old = rhs[0].gens
-    field = rhs[0].domain
-    deleted = 0
-    matrices = construct_matrices(rhs)
-    print(f"-> There are {len(matrices)} matrices in total.")
-    start = timeit.default_timer()
-    # Proceed only with matrices that are linearly independent
-    if discard_useless_matrices:
-        matrices = sorted(matrices, key=lambda m: m.nonzero_count())
-        vectors_of_matrices = [m.to_vector() for m in matrices]
-        subspace = Subspace(field)
-        for i in range(len(vectors_of_matrices)):
-            pivot_index = subspace.absorb_new_vector(vectors_of_matrices[i])
-            if pivot_index < 0:
-                del matrices[i - deleted]
-                deleted +=1
-        logging.debug(f"Discarded {deleted} linearly dependant matrices")
-
-    print(f"-> I discarded {deleted} linearly dependant matrices in {timeit.default_timer()-start}s")
+    # Building the matrices for lumping
+    matrices = construct_matrices(rhs, random_evaluations, discard_useless_matrices)
 
     # Find a lumping
+    vars_old = rhs[0].gens
+    field = rhs[0].domain
     vectors_to_include = []
     for linear_form in observable:
         vec = SparseVector.from_list(linear_form.linear_part_as_vec(), field)
@@ -963,6 +1036,7 @@ def do_lumping(
         loglevel="INFO",
         initial_conditions=None,
         discard_useless_matrices=True,
+        random_evaluations=True,
     ):
     """
       Main function, performs a lumping of a polynomial ODE system
@@ -1003,7 +1077,8 @@ def do_lumping(
                                  print_system, 
                                  print_reduction, 
                                  initial_conditions, 
-                                 discard_useless_matrices=discard_useless_matrices)
+                                 discard_useless_matrices=discard_useless_matrices,
+                                 random_evaluations=random_evaluations)
 
     if initial_conditions is not None:
         eval_point = [initial_conditions.get(v, 0) for v in rhs[0].gens]
