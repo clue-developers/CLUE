@@ -10,8 +10,7 @@ sys.path.insert(0, "./")
 
 from clue.clue import do_lumping
 from clue.parser import read_system
-from clue.sparse_polynomial import SparsePolynomial
-from clue.rational_function import RationalFunction
+from clue.rational_function import SparsePolynomial, RationalFunction
 
 def eval_poly_dict(pdict, point):
     result = 0
@@ -65,23 +64,25 @@ if __name__ == "__main__":
     # # Example 1 ----------------------------------------------------------------
 
     # # SparsePolynomial
-    # R = sympy.polys.rings.vring(["x0", "x1", "x2"], QQ)
-    # polys = [x0**2 + x1 + x2, x2, x1]
-    # lumping = do_lumping(polys, [x0], print_reduction=False, initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
-    # check_lumping("Example 1 (SparsePolynomial)", polys, lumping, 2)
-    # assert lumping["new_ic"] == [QQ(1), QQ(7)]
+    R = sympy.polys.rings.vring(["x0", "x1", "x2"], QQ)
+    polys = [x0**2 + x1 + x2, x2, x1]
+    lumping = do_lumping(polys, [x0], print_reduction=False, initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
+    check_lumping("Example 1 (SparsePolynomial)", polys, lumping, 2)
+    assert lumping["new_ic"] == [QQ(1), QQ(7)]
+    print("OK")
 
     # # RationalFunction
-    # varnames = ["x0", "x1", "x2"]
-    # rhs = [RationalFunction.from_string("(x0**2 + x1 + x2)/1", varnames),
-    #        RationalFunction.from_string("x2/1", varnames),
-    #        RationalFunction.from_string("x1/1", varnames)]
-    # lumping = do_lumping(rhs,
-    #                      [SparsePolynomial.from_string("x0", varnames)],
-    #                       print_reduction=False,
-    #                       initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
-    # check_lumping("Example 1 (RationalFunction)", polys, lumping, 2)
-    # assert lumping["new_ic"] == [QQ(1), QQ(7)]
+    varnames = ["x0", "x1", "x2"]
+    rhs = [RationalFunction.from_string("(x0**2 + x1 + x2)/1", varnames),
+           RationalFunction.from_string("x2/1", varnames),
+           RationalFunction.from_string("x1/1", varnames)]
+    lumping = do_lumping(rhs,
+                         [SparsePolynomial.from_string("x0", varnames)],
+                          print_reduction=False,
+                          initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
+    check_lumping("Example 1 (RationalFunction)", polys, lumping, 2)
+    assert lumping["new_ic"] == [QQ(1), QQ(7)]
+    print("OK")
 
     # # # Example 2 ----------------------------------------------------------------
 

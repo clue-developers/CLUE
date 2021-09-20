@@ -517,7 +517,7 @@ class Subspace(object):
         if isinstance(rhs[0], SparsePolynomial):
             new_rhs = [SparsePolynomial(old_vars, domain) for _ in range(self.dim())]
         elif isinstance(rhs[0], RationalFunction):
-            new_rhs = [RationalFunction(SparsePolynomial(old_vars, domain),SparsePolynomial.from_string("1", old_vars, domain)) for _ in range(self.dim())]
+            new_rhs = [RationalFunction.from_const(0, old_vars) for _ in range(self.dim())]
         for i, vec in enumerate(basis):
             logging.debug(f"    Equation number {i}")
             for j in vec.nonzero_iter():
@@ -683,33 +683,30 @@ def construct_matrices(rhs, random_evaluation=True, discard_useless_matrices=Tru
         The input ``discard_useless_matrices`` is only used for the non-random apprach to 
         discard (or not) the linearly dependent matrices.
     '''
-    if(random_evaluation):
+    if isinstance(rhs[0], SparsePolynomial):
+        matrices = construct_matrices_from_polys(rhs)
+    elif isinstance(rhs[0], RationalFunction):
         matrices = construct_matrices_evaluation_random(rhs)
-    else:
-        if isinstance(rhs[0], SparsePolynomial):
-            matrices = construct_matrices_from_polys(rhs)
-        elif isinstance(rhs[0], RationalFunction):
-            matrices = construct_matrices_from_rational_functions(rhs)
-        print(f"-> There are {len(matrices)} matrices in total.")
+    print(f"-> There are {len(matrices)} matrices in total.")
 
         # Reduce the problem to the common invariant subspace problem
-        if(discard_useless_matrices):
-            field = rhs[0].domain
-            deleted = 0
-            start = timeit.default_timer()
-            # Proceed only with matrices that are linearly independent
-            if discard_useless_matrices:
-                matrices = sorted(matrices, key=lambda m: m.nonzero_count())
-                vectors_of_matrices = [m.to_vector() for m in matrices]
-                subspace = Subspace(field)
-                for i in range(len(vectors_of_matrices)):
-                    pivot_index = subspace.absorb_new_vector(vectors_of_matrices[i])
-                    if pivot_index < 0:
-                        del matrices[i - deleted]
-                        deleted +=1
-                logging.debug(f"Discarded {deleted} linearly dependant matrices")
+      #   if(discard_useless_matrices):
+      #       field = rhs[0].domain
+      #       deleted = 0
+      #       start = timeit.default_timer()
+      #       # Proceed only with matrices that are linearly independent
+      #       if discard_useless_matrices:
+      #           matrices = sorted(matrices, key=lambda m: m.nonzero_count())
+      #           vectors_of_matrices = [m.to_vector() for m in matrices]
+      #           subspace = Subspace(field)
+      #           for i in range(len(vectors_of_matrices)):
+      #               pivot_index = subspace.absorb_new_vector(vectors_of_matrices[i])
+      #               if pivot_index < 0:
+      #                   del matrices[i - deleted]
+      #                   deleted +=1
+      #           logging.debug(f"Discarded {deleted} linearly dependant matrices")
 
-            print(f"-> I discarded {deleted} linearly dependant matrices in {timeit.default_timer()-start}s")
+      #       print(f"-> I discarded {deleted} linearly dependant matrices in {timeit.default_timer()-start}s")
 
     return matrices
 

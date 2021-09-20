@@ -8,8 +8,7 @@ from sympy.core.numbers import Rational
 from sympy import QQ
 from sympy.core.compatibility import exec_
 
-from .sparse_polynomial import SparsePolynomial, to_rational
-from .rational_function import RationalFunction
+from .rational_function import SparsePolynomial, RationalFunction, to_rational
 
 #------------------------------------------------------------------------------
 
@@ -103,7 +102,7 @@ def parse_ode(lines, varnames):
         if lhs not in varnames:
             raise ValueError(f"Variable {lhs} is not in the list of variables")
         try:
-            eqs[lhs] = SparsePolynomial.from_string(rhs, varnames, var_to_ind)
+            eqs[lhs] = RationalFunction.from_string(rhs, varnames, var_to_ind)
         except TypeError as e:
             print(rhs)
             print(e)
@@ -125,7 +124,7 @@ def extract_observables(lines, varnames):
     observables = []
     for s in sets:
         obs_as_str = "+".join(re.split("\s*,\s*", s))
-        obs_poly = SparsePolynomial.from_string(obs_as_str, varnames, var_to_ind)
+        obs_poly = RationalFunction.from_string(obs_as_str, varnames, var_to_ind)
         observables.append(obs_poly)
     return observables
 
@@ -170,7 +169,7 @@ def parse_reactions(lines, varnames):
         raw_reactions.append((lhs.strip(), rhs.strip(), rate.strip()))
         
     # eqs = {v : SparsePolynomial(varnames, QQ) for v in varnames}
-    eqs = {v : RationalFunction(SparsePolynomial(varnames, QQ),SparsePolynomial.from_string("1", varnames, var_to_ind)) for v in varnames}
+    eqs = {v : RationalFunction(SparsePolynomial(varnames, QQ), SparsePolynomial.from_const(1, varnames)) for v in varnames}
     for lhs, rhs, rate in raw_reactions:
         # rate_poly = SparsePolynomial.from_string(rate, varnames, var_to_ind)
         rate_poly = RationalFunction.from_string(rate, varnames, var_to_ind)
