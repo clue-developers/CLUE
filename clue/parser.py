@@ -124,7 +124,7 @@ def extract_observables(lines, varnames):
     observables = []
     for s in sets:
         obs_as_str = "+".join(re.split("\s*,\s*", s))
-        obs_poly = RationalFunction.from_string(obs_as_str, varnames, var_to_ind)
+        obs_poly = SparsePolynomial.from_string(obs_as_str, varnames, var_to_ind)
         observables.append(obs_poly)
     return observables
 
@@ -255,7 +255,9 @@ def read_system(filename, read_ic=False):
     else:
         equations = parse_reactions(sections_raw['reactions'], varnames)
 
-    # Convert everything to rational function if one is a rational function.
+    # specializing to polynomials if possible
+    if all(map(lambda f: f.is_polynomial(), equations)):
+        equations = [f.get_poly() for f in equations]
 
     obs = extract_observables(sections_raw['partition'], varnames) if 'partition' in sections_raw else None
 

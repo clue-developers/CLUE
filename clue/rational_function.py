@@ -941,7 +941,7 @@ class RationalFunction:
 
     def get_poly(self):
         if self.denom.is_constant():
-            return self.num * (1 / self.denom.get_constant())
+            return self.num * (QQ(1) / QQ(self.denom.get_constant()))
         raise ValueError(f"{self} is not a polynomial")
 
     def is_zero(self):

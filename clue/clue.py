@@ -10,8 +10,7 @@ import sympy
 from sympy import GF, QQ, gcd, nextprime
 from sympy.ntheory.modular import isprime
 
-from .sparse_polynomial import SparsePolynomial
-from .rational_function import RationalFunction
+from .rational_function import SparsePolynomial, RationalFunction
 
 
 #------------------------------------------------------------------------------
