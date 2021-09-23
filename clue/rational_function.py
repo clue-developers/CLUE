@@ -173,7 +173,7 @@ class SparsePolynomial(object):
 
             The constants always return their value::
 
-                >>> p = SparsePolynomial.from_constant(QQ(5)/QQ(7), ['x'])
+                >>> p = SparsePolynomial.from_const(QQ(5)/QQ(7), ['x'])
                 >>> p.content
                 5/7
                 >>> p = SparsePolynomial.from_string("15", ['x'])
@@ -527,12 +527,10 @@ class SparsePolynomial(object):
             return SparsePolynomial.from_const(0 , self._varnames)
         elif(self == other):
             return SparsePolynomial.from_const(1 , self._varnames)
-        elif(other.is_constant()):
-            c = other._data[()] # constant value of the denominator
-            return SparsePolynomial(self._varnames, self._domain,
-                {key: self._data[key]/c for key in self._data})
+        elif(self.is_constant() and other.is_constant()):
+            return SparsePolynomial.from_const(self._data[()]/other._data[()], self._varnames)
         
-        ## General case (other is not constant and self != other and 0)
+        ## General case (self != other and 0)
         R = self.get_sympy_ring()
         num = R(self.get_sympy_dict()).as_expr()
         denom = R(other.get_sympy_dict()).as_expr()
@@ -1121,18 +1119,18 @@ class RationalFunction:
                 (100)/(1)
                 >>> f = RationalFunction(SparsePolynomial.from_string("20*x + 1", ["x"]), SparsePolynomial.from_string("3", ["x"]))
                 >>> f.simplify(); print(f)
-                (20*x + 1)/(3)
+                (1/3 + 20/3*x)/(1)
                 >>> f = RationalFunction(SparsePolynomial.from_string("20*x + 8", ["x"]), SparsePolynomial.from_string("4", ["x"]))
                 >>> f.simplify(); print(f)
-                (5*x + 2)/(1)
+                (2 + 5*x)/(1)
                 >>> f = RationalFunction(SparsePolynomial.from_string("15*x + 6", ["x"]), SparsePolynomial.from_string("21", ["x"]))
                 >>> f.simplify(); print(f)
-                (5*x + 2)/(7)
+                (2/7 + 5/7*x)/(1)
                 >>> p1 = SparsePolynomial.from_string("15*x + 6", ["x"])//SparsePolynomial.from_string("7", ["x"])
                 >>> p2 = SparsePolynomial.from_string("3*x+3", ["x"])
                 >>> f = RationalFunction(p1, p2)
                 >>> f.simplify(); print(f)
-                (5/7*x + 2/7)/(x + 1)
+                (2/7 + 5/7*x)/(1 + x)
                 
             This method also works with multivariate polynomials::
 
@@ -1148,13 +1146,15 @@ class RationalFunction:
         '''
         # Removing the gcd of numerator and denominator (whatever Sympy finds)
         gcd = SparsePolynomial.gcd([self.num, self.denom])
-        self.num = self.num // gcd
-        self.denom = self.denom // gcd
+        if(not gcd.is_unitary()):
+            self.num = self.num // gcd
+            self.denom = self.denom // gcd
 
         # Removing the content of the denominator
         c = SparsePolynomial.from_const(self.denom.content, self._varnames)
-        self.num = self.num // c
-        self.denom = self.denom // c
+        if(not c.is_unitary()):
+            self.num = self.num // c
+            self.denom = self.denom // c
 
     #--------------------------------------------------------------------------
     def __str__(self):
@@ -1248,7 +1248,7 @@ class RationalFunction:
             The denominator can not be evaluated to zero, or an :class:`ZeroDivisionError` would be raised::
 
                 >>> print(rf.eval(y=0))
-                Traceback (most recent call last)
+                Traceback (most recent call last):
                 ...
                 ZeroDivisionError: A zero from the denominator was found
         '''
