@@ -486,15 +486,19 @@ class SparsePolynomial(object):
                 >>> sp3//sp2
                 2 + x**2 + 2*x
         '''
+        if(self.is_zero()):
+            return SparsePolynomial.from_const(0 , self._varnames)
+        elif(self == other):
+            return SparsePolynomial.from_const(1 , self._varnames)
+        elif(other.is_constant()):
+            c = other._data[()] # constant value of the denominator
+            return SparsePolynomial(self._varnames, self._domain,
+                {key: self._data[key]/c for key in self._data})
+        
+        ## General case (other is not constant and self != other and 0)
         R = self.get_sympy_ring()
         num = R(self.get_sympy_dict()).as_expr()
         denom = R(other.get_sympy_dict()).as_expr()
-        if num.is_zero:
-            return SparsePolynomial.from_const(0 , self._varnames)
-        elif num == denom:
-            return SparsePolynomial.from_const(1 , self._varnames)
-        elif denom == 1:
-            return self
         quo = R(sympy.polys.polytools.quo(num, denom))
         return SparsePolynomial.from_sympy(quo)
 
@@ -1072,6 +1076,21 @@ class RationalFunction:
                 (x**2 + 2*x + 1)/(x + 1)
                 >>> f.simplify(); print(f)
                 (1 + x)/(1)
+
+            Further checkings of simplify when the denominator are constants::
+            
+                >>> f = RationalFunction(SparsePolynomial.from_string("1000", ["x"]), SparsePolynomial.from_string("10", ["x"]))
+                >>> f.simplify(); print(f)
+                (100)/(1)
+                >>> f = RationalFunction(SparsePolynomial.from_string("20*x + 1", ["x"]), SparsePolynomial.from_string("3", ["x"]))
+                >>> f.simplify(); print(f)
+                (20*x + 1)/(3)
+                >>> f = RationalFunction(SparsePolynomial.from_string("20*x + 8", ["x"]), SparsePolynomial.from_string("4", ["x"]))
+                >>> f.simplify(); print(f)
+                (5*x + 2)/(1)
+                >>> f = RationalFunction(SparsePolynomial.from_string("15*x + 6", ["x"]), SparsePolynomial.from_string("21", ["x"]))
+                >>> f.simplify(); print(f)
+                (5*x + 2)/(7)
             
             This method also works with multivariate polynomials::
 
