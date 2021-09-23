@@ -14,7 +14,7 @@ from pyparsing import (
 )
 
 import sympy
-from sympy import QQ
+from sympy import QQ, oo
 
 #------------------------------------------------------------------------------
 
@@ -148,6 +148,43 @@ class SparsePolynomial(object):
         '''
         return tuple([el[1] for el in self.dataiter()])
     
+    @property
+    def content(self):
+        r'''
+            Content of a polynomial.
+
+            For a polynomial, the content is the greatest common divisor of its coefficients. This
+            computation is performed on the domain of ``self`` and may have interesting behaviors 
+            when the domain is a field.
+
+            Output
+                An element in ``self._domain`` that is the GCD of the coefficients of ``self``.
+
+            Examples::
+
+                >>> from sympy import QQ
+                >>> from clue.sparse_polynomial import SparsePolynomial
+                >>> p = SparsePolynomial.from_string("15*x + 6", ["x"])
+                >>> p.content
+                3
+                >>> p = SparsePolynomial.from_string("15*x + 6", ["x"])//SparsePolynomial.from_string("7", ["x"])
+                >>> p.content
+                3/7
+
+            The constants always return their value::
+
+                >>> p = SparsePolynomial.from_constant(QQ(5)/QQ(7), ['x'])
+                >>> p.content
+                5/7
+                >>> p = SparsePolynomial.from_string("15", ['x'])
+                >>> p.content
+                15
+                >>> p = SparsePolynomial(['x'])
+                >>> p.content
+                0
+        '''
+        return sympy.polys.polytools.gcd(self.coefficients)
+
     @property
     def linear_components(self):
         r'''
@@ -1091,7 +1128,12 @@ class RationalFunction:
                 >>> f = RationalFunction(SparsePolynomial.from_string("15*x + 6", ["x"]), SparsePolynomial.from_string("21", ["x"]))
                 >>> f.simplify(); print(f)
                 (5*x + 2)/(7)
-            
+                >>> p1 = SparsePolynomial.from_string("15*x + 6", ["x"])//SparsePolynomial.from_string("7", ["x"])
+                >>> p2 = SparsePolynomial.from_string("3*x+3", ["x"])
+                >>> f = RationalFunction(p1, p2)
+                >>> f.simplify(); print(f)
+                (5/7*x + 2/7)/(x + 1)
+                
             This method also works with multivariate polynomials::
 
                 >>> rf = RationalFunction.from_string(
@@ -1104,9 +1146,15 @@ class RationalFunction:
                 >>> rf.simplify(); print(rf)
                 (PI3KInactive**3*boundEGFReceptor**2*kPI3K + PI3KInactive**3*RasActive**2*kPI3KRas + PI3KInactive**2*RasActive**2*kPI3KRas*KmPI3K + PI3KInactive**2*boundEGFReceptor**2*kPI3K*KmPI3KRas)/(PI3KInactive**2 + KmPI3K*KmPI3KRas + PI3KInactive*KmPI3K + PI3KInactive*KmPI3KRas)
         '''
+        # Removing the gcd of numerator and denominator (whatever Sympy finds)
         gcd = SparsePolynomial.gcd([self.num, self.denom])
         self.num = self.num // gcd
         self.denom = self.denom // gcd
+
+        # Removing the content of the denominator
+        c = SparsePolynomial.from_const(self.denom.content, self._varnames)
+        self.num = self.num // c
+        self.denom = self.denom // c
 
     #--------------------------------------------------------------------------
     def __str__(self):
