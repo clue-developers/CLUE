@@ -876,7 +876,7 @@ def evaluate_matrix(matrix, values):
         first element of the matrix (the element ``matrix[0][0]``).
 
         Input
-            ``matrix`` - a list of lists with either :class:`~clue.sparse_polynomial.SparsePolynomial`
+            ``matrix`` - a list of lists with either :class:`~clue.rational_function.SparsePolynomial`
             or :class:`~clue.rational_function.RationalFunction`. In general, any class that 
             provide a method ``eval`` could work.
             ``values`` - a list of values of the same length as ``matrix[0][0].gens``, indicating the 
@@ -917,7 +917,7 @@ def build_random_evaluation_matrix(matrix, min=0, max=100, attempts=1000):
         The coordinates will be generated between the values provided by ``min`` and ``max``.
 
         Input
-            ``matrix`` - a list of lists with either :class:`~clue.sparse_polynomial.SparsePolynomial`
+            ``matrix`` - a list of lists with either :class:`~clue.rational_function.SparsePolynomial`
             or :class:`~clue.rational_function.RationalFunction`. In general, any class that 
             provide a method ``eval`` could work.
             ``min`` - the minimal integer value for the coordinates in the evaluation vector.

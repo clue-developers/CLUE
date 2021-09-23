@@ -81,7 +81,7 @@ class SparsePolynomial(object):
             Examples::
 
                 >>> from sympy import QQ
-                >>> from clue.sparse_polynomial import SparsePolynomial
+                >>> from clue.rational_function import SparsePolynomial
                 >>> x = SparsePolynomial(["x", "y"], QQ, {tuple([(0,1)]): 1})
                 >>> y = SparsePolynomial(["x", "y"], QQ, {tuple([(1,1)]): 1})
                 >>> one = SparsePolynomial(["x", "y"], QQ, {(): 1})
@@ -122,7 +122,7 @@ class SparsePolynomial(object):
             Examples::
 
                 >>> from sympy import QQ
-                >>> from clue.sparse_polynomial import SparsePolynomial
+                >>> from clue.rational_function import SparsePolynomial
                 >>> x = SparsePolynomial(["x", "y"], QQ, {tuple([(0,1)]): 1})
                 >>> y = SparsePolynomial(["x", "y"], QQ, {tuple([(1,1)]): 1})
                 >>> one = SparsePolynomial(["x", "y"], QQ, {(): 1})
@@ -163,7 +163,7 @@ class SparsePolynomial(object):
             Examples::
 
                 >>> from sympy import QQ
-                >>> from clue.sparse_polynomial import SparsePolynomial
+                >>> from clue.rational_function import SparsePolynomial
                 >>> p = SparsePolynomial.from_string("15*x + 6", ["x"])
                 >>> p.content
                 3
@@ -204,7 +204,7 @@ class SparsePolynomial(object):
             Examples
 
                 >>> from sympy import QQ
-                >>> from clue.sparse_polynomial import SparsePolynomial
+                >>> from clue.rational_function import SparsePolynomial
                 >>> x = SparsePolynomial(["x", "y"], QQ, {tuple([(0,1)]): 1})
                 >>> y = SparsePolynomial(["x", "y"], QQ, {tuple([(1,1)]): 1})
                 >>> one = SparsePolynomial(["x", "y"], QQ, {(): 1})
@@ -232,7 +232,7 @@ class SparsePolynomial(object):
             Examples::
 
                 >>> from sympy import QQ
-                >>> from clue.sparse_polynomial import SparsePolynomial
+                >>> from clue.rational_function import SparsePolynomial
                 >>> x = SparsePolynomial(["x", "y"], QQ, {tuple([(0,1)]): 1})
                 >>> x.degree()
                 1
@@ -307,7 +307,7 @@ class SparsePolynomial(object):
             Examples::
 
                 >>> from sympy import QQ
-                >>> from clue.sparse_polynomial import SparsePolynomial
+                >>> from clue.rational_function import SparsePolynomial
                 >>> x = SparsePolynomial(["x", "y", "z"], QQ, {tuple([(0,1)]): 1})
                 >>> x.variables()
                 ('x',)
@@ -407,7 +407,7 @@ class SparsePolynomial(object):
 
             Examples::
 
-                >>> from clue.sparse_polynomial import *
+                >>> from clue.rational_function import *
                 >>> sp1 = SparsePolynomial.from_string("2*x**23 + 4", ['x'])
                 >>> sp2 = SparsePolynomial.from_string("2*x**23 + 4", ['x'])
                 >>> sp1 is sp2
@@ -504,7 +504,7 @@ class SparsePolynomial(object):
 
             Examples::
 
-                >>> from clue.sparse_polynomial import *
+                >>> from clue.rational_function import *
                 >>> sp1 = SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x','y'])
                 >>> sp2 = SparsePolynomial.from_string("x+1", ['x'])
                 >>> sp1//sp2
@@ -563,7 +563,7 @@ class SparsePolynomial(object):
 
             Examples::
 
-                >>> from clue.sparse_polynomial import *
+                >>> from clue.rational_function import *
                 >>> sp1 = SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x','y'])
                 >>> sp2 = SparsePolynomial.from_string("x+1", ['x'])
                 >>> sp1%sp2
@@ -615,7 +615,7 @@ class SparsePolynomial(object):
 
             Examples::
 
-                >>> from clue.sparse_polynomial import *
+                >>> from clue.rational_function import *
                 >>> sp = SparsePolynomial.from_string("x**2*z + y", ['x','y','z'])
                 >>> sp.eval(x=2)
                 4*z + y
@@ -680,7 +680,7 @@ class SparsePolynomial(object):
 
             Examples::
 
-                >>> from clue.sparse_polynomial import *
+                >>> from clue.rational_function import *
                 >>> sp = SparsePolynomial.from_string("1",['x'])
                 >>> sp.is_zero()
                 False
@@ -706,7 +706,7 @@ class SparsePolynomial(object):
 
             Examples::
 
-                >>> from clue.sparse_polynomial import *
+                >>> from clue.rational_function import *
                 >>> sp = SparsePolynomial.from_string("1",['x'])
                 >>> sp.is_unitary()
                 True
@@ -818,7 +818,7 @@ class SparsePolynomial(object):
 
             Examples::
 
-                >>> from clue.sparse_polynomial import *
+                >>> from clue.rational_function import *
                 >>> sp = SparsePolynomial.from_string("x**2*y-x*z**2", ['x','y','z'])
                 >>> type(sp.to_sympy())
                 <class 'sympy.polys.rings.PolyElement'>
@@ -873,7 +873,7 @@ class SparsePolynomial(object):
 
             Examples::
 
-                >>> from clue.sparse_polynomial import *
+                >>> from clue.rational_function import *
                 >>> sp1 = SparsePolynomial.from_string("x*y**2 + x**2*y", ['x','y'])
                 >>> sp2 = SparsePolynomial.from_string("x**2*y**2", ['x','y'])
                 >>> lcm = SparsePolynomial.lcm([sp1,sp2])
@@ -1016,7 +1016,7 @@ class RationalFunction:
 
             In particular, the functions `\nu_v(p/q) = \deg_v(p) - \deg_v(q)` is such a
             valuation. This method returns the valuation w.r.t. a variable of this 
-            rational function. It is based on the method :func:`clue.sparse_polynomial.SparsePolynomial.degree`.
+            rational function. It is based on the method :func:`clue.rational_function.SparsePolynomial.degree`.
 
             Input
                 ``var_name`` - name (string) of the variable to compute the degree.
@@ -1042,7 +1042,7 @@ class RationalFunction:
 
                 f'(x) = \frac{p'(x)q(x) - q'(x)p(x)}{q(x)^2}
 
-            This method uses such formula and the method :func:`~clue.sparse_polynomial.SparsePolynomial.derivative`.
+            This method uses such formula and the method :func:`~clue.rational_function.SparsePolynomial.derivative`.
 
             Input
                 ``var`` - name (string) of the variable with respect we compute the derivative.
@@ -1099,7 +1099,7 @@ class RationalFunction:
             Simplify a rational function in-place.
 
             Method that removes the common factors between the numerator and 
-            denominator of ``self``. It is based on the method :func:`~clue.sparse_polynomial.SparsePolynomial`
+            denominator of ``self``. It is based on the method :func:`~clue.rational_function.SparsePolynomial`
             and the exact division implementation.
 
             The simplification is performed *in-place*, meaning there is no output for this method, but
@@ -1225,7 +1225,7 @@ class RationalFunction:
 
             This method evaluates a rational function performing a simultaneous substitution of the 
             given variables for some specific values. This is based on the method 
-            :func:`~clue.sparse_polynomial.SparsePolynomial.eval`. See that method for further 
+            :func:`~clue.rational_function.SparsePolynomial.eval`. See that method for further 
             limitations.
 
             Input
@@ -1283,7 +1283,7 @@ class RationalFunction:
             is used to try and convert ``other`` into a rational function.
 
             Since we need to check and identity of polynomials, this method is based on 
-            :func:`clue.sparse_polynomial.SparsePolynomial.__eq__`.
+            :func:`clue.rational_function.SparsePolynomial.__eq__`.
 
             Input
                 ``other`` - object to compare with ``self``.

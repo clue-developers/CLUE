@@ -1,0 +1,29 @@
+begin model queueing
+ 
+ begin parameters
+ 	alpha1 = 1.0
+ 	beta1 = 3.0
+ 	beta2 = 3.0
+ 	gamma1 = 0.1
+ end parameters
+ 
+ begin init
+	x1 = 2.0
+	x2 = 2.0
+	u = 1.0
+ end init
+ 
+ begin ODE
+  d(x1) = - alpha1 * (x1 / (x1 + x2)) * min(x1 + x2, u) + beta1 * (1 - x1)
+  d(x2) = - alpha1 * (x2 / (x1 + x2)) * min(x1 + x2, u) + beta2 * (1 - x2)
+  d(u) =  - alpha1 * min(x1 + x2, u) + gamma1 * (1 - u)
+ end ODE
+ 
+ begin views
+  v1 = x1 + x2
+ end views
+ 
+ simulateODE(tEnd=1.0 , viewPlot=VARS&VIEWS , viewLabels=true)
+ reduceBDE(reducedFile="queueingBDE.ode")
+ reduceFDE(reducedFile="queueingFDE.ode")
+end model

@@ -13,7 +13,7 @@ sys.path.insert(0, "../")
 sys.path.insert(0, "./../../")
 from clue import parser
 from clue import clue
-from clue.sparse_polynomial import SparsePolynomial
+from clue.rational_function import SparsePolynomial
 
 for n in range(2, 9):
 

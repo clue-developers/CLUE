@@ -3,14 +3,14 @@ import time
 
 from sympy import QQ
 
-sys.path.insert(0, "../")
-sys.path.insert(0, "./../../")
+# sys.path.insert(0, "../")
+# sys.path.insert(0, "./../../")
 from clue import parser
 from clue import clue
 from clue.rational_function import SparsePolynomial
 
-system = parser.read_system("BIOMD0000000033.ode")
-obs = SparsePolynomial.from_string("AktInactive", system['variables'])
+system = parser.read_system("toy_example.ode")
+obs = SparsePolynomial.from_string("x1 + x2", system['variables'])
 
 start = time.time()
 lumped = clue.do_lumping(system['equations'], [obs], print_system=True)
