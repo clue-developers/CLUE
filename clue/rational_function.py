@@ -186,6 +186,39 @@ class SparsePolynomial(object):
         return sympy.polys.polytools.gcd(self.coefficients)
 
     @property
+    def constant_terms(self):
+        r'''
+            Constant coefficient of a Sparse polynomial.
+
+            This property is the value of the constant term of the polynomial.
+            This is the coefficients associated with the monomial `1`. In terms
+            of the current implementation, this is the coefficient that can 
+            be obtained with ``self._data.get((), 0)``.
+
+            Output
+                An element in ``self.domain`` that is the coefficient of the monomial `1`.
+
+            Examples::
+
+                >>> from clue.rational_function import *
+                >>> sp = SparsePolynomial.from_string("x*y*z + x*6 - 10", ['x','y','z'])
+                >>> sp.constant_term
+                -10
+                >>> sp = SparsePolynomial.from_string("x - y", ['x','y'])
+                >>> sp.constant_term
+                0
+                >>> sp = SparsePolynomial.from_const(13, ['x','y','z'])
+                >>> sp.constant_term
+                13
+                >>> sp = SparsePolynomial(['x']) # zero polynomial
+                >>> sp.constant_term
+                0
+        '''
+        return self._data.get((), 0)
+
+    ct = constant_term #: alias for the constant term property
+
+    @property
     def linear_components(self):
         r'''
             Linear components and coefficients from this polynomial.
