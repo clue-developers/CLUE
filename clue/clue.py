@@ -667,7 +667,7 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
     
 #------------------------------------------------------------------------------
 
-def construct_matrices(rhs, random_evaluation=True, discard_useless_matrices=True):
+def construct_matrices(rhs): #, random_evaluation=True, discard_useless_matrices=True):
     r'''
         Method to generate the matrices used for finding the invariant subspace.
 
@@ -712,8 +712,6 @@ def construct_matrices(rhs, random_evaluation=True, discard_useless_matrices=Tru
 #------------------------------------------------------------------------------
 
 def construct_matrices_evaluation_random(rational_functions, prob_err=0.01):
-    from math import factorial
-
     logging.debug("Starting constructing random matrices (RationalFunction)")
 
     variables = rational_functions[0].gens
@@ -947,8 +945,8 @@ def do_lumping_internal(rhs,
                         print_system=True, 
                         print_reduction=False, 
                         ic=None, 
-                        discard_useless_matrices=True,
-                        random_evaluations=True,
+                        #discard_useless_matrices=True,
+                        #random_evaluations=True,
     ):
     """
       Performs a lumping of a polynomial ODE system represented by SparsePolynomial
@@ -971,7 +969,7 @@ def do_lumping_internal(rhs,
     logging.debug("Starting aggregation")
 
     # Building the matrices for lumping
-    matrices = construct_matrices(rhs, random_evaluations, discard_useless_matrices)
+    matrices = construct_matrices(rhs)# , random_evaluations, discard_useless_matrices)
 
     # Find a lumping
     vars_old = rhs[0].gens
@@ -1031,8 +1029,8 @@ def do_lumping(
         out_format="sympy",
         loglevel="INFO",
         initial_conditions=None,
-        discard_useless_matrices=True,
-        random_evaluations=True,
+        #discard_useless_matrices=True,
+        #random_evaluations=True,
     ):
     """
       Main function, performs a lumping of a polynomial ODE system
@@ -1073,8 +1071,9 @@ def do_lumping(
                                  print_system, 
                                  print_reduction, 
                                  initial_conditions, 
-                                 discard_useless_matrices=discard_useless_matrices,
-                                 random_evaluations=random_evaluations)
+                                 #discard_useless_matrices=discard_useless_matrices,
+                                 #random_evaluations=random_evaluations
+                )
 
     if initial_conditions is not None:
         eval_point = [initial_conditions.get(v, 0) for v in rhs[0].gens]
