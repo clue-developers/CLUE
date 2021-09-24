@@ -186,7 +186,7 @@ class SparsePolynomial(object):
         return sympy.polys.polytools.gcd(self.coefficients)
 
     @property
-    def constant_terms(self):
+    def constant_term(self):
         r'''
             Constant coefficient of a Sparse polynomial.
 
@@ -212,6 +212,11 @@ class SparsePolynomial(object):
                 13
                 >>> sp = SparsePolynomial(['x']) # zero polynomial
                 >>> sp.constant_term
+                0
+
+            This property can also be obtained via :func:`ct`::
+
+                >>> sp.ct
                 0
         '''
         return self._data.get((), 0)
