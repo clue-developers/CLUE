@@ -1,6 +1,4 @@
 ## -*- encoding: utf-8 -*-
-import os
-import sys
 from setuptools import setup
 from codecs import open # To open the README file with proper encoding
 
@@ -36,6 +34,6 @@ setup(
     keywords = "lumping differential system",
     packages = ["clue"],
     setup_requires   = [],
-    install_requires = ['sympy'],
+    install_requires = ['sympy', 'pyparsing'],
 )
     
