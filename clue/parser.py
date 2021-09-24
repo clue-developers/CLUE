@@ -3,10 +3,7 @@ import sys
 
 sys.setrecursionlimit(10000000)
 
-import sympy
-from sympy.core.numbers import Rational
 from sympy import QQ
-from sympy.core.compatibility import exec_
 
 from .rational_function import SparsePolynomial, RationalFunction, to_rational
 
@@ -38,7 +35,7 @@ def comment_remover(text):
     return re.sub(pattern, replacer, text)
 
 def bracket_comment_remover(text):
-    return re.sub('\[[^\[\]]*\]', '', text)
+    return re.sub(r'\[[^\[\]]*\]', '', text)
 
 #------------------------------------------------------------------------------
 
@@ -46,11 +43,11 @@ def extract_model_name(model):
     """
     Returns the name of the model and text without enclosing "begin model ... end model"
     """
-    p = re.compile("begin\s+model\s+(\w+)")
+    p = re.compile(r"begin\s+model\s+(\w+)")
     m = p.search(model)
     name = m.group(1)
     model = re.sub(p, '', model)
-    model = re.sub("end\s+model", '', model)
+    model = re.sub(r"end\s+model", '', model)
     return name, model
 
 #------------------------------------------------------------------------------
@@ -62,8 +59,8 @@ def split_in_sections(model):
     """
     sections = dict()
     cur_section = None
-    pstart = re.compile("begin\s+(\w+)")
-    pend = re.compile("end\s+(\w+)")
+    pstart = re.compile(r"begin\s+(\w+)")
+    pend = re.compile(r"end\s+(\w+)")
     for l in model.split("\n"):
         if cur_section is not None:
             if pend.search(l):
@@ -88,7 +85,7 @@ def parse_ode(lines, varnames):
             ordered as variables in the ring
     """
     eqs_raw = dict()
-    plhs = re.compile("d\((\w+)\)")
+    plhs = re.compile(r"d\((\w+)\)")
     for l in lines:
         if plhs.search(l):
             lhs, rhs = l.split("=")
@@ -119,12 +116,12 @@ def extract_observables(lines, varnames):
     Input: lines of the partitions section
     Output: list of SparsePolynomial representing the observables
     """
-    var_to_ind = {v : i for i, v in enumerate(varnames)}
-    sets = [m.groups(1)[0] for m in re.finditer("\{([^\{\}]*)\}", " ".join(lines))]
+    #var_to_ind = {v : i for i, v in enumerate(varnames)}
+    sets = [m.groups(1)[0] for m in re.finditer(r"\{([^\{\}]*)\}", " ".join(lines))]
     observables = []
     for s in sets:
-        obs_as_str = "+".join(re.split("\s*,\s*", s))
-        obs_poly = SparsePolynomial.from_string(obs_as_str, varnames, var_to_ind)
+        obs_as_str = "+".join(re.split(r"\s*,\s*", s))
+        obs_poly = SparsePolynomial.from_string(obs_as_str, varnames)
         observables.append(obs_poly)
     return observables
 
@@ -148,8 +145,8 @@ def separate_reation_rate(line):
             break
     reaction = line[:split_ind]
     rate = line[(split_ind + 1):]
-    if re.search('\[.*\]', rate):
-        rate = re.sub('\[.*\]', '', rate)
+    if re.search(r'\[.*\]', rate):
+        rate = re.sub(r'\[.*\]', '', rate)
     return reaction, rate
 
 #------------------------------------------------------------------------------
