@@ -219,7 +219,7 @@ class SparsePolynomial(object):
                 >>> sp.ct
                 0
         '''
-        return self._data.get((), 0)
+        return self._data.get((), self.domain.zero)
 
     ct = constant_term #: alias for the constant term property
 
@@ -566,7 +566,7 @@ class SparsePolynomial(object):
         elif(self == other):
             return SparsePolynomial.from_const(1 , self.gens)
         elif(self.is_constant() and other.is_constant()):
-            return SparsePolynomial.from_const(self._data[()]/other._data[()], self.gens)
+            return SparsePolynomial.from_const(self.ct/other.ct, self.gens)
         
         ## General case (self != other and 0)
         R = self.get_sympy_ring()
@@ -833,7 +833,7 @@ class SparsePolynomial(object):
     #--------------------------------------------------------------------------
 
     def get_constant(self):
-        return self._data.get((), self.domain.zero)
+        return self.constant_term
 
     def get_sympy_ring(self):
         return sympy.polys.rings.ring(self.gens, self.domain)[0]
@@ -1017,8 +1017,8 @@ class RationalFunction:
         return self.denom.is_constant()
 
     def get_poly(self):
-        if self.denom.is_constant():
-            return self.num * (QQ(1) / QQ(self.denom.get_constant()))
+        if self.is_polynomial():
+            return self.num * (QQ(1) / QQ(self.denom.ct))
         raise ValueError(f"{self} is not a polynomial")
 
     def is_zero(self):
@@ -1300,7 +1300,7 @@ class RationalFunction:
 
     #--------------------------------------------------------------------------
     def get_constant(self):
-        return self.num.get_constant()/self.denom.get_constant()
+        return self.num.ct/self.denom.ct
 
     def get_sympy_ring(self):
         return sympy.polys.rings.ring(self.gens, self.domain)[0]
