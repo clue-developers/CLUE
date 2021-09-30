@@ -1004,6 +1004,8 @@ class RationalFunction:
         self.num = num
         assert not denom.is_zero()
         self.denom = denom
+        if denom != SparsePolynomial.from_const(1, self.gens):
+            self.simplify()
 
     @staticmethod
     def from_const(val, varnames):
@@ -1207,8 +1209,6 @@ class RationalFunction:
             rf = RationalFunction(self.num * other.num, self.denom * other.denom)
         else:
             rf = RationalFunction(self.num * other, self.denom)
-        if self.num != SparsePolynomial.from_const(1, self.gens):
-            rf.simplify()
         return rf
 
     def __rmul__(self, other):
@@ -1220,8 +1220,6 @@ class RationalFunction:
                 rf = RationalFunction(self.num + other.num, self.denom)
             else:
                 rf = RationalFunction(self.num*other.denom + other.num*self.denom, self.denom*other.denom)
-            if self.num != SparsePolynomial.from_const(1, self.gens):
-                rf.simplify()
             return rf
         elif type(other) == SparsePolynomial:
             return self + RationalFunction(other, SparsePolynomial.from_const(1, self.gens))
