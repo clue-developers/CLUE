@@ -928,16 +928,12 @@ class SparsePolynomial(object):
         """
         Returns greatest common divisor of given polynomials (computed w/ SymPy)
         """
-        R = polys[0].get_sympy_ring()
-        sympy_polys = []
-        for poly in polys:
-            if poly.is_unitary():
-                return poly
-            sympy_dict = poly.get_sympy_dict()
-            if sympy_dict:
-                sympy_polys.append(R(sympy_dict).as_expr())
-        gcd = R(sympy.gcd(sympy_polys))
-        return SparsePolynomial.from_sympy(gcd)
+        polys_sp = [p.to_sympy() for p in polys]
+        result = polys_sp[0]
+        for p in polys_sp[1:]:
+            result = result.gcd(p)
+        return SparsePolynomial.from_sympy(result)
+
     #--------------------------------------------------------------------------
 
     @staticmethod
@@ -1142,38 +1138,6 @@ class RationalFunction:
 
             The simplification is performed *in-place*, meaning there is no output for this method, but
             instead, the result is stored within the same object.
-
-            Further checkings of simplify when the denominator are constants::
-            
-                >>> f = RationalFunction(SparsePolynomial.from_string("1000", ["x"]), SparsePolynomial.from_string("10", ["x"]))
-                >>> f.simplify(); print(f)
-                (100)/(1)
-                >>> f = RationalFunction(SparsePolynomial.from_string("20*x + 1", ["x"]), SparsePolynomial.from_string("3", ["x"]))
-                >>> f.simplify(); print(f)
-                (1/3 + 20/3*x)/(1)
-                >>> f = RationalFunction(SparsePolynomial.from_string("20*x + 8", ["x"]), SparsePolynomial.from_string("4", ["x"]))
-                >>> f.simplify(); print(f)
-                (2 + 5*x)/(1)
-                >>> f = RationalFunction(SparsePolynomial.from_string("15*x + 6", ["x"]), SparsePolynomial.from_string("21", ["x"]))
-                >>> f.simplify(); print(f)
-                (2/7 + 5/7*x)/(1)
-                >>> p1 = SparsePolynomial.from_string("15*x + 6", ["x"])//SparsePolynomial.from_string("7", ["x"])
-                >>> p2 = SparsePolynomial.from_string("3*x+3", ["x"])
-                >>> f = RationalFunction(p1, p2)
-                >>> f.simplify(); print(f)
-                (2/7 + 5/7*x)/(1 + x)
-                
-            This method also works with multivariate polynomials::
-
-                >>> rf = RationalFunction.from_string(
-                ... "(PI3KInactive**3*boundEGFReceptor**2*kPI3K + PI3KInactive**3*RasActive**2*kPI3KRas + \
-                ... KmPI3K*PI3KInactive**2*RasActive**2*kPI3KRas + KmPI3KRas*PI3KInactive**2*boundEGFReceptor**2*kPI3K) \
-                ... /(PI3KInactive**2 + KmPI3K*KmPI3KRas + KmPI3K*PI3KInactive + KmPI3KRas*PI3KInactive)",
-                ... ['PI3KInactive', 'boundEGFReceptor', 'kPI3K', 'RasActive', 'kPI3KRas', 'KmPI3K', 'KmPI3KRas'])
-                >>> print(rf)
-                (PI3KInactive**3*boundEGFReceptor**2*kPI3K + PI3KInactive**3*RasActive**2*kPI3KRas + PI3KInactive**2*RasActive**2*kPI3KRas*KmPI3K + PI3KInactive**2*boundEGFReceptor**2*kPI3K*KmPI3KRas)/(PI3KInactive**2 + KmPI3K*KmPI3KRas + PI3KInactive*KmPI3K + PI3KInactive*KmPI3KRas)
-                >>> rf.simplify(); print(rf)
-                (PI3KInactive**3*boundEGFReceptor**2*kPI3K + PI3KInactive**3*RasActive**2*kPI3KRas + PI3KInactive**2*RasActive**2*kPI3KRas*KmPI3K + PI3KInactive**2*boundEGFReceptor**2*kPI3K*KmPI3KRas)/(PI3KInactive**2 + KmPI3K*KmPI3KRas + PI3KInactive*KmPI3K + PI3KInactive*KmPI3KRas)
         '''
         # Removing the gcd of numerator and denominator (whatever Sympy finds)
         gcd = SparsePolynomial.gcd([self.num, self.denom])

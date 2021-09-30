@@ -167,17 +167,23 @@ def parse_reactions(lines, varnames):
         
     # eqs = {v : SparsePolynomial(varnames, QQ) for v in varnames}
     eqs = {v : RationalFunction(SparsePolynomial(varnames, QQ), SparsePolynomial.from_const(1, varnames)) for v in varnames}
+    i = 0
     for lhs, rhs, rate in raw_reactions:
+        print(f"Next reaction {i} out of {len(raw_reactions)}")
+        i += 1
         # rate_poly = SparsePolynomial.from_string(rate, varnames, var_to_ind)
         rate_poly = RationalFunction.from_string(rate, varnames, var_to_ind)
         ldict = species_to_multiset(lhs)
         rdict = species_to_multiset(rhs)
         monomial = tuple((var_to_ind[v], mult) for v, mult in ldict.items())
         reaction_poly = rate_poly * SparsePolynomial(varnames, QQ, {monomial : QQ(1)})
+        print(reaction_poly.denom)
         for v, mult in rdict.items():
             eqs[v] += reaction_poly * mult
+            print(eqs[v].denom)
         for v, mult in ldict.items():
             eqs[v] += reaction_poly * (-mult)
+            print(eqs[v].denom)
 
     return [eqs[v] for v in varnames]
 
@@ -247,6 +253,7 @@ def read_system(filename, read_ic=False):
     varnames = get_varnames(sections_raw['ODE'] if 'ODE' in sections_raw else sections_raw['reactions'])
 
     equations = None
+    print("Parsing equations")
     if 'ODE' in sections_raw:
         equations = parse_ode(sections_raw['ODE'], varnames)
     else:
