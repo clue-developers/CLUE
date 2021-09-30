@@ -1143,15 +1143,6 @@ class RationalFunction:
             The simplification is performed *in-place*, meaning there is no output for this method, but
             instead, the result is stored within the same object.
 
-            Examples::
-
-                >>> from clue.rational_function import *
-                >>> f = RationalFunction.from_string("(x**2 + 2*x + 1)/(x+1)", ['x'])
-                >>> print(f)
-                (x**2 + 2*x + 1)/(x + 1)
-                >>> f.simplify(); print(f)
-                (1 + x)/(1)
-
             Further checkings of simplify when the denominator are constants::
             
                 >>> f = RationalFunction(SparsePolynomial.from_string("1000", ["x"]), SparsePolynomial.from_string("10", ["x"]))
