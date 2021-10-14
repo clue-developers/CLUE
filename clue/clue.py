@@ -711,6 +711,63 @@ def construct_matrices(rhs): #, random_evaluation=True, discard_useless_matrices
 
 #------------------------------------------------------------------------------
 
+def construct_matrices_AD_random(rational_functions, prob_err=0.01):
+    logging.debug("Starting constructing random matrices (AD -- RationalFunction)")
+    field = rational_functions[0].domain
+    random_matr = [build_random_evaluation_jacobian(rational_functions)]
+    subspace = Subspace(field)
+    pivot_index = subspace.absorb_new_vector(random_matr[0].to_vector())
+
+    n = sum(len(func.variables() for func in rational_functions)) # number of non-zero entries in the jacobian
+    m = 1 # number of generated matrices
+
+    start = timeit.default_timer()
+    finished = False
+    D = None
+    while(not finished):
+        while(pivot_index >= 0):
+            new_matr = build_random_evaluation_jacobian(rational_functions)
+            pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
+            if(pivot_index >= 0):
+                random_matr.append(new_matr)
+                m += 1
+            if(m % 10 == 0):
+                logging.debug(f"Generated {m} random matrices...")
+        ## We had a linearly dependant matrix: we check the probability of this being complete
+        logging.debug(f"Found a linearly dependant matrix after {m} attemps.")
+        if(m >= n): # we grew too much, reached the maximal
+            logging.debug(f"We found the maximal amount of linearly independent matrices")
+            finished = True
+        else: # we checked (probabilitic) if we have finished
+            logging.debug(f"We compute the maximal bound for the random coefficients to have less than {prob_err} probabilites \
+            to get an element in the current space.")
+            # D is the degree for Scharz-Zippel Lemma
+            if(D is None): # only computed once if ever needed
+                if(isinstance(rational_functions[0], SparsePolynomial)): # polynomial case
+                    D = max(func.degree() for func in rational_functions) - 1 # derivatives reduces the degree in 1  
+                elif(isinstance(rational_functions[0], RationalFunction)):
+                    ## We add all the degrees of denominators in the jacobian
+                    D = sum(2*len(func.denom.variables())*func.denom.degree() for func in rational_functions)
+                    ## We add the maximal degree on the numerator in the jacobian
+                    D += (max(func.num.degree() + func.denom.degree() for func in rational_functions) - 1)
+            
+            N = int(math.ceil(D/prob_err))
+
+            logging.debug(f"Bound for the (prob.) coefficients: {N}")
+
+            extra_matr = build_random_evaluation_jacobian(rational_functions, max=N)
+            pivot_index = subspace.absorb_new_vector(extra_matr.to_vector())
+            if(pivot_index < 0): # we are finished
+                logging.debug("The new matrix is in the vector space: we are done")
+                finished = True
+            else: # we add the amtrix to the list
+                logging.debug("The new matrix is NOT in the vector space: we continue")
+                random_matr.append(extra_matr)
+            
+    logging.debug(f"There are {m} matrices in total.")
+    print(f"-> I created {m} linearly independant matrices in {timeit.default_timer()-start}s")
+    return random_matr
+
 def construct_matrices_evaluation_random(rational_functions, prob_err=0.01):
     logging.debug("Starting constructing random matrices (RationalFunction)")
 
@@ -936,6 +993,49 @@ def build_random_evaluation_matrix(matrix, min=0, max=100, attempts=1000):
             pass
 
     raise ValueError("After %d attempts, we did not find a valid random evaluation. Consider changing the bounds." %attempts)
+
+def build_random_evaluation_jacobian(rational_functions, min=0, max=100, attempts=1000):
+    r'''
+        Computes the evaluation of the Jacobian of some rational functions via automatic differentiation.
+
+        This method generates a vector of integers (depending in the amount of variables)
+        and build a SparseRowMatrix with the evaluations of the Jacobian of the rational functions
+        given in the input at the point given by the vector.
+
+        If any error occur during the evaluation (for example, we find a pole of a rational function)
+        this method will start over until we find a valid evaluation.
+
+        The coordinates will be generated between the values provided by ``min`` and ``max``.
+
+        Input
+            ``rational_functions`` - a list with either :class:`~clue.rational_function.SparsePolynomial`
+            or :class:`~clue.rational_function.RationalFunction`. In general, any class that 
+            provide a method ``automated_diff`` could work.
+            ``min`` - the minimal integer value for the coordinates in the evaluation vector.
+            ``max`` - the maximal integer value for the coordinates in the evaluation vector.
+
+        Output
+            a :class:`SparseRowMatrix` with the evaluation of ``matrix`` at a random palce.
+    '''
+    varnames = rational_functions[0].gens
+    domain = rational_functions[0].domain
+    nrows = len(rational_functions)
+    ncols = len(varnames)
+
+    for _ in range(attempts):
+        values = {v : randint(min, max) for v in varnames}
+        try:
+            matrix = [[0 for _ in range(ncols)] if func.is_constant() else func.automated_diff(**values)[1:] for func in rational_functions]
+            result = SparseRowMatrix(len(matrix), domain)
+            for i in range(nrows):
+                for j in range(ncols):
+                    if(matrix[i][j] != 0):
+                        result.increment(i,j,matrix[i][j])
+            return result
+        except KeyboardInterrupt as e:
+            raise e
+        except:
+            pass
 
 #------------------------------------------------------------------------------
 
