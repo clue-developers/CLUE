@@ -622,6 +622,20 @@ class SparsePolynomial(object):
         quo = R(sympy.polys.polytools.rem(num, denom))
         return SparsePolynomial.from_sympy(quo)
 
+    def __truediv__(self, other):
+        if(not isinstance(other, SparsePolynomial)):
+            if(other in self.domain):
+                other = SparsePolynomial.from_const(other, self.gens)
+            else:
+                return NotImplemented
+        
+        if(other.is_constant()):
+            return SparsePolynomial(self.gens, self.domain, {k: self._data[k]/other.ct for k in self._data})
+        else:
+            if((self%other).is_zero()): ## Keeping SparsePolynomial if the division is exact
+                return self//other
+            return RationalFunction(self, other)
+
     #--------------------------------------------------------------------------
 
     def eval(self, **values):
@@ -1246,7 +1260,7 @@ class RationalFunction:
         if(denom.is_zero()):
             raise ZeroDivisionError("A zero from the denominator was found")
         
-        return RationalFunction(num, denom)
+        return num/denom
 
     #--------------------------------------------------------------------------
     def get_constant(self):
