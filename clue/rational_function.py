@@ -1122,8 +1122,10 @@ class RationalFunction:
         raise ValueError(f"{self} is not a polynomial")
 
     def is_zero(self):
-        return self.denom.is_zero()
+        return self.num.is_zero()
 
+    def is_constant(self):
+        return self.num.is_constant() and self.denom.is_constant()
     #--------------------------------------------------------------------------
     @property
     def domain(self):
@@ -1138,6 +1140,9 @@ class RationalFunction:
     @property
     def size(self):
         return self.denom.size + self.num.size
+
+    def variables(self, as_poly=False):
+        return tuple(set(list(self.num.variables(as_poly)) + list(self.denom.variables(as_poly))))
 
     #--------------------------------------------------------------------------
     def valuation(self, var_name):
