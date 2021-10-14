@@ -82,10 +82,7 @@ class SparsePolynomial(object):
 
                 >>> from sympy import QQ
                 >>> from clue.rational_function import SparsePolynomial
-                >>> x = SparsePolynomial(["x", "y"], QQ, {tuple([(0,1)]): 1})
-                >>> y = SparsePolynomial(["x", "y"], QQ, {tuple([(1,1)]): 1})
-                >>> one = SparsePolynomial(["x", "y"], QQ, {(): 1})
-                >>> p = one + x//(2*one) + (3*one)*y + (5*one)*x*y
+                >>> p = SparsePolynomial.from_string("1 + x/2 + 3*y + 5*x*y", ['x','y'])
                 >>> p.monomials
                 (1, x, y, x*y)
                 >>> SparsePolynomial.from_const(1, ["x", "y"]).monomials
@@ -123,10 +120,7 @@ class SparsePolynomial(object):
 
                 >>> from sympy import QQ
                 >>> from clue.rational_function import SparsePolynomial
-                >>> x = SparsePolynomial(["x", "y"], QQ, {tuple([(0,1)]): 1})
-                >>> y = SparsePolynomial(["x", "y"], QQ, {tuple([(1,1)]): 1})
-                >>> one = SparsePolynomial(["x", "y"], QQ, {(): 1})
-                >>> p = one + x//(2*one) + (3*one)*y + (5*one)*x*y
+                >>> p = SparsePolynomial.from_string("1 + x/2 + 3*y + 5*x*y", ['x','y'])
                 >>> p.coefficients
                 (1, 1/2, 3, 5)
                 >>> SparsePolynomial.from_const(10, ["x", "y"]).coefficients
@@ -278,9 +272,7 @@ class SparsePolynomial(object):
                 1
                 >>> x.degree('y')
                 0
-                >>> y = SparsePolynomial(["x", "y"], QQ, {tuple([(1,1)]): 1})
-                >>> one = SparsePolynomial(["x", "y"], QQ, {(): 1})
-                >>> p = one + x//(2*one) + (3*one)*y + (5*one)*x*y
+                >>> p = SparsePolynomial.from_string("1 + x/2 + 3*y + 5*x*y", ['x','y'])
                 >>> p.degree()
                 2
                 >>> p.degree('x')
@@ -991,15 +983,20 @@ class RationalFunction:
     __parser_stack = []
 
     def __init__(self, num, denom):
-        assert type(num) == SparsePolynomial
-        assert type(denom) == SparsePolynomial
+        ## Checking the input has the correct format
+        assert isinstance(num, SparsePolynomial)
+        assert isinstance(denom, SparsePolynomial)
         assert num.domain == denom.domain
-        self._domain = num.domain
         assert num.gens == denom.gens
+        assert not denom.is_zero()
+
+        ## Asigning the values for the rational function
+        self._domain = num.domain
         self._varnames = num.gens
         self.num = num
-        assert not denom.is_zero()
         self.denom = denom
+
+        ## Simplifying the rational function if the denominator is not 1
         if denom != SparsePolynomial.from_const(1, self.gens):
             self.simplify()
 
@@ -1113,7 +1110,7 @@ class RationalFunction:
             If the variable provided does not show up in the rational function, the zero function is returned::
 
                 >>> rf1.derivative('a')
-                RationalFunction(0, 49*x**8 + 42*x**4*y**2*z**9 + 9*y**4*z**18)
+                RationalFunction(0, 1)
                 >>> rf1.derivative('a') == 0
                 True
                 >>> rf1.derivative('xy') == 0
@@ -1121,7 +1118,7 @@ class RationalFunction:
                 >>> rf = RationalFunction.from_string("(x)/(2 * y**2)", varnames)
                 >>> rf_dz = rf.derivative('z')
                 >>> print(rf_dz)
-                (0)/(4*y**4)
+                (0)/(1)
         '''
         d_num = self.denom * self.num.derivative(var) - self.num * self.denom.derivative(var)
         d_denom = self.denom*self.denom
@@ -1230,11 +1227,11 @@ class RationalFunction:
                 >>> from clue.rational_function import *
                 >>> rf = RationalFunction.from_string("x/(y*z**2)", ['x','y','z'])
                 >>> print(rf.eval(x=0))
-                (0)/(y*z**2)
+                (0)/(1)
                 >>> print(rf.eval(y=1,z=2))
-                (x)/(4)
+                (1/4*x)/(1)
                 >>> print(rf.eval(y=2))
-                (x)/(2*z**2)
+                (1/2*x)/(z**2)
 
             The denominator can not be evaluated to zero, or an :class:`ZeroDivisionError` would be raised::
 
@@ -1291,19 +1288,6 @@ class RationalFunction:
                 False
                 >>> rf1 == rf2 
                 True
-
-            It is interesting to remark that this equality recognizes identical rational functions
-            without performing any simplification (see methid :func:`simplify`), so ``self`` does not 
-            change after executing an equality check::
-
-                >>> rf3 = RationalFunction.from_string("x**2/(x*y)", ['x','y'])
-                >>> rf3_str = str(rf3)
-                >>> rf1 == rf3
-                True
-                >>> str(rf3) == rf3_str
-                True
-                >>> rf3.simplify(); str(rf3) == rf3_str
-                False
         '''
         if not isinstance(other, type(self)): 
             if(not isinstance(other, RationalFunction)):
