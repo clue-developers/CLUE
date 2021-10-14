@@ -16,6 +16,8 @@ from pyparsing import (
 import sympy
 from sympy import QQ, oo
 
+from clue.nual import NualNumber
+
 #------------------------------------------------------------------------------
 
 def to_rational(s):
@@ -377,6 +379,8 @@ class SparsePolynomial(object):
         if(not isinstance(other, SparsePolynomial)):
             if(other in self.domain):
                 other = SparsePolynomial.from_const(other, self.gens)
+            elif(isinstance(other, str)):
+                other = SparsePolynomial.from_string(other, self.gens)
             else:
                 return NotImplemented
 
@@ -395,6 +399,8 @@ class SparsePolynomial(object):
         if(not isinstance(other, SparsePolynomial)):
             if(other in self.domain):
                 other = SparsePolynomial.from_const(other, self.gens)
+            elif(isinstance(other, str)):
+                other = SparsePolynomial.from_string(other, self.gens)
             else:
                 return NotImplemented
 
@@ -462,6 +468,8 @@ class SparsePolynomial(object):
         if(not isinstance(other, SparsePolynomial)):
             if(other in self.domain):
                 other = SparsePolynomial.from_const(other, self.gens)
+            elif(isinstance(other, str)):
+                other = SparsePolynomial.from_string(other, self.gens)
             else:
                 return False
         if self._data != other._data:
@@ -623,9 +631,45 @@ class SparsePolynomial(object):
         return SparsePolynomial.from_sympy(quo)
 
     def __truediv__(self, other):
+        r'''
+            True division for sparse polynomials.
+
+            This method implements the magic logic behind ``/``. This method computes 
+            the *true division* between two :class:`SparsePolynomials`. This will 
+            create :class:`RationalFunction` when the exact division (see :func:`__floordiv__`
+            and :func:`__mod__`) is different to the true division.
+
+            Input
+                ``other`` - polynomial that will be the quotient
+
+            Output
+                The true division polynomial. If ``self % other == 0`` the output is a 
+                :class:`SparsePolynomial`, otherwise a :class:`RationalFunction`.
+
+            Examples::
+
+                >>> from clue.rational_function import *
+                >>> p1 = SparsePolynomial.from_string("x^2 + 2*x*y + y^2", ['x','y'])
+                >>> p2 = SparsePolynomial.from_string("x+y", ['x','y'])
+                >>> p1/p2
+                x + y
+                >>> isinstance(p1/p2, SparsePolynomial)
+                True
+                >>> p2/p1
+                RationalFunction(1, x + y)
+                >>> p1/"x"
+                RationalFunction(x**2 + 2*x*y + y**2, x)
+                >>> p1/10
+                1/10*x**2 + 1/5*x*y + 1/10*y**2
+                >>> isinstance(p1/10, SparsePolynomial)
+                True
+
+        '''
         if(not isinstance(other, SparsePolynomial)):
             if(other in self.domain):
                 other = SparsePolynomial.from_const(other, self.gens)
+            elif(isinstance(other, str)):
+                other = SparsePolynomial.from_string(other, self.gens)
             else:
                 return NotImplemented
         
@@ -635,6 +679,17 @@ class SparsePolynomial(object):
             if((self%other).is_zero()): ## Keeping SparsePolynomial if the division is exact
                 return self//other
             return RationalFunction(self, other)
+
+    def __rtruediv__(self, other):
+        if(not isinstance(other, SparsePolynomial)):
+            if(other in self.domain):
+                other = SparsePolynomial.from_const(other, self.gens)
+            elif(isinstance(other, str)):
+                other = SparsePolynomial.from_string(other, self.gens)
+            else:
+                return NotImplemented
+        
+        return other/self
 
     #--------------------------------------------------------------------------
 
@@ -695,6 +750,40 @@ class SparsePolynomial(object):
         ## Returning the resulting polynomial
         return SparsePolynomial(self.gens, self.domain, new_data)
 
+    def automated_diff(self, **values):
+        r'''
+            Method to compute automated differentiation of a Sparse polynomial
+
+            This method uses the idea of Automatic Differentiation to compute 
+            using an evaluation with `n`-ual numbers (see class:`clue.nual.NualNumber`)
+            the evaluation of the polynomial together with all the evaluations of 
+            the partial derivatives of the polynomial.
+
+            This method only works if the provided values covers all possible variables
+            of the polynomial.
+
+            Input:
+                ``values`` - dictionary with ``(varname, value)`` for (at least) all the variables
+                appearing in ``self`` (see method ``variables``).
+
+            Output: 
+                A tuple `(p_0,...,p_k)` where `p_0` is the evaluation of ``self`` at the given point,
+                and `p_i` is the evaluation of the partial derivative of ``self`` at the given point 
+                with respect to the `i`-th variable of ``self.gens``.
+
+            Examples::
+
+                TODO add the examples
+        '''
+        if(any(v not in values for v in self.variables())):
+            raise ValueError("Not enough information provided for automatic differentiation")
+
+        gens = self.gens
+        n = len(gens)
+        to_eval = {gens[i] : NualNumber([values.get(gens[i], 0)] + [1 if j == i else 0 for j in range(n)]) for i in range(n)}
+
+        return self.eval(**to_eval)
+
     #--------------------------------------------------------------------------
 
     def exp(self, power):
@@ -703,6 +792,8 @@ class SparsePolynomial(object):
         """
         if power < 0:
             raise ValueError(f"Cannot raise to power {power}, {str(self)}")
+        if power == 0:
+            return SparsePolynomial.from_const(1, self.gens)
         if power == 1:
             return self
         if power % 2 == 0:
@@ -1241,9 +1332,9 @@ class RationalFunction:
                 >>> from clue.rational_function import *
                 >>> rf = RationalFunction.from_string("x/(y*z**2)", ['x','y','z'])
                 >>> print(rf.eval(x=0))
-                (0)/(1)
+                0
                 >>> print(rf.eval(y=1,z=2))
-                (1/4*x)/(1)
+                1/4*x
                 >>> print(rf.eval(y=2))
                 (1/2*x)/(z**2)
 
@@ -1261,6 +1352,9 @@ class RationalFunction:
             raise ZeroDivisionError("A zero from the denominator was found")
         
         return num/denom
+
+    def automated_diff(self, **values):
+        return self.num.automated_diff(**values) / self.denom.automated_diff(**values)
 
     #--------------------------------------------------------------------------
     def get_constant(self):
