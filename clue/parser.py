@@ -1,11 +1,16 @@
 import re
 import sys
 
+from functools import reduce, lru_cache
+
 sys.setrecursionlimit(10000000)
 
-from sympy import QQ
+from sympy import QQ, parse_expr, symbols
+from sympy.parsing.sympy_parser import standard_transformations, rationalize
 
 from .rational_function import SparsePolynomial, RationalFunction, to_rational
+
+__transformations_parser = (standard_transformations + (rationalize,))
 
 #------------------------------------------------------------------------------
 
@@ -78,7 +83,36 @@ def split_in_sections(model):
 
 #------------------------------------------------------------------------------
 
-def parse_ode(lines, varnames):
+@lru_cache
+def _var_dict(varnames, parser):
+    if(parser == "sympy"):
+        return {v : symbols(v) for v in varnames}
+    elif(parser in ("polynomial", "rational")):
+        return {v : i for i, v in enumerate(varnames)}
+    raise NotImplementedError(f"Parser {parser} not implemented")
+
+def _parse(to_parse, varnames, parser):
+    r'''
+        Method that decides with the argument ``parser`` how to parse an expression.
+
+        The argument ``parser`` must be a string containing "sympy" (parsing to expressions),
+        "polynomial" (parsing to :class:`clue.rational_function.SparsePolynomial`) or
+        "rational" (parsing to :class:`clue.rational_function.RationalFunction`)
+    '''
+    var_dict = _var_dict(varnames, parser)
+    if(parser == "sympy"):
+        return parse_expr(to_parse.replace("^", "**"), var_dict, transformations=__transformations_parser)
+    else:
+        result = RationalFunction.from_string(to_parse, varnames, var_dict)
+        if(parser == "polynomial"):
+            if(result.denom != 1):
+                raise ValueError("Trying to parse a polynomial but found Rational function.")
+            return result.num
+        elif(parser == "rational"):
+            return result
+    raise NotImplementedError(f"Parser {parser} not implemented")
+
+def parse_ode(lines, varnames, parser="sympy"):
     """
     Input: 
     Output: list of SparsePolynomial representing this ODE system
@@ -93,20 +127,25 @@ def parse_ode(lines, varnames):
             rhs = rhs.strip()
             eqs_raw[lhs] = rhs
 
-    var_to_ind = {v : i for i, v in enumerate(varnames)}
+    #var_to_ind = {v : i for i, v in enumerate(varnames)}
+    #var_to_sym = {v : symbols(v) for v in varnames}
     eqs = dict()
     for lhs, rhs in eqs_raw.items():
         if lhs not in varnames:
             raise ValueError(f"Variable {lhs} is not in the list of variables")
         try:
-            eqs[lhs] = RationalFunction.from_string(rhs, varnames, var_to_ind)
+            # RationalFunction.from_string(rhs, varnames, var_to_ind)
+            #parse_expr(rhs, var_to_sym, transformations=__transformations_parser) 
+            eqs[lhs] = _parse(rhs, varnames, parser)
         except TypeError as e:
             print(rhs)
             print(e)
 
     for v in varnames:
         if v not in eqs:
-            eqs[v] = SparsePolynomial(varnames, QQ)
+            # SparsePolynomial(varnames, QQ)
+            # eqs[v] = parse_expr("0", var_to_sym) 
+            eqs[v] = _parse("0", varnames, parser) 
     return [eqs[v] for v in varnames]
 
 #------------------------------------------------------------------------------
@@ -151,39 +190,53 @@ def separate_reation_rate(line):
 
 #------------------------------------------------------------------------------
 
-def parse_reactions(lines, varnames):
+def parse_reactions(lines, varnames, parser = "sympy"):
     """
     Input: lines with reactions, each reaction of the form "reactants -> products, rate" and varnames
     Output: the list of corresponding equations
     """
     raw_reactions = []
-    var_to_ind = {v : i for i, v in enumerate(varnames)}
+    # var_to_ind = {v : i for i, v in enumerate(varnames)}
+    # var_to_sym = {v : symbols(v) for v in varnames}  
+    var_dict = _var_dict(varnames, parser)
     for l in lines:
         if "," not in l:
             continue
         reaction, rate = separate_reation_rate(l)
         lhs, rhs = reaction.split("->")
         raw_reactions.append((lhs.strip(), rhs.strip(), rate.strip()))
-        
+
     # eqs = {v : SparsePolynomial(varnames, QQ) for v in varnames}
-    eqs = {v : RationalFunction(SparsePolynomial(varnames, QQ), SparsePolynomial.from_const(1, varnames)) for v in varnames}
+    # eqs = {v : RationalFunction(SparsePolynomial(varnames, QQ), SparsePolynomial.from_const(1, varnames)) for v in varnames}
+    # eqs = {v : parse_expr("0", var_to_sym) for v in varnames}
+    eqs = {v : _parse("0", varnames, parser) for v in varnames}
     i = 0
     for lhs, rhs, rate in raw_reactions:
         print(f"Next reaction {i} out of {len(raw_reactions)}")
         i += 1
         # rate_poly = SparsePolynomial.from_string(rate, varnames, var_to_ind)
-        rate_poly = RationalFunction.from_string(rate, varnames, var_to_ind)
+        # rate_poly = RationalFunction.from_string(rate, varnames, var_to_ind)
+        # rate_poly = parse_expr(rate.replace("^", "**"), var_to_sym, transformations=__transformations_parser)
+        rate_poly = _parse(rate, varnames, parser)
         ldict = species_to_multiset(lhs)
         rdict = species_to_multiset(rhs)
-        monomial = tuple((var_to_ind[v], mult) for v, mult in ldict.items())
-        reaction_poly = rate_poly * SparsePolynomial(varnames, QQ, {monomial : QQ(1)})
-        print(reaction_poly.denom)
+        # monomial = tuple((var_to_ind[v], mult) for v, mult in ldict.items())
+        if(parser == "sympy"):
+            monomial = reduce(lambda p,q : p*q, [var_dict[v]**mult for v, mult in ldict.items()])
+        elif(parser in ("polynomial", "rational")):
+            monomial = SparsePolynomial(varnames, QQ, {tuple((var_dict[v], mult) for v, mult in ldict.items()) : QQ(1)})
+        else:
+            raise NotImplementedError(f"Parser {parser} not implemented")
+        
+        # reaction_poly = rate_poly * SparsePolynomial(varnames, QQ, {monomial : QQ(1)})
+        reaction_poly = rate_poly * monomial
+        #print(reaction_poly.denom)
         for v, mult in rdict.items():
             eqs[v] += reaction_poly * mult
-            print(eqs[v].denom)
+            #print(eqs[v].denom)
         for v, mult in ldict.items():
             eqs[v] += reaction_poly * (-mult)
-            print(eqs[v].denom)
+            #print(eqs[v].denom)
 
     return [eqs[v] for v in varnames]
 
@@ -237,7 +290,7 @@ def parse_initial_conditions(lines):
 
 #------------------------------------------------------------------------------
 
-def read_system(filename, read_ic=False):
+def read_system(filename, read_ic=False, parser="polynomial"):
     """
     Takes a name of an *.ode file, and read the ODE system together with the observables
     subs_params flag corresponds to whether use the paramereter values from the parameters section 
@@ -255,13 +308,14 @@ def read_system(filename, read_ic=False):
     equations = None
     print("Parsing equations")
     if 'ODE' in sections_raw:
-        equations = parse_ode(sections_raw['ODE'], varnames)
+        equations = parse_ode(sections_raw['ODE'], varnames, parser)
     else:
-        equations = parse_reactions(sections_raw['reactions'], varnames)
+        equations = parse_reactions(sections_raw['reactions'], varnames, parser)
 
     # specializing to polynomials if possible
-    if all(map(lambda f: f.is_polynomial(), equations)):
-        equations = [f.get_poly() for f in equations]
+    #if polynomial:
+    #    equations = [SparsePolynomial.from_string(str(f), varnames) for f in equations]
+    # Now, the parameter ``parser`` guarantees that equations are of the correct type
 
     obs = extract_observables(sections_raw['partition'], varnames) if 'partition' in sections_raw else None
 
