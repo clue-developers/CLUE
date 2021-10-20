@@ -1,15 +1,13 @@
 import sys
 import time
 
-from sympy import QQ
-
 sys.path.insert(0, "../")
 sys.path.insert(0, "./../../")
 from clue import parser
 from clue import clue
 from clue.rational_function import SparsePolynomial
 
-system = parser.read_system("BIOMD0000000033.ode")
+system = parser.read_system("BIOMD0000000033.ode", "sympy")
 obs = SparsePolynomial.from_string("AktInactive", system['variables'])
 
 start = time.time()

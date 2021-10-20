@@ -154,7 +154,7 @@ if __name__ == "__main__":
 
     N = 1
     # BIOMD0000000033
-    system = read_system("../examples/RationalFunctions/BIOMD0000000033.ode")
+    system = read_system("../examples/RationalFunctions/BIOMD0000000033.ode", "rational")
     print(len(system['variables']))
     time = 0
     for i in range(N):
@@ -163,7 +163,7 @@ if __name__ == "__main__":
                 system["equations"],
                 [SparsePolynomial.from_string("C3GActive", system["variables"])],
                 print_reduction=False,
-                discard_useless_matrices=True,
+                #discard_useless_matrices=True,
         )
         time += timeit.default_timer() - start
     print("Average Time: ", time/N)
