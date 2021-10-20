@@ -154,7 +154,7 @@ if __name__ == "__main__":
 
     N = 1
     # BIOMD0000000033
-    system = read_system("../examples/RationalFunctions/BIOMD0000000033.ode", "rational")
+    system = read_system("../examples/RationalFunctions/BIOMD0000000033.ode", parser="rational")
     print(len(system['variables']))
     time = 0
     for i in range(N):

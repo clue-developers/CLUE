@@ -7,7 +7,7 @@ from clue import parser
 from clue import clue
 from clue.rational_function import SparsePolynomial
 
-system = parser.read_system("BIOMD0000000033.ode", "sympy")
+system = parser.read_system("BIOMD0000000033.ode", parser="sympy")
 obs = SparsePolynomial.from_string("AktInactive", system['variables'])
 
 start = time.time()
