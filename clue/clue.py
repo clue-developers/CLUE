@@ -155,6 +155,15 @@ class SparseVector(object):
             self._nonzero.insert(bisect(self._nonzero, i), i)
         self._data[i] = value
 
+    def copy(self):
+        r"""
+            Returns a shallow copy of the vector.
+        """
+        copied = SparseVector(self.dim, self.field)
+        for i in self.nonzero_iter():
+            copied.__append__(i, self[i])
+        return copied
+
     #--------------------------------------------------------------------------
 
     def inner_product(self, rhs):
@@ -389,6 +398,25 @@ class Subspace(object):
 
     #--------------------------------------------------------------------------
 
+    def reduce_vector(self, vector):
+        """
+        Input
+          - ``vector`` - a SparseVector to te reduced with respect to this subspace. This is 
+            performed inplace, changing the input of the method.
+        Output
+          the vector once it is reduced.
+        """
+        for piv, vect in self._echelon_form.items():
+            if vector[piv]:
+                vector.reduce(-vector[piv], vect)
+        return vector
+
+    def contains(self, vector):
+        """
+            Checks whether a vector is in ``self`` or not. 
+        """
+        return self.reduce_vector(vector.copy()).is_zero()
+
     def absorb_new_vector(self, new_vector):
         """
         Input
@@ -396,9 +424,7 @@ class Subspace(object):
         Output
           the index of the pivot of the new basis vector if such emerges, -1 otherwise
         """
-        for piv, vect in self._echelon_form.items():
-            if new_vector[piv]:
-                new_vector.reduce(-new_vector[piv], vect)
+        new_vector = self.reduce_vector(new_vector)
 
         if new_vector.is_zero():
             return -1
@@ -593,16 +619,16 @@ class Subspace(object):
         else:
             ## here basis is in normal form, meaning that 
             ## for basis[j] the element in lpivots[i] is 1 if i==j, 0 otherwise
-            # new_vars = symbols(",".join(new_vars))
-            # old_vars = symbols(",".join(old_vars))
-            # subs = {v : 0 for v in old_vars}
-            # for j in range(len(lpivots)):
-            #     subs[old_vars[lpivots[j]]] += new_vars[j]/basis[j][lpivots[j]]
+            new_vars = symbols(",".join(new_vars))
+            old_vars = symbols(",".join(old_vars))
+            subs = {v : 0 for v in old_vars}
+            for j in range(len(lpivots)):
+                subs[old_vars[lpivots[j]]] += new_vars[j]/basis[j][lpivots[j]]
 
-            # shrinked_expr = [expr.subs(subs) for expr in new_rhs]
-            ## Maybe here add for expanding the new expression
-            # return shrinked_expr
-            raise NotImplementedError("The conversion to new variables in sympy is not yed implemented")
+            shrinked_expr = [expr.subs(subs) for expr in new_rhs]
+            # Maybe here add for expanding the new expression
+            return shrinked_expr
+            # raise NotImplementedError("The conversion to new variables in sympy is not yed implemented")
 
     #--------------------------------------------------------------------------
 
@@ -741,7 +767,7 @@ def construct_matrices_AD_random(funcs, varnames, field, prob_err=0.01):
 
     # computing number of non-zero entries in the jacobian
     if(isinstance(funcs[0], (SparsePolynomial, RationalFunction))):
-        n = sum(len(func.variables() for func in funcs)) 
+        n = sum(len(func.variables()) for func in funcs)
     else:
         n = sum(len(func.free_symbols) for func in funcs)
     m = 1 # number of generated matrices
@@ -772,9 +798,9 @@ def construct_matrices_AD_random(funcs, varnames, field, prob_err=0.01):
                     D = max(func.degree() for func in funcs) - 1 # derivatives reduces the degree in 1  
                 elif(isinstance(funcs[0], RationalFunction)):
                     ## We add all the degrees of denominators in the jacobian
-                    D = sum(2*len(func.denom.variables())*func.denom.degree() for func in funcs)
+                    D = sum(2*len(func.denom.variables())*func.denom.degree() for func in funcs if func != 0)
                     ## We add the maximal degree on the numerator in the jacobian
-                    D += (max(func.num.degree() + func.denom.degree() for func in funcs) - 1)
+                    D += (max(func.num.degree() + func.denom.degree() for func in funcs if func != 0) - 1)
                 else: # sympy expression case
                     logging.warning(f"Sympy case detected for the degree bound. Not yet implemented, so we pick 100 by default")
                     D = 100 
@@ -1051,12 +1077,40 @@ def _automated_differentiation(expr, varnames, domain, point):
         return NualNumber([0 for _ in range(len(varnames)+1)])
     
     if(isinstance(expr, (SparsePolynomial, RationalFunction))):
-        return expr.automated_diff({varnames[i] : point[i] for i in range(len(varnames))})
+        return expr.automated_diff(**{varnames[i] : point[i] for i in range(len(varnames))})
     else:
         func = _func_for_expr(expr, tuple(varnames), domain)
         to_eval = [NualNumber([domain.convert(point[i])] + [domain.convert(1) if j == i else domain.convert(0) for j in range(len(point))]) for i in range(len(point))]
 
         return func(*to_eval)
+
+def evaluate_jacobian(funcs, varnames, domain, values):
+    r'''
+        Method to evaluate the jacobian of some functions at a particular position
+
+        Input
+            ``funcs`` - a list of functions formed out of the variables in ``varnames``.
+            They can be :class:`clue.rational_function.SparsePolynomial`, :class:`RationalFunction`
+            of Sympy expressions
+            ``varnames`` - list of names of the variables involved in the function.
+            ``domain`` - sympy structure for the coefficients to be taken
+            ``values`` - vector of values defining the point of evaluation
+
+        Output
+            a :class:`SparseRowMatrix` with the evaluation of the Jacobian of ``funcs`` at ``values``.
+
+        TODO: add examples and tests
+    '''
+    nrows = len(funcs)
+    ncols = len(varnames)
+
+    matrix = [_automated_differentiation(func, varnames, domain, values)[1:] for func in funcs] # this needs to be transposed
+    result = SparseRowMatrix(len(matrix[0]), domain)
+    for i in range(nrows):
+        for j in range(ncols):
+            if(matrix[i][j] != 0):
+                result.increment(j,i,matrix[i][j]) # indices are transposed
+    return result
 
 def build_random_evaluation_jacobian(rational_functions, varnames, domain, min=0, max=100, attempts=1000):
     r'''
@@ -1083,19 +1137,10 @@ def build_random_evaluation_jacobian(rational_functions, varnames, domain, min=0
         Output
             a :class:`SparseRowMatrix` with the evaluation of ``matrix`` at a random palce.
     '''
-    nrows = len(rational_functions)
-    ncols = len(varnames)
-
     for _ in range(attempts):
         values = [randint(min, max) for v in varnames]
         try:
-            matrix = [_automated_differentiation(func, varnames, domain, values)[1:] for func in rational_functions]
-            result = SparseRowMatrix(len(matrix), domain)
-            for i in range(nrows):
-                for j in range(ncols):
-                    if(matrix[i][j] != 0):
-                        result.increment(i,j,matrix[i][j])
-            return result
+            return evaluate_jacobian(rational_functions, varnames, domain, values)
         except KeyboardInterrupt as e:
             raise e
         except ZeroDivisionError:
