@@ -6,11 +6,14 @@ import timeit
 
 from random import randint
 
+from functools import reduce, lru_cache
+
 import sympy
-from sympy import GF, QQ, gcd, nextprime
+from sympy import GF, QQ, gcd, nextprime, lambdify, symbols
 from sympy.ntheory.modular import isprime
 
 from .rational_function import SparsePolynomial, RationalFunction
+from .nual import NualNumber
 
 
 #------------------------------------------------------------------------------
@@ -499,14 +502,14 @@ class Subspace(object):
 
     #--------------------------------------------------------------------------
 
-    def perform_change_of_variables(self, rhs, new_vars_name='y'):
+    def perform_change_of_variables(self, rhs, old_vars, domain, new_vars_name='y'):
         """
           Restrict a system of ODEs with the rhs given by
           rhs (SparsePolynomial or RationalFunction) to the subspace
           new_vars_name (optional) - the name for variables in the lumped polynomials
         """
-        old_vars = rhs[0].gens
-        domain = rhs[0].domain
+        #old_vars = rhs[0].gens
+        #domain = rhs[0].domain
         new_vars = [new_vars_name + str(i) for i in range(self.dim())]
         pivots = set(self.parametrizing_coordinates())
         lpivots = sorted(pivots)
@@ -517,6 +520,8 @@ class Subspace(object):
             new_rhs = [SparsePolynomial(old_vars, domain) for _ in range(self.dim())]
         elif isinstance(rhs[0], RationalFunction):
             new_rhs = [RationalFunction.from_const(0, old_vars) for _ in range(self.dim())]
+        else:
+            new_rhs = [0 for _ in range(self.dim())]
         for i, vec in enumerate(basis):
             logging.debug(f"    Equation number {i}")
             for j in vec.nonzero_iter():
@@ -595,7 +600,19 @@ class Subspace(object):
                 shrinked_rfs.append(RationalFunction(new_num,new_denom))
 
             return shrinked_rfs
+        else:
+            ## here basis is in normal form, meaning that 
+            ## for basis[j] the element in lpivots[i] is 1 if i==j, 0 otherwise
+            # new_vars = symbols(",".join(new_vars))
+            # old_vars = symbols(",".join(old_vars))
+            # subs = {v : 0 for v in old_vars}
+            # for j in range(len(lpivots)):
+            #     subs[old_vars[lpivots[j]]] += new_vars[j]/basis[j][lpivots[j]]
 
+            # shrinked_expr = [expr.subs(subs) for expr in new_rhs]
+            ## Maybe here add for expanding the new expression
+            # return shrinked_expr
+            raise NotImplementedError("The conversion to new variables in sympy is not yed implemented")
 
     #--------------------------------------------------------------------------
 
@@ -667,7 +684,7 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
     
 #------------------------------------------------------------------------------
 
-def construct_matrices(rhs): #, random_evaluation=True, discard_useless_matrices=True):
+def construct_matrices(rhs, varnames): #, random_evaluation=True, discard_useless_matrices=True): ## TODO
     r'''
         Method to generate the matrices used for finding the invariant subspace.
 
@@ -686,6 +703,8 @@ def construct_matrices(rhs): #, random_evaluation=True, discard_useless_matrices
         matrices = construct_matrices_from_polys(rhs)
     elif isinstance(rhs[0], RationalFunction):
         matrices = construct_matrices_evaluation_random(rhs)
+    else:
+        matrices = construct_matrices_AD_random(rhs, varnames, QQ)
     print(f"-> There are {len(matrices)} matrices in total.")
 
         # Reduce the problem to the common invariant subspace problem
@@ -711,14 +730,30 @@ def construct_matrices(rhs): #, random_evaluation=True, discard_useless_matrices
 
 #------------------------------------------------------------------------------
 
-def construct_matrices_AD_random(rational_functions, prob_err=0.01):
+def construct_matrices_AD_random(funcs, varnames, field, prob_err=0.01):
+    r'''
+        Method to build evaluations of the jacobian of ``funcs`` by automatic differentiation.
+
+        This method computes evaluations of the Jacobian matrix of ``funcs`` by 
+        using automatic differentiation (i.e., without actually computing the symbolic 
+        derivatives of the functions in ``funcs``).
+
+        This method relies on method :func:`build_random_evaluation_jacobian` which can work
+        with :class:`clue.rational_function.SparsePolynomial`, :class:`clue.rational_function.RationalFunction`
+        and sympy expressions.
+
+        The computation of the actual error bound depends on the type of input in ``funcs``.
+    '''
     logging.debug("Starting constructing random matrices (AD -- RationalFunction)")
-    field = rational_functions[0].domain
-    random_matr = [build_random_evaluation_jacobian(rational_functions)]
+    random_matr = [build_random_evaluation_jacobian(funcs, varnames, field)]
     subspace = Subspace(field)
     pivot_index = subspace.absorb_new_vector(random_matr[0].to_vector())
 
-    n = sum(len(func.variables() for func in rational_functions)) # number of non-zero entries in the jacobian
+    # computing number of non-zero entries in the jacobian
+    if(isinstance(funcs[0], (SparsePolynomial, RationalFunction))):
+        n = sum(len(func.variables() for func in funcs)) 
+    else:
+        n = sum(len(func.free_symbols) for func in funcs)
     m = 1 # number of generated matrices
 
     start = timeit.default_timer()
@@ -726,7 +761,7 @@ def construct_matrices_AD_random(rational_functions, prob_err=0.01):
     D = None
     while(not finished):
         while(pivot_index >= 0):
-            new_matr = build_random_evaluation_jacobian(rational_functions)
+            new_matr = build_random_evaluation_jacobian(funcs, varnames, field)
             pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
             if(pivot_index >= 0):
                 random_matr.append(new_matr)
@@ -743,19 +778,22 @@ def construct_matrices_AD_random(rational_functions, prob_err=0.01):
             to get an element in the current space.")
             # D is the degree for Scharz-Zippel Lemma
             if(D is None): # only computed once if ever needed
-                if(isinstance(rational_functions[0], SparsePolynomial)): # polynomial case
-                    D = max(func.degree() for func in rational_functions) - 1 # derivatives reduces the degree in 1  
-                elif(isinstance(rational_functions[0], RationalFunction)):
+                if(isinstance(funcs[0], SparsePolynomial)): # polynomial case
+                    D = max(func.degree() for func in funcs) - 1 # derivatives reduces the degree in 1  
+                elif(isinstance(funcs[0], RationalFunction)):
                     ## We add all the degrees of denominators in the jacobian
-                    D = sum(2*len(func.denom.variables())*func.denom.degree() for func in rational_functions)
+                    D = sum(2*len(func.denom.variables())*func.denom.degree() for func in funcs)
                     ## We add the maximal degree on the numerator in the jacobian
-                    D += (max(func.num.degree() + func.denom.degree() for func in rational_functions) - 1)
+                    D += (max(func.num.degree() + func.denom.degree() for func in funcs) - 1)
+                else: # sympy expression case
+                    logging.warning(f"Sympy case detected for the degree bound. Not yet implemented, so we pick 100 by default")
+                    D = 100 
             
             N = int(math.ceil(D/prob_err))
 
             logging.debug(f"Bound for the (prob.) coefficients: {N}")
 
-            extra_matr = build_random_evaluation_jacobian(rational_functions, max=N)
+            extra_matr = build_random_evaluation_jacobian(funcs, varnames, field, max=N)
             pivot_index = subspace.absorb_new_vector(extra_matr.to_vector())
             if(pivot_index < 0): # we are finished
                 logging.debug("The new matrix is in the vector space: we are done")
@@ -994,7 +1032,45 @@ def build_random_evaluation_matrix(matrix, min=0, max=100, attempts=1000):
 
     raise ValueError("After %d attempts, we did not find a valid random evaluation. Consider changing the bounds." %attempts)
 
-def build_random_evaluation_jacobian(rational_functions, min=0, max=100, attempts=1000):
+@lru_cache
+def _func_for_expr(expr, varnames, domain):
+    if(isinstance(expr, sympy.core.add.Add)):
+        def __func(*args):
+            return reduce(lambda p, q : p + q, [_func_for_expr(arg, varnames, domain)(*args) for arg in expr.args])
+    elif(isinstance(expr, sympy.core.mul.Mul)):
+        def __func(*args):
+            return reduce(lambda p, q : p * q, [_func_for_expr(arg, varnames, domain)(*args) for arg in expr.args])
+    elif(isinstance(expr, sympy.core.power.Pow)):
+        def __func(*args):
+            base = _func_for_expr(expr.args[0], varnames, domain)(*args)
+            exp = _func_for_expr(expr.args[1], varnames, domain)(*args)
+            return base**exp
+    elif(isinstance(expr, sympy.core.numbers.Rational)):
+        def __func(*args): #pylint: disable=unused-argument
+            return domain.convert(expr)
+    elif(isinstance(expr, sympy.core.symbol.Symbol)):
+        __func = lambdify([symbols(v) for v in varnames], expr, modules="sympy")
+    else:
+        raise TypeError("Incorrect expression found [%s]: %s" %(type(expr), expr))
+
+    return __func
+
+def _automated_differentiation(expr, varnames, domain, point):
+    r'''
+        Method to compute automatic differentiation of a sympy expression
+    '''
+    if(expr == 0):
+        return NualNumber([0 for _ in range(len(varnames)+1)])
+    
+    if(isinstance(expr, (SparsePolynomial, RationalFunction))):
+        return expr.automated_diff({varnames[i] : point[i] for i in range(len(varnames))})
+    else:
+        func = _func_for_expr(expr, tuple(varnames), domain)
+        to_eval = [NualNumber([domain.convert(point[i])] + [domain.convert(1) if j == i else domain.convert(0) for j in range(len(point))]) for i in range(len(point))]
+
+        return func(*to_eval)
+
+def build_random_evaluation_jacobian(rational_functions, varnames, domain, min=0, max=100, attempts=1000):
     r'''
         Computes the evaluation of the Jacobian of some rational functions via automatic differentiation.
 
@@ -1008,24 +1084,24 @@ def build_random_evaluation_jacobian(rational_functions, min=0, max=100, attempt
         The coordinates will be generated between the values provided by ``min`` and ``max``.
 
         Input
-            ``rational_functions`` - a list with either :class:`~clue.rational_function.SparsePolynomial`
-            or :class:`~clue.rational_function.RationalFunction`. In general, any class that 
-            provide a method ``automated_diff`` could work.
+            ``rational_functions`` - a list of functions formed out of the variables in ``varnames``.
+            They can be :class:`clue.rational_function.SparsePolynomial`, :class:`RationalFunction`
+            of Sympy expressions
+            ``varnames`` - list of names of the variables involved in the function.
+            ``domain`` - sympy structure for the coefficients to be taken
             ``min`` - the minimal integer value for the coordinates in the evaluation vector.
             ``max`` - the maximal integer value for the coordinates in the evaluation vector.
 
         Output
             a :class:`SparseRowMatrix` with the evaluation of ``matrix`` at a random palce.
     '''
-    varnames = rational_functions[0].gens
-    domain = rational_functions[0].domain
     nrows = len(rational_functions)
     ncols = len(varnames)
 
     for _ in range(attempts):
-        values = {v : randint(min, max) for v in varnames}
+        values = [randint(min, max) for v in varnames]
         try:
-            matrix = [[0 for _ in range(ncols)] if func.is_constant() else func.automated_diff(**values)[1:] for func in rational_functions]
+            matrix = [_automated_differentiation(func, varnames, domain, values)[1:] for func in rational_functions]
             result = SparseRowMatrix(len(matrix), domain)
             for i in range(nrows):
                 for j in range(ncols):
@@ -1034,7 +1110,7 @@ def build_random_evaluation_jacobian(rational_functions, min=0, max=100, attempt
             return result
         except KeyboardInterrupt as e:
             raise e
-        except:
+        except ZeroDivisionError:
             pass
 
 #------------------------------------------------------------------------------
@@ -1045,8 +1121,6 @@ def do_lumping_internal(rhs,
                         print_system=True, 
                         print_reduction=False, 
                         ic=None, 
-                        #discard_useless_matrices=True,
-                        #random_evaluations=True,
     ):
     """
       Performs a lumping of a polynomial ODE system represented by SparsePolynomial
@@ -1068,12 +1142,13 @@ def do_lumping_internal(rhs,
     )
     logging.debug("Starting aggregation")
 
+    vars_old = observable[0].gens
+    
     # Building the matrices for lumping
-    matrices = construct_matrices(rhs)# , random_evaluations, discard_useless_matrices)
+    matrices = construct_matrices(rhs, vars_old)
 
     # Find a lumping
-    vars_old = rhs[0].gens
-    field = rhs[0].domain
+    field = observable[0].domain # field = rhs[0].domain 
     vectors_to_include = []
     for linear_form in observable:
         vec = SparseVector.from_list(linear_form.linear_part_as_vec(), field)
@@ -1082,18 +1157,20 @@ def do_lumping_internal(rhs,
     lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include)
     print(f"-> I found the lumping subspace in {timeit.default_timer()-start}s")
 
-    lumped_rhs = lumping_subspace.perform_change_of_variables(rhs, new_vars_name)
+    lumped_rhs = lumping_subspace.perform_change_of_variables(rhs, vars_old, field, new_vars_name)
 
     new_ic = None
     if ic is not None:
-        eval_point = [ic.get(v, 0) for v in rhs[0].gens]
+        eval_point = [ic.get(v, 0) for v in vars_old]
+        #eval_point = [ic.get(v, 0) for v in rhs[0].gens]
         new_ic = []
         for vect in lumping_subspace.basis():
             new_ic.append(sum([p[0] * p[1] for p in zip(eval_point, vect.to_list())]))
 
 
     # Nice printing
-    vars_new = lumped_rhs[0].gens
+    vars_new = ["%s%d" %(new_vars_name, i) for i in range(lumping_subspace.dim())]
+    # vars_new = lumped_rhs[0].gens
     if print_system:
         print("Original system:")
         for i in range(len(rhs)):
@@ -1129,8 +1206,6 @@ def do_lumping(
         out_format="sympy",
         loglevel="INFO",
         initial_conditions=None,
-        #discard_useless_matrices=True,
-        #random_evaluations=True,
     ):
     """
       Main function, performs a lumping of a polynomial ODE system
@@ -1162,8 +1237,8 @@ def do_lumping(
         logging.debug("Input is in the RationalFunction format")
     else:
         logging.debug("Input is expected to be in SymPy format")
-        rhs = [SparsePolynomial.from_sympy(p) for p in rhs]
-        observable = [SparsePolynomial.from_sympy(ob) for ob in observable]
+        #rhs = [SparsePolynomial.from_sympy(p) for p in rhs]
+        #observable = [SparsePolynomial.from_sympy(ob) for ob in observable]
     
     result = do_lumping_internal(rhs,
                                  observable,
@@ -1182,10 +1257,12 @@ def do_lumping(
             result["new_ic"].append(sum([p[0] * p[1] for p in zip(eval_point, vect)]))
 
     if out_format == "sympy":
-        out_ring = result["rhs"][0].get_sympy_ring()
+        #out_ring = result["rhs"][0].get_sympy_ring()
         if isinstance(result["rhs"][0], SparsePolynomial):
+            out_ring = result["rhs"][0].get_sympy_ring()
             result["rhs"] = [out_ring(p.get_sympy_dict()) for p in result["rhs"]]
         elif isinstance(result["rhs"][0], RationalFunction):
+            out_ring = result["rhs"][0].get_sympy_ring()
             F = sympy.FractionField(sympy.QQ, result["rhs"][0].gens)
             result["rhs"] = [F(out_ring(p.num.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict())) for p in result["rhs"]]
     elif out_format == "internal":
