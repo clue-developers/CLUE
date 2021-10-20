@@ -780,9 +780,12 @@ class SparsePolynomial(object):
 
         gens = self.gens
         n = len(gens)
+
+        if(self.is_constant()):
+            return NualNumber([self.domain.convert(self.ct)] + [0 for _ in range(n)])
         to_eval = {gens[i] : NualNumber([values.get(gens[i], 0)] + [1 if j == i else 0 for j in range(n)]) for i in range(n)}
 
-        return self.eval(**to_eval)
+        return self.eval(**to_eval).ct
 
     #--------------------------------------------------------------------------
 
