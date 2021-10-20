@@ -98,7 +98,7 @@ def _parse(to_parse, varnames, parser):
         "polynomial" (parsing to :class:`clue.rational_function.SparsePolynomial`) or
         "rational" (parsing to :class:`clue.rational_function.RationalFunction`)
     '''
-    var_dict = _var_dict(varnames, parser)
+    var_dict = _var_dict(tuple(varnames), parser)
     if(parser == "sympy"):
         return parse_expr(to_parse.replace("^", "**"), var_dict, transformations=__transformations_parser)
     else:
@@ -197,7 +197,7 @@ def parse_reactions(lines, varnames, parser = "sympy"):
     raw_reactions = []
     # var_to_ind = {v : i for i, v in enumerate(varnames)}
     # var_to_sym = {v : symbols(v) for v in varnames}  
-    var_dict = _var_dict(varnames, parser)
+    var_dict = _var_dict(tuple(varnames), parser)
     for l in lines:
         if "," not in l:
             continue
