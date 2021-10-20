@@ -245,6 +245,7 @@ class NualNumber:
         return self * (other.__inv__()) # using code for __mul__
 
     def __pow__(self, exp):
+        exp = int(exp)
         ## Particular cases for exp == 0 or 1
         if(exp == 0):
             return NualNumber([1] + [0 for _ in range(1, self.size)])
