@@ -587,16 +587,6 @@ class Subspace(object):
                         denom_filtered_dict[new_monom] = coef
                 new_denom = SparsePolynomial(new_vars, domain, denom_filtered_dict)
 
-                if new_denom.is_zero() and False:
-                    print()
-                    print("Before plugging all nonpivot variables with zeros:")
-                    print('\t', rf)
-                    print()
-                    print("After plugging all nonpivot variables with zeros:")
-                    print('\t',f"({new_num})/({new_denom})")
-                    print()
-                    raise ZeroDivisionError
-
                 shrinked_rfs.append(RationalFunction(new_num,new_denom))
 
             return shrinked_rfs
@@ -705,7 +695,7 @@ def construct_matrices(rhs, varnames): #, random_evaluation=True, discard_useles
         matrices = construct_matrices_evaluation_random(rhs)
     else:
         matrices = construct_matrices_AD_random(rhs, varnames, QQ)
-    print(f"-> There are {len(matrices)} matrices in total.")
+    logging.debug(f"-> There are {len(matrices)} matrices in total.")
 
         # Reduce the problem to the common invariant subspace problem
       #   if(discard_useless_matrices):
@@ -724,7 +714,7 @@ def construct_matrices(rhs, varnames): #, random_evaluation=True, discard_useles
       #                   deleted +=1
       #           logging.debug(f"Discarded {deleted} linearly dependant matrices")
 
-      #       print(f"-> I discarded {deleted} linearly dependant matrices in {timeit.default_timer()-start}s")
+      #       logging.debug(f"-> I discarded {deleted} linearly dependant matrices in {timeit.default_timer()-start}s")
 
     return matrices
 
@@ -802,8 +792,7 @@ def construct_matrices_AD_random(funcs, varnames, field, prob_err=0.01):
                 logging.debug("The new matrix is NOT in the vector space: we continue")
                 random_matr.append(extra_matr)
             
-    logging.debug(f"There are {m} matrices in total.")
-    print(f"-> I created {m} linearly independant matrices in {timeit.default_timer()-start}s")
+    logging.debug(f"-> I created {m} linearly independant matrices in {timeit.default_timer()-start}s")
     return random_matr
 
 def construct_matrices_evaluation_random(rational_functions, prob_err=0.01):
@@ -866,8 +855,7 @@ def construct_matrices_evaluation_random(rational_functions, prob_err=0.01):
                 logging.debug("The new matrix is NOT in the vector space: we continue")
                 random_matr.append(extra_matr)
             
-    logging.debug(f"There are {m} matrices in total.")
-    print(f"-> I created {m} linearly independant matrices in {timeit.default_timer()-start}s")
+    logging.debug(f"-> I created {m} linearly independant matrices in {timeit.default_timer()-start}s")
     return random_matr
 
 def construct_matrices_from_rational_functions(rational_functions):
@@ -1155,7 +1143,7 @@ def do_lumping_internal(rhs,
         vectors_to_include.append(vec)
     start = timeit.default_timer()
     lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include)
-    print(f"-> I found the lumping subspace in {timeit.default_timer()-start}s")
+    logging.debug(f"-> I found the lumping subspace in {timeit.default_timer()-start}s")
 
     lumped_rhs = lumping_subspace.perform_change_of_variables(rhs, vars_old, field, new_vars_name)
 
