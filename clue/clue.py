@@ -24,6 +24,14 @@ fh.setFormatter(formatter); ch.setFormatter(formatter)
 logger.addHandler(fh); logger.addHandler(ch)
 logger.propagate = False
 
+# TODO: 
+#  - remove the old methods "do_lumping" and "do_lumping_internal"
+#  - absorve the method for building matrices into the system class
+#  - fix all examples
+#  - test old lumpings
+#  - test new lupings
+#  - send to Gleb
+
 # the constant responsible for switching to the modular algorithm
 TOO_BIG_LENGTH = 10000
 
