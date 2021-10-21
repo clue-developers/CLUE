@@ -14,16 +14,15 @@ from clue.parser import read_system
 from .rational_function import SparsePolynomial, RationalFunction
 from .nual import NualNumber
 
+## Configuring logger for this module
 logger = logging.getLogger(__name__)
-logger.basicConfig(
-    format='%(asctime)s %(levelname)-8s %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S',
-    handlers=[logger.FileHandler("lumper_debug.log"), logger.StreamHandler(sys.stdout)]
-)
-
-
-## TODO> move logging system to a logger of the module
-#------------------------------------------------------------------------------
+logger.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s %(levelname)-8s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+fh = logging.FileHandler("clue.log")
+ch = logging.StreamHandler(sys.stderr)
+fh.setFormatter(formatter); ch.setFormatter(formatter)
+logger.addHandler(fh); logger.addHandler(ch); 
+logger.propagate = False
 
 # the constant responsible for switching to the modular algorithm
 TOO_BIG_LENGTH = 10000
