@@ -1,8 +1,5 @@
 from bisect import bisect
-import copy
-import logging
-import math
-import timeit
+import copy, logging, math, timeit, sys
 
 from random import randint
 
@@ -17,7 +14,15 @@ from clue.parser import read_system
 from .rational_function import SparsePolynomial, RationalFunction
 from .nual import NualNumber
 
+logger = logging.getLogger(__name__)
+logger.basicConfig(
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+    handlers=[logger.FileHandler("lumper_debug.log"), logger.StreamHandler(sys.stdout)]
+)
 
+
+## TODO> move logging system to a logger of the module
 #------------------------------------------------------------------------------
 
 # the constant responsible for switching to the modular algorithm
@@ -269,7 +274,7 @@ class SparseVector(object):
             try:
                 result.__append__(ind, rational_reconstruction_sage(self[ind].to_int(), self.field.characteristic()))
             except ValueError:
-                logging.debug("Rational reconstruction problems: %d, %d", self[ind], self.field.characteristic())
+                logger.debug("Rational reconstruction problems: %d, %d", self[ind], self.field.characteristic())
         return result
 
 #------------------------------------------------------------------------------
@@ -459,7 +464,7 @@ class Subspace(object):
             for pivot in pivots_to_process:
                 for m_index, matr in enumerate(matrices):
                     if m_index % 100 == 0:
-                        logging.debug("  Multiply by matrix %d", m_index)
+                        logger.debug("  Multiply by matrix %d", m_index)
                     m_index += 1
                     prod = self._echelon_form[pivot].apply_matrix(matr)
                     if not prod.is_zero():
@@ -543,7 +548,7 @@ class Subspace(object):
         lpivots = sorted(pivots)
         basis = self.basis()
 
-        logging.debug("Constructing new rhs")
+        logger.debug("Constructing new rhs")
         if isinstance(rhs[0], SparsePolynomial):
             new_rhs = [SparsePolynomial(old_vars, domain) for _ in range(self.dim())]
         elif isinstance(rhs[0], RationalFunction):
@@ -551,13 +556,13 @@ class Subspace(object):
         else:
             new_rhs = [0 for _ in range(self.dim())]
         for i, vec in enumerate(basis):
-            logging.debug(f"    Equation number {i}")
+            logger.debug(f"    Equation number {i}")
             for j in vec.nonzero_iter():
                 # ordering is important due to the implementation of
                 # multiplication for SparsePolynomial
                 new_rhs[i] += rhs[j] * vec._data[j]
 
-        logging.debug("Plugging zero to nonpivot coordinates")
+        logger.debug("Plugging zero to nonpivot coordinates")
 
         if isinstance(rhs[0], SparsePolynomial):
             shrinked_polys = []
@@ -675,11 +680,11 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
         return original_subspace
     except ExpressionSwell:
         original_subspace = space_copy
-        logging.debug("Rationals are getting too long, switching to the modular algorithm")
+        logger.debug("Rationals are getting too long, switching to the modular algorithm")
         modulus = 2**31 - 1
         primes_used = 1
         while True:
-            logging.debug("Working modulo: %d", modulus)
+            logger.debug("Working modulo: %d", modulus)
             try:
                 matrices_reduced = [matr.reduce_mod(modulus) for matr in matrices]
                 subspace_reduced = original_subspace.reduce_mod(modulus)
@@ -687,16 +692,16 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
                 reconstruction = subspace_reduced.rational_reconstruction()
                 if reconstruction.check_invariance(matrices):
                     if reconstruction.check_inclusion(original_subspace):
-                        logging.debug("We used %d primes", primes_used)
+                        logger.debug("We used %d primes", primes_used)
                         return reconstruction
                     else:
-                        logging.debug("Didn't pass the inclusion check")
+                        logger.debug("Didn't pass the inclusion check")
                 else:
-                    logging.debug("Didn't pass the invariance check")
+                    logger.debug("Didn't pass the invariance check")
             except ValueError:
                 pass
             except ZeroDivisionError:
-                logging.debug(f"{modulus} was a bad prime for reduction, going for the next one")
+                logger.debug(f"{modulus} was a bad prime for reduction, going for the next one")
             modulus = nextprime(modulus**2)
             primes_used += 1
 
@@ -757,12 +762,18 @@ class FODESystem:
     def ic(self): return self._ic
     @property
     def name(self): return self._name
+    @cached_property
+    def size(self): return len(self._equations)
 
     @cached_property
     def field(self):
         if(isinstance(self.equations[0], (SparsePolynomial, RationalFunction))):
             return self.equations[0].domain
         return QQ
+
+    @cached_property
+    def type(self):
+        return type(self.equations[0])
 
     ## Methods for preparing to get the lumping
     def construct_matrices(self, method):
@@ -807,7 +818,192 @@ class FODESystem:
                 self._lumping_matr[method] = construct_matrices_evaluation_random(self.equations)
             else: # case of "auto_diff"
                 self._lumping_matr[method] = construct_matrices_AD_random(self.equations, self.variables, self.field)
-        return self._lumping_matr
+        return self._lumping_matr[method]
+
+    def lumping(self, observable,
+                new_vars_name="y",
+                print_system=False,
+                print_reduction=True,
+                out_format="sympy",
+                loglevel="INFO",
+                initial_conditions=None,
+                method = "auto_diff"
+    ):
+        """
+        Main function, performs a lumping of a polynomial ODE system
+        Input
+            - observable - a nonempty list of linear forms in state variables
+                        that must be kept nonlumped
+            - new_vars_name (optional) - the name for variables in the lumped polynomials
+            - print_system and print_reduction (optional) - whether to print the original system and the result, respectively on the screen
+            - out_format - "sympy" or "internal", the way the output polynomials should be represented
+            the options are sympy polynomials and SparsePolynomial
+            - loglevel - INFO (only essential information) or DEBUG (a lot of information about the computation process)
+            - initial_conditions - Initial conditions for some elements on the system to be lumped
+            - method - user decision about how to compute the internal matrices for lumping. See method 
+              :func:`construct_matrices` for further information.
+        Output
+            a tuple (the right-hand side of an aggregated system, new_variables)
+        """
+        ## Putting the logger level active
+        old_level = logger.getEffectiveLevel()
+        if(loglevel == "INFO"):
+            logger.setLevel(logging.INFO)
+        logger.debug(":lumping: Starting aggregation")
+
+        ## Logger: printing the type of the input
+        if isinstance(self.equations[0], SparsePolynomial):
+            logger.debug(":lumping: Input is in the SparsePolynomial format")
+        elif isinstance(self.equations[0], RationalFunction):
+            logger.debug(":lumping: Input is in the RationalFunction format")
+        else:
+            logger.debug(":lumping: Input is expected to be in SymPy format")
+        
+        result = self._lumping(observable,
+                    new_vars_name,
+                    print_system, 
+                    print_reduction, 
+                    initial_conditions, 
+                    method
+                )
+
+        if initial_conditions is not None:
+            eval_point = [self.ic.get(v, 0) for v in self.variables]
+            result["ic"] = []
+            for vect in result["subspace"]:
+                result["ic"].append(sum([p[0] * p[1] for p in zip(eval_point, vect)]))
+
+        if out_format == "sympy":
+            if isinstance(result["equations"][0], SparsePolynomial):
+                out_ring = result["equations"][0].get_sympy_ring()
+                result["equations"] = [out_ring(p.get_sympy_dict()) for p in result["equations"]]
+            elif isinstance(result["equations"][0], RationalFunction):
+                out_ring = result["equations"][0].get_sympy_ring()
+                F = sympy.FractionField(sympy.QQ, result["equations"][0].gens)
+                result["equations"] = [F(out_ring(p.num.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict())) for p in result["equations"]]
+        elif out_format == "internal":
+            pass
+        else:
+            raise ValueError(f"Unknown output format {out_format}")
+
+        ## Fixing the level of the logger
+        logger.setLevel(old_level)
+        return LODESystem(dic=result)
+
+    def _lumping(self, observable, 
+                new_vars_name='y', 
+                print_system=True, 
+                print_reduction=False, 
+                ic=None, 
+                method = "auto_diff",
+    ):
+        """
+        Performs a lumping of a polynomial ODE system represented by SparsePolynomial
+        Input
+            - observable - a nonempty list of linear forms in state variables
+                        that must be kept nonlumped
+            - new_vars_name (optional) - the name for variables in the lumped polynomials
+            - print_system and print_reduction (optional) - whether to print the original system and the result, respectively on the screen
+            - ic - Initial conditions for some elements on the system to be lumped
+            - method - user decision about how to compute the internal matrices for lumping. See method 
+              :func:`construct_matrices` for further information.
+        Output
+            a dictionary with all the information so the method :func:`lumping`can build the Lumped 
+            system (see class :class`LODESystem`)
+        """
+        logger.debug(":ilumping: Starting aggregation")
+
+        vars_old = self.variables
+        
+        # Building the matrices for lumping
+        start = timeit.default_timer()
+        logger.debug(":ilumping: Computing matrices for perform lumping...")
+        matrices = self.construct_matrices(method)
+        logger.debug(f"ilumping: -> Computed {len(matrices)} in {timeit.default_timer()-start}s")
+
+        # Find a lumping
+        field = self.field
+        vectors_to_include = []
+        for linear_form in observable:
+            vec = SparseVector.from_list(linear_form.linear_part_as_vec(), field)
+            vectors_to_include.append(vec)
+        logger.debug(":ilumping: Computing the lumping subspace...")
+        start = timeit.default_timer()
+        lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include)
+        logger.debug(f":ilumping: -> Found the lumping subspace in {timeit.default_timer()-start}s")
+
+        lumped_rhs = lumping_subspace.perform_change_of_variables(self.equations, vars_old, field, new_vars_name)
+
+        new_ic = None
+        if ic is not None:
+            eval_point = [ic.get(v, 0) for v in vars_old]
+            #eval_point = [ic.get(v, 0) for v in rhs[0].gens]
+            new_ic = []
+            for vect in lumping_subspace.basis():
+                new_ic.append(sum([p[0] * p[1] for p in zip(eval_point, vect.to_list())]))
+
+        ## Computing the new variables and their expression in term of old variables
+        vars_new = ["%s%d" %(new_vars_name, i) for i in range(lumping_subspace.dim())]
+        map_old_variables = []
+        for i in range(lumping_subspace.dim()):
+            new_var = SparsePolynomial(vars_old, field)
+            for j in range(len(vars_old)):
+                if lumping_subspace.basis()[i][j] != 0:
+                    new_var += SparsePolynomial(vars_old, field, {((j, 1),) : lumping_subspace.basis()[i][j]})
+            map_old_variables.append(new_var)
+
+        ## Nice printing
+        if print_system:
+            print("Original system:")
+            for i in range(len(self.equations)):
+                print(f"{vars_old[i]}' = {self.equations[i]}")
+            print("Outputs to fix:")
+            print(", ".join(map(str, observable)))
+        
+        if print_reduction:
+            print("New variables:")
+            for i in range(lumping_subspace.dim()):
+                print(f"{vars_new[i]} = {new_var}")
+            if new_ic is not None:
+                print("New initial conditions:")
+                for v, val in zip(vars_new, new_ic):
+                    print(f"{v}(0) = {float(val)}")
+            print("Lumped system:")
+            for i in range(lumping_subspace.dim()):
+                print(f"{vars_new[i]}' = {lumped_rhs[i]}")
+
+        return {"equations" : lumped_rhs, 
+                "variables" : vars_new,
+                "ic" : new_ic,
+                "name": f"Lumped system [{observable}] ({self.name})",
+                "map_old_variables" : map_old_variables,
+                "subspace" : [v.to_list() for v in lumping_subspace.basis()]}
+
+class LODESystem(FODESystem):
+    r'''
+        Extended class for a :class:`FODESystem` for lumped systems.
+
+        This class is the natural extension of the class for representing a first order linear 
+        system (see class :class:`FODESystem`) where we keep some information on the lumping used
+        to obtain the variables of this new system.
+    '''
+    def __init__(self, equations=None, observables=None, variables = None, ic= None, name = None, 
+                    map_old_variables = None,
+                    dic=None, file = None, **kwds):
+        # Starting the base class data
+        super().__init__(equations, observables, variables, ic, name, dic, file, **kwds)
+
+        # Adding the specific information for this extended class
+        if(map_old_variables is None):
+            if(dic is None or not "old_vars" in dic):
+                raise ValueError("Needed a map from the new variables to the old variables.")
+            map_old_variables = dic["old_vars"]
+        
+        self._map_old_variables = map_old_variables
+
+    @property
+    def old_vars(self):
+        return self._map_old_variables
 
 #------------------------------------------------------------------------------
 
@@ -832,7 +1028,7 @@ def construct_matrices(rhs, varnames): #, random_evaluation=True, discard_useles
         matrices = construct_matrices_evaluation_random(rhs)
     else:
         matrices = construct_matrices_AD_random(rhs, varnames, QQ)
-    logging.debug(f"-> There are {len(matrices)} matrices in total.")
+    logger.debug(f"-> There are {len(matrices)} matrices in total.")
 
         # Reduce the problem to the common invariant subspace problem
       #   if(discard_useless_matrices):
@@ -849,9 +1045,9 @@ def construct_matrices(rhs, varnames): #, random_evaluation=True, discard_useles
       #               if pivot_index < 0:
       #                   del matrices[i - deleted]
       #                   deleted +=1
-      #           logging.debug(f"Discarded {deleted} linearly dependant matrices")
+      #           logger.debug(f"Discarded {deleted} linearly dependant matrices")
 
-      #       logging.debug(f"-> I discarded {deleted} linearly dependant matrices in {timeit.default_timer()-start}s")
+      #       logger.debug(f"-> I discarded {deleted} linearly dependant matrices in {timeit.default_timer()-start}s")
 
     return matrices
 
@@ -871,7 +1067,7 @@ def construct_matrices_AD_random(funcs, varnames, field, prob_err=0.01):
 
         The computation of the actual error bound depends on the type of input in ``funcs``.
     '''
-    logging.debug("Starting constructing random matrices (AD -- RationalFunction)")
+    logger.debug("Starting constructing random matrices (AD -- RationalFunction)")
     random_matr = [build_random_evaluation_jacobian(funcs, varnames, field)]
     subspace = Subspace(field)
     pivot_index = subspace.absorb_new_vector(random_matr[0].to_vector())
@@ -894,14 +1090,14 @@ def construct_matrices_AD_random(funcs, varnames, field, prob_err=0.01):
                 random_matr.append(new_matr)
                 m += 1
             if(m % 10 == 0):
-                logging.debug(f"Generated {m} random matrices...")
+                logger.debug(f"Generated {m} random matrices...")
         ## We had a linearly dependant matrix: we check the probability of this being complete
-        logging.debug(f"Found a linearly dependant matrix after {m} attemps.")
+        logger.debug(f"Found a linearly dependant matrix after {m} attemps.")
         if(m >= n): # we grew too much, reached the maximal
-            logging.debug(f"We found the maximal amount of linearly independent matrices")
+            logger.debug(f"We found the maximal amount of linearly independent matrices")
             finished = True
         else: # we checked (probabilitic) if we have finished
-            logging.debug(f"We compute the maximal bound for the random coefficients to have less than {prob_err} probabilites \
+            logger.debug(f"We compute the maximal bound for the random coefficients to have less than {prob_err} probabilites \
             to get an element in the current space.")
             # D is the degree for Scharz-Zippel Lemma
             if(D is None): # only computed once if ever needed
@@ -913,27 +1109,27 @@ def construct_matrices_AD_random(funcs, varnames, field, prob_err=0.01):
                     ## We add the maximal degree on the numerator in the jacobian
                     D += (max(func.num.degree() + func.denom.degree() for func in funcs if func != 0) - 1)
                 else: # sympy expression case
-                    logging.warning(f"Sympy case detected for the degree bound. Not yet implemented, so we pick 100 by default")
+                    logger.warning(f"Sympy case detected for the degree bound. Not yet implemented, so we pick 100 by default")
                     D = 100 
             
             N = int(math.ceil(D/prob_err))
 
-            logging.debug(f"Bound for the (prob.) coefficients: {N}")
+            logger.debug(f"Bound for the (prob.) coefficients: {N}")
 
             extra_matr = build_random_evaluation_jacobian(funcs, varnames, field, max=N)
             pivot_index = subspace.absorb_new_vector(extra_matr.to_vector())
             if(pivot_index < 0): # we are finished
-                logging.debug("The new matrix is in the vector space: we are done")
+                logger.debug("The new matrix is in the vector space: we are done")
                 finished = True
             else: # we add the amtrix to the list
-                logging.debug("The new matrix is NOT in the vector space: we continue")
+                logger.debug("The new matrix is NOT in the vector space: we continue")
                 random_matr.append(extra_matr)
             
-    logging.debug(f"-> I created {m} linearly independant matrices in {timeit.default_timer()-start}s")
+    logger.debug(f"-> I created {m} linearly independant matrices in {timeit.default_timer()-start}s")
     return random_matr
 
 def construct_matrices_evaluation_random(rational_functions, prob_err=0.01):
-    logging.debug("Starting constructing random matrices (RationalFunction)")
+    logger.debug("Starting constructing random matrices (RationalFunction)")
 
     variables = rational_functions[0].gens
 
@@ -958,14 +1154,14 @@ def construct_matrices_evaluation_random(rational_functions, prob_err=0.01):
                 random_matr.append(new_matr)
                 m += 1
             if(m % 10 == 0):
-                logging.debug(f"Generated {m} random matrices...")
+                logger.debug(f"Generated {m} random matrices...")
         ## We had a linearly dependant matrix: we check the probability of this being complete
-        logging.debug(f"Found a linearly dependant matrix after {m} attemps.")
+        logger.debug(f"Found a linearly dependant matrix after {m} attemps.")
         if(m >= n): # we grew too much, reached the maximal
-            logging.debug(f"We found the maximal amount of linearly independent matrices")
+            logger.debug(f"We found the maximal amount of linearly independent matrices")
             finished = True
         else: # we checked (probabilitic) if we have finished
-            logging.debug(f"We compute the maximal bound for the random coefficients to have less than {prob_err} probabilites \
+            logger.debug(f"We compute the maximal bound for the random coefficients to have less than {prob_err} probabilites \
             to get an element in the current space.")
             # D is the degree for Scharz-Zippel Lemma
             if(D is None): # only computed once if ever needed
@@ -981,18 +1177,18 @@ def construct_matrices_evaluation_random(rational_functions, prob_err=0.01):
             
             N = int(math.ceil(D/prob_err))
 
-            logging.debug(f"Bound for the coefficients: {N}")
+            logger.debug(f"Bound for the coefficients: {N}")
 
             extra_matr = build_random_evaluation_matrix(J, max=N)
             pivot_index = subspace.absorb_new_vector(extra_matr.to_vector())
             if(pivot_index < 0): # we are finished
-                logging.debug("The new matrix is in the vector space: we are done")
+                logger.debug("The new matrix is in the vector space: we are done")
                 finished = True
             else: # we add the amtrix to the list
-                logging.debug("The new matrix is NOT in the vector space: we continue")
+                logger.debug("The new matrix is NOT in the vector space: we continue")
                 random_matr.append(extra_matr)
             
-    logging.debug(f"-> I created {m} linearly independant matrices in {timeit.default_timer()-start}s")
+    logger.debug(f"-> I created {m} linearly independant matrices in {timeit.default_timer()-start}s")
     return random_matr
 
 def construct_matrices_from_rational_functions(rational_functions):
@@ -1005,7 +1201,7 @@ def construct_matrices_from_rational_functions(rational_functions):
       Output
         a list of matrices (SparseMatrix) J_1^T, ..., J_N^T
     """
-    logging.debug("Starting constructing matrices (RationalFunction)")
+    logger.debug("Starting constructing matrices (RationalFunction)")
 
     variables = rational_functions[0].gens
     field = rational_functions[0].domain
@@ -1040,7 +1236,7 @@ def construct_matrices_from_rational_functions(rational_functions):
     for row_ind, poly_row in enumerate(poly_J):
         for col_ind, poly in enumerate(poly_row):
             p_ind = row_ind * len(poly_row) + col_ind
-            logging.debug("Processing numerator polynomial number %d", p_ind)
+            logger.debug("Processing numerator polynomial number %d", p_ind)
             for m, coef in poly.dataiter():
                 if m not in jacobians:
                     jacobians[m] = SparseRowMatrix(len(variables), field)
@@ -1059,13 +1255,13 @@ def construct_matrices_from_polys(polys):
       Output
         a list of matrices (SparseMatrix) J_1^T, ..., J_N^T
     """
-    logging.debug("Starting constructing matrices (SparsePolynomial)")
+    logger.debug("Starting constructing matrices (SparsePolynomial)")
 
     variables = polys[0].gens
     field = polys[0].domain
     jacobians = dict()
     for p_ind, poly in enumerate(polys):
-        logging.debug("Processing polynomial number %d", p_ind)
+        logger.debug("Processing polynomial number %d", p_ind)
         for monom, coef in poly.dataiter():
             for i in range(len(monom)):
                 var, exp = monom[i]
@@ -1278,13 +1474,13 @@ def do_lumping_internal(rhs,
         a tuple (the right-hand side of an aggregated system, new_variables)
     """
 
-    logging.basicConfig(
+    logger.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
         level=logging.DEBUG,
         datefmt='%Y-%m-%d %H:%M:%S',
         filename="lumper_debug.log"
     )
-    logging.debug("Starting aggregation")
+    logger.debug("Starting aggregation")
 
     vars_old = observable[0].gens
     
@@ -1299,7 +1495,7 @@ def do_lumping_internal(rhs,
         vectors_to_include.append(vec)
     start = timeit.default_timer()
     lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include)
-    logging.debug(f"-> I found the lumping subspace in {timeit.default_timer()-start}s")
+    logger.debug(f"-> I found the lumping subspace in {timeit.default_timer()-start}s")
 
     lumped_rhs = lumping_subspace.perform_change_of_variables(rhs, vars_old, field, new_vars_name)
 
@@ -1366,21 +1562,21 @@ def do_lumping(
         a tuple (the right-hand side of an aggregated system, new_variables)
     """
     import sys
-    logging.basicConfig(
+    logger.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
         level= logging.INFO if loglevel == "INFO" else logging.DEBUG,
         datefmt='%Y-%m-%d %H:%M:%S',
         #filename="lumper_debug.log"
-        handlers=[logging.FileHandler("lumper_debug.log"), logging.StreamHandler(sys.stdout)]
+        handlers=[logger.FileHandler("lumper_debug.log"), logger.StreamHandler(sys.stdout)]
     )
-    logging.debug("Starting aggregation")
+    logger.debug("Starting aggregation")
 
     if isinstance(rhs[0], SparsePolynomial):
-        logging.debug("Input is in the SparsePolynomial format")
+        logger.debug("Input is in the SparsePolynomial format")
     elif isinstance(rhs[0], RationalFunction):
-        logging.debug("Input is in the RationalFunction format")
+        logger.debug("Input is in the RationalFunction format")
     else:
-        logging.debug("Input is expected to be in SymPy format")
+        logger.debug("Input is expected to be in SymPy format")
         #rhs = [SparsePolynomial.from_sympy(p) for p in rhs]
         #observable = [SparsePolynomial.from_sympy(ob) for ob in observable]
     
