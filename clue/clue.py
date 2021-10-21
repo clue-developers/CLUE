@@ -6,11 +6,13 @@ import timeit
 
 from random import randint
 
-from functools import reduce, lru_cache
+from functools import cached_property, reduce, lru_cache
 
 import sympy
 from sympy import GF, QQ, gcd, nextprime, lambdify, symbols
 from sympy.ntheory.modular import isprime
+
+from clue.parser import read_system
 
 from .rational_function import SparsePolynomial, RationalFunction
 from .nual import NualNumber
@@ -697,7 +699,116 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
                 logging.debug(f"{modulus} was a bad prime for reduction, going for the next one")
             modulus = nextprime(modulus**2)
             primes_used += 1
-    
+
+
+### Structure for a differential system
+class FODESystem:
+    r'''
+        Class to represent a system of Firs Order Differential Equations.
+
+        This class allows to store intermediate steps to save time in computations.
+        It will also offer functionality to choose more freely the algorithms to do the 
+        computations when several are available.
+
+        There are several ways to initialize a diffferential system:
+
+        * Provide all information needed by itself: using the arguments ``equations``,
+          ``observables``, ``variables``, ``ic``and ``name``. If ``equations`` is provided
+          this is the method of creation chosen.
+        * Provide a file to be read (using the argument ``file``). We will use the clue parser
+          with the arguments given in ``kwds``.
+        * Provide a dictionary with the data (using the argument ``dic``). In this case, at least 
+          an entry with key ``'equations'`` must be provided.
+    '''
+    def __init__(self, equations=None, observables=None, variables = None, ic= None, name = None, dic=None, file = None, **kwds):
+        if(equations is None):
+            if(dic is None):
+                if(file is None):
+                    raise ValueError("Not enough data provided to build a system.")
+            
+                read_ic = kwds.get("read_ic", False)
+                parser = kwds.get("parser", "polynomial")
+                dic = read_system(file, read_ic, parser)
+            
+            # Now dic is not None and we can use it to read the data
+            equations = dic['equations']
+            observables = dic.get('observables', None)
+            variables = dic.get('variables')
+            ic = dic.get('ic', None)
+            name = dic.get('name', None)
+        
+        # Now we have the data in the first arguments
+        self._equations = equations
+        self._observables = observables
+        self._variables = variables
+        self._ic = ic
+        self._name = name
+
+        self._lumping_matr = {}
+
+    # Getters of attributes
+    @property
+    def equations(self): return self._equations
+    @property
+    def observables(self): return self._observables
+    @property
+    def variables(self): return self._variables
+    @property
+    def ic(self): return self._ic
+    @property
+    def name(self): return self._name
+
+    @cached_property
+    def field(self):
+        if(isinstance(self.equations[0], (SparsePolynomial, RationalFunction))):
+            return self.equations[0].domain
+        return QQ
+
+    ## Methods for preparing to get the lumping
+    def construct_matrices(self, method):
+        r'''
+            Method to build the matrices necessary for lumping purposes using 
+            different methods.
+
+            The argument method is a string containing:
+
+            * "polynomial": only works when the input are :class:`clue.rational_function.SparsePolynomial`. It
+              relies on splitting the jabocian matrix into their coefficients in different monomials.
+            * "rational": only works when the input are :class:`clue.rational_function.RationalFunction`
+              and it relies on expanding the jacobian matrices and splitting into monomials.
+            * "random": only works when the input are :class:`clue.rational_function.RationalFunction`
+              or lower and it relies on random evaluation of the jacobian matrix after computing this 
+              matrix explicitly.
+            * "auto_diff": it works for any type of input (i.e., Sympy expressions or classes in 
+              the module :mod:`clue.rational_function`) and it computes random evaluations of the jacobian
+              matrix using automatic differentiation.
+
+            This method will cache the result depending on the method chosen, so different methods can be compared.
+
+            If a method is selecte that is not valid for the type of the system, the next type will be tried too.            
+        '''
+        # Deciding the valid method for this system
+        if(method == "polynomial" and (not isinstance(self.equations[0], SparsePolynomial))):
+            method = "random"
+        if(method == "rational" and (not isinstance(self.equations[0], RationalFunction))):
+            method = "auto_diff"
+        if(method == "random" and (not isinstance(self.equations[0], (SparsePolynomial, RationalFunction)))):
+            method = "auto_diff"
+        if(not method in ("polynomial", "rational", "random", "auto_diff")):
+            raise NotImplementedError(f"The method selected [{method}] is not valid.")
+        
+        # Building the matrices with the selected algorithm
+        if(not method in self._lumping_matr):
+            if(method is "polynomial"):
+                self._lumping_matr[method] = construct_matrices_from_polys(self.equations)
+            elif(method is "rational"):
+                self._lumping_matr[method] = construct_matrices_from_rational_functions(self.equations)
+            elif(method is "random"):
+                self._lumping_matr[method] = construct_matrices_evaluation_random(self.equations)
+            else: # case of "auto_diff"
+                self._lumping_matr[method] = construct_matrices_AD_random(self.equations, self.variables, self.field)
+        return self._lumping_matr
+
 #------------------------------------------------------------------------------
 
 def construct_matrices(rhs, varnames): #, random_evaluation=True, discard_useless_matrices=True): ## TODO
