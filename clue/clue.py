@@ -21,7 +21,7 @@ formatter = logging.Formatter('%(asctime)s %(levelname)-8s %(message)s', datefmt
 fh = logging.FileHandler("clue.log")
 ch = logging.StreamHandler(sys.stderr)
 fh.setFormatter(formatter); ch.setFormatter(formatter)
-logger.addHandler(fh); logger.addHandler(ch); 
+logger.addHandler(fh); logger.addHandler(ch)
 logger.propagate = False
 
 # the constant responsible for switching to the modular algorithm
@@ -975,7 +975,7 @@ class FODESystem:
                 "variables" : vars_new,
                 "ic" : new_ic,
                 "name": f"Lumped system [{observable}] ({self.name})",
-                "map_old_variables" : map_old_variables,
+                "old_vars" : map_old_variables,
                 "subspace" : [v.to_list() for v in lumping_subspace.basis()]}
 
 class LODESystem(FODESystem):
@@ -987,22 +987,22 @@ class LODESystem(FODESystem):
         to obtain the variables of this new system.
     '''
     def __init__(self, equations=None, observables=None, variables = None, ic= None, name = None, 
-                    map_old_variables = None,
+                    old_vars = None,
                     dic=None, file = None, **kwds):
         # Starting the base class data
         super().__init__(equations, observables, variables, ic, name, dic, file, **kwds)
 
         # Adding the specific information for this extended class
-        if(map_old_variables is None):
+        if(old_vars is None):
             if(dic is None or not "old_vars" in dic):
                 raise ValueError("Needed a map from the new variables to the old variables.")
-            map_old_variables = dic["old_vars"]
+            old_vars = dic["old_vars"]
         
-        self._map_old_variables = map_old_variables
+        self._old_vars = old_vars
 
     @property
     def old_vars(self):
-        return self._map_old_variables
+        return self._old_vars
 
 #------------------------------------------------------------------------------
 
