@@ -162,7 +162,7 @@ class SparseVector(object):
     #--------------------------------------------------------------------------
 
     def __getitem__(self, i):
-        return self._data.get(i, self._field.convert(0))
+        return self._data.get(i, 0)
 
     def __setitem__(self, i, value):
         if bisect(self._nonzero, i) == 0 or self._nonzero[bisect(self._nonzero, i) - 1] != i:
@@ -1252,7 +1252,7 @@ class FODESystem:
                 out_format="sympy",
                 loglevel="INFO",
                 initial_conditions=None,
-                method = "auto_diff"
+                method = "polynomial"
     ):
         """
         Main function, performs a lumping of a polynomial ODE system
@@ -1274,6 +1274,8 @@ class FODESystem:
         old_level = logger.getEffectiveLevel()
         if(loglevel == "INFO"):
             logger.setLevel(logging.INFO)
+        else:
+            logger.setLevel(logging.DEBUG)
         logger.debug(":lumping: Starting aggregation")
 
         ## Logger: printing the type of the input
@@ -1388,7 +1390,7 @@ class FODESystem:
         if print_reduction:
             print("New variables:")
             for i in range(lumping_subspace.dim()):
-                print(f"{vars_new[i]} = {new_var}")
+                print(f"{vars_new[i]} = {map_old_variables[i]}")
             if new_ic is not None:
                 print("New initial conditions:")
                 for v, val in zip(vars_new, new_ic):
