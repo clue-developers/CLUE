@@ -8,15 +8,12 @@
 import sys
 import time
 
-from sympy import QQ
-
 sys.path.insert(0, "../")
 sys.path.insert(0, "./../../")
-from clue import parser
-from clue import clue
-from clue.rational_function import SparsePolynomial
 
-system = parser.read_system("BIOMD0000000504.ode")
+from clue import FODESystem, SparsePolynomial
+
+system = FODESystem(file="BIOMD0000000504.ode")
 
 obs_sets = [
     ["cFos_P", "cJun_P"],
@@ -25,14 +22,15 @@ obs_sets = [
     ["JAK1_P", "JNK_P", "cJun_P", "cJun_dimer", "STAT3_P_nuc", "STAT3_P_cyt"]
 ]
 
+lumped = []
 for obs_set in obs_sets:
     print("===============================================")
-    obs_polys = [SparsePolynomial.from_string(s, system['variables']) for s in obs_set]
+    obs_polys = [SparsePolynomial.from_string(s, system.variables) for s in obs_set]
 
     start = time.time()
-    lumped = clue.do_lumping(system['equations'], obs_polys)
+    lumped.append(system.lumping(obs_polys))
     end = time.time()
 
-    print(f"The size of the original model is {len(system['equations'])}")
-    print(f"The size of the reduced model is {len(lumped['polynomials'])}")
+    print(f"The size of the original model is {system.size}")
+    print(f"The size of the reduced model is {lumped[-1].size}")
     print(f"Computation took {end - start} seconds")

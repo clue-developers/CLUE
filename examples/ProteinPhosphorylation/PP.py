@@ -7,28 +7,26 @@
 import sys
 import time
 
-from sympy import QQ
-
 sys.path.insert(0, "../")
 sys.path.insert(0, "./../../")
-from clue import parser
-from clue import clue
-from clue.rational_function import SparsePolynomial
+
+from clue import FODESystem, SparsePolynomial
 
 for n in range(2, 9):
 
-    system = parser.read_system(f"e{n}.ode")
+    system = FODESystem(file=f"e{n}.ode")
 
     print("===============================================")
     obs = [
-        clue.SparsePolynomial.from_string("S0", system['variables']),
-        clue.SparsePolynomial.from_string("S1", system['variables'])
+        SparsePolynomial.from_string("S0", system.variables),
+        SparsePolynomial.from_string("S1", system.variables)
     ]
 
     start = time.time()
-    lumped = clue.do_lumping(system['equations'], obs)
+    lumped = system.lumping(obs)
     end = time.time()
 
     print(f"Model for n = {n}")
-    print(f"The size of the original model is {len(system['equations'])}")
-    print(f"The size of the reduced model is {len(lumped['polynomials'])}")
+    print(f"The size of the original model is {system.size}")
+    print(f"The size of the reduced model is {lumped.size}")
+    print(f"Computation took {end - start} seconds")    
