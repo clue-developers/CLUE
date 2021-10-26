@@ -634,7 +634,9 @@ class Subspace(object):
             ## here basis is in normal form, meaning that 
             ## for basis[j] the element in lpivots[i] is 1 if i==j, 0 otherwise
             new_vars = symbols(",".join(new_vars))
+            new_vars = [new_vars] if type(new_vars) == sympy.core.symbol.Symbol else new_vars
             old_vars = symbols(",".join(old_vars))
+            old_vars = [old_vars] if type(old_vars) == sympy.core.symbol.Symbol else old_vars
             subs = {v : 0 for v in old_vars}
             for j in range(len(lpivots)):
                 subs[old_vars[lpivots[j]]] += new_vars[j]/basis[j][lpivots[j]]
