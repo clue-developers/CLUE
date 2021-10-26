@@ -6,11 +6,13 @@ sys.path.insert(0, "./../../")
 
 from clue import FODESystem, SparsePolynomial
 
+start = time.time()
 system = FODESystem(file=f"BIOMD0000000013.ode", parser="sympy")
+print(f"Read the model in {time.time() - start}s")
 obs = SparsePolynomial.from_string("x_CO2", system.variables)
 
 start = time.time()
-lumped = system.lumping([obs], print_system=True, loglevel="DEBUG")
+lumped = system.lumping([obs], print_system=True, loglevel="INFO")
 end = time.time()
 
 print(f"The size of the original model is {system.size}")

@@ -12,7 +12,7 @@ print(f"Read the model in {time.time() - start}s")
 obs = SparsePolynomial.from_string("Fru", system.variables)
 
 start = time.time()
-lumped = system.lumping([obs], print_system=True, loglevel="DEBUG", method="auto_diff")
+lumped = system.lumping([obs], print_system=True, loglevel="INFO")
 end = time.time()
 
 print(f"The size of the original model is {system.size}")
