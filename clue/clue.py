@@ -861,11 +861,11 @@ class FODESystem:
         
         # Building the matrices with the selected algorithm
         if(not method in self._lumping_matr):
-            if(method is "polynomial"):
+            if(method == "polynomial"):
                 self._lumping_matr[method] = self._construct_matrices_from_polys()
-            elif(method is "rational"):
+            elif(method == "rational"):
                 self._lumping_matr[method] = self._construct_matrices_from_rational_functions()
-            elif(method is "random"):
+            elif(method == "random"):
                 self._lumping_matr[method] = self._construct_matrices_evaluation_random()
             else: # case of "auto_diff"
                 self._lumping_matr[method] = self._construct_matrices_AD_random()
