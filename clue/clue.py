@@ -834,7 +834,7 @@ class FODESystem:
         ## Evaluating the variables
         x_eval = [randint(1,100) for _ in other.variables]
         dic_x_eval = {other.variables[i] : x_eval[i] for i in range(other.size)}
-        y_eval = [poly.eval(**dic_x_eval) for poly in map_variables]
+        y_eval = [poly.eval(**dic_x_eval).ct for poly in map_variables]
         dic_y_eval = {self.variables[i] : y_eval[i] for i in range(self.size)}
         
         ## Evaluation other rhs
@@ -851,7 +851,7 @@ class FODESystem:
         if(isinstance(self.equations[0], (SparsePolynomial, RationalFunction))):
             rhs = [eq.eval(**dic_y_eval) for eq in self.equations]
         else: # sympy case
-            rhs = [eq.subs(list((symbols(k), v) for k,v in dic_y_eval.items())) for eq in self.equations]
+            rhs = [eq.subs([(symbols(k), v) for k,v in dic_y_eval.items()]) for eq in self.equations]
 
         return lhs == rhs
 
