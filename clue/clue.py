@@ -815,6 +815,46 @@ class FODESystem:
     def type(self):
         return type(self.equations[0])
 
+    ## more specialized getters
+    def equation(self, varname):
+        r'''
+            Returns the equation associated with a variable name.
+        '''
+        return self.equations[self.variables.index(varname)]
+
+    def check_consistency(self, other, map_variables):
+        r'''
+            Method that check the consistency of the differential systems
+
+            this method checks if ``self`` is obtained from the system ``other``
+            after the change of variables provided by ``map_variables``.
+
+            Each variable must be given as a linear :class:`~clue.rational_function.SparsePolynomial`.
+        '''
+        ## Evaluating the variables
+        x_eval = [randint(1,100) for _ in other.variables]
+        dic_x_eval = {other.variables[i] : x_eval[i] for i in range(other.size)}
+        y_eval = [poly.eval(**dic_x_eval) for poly in map_variables]
+        dic_y_eval = {self.variables[i] : y_eval[i] for i in range(self.size)}
+        
+        ## Evaluation other rhs
+        if(isinstance(other.equations[0], (SparsePolynomial, RationalFunction))):
+            xdot_eval = [eqs.eval(**dic_x_eval) for eqs in other.equations]
+        else: # sympy case
+            xdot_eval = [eq.subs(list((symbols(k), v) for k,v in dic_x_eval.items())) for eq in other.equations]
+
+        ## Evaluation of lhs of self
+        vec_vars = [el.linear_part_as_vec() for el in map_variables]
+        lhs = [sum(vec_vars[i][j]*xdot_eval[j] for j in range(other.size)) for i in range(self.size)]
+        
+        ## Evaluation of rhs of self
+        if(isinstance(self.equations[0], (SparsePolynomial, RationalFunction))):
+            rhs = [eq.eval(**dic_y_eval) for eq in self.equations]
+        else: # sympy case
+            rhs = [eq.subs(list((symbols(k), v) for k,v in dic_y_eval.items())) for eq in self.equations]
+
+        return lhs == rhs
+
     ##############################################################################################################
     ## Methods for preparing to get the lumping
     ##############################################################################################################
@@ -1309,7 +1349,7 @@ class FODESystem:
 
         ## Fixing the level of the logger
         logger.setLevel(old_level)
-        return LODESystem(dic=result)
+        return LDESystem(old_system = self, dic=result)
 
     def _lumping(self, observable, 
                 new_vars_name='y', 
@@ -1330,7 +1370,7 @@ class FODESystem:
               :func:`construct_matrices` for further information.
         Output
             a dictionary with all the information so the method :func:`lumping`can build the Lumped 
-            system (see class :class`LODESystem`)
+            system (see class :class`LDESystem`)
         """
         logger.debug(":ilumping: Starting aggregation")
 
@@ -1400,7 +1440,7 @@ class FODESystem:
                 "old_vars" : map_old_variables,
                 "subspace" : [v.to_list() for v in lumping_subspace.basis()]}
 
-class LODESystem(FODESystem):
+class LDESystem(FODESystem):
     r'''
         Extended class for a :class:`FODESystem` for lumped systems.
 
@@ -1409,7 +1449,7 @@ class LODESystem(FODESystem):
         to obtain the variables of this new system.
     '''
     def __init__(self, equations=None, observables=None, variables = None, ic= None, name = None, 
-                    old_vars = None,
+                    old_vars = None, old_system = None,
                     dic=None, file = None, **kwds):
         # Starting the base class data
         super().__init__(equations, observables, variables, ic, name, dic, file, **kwds)
@@ -1420,10 +1460,23 @@ class LODESystem(FODESystem):
                 raise ValueError("Needed a map from the new variables to the old variables.")
             old_vars = dic["old_vars"]
         
+        if(old_system is None):
+            if(dic is None or not "old_system" in dic):
+                raise ValueError("Needed a map from the new variables to the old variables.")
+            old_system = dic["old_system"]
+        
         self._old_vars = old_vars
+        self._old_system = old_system
 
     @property
     def old_vars(self):
         return self._old_vars
+
+    @property
+    def old_system(self):
+        return self._old_system
+
+    def is_consistent(self):
+        return self.check_consistency(self.old_system, self.old_vars)
 
 #------------------------------------------------------------------------------
