@@ -369,13 +369,6 @@ class SparsePolynomial(object):
     #--------------------------------------------------------------------------
 
     def __add__(self, other):
-        result = SparsePolynomial(self.gens, self.domain)
-        resdata = dict()
-        for m, c in self._data.items():
-            sum_coef = c + other._data.get(m, self.domain(0))
-            if sum_coef != 0:
-                resdata[m] = sum_coef
-        
         if(not isinstance(other, SparsePolynomial)):
             if(other in self.domain):
                 other = SparsePolynomial.from_const(other, self.gens)
@@ -383,6 +376,13 @@ class SparsePolynomial(object):
                 other = SparsePolynomial.from_string(other, self.gens)
             else:
                 return NotImplemented
+                
+        result = SparsePolynomial(self.gens, self.domain)
+        resdata = dict()
+        for m, c in self._data.items():
+            sum_coef = c + other._data.get(m, self.domain(0))
+            if sum_coef != 0:
+                resdata[m] = sum_coef
 
         for m, c in other._data.items():
             if m not in self._data:
