@@ -806,6 +806,42 @@ class FODESystem:
     def size(self): return len(self._equations)
 
     @cached_property
+    def nspecies(self):
+        r'''
+            Counts the number of species of a system
+
+            See property :func:`species` for further information.
+        '''
+        return len(self.species)
+
+    @cached_property
+    def species(self):
+        r'''
+            Return the names of the species of a system.
+
+            A specie is a variable that is not constant, i.e., its equation is not 0.
+        '''
+        return [self.variables[i] for i in range(self.size) if self.equations[i] != 0]
+
+    @cached_property
+    def npars(self):
+        r'''
+            Counts the number of parameters of a system
+
+            See property :func:`pars` for further information.
+        '''
+        return len(self.pars)
+
+    @cached_property
+    def pars(self):
+        r'''
+            Return the names of the parameter of a system.
+
+            A parameter is a variable that is constant, i.e., its equation is 0.
+        '''
+        return [self.variables[i] for i in range(self.size) if self.equations[i] == 0]
+
+    @cached_property
     def field(self):
         if(isinstance(self.equations[0], (SparsePolynomial, RationalFunction))):
             return self.equations[0].domain
