@@ -99,10 +99,10 @@ def _parse(to_parse, varnames, parser):
         "rational" (parsing to :class:`clue.rational_function.RationalFunction`)
     '''
     var_dict = _var_dict(tuple(varnames), parser)
+    to_parse = to_parse.replace("arbitrary", "") # removed the "arbitrary" prefix in some lines
     if(parser == "sympy"):
         ## doing a small pre-parse to eliminate incoherent things in the string
         to_parse = to_parse.replace("^", "**") # changing pow syntax to python
-        to_parse = to_parse.replace("arbitrary", "") # removed the "arbitrary" prefix in some lines
         return parse_expr(to_parse, var_dict, transformations=__transformations_parser)
     else:
         result = RationalFunction.from_string(to_parse, varnames, var_dict)
