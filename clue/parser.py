@@ -273,7 +273,9 @@ def get_varnames(strings):
         s = s.replace("d(", "")
         new_names = re.split(r'[\s\*\+\-\(\)\(/),<>\^=\.]', s)
         # the second condition removes pieces of number in the exp notation
-        new_names = filter(lambda v: v != 'Rational' and v != '' and v[0] not in [str(i) for i in range(10)], new_names)
+        new_names = filter(
+                lambda v: v != 'Rational' and v != "arbitrary" and v != '' and v[0] not in [str(i) for i in range(10)], 
+                new_names)
         names_set.update(new_names)
     return sorted(list(names_set))
 
