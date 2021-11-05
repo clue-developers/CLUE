@@ -61,6 +61,8 @@ def check_lumping(test_name, polys, lumping, correct_size=None):
 
 if __name__ == "__main__":
 
+    ## TODO: fix this file to fit the new structures of the module
+
     # # Example 1 ----------------------------------------------------------------
 
     # # SparsePolynomial

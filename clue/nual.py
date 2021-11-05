@@ -245,7 +245,40 @@ class NualNumber:
         return self * (other.__inv__()) # using code for __mul__
 
     def __pow__(self, exp):
-        exp = int(exp)
+        r'''
+            Computes the power of a `n`-ual number for arbitrary constant exponent.
+
+            This method computes the power of a nual number by the following formula:
+
+            .. MATH::
+
+                (a_1,a_2,\ldots,a_n)^\alpha = a_1^{\alpha-1}(a_1, \alpha a_2,\ldots, \alpha a_n).
+
+            This formula is based in the General Binomial Theorem that states that, for any `x`, `y` 
+            and `\alpha \in \mathbb{C}`, it holds:
+
+            .. MATH::
+
+                (x + y)^\alpha = \sum_{k=0}^{\infty} \binom{\alpha}{k}x^{\alpha-k}y^k.
+
+            Since `n`-ual numbers are elements in the ring 
+            
+            .. MATH::
+
+                R_n = \frac{R[\varepsilon_1,\ldots,\varepsilon_{n-1}]}{\langle \varepsilon_i \varepsilon_j\ :\ i,j =1,\ldots, n-1\rangle}
+
+            we have that:
+
+            .. MATH::
+
+                (a_1,a_2,\ldots,a_n)^\alpha = \left((a_1,0,\ldots,0) + (0,a_2,\ldots,a_n)\right)^\alpha.
+
+            On one hand, it is easy t see that `(0,a_2,\ldots,a_n)^k = 0` for all `k\geq 2`. Hence the infinite sum 
+            of the binomial theorem is truncated to a sum of two terms for `k=0` and `k=1`, leading to the formula
+            depicted above.
+
+            This method then works for any exponent `\alpha` such that ``self[0]``has implemented the method ``__pow__``.
+        '''
         ## Particular cases for exp == 0 or 1
         if(exp == 0):
             return NualNumber([1] + [0 for _ in range(1, self.size)])
