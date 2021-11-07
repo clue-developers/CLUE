@@ -287,6 +287,10 @@ class NualNumber:
         com = self[0]**(exp-1)
         return NualNumber([self[0]*com] + [exp*self[i]*com for i in range(1,self.size)])
 
+    def __rpow__(self, base):
+        from sympy import log
+        return self.exp()**log(base)
+
     def __radd__(self, other): return self.__add__(other)
 
     def __rsub__(self, other): return (-self).__add__(other)
@@ -312,6 +316,36 @@ class NualNumber:
     def __hash__(self):
         return sum(hash(c) for c in self.coeffs)
     
+    def exp(self):
+        r'''
+            Method that computes the value ``e**self``.
+
+            This method comptues the exponential of ``self`` using the transcendental
+            element `e` from the Sympy library. This method works for any type of entries
+            that are valid for the __pow__ method in Sympy.
+
+            If we consider the `n`-ual number `(a_1,\ldots,a_n)`, we can write it down as 
         
+            .. MATH::
+
+                (a_1,\ldots, a_n) = (a_1, 0, \ldots, 0) + (0, a_2, \ldots, a_n) = a + b,
+
+            in such a way that the second summand has the property `b^2 = 0`. Now, using the 
+            multiplicatively property of the exponential:
+
+            .. MATH::
+
+                \exp(a + b) = e^a \exp(b) = e^a \sum_{k\geq 0}\frac{b^n}{n!} = e^a(1 + b).
+
+            If we write this as vectors, then we easily get the formula:
+
+            .. MATH::
+
+                \exp((a_1,\ldots,a_n)) = (e^{a_1}, e^{a_1}a_2, \ldots, e^{a_1}a_n)
+        '''
+        from sympy import E
+
+        com = E**self[0]
+        return NualNumber([com] + [com*self[i] for i in range(1, self.size)])
 
     
