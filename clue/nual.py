@@ -284,6 +284,12 @@ class NualNumber:
             return NualNumber([1] + [0 for _ in range(1, self.size)])
         elif(exp ==  1):
             return self
+        int_exp = int(exp)
+        if(int_exp != exp):
+            pass
+        else:
+            exp = int_exp # changing the type of exp to int
+
         com = self[0]**(exp-1)
         return NualNumber([self[0]*com] + [exp*self[i]*com for i in range(1,self.size)])
 
