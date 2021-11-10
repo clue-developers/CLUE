@@ -1344,8 +1344,10 @@ class FODESystem:
         old_level = logger.getEffectiveLevel()
         if(loglevel == "INFO"):
             logger.setLevel(logging.INFO)
-        else:
-            logger.setLevel(logging.DEBUG)
+        elif(loglevel == "WARNING"):
+            logger.setLevel(logging.WARNING)
+        elif(loglevel == "ERROR"):
+            logger.setLevel(logging.ERROR)
         logger.debug(":lumping: Starting aggregation")
 
         ## Logger: printing the type of the input
