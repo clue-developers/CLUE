@@ -96,3 +96,6 @@ ENV/
 /log
 
 docs/_sources
+
+# Time testing
+*.results.txt
