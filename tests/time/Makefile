@@ -7,14 +7,14 @@ BASE=rational
 TEST=caching
 CURRENT:=$(shell echo $$(git rev-parse --abbrev-ref HEAD))
 
-FILES=BIOMD0000000023 BIOMD0000000033
+FILES=BIOMD0000000013 BIOMD0000000023 BIOMD0000000033
 
 ## Rules of the makefile
 all: $(FILES)
 	@echo "Finished all the tests"
 
 clean:
-	@rm -f *.$(EXT)
+	@rm -f ./reslts/*.$(EXT)
 
 %:
 	@echo "####################################################################################"
