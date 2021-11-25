@@ -2,6 +2,8 @@
 
 CLUE is a Python implementation of the algorithm from the paper ''CLUE: Exact maximal reduction of kinetic models by constrained lumping of differential equations'' (by A.Ovchinnikov, I. Pérez Verona, G. Pogudin, M. Tribastone).
 
+This software also includes the extension of this algorithm to rational systems from the paper ''Lumping with rational rhs'' (by J. Jacob, A. Jiménez-Pastor, G. Pogudin).
+
 ## What is constrained lumping?
 
 Constrained lumping as type of exact order reduction for models defined by a system of ordinary differential equations (ODEs) with polynomial right-hand side.
@@ -26,45 +28,59 @@ Therefore, the original system can be **reduced exactly** to the following syste
 **In general,** constrained lumping is an exact model reduction by linear transformation that preserves a prescribed set of linear combinations of the unknown functions.
 For precise definition and more details, we refer to Section 2 of the paper.
 
+## Lumping on rational systems
+
+This software also works with differential systems. As a toy example, consider the following differential system:
+
+![$\begin{cases}\dot{x}=\frac{y}{x-y}\\\dot{y}=\frac{x}{x-y}\end{cases}$](https://render.githubusercontent.com/render/math?math=%24\begin{cases}\dot{x}=\frac{y}{x-y},%5C%5C%20\dot{y}=\frac{x}{x-y}.\end{cases}%24)
+
+Here we can consider the new variable
+
+![$z = x - y$](https://render.githubusercontent.com/render/math?math=z=x-y,)
+
+and then the derivative of this variable can be wrtiten as follows:
+
+![$\dot{z} = \frac{y - x}{x - y} = 1$](https://render.githubusercontent.com/render/math?math=\dot{z}=\frac{y-x}{x-y}=1)
+
 ## What does CLUE do and how to use it?
 
 For an interactive version of this minitutorial, see this jupyter notebook.
 
 CLUE implements an algorithm that takes as **input**
-* a system of ODEs with polynomial right-hand side
+* a system of ODEs with polynomial or rational right-hand side
 * a list of linear combinations of the unknown functions to be preserved (*observables*)
 
 and **returns** the maximal exact reduction of the system by a linear transformation that preserves given combinations.
 
 We will demonstrate the usage of CLUE on the example above. For more details on usage including reading models from \*.ode files, see tutorial ([jupyter](Tutorial.ipynb), [html](Tutorial.html))
 
-1. import relevant functions from sympy and the function that does lumping:
+1. import relevant functions from sympy and the class representing systems:
 
 ```python
 from sympy import vring, QQ
-from clue import do_lumping
+from clue import FODESystem
 ```
 
-2. Introduce the variables ![$x_1, x_2, x_3$](https://render.githubusercontent.com/render/math?math=%24x_1%2C%20x_2%2C%20x_3%24) by defining the ring of polynomials in these variables (QQ refers to the fact that the coefficients are rational numbers, for other optons see the tutorial)
+2. Introduce the variables ![$x_1, x_2, x_3$](https://render.githubusercontent.com/render/math?math=%24x_1%2C%20x_2%2C%20x_3%24) by defining the ring of polynomials in these variables (``QQ`` refers to the fact that the coefficients are rational numbers, for other options see the tutorial)
 
 ```python
 R = vring(["x1", "x2", "x3"], QQ)
 ```
 
-3. Construct a list of right-hand sides of the ODE. The right-hand sides must be in the same order as the variables on the definition of the ring
+3. Construct the ODE. The right-hand sides must be in the same order as the variables on the definition of the ring
 
 ```python
-ode = [
+ode = FODESystem([
     x2**2 + 4 * x2 * x3 + 4 * x3**2, # derivative of x1
     4 * x3 - 2 * x1,                 # derivative of x2
     x1 + x2                          # derivative of x3
-]
+    ], variables=['x1','x2','x3'])
 ```
 
-4. Call `do_lumping` providing the system and the combinations to preserve, that is, `[x1]`
+4. Call the method `lumping` providing the combinations to preserve, that is, `[x1]`
 
 ```python
-do_lumping(ode, [x1])
+ode.lumping([x1])
 ```
 
 You will get the following result
@@ -83,3 +99,13 @@ which is the same as we have seen earlier.
 ## Large examples
 
 Examples of reductions obtained over large systems appearing in the literature (including the ones discussed in the paper) are contained in the [examples](examples/) folder. For additional information, see [readme](examples/README.md).
+
+## Installing the software
+
+The package CLUE can be install locally by running 
+
+```bash
+pip install .
+```
+
+in the folder where the repository is downloaded.
