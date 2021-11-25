@@ -8,6 +8,7 @@ from functools import cached_property, reduce, lru_cache
 import sympy
 from sympy import GF, QQ, gcd, nextprime, lambdify, symbols
 from sympy.ntheory.modular import isprime
+from sympy.polys.rings import PolyElement
 
 from clue.parser import read_system
 
@@ -1355,8 +1356,16 @@ class FODESystem:
             logger.debug(":lumping: Input is in the SparsePolynomial format")
         elif isinstance(self.equations[0], RationalFunction):
             logger.debug(":lumping: Input is in the RationalFunction format")
+        elif isinstance(self.equations[0], PolyElement): # the inputs are polynomial in sympy
+            logger.debug(":lumping: Input were polynomials in sympy, casting to SparsePolynomial")
+            self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
         else:
             logger.debug(":lumping: Input is expected to be in SymPy format")
+
+        if isinstance(observable[0], PolyElement):
+            logger.debug(":lumping: observables in PolyElement format. Casting to SparsePolynomial")
+            observable = [SparsePolynomial.from_sympy(el, self.variables) for el in observable]
+            
         
         result = self._lumping(observable,
                     new_vars_name,

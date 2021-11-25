@@ -1037,10 +1037,11 @@ class SparsePolynomial(object):
     #--------------------------------------------------------------------------
 
     @staticmethod
-    def from_sympy(sympy_poly):
+    def from_sympy(sympy_poly, varnames=None):
         domain = sympy_poly.ring.domain
         # lambda used to handle the case of the algebraic field of coefficients
-        varnames = list(map(lambda g: str(g.as_expr()), sympy_poly.ring.gens))
+        if(varnames is None):
+            varnames = list(map(lambda g: str(g.as_expr()), sympy_poly.ring.gens))
         data = dict()
         sympy_dict = sympy_poly.to_dict()
         for monom, coef in sympy_dict.items():
