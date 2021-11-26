@@ -1419,6 +1419,37 @@ class FODESystem:
                 [x + -y]
                 >>> lumping.is_consistent()
                 True
+
+            We add now some tests using some external files from folder ``tests``::
+
+                >>> ## Example 1
+                >>> system = FODESystem(file="tests/e2.ode") 
+                >>> lumping = system.lumping(
+                ...     [SparsePolynomial.from_string("S0", system.variables)], 
+                ...     print_reduction=False)
+                >>> assert lumping.is_consistent(), "Error in model e2: consistency"
+                >>> assert lumping.size == 12, "Error in model e2: size"
+                >>> ## Example 2
+                >>> system = FODESystem(file="tests/BIOMD0000000101.ode")
+                >>> lumping = system.lumping(
+                ...     [SparsePolynomial.from_string("RI", system.variables)], 
+                ...     print_reduction=False)
+                >>> assert lumping.is_consistent(), "Error in model BIOMD0000000101: consistency"
+                >>> assert lumping.size == 14, "Error in model BIOMD0000000101: size"
+                >>> ## Example 3
+                >>> system = FODESystem(file="tests/MODEL1504160000.ode")
+                >>> lumping = system.lumping(
+                ...     [SparsePolynomial.from_string("cd8_in_spleen", system.variables)], 
+                ...     print_reduction=False)
+                >>> assert lumping.is_consistent(), "Error in model MODEL1504160000: consistency"
+                >>> assert lumping.size == 8, "Error in model MODEL1504160000: size"
+                >>> ## Example 4
+                >>> system = FODESystem(file="tests/MODEL9085850385.ode")
+                >>> lumping = system.lumping(
+                ...     [SparsePolynomial.from_string("PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx", system.variables)], 
+                ...     print_reduction=False)
+                >>> assert lumping.is_consistent(), "Error in model MODEL9085850385: consistency"
+                >>> assert lumping.size == 54, "Error in model MODEL9085850385: size"
         '''
         ## Putting the logger level active
         old_level = logger.getEffectiveLevel()
