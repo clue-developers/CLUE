@@ -1,0 +1,113 @@
+begin model BIOMD0000000091
+ begin parameters
+  k1 = 10.0
+  k2 = 2.0E-5
+  k3 = 50.0
+  k4 = 1.0E-5
+  k5 = 4.0E-6
+  k6 = 6.0E-7
+  k7 = 1.0E-7
+  k8 = 500.0
+  k9 = 1.0
+  k10 = 0.01
+  k11 = 100.0
+  k12 = 0.5
+  k13 = 0.5
+  k14 = 0.05
+  k15 = 0.08
+  k16 = 1000.0
+  k17 = 8.02E-9
+  k18 = 12.0
+  k19 = 0.02
+  k20 = 0.1
+  k21 = 0.001
+ end parameters
+ begin init
+  Hsp90 = 300000.0
+  HCom = 5900.0
+  HSF1 = 100.0
+  MisP
+  MCom
+  TriH
+  DiH
+  NatP = 6000000.0
+  AggP
+  HSE = 1.0
+  HSETriH
+  X
+  ROS = 100.0
+  ATP = 10000.0
+  ADP = 1000.0
+  source
+  SINK
+  I = 1
+ end init
+ begin reactions
+  Hsp90 + HSF1 -> Hsp90 + HCom + HSF1 , k8
+  Hsp90 + HSF1 -> Hsp90 + 2*HSF1 , ( -1) * (k8)
+  Hsp90 + HSF1 -> 2*Hsp90 + HSF1 , ( -1) * (k8)
+  Hsp90 + MisP -> Hsp90 + MisP + MCom , k3
+  Hsp90 + MisP -> Hsp90 + 2*MisP , ( -1) * (k3)
+  Hsp90 + MisP -> 2*Hsp90 + MisP , ( -1) * (k3)
+  Hsp90 + ATP -> Hsp90 + ATP + ADP , k17
+  Hsp90 + ATP -> Hsp90 + 2*ATP , ( -1) * (k17)
+  Hsp90 + ATP -> 2*Hsp90 + ATP , ( -1) * (k17)
+  HCom -> Hsp90 + HCom , k9
+  HCom -> HCom + HSF1 , k9
+  HCom -> 2*HCom , ( -1) * (k9)
+  HSF1 -> HSF1 + DiH , ( k10) * ((1)/(2.0))
+  HSF1 -> 2*HSF1 , ( -2) * (( k10) * ((1)/(2.0)))
+  HSF1 + DiH -> HSF1 + TriH + DiH , k11
+  HSF1 + DiH -> HSF1 + 2*DiH , ( -1) * (k11)
+  HSF1 + DiH -> 2*HSF1 + DiH , ( -1) * (k11)
+  MisP -> MisP + AggP , ( k7) * ((1)/(2.0))
+  MisP -> 2*MisP , ( -2) * (( k7) * ((1)/(2.0)))
+  MisP + AggP -> MisP + 2*AggP , k7
+  MisP + AggP -> 2*MisP + AggP , ( -1) * (k7)
+  MisP + ATP -> MisP + ATP + ADP , k6
+  MisP + ATP -> MisP + 2*ATP , ( -1) * (k6)
+  MisP + ATP -> 2*MisP + ATP , ( -1) * (k6)
+  MCom -> Hsp90 + MCom , k4
+  MCom -> MisP + MCom , k4
+  MCom -> 2*MCom , ( -1) * (k4)
+  MCom + ATP -> Hsp90 + MCom + ATP , k5
+  MCom + ATP -> MCom + NatP + ATP , k5
+  MCom + ATP -> MCom + ATP + ADP , k5
+  MCom + ATP -> MCom + 2*ATP , ( -1) * (k5)
+  MCom + ATP -> 2*MCom + ATP , ( -1) * (k5)
+  TriH -> HSF1 + TriH , k12
+  TriH -> TriH + DiH , k12
+  TriH -> 2*TriH , ( -1) * (k12)
+  TriH + HSE -> TriH + HSE + HSETriH , k14
+  TriH + HSE -> TriH + 2*HSE , ( -1) * (k14)
+  TriH + HSE -> 2*TriH + HSE , ( -1) * (k14)
+  DiH -> HSF1 + DiH , ( 2) * (k13)
+  DiH -> 2*DiH , ( -1) * (k13)
+  NatP + ROS -> MisP + NatP + ROS , k2
+  NatP + ROS -> 2*NatP + ROS , ( -1) * (k2)
+  HSETriH -> Hsp90 + HSETriH , k16
+  HSETriH -> TriH + HSETriH , k15
+  HSETriH -> HSE + HSETriH , k15
+  HSETriH -> 2*HSETriH , ( -1) * (k15)
+  ROS -> ROS + SINK , ( -1) * (k21)
+  ROS -> 2*ROS , k21
+  ATP -> ATP + ADP , k19
+  ATP -> 2*ATP , ( -1) * (k19)
+  ADP -> ATP + ADP , k18
+  ADP -> 2*ADP , ( -1) * (k18)
+  source -> X , 1.0 [countTime]
+  I -> HSF1 + I , ( -2) * (( ( -(1.0)) * (k10)) * ((1)/(2.0)))
+  I -> MisP + I , ( -2) * (( ( -(1.0)) * (k7)) * ((1)/(2.0)))
+  I -> DiH + I , ( ( -(1.0)) * (k10)) * ((1)/(2.0))
+  I -> NatP + I , k1
+  I -> AggP + I , ( ( -(1.0)) * (k7)) * ((1)/(2.0))
+  I -> ROS + I , k20
+  I -> source + I , ( -1) * (k1)+( -1) * (k20)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

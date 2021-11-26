@@ -1,0 +1,26 @@
+begin model BIOMD0000000292
+ begin parameters
+  k1 = 0.123
+  k2 = 0.625
+  k3 = 0.3
+  k4 = 0.614
+  N0 = 1.2
+  A0 = 2.5
+ end parameters
+ begin init
+  NADPH = 0.7
+  ADP = 2.0
+  ATP = 0.5
+  X = 2.0
+  Y = 1.0
+  NADP = 0.5 ( "NADP_super_+" ) 
+ end init
+ begin reactions
+  NADP -> NADPH , k4 [v4]
+  2*ADP + NADP -> 2*ATP + NADP , k3 [v3]
+  NADPH + ATP + Y -> ADP + X + Y + NADP , k2 [v2]
+  ATP + X + Y -> ADP + Y , k1 [v1]
+ end reactions
+
+end model
+

@@ -1,0 +1,179 @@
+begin model MODEL1012090005
+ begin parameters
+  parameter_1 = 1.2E-7
+  parameter_2 = 2.5E-7
+  parameter_3 = 2.5E-7
+  parameter_4 = 1.0E-6
+  parameter_5 = 5.0E-7
+  parameter_6 = 1.25E-7
+  parameter_7 = 1.75E-8
+  parameter_8 = 60400.0
+  parameter_9 = 4630.0
+  parameter_10 = 10000.0
+  parameter_11 = 42700.0
+  parameter_12 = 42800.0
+  parameter_13 = 10300.0
+  parameter_14 = 22300.0
+  parameter_15 = 79600.0
+  parameter_16 = 1.0E8
+  parameter_17 = 1.0E8
+  parameter_18 = 11.3
+  parameter_19 = 161.0
+  parameter_20 = 11.8
+  parameter_21 = 48.0
+  parameter_22 = 4.4
+  parameter_23 = 5.5
+  parameter_24 = 0.081
+  parameter_25 = 0.0018
+  parameter_26 = 0.026
+  parameter_27 = 0.0024
+  parameter_28 = 0.024
+  parameter_29 = 0.062
+  parameter_30 = 74000.0
+  parameter_31 = 28000.0
+  parameter_32 = 24.7
+  parameter_33 = 267.0
+  parameter_34 = 0.05
+  parameter_35 = 0.002
+  parameter_36 = 0.0
+  parameter_37 = 192000.0
+  parameter_38 = 0.032
+  parameter_39 = 8.0E-7
+  parameter_40 = 5.5E-7
+ end parameters
+ begin init
+  species_1 = 1.2E-7 ( "T12" ) 
+  species_2 = 5.0E-7 ( "A2" ) 
+  species_3 = 2.5E-7 ( "T21" ) 
+  species_4 = 2.5E-7 ( "A1" ) 
+  species_5 = 1.0E-6 ( "dI1" ) 
+  species_6 = 8.0E-7 ( "rA1" ) 
+  species_7 = 5.5E-7 ( "rI2" ) 
+  species_8 ( "T12A2" ) 
+  species_9 ( "T21A1" ) 
+  species_10 ( "A1dI1" ) 
+  species_11 ( "rA1dI1" ) 
+  species_12 ( "A2rI2" ) 
+  species_13 = 1.25E-7 ( "RNAP" ) 
+  species_14 = 1.75E-8 ( "RNaseH" ) 
+  species_15 ( "RNAPT12A2" ) 
+  species_16 ( "RNAPT12" ) 
+  species_17 ( "RNAPT21A1" ) 
+  species_18 ( "RNAPT21" ) 
+  species_19 ( "RNaseHrA1dI1" ) 
+  species_20 ( "RNaseHA2rI2" ) 
+  species_21 ( "T11" ) 
+  species_22 ( "T11A1" ) 
+  species_23 ( "RNAPT11A1" ) 
+  species_24 ( "RNAPT11" ) 
+  species_25 ( "sI2" ) 
+  species_26 ( "A2sI2" ) 
+  species_27 ( "T12A2sI2" ) 
+  species_28 ( "RNAPT12A2sI2" ) 
+  I = 1
+ end init
+ begin reactions
+  species_8 -> species_1 + species_8 , ( ( 1.0) * (parameter_14)) * (parameter_40)
+  species_8 -> species_7 + species_8 , ( -1) * (( ( 1.0) * (parameter_14)) * (parameter_40))
+  species_8 -> species_8 + species_12 , ( ( 1.0) * (parameter_14)) * (parameter_40)
+  species_8 -> species_8 + species_13 , ( -1) * (( 1.0) * (( parameter_16) * (parameter_6)))
+  species_8 -> species_8 + species_15 , ( 1.0) * (( parameter_16) * (parameter_6))
+  species_8 -> 2*species_8 , ( -1) * (( 1.0) * (( parameter_16) * (parameter_6)))+( -1) * (( ( 1.0) * (parameter_14)) * (parameter_40))
+  species_8 + species_25 -> species_8 + species_25 + species_27 , ( 1.0) * (parameter_37)
+  species_8 + species_25 -> species_8 + 2*species_25 , ( -1) * (( 1.0) * (parameter_37))
+  species_8 + species_25 -> 2*species_8 + species_25 , ( -1) * (( 1.0) * (parameter_37))
+  species_9 -> species_3 + species_9 , ( ( 1.0) * (parameter_13)) * (parameter_4)
+  species_9 -> species_5 + species_9 , ( -1) * (( ( 1.0) * (parameter_13)) * (parameter_4))
+  species_9 -> species_9 + species_10 , ( ( 1.0) * (parameter_13)) * (parameter_4)
+  species_9 -> species_9 + species_13 , ( -1) * (( 1.0) * (( parameter_16) * (parameter_6)))
+  species_9 -> species_9 + species_17 , ( 1.0) * (( parameter_16) * (parameter_6))
+  species_9 -> 2*species_9 , ( -1) * (( 1.0) * (( parameter_16) * (parameter_6)))+( -1) * (( ( 1.0) * (parameter_13)) * (parameter_4))
+  species_10 -> species_4 + species_10 , ( ( 1.0) * (parameter_15)) * (parameter_39)
+  species_10 -> species_6 + species_10 , ( -1) * (( ( 1.0) * (parameter_15)) * (parameter_39))
+  species_10 -> species_10 + species_11 , ( ( 1.0) * (parameter_15)) * (parameter_39)
+  species_10 -> 2*species_10 , ( -1) * (( ( 1.0) * (parameter_15)) * (parameter_39))
+  species_11 -> species_11 + species_14 , ( -1) * (( 1.0) * (( parameter_17) * (parameter_7)))
+  species_11 -> species_11 + species_19 , ( 1.0) * (( parameter_17) * (parameter_7))
+  species_11 -> 2*species_11 , ( -1) * (( 1.0) * (( parameter_17) * (parameter_7)))
+  species_12 -> species_12 + species_14 , ( -1) * (( 1.0) * (( parameter_17) * (parameter_7)))
+  species_12 -> species_12 + species_20 , ( 1.0) * (( parameter_17) * (parameter_7))
+  species_12 -> 2*species_12 , ( -1) * (( 1.0) * (( parameter_17) * (parameter_7)))
+  species_15 -> species_6 + species_15 , ( 1.0) * (parameter_24)
+  species_15 -> species_8 + species_15 , ( 1.0) * (parameter_24)+( -1) * (( 1.0) * (-(parameter_18)))
+  species_15 -> species_13 + species_15 , ( 1.0) * (parameter_24)+( -1) * (( 1.0) * (-(parameter_18)))
+  species_15 -> 2*species_15 , ( 1.0) * (-(parameter_18))+( -1) * (( 1.0) * (parameter_24))
+  species_16 -> species_1 + species_16 , ( 1.0) * (parameter_25)+( -1) * (( 1.0) * (-(parameter_19)))
+  species_16 -> species_6 + species_16 , ( 1.0) * (parameter_25)
+  species_16 -> species_13 + species_16 , ( 1.0) * (parameter_25)+( -1) * (( 1.0) * (-(parameter_19)))
+  species_16 -> 2*species_16 , ( 1.0) * (-(parameter_19))+( -1) * (( 1.0) * (parameter_25))
+  species_17 -> species_7 + species_17 , ( 1.0) * (parameter_26)
+  species_17 -> species_9 + species_17 , ( 1.0) * (parameter_26)+( -1) * (( 1.0) * (-(parameter_20)))
+  species_17 -> species_13 + species_17 , ( 1.0) * (parameter_26)+( -1) * (( 1.0) * (-(parameter_20)))
+  species_17 -> 2*species_17 , ( 1.0) * (-(parameter_20))+( -1) * (( 1.0) * (parameter_26))
+  species_18 -> species_3 + species_18 , ( 1.0) * (parameter_27)+( -1) * (( 1.0) * (-(parameter_21)))
+  species_18 -> species_7 + species_18 , ( 1.0) * (parameter_27)
+  species_18 -> species_13 + species_18 , ( 1.0) * (parameter_27)+( -1) * (( 1.0) * (-(parameter_21)))
+  species_18 -> 2*species_18 , ( 1.0) * (-(parameter_21))+( -1) * (( 1.0) * (parameter_27))
+  species_19 -> species_5 + species_19 , ( 1.0) * (parameter_28)
+  species_19 -> species_11 + species_19 , ( -1) * (( 1.0) * (-(parameter_22)))
+  species_19 -> species_14 + species_19 , ( 1.0) * (parameter_28)+( -1) * (( 1.0) * (-(parameter_22)))
+  species_19 -> 2*species_19 , ( 1.0) * (-(parameter_22))+( -1) * (( 1.0) * (parameter_28))
+  species_20 -> species_12 + species_20 , ( -1) * (( 1.0) * (-(parameter_23)))
+  species_20 -> species_14 + species_20 , ( 1.0) * (parameter_29)+( -1) * (( 1.0) * (-(parameter_23)))
+  species_20 -> species_20 + species_26 , ( 1.0) * (parameter_29)
+  species_20 -> 2*species_20 , ( 1.0) * (-(parameter_23))+( -1) * (( 1.0) * (parameter_29))
+  species_22 -> species_5 + species_22 , ( -1) * (( ( 1.0) * (parameter_31)) * (parameter_4))
+  species_22 -> species_10 + species_22 , ( ( 1.0) * (parameter_31)) * (parameter_4)
+  species_22 -> species_13 + species_22 , ( -1) * (( 1.0) * (( parameter_16) * (parameter_6)))
+  species_22 -> species_21 + species_22 , ( ( 1.0) * (parameter_31)) * (parameter_4)
+  species_22 -> species_22 + species_23 , ( 1.0) * (( parameter_16) * (parameter_6))
+  species_22 -> 2*species_22 , ( -1) * (( 1.0) * (( parameter_16) * (parameter_6)))+( -1) * (( ( 1.0) * (parameter_31)) * (parameter_4))
+  species_23 -> species_6 + species_23 , ( 1.0) * (parameter_34)
+  species_23 -> species_13 + species_23 , ( 1.0) * (parameter_34)+( -1) * (( 1.0) * (-(parameter_32)))
+  species_23 -> species_22 + species_23 , ( 1.0) * (parameter_34)+( -1) * (( 1.0) * (-(parameter_32)))
+  species_23 -> 2*species_23 , ( 1.0) * (-(parameter_32))+( -1) * (( 1.0) * (parameter_34))
+  species_24 -> species_6 + species_24 , ( 1.0) * (parameter_35)
+  species_24 -> species_13 + species_24 , ( 1.0) * (parameter_35)+( -1) * (( 1.0) * (-(parameter_33)))
+  species_24 -> species_21 + species_24 , ( 1.0) * (parameter_35)+( -1) * (( 1.0) * (-(parameter_33)))
+  species_24 -> 2*species_24 , ( 1.0) * (-(parameter_33))+( -1) * (( 1.0) * (parameter_35))
+  species_25 -> species_2 + species_25 , ( -1) * (( 1.0) * (( parameter_37) * (parameter_5)))
+  species_25 -> species_25 + species_26 , ( 1.0) * (( parameter_37) * (parameter_5))
+  species_25 -> 2*species_25 , ( -1) * (( 1.0) * (( parameter_37) * (parameter_5)))
+  species_26 -> species_1 + species_26 , ( -1) * (( ( 1.0) * (parameter_9)) * (parameter_1))
+  species_26 -> species_2 + species_26 , ( -1) * (( 1.0) * (-(parameter_38)))
+  species_26 -> species_7 + species_26 , ( -1) * (( ( 1.0) * (parameter_12)) * (parameter_40))
+  species_26 -> species_12 + species_26 , ( ( 1.0) * (parameter_12)) * (parameter_40)
+  species_26 -> species_25 + species_26 , ( ( 1.0) * (parameter_12)) * (parameter_40)+( -1) * (( 1.0) * (-(parameter_38)))
+  species_26 -> species_26 + species_27 , ( ( 1.0) * (parameter_9)) * (parameter_1)
+  species_26 -> 2*species_26 , ( 1.0) * (-(parameter_38))+( -1) * (( ( 1.0) * (parameter_12)) * (parameter_40))+( -1) * (( ( 1.0) * (parameter_9)) * (parameter_1))
+  species_27 -> species_8 + species_27 , ( -1) * (( 1.0) * (-(parameter_38)))
+  species_27 -> species_13 + species_27 , ( -1) * (( 1.0) * (( parameter_16) * (parameter_6)))
+  species_27 -> species_25 + species_27 , ( -1) * (( 1.0) * (-(parameter_38)))
+  species_27 -> species_27 + species_28 , ( 1.0) * (( parameter_16) * (parameter_6))
+  species_27 -> 2*species_27 , ( -1) * (( 1.0) * (( parameter_16) * (parameter_6)))+( 1.0) * (-(parameter_38))
+  species_28 -> species_6 + species_28 , ( 1.0) * (parameter_24)
+  species_28 -> species_13 + species_28 , ( 1.0) * (parameter_24)+( -1) * (( 1.0) * (-(parameter_18)))
+  species_28 -> species_27 + species_28 , ( 1.0) * (parameter_24)+( -1) * (( 1.0) * (-(parameter_18)))
+  species_28 -> 2*species_28 , ( 1.0) * (-(parameter_18))+( -1) * (( 1.0) * (parameter_24))
+  I -> species_1 + I , ( -1) * (( 1.0) * (( ( parameter_16) * (parameter_6)) * (parameter_1)))+( -1) * (( ( ( 1.0) * (parameter_9)) * (parameter_1)) * (parameter_5))
+  I -> species_2 + I , ( -1) * (( ( ( 1.0) * (parameter_12)) * (parameter_5)) * (parameter_40))+( -1) * (( ( ( 1.0) * (parameter_9)) * (parameter_1)) * (parameter_5))
+  I -> species_3 + I , ( -1) * (( 1.0) * (( ( parameter_16) * (parameter_6)) * (parameter_2)))+( -1) * (( ( ( 1.0) * (parameter_8)) * (parameter_2)) * (parameter_3))
+  I -> species_4 + I , ( -1) * (( ( ( 1.0) * (parameter_8)) * (parameter_2)) * (parameter_3))+( -1) * (( ( ( 1.0) * (parameter_10)) * (parameter_3)) * (parameter_4))+( -1) * (( ( ( 1.0) * (parameter_30)) * (parameter_36)) * (parameter_3))
+  I -> species_5 + I , ( -1) * (( ( ( 1.0) * (parameter_11)) * (parameter_39)) * (parameter_4))+( -1) * (( ( ( 1.0) * (parameter_10)) * (parameter_3)) * (parameter_4))
+  I -> species_6 + I , ( -1) * (( ( ( 1.0) * (parameter_11)) * (parameter_39)) * (parameter_4))
+  I -> species_7 + I , ( -1) * (( ( ( 1.0) * (parameter_12)) * (parameter_5)) * (parameter_40))
+  I -> species_8 + I , ( ( ( 1.0) * (parameter_9)) * (parameter_1)) * (parameter_5)
+  I -> species_9 + I , ( ( ( 1.0) * (parameter_8)) * (parameter_2)) * (parameter_3)
+  I -> species_10 + I , ( ( ( 1.0) * (parameter_10)) * (parameter_3)) * (parameter_4)
+  I -> species_11 + I , ( ( ( 1.0) * (parameter_11)) * (parameter_39)) * (parameter_4)
+  I -> species_12 + I , ( ( ( 1.0) * (parameter_12)) * (parameter_5)) * (parameter_40)
+  I -> species_13 + I , ( -1) * (( 1.0) * (( ( parameter_16) * (parameter_6)) * (parameter_2)))+( -1) * (( 1.0) * (( ( parameter_16) * (parameter_6)) * (parameter_1)))+( -1) * (( 1.0) * (( ( parameter_16) * (parameter_6)) * (parameter_36)))
+  I -> species_16 + I , ( 1.0) * (( ( parameter_16) * (parameter_6)) * (parameter_1))
+  I -> species_18 + I , ( 1.0) * (( ( parameter_16) * (parameter_6)) * (parameter_2))
+  I -> species_21 + I , ( -1) * (( ( ( 1.0) * (parameter_30)) * (parameter_36)) * (parameter_3))+( -1) * (( 1.0) * (( ( parameter_16) * (parameter_6)) * (parameter_36)))
+  I -> species_22 + I , ( ( ( 1.0) * (parameter_30)) * (parameter_36)) * (parameter_3)
+  I -> species_24 + I , ( 1.0) * (( ( parameter_16) * (parameter_6)) * (parameter_36))
+ end reactions
+
+end model
+

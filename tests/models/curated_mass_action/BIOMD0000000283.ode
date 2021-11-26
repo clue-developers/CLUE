@@ -1,0 +1,18 @@
+begin model BIOMD0000000283
+ begin parameters
+  K2 = 0.0
+  K3 = 0.5
+ end parameters
+ begin init
+  X = 8.0
+  E = 1.0
+  P
+  Q
+ end init
+ begin reactions
+  X + E -> P , 1.0 [r1_forw]
+  P -> E + Q , ( 1.0) * (K3) [r2_forw]
+ end reactions
+
+end model
+

@@ -1,0 +1,80 @@
+begin model BIOMD0000000200
+ begin parameters
+  sHill = 4.0
+  Bias = 0.0
+ end parameters
+ begin init
+  AA = 2.5E-6
+  AAp
+  W = 5.0E-6
+  WAA
+  WAAp
+  WWAA
+  WWAAp
+  TT = 2.5E-6
+  TTW
+  TTWW
+  TTWAA
+  TTWAAp
+  TTAA
+  TTAAp
+  TTWWAA
+  TTWWAAp
+  Y = 1.0E-5
+  Yp
+  Z = 2.0E-5
+  B = 2.0E-6
+  Bp
+  SetYp = 1.63E-6 ( "setYp" ) 
+ end init
+ begin reactions
+  TTW -> W + TT , ( 1.41) * (0.00365) [complex_r1_forw]
+  W + TT -> TTW , ( -1) * (( 1.41) * (-(1000000.0))) [complex_r1_rev]
+  WAA -> AA + W , ( 1.41) * (0.00894) [complex_r2_forw]
+  AA + W -> WAA , ( -1) * (( 1.41) * (-(1000000.0))) [complex_r2_rev]
+  TTWAA -> WAA + TT , ( 1.41) * (297.0) [complex_r3_forw]
+  WAA + TT -> TTWAA , ( -1) * (( 1.41) * (-(1000000.0))) [complex_r3_rev]
+  TTWWAA -> WAA + TTW , ( 1.41) * (0.64) [complex_r4_forw]
+  WAA + TTW -> TTWWAA , ( -1) * (( 1.41) * (-(1000000.0))) [complex_r4_rev]
+  TTWWAA -> AA + TTWW , ( 1.41) * (0.112) [complex_r5_forw]
+  AA + TTWW -> TTWWAA , ( -1) * (( 1.41) * (-(1000000.0))) [complex_r5_rev]
+  TTWWAA -> WWAA + TT , ( 1.41) * (0.0229) [complex_r6_forw]
+  WWAA + TT -> TTWWAA , ( -1) * (( 1.41) * (-(1000000.0))) [complex_r6_rev]
+  TTAA -> AA + TT , ( 1.41) * (39.3) [complex_r7_forw]
+  AA + TT -> TTAA , ( -1) * (( 1.41) * (-(1000000.0))) [complex_r7_rev]
+  TTWAA -> AA + TTW , ( 1.41) * (727.0) [complex_r8_forw]
+  AA + TTW -> TTWAA , ( -1) * (( 1.41) * (-(1000000.0))) [complex_r8_rev]
+  TTWWAA -> W + TTWAA , ( 1.41) * (7.87E-6) [complex_r9_forw]
+  W + TTWAA -> TTWWAA , ( -1) * (( 1.41) * (-(1000000.0))) [complex_r9_rev]
+  TTWW -> W + TTW , ( 1.41) * (0.0511) [complex_r10_forw]
+  W + TTW -> TTWW , ( -1) * (( 1.41) * (-(1000000.0))) [complex_r10_rev]
+  WWAA -> W + WAA , ( 1.41) * (0.102) [complex_r11_forw]
+  W + WAA -> WWAA , ( -1) * (( 1.41) * (-(1000000.0))) [complex_r11_rev]
+  TTWAA -> W + TTAA , ( 1.41) * (0.0676) [complex_r12_forw]
+  W + TTAA -> TTWAA , ( -1) * (( 1.41) * (-(1000000.0))) [complex_r12_rev]
+  TTWWAA -> TTWWAAp , ( 1.41) * (15.5) [phosphorylation_r1_forw]
+  AA -> AAp , ( 1.41) * (0.0227) [phosphorylation_r2_forw]
+  WAA -> WAAp , ( 1.41) * (0.0227) [phosphorylation_r3_forw]
+  WWAA -> WWAAp , ( 1.41) * (0.0227) [phosphorylation_r4_forw]
+  TTAA -> TTAAp , ( 1.41) * (0.0227) [phosphorylation_r5_forw]
+  TTWAA -> TTWAAp , ( 1.41) * (0.0227) [phosphorylation_r6_forw]
+  Y -> Yp , ( 1.41) * (0.00124) [phosphorylation_r7_forw]
+  Yp -> Y , ( 1.41) * (0.037) [phosphorylation_r8_forw]
+  Yp + Z -> Y + Z , ( 1.41) * (500000.0) [phosphorylation_r9_forw]
+  Bp -> B , ( 1.41) * (0.35) [phosphorylation_r10_forw]
+  AAp + B -> AA + Bp , ( 1.41) * (6000000.0) [phosphotransfer_r1_forw]
+  WAAp + B -> WAA + Bp , ( 1.41) * (6000000.0) [phosphotransfer_r2_forw]
+  WWAAp + B -> WWAA + Bp , ( 1.41) * (6000000.0) [phosphotransfer_r3_forw]
+  TTAAp + B -> TTAA + Bp , ( 1.41) * (6000000.0) [phosphotransfer_r4_forw]
+  TTWAAp + B -> TTWAA + Bp , ( 1.41) * (6000000.0) [phosphotransfer_r5_forw]
+  TTWWAAp + B -> TTWWAA + Bp , ( 1.41) * (6000000.0) [phosphotransfer_r6_forw]
+  AAp + Y -> AA + Yp , ( 1.41) * (3.0E7) [phosphotransfer_r7_forw]
+  WAAp + Y -> WAA + Yp , ( 1.41) * (3.0E7) [phosphotransfer_r8_forw]
+  WWAAp + Y -> WWAA + Yp , ( 1.41) * (3.0E7) [phosphotransfer_r9_forw]
+  TTAAp + Y -> TTAA + Yp , ( 1.41) * (3.0E7) [phosphotransfer_r10_forw]
+  TTWAAp + Y -> TTWAA + Yp , ( 1.41) * (3.0E7) [phosphotransfer_r11_forw]
+  TTWWAAp + Y -> TTWWAA + Yp , ( 1.41) * (3.0E7) [phosphotransfer_r12_forw]
+ end reactions
+
+end model
+

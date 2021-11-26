@@ -1,0 +1,37 @@
+begin model BIOMD0000000125
+ begin parameters
+  a1 = 2.0
+  a2 = 2.0
+  b1 = 1.0
+  b2 = 1.0
+  d1 = 1.0
+  d2x = 1.0
+  d2y = 1.0
+ end parameters
+ begin init
+  x1
+  x2
+  y2
+  x0 = 1.0
+  y0
+  SINK
+ end init
+ begin reactions
+  x1 -> x1 + x2 , ( 1.0) * (a2)
+  x1 -> x1 + y2 , ( 1.0) * (b2)
+  x1 -> x1 + SINK , ( -1) * (( 1.0) * (d1))
+  x1 -> 2*x1 , ( 1.0) * (d1)
+  x2 -> x2 + SINK , ( -1) * (( 1.0) * (d2x))
+  x2 -> 2*x2 , ( 1.0) * (d2x)
+  y2 -> y2 + SINK , ( -1) * (( 1.0) * (d2y))
+  y2 -> 2*y2 , ( 1.0) * (d2y)
+  x0 -> x1 + x0 , ( 1.0) * (a1)
+  y0 -> x1 + y0 , ( 1.0) * (b1)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

@@ -1,0 +1,87 @@
+begin model BIOMD0000000069
+ begin parameters
+  k1 = 1.0
+  k2 = 0.8
+  k3 = 1.0
+  k4 = 10.0
+  kPTP = 1.0
+  kCbp = 1.0
+  p1 = 0.05
+  p2 = 0.15
+  p3 = 0.035
+  src_background = 1.0E-4
+  PTP_background = 0.0
+  kCSKon = 0.1
+  kCSKoff = 0.01
+  rho_srca = 1.0
+  rho_srco = 0.0
+  rho_srcc = 1.0
+  Kser = 1.0
+  acsk0 = 0.0
+  ptp_activity = 0.0
+  src_activity = 0.0
+ end parameters
+ begin init
+  srci = 1.0
+  srco
+  srca
+  srcc
+  Cbp_P_CSK
+  CSK_cytoplasm = 1.0
+  PTP = 1.0
+  PTP_pY789
+  Cbp = 1.0
+  Cbp_P
+ end init
+ begin reactions
+  srci -> srci + srco , ( ( k2) * (PTP_background)) * (1.0)
+  srci -> 2*srci , ( -1) * (( ( k2) * (PTP_background)) * (1.0))
+  srci + PTP_pY789 -> srci + srco + PTP_pY789 , ( ( k2) * (Kser)) * (1.0)
+  srci + PTP_pY789 -> 2*srci + PTP_pY789 , ( -1) * (( ( k2) * (Kser)) * (1.0))
+  srco -> srco + srca , ( ( k3) * (src_background)) * (1.0)
+  srco -> 2*srco , ( -1) * (( ( k3) * (src_background)) * (1.0))
+  srco + srca -> srco + 2*srca , ( ( k3) * (rho_srca)) * (1.0)
+  srco + srca -> 2*srco + srca , ( -1) * (( ( k3) * (rho_srca)) * (1.0))
+  srco + srcc -> srco + srca + srcc , ( ( k3) * (rho_srcc)) * (1.0)
+  srco + srcc -> 2*srco + srcc , ( -1) * (( ( k3) * (rho_srcc)) * (1.0))
+  srco + Cbp_P_CSK -> srci + srco + Cbp_P_CSK , ( -1) * (( -(k1)) * (1.0))
+  srco + Cbp_P_CSK -> 2*srco + Cbp_P_CSK , ( -(k1)) * (1.0)
+  srco + PTP -> srco + PTP + PTP_pY789 , ( 1.0) * (( kPTP) * (rho_srco))
+  srco + PTP -> srco + 2*PTP , ( -1) * (( 1.0) * (( kPTP) * (rho_srco)))
+  srco + Cbp -> srco + Cbp + Cbp_P , ( ( kCbp) * (rho_srco)) * (1.0)
+  srco + Cbp -> srco + 2*Cbp , ( -1) * (( ( kCbp) * (rho_srco)) * (1.0))
+  2*srco -> 2*srco + srca , ( ( k3) * (rho_srco)) * (1.0)
+  2*srco -> 3*srco , ( -1) * (( ( k3) * (rho_srco)) * (1.0))
+  srca -> srco + srca , ( -1) * (( -(p1)) * (1.0))
+  srca -> 2*srca , ( -(p1)) * (1.0)
+  srca + Cbp_P_CSK -> srca + srcc + Cbp_P_CSK , ( k1) * (1.0)
+  srca + Cbp_P_CSK -> 2*srca + Cbp_P_CSK , ( -1) * (( k1) * (1.0))
+  srca + PTP -> srca + PTP + PTP_pY789 , ( 1.0) * (( kPTP) * (rho_srca))
+  srca + PTP -> srca + 2*PTP , ( -1) * (( 1.0) * (( kPTP) * (rho_srca)))
+  srca + Cbp -> srca + Cbp + Cbp_P , ( ( kCbp) * (rho_srca)) * (1.0)
+  srca + Cbp -> srca + 2*Cbp , ( -1) * (( ( kCbp) * (rho_srca)) * (1.0))
+  srcc -> srci + srcc , ( ( 1.0) * (k4)) * (p1)
+  srcc -> srca + srcc , ( -1) * (( -(( k2) * (PTP_background))) * (1.0))
+  srcc -> 2*srcc , ( -1) * (( ( 1.0) * (k4)) * (p1))+( -(( k2) * (PTP_background))) * (1.0)
+  srcc + PTP -> srcc + PTP + PTP_pY789 , ( 1.0) * (( kPTP) * (rho_srcc))
+  srcc + PTP -> srcc + 2*PTP , ( -1) * (( 1.0) * (( kPTP) * (rho_srcc)))
+  srcc + PTP_pY789 -> srca + srcc + PTP_pY789 , ( -1) * (( -(( k2) * (Kser))) * (1.0))
+  srcc + PTP_pY789 -> 2*srcc + PTP_pY789 , ( -(( k2) * (Kser))) * (1.0)
+  srcc + Cbp -> srcc + Cbp + Cbp_P , ( ( kCbp) * (rho_srcc)) * (1.0)
+  srcc + Cbp -> srcc + 2*Cbp , ( -1) * (( ( kCbp) * (rho_srcc)) * (1.0))
+  Cbp_P_CSK -> Cbp_P_CSK + CSK_cytoplasm , ( -1) * (( -(kCSKoff)) * (1.0))
+  Cbp_P_CSK -> Cbp_P_CSK + Cbp_P , ( -1) * (( -(kCSKoff)) * (1.0))
+  Cbp_P_CSK -> 2*Cbp_P_CSK , ( -(kCSKoff)) * (1.0)
+  CSK_cytoplasm + Cbp_P -> Cbp_P_CSK + CSK_cytoplasm + Cbp_P , ( kCSKon) * (1.0)
+  CSK_cytoplasm + Cbp_P -> CSK_cytoplasm + 2*Cbp_P , ( -1) * (( kCSKon) * (1.0))
+  CSK_cytoplasm + Cbp_P -> 2*CSK_cytoplasm + Cbp_P , ( -1) * (( kCSKon) * (1.0))
+  PTP -> PTP + PTP_pY789 , ( 1.0) * (( kPTP) * (src_background))+( 1.0) * (p3)
+  PTP -> 2*PTP , ( -1) * (( 1.0) * (p3))+( -1) * (( 1.0) * (( kPTP) * (src_background)))
+  PTP_pY789 -> PTP + PTP_pY789 , ( -1) * (( 1.0) * (-(p2)))
+  PTP_pY789 -> 2*PTP_pY789 , ( 1.0) * (-(p2))
+  Cbp -> Cbp + Cbp_P , ( ( kCbp) * (src_background)) * (1.0)
+  Cbp -> 2*Cbp , ( -1) * (( ( kCbp) * (src_background)) * (1.0))
+ end reactions
+
+end model
+

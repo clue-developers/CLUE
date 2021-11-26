@@ -1,0 +1,20 @@
+begin model BIOMD0000000104
+ begin init
+  species_0 = 1.0 ( "S" ) 
+  species_1 ( "X1" ) 
+  species_2 = 1.0 ( "E1" ) 
+  species_3 ( "E2" ) 
+  species_4 ( "P" ) 
+  species_5 = 1.0 ( "Etot" ) 
+ end init
+ begin reactions
+  species_0 + species_2 -> species_0 + species_1 + species_2 , ( 1.0) * (1.0)
+  species_0 + species_2 -> 2*species_0 + species_2 , ( -1) * (( 1.0) * (1.0))
+  species_1 + species_2 -> species_1 + species_2 + species_4 , ( ( 1.0) * (1.0)) * (-(1))
+  species_1 + species_2 -> 2*species_1 + species_2 , ( -1) * (( ( 1.0) * (1.0)) * (-(1)))
+  species_1 + species_5 -> species_1 + species_4 + species_5 , ( 1.0) * (1.0)
+  species_1 + species_5 -> 2*species_1 + species_5 , ( -1) * (( 1.0) * (1.0))
+ end reactions
+
+end model
+

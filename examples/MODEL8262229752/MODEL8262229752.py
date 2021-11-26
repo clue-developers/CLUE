@@ -8,25 +8,22 @@
 import sys
 import time
 
-from sympy import QQ
-
 sys.path.insert(0, "../")
 sys.path.insert(0, "./../../")
-import parser
-import clue
-from sparse_polynomial import SparsePolynomial
 
-system = parser.read_system("MODEL8262229752.ode")
+from clue import FODESystem, SparsePolynomial
+
+system = FODESystem(file="MODEL8262229752.ode")
 obs = [
-    SparsePolynomial.from_string("Pfs_mRNA", system['variables']),
-    SparsePolynomial.from_string("LuxS_mRNA", system['variables']),
-    SparsePolynomial.from_string("AI2_intra", system['variables'])
+    SparsePolynomial.from_string("Pfs_mRNA", system.variables),
+    SparsePolynomial.from_string("LuxS_mRNA", system.variables),
+    SparsePolynomial.from_string("AI2_intra", system.variables)
 ]
 
 start = time.time()
-lumped = clue.do_lumping(system['equations'], obs)
+lumped = system.lumping(obs)
 end = time.time()
 
-print(f"The size of the original model is {len(system['equations'])}")
-print(f"The size of the reduced model is {len(lumped['polynomials'])}")
+print(f"The size of the original model is {system.size}")
+print(f"The size of the reduced model is {lumped.size}")
 print(f"Computation took {end - start} seconds")

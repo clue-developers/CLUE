@@ -1,0 +1,50 @@
+begin model BIOMD0000000198
+ begin parameters
+  k1 = 700.0
+  k2 = 800.0
+  k3 = 850.0
+  k4 = 20.0
+  k5 = 0.2
+  k6 = 700.0
+  k7 = 800.0
+  k8 = 850.0
+  k9 = 5.0
+  k10 = 25.0
+  k11 = 1.6
+  k12 = 0.02
+  e5c = 0.11
+  e5c_NO = 0.025
+  e6c_NO = 0.064
+  ext = 0.0
+ end parameters
+ begin init
+  sNO = 0.5
+  sGCfast = 0.112
+  NO_sGCfast
+  NO_sGCfast_6coord
+  NO_sGCfast_5coord
+  sGCslow = 0.288
+  NO_sGCslow
+  NO_sGCslow_6coord
+  NO_sGCslow_6coord_NO_int
+  NO_sGCslow_5coord
+  NO_sGC_5coord_tot
+  sGC_inact_tot
+ end init
+ begin reactions
+  sNO + sGCfast -> NO_sGCfast , ( 1.0) * (k1) [r1fast_forw]
+  NO_sGCfast -> sNO + sGCfast , ( -1) * (( 1.0) * (-(k2))) [r1fast_rev]
+  NO_sGCfast -> NO_sGCfast_6coord , ( k3) * (1.0) [r2fast_forw]
+  NO_sGCfast_6coord -> NO_sGCfast_5coord , ( 1.0) * (k4) [r3fast_forw]
+  NO_sGCfast_5coord -> NO_sGCfast_6coord , ( -1) * (( 1.0) * (-(k5))) [r3fast_rev]
+  sNO + sGCslow -> NO_sGCslow , ( 1.0) * (k6) [r1slow_forw]
+  NO_sGCslow -> sNO + sGCslow , ( -1) * (( 1.0) * (-(k7))) [r1slow_rev]
+  NO_sGCslow -> NO_sGCslow_6coord , ( k8) * (1.0) [r2slow_forw]
+  sNO + NO_sGCslow_6coord -> NO_sGCslow_6coord_NO_int , ( 1.0) * (k9) [r3slow_forw]
+  NO_sGCslow_6coord_NO_int -> sNO + NO_sGCslow_6coord , ( -1) * (( 1.0) * (-(k10))) [r3slow_rev]
+  NO_sGCslow_6coord_NO_int -> NO_sGCslow_5coord , ( 1.0) * (k11) [r4slow_forw]
+  NO_sGCslow_5coord -> NO_sGCslow_6coord_NO_int , ( -1) * (( 1.0) * (-(k12))) [r4slow_rev]
+ end reactions
+
+end model
+

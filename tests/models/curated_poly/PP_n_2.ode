@@ -1,0 +1,94 @@
+begin model e2Curry
+ begin parameters
+  pEtot = 1
+  pFtot = 1
+  pStot = 1
+  pkOnE = 1
+  pkOffE = 1
+  pkCatE = 1
+  pkOnF = 1
+  pkOffF = 1
+  pkCatF = 1
+ end parameters
+ begin init
+  S0 = 300.0
+  S1 = 300.0
+  S2 = 3000.0
+  S3
+  S4
+  S5
+  S6
+  S7
+  S8
+  S9
+  S10
+  S11
+  S12
+  S13
+  S14
+  S15
+  S16
+  S17
+  Etot = 300.0
+  Ftot = 300.0
+  Stot = 3000.0
+  kOnE = 0.7
+  kOffE = 3.0
+  kCatE = 5.0
+  kOnF = 0.7
+  kOffF = 3.0
+  kCatF = 5.1
+ end init
+ begin reactions
+  S0 + S2 + kOnE -> S3 + kOnE , pkOnE
+  S0 + S2 + kOnE -> S4 + kOnE , pkOnE
+  S0 + S4 + kOnE -> S5 + kOnE , pkOnE
+  S3 + kOffE -> S0 + S2 + kOffE , pkOffE
+  S3 + kCatE -> S0 + S6 + kCatE , pkCatE
+  S0 + S3 + kOnE -> S5 + kOnE , pkOnE
+  S4 + kOffE -> S0 + S2 + kOffE , pkOffE
+  S4 + kCatE -> S0 + S7 + kCatE , pkCatE
+  S0 + S7 + kOnE -> S8 + kOnE , pkOnE
+  S5 + kOffE -> S0 + S4 + kOffE , pkOffE
+  S5 + kCatE -> S0 + S9 + kCatE , pkCatE
+  S1 + S6 + kOnF -> S10 + kOnF , pkOnF
+  S0 + S6 + kOnE -> S9 + kOnE , pkOnE
+  S5 + kOffE -> S0 + S3 + kOffE , pkOffE
+  S5 + kCatE -> S0 + S8 + kCatE , pkCatE
+  S1 + S7 + kOnF -> S11 + kOnF , pkOnF
+  S0 + S11 + kOnE -> S12 + kOnE , pkOnE
+  S8 + kOffE -> S0 + S7 + kOffE , pkOffE
+  S8 + kCatE -> S0 + S13 + kCatE , pkCatE
+  S1 + S9 + kOnF -> S14 + kOnF , pkOnF
+  S10 + kOffF -> S1 + S6 + kOffF , pkOffF
+  S10 + kCatF -> S1 + S2 + kCatF , pkCatF
+  S0 + S10 + kOnE -> S14 + kOnE , pkOnE
+  S9 + kOffE -> S0 + S6 + kOffE , pkOffE
+  S9 + kCatE -> S0 + S13 + kCatE , pkCatE
+  S1 + S8 + kOnF -> S12 + kOnF , pkOnF
+  S11 + kOffF -> S1 + S7 + kOffF , pkOffF
+  S11 + kCatF -> S1 + S2 + kCatF , pkCatF
+  S12 + kOffE -> S0 + S11 + kOffE , pkOffE
+  S12 + kCatE -> S0 + S15 + kCatE , pkCatE
+  S1 + S13 + kOnF -> S16 + kOnF , pkOnF
+  S14 + kOffF -> S1 + S9 + kOffF , pkOffF
+  S14 + kCatF -> S1 + S4 + kCatF , pkCatF
+  S14 + kOffE -> S0 + S10 + kOffE , pkOffE
+  S14 + kCatE -> S0 + S16 + kCatE , pkCatE
+  S1 + S13 + kOnF -> S15 + kOnF , pkOnF
+  S12 + kOffF -> S1 + S8 + kOffF , pkOffF
+  S12 + kCatF -> S1 + S3 + kCatF , pkCatF
+  S1 + S15 + kOnF -> S17 + kOnF , pkOnF
+  S16 + kOffF -> S1 + S13 + kOffF , pkOffF
+  S16 + kCatF -> S1 + S7 + kCatF , pkCatF
+  S1 + S16 + kOnF -> S17 + kOnF , pkOnF
+  S15 + kOffF -> S1 + S13 + kOffF , pkOffF
+  S15 + kCatF -> S1 + S6 + kCatF , pkCatF
+  S17 + kOffF -> S1 + S15 + kOffF , pkOffF
+  S17 + kCatF -> S1 + S11 + kCatF , pkCatF
+  S17 + kOffF -> S1 + S16 + kOffF , pkOffF
+  S17 + kCatF -> S1 + S10 + kCatF , pkCatF
+ end reactions
+exportMatlab(fileOut = "e2curry.m", tEnd = 100)
+end model
+

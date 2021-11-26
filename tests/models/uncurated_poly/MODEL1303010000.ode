@@ -1,0 +1,438 @@
+begin model MODEL1303010000
+ begin parameters
+  bind_L_R_to_LR_kf = 4.0E-7
+  bind_L_R_to_LR_kr = 0.001
+  convert_LR_to_DISC_kc = 1.0E-5
+  bind_DISC_C8pro_to_DISCC8pro_kf = 1.0E-6
+  bind_DISC_C8pro_to_DISCC8pro_kr = 0.001
+  catalyze_DISCC8pro_to_DISC_C8A_kc = 1.0
+  bind_C8A_BidU_to_C8ABidU_kf = 1.0E-6
+  bind_C8A_BidU_to_C8ABidU_kr = 0.001
+  catalyze_C8ABidU_to_C8A_BidT_kc = 1.0
+  bind_DISC_flip_kf = 1.0E-6
+  bind_DISC_flip_kr = 0.001
+  bind_BAR_C8A_kf = 1.0E-6
+  bind_BAR_C8A_kr = 0.001
+  equilibrate_SmacC_to_SmacA_kf = 0.01
+  equilibrate_SmacC_to_SmacA_kr = 0.01
+  equilibrate_CytoCC_to_CytoCA_kf = 0.01
+  equilibrate_CytoCC_to_CytoCA_kr = 0.01
+  bind_CytoCA_ApafI_to_CytoCAApafI_kf = 5.0E-7
+  bind_CytoCA_ApafI_to_CytoCAApafI_kr = 0.001
+  catalyze_CytoCAApafI_to_CytoCA_ApafA_kc = 1.0
+  convert_ApafA_C9_to_Apop_kf = 5.0E-8
+  convert_ApafA_C9_to_Apop_kr = 0.001
+  bind_Apop_C3pro_to_ApopC3pro_kf = 5.0E-9
+  bind_Apop_C3pro_to_ApopC3pro_kr = 0.001
+  catalyze_ApopC3pro_to_Apop_C3A_kc = 1.0
+  bind_Apop_XIAP_kf = 2.0E-6
+  bind_Apop_XIAP_kr = 0.001
+  bind_SmacA_XIAP_kf = 7.0E-6
+  bind_SmacA_XIAP_kr = 0.001
+  bind_C8A_C3pro_to_C8AC3pro_kf = 1.0E-7
+  bind_C8A_C3pro_to_C8AC3pro_kr = 0.001
+  catalyze_C8AC3pro_to_C8A_C3A_kc = 1.0
+  bind_XIAP_C3A_to_XIAPC3A_kf = 2.0E-6
+  bind_XIAP_C3A_to_XIAPC3A_kr = 0.001
+  catalyze_XIAPC3A_to_XIAP_C3ub_kc = 0.1
+  bind_C3A_PARPU_to_C3APARPU_kf = 1.0E-6
+  bind_C3A_PARPU_to_C3APARPU_kr = 0.01
+  catalyze_C3APARPU_to_C3A_PARPC_kc = 1.0
+  bind_C3A_C6pro_to_C3AC6pro_kf = 1.0E-6
+  bind_C3A_C6pro_to_C3AC6pro_kr = 0.001
+  catalyze_C3AC6pro_to_C3A_C6A_kc = 1.0
+  bind_C6A_C8pro_to_C6AC8pro_kf = 3.0E-8
+  bind_C6A_C8pro_to_C6AC8pro_kr = 0.001
+  catalyze_C6AC8pro_to_C6A_C8A_kc = 1.0
+  equilibrate_BidT_to_BidM_kf = 0.1
+  equilibrate_BidT_to_BidM_kr = 0.001
+  equilibrate_BaxC_to_BaxM_kf = 0.01
+  equilibrate_BaxC_to_BaxM_kr = 0.01
+  equilibrate_BclxLC_to_BclxLM_kf = 0.01
+  equilibrate_BclxLC_to_BclxLM_kr = 0.01
+  bind_BidM_BaxM_to_BidMBaxM_kf = 1.0E-7
+  bind_BidM_BaxM_to_BidMBaxM_kr = 0.001
+  catalyze_BidMBaxM_to_BidM_BaxA_kc = 1.0
+  bind_BidM_BakM_to_BidMBakM_kf = 1.0E-7
+  bind_BidM_BakM_to_BidMBakM_kr = 0.001
+  catalyze_BidMBakM_to_BidM_BakA_kc = 1.0
+  bind_BaxA_BaxM_to_BaxABaxM_kf = 1.0E-7
+  bind_BaxA_BaxM_to_BaxABaxM_kr = 0.001
+  catalyze_BaxABaxM_to_BaxA_BaxA_kc = 1.0
+  bind_BakA_BakM_to_BakABakM_kf = 1.0E-7
+  bind_BakA_BakM_to_BakABakM_kr = 0.001
+  catalyze_BakABakM_to_BakA_BakA_kc = 1.0
+  bind_BidM_Bcl2_kf = 1.0E-6
+  bind_BidM_Bcl2_kr = 0.066
+  bind_BidM_BclxLM_kf = 1.0E-6
+  bind_BidM_BclxLM_kr = 0.012
+  bind_BidM_Mcl1M_kf = 1.0E-6
+  bind_BidM_Mcl1M_kr = 0.01
+  bind_BaxA_Bcl2_kf = 1.0E-6
+  bind_BaxA_Bcl2_kr = 0.01
+  bind_BaxA_BclxLM_kf = 1.0E-6
+  bind_BaxA_BclxLM_kr = 0.01
+  bind_BakA_BclxLM_kf = 1.0E-6
+  bind_BakA_BclxLM_kr = 0.05
+  bind_BakA_Mcl1_kf = 1.0E-6
+  bind_BakA_Mcl1_kr = 0.01
+  bind_BadM_Bcl2_kf = 1.0E-6
+  bind_BadM_Bcl2_kr = 0.011
+  bind_BadM_BclxLM_kf = 1.0E-6
+  bind_BadM_BclxLM_kr = 0.01
+  bind_NoxaM_Mcl1M_kf = 1.0E-6
+  bind_NoxaM_Mcl1M_kr = 0.019
+  assemble_pore_sequential_Bax_2_kf = 2.040816E-4
+  assemble_pore_sequential_Bax_2_kr = 0.001
+  assemble_pore_sequential_Bax_3_kf = 2.040816E-4
+  assemble_pore_sequential_Bax_3_kr = 0.001
+  assemble_pore_sequential_Bax_4_kf = 2.040816E-4
+  assemble_pore_sequential_Bax_4_kr = 0.001
+  assemble_pore_sequential_Bak_2_kf = 2.040816E-4
+  assemble_pore_sequential_Bak_2_kr = 0.001
+  assemble_pore_sequential_Bak_3_kf = 2.040816E-4
+  assemble_pore_sequential_Bak_3_kr = 0.001
+  assemble_pore_sequential_Bak_4_kf = 2.040816E-4
+  assemble_pore_sequential_Bak_4_kr = 0.001
+  pore_transport_complex_BaxA_4_CytoCM_kf = 2.857143E-5
+  pore_transport_complex_BaxA_4_CytoCM_kr = 0.001
+  pore_transport_dissociate_BaxA_4_CytoCC_kc = 10.0
+  pore_transport_complex_BaxA_4_SmacM_kf = 2.857143E-5
+  pore_transport_complex_BaxA_4_SmacM_kr = 0.001
+  pore_transport_dissociate_BaxA_4_SmacC_kc = 10.0
+  pore_transport_complex_BakA_4_CytoCM_kf = 2.857143E-5
+  pore_transport_complex_BakA_4_CytoCM_kr = 0.001
+  pore_transport_dissociate_BakA_4_CytoCC_kc = 10.0
+  pore_transport_complex_BakA_4_SmacM_kf = 2.857143E-5
+  pore_transport_complex_BakA_4_SmacM_kr = 0.001
+  pore_transport_dissociate_BakA_4_SmacC_kc = 10.0
+ end parameters
+ begin init
+  s0 = 3000.0 ( "L(bf=None)" ) 
+  s1 = 200.0 ( "R(bf=None)" ) 
+  s2 = 100.0 ( "flip(bf=None)" ) 
+  s3 = 20000.0 ( "C8(bf=None, state=pro)" ) 
+  s4 = 1000.0 ( "BAR(bf=None)" ) 
+  s5 = 100000.0 ( "Apaf(bf=None, state=I)" ) 
+  s6 = 10000.0 ( "C3(bf=None, state=pro)" ) 
+  s7 = 10000.0 ( "C6(bf=None, state=pro)" ) 
+  s8 = 100000.0 ( "C9(bf=None)" ) 
+  s9 = 1000000.0 ( "PARP(bf=None, state=U)" ) 
+  s10 = 100000.0 ( "XIAP(bf=None)" ) 
+  s11 = 40000.0 ( "Bid(bf=None, state=U)" ) 
+  s12 = 1000.0 ( "Bad(bf=None, state=C)" ) 
+  s13 = 80000.0 ( "Bax(bf=None, s1=None, s2=None, state=C)" ) 
+  s14 = 20000.0 ( "Bak(bf=None, s1=None, s2=None, state=M)" ) 
+  s15 = 20000.0 ( "Bcl2(bf=None)" ) 
+  s16 = 20000.0 ( "BclxL(bf=None, state=C)" ) 
+  s17 = 20000.0 ( "Mcl1(bf=None, state=M)" ) 
+  s18 = 1000.0 ( "Noxa(bf=None, state=C)" ) 
+  s19 = 500000.0 ( "CytoC(bf=None, state=M)" ) 
+  s20 = 100000.0 ( "Smac(bf=None, state=M)" ) 
+  s21 ( "L(bf=1) ._br_R(bf=1)" ) 
+  s22 ( "Bax(bf=None, s1=None, s2=None, state=M)" ) 
+  s23 ( "BclxL(bf=None, state=M)" ) 
+  s24 ( "DISC(bf=None)" ) 
+  s25 ( "C8(bf=1, state=pro) ._br_DISC(bf=1)" ) 
+  s26 ( "DISC(bf=1) ._br_flip(bf=1)" ) 
+  s27 ( "C8(bf=None, state=A)" ) 
+  s28 ( "Bid(bf=1, state=U) ._br_C8(bf=1, state=A)" ) 
+  s29 ( "BAR(bf=1) ._br_C8(bf=1, state=A)" ) 
+  s30 ( "C3(bf=1, state=pro) ._br_C8(bf=1, state=A)" ) 
+  s31 ( "Bid(bf=None, state=T)" ) 
+  s32 ( "C3(bf=None, state=A)" ) 
+  s33 ( "C3(bf=1, state=A) ._br_XIAP(bf=1)" ) 
+  s34 ( "C3(bf=1, state=A) ._br_PARP(bf=1, state=U)" ) 
+  s35 ( "C3(bf=1, state=A) ._br_C6(bf=1, state=pro)" ) 
+  s36 ( "Bid(bf=None, state=M)" ) 
+  s37 ( "C3(bf=None, state=ub)" ) 
+  s38 ( "PARP(bf=None, state=C)" ) 
+  s39 ( "C6(bf=None, state=A)" ) 
+  s40 ( "Bax(bf=1, s1=None, s2=None, state=M) ._br_Bid(bf=1, state=M)" ) 
+  s41 ( "Bak(bf=1, s1=None, s2=None, state=M) ._br_Bid(bf=1, state=M)" ) 
+  s42 ( "Bcl2(bf=1) ._br_Bid(bf=1, state=M)" ) 
+  s43 ( "BclxL(bf=1, state=M) ._br_Bid(bf=1, state=M)" ) 
+  s44 ( "Bid(bf=1, state=M) ._br_Mcl1(bf=1, state=M)" ) 
+  s45 ( "C6(bf=1, state=A) ._br_C8(bf=1, state=pro)" ) 
+  s46 ( "Bax(bf=None, s1=None, s2=None, state=A)" ) 
+  s47 ( "Bak(bf=None, s1=None, s2=None, state=A)" ) 
+  s48 ( "Bax(bf=1, s1=None, s2=None, state=A) ._br_Bax(bf=1, s1=None, s2=None, state=M)" ) 
+  s49 ( "Bak(bf=1, s1=None, s2=None, state=A) ._br_Bak(bf=1, s1=None, s2=None, state=M)" ) 
+  s50 ( "Bax(bf=1, s1=None, s2=None, state=A) ._br_Bcl2(bf=1)" ) 
+  s51 ( "Bax(bf=1, s1=None, s2=None, state=A) ._br_BclxL(bf=1, state=M)" ) 
+  s52 ( "Bak(bf=1, s1=None, s2=None, state=A) ._br_BclxL(bf=1, state=M)" ) 
+  s53 ( "Bak(bf=1, s1=None, s2=None, state=A) ._br_Mcl1(bf=1, state=M)" ) 
+  s54 ( "Bax(bf=None, s1=1, s2=None, state=A) ._br_Bax(bf=None, s1=None, s2=1, state=A)" ) 
+  s55 ( "Bak(bf=None, s1=1, s2=None, state=A) ._br_Bak(bf=None, s1=None, s2=1, state=A)" ) 
+  s56 ( "Bax(bf=None, s1=1, s2=2, state=A) ._br_Bax(bf=None, s1=2, s2=3, state=A) ._br_Bax(bf=None, s1=3, s2=1, state=A)" ) 
+  s57 ( "Bak(bf=None, s1=1, s2=2, state=A) ._br_Bak(bf=None, s1=2, s2=3, state=A) ._br_Bak(bf=None, s1=3, s2=1, state=A)" ) 
+  s58 ( "Bax(bf=None, s1=1, s2=2, state=A) ._br_Bax(bf=None, s1=2, s2=3, state=A) ._br_Bax(bf=None, s1=3, s2=4, state=A) ._br_Bax(bf=None, s1=4, s2=1, state=A)" ) 
+  s59 ( "Bak(bf=None, s1=1, s2=2, state=A) ._br_Bak(bf=None, s1=2, s2=3, state=A) ._br_Bak(bf=None, s1=3, s2=4, state=A) ._br_Bak(bf=None, s1=4, s2=1, state=A)" ) 
+  s60 ( "Bax(bf=1, s1=2, s2=3, state=A) ._br_Bax(bf=None, s1=3, s2=4, state=A) ._br_Bax(bf=None, s1=4, s2=5, state=A) ._br_Bax(bf=None, s1=5, s2=2, state=A) ._br_CytoC(bf=1, state=M)" ) 
+  s61 ( "Bax(bf=1, s1=2, s2=3, state=A) ._br_Bax(bf=None, s1=3, s2=4, state=A) ._br_Bax(bf=None, s1=4, s2=5, state=A) ._br_Bax(bf=None, s1=5, s2=2, state=A) ._br_Smac(bf=1, state=M)" ) 
+  s62 ( "Bak(bf=1, s1=2, s2=3, state=A) ._br_Bak(bf=None, s1=3, s2=4, state=A) ._br_Bak(bf=None, s1=4, s2=5, state=A) ._br_Bak(bf=None, s1=5, s2=2, state=A) ._br_CytoC(bf=1, state=M)" ) 
+  s63 ( "Bak(bf=1, s1=2, s2=3, state=A) ._br_Bak(bf=None, s1=3, s2=4, state=A) ._br_Bak(bf=None, s1=4, s2=5, state=A) ._br_Bak(bf=None, s1=5, s2=2, state=A) ._br_Smac(bf=1, state=M)" ) 
+  s64 ( "CytoC(bf=None, state=C)" ) 
+  s65 ( "Smac(bf=None, state=C)" ) 
+  s66 ( "Smac(bf=None, state=A)" ) 
+  s67 ( "CytoC(bf=None, state=A)" ) 
+  s68 ( "Apaf(bf=1, state=I) ._br_CytoC(bf=1, state=A)" ) 
+  s69 ( "Smac(bf=1, state=A) ._br_XIAP(bf=1)" ) 
+  s70 ( "Apaf(bf=None, state=A)" ) 
+  s71 ( "Apop(bf=None)" ) 
+  s72 ( "Apop(bf=1) ._br_C3(bf=1, state=pro)" ) 
+  s73 ( "Apop(bf=1) ._br_XIAP(bf=1)" ) 
+ end init
+ begin reactions
+  s0 + s1 -> s0 + s1 + s21 , bind_L_R_to_LR_kf
+  s0 + s1 -> s0 + 2*s1 , ( -1) * (bind_L_R_to_LR_kf)
+  s0 + s1 -> 2*s0 + s1 , ( -1) * (bind_L_R_to_LR_kf)
+  s2 + s24 -> s2 + s24 + s26 , bind_DISC_flip_kf
+  s2 + s24 -> s2 + 2*s24 , ( -1) * (bind_DISC_flip_kf)
+  s2 + s24 -> 2*s2 + s24 , ( -1) * (bind_DISC_flip_kf)
+  s3 + s24 -> s3 + s24 + s25 , bind_DISC_C8pro_to_DISCC8pro_kf
+  s3 + s24 -> s3 + 2*s24 , ( -1) * (bind_DISC_C8pro_to_DISCC8pro_kf)
+  s3 + s24 -> 2*s3 + s24 , ( -1) * (bind_DISC_C8pro_to_DISCC8pro_kf)
+  s3 + s39 -> s3 + s39 + s45 , bind_C6A_C8pro_to_C6AC8pro_kf
+  s3 + s39 -> s3 + 2*s39 , ( -1) * (bind_C6A_C8pro_to_C6AC8pro_kf)
+  s3 + s39 -> 2*s3 + s39 , ( -1) * (bind_C6A_C8pro_to_C6AC8pro_kf)
+  s4 + s27 -> s4 + s27 + s29 , bind_BAR_C8A_kf
+  s4 + s27 -> s4 + 2*s27 , ( -1) * (bind_BAR_C8A_kf)
+  s4 + s27 -> 2*s4 + s27 , ( -1) * (bind_BAR_C8A_kf)
+  s5 + s67 -> s5 + s67 + s68 , bind_CytoCA_ApafI_to_CytoCAApafI_kf
+  s5 + s67 -> s5 + 2*s67 , ( -1) * (bind_CytoCA_ApafI_to_CytoCAApafI_kf)
+  s5 + s67 -> 2*s5 + s67 , ( -1) * (bind_CytoCA_ApafI_to_CytoCAApafI_kf)
+  s6 + s27 -> s6 + s27 + s30 , bind_C8A_C3pro_to_C8AC3pro_kf
+  s6 + s27 -> s6 + 2*s27 , ( -1) * (bind_C8A_C3pro_to_C8AC3pro_kf)
+  s6 + s27 -> 2*s6 + s27 , ( -1) * (bind_C8A_C3pro_to_C8AC3pro_kf)
+  s6 + s71 -> s6 + s71 + s72 , bind_Apop_C3pro_to_ApopC3pro_kf
+  s6 + s71 -> s6 + 2*s71 , ( -1) * (bind_Apop_C3pro_to_ApopC3pro_kf)
+  s6 + s71 -> 2*s6 + s71 , ( -1) * (bind_Apop_C3pro_to_ApopC3pro_kf)
+  s7 + s32 -> s7 + s32 + s35 , bind_C3A_C6pro_to_C3AC6pro_kf
+  s7 + s32 -> s7 + 2*s32 , ( -1) * (bind_C3A_C6pro_to_C3AC6pro_kf)
+  s7 + s32 -> 2*s7 + s32 , ( -1) * (bind_C3A_C6pro_to_C3AC6pro_kf)
+  s8 + s70 -> s8 + s70 + s71 , convert_ApafA_C9_to_Apop_kf
+  s8 + s70 -> s8 + 2*s70 , ( -1) * (convert_ApafA_C9_to_Apop_kf)
+  s8 + s70 -> 2*s8 + s70 , ( -1) * (convert_ApafA_C9_to_Apop_kf)
+  s9 + s32 -> s9 + s32 + s34 , bind_C3A_PARPU_to_C3APARPU_kf
+  s9 + s32 -> s9 + 2*s32 , ( -1) * (bind_C3A_PARPU_to_C3APARPU_kf)
+  s9 + s32 -> 2*s9 + s32 , ( -1) * (bind_C3A_PARPU_to_C3APARPU_kf)
+  s10 + s32 -> s10 + s32 + s33 , bind_XIAP_C3A_to_XIAPC3A_kf
+  s10 + s32 -> s10 + 2*s32 , ( -1) * (bind_XIAP_C3A_to_XIAPC3A_kf)
+  s10 + s32 -> 2*s10 + s32 , ( -1) * (bind_XIAP_C3A_to_XIAPC3A_kf)
+  s10 + s66 -> s10 + s66 + s69 , bind_SmacA_XIAP_kf
+  s10 + s66 -> s10 + 2*s66 , ( -1) * (bind_SmacA_XIAP_kf)
+  s10 + s66 -> 2*s10 + s66 , ( -1) * (bind_SmacA_XIAP_kf)
+  s10 + s71 -> s10 + s71 + s73 , bind_Apop_XIAP_kf
+  s10 + s71 -> s10 + 2*s71 , ( -1) * (bind_Apop_XIAP_kf)
+  s10 + s71 -> 2*s10 + s71 , ( -1) * (bind_Apop_XIAP_kf)
+  s11 + s27 -> s11 + s27 + s28 , bind_C8A_BidU_to_C8ABidU_kf
+  s11 + s27 -> s11 + 2*s27 , ( -1) * (bind_C8A_BidU_to_C8ABidU_kf)
+  s11 + s27 -> 2*s11 + s27 , ( -1) * (bind_C8A_BidU_to_C8ABidU_kf)
+  s13 -> s13 + s22 , equilibrate_BaxC_to_BaxM_kf
+  s13 -> 2*s13 , ( -1) * (equilibrate_BaxC_to_BaxM_kf)
+  s14 + s36 -> s14 + s36 + s41 , bind_BidM_BakM_to_BidMBakM_kf
+  s14 + s36 -> s14 + 2*s36 , ( -1) * (bind_BidM_BakM_to_BidMBakM_kf)
+  s14 + s36 -> 2*s14 + s36 , ( -1) * (bind_BidM_BakM_to_BidMBakM_kf)
+  s14 + s47 -> s14 + s47 + s49 , bind_BakA_BakM_to_BakABakM_kf
+  s14 + s47 -> s14 + 2*s47 , ( -1) * (bind_BakA_BakM_to_BakABakM_kf)
+  s14 + s47 -> 2*s14 + s47 , ( -1) * (bind_BakA_BakM_to_BakABakM_kf)
+  s15 + s36 -> s15 + s36 + s42 , bind_BidM_Bcl2_kf
+  s15 + s36 -> s15 + 2*s36 , ( -1) * (bind_BidM_Bcl2_kf)
+  s15 + s36 -> 2*s15 + s36 , ( -1) * (bind_BidM_Bcl2_kf)
+  s15 + s46 -> s15 + s46 + s50 , bind_BaxA_Bcl2_kf
+  s15 + s46 -> s15 + 2*s46 , ( -1) * (bind_BaxA_Bcl2_kf)
+  s15 + s46 -> 2*s15 + s46 , ( -1) * (bind_BaxA_Bcl2_kf)
+  s16 -> s16 + s23 , equilibrate_BclxLC_to_BclxLM_kf
+  s16 -> 2*s16 , ( -1) * (equilibrate_BclxLC_to_BclxLM_kf)
+  s17 + s36 -> s17 + s36 + s44 , bind_BidM_Mcl1M_kf
+  s17 + s36 -> s17 + 2*s36 , ( -1) * (bind_BidM_Mcl1M_kf)
+  s17 + s36 -> 2*s17 + s36 , ( -1) * (bind_BidM_Mcl1M_kf)
+  s17 + s47 -> s17 + s47 + s53 , bind_BakA_Mcl1_kf
+  s17 + s47 -> s17 + 2*s47 , ( -1) * (bind_BakA_Mcl1_kf)
+  s17 + s47 -> 2*s17 + s47 , ( -1) * (bind_BakA_Mcl1_kf)
+  s19 + s58 -> s19 + s58 + s60 , pore_transport_complex_BaxA_4_CytoCM_kf
+  s19 + s58 -> s19 + 2*s58 , ( -1) * (pore_transport_complex_BaxA_4_CytoCM_kf)
+  s19 + s58 -> 2*s19 + s58 , ( -1) * (pore_transport_complex_BaxA_4_CytoCM_kf)
+  s19 + s59 -> s19 + s59 + s62 , pore_transport_complex_BakA_4_CytoCM_kf
+  s19 + s59 -> s19 + 2*s59 , ( -1) * (pore_transport_complex_BakA_4_CytoCM_kf)
+  s19 + s59 -> 2*s19 + s59 , ( -1) * (pore_transport_complex_BakA_4_CytoCM_kf)
+  s20 + s58 -> s20 + s58 + s61 , pore_transport_complex_BaxA_4_SmacM_kf
+  s20 + s58 -> s20 + 2*s58 , ( -1) * (pore_transport_complex_BaxA_4_SmacM_kf)
+  s20 + s58 -> 2*s20 + s58 , ( -1) * (pore_transport_complex_BaxA_4_SmacM_kf)
+  s20 + s59 -> s20 + s59 + s63 , pore_transport_complex_BakA_4_SmacM_kf
+  s20 + s59 -> s20 + 2*s59 , ( -1) * (pore_transport_complex_BakA_4_SmacM_kf)
+  s20 + s59 -> 2*s20 + s59 , ( -1) * (pore_transport_complex_BakA_4_SmacM_kf)
+  s21 -> s0 + s21 , ( -1) * (-(bind_L_R_to_LR_kr))
+  s21 -> s1 + s21 , ( -1) * (-(bind_L_R_to_LR_kr))
+  s21 -> s21 + s24 , convert_LR_to_DISC_kc
+  s21 -> 2*s21 , -(bind_L_R_to_LR_kr)+( -1) * (convert_LR_to_DISC_kc)
+  s22 -> s13 + s22 , ( -1) * (-(equilibrate_BaxC_to_BaxM_kr))
+  s22 -> 2*s22 , -(equilibrate_BaxC_to_BaxM_kr)
+  s22 + s36 -> s22 + s36 + s40 , bind_BidM_BaxM_to_BidMBaxM_kf
+  s22 + s36 -> s22 + 2*s36 , ( -1) * (bind_BidM_BaxM_to_BidMBaxM_kf)
+  s22 + s36 -> 2*s22 + s36 , ( -1) * (bind_BidM_BaxM_to_BidMBaxM_kf)
+  s22 + s46 -> s22 + s46 + s48 , bind_BaxA_BaxM_to_BaxABaxM_kf
+  s22 + s46 -> s22 + 2*s46 , ( -1) * (bind_BaxA_BaxM_to_BaxABaxM_kf)
+  s22 + s46 -> 2*s22 + s46 , ( -1) * (bind_BaxA_BaxM_to_BaxABaxM_kf)
+  s23 -> s16 + s23 , ( -1) * (-(equilibrate_BclxLC_to_BclxLM_kr))
+  s23 -> 2*s23 , -(equilibrate_BclxLC_to_BclxLM_kr)
+  s23 + s36 -> s23 + s36 + s43 , bind_BidM_BclxLM_kf
+  s23 + s36 -> s23 + 2*s36 , ( -1) * (bind_BidM_BclxLM_kf)
+  s23 + s36 -> 2*s23 + s36 , ( -1) * (bind_BidM_BclxLM_kf)
+  s23 + s46 -> s23 + s46 + s51 , bind_BaxA_BclxLM_kf
+  s23 + s46 -> s23 + 2*s46 , ( -1) * (bind_BaxA_BclxLM_kf)
+  s23 + s46 -> 2*s23 + s46 , ( -1) * (bind_BaxA_BclxLM_kf)
+  s23 + s47 -> s23 + s47 + s52 , bind_BakA_BclxLM_kf
+  s23 + s47 -> s23 + 2*s47 , ( -1) * (bind_BakA_BclxLM_kf)
+  s23 + s47 -> 2*s23 + s47 , ( -1) * (bind_BakA_BclxLM_kf)
+  s25 -> s3 + s25 , ( -1) * (-(bind_DISC_C8pro_to_DISCC8pro_kr))
+  s25 -> s24 + s25 , ( -1) * (-(bind_DISC_C8pro_to_DISCC8pro_kr))+catalyze_DISCC8pro_to_DISC_C8A_kc
+  s25 -> s25 + s27 , catalyze_DISCC8pro_to_DISC_C8A_kc
+  s25 -> 2*s25 , ( -1) * (catalyze_DISCC8pro_to_DISC_C8A_kc)+-(bind_DISC_C8pro_to_DISCC8pro_kr)
+  s26 -> s2 + s26 , ( -1) * (-(bind_DISC_flip_kr))
+  s26 -> s24 + s26 , ( -1) * (-(bind_DISC_flip_kr))
+  s26 -> 2*s26 , -(bind_DISC_flip_kr)
+  s28 -> s11 + s28 , ( -1) * (-(bind_C8A_BidU_to_C8ABidU_kr))
+  s28 -> s27 + s28 , ( -1) * (-(bind_C8A_BidU_to_C8ABidU_kr))+catalyze_C8ABidU_to_C8A_BidT_kc
+  s28 -> s28 + s31 , catalyze_C8ABidU_to_C8A_BidT_kc
+  s28 -> 2*s28 , ( -1) * (catalyze_C8ABidU_to_C8A_BidT_kc)+-(bind_C8A_BidU_to_C8ABidU_kr)
+  s29 -> s4 + s29 , ( -1) * (-(bind_BAR_C8A_kr))
+  s29 -> s27 + s29 , ( -1) * (-(bind_BAR_C8A_kr))
+  s29 -> 2*s29 , -(bind_BAR_C8A_kr)
+  s30 -> s6 + s30 , ( -1) * (-(bind_C8A_C3pro_to_C8AC3pro_kr))
+  s30 -> s27 + s30 , ( -1) * (-(bind_C8A_C3pro_to_C8AC3pro_kr))+catalyze_C8AC3pro_to_C8A_C3A_kc
+  s30 -> s30 + s32 , catalyze_C8AC3pro_to_C8A_C3A_kc
+  s30 -> 2*s30 , ( -1) * (catalyze_C8AC3pro_to_C8A_C3A_kc)+-(bind_C8A_C3pro_to_C8AC3pro_kr)
+  s31 -> s31 + s36 , equilibrate_BidT_to_BidM_kf
+  s31 -> 2*s31 , ( -1) * (equilibrate_BidT_to_BidM_kf)
+  s33 -> s10 + s33 , ( -1) * (-(bind_XIAP_C3A_to_XIAPC3A_kr))+catalyze_XIAPC3A_to_XIAP_C3ub_kc
+  s33 -> s32 + s33 , ( -1) * (-(bind_XIAP_C3A_to_XIAPC3A_kr))
+  s33 -> s33 + s37 , catalyze_XIAPC3A_to_XIAP_C3ub_kc
+  s33 -> 2*s33 , ( -1) * (catalyze_XIAPC3A_to_XIAP_C3ub_kc)+-(bind_XIAP_C3A_to_XIAPC3A_kr)
+  s34 -> s9 + s34 , ( -1) * (-(bind_C3A_PARPU_to_C3APARPU_kr))
+  s34 -> s32 + s34 , ( -1) * (-(bind_C3A_PARPU_to_C3APARPU_kr))+catalyze_C3APARPU_to_C3A_PARPC_kc
+  s34 -> s34 + s38 , catalyze_C3APARPU_to_C3A_PARPC_kc
+  s34 -> 2*s34 , ( -1) * (catalyze_C3APARPU_to_C3A_PARPC_kc)+-(bind_C3A_PARPU_to_C3APARPU_kr)
+  s35 -> s7 + s35 , ( -1) * (-(bind_C3A_C6pro_to_C3AC6pro_kr))
+  s35 -> s32 + s35 , ( -1) * (-(bind_C3A_C6pro_to_C3AC6pro_kr))+catalyze_C3AC6pro_to_C3A_C6A_kc
+  s35 -> s35 + s39 , catalyze_C3AC6pro_to_C3A_C6A_kc
+  s35 -> 2*s35 , ( -1) * (catalyze_C3AC6pro_to_C3A_C6A_kc)+-(bind_C3A_C6pro_to_C3AC6pro_kr)
+  s36 -> s31 + s36 , ( -1) * (-(equilibrate_BidT_to_BidM_kr))
+  s36 -> 2*s36 , -(equilibrate_BidT_to_BidM_kr)
+  s40 -> s22 + s40 , ( -1) * (-(bind_BidM_BaxM_to_BidMBaxM_kr))
+  s40 -> s36 + s40 , ( -1) * (-(bind_BidM_BaxM_to_BidMBaxM_kr))+catalyze_BidMBaxM_to_BidM_BaxA_kc
+  s40 -> s40 + s46 , catalyze_BidMBaxM_to_BidM_BaxA_kc
+  s40 -> 2*s40 , ( -1) * (catalyze_BidMBaxM_to_BidM_BaxA_kc)+-(bind_BidM_BaxM_to_BidMBaxM_kr)
+  s41 -> s14 + s41 , ( -1) * (-(bind_BidM_BakM_to_BidMBakM_kr))
+  s41 -> s36 + s41 , ( -1) * (-(bind_BidM_BakM_to_BidMBakM_kr))+catalyze_BidMBakM_to_BidM_BakA_kc
+  s41 -> s41 + s47 , catalyze_BidMBakM_to_BidM_BakA_kc
+  s41 -> 2*s41 , ( -1) * (catalyze_BidMBakM_to_BidM_BakA_kc)+-(bind_BidM_BakM_to_BidMBakM_kr)
+  s42 -> s15 + s42 , ( -1) * (-(bind_BidM_Bcl2_kr))
+  s42 -> s36 + s42 , ( -1) * (-(bind_BidM_Bcl2_kr))
+  s42 -> 2*s42 , -(bind_BidM_Bcl2_kr)
+  s43 -> s23 + s43 , ( -1) * (-(bind_BidM_BclxLM_kr))
+  s43 -> s36 + s43 , ( -1) * (-(bind_BidM_BclxLM_kr))
+  s43 -> 2*s43 , -(bind_BidM_BclxLM_kr)
+  s44 -> s17 + s44 , ( -1) * (-(bind_BidM_Mcl1M_kr))
+  s44 -> s36 + s44 , ( -1) * (-(bind_BidM_Mcl1M_kr))
+  s44 -> 2*s44 , -(bind_BidM_Mcl1M_kr)
+  s45 -> s3 + s45 , ( -1) * (-(bind_C6A_C8pro_to_C6AC8pro_kr))
+  s45 -> s27 + s45 , catalyze_C6AC8pro_to_C6A_C8A_kc
+  s45 -> s39 + s45 , ( -1) * (-(bind_C6A_C8pro_to_C6AC8pro_kr))+catalyze_C6AC8pro_to_C6A_C8A_kc
+  s45 -> 2*s45 , ( -1) * (catalyze_C6AC8pro_to_C6A_C8A_kc)+-(bind_C6A_C8pro_to_C6AC8pro_kr)
+  s46 + s54 -> s46 + s54 + s56 , assemble_pore_sequential_Bax_3_kf
+  s46 + s54 -> s46 + 2*s54 , ( -1) * (assemble_pore_sequential_Bax_3_kf)
+  s46 + s54 -> 2*s46 + s54 , ( -1) * (assemble_pore_sequential_Bax_3_kf)
+  s46 + s56 -> s46 + s56 + s58 , assemble_pore_sequential_Bax_4_kf
+  s46 + s56 -> s46 + 2*s56 , ( -1) * (assemble_pore_sequential_Bax_4_kf)
+  s46 + s56 -> 2*s46 + s56 , ( -1) * (assemble_pore_sequential_Bax_4_kf)
+  2*s46 -> 2*s46 + s54 , assemble_pore_sequential_Bax_2_kf
+  2*s46 -> 3*s46 , ( -2) * (assemble_pore_sequential_Bax_2_kf)
+  s47 + s55 -> s47 + s55 + s57 , assemble_pore_sequential_Bak_3_kf
+  s47 + s55 -> s47 + 2*s55 , ( -1) * (assemble_pore_sequential_Bak_3_kf)
+  s47 + s55 -> 2*s47 + s55 , ( -1) * (assemble_pore_sequential_Bak_3_kf)
+  s47 + s57 -> s47 + s57 + s59 , assemble_pore_sequential_Bak_4_kf
+  s47 + s57 -> s47 + 2*s57 , ( -1) * (assemble_pore_sequential_Bak_4_kf)
+  s47 + s57 -> 2*s47 + s57 , ( -1) * (assemble_pore_sequential_Bak_4_kf)
+  2*s47 -> 2*s47 + s55 , assemble_pore_sequential_Bak_2_kf
+  2*s47 -> 3*s47 , ( -2) * (assemble_pore_sequential_Bak_2_kf)
+  s48 -> s22 + s48 , ( -1) * (-(bind_BaxA_BaxM_to_BaxABaxM_kr))
+  s48 -> s46 + s48 , ( -1) * (-(bind_BaxA_BaxM_to_BaxABaxM_kr))+( 2) * (catalyze_BaxABaxM_to_BaxA_BaxA_kc)
+  s48 -> 2*s48 , ( -1) * (catalyze_BaxABaxM_to_BaxA_BaxA_kc)+-(bind_BaxA_BaxM_to_BaxABaxM_kr)
+  s49 -> s14 + s49 , ( -1) * (-(bind_BakA_BakM_to_BakABakM_kr))
+  s49 -> s47 + s49 , ( -1) * (-(bind_BakA_BakM_to_BakABakM_kr))+( 2) * (catalyze_BakABakM_to_BakA_BakA_kc)
+  s49 -> 2*s49 , ( -1) * (catalyze_BakABakM_to_BakA_BakA_kc)+-(bind_BakA_BakM_to_BakABakM_kr)
+  s50 -> s15 + s50 , ( -1) * (-(bind_BaxA_Bcl2_kr))
+  s50 -> s46 + s50 , ( -1) * (-(bind_BaxA_Bcl2_kr))
+  s50 -> 2*s50 , -(bind_BaxA_Bcl2_kr)
+  s51 -> s23 + s51 , ( -1) * (-(bind_BaxA_BclxLM_kr))
+  s51 -> s46 + s51 , ( -1) * (-(bind_BaxA_BclxLM_kr))
+  s51 -> 2*s51 , -(bind_BaxA_BclxLM_kr)
+  s52 -> s23 + s52 , ( -1) * (-(bind_BakA_BclxLM_kr))
+  s52 -> s47 + s52 , ( -1) * (-(bind_BakA_BclxLM_kr))
+  s52 -> 2*s52 , -(bind_BakA_BclxLM_kr)
+  s53 -> s17 + s53 , ( -1) * (-(bind_BakA_Mcl1_kr))
+  s53 -> s47 + s53 , ( -1) * (-(bind_BakA_Mcl1_kr))
+  s53 -> 2*s53 , -(bind_BakA_Mcl1_kr)
+  s54 -> s46 + s54 , ( -2) * (-(assemble_pore_sequential_Bax_2_kr))
+  s54 -> 2*s54 , -(assemble_pore_sequential_Bax_2_kr)
+  s55 -> s47 + s55 , ( -2) * (-(assemble_pore_sequential_Bak_2_kr))
+  s55 -> 2*s55 , -(assemble_pore_sequential_Bak_2_kr)
+  s56 -> s46 + s56 , ( -1) * (-(assemble_pore_sequential_Bax_3_kr))
+  s56 -> s54 + s56 , ( -1) * (-(assemble_pore_sequential_Bax_3_kr))
+  s56 -> 2*s56 , -(assemble_pore_sequential_Bax_3_kr)
+  s57 -> s47 + s57 , ( -1) * (-(assemble_pore_sequential_Bak_3_kr))
+  s57 -> s55 + s57 , ( -1) * (-(assemble_pore_sequential_Bak_3_kr))
+  s57 -> 2*s57 , -(assemble_pore_sequential_Bak_3_kr)
+  s58 -> s46 + s58 , ( -1) * (-(assemble_pore_sequential_Bax_4_kr))
+  s58 -> s56 + s58 , ( -1) * (-(assemble_pore_sequential_Bax_4_kr))
+  s58 -> 2*s58 , -(assemble_pore_sequential_Bax_4_kr)
+  s59 -> s47 + s59 , ( -1) * (-(assemble_pore_sequential_Bak_4_kr))
+  s59 -> s57 + s59 , ( -1) * (-(assemble_pore_sequential_Bak_4_kr))
+  s59 -> 2*s59 , -(assemble_pore_sequential_Bak_4_kr)
+  s60 -> s19 + s60 , ( -1) * (-(pore_transport_complex_BaxA_4_CytoCM_kr))
+  s60 -> s58 + s60 , ( -1) * (-(pore_transport_complex_BaxA_4_CytoCM_kr))+pore_transport_dissociate_BaxA_4_CytoCC_kc
+  s60 -> s60 + s64 , pore_transport_dissociate_BaxA_4_CytoCC_kc
+  s60 -> 2*s60 , ( -1) * (pore_transport_dissociate_BaxA_4_CytoCC_kc)+-(pore_transport_complex_BaxA_4_CytoCM_kr)
+  s61 -> s20 + s61 , ( -1) * (-(pore_transport_complex_BaxA_4_SmacM_kr))
+  s61 -> s58 + s61 , ( -1) * (-(pore_transport_complex_BaxA_4_SmacM_kr))+pore_transport_dissociate_BaxA_4_SmacC_kc
+  s61 -> s61 + s65 , pore_transport_dissociate_BaxA_4_SmacC_kc
+  s61 -> 2*s61 , ( -1) * (pore_transport_dissociate_BaxA_4_SmacC_kc)+-(pore_transport_complex_BaxA_4_SmacM_kr)
+  s62 -> s19 + s62 , ( -1) * (-(pore_transport_complex_BakA_4_CytoCM_kr))
+  s62 -> s59 + s62 , ( -1) * (-(pore_transport_complex_BakA_4_CytoCM_kr))+pore_transport_dissociate_BakA_4_CytoCC_kc
+  s62 -> s62 + s64 , pore_transport_dissociate_BakA_4_CytoCC_kc
+  s62 -> 2*s62 , ( -1) * (pore_transport_dissociate_BakA_4_CytoCC_kc)+-(pore_transport_complex_BakA_4_CytoCM_kr)
+  s63 -> s20 + s63 , ( -1) * (-(pore_transport_complex_BakA_4_SmacM_kr))
+  s63 -> s59 + s63 , ( -1) * (-(pore_transport_complex_BakA_4_SmacM_kr))+pore_transport_dissociate_BakA_4_SmacC_kc
+  s63 -> s63 + s65 , pore_transport_dissociate_BakA_4_SmacC_kc
+  s63 -> 2*s63 , ( -1) * (pore_transport_dissociate_BakA_4_SmacC_kc)+-(pore_transport_complex_BakA_4_SmacM_kr)
+  s64 -> s64 + s67 , equilibrate_CytoCC_to_CytoCA_kf
+  s64 -> 2*s64 , ( -1) * (equilibrate_CytoCC_to_CytoCA_kf)
+  s65 -> s65 + s66 , equilibrate_SmacC_to_SmacA_kf
+  s65 -> 2*s65 , ( -1) * (equilibrate_SmacC_to_SmacA_kf)
+  s66 -> s65 + s66 , ( -1) * (-(equilibrate_SmacC_to_SmacA_kr))
+  s66 -> 2*s66 , -(equilibrate_SmacC_to_SmacA_kr)
+  s67 -> s64 + s67 , ( -1) * (-(equilibrate_CytoCC_to_CytoCA_kr))
+  s67 -> 2*s67 , -(equilibrate_CytoCC_to_CytoCA_kr)
+  s68 -> s5 + s68 , ( -1) * (-(bind_CytoCA_ApafI_to_CytoCAApafI_kr))
+  s68 -> s67 + s68 , ( -1) * (-(bind_CytoCA_ApafI_to_CytoCAApafI_kr))+catalyze_CytoCAApafI_to_CytoCA_ApafA_kc
+  s68 -> s68 + s70 , catalyze_CytoCAApafI_to_CytoCA_ApafA_kc
+  s68 -> 2*s68 , ( -1) * (catalyze_CytoCAApafI_to_CytoCA_ApafA_kc)+-(bind_CytoCA_ApafI_to_CytoCAApafI_kr)
+  s69 -> s10 + s69 , ( -1) * (-(bind_SmacA_XIAP_kr))
+  s69 -> s66 + s69 , ( -1) * (-(bind_SmacA_XIAP_kr))
+  s69 -> 2*s69 , -(bind_SmacA_XIAP_kr)
+  s71 -> s8 + s71 , ( -1) * (-(convert_ApafA_C9_to_Apop_kr))
+  s71 -> s70 + s71 , ( -1) * (-(convert_ApafA_C9_to_Apop_kr))
+  s71 -> 2*s71 , -(convert_ApafA_C9_to_Apop_kr)
+  s72 -> s6 + s72 , ( -1) * (-(bind_Apop_C3pro_to_ApopC3pro_kr))
+  s72 -> s32 + s72 , catalyze_ApopC3pro_to_Apop_C3A_kc
+  s72 -> s71 + s72 , ( -1) * (-(bind_Apop_C3pro_to_ApopC3pro_kr))+catalyze_ApopC3pro_to_Apop_C3A_kc
+  s72 -> 2*s72 , ( -1) * (catalyze_ApopC3pro_to_Apop_C3A_kc)+-(bind_Apop_C3pro_to_ApopC3pro_kr)
+  s73 -> s10 + s73 , ( -1) * (-(bind_Apop_XIAP_kr))
+  s73 -> s71 + s73 , ( -1) * (-(bind_Apop_XIAP_kr))
+  s73 -> 2*s73 , -(bind_Apop_XIAP_kr)
+ end reactions
+
+end model
+

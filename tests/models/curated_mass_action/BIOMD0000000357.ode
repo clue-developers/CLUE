@@ -1,0 +1,43 @@
+begin model BIOMD0000000357
+ begin parameters
+  k1 = 91.8
+  k2 = 82.4
+  k3a = 151.5
+  k4a = 209.9
+  k5 = 5.16
+  k6 = 32.3
+  k7a = 4.7
+  k8a = 42.6
+  j1 = 33.4
+  j3a = 0.185
+  j5 = 21.8
+  j7a = 2.66E-5
+ end parameters
+ begin init
+  E = 1.5E-4
+  E_P_1
+  P = 1.0
+  M
+  E_M
+  T
+  E_P_2
+  P2
+  E_P2
+ end init
+ begin reactions
+  E + P -> E_P_1 , k1 [r1]
+  E_P_1 -> E + P , j1 [r1]
+  E_P_1 -> E + M , k2 [r2]
+  E + M -> E_M , k3a [r5]
+  E_M -> E + M , j3a [r5]
+  E_M -> E + T , k4a [r7]
+  E + P -> E_P_2 , k5 [r8]
+  E_P_2 -> E + P , j5 [r8]
+  E_P_2 -> E + P2 , k6 [r9]
+  E + P2 -> E_P2 , k7a [r12]
+  E_P2 -> E + P2 , j7a [r12]
+  E_P2 -> E + T , k8a [r14]
+ end reactions
+
+end model
+

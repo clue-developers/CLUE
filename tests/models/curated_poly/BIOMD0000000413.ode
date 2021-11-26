@@ -1,0 +1,49 @@
+begin model BIOMD0000000413
+ begin parameters
+  kd = 0.334
+  ka = 8.22E-4
+  mu = 0.79
+  ld = 4.49
+  lm = 0.175
+  la = 1.15
+  sdelta = 0.486
+  lambda = 0.00316
+  TIR1T = 18.5
+  alpha_tr = 30.5
+ end parameters
+ begin init
+  auxin = 7.38
+  TIR1 = 15.4
+  auxinTIR1 = 0.28
+  auxinTIR1VENUS = 2.78
+  VENUS = 40.4
+  SINK
+  source = 1.0
+ end init
+ begin reactions
+  auxin -> auxin + SINK , ( -1) * (mu)
+  auxin -> 2*auxin , mu
+  auxin + TIR1 -> auxin + TIR1 + auxinTIR1 , ka
+  auxin + TIR1 -> auxin + 2*TIR1 , ( -1) * (ka)
+  auxin + TIR1 -> 2*auxin + TIR1 , ( -1) * (ka)
+  auxinTIR1 -> auxin + auxinTIR1 , kd
+  auxinTIR1 -> TIR1 + auxinTIR1 , kd
+  auxinTIR1 -> 2*auxinTIR1 , ( -1) * (kd)
+  auxinTIR1 + VENUS -> auxinTIR1 + auxinTIR1VENUS + VENUS , la
+  auxinTIR1 + VENUS -> auxinTIR1 + 2*VENUS , ( -1) * (la)
+  auxinTIR1 + VENUS -> 2*auxinTIR1 + VENUS , ( -1) * (la)
+  auxinTIR1VENUS -> auxinTIR1 + auxinTIR1VENUS , lm+ld
+  auxinTIR1VENUS -> auxinTIR1VENUS + VENUS , ld
+  auxinTIR1VENUS -> 2*auxinTIR1VENUS , ( -1) * (ld)+( -1) * (lm)
+  VENUS -> VENUS + SINK , ( -1) * (lambda)
+  VENUS -> 2*VENUS , lambda
+  source -> auxin + source , alpha_tr
+  source -> VENUS + source , sdelta
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

@@ -1,0 +1,63 @@
+begin model BIOMD0000000085
+ begin parameters
+  parameter_0 = 0.0
+  parameter_1 = 0.0
+ end parameters
+ begin init
+  species_0 ( "A" ) 
+  species_1 = 1.0E-8 ( "G" ) 
+  species_2 ( "GA" ) 
+  species_3 = 4.68E-4 ( "T" ) 
+  species_4 = 1.0E-5 ( "R" ) 
+  species_5 ( "G*T" ) 
+  species_6 ( "GD" ) 
+  species_7 = 0.0044 ( "Pi" ) 
+  species_8 = 1.49E-4 ( "D" ) 
+  species_9 ( "RG" ) 
+  species_10 ( "RG*T" ) 
+  species_11 ( "G*AT" ) 
+  species_12 ( "GAD" ) 
+  species_13 ( "RGD" ) 
+  species_14 ( "RGA" ) 
+  species_15 ( "RG*AT" ) 
+  species_16 ( "RGAD" ) 
+ end init
+ begin reactions
+  species_1 + species_3 -> species_5 , ( 1.0) * (529000.0) [reaction_1_forw]
+  species_5 -> species_1 + species_3 , ( -1) * (( 1.0) * (-(8.38E-6))) [reaction_1_rev]
+  species_5 -> species_6 + species_7 , ( 1.0) * (0.013) [reaction_3_forw]
+  species_6 + species_7 -> species_5 , ( -1) * (( 1.0) * (-(9.03E-7))) [reaction_3_rev]
+  species_6 -> species_1 + species_8 , ( 1.0) * (1.0E-4) [reaction_4_forw]
+  species_1 + species_8 -> species_6 , ( -1) * (( 1.0) * (-(62.3))) [reaction_4_rev]
+  species_3 + species_9 -> species_10 , ( 1.0) * (853000.0) [reaction_5_forw]
+  species_10 -> species_3 + species_9 , ( -1) * (( 1.0) * (-(0.00468))) [reaction_5_rev]
+  species_4 + species_5 -> species_10 , ( 1.0) * (1.32E8) [reaction_6_forw]
+  species_10 -> species_4 + species_5 , ( -1) * (( 1.0) * (-(1.28))) [reaction_6_rev]
+  species_0 + species_5 -> species_11 , ( 1.0) * (386000.0) [reaction_7_forw]
+  species_11 -> species_0 + species_5 , ( -1) * (( 1.0) * (-(0.0408))) [reaction_7_rev]
+  species_0 + species_6 -> species_12 , ( 1.0) * (64100.0) [reaction_8_forw]
+  species_12 -> species_0 + species_6 , ( -1) * (( 1.0) * (-(0.95))) [reaction_8_rev]
+  species_4 + species_6 -> species_13 , ( 1.0) * (9.47E7) [reaction_9_forw]
+  species_13 -> species_4 + species_6 , ( -1) * (( 1.0) * (-(0.00227))) [reaction_9_rev]
+  species_10 -> species_7 + species_13 , ( 1.0) * (0.013) [reaction_10_forw]
+  species_7 + species_13 -> species_10 , ( -1) * (( 1.0) * (-(2.22E-9))) [reaction_10_rev]
+  species_13 -> species_8 + species_9 , ( 1.0) * (2.0) [reaction_11_forw]
+  species_8 + species_9 -> species_13 , ( -1) * (( 1.0) * (-(1470000.0))) [reaction_11_rev]
+  species_11 -> species_7 + species_12 , ( 1.0) * (25.0) [reaction_13_forw]
+  species_7 + species_12 -> species_11 , ( -1) * (( 1.0) * (-(0.244))) [reaction_13_rev]
+  species_12 -> species_2 + species_8 , ( 1.0) * (1.0E-4) [reaction_14_forw]
+  species_2 + species_8 -> species_12 , ( -1) * (( 1.0) * (-(3.83))) [reaction_14_rev]
+  species_2 + species_4 -> species_14 , ( 1.0) * (3.96E9) [reaction_16_forw]
+  species_14 -> species_2 + species_4 , ( -1) * (( 1.0) * (-(5.43E-5))) [reaction_16_rev]
+  species_3 + species_14 -> species_15 , ( 1.0) * (1620000.0) [reaction_17_forw]
+  species_15 -> species_3 + species_14 , ( -1) * (( 1.0) * (-(0.00875))) [reaction_17_rev]
+  species_0 + species_10 -> species_15 , ( 1.0) * (6300000.0) [reaction_19_forw]
+  species_15 -> species_0 + species_10 , ( -1) * (( 1.0) * (-(0.478))) [reaction_19_rev]
+  species_15 -> species_7 + species_16 , ( 1.0) * (25.0) [reaction_20_forw]
+  species_7 + species_16 -> species_15 , ( -1) * (( 1.0) * (-(0.00297))) [reaction_20_rev]
+  species_16 -> species_8 + species_14 , ( 1.0) * (2.75) [reaction_23_forw]
+  species_8 + species_14 -> species_16 , ( -1) * (( 1.0) * (-(2940.0))) [reaction_23_rev]
+ end reactions
+
+end model
+

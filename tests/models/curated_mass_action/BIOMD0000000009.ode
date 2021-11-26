@@ -1,0 +1,67 @@
+begin model BIOMD0000000009
+ begin parameters
+ // K_PP_norm_max = 0.900049
+ end parameters
+ begin init
+  E1AuX = 3.0E-5 ( "MAPKKK activator (Ras)" ) 
+  E2 = 3.0E-4 ( "MAPKKK inactivator" ) 
+  KKK = 0.003 ( "Mos" ) 
+  P_KKK ( "Mos-P" ) 
+  KK = 1.2 ( "Mek1" ) 
+  P_KK ( "Mek1-P" ) 
+  PP_KK ( "Mek1-PP" ) 
+  K = 1.2 ( "Erk2" ) 
+  P_K ( "Erk2-P" ) 
+  PP_K ( "Erk2-PP" ) 
+  KPase = 0.12 ( "MAPK-Pase" ) 
+  KKPase = 3.0E-4 ( "MAPKK-Pase" ) 
+  E1AuX_KKK ( "E1AuX_Mos" ) 
+  E2_P_KKK ( "E2_Mos-P" ) 
+  P_KKK_KK ( "P-Mos_Mek1" ) 
+  P_KKK_P_KK ( "P-Mos_P-Mek1" ) 
+  PP_KK_K ( "PP-Mek1_Erk2" ) 
+  PP_KK_P_K ( "PP-Mek1_P-Erk2" ) 
+  KKPase_PP_KK ( "MAPKK-Pase_PP-Mek1" ) 
+  KKPase_P_KK ( "MAPKK-Pase_P-Mek1" ) 
+  KPase_PP_K ( "MAPK-Pase_PP-Erk2" ) 
+  KPase_P_K ( "MAPK-Pase_P-Erk2" ) 
+  K_PP_norm
+  KK_PP_norm
+  KKK_P_norm
+  rel_K_PP_max ( "relative maximal K_PP" ) 
+ end init
+ begin reactions
+  E1AuX + KKK -> E1AuX_KKK , ( 4.0E-12) * (1000.0) [r1a_forw]
+  E1AuX_KKK -> E1AuX + KKK , ( -1) * (( 4.0E-12) * (-(150.0))) [r1a_rev]
+  E1AuX_KKK -> E1AuX + P_KKK , ( 4.0E-12) * (150.0) [r1b_forw]
+  E2 + P_KKK -> E2_P_KKK , ( 4.0E-12) * (1000.0) [r2a_forw]
+  E2_P_KKK -> E2 + P_KKK , ( -1) * (( 4.0E-12) * (-(150.0))) [r2a_rev]
+  E2_P_KKK -> E2 + KKK , ( 4.0E-12) * (150.0) [r2b_forw]
+  P_KKK + KK -> P_KKK_KK , ( 4.0E-12) * (1000.0) [r3a_forw]
+  P_KKK_KK -> P_KKK + KK , ( -1) * (( 4.0E-12) * (-(150.0))) [r3a_rev]
+  P_KKK_KK -> P_KKK + P_KK , ( 4.0E-12) * (150.0) [r3b_forw]
+  P_KK + KKPase -> KKPase_P_KK , ( 4.0E-12) * (1000.0) [r4a_forw]
+  KKPase_P_KK -> P_KK + KKPase , ( -1) * (( 4.0E-12) * (-(150.0))) [r4a_rev]
+  KKPase_P_KK -> KK + KKPase , ( 4.0E-12) * (150.0) [r4b_forw]
+  P_KKK + P_KK -> P_KKK_P_KK , ( 4.0E-12) * (1000.0) [r5a_forw]
+  P_KKK_P_KK -> P_KKK + P_KK , ( -1) * (( 4.0E-12) * (-(150.0))) [r5a_rev]
+  P_KKK_P_KK -> P_KKK + PP_KK , ( 4.0E-12) * (150.0) [r5b_forw]
+  PP_KK + KKPase -> KKPase_PP_KK , ( 4.0E-12) * (1000.0) [r6a_forw]
+  KKPase_PP_KK -> PP_KK + KKPase , ( -1) * (( 4.0E-12) * (-(150.0))) [r6a_rev]
+  KKPase_PP_KK -> P_KK + KKPase , ( 4.0E-12) * (150.0) [r6b_forw]
+  PP_KK + K -> PP_KK_K , ( 4.0E-12) * (1000.0) [r7a_forw]
+  PP_KK_K -> PP_KK + K , ( -1) * (( 4.0E-12) * (-(150.0))) [r7a_rev]
+  PP_KK_K -> PP_KK + P_K , ( 4.0E-12) * (150.0) [r7b_forw]
+  P_K + KPase -> KPase_P_K , ( 4.0E-12) * (1000.0) [r8a_forw]
+  KPase_P_K -> P_K + KPase , ( -1) * (( 4.0E-12) * (-(150.0))) [r8a_rev]
+  KPase_P_K -> K + KPase , ( 4.0E-12) * (150.0) [r8b_forw]
+  PP_KK + P_K -> PP_KK_P_K , ( 4.0E-12) * (1000.0) [r9a_forw]
+  PP_KK_P_K -> PP_KK + P_K , ( -1) * (( 4.0E-12) * (-(150.0))) [r9a_rev]
+  PP_KK_P_K -> PP_KK + PP_K , ( 4.0E-12) * (150.0) [r9b_forw]
+  PP_K + KPase -> KPase_PP_K , ( 4.0E-12) * (1000.0) [r10a_forw]
+  KPase_PP_K -> PP_K + KPase , ( -1) * (( 4.0E-12) * (-(150.0))) [r10a_rev]
+  KPase_PP_K -> P_K + KPase , ( 4.0E-12) * (150.0) [r10b_forw]
+ end reactions
+
+end model
+

@@ -1,0 +1,41 @@
+begin model MODEL8268650277
+ begin parameters
+  k = 3.43E-8
+  sdelta = 0.5
+  N = 480.0
+  c = 3.0
+  np = 0.1
+  HIV = 0.0
+  lambda = 10.0
+  delta1 = 0.03
+ end parameters
+ begin init
+  T = 180000.0
+  T_i = 1675.0 ( "T*" ) 
+  V_I = 134000.0
+  V_NI
+  SINK
+  source = 1.0
+ end init
+ begin reactions
+  T -> T + SINK , ( -1) * (( delta1) * (1.0))
+  T -> 2*T , ( delta1) * (1.0)
+  T + V_I -> T + T_i + V_I , ( k) * (1.0)
+  T + V_I -> 2*T + V_I , ( -1) * (( k) * (1.0))
+  T_i -> T_i + V_I , ( ( ( -(np)) * (N)) * (sdelta)) * (1.0)+( ( ( 1.0) * (N)) * (sdelta)) * (1.0)
+  T_i -> T_i + V_NI , ( ( ( np) * (N)) * (sdelta)) * (1.0)
+  T_i -> T_i + SINK , ( -1) * (( sdelta) * (1.0))
+  T_i -> 2*T_i , ( sdelta) * (1.0)
+  V_I -> V_I + SINK , ( -1) * (( c) * (1.0))
+  V_I -> 2*V_I , ( c) * (1.0)
+  V_NI -> V_NI + SINK , ( -1) * (( c) * (1.0))
+  V_NI -> 2*V_NI , ( c) * (1.0)
+  source -> T + source , ( lambda) * (1.0)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

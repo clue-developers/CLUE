@@ -1,0 +1,116 @@
+begin model MODEL1510230005
+ begin parameters
+  k_PolDTF_binding = 4988.36559619753
+  k_PolDTF_binding_0 = 0.192182450383506
+  k_TF_transcription = 1378.47700528685
+  k_TF_translocation = 0.866959919372534
+  k_TF_binding = 0.189786030381885
+  k_TF_binding_0 = 236.853248292671
+  k_mCherry_transcription = 62.340281811739
+  k__mCherry_translation = 31.1701408949926
+  k_protein_degrade = 12.2268708922389
+  k_MRNA_degrade = 863.906711599506
+  k_mCherry_baseTransc = 30.5981846313371
+  mCherry_f_fact_weak = 4.96371472352547
+  mCherry_f_fact_strong = 9.74451908231201
+  mCherry_fl = 0.0
+  k_TF_translation = 97.5615073950214
+  Constraint_k_mCherry_transcription = 2.0000000006979
+  Constraint_k_TF_transcription = 14.1293122881494
+  Constraint_degradation = 70.656402542688
+  Constraint_mCherry_baseTRanscr = 2.03738498093424
+  Constant_Met_concentration = 6.022E7
+  k_MetTF_binding = 0.444490667516126
+  k_MetTF_binding_0 = 125.750590787781
+  k_MetTF_sequestration = 0.73811731842099
+  k_MetTF_sequestration_0 = 0.622979139302682
+  Constant_fluorescence_const = 1.96315050825302
+  k_CP_activation = 0.025690422410495
+  k_Pol_TFn_B_binding_strong = 6.66667134841238
+  k_TF_degrade_strong = 226.00763534611
+  k_TF_degrade_weak = 358.684898250558
+  Constraint_TF_degradation = 0.630100783301541
+  k_Pol_TFn_B_binding_weak = 0.223382219183289
+  Constraint_Pol_active_binding = 0.71723820789625
+  k_Pol_TFn_B_binding_strong_0 = 74458.6094777342
+  k_Pol_TFn_B_binding_weak_0 = 53400.0014150654
+  k_TFcomplex_CP_binding = 13.2784513212479
+  k_TFcomplex_CP_binding_0 = 1.14572505308971E-5
+  ModelValue_12 = 9.74451908231201
+ end parameters
+ begin init
+  MmCherryc
+  mCherryc
+  TFc
+  MTFc
+  Pol = 3333333.33333333
+  TFn_B = 282.29 ( "TFn:B" ) 
+  CP = 666.666666666667
+  Pol_TFn_B ( "Pol:TFn:B" ) 
+  TFn
+  Pol_DTF ( "Pol:DTF" ) 
+  MetTF_BTF ( "MetTF:BTF" ) 
+  MetTF = 333333.333333333
+  Met = 2.70103944556963E7
+  DTF = 333.333333333333
+  BTF = 333.333333333333
+  B = 384.376
+  Met_MetTF ( "Met:MetTF" ) 
+  Pol_TFn_B_CP2 ( "Pol:TFn:B:CP2" ) 
+ end init
+ begin reactions
+  MmCherryc -> MmCherryc + mCherryc , ( 0.04) * (k__mCherry_translation)
+  MmCherryc -> 2*MmCherryc , ( -1) * (( 0.04) * (k_MRNA_degrade))
+  mCherryc -> 2*mCherryc , ( -1) * (( 0.04) * (k_protein_degrade))
+  TFc -> TFc + TFn , k_TF_translocation
+  TFc -> 2*TFc , ( -1) * (( 0.04) * (k_TF_degrade_strong))+( -1) * (k_TF_translocation)
+  MTFc -> TFc + MTFc , ( 0.04) * (k_TF_translation)
+  MTFc -> 2*MTFc , ( -1) * (( 0.04) * (k_MRNA_degrade))
+  Pol + TFn_B -> Pol + TFn_B + Pol_TFn_B , ( 0.003) * (k_Pol_TFn_B_binding_strong)
+  Pol + TFn_B -> Pol + 2*TFn_B , ( -1) * (( 0.003) * (k_Pol_TFn_B_binding_strong))
+  Pol + TFn_B -> 2*Pol + TFn_B , ( -1) * (( 0.003) * (k_Pol_TFn_B_binding_strong))
+  Pol + DTF -> Pol + Pol_DTF + DTF , ( 0.003) * (k_PolDTF_binding)
+  Pol + DTF -> Pol + 2*DTF , ( -1) * (( 0.003) * (k_PolDTF_binding))
+  Pol + DTF -> 2*Pol + DTF , ( -1) * (( 0.003) * (k_PolDTF_binding))
+  TFn_B -> TFn_B + TFn , ( -1) * (( 0.003) * (-(k_TF_binding_0)))
+  TFn_B -> TFn_B + B , ( -1) * (( 0.003) * (-(k_TF_binding_0)))
+  TFn_B -> 2*TFn_B , ( 0.003) * (-(k_TF_binding_0))
+  CP + Pol_TFn_B -> CP + Pol_TFn_B + Pol_TFn_B_CP2 , ( 0.003) * (k_TFcomplex_CP_binding)
+  CP + Pol_TFn_B -> CP + 2*Pol_TFn_B , ( -1) * (( 0.003) * (k_TFcomplex_CP_binding))
+  CP + Pol_TFn_B -> 2*CP + Pol_TFn_B , ( -1) * (( 0.003) * (k_TFcomplex_CP_binding))
+  Pol_TFn_B -> Pol + Pol_TFn_B , ( -1) * (( 0.003) * (-(k_Pol_TFn_B_binding_strong_0)))
+  Pol_TFn_B -> TFn_B + Pol_TFn_B , ( -1) * (( 0.003) * (-(k_Pol_TFn_B_binding_strong_0)))
+  Pol_TFn_B -> 2*Pol_TFn_B , ( 0.003) * (-(k_Pol_TFn_B_binding_strong_0))
+  TFn -> 2*TFn , ( -1) * (( 0.003) * (k_TF_degrade_strong))
+  TFn + B -> TFn_B + TFn + B , ( 0.003) * (k_TF_binding)
+  TFn + B -> TFn + 2*B , ( -1) * (( 0.003) * (k_TF_binding))
+  TFn + B -> 2*TFn + B , ( -1) * (( 0.003) * (k_TF_binding))
+  Pol_DTF -> Pol + Pol_DTF , ( -1) * (( 0.003) * (-(k_PolDTF_binding_0)))
+  Pol_DTF -> Pol_DTF + DTF , ( -1) * (( 0.003) * (-(k_PolDTF_binding_0)))
+  Pol_DTF -> 2*Pol_DTF , ( 0.003) * (-(k_PolDTF_binding_0))
+  Pol_DTF + MetTF_BTF -> MTFc + Pol_DTF + MetTF_BTF , k_TF_transcription
+  Pol_DTF + MetTF_BTF -> Pol + Pol_DTF + MetTF_BTF , k_TF_transcription
+  Pol_DTF + MetTF_BTF -> Pol_DTF + MetTF_BTF + DTF , k_TF_transcription
+  Pol_DTF + MetTF_BTF -> 2*Pol_DTF + MetTF_BTF , ( -1) * (k_TF_transcription)
+  MetTF_BTF -> MetTF_BTF + MetTF , ( -1) * (( 0.003) * (-(k_MetTF_binding_0)))
+  MetTF_BTF -> MetTF_BTF + BTF , ( -1) * (( 0.003) * (-(k_MetTF_binding_0)))
+  MetTF_BTF -> 2*MetTF_BTF , ( 0.003) * (-(k_MetTF_binding_0))
+  MetTF + Met -> MetTF + Met + Met_MetTF , ( 0.003) * (k_MetTF_sequestration)
+  MetTF + Met -> MetTF + 2*Met , ( -1) * (( 0.003) * (k_MetTF_sequestration))
+  MetTF + Met -> 2*MetTF + Met , ( -1) * (( 0.003) * (k_MetTF_sequestration))
+  MetTF + BTF -> MetTF_BTF + MetTF + BTF , ( 0.003) * (k_MetTF_binding)
+  MetTF + BTF -> MetTF + 2*BTF , ( -1) * (( 0.003) * (k_MetTF_binding))
+  MetTF + BTF -> 2*MetTF + BTF , ( -1) * (( 0.003) * (k_MetTF_binding))
+  Met_MetTF -> MetTF + Met_MetTF , ( -1) * (( 0.003) * (-(k_MetTF_sequestration_0)))
+  Met_MetTF -> Met + Met_MetTF , ( -1) * (( 0.003) * (-(k_MetTF_sequestration_0)))
+  Met_MetTF -> 2*Met_MetTF , ( 0.003) * (-(k_MetTF_sequestration_0))
+  Pol_TFn_B_CP2 -> MmCherryc + Pol_TFn_B_CP2 , k_mCherry_transcription
+  Pol_TFn_B_CP2 -> Pol + Pol_TFn_B_CP2 , k_mCherry_transcription
+  Pol_TFn_B_CP2 -> TFn_B + Pol_TFn_B_CP2 , k_mCherry_transcription
+  Pol_TFn_B_CP2 -> CP + Pol_TFn_B_CP2 , ( -1) * (( 0.003) * (-(k_TFcomplex_CP_binding_0)))+k_mCherry_transcription
+  Pol_TFn_B_CP2 -> Pol_TFn_B + Pol_TFn_B_CP2 , ( -1) * (( 0.003) * (-(k_TFcomplex_CP_binding_0)))
+  Pol_TFn_B_CP2 -> 2*Pol_TFn_B_CP2 , ( -1) * (k_mCherry_transcription)+( 0.003) * (-(k_TFcomplex_CP_binding_0))
+ end reactions
+
+end model
+

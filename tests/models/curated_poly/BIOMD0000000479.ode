@@ -1,0 +1,162 @@
+begin model BIOMD0000000479
+ begin parameters
+  ka = 1.5
+  Ligand_conc = 0.1
+ end parameters
+ begin init
+  L
+  R = 205.0
+  LR
+  Gabg
+  RGabg
+  LRGabg
+  RRGSm
+  LRRGSm
+  RRGSmGabg
+  LRRGSmGabg
+  GaGTP
+  Gbg = 205.0
+  Effector = 305.0
+  GaGTPEffector
+  RGSc = 60.0
+  RGSm
+  RGSmGaGTP
+  GaGTPEffectorOFF
+  RGSmGaGTPEffectorOFF
+  GaGDPP
+  LRRGSmGaGTP
+  RRGSmGaGTP
+  LRRGSmGaGTPEffectorOFF
+  GaGDP = 205.0
+  P
+  z1
+  z2
+  z3
+ end init
+ begin reactions
+  L + R -> L + R + LR , ( 1.0) * (0.0025)
+  L + R -> L + 2*R , ( -1) * (( 1.0) * (0.0025))
+  L + R -> 2*L + R , ( -1) * (( 1.0) * (0.0025))
+  L + RGabg -> L + RGabg + LRGabg , ( 1.0) * (0.005)
+  L + RGabg -> L + 2*RGabg , ( -1) * (( 1.0) * (0.005))
+  L + RGabg -> 2*L + RGabg , ( -1) * (( 1.0) * (0.005))
+  L + RRGSm -> L + RRGSm + LRRGSm , ( 1.0) * (0.005)
+  L + RRGSm -> L + 2*RRGSm , ( -1) * (( 1.0) * (0.005))
+  L + RRGSm -> 2*L + RRGSm , ( -1) * (( 1.0) * (0.005))
+  L + RRGSmGabg -> L + RRGSmGabg + LRRGSmGabg , ( 1.0) * (0.005)
+  L + RRGSmGabg -> L + 2*RRGSmGabg , ( -1) * (( 1.0) * (0.005))
+  L + RRGSmGabg -> 2*L + RRGSmGabg , ( -1) * (( 1.0) * (0.005))
+  R + Gabg -> R + Gabg + RGabg , ( 1.0) * (0.005)
+  R + Gabg -> R + 2*Gabg , ( -1) * (( 1.0) * (0.005))
+  R + Gabg -> 2*R + Gabg , ( -1) * (( 1.0) * (0.005))
+  R + RGSc -> R + RRGSm + RGSc , ( 1.0) * (0.1)
+  R + RGSc -> R + 2*RGSc , ( -1) * (( 1.0) * (0.1))
+  R + RGSc -> 2*R + RGSc , ( -1) * (( 1.0) * (0.1))
+  LR + Gabg -> LR + Gabg + LRGabg , ( 1.0) * (0.02)
+  LR + Gabg -> LR + 2*Gabg , ( -1) * (( 1.0) * (0.02))
+  LR + Gabg -> 2*LR + Gabg , ( -1) * (( 1.0) * (0.02))
+  LR + RGSc -> LR + LRRGSm + RGSc , ( 1.0) * (0.1)
+  LR + RGSc -> LR + 2*RGSc , ( -1) * (( 1.0) * (0.1))
+  LR + RGSc -> 2*LR + RGSc , ( -1) * (( 1.0) * (0.1))
+  Gabg -> Gabg + GaGTP , ( 1.0) * (0.2)
+  Gabg -> Gabg + Gbg , ( 1.0) * (0.2)
+  Gabg -> 2*Gabg , ( -1) * (( 1.0) * (0.2))
+  Gabg + RRGSm -> Gabg + RRGSm + RRGSmGabg , ( 1.0) * (0.005)
+  Gabg + RRGSm -> Gabg + 2*RRGSm , ( -1) * (( 1.0) * (0.005))
+  Gabg + RRGSm -> 2*Gabg + RRGSm , ( -1) * (( 1.0) * (0.005))
+  Gabg + LRRGSm -> Gabg + LRRGSm + LRRGSmGabg , ( 1.0) * (0.02)
+  Gabg + LRRGSm -> Gabg + 2*LRRGSm , ( -1) * (( 1.0) * (0.02))
+  Gabg + LRRGSm -> 2*Gabg + LRRGSm , ( -1) * (( 1.0) * (0.02))
+  RGabg + RGSc -> RGabg + RRGSmGabg + RGSc , ( 1.0) * (0.1)
+  RGabg + RGSc -> RGabg + 2*RGSc , ( -1) * (( 1.0) * (0.1))
+  RGabg + RGSc -> 2*RGabg + RGSc , ( -1) * (( 1.0) * (0.1))
+  LRGabg -> LR + LRGabg , ( 1.0) * (50.0)
+  LRGabg -> LRGabg + GaGTP , ( 1.0) * (50.0)
+  LRGabg -> LRGabg + Gbg , ( 1.0) * (50.0)
+  LRGabg -> 2*LRGabg , ( -1) * (( 1.0) * (50.0))
+  LRGabg + RGSc -> LRGabg + LRRGSmGabg + RGSc , ( 1.0) * (0.1)
+  LRGabg + RGSc -> LRGabg + 2*RGSc , ( -1) * (( 1.0) * (0.1))
+  LRGabg + RGSc -> 2*LRGabg + RGSc , ( -1) * (( 1.0) * (0.1))
+  RRGSm -> R + RRGSm , ( 1.0) * (100.0)
+  RRGSm -> RRGSm + RGSm , ( 1.0) * (100.0)
+  RRGSm -> 2*RRGSm , ( -1) * (( 1.0) * (100.0))
+  RRGSm + GaGTP -> RRGSm + GaGTP + RRGSmGaGTP , ( 1.0) * (0.5)
+  RRGSm + GaGTP -> RRGSm + 2*GaGTP , ( -1) * (( 1.0) * (0.5))
+  RRGSm + GaGTP -> 2*RRGSm + GaGTP , ( -1) * (( 1.0) * (0.5))
+  LRRGSm -> LR + LRRGSm , ( 1.0) * (100.0)
+  LRRGSm -> LRRGSm + RGSm , ( 1.0) * (100.0)
+  LRRGSm -> 2*LRRGSm , ( -1) * (( 1.0) * (100.0))
+  LRRGSm + GaGTP -> LRRGSm + GaGTP + LRRGSmGaGTP , ( 1.0) * (100.0)
+  LRRGSm + GaGTP -> LRRGSm + 2*GaGTP , ( -1) * (( 1.0) * (100.0))
+  LRRGSm + GaGTP -> 2*LRRGSm + GaGTP , ( -1) * (( 1.0) * (100.0))
+  LRRGSm + GaGTPEffectorOFF -> LRRGSm + GaGTPEffectorOFF + LRRGSmGaGTPEffectorOFF , ( 1.0) * (50.0)
+  LRRGSm + GaGTPEffectorOFF -> LRRGSm + 2*GaGTPEffectorOFF , ( -1) * (( 1.0) * (50.0))
+  LRRGSm + GaGTPEffectorOFF -> 2*LRRGSm + GaGTPEffectorOFF , ( -1) * (( 1.0) * (50.0))
+  RRGSmGabg -> RGabg + RRGSmGabg , ( 1.0) * (0.1)
+  RRGSmGabg -> RRGSmGabg + RGSm , ( 1.0) * (0.1)
+  RRGSmGabg -> 2*RRGSmGabg , ( -1) * (( 1.0) * (0.1))
+  LRRGSmGabg -> LRRGSm + LRRGSmGabg , ( 1.0) * (40.0)
+  LRRGSmGabg -> LRRGSmGabg + GaGTP , ( 1.0) * (40.0)
+  LRRGSmGabg -> LRRGSmGabg + Gbg , ( 1.0) * (40.0)
+  LRRGSmGabg -> 2*LRRGSmGabg , ( -1) * (( 1.0) * (40.0))
+  GaGTP -> GaGTP + GaGDPP , ( 1.0) * (0.005)
+  GaGTP -> 2*GaGTP , ( -1) * (( 1.0) * (0.005))
+  GaGTP + Effector -> GaGTP + Effector + GaGTPEffector , ( 1.0) * (10.0)
+  GaGTP + Effector -> GaGTP + 2*Effector , ( -1) * (( 1.0) * (10.0))
+  GaGTP + Effector -> 2*GaGTP + Effector , ( -1) * (( 1.0) * (10.0))
+  GaGTP + RGSc -> GaGTP + RGSc + RGSmGaGTP , ( 1.0) * (60.0)
+  GaGTP + RGSc -> GaGTP + 2*RGSc , ( -1) * (( 1.0) * (60.0))
+  GaGTP + RGSc -> 2*GaGTP + RGSc , ( -1) * (( 1.0) * (60.0))
+  GaGTP + RGSm -> GaGTP + RGSm + RGSmGaGTP , ( 1.0) * (500.0)
+  GaGTP + RGSm -> GaGTP + 2*RGSm , ( -1) * (( 1.0) * (500.0))
+  GaGTP + RGSm -> 2*GaGTP + RGSm , ( -1) * (( 1.0) * (500.0))
+  Gbg + GaGDP -> Gabg + Gbg + GaGDP , ( 1.0) * (1000.0)
+  Gbg + GaGDP -> Gbg + 2*GaGDP , ( -1) * (( 1.0) * (1000.0))
+  Gbg + GaGDP -> 2*Gbg + GaGDP , ( -1) * (( 1.0) * (1000.0))
+  GaGTPEffector -> GaGTPEffector + GaGTPEffectorOFF , ( 1.0) * (1.0)
+  GaGTPEffector -> GaGTPEffector + z1 , ( 1.0) * (ka)
+  GaGTPEffector -> 2*GaGTPEffector , ( -1) * (( 1.0) * (1.0))
+  RGSc -> RGSc + RGSm , ( 1.0) * (5.0E-4)
+  RGSc -> 2*RGSc , ( -1) * (( 1.0) * (5.0E-4))
+  RGSc + GaGTPEffectorOFF -> RGSc + GaGTPEffectorOFF + RGSmGaGTPEffectorOFF , ( 1.0) * (1.0E-4)
+  RGSc + GaGTPEffectorOFF -> RGSc + 2*GaGTPEffectorOFF , ( -1) * (( 1.0) * (1.0E-4))
+  RGSc + GaGTPEffectorOFF -> 2*RGSc + GaGTPEffectorOFF , ( -1) * (( 1.0) * (1.0E-4))
+  RGSm -> RGSc + RGSm , ( 1.0) * (0.005)
+  RGSm -> 2*RGSm , ( -1) * (( 1.0) * (0.005))
+  RGSm + GaGTPEffectorOFF -> RGSm + GaGTPEffectorOFF + RGSmGaGTPEffectorOFF , ( 1.0) * (50.0)
+  RGSm + GaGTPEffectorOFF -> RGSm + 2*GaGTPEffectorOFF , ( -1) * (( 1.0) * (50.0))
+  RGSm + GaGTPEffectorOFF -> 2*RGSm + GaGTPEffectorOFF , ( -1) * (( 1.0) * (50.0))
+  RGSmGaGTP -> GaGTP + RGSmGaGTP , ( 1.0) * (0.05)
+  RGSmGaGTP -> RGSc + RGSmGaGTP , ( 1.0) * (0.05)+( 1.0) * (2.5)
+  RGSmGaGTP -> RGSmGaGTP + GaGDPP , ( 1.0) * (2.5)
+  RGSmGaGTP -> 2*RGSmGaGTP , ( -1) * (( 1.0) * (2.5))+( -1) * (( 1.0) * (0.05))
+  GaGTPEffectorOFF -> Effector + GaGTPEffectorOFF , ( 1.0) * (0.005)
+  GaGTPEffectorOFF -> GaGTPEffectorOFF + GaGDPP , ( 1.0) * (0.005)
+  GaGTPEffectorOFF -> 2*GaGTPEffectorOFF , ( -1) * (( 1.0) * (0.005))
+  RGSmGaGTPEffectorOFF -> Effector + RGSmGaGTPEffectorOFF , ( 1.0) * (0.3)
+  RGSmGaGTPEffectorOFF -> RGSc + RGSmGaGTPEffectorOFF , ( 1.0) * (0.3)
+  RGSmGaGTPEffectorOFF -> RGSmGaGTPEffectorOFF + GaGDPP , ( 1.0) * (0.3)
+  RGSmGaGTPEffectorOFF -> 2*RGSmGaGTPEffectorOFF , ( -1) * (( 1.0) * (0.3))
+  GaGDPP -> GaGDPP + GaGDP , ( 1.0) * (1000.0)
+  GaGDPP -> GaGDPP + P , ( 1.0) * (1000.0)
+  GaGDPP -> 2*GaGDPP , ( -1) * (( 1.0) * (1000.0))
+  LRRGSmGaGTP -> LRRGSm + LRRGSmGaGTP , ( 1.0) * (2.5)
+  LRRGSmGaGTP -> GaGDPP + LRRGSmGaGTP , ( 1.0) * (2.5)
+  LRRGSmGaGTP -> 2*LRRGSmGaGTP , ( -1) * (( 1.0) * (2.5))
+  RRGSmGaGTP -> RRGSm + RRGSmGaGTP , ( 1.0) * (0.5)
+  RRGSmGaGTP -> GaGDPP + RRGSmGaGTP , ( 1.0) * (0.5)
+  RRGSmGaGTP -> 2*RRGSmGaGTP , ( -1) * (( 1.0) * (0.5))
+  LRRGSmGaGTPEffectorOFF -> LRRGSm + LRRGSmGaGTPEffectorOFF , ( 1.0) * (0.3)
+  LRRGSmGaGTPEffectorOFF -> Effector + LRRGSmGaGTPEffectorOFF , ( 1.0) * (0.3)
+  LRRGSmGaGTPEffectorOFF -> GaGDPP + LRRGSmGaGTPEffectorOFF , ( 1.0) * (0.3)
+  LRRGSmGaGTPEffectorOFF -> 2*LRRGSmGaGTPEffectorOFF , ( -1) * (( 1.0) * (0.3))
+  P -> 2*P , ( -1) * (( 1.0) * (10.0))
+  z1 -> z1 + z2 , ( 1.0) * (ka)
+  z1 -> 2*z1 , ( -1) * (( 1.0) * (ka))
+  z2 -> z2 + z3 , ( 1.0) * (ka)
+  z2 -> 2*z2 , ( -1) * (( 1.0) * (ka))
+  z3 -> 2*z3 , ( -1) * (( 1.0) * (ka))
+ end reactions
+
+end model
+

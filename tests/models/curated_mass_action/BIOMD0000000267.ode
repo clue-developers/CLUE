@@ -1,0 +1,18 @@
+begin model BIOMD0000000267
+ begin parameters
+  tension = 0.0
+ end parameters
+ begin init
+  free = 1.0 ( "free_BoNT/A" ) 
+  bound ( "bound_BoNT/A" ) 
+  translocate ( "transloc_BoNT/A" ) 
+  lytic ( "lytic_BoNT/A" ) 
+ end init
+ begin reactions
+  bound -> translocate , ( 0.141) * (1.0) [endocytosis_forw]
+  translocate -> lytic , ( 0.013) * (1.0) [translocation_forw]
+  free -> bound , ( 0.058) * (1.0) [binding_forw]
+ end reactions
+
+end model
+

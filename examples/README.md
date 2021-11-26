@@ -6,6 +6,10 @@ Each model is in a separate folder, there are up to four files corresponding to 
 * `ModelName.py` reads the model from the `\*.ode` file and applies CLUE
 * `resultsModelName.txt` is the output of `ModelName.py`, i.e., the reduced model.
 
+The folder `RationalFunctions` include a set of models with their corresponding `*.ode`, `*.py` and 
+`results*.txt` in which the right hand side of the differential systems are rational functions 
+(instead of polynomials).
+
 Below are the references to the original papers for some of the models:
 * ProteinPhosphorylation: [Efficient modeling, simulation and coarse-graining of biological complexity with NFsim](https://doi.org/10.1038/nmeth.1546)
 * OrderedPhosphorylation: [Domain-oriented reduction of rule-based network models](https://dx.doi.org/10.1049%2Fiet-syb%3A20070081)

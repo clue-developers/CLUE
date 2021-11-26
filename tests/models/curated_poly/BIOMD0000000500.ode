@@ -1,0 +1,100 @@
+begin model BIOMD0000000500
+ begin parameters
+  Kon_P1 = 60000.0
+  Koff_P1 = 100.0
+  Kon_G1 = 2.0E10
+  Koff_G1 = 100.0
+  Kon_NG1 = 2.0E10
+  Koff_NG1 = 20000.0
+  parameter_1 = 0.0
+ end parameters
+ begin init
+  S1 = 1.0E-10
+  DNA_000 = 1.0E-10
+  DNA_100
+  DNA_010
+  DNA_001
+  DNA_110
+  DNA_101
+  DNA_011
+  DNA_111
+  DNA_1B10
+  DNA_01B1
+  DNA_1B11
+  DNA_11B1
+  DNA_1B1B1
+ end init
+ begin reactions
+  S1 + DNA_000 -> S1 + DNA_000 + DNA_100 , ( 1.0) * (Kon_NG1)
+  S1 + DNA_000 -> S1 + DNA_000 + DNA_010 , ( 1.0) * (Kon_G1)
+  S1 + DNA_000 -> S1 + DNA_000 + DNA_001 , ( 1.0) * (Kon_NG1)
+  S1 + DNA_000 -> S1 + 2*DNA_000 , ( -1) * (( 1.0) * (Kon_NG1))+( -1) * (( 1.0) * (Kon_G1))+( -1) * (( 1.0) * (Kon_NG1))
+  S1 + DNA_000 -> 2*S1 + DNA_000 , ( -1) * (( 1.0) * (Kon_NG1))+( -1) * (( 1.0) * (Kon_G1))+( -1) * (( 1.0) * (Kon_NG1))
+  S1 + DNA_100 -> S1 + DNA_100 + DNA_110 , ( 1.0) * (Kon_G1)
+  S1 + DNA_100 -> S1 + DNA_100 + DNA_101 , ( 1.0) * (Kon_NG1)
+  S1 + DNA_100 -> S1 + 2*DNA_100 , ( -1) * (( 1.0) * (Kon_G1))+( -1) * (( 1.0) * (Kon_NG1))
+  S1 + DNA_100 -> 2*S1 + DNA_100 , ( -1) * (( 1.0) * (Kon_G1))+( -1) * (( 1.0) * (Kon_NG1))
+  S1 + DNA_010 -> S1 + DNA_010 + DNA_110 , ( 1.0) * (Kon_NG1)
+  S1 + DNA_010 -> S1 + DNA_010 + DNA_011 , ( 1.0) * (Kon_NG1)
+  S1 + DNA_010 -> S1 + 2*DNA_010 , ( -1) * (( 1.0) * (Kon_NG1))+( -1) * (( 1.0) * (Kon_NG1))
+  S1 + DNA_010 -> 2*S1 + DNA_010 , ( -1) * (( 1.0) * (Kon_NG1))+( -1) * (( 1.0) * (Kon_NG1))
+  S1 + DNA_001 -> S1 + DNA_001 + DNA_101 , ( 1.0) * (Kon_NG1)
+  S1 + DNA_001 -> S1 + DNA_001 + DNA_011 , ( 1.0) * (Kon_G1)
+  S1 + DNA_001 -> S1 + 2*DNA_001 , ( -1) * (( 1.0) * (Kon_NG1))+( -1) * (( 1.0) * (Kon_G1))
+  S1 + DNA_001 -> 2*S1 + DNA_001 , ( -1) * (( 1.0) * (Kon_NG1))+( -1) * (( 1.0) * (Kon_G1))
+  S1 + DNA_110 -> S1 + DNA_110 + DNA_111 , ( 1.0) * (Kon_NG1)
+  S1 + DNA_110 -> S1 + 2*DNA_110 , ( -1) * (( 1.0) * (Kon_NG1))
+  S1 + DNA_110 -> 2*S1 + DNA_110 , ( -1) * (( 1.0) * (Kon_NG1))
+  S1 + DNA_101 -> S1 + DNA_101 + DNA_111 , ( 1.0) * (Kon_G1)
+  S1 + DNA_101 -> S1 + 2*DNA_101 , ( -1) * (( 1.0) * (Kon_G1))
+  S1 + DNA_101 -> 2*S1 + DNA_101 , ( -1) * (( 1.0) * (Kon_G1))
+  S1 + DNA_011 -> S1 + DNA_011 + DNA_111 , ( 1.0) * (Kon_NG1)
+  S1 + DNA_011 -> S1 + 2*DNA_011 , ( -1) * (( 1.0) * (Kon_NG1))
+  S1 + DNA_011 -> 2*S1 + DNA_011 , ( -1) * (( 1.0) * (Kon_NG1))
+  DNA_100 -> S1 + DNA_100 , ( -1) * (( 1.0) * (-(Koff_NG1)))
+  DNA_100 -> DNA_000 + DNA_100 , ( -1) * (( 1.0) * (-(Koff_NG1)))
+  DNA_100 -> 2*DNA_100 , ( 1.0) * (-(Koff_NG1))
+  DNA_010 -> S1 + DNA_010 , ( -1) * (( 1.0) * (-(Koff_G1)))
+  DNA_010 -> DNA_000 + DNA_010 , ( -1) * (( 1.0) * (-(Koff_G1)))
+  DNA_010 -> 2*DNA_010 , ( 1.0) * (-(Koff_G1))
+  DNA_001 -> S1 + DNA_001 , ( -1) * (( 1.0) * (-(Koff_NG1)))
+  DNA_001 -> DNA_000 + DNA_001 , ( -1) * (( 1.0) * (-(Koff_NG1)))
+  DNA_001 -> 2*DNA_001 , ( 1.0) * (-(Koff_NG1))
+  DNA_110 -> S1 + DNA_110 , ( -1) * (( 1.0) * (-(Koff_G1)))+( -1) * (( 1.0) * (-(Koff_NG1)))
+  DNA_110 -> DNA_100 + DNA_110 , ( -1) * (( 1.0) * (-(Koff_G1)))
+  DNA_110 -> DNA_010 + DNA_110 , ( -1) * (( 1.0) * (-(Koff_NG1)))
+  DNA_110 -> DNA_110 + DNA_1B10 , ( 1.0) * (Kon_P1)
+  DNA_110 -> 2*DNA_110 , ( -1) * (( 1.0) * (Kon_P1))+( 1.0) * (-(Koff_NG1))+( 1.0) * (-(Koff_G1))
+  DNA_101 -> S1 + DNA_101 , ( -1) * (( 1.0) * (-(Koff_NG1)))+( -1) * (( 1.0) * (-(Koff_NG1)))
+  DNA_101 -> DNA_100 + DNA_101 , ( -1) * (( 1.0) * (-(Koff_NG1)))
+  DNA_101 -> DNA_001 + DNA_101 , ( -1) * (( 1.0) * (-(Koff_NG1)))
+  DNA_101 -> 2*DNA_101 , ( 1.0) * (-(Koff_NG1))+( 1.0) * (-(Koff_NG1))
+  DNA_011 -> S1 + DNA_011 , ( -1) * (( 1.0) * (-(Koff_G1)))+( -1) * (( 1.0) * (-(Koff_NG1)))
+  DNA_011 -> DNA_010 + DNA_011 , ( -1) * (( 1.0) * (-(Koff_NG1)))
+  DNA_011 -> DNA_001 + DNA_011 , ( -1) * (( 1.0) * (-(Koff_G1)))
+  DNA_011 -> DNA_011 + DNA_01B1 , ( 1.0) * (Kon_P1)
+  DNA_011 -> 2*DNA_011 , ( -1) * (( 1.0) * (Kon_P1))+( 1.0) * (-(Koff_NG1))+( 1.0) * (-(Koff_G1))
+  DNA_111 -> S1 + DNA_111 , ( -1) * (( 1.0) * (-(Koff_G1)))+( -1) * (( 1.0) * (-(Koff_NG1)))+( -1) * (( 1.0) * (-(Koff_NG1)))
+  DNA_111 -> DNA_110 + DNA_111 , ( -1) * (( 1.0) * (-(Koff_NG1)))
+  DNA_111 -> DNA_101 + DNA_111 , ( -1) * (( 1.0) * (-(Koff_G1)))
+  DNA_111 -> DNA_011 + DNA_111 , ( -1) * (( 1.0) * (-(Koff_NG1)))
+  DNA_111 -> DNA_111 + DNA_1B11 , ( 1.0) * (Kon_P1)
+  DNA_111 -> DNA_111 + DNA_11B1 , ( 1.0) * (Kon_P1)
+  DNA_111 -> 2*DNA_111 , ( -1) * (( 1.0) * (Kon_P1))+( -1) * (( 1.0) * (Kon_P1))+( 1.0) * (-(Koff_NG1))+( 1.0) * (-(Koff_NG1))+( 1.0) * (-(Koff_G1))
+  DNA_1B10 -> DNA_110 + DNA_1B10 , ( -1) * (( 1.0) * (-(Koff_P1)))
+  DNA_1B10 -> 2*DNA_1B10 , ( 1.0) * (-(Koff_P1))
+  DNA_01B1 -> DNA_011 + DNA_01B1 , ( -1) * (( 1.0) * (-(Koff_P1)))
+  DNA_01B1 -> 2*DNA_01B1 , ( 1.0) * (-(Koff_P1))
+  DNA_1B11 -> DNA_111 + DNA_1B11 , ( -1) * (( 1.0) * (-(Koff_P1)))
+  DNA_1B11 -> DNA_1B11 + DNA_1B1B1 , ( 1.0) * (Kon_P1)
+  DNA_1B11 -> 2*DNA_1B11 , ( -1) * (( 1.0) * (Kon_P1))+( 1.0) * (-(Koff_P1))
+  DNA_11B1 -> DNA_111 + DNA_11B1 , ( -1) * (( 1.0) * (-(Koff_P1)))
+  DNA_11B1 -> DNA_11B1 + DNA_1B1B1 , ( 1.0) * (Kon_P1)
+  DNA_11B1 -> 2*DNA_11B1 , ( -1) * (( 1.0) * (Kon_P1))+( 1.0) * (-(Koff_P1))
+  DNA_1B1B1 -> DNA_1B11 + DNA_1B1B1 , ( -1) * (( 1.0) * (-(Koff_P1)))
+  DNA_1B1B1 -> DNA_11B1 + DNA_1B1B1 , ( -1) * (( 1.0) * (-(Koff_P1)))
+  DNA_1B1B1 -> 2*DNA_1B1B1 , ( 1.0) * (-(Koff_P1))+( 1.0) * (-(Koff_P1))
+ end reactions
+
+end model
+

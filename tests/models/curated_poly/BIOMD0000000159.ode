@@ -1,0 +1,35 @@
+begin model BIOMD0000000159
+ begin parameters
+  beta_x = 0.3
+  psi = 1.0
+  alpha_x = 0.0
+  alpha_xy = 3.2
+  beta_y = 0.4
+  alpha_y = 0.1
+  alpha_0 = 0.1
+ end parameters
+ begin init
+  x ( "p53" ) 
+  y ( "Mdm2" ) 
+  y0 ( "precursor Mdm2" ) 
+  SINK
+  source = 1.0
+ end init
+ begin reactions
+  x -> x + y0 , ( ( 1.0) * (beta_y)) * (psi)
+  x -> x + SINK , ( -1) * (( 1.0) * (alpha_x))
+  x -> 2*x , ( 1.0) * (alpha_x)
+  x + y -> 2*x + y , ( -1) * (( 1.0) * (alpha_xy))
+  y -> y + SINK , ( -1) * (( 1.0) * (alpha_y))
+  y -> 2*y , ( 1.0) * (alpha_y)
+  y0 -> y + y0 , ( 1.0) * (alpha_0)
+  y0 -> 2*y0 , ( -1) * (( 1.0) * (alpha_0))
+  source -> x + source , ( ( 1.0) * (beta_x)) * (psi)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

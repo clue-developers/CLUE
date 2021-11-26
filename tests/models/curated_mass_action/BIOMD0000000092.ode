@@ -1,0 +1,16 @@
+begin model BIOMD0000000092
+ begin init
+  z = 2.4E-5 ( "Zymogen" ) 
+  e ( "Enzyme" ) 
+  w ( "Peptide" ) 
+  ez ( "Enzyme-Substrate complex" ) 
+ end init
+ begin reactions
+  z -> e + w , ( 1.0) * (0.004) [v1_forw]
+  z + e -> ez , ( 1.0) * (1000.0) [v2_forw]
+  ez -> z + e , ( -1) * (( 1.0) * (-(2.1E-4))) [v2_rev]
+  ez -> 2*e + w , ( 1.0) * (5.4E-4) [v3_forw]
+ end reactions
+
+end model
+

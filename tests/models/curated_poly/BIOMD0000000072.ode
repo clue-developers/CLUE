@@ -1,0 +1,39 @@
+begin model BIOMD0000000072
+ begin init
+  L = 6.02E17 ( "Ligand" ) 
+  R = 10000.0 ( "Receptor" ) 
+  G = 7000.0 ( "Inactive heterotrimeric G-protein" ) 
+  Gbg = 3000.0 ( "Free levels of G-beta-gamma" ) 
+  Gd = 3000.0 ( "G-alpha-GDP" ) 
+  Ga ( "G-alpha-GTP" ) 
+  RL ( "Receptor-Ligand" ) 
+  SINK
+  source = 1.0
+ end init
+ begin reactions
+  L + R -> L + R + RL , ( 1.0) * (3.32E-18)
+  L + R -> L + 2*R , ( -1) * (( 1.0) * (3.32E-18))
+  L + R -> 2*L + R , ( -1) * (( 1.0) * (3.32E-18))
+  R -> R + SINK , ( -1) * (( 1.0) * (4.0E-4))
+  R -> 2*R , ( 1.0) * (4.0E-4)
+  G + RL -> G + Gbg + RL , ( 1.0) * (1.0E-5)
+  G + RL -> G + Ga + RL , ( 1.0) * (1.0E-5)
+  G + RL -> 2*G + RL , ( -1) * (( 1.0) * (1.0E-5))
+  Gbg + Gd -> G + Gbg + Gd , ( 1.0) * (1.0)
+  Gbg + Gd -> Gbg + 2*Gd , ( -1) * (( 1.0) * (1.0))
+  Gbg + Gd -> 2*Gbg + Gd , ( -1) * (( 1.0) * (1.0))
+  Ga -> Gd + Ga , ( 1.0) * (0.11)
+  Ga -> 2*Ga , ( -1) * (( 1.0) * (0.11))
+  RL -> L + RL , ( -1) * (( 1.0) * (-(0.01)))
+  RL -> R + RL , ( -1) * (( 1.0) * (-(0.01)))
+  RL -> RL + SINK , ( -1) * (( 1.0) * (0.004))
+  RL -> 2*RL , ( 1.0) * (-(0.01))+( 1.0) * (0.004)
+  source -> R + source , ( 1.0) * (4.0)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

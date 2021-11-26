@@ -1,0 +1,120 @@
+begin model MODEL1012080000
+ begin parameters
+  k0 = 3.11E-4
+  k1 = 0.0178
+  k2 = 7.6
+  k3 = 4.63
+  k4 = 0.0787
+  k5 = 2.65
+  k6 = 5.0985
+  k7 = 0.461
+  k8 = 1.77
+  k9 = 3.04
+  k10 = 2.27
+  k11 = 2.61
+  k12 = 2.59
+  k13 = 0.00619
+  k14 = 0.0311
+  k15 = 6.54E-5
+  k16 = 0.0723
+  k17 = 0.0665
+  k18 = 0.59
+  k19 = 0.205
+  k20 = 1.04
+  k21 = 4.2E-4
+  k22 = 14.44
+  k23 = 1.05
+  k24 = 0.347
+  k25 = 0.762
+  GRK23 = 0.899447579
+  GRK56 = 1.5180818
+  GRK23_si = 0.478865092
+  GRK56_si = 0.00103512491
+  P0_Ro = 0.00173556731
+  P0_a_Ro = 2.09075206E-5
+  barr2_0_si = 1.12306963E-4
+  nDAG = 4.11974423
+  nPKC = 7.20901786
+ end parameters
+ begin init
+  HR = 0.08 ( "H-R" ) 
+  G = 56.99
+  ERK = 4.243
+  PIP2 = 0.997
+  DAG = 0.009
+  PKC = 8.842
+  PKC_a = 0.002
+  GpERK = 0.015
+  bpERK = 0.015
+  barr1 = 0.858
+  barr2 = 0.483
+  G_a
+  HRP1 ( "H-R~{P1}" ) 
+  Hbarr1RP1 ( "H-barr1-R~{P1}" ) 
+  Hbarr2RP1 ( "H-barr2-R~{P1}" ) 
+  HRP2 ( "H-R~{P2}" ) 
+  HRbarr2 ( "H-R-barr2" ) 
+  Hbarr2RP2 ( "H-barr2-R~{P2}" ) 
+ end init
+ begin reactions
+  HR -> HR + HRP1 , ( k10) * (GRK23)
+  HR -> HR + HRP2 , ( k18) * (GRK56)
+  HR -> 2*HR , ( -1) * (( k10) * (GRK23))+( -1) * (( k18) * (GRK56))
+  HR + G -> HR + G + G_a , k2
+  HR + G -> HR + 2*G , ( -1) * (k2)
+  HR + barr2 -> HR + barr2 + HRbarr2 , k19
+  HR + barr2 -> HR + 2*barr2 , ( -1) * (k19)
+  HR + barr2 -> 2*HR + barr2 , ( -1) * (k19)
+  G -> G + G_a , k0
+  G -> 2*G , ( -1) * (k0)
+  G + HRP1 -> G + G_a + HRP1 , k1
+  G + HRP1 -> 2*G + HRP1 , ( -1) * (k1)
+  ERK + PKC_a -> ERK + PKC_a + GpERK , k5
+  ERK + PKC_a -> 2*ERK + PKC_a , ( -1) * (k5)
+  ERK + HRbarr2 -> ERK + bpERK + HRbarr2 , k21
+  ERK + HRbarr2 -> 2*ERK + HRbarr2 , ( -1) * (k21)
+  ERK + Hbarr2RP2 -> ERK + bpERK + Hbarr2RP2 , k22
+  ERK + Hbarr2RP2 -> 2*ERK + Hbarr2RP2 , ( -1) * (k22)
+  PIP2 + G_a -> PIP2 + DAG + G_a , k3
+  PIP2 + G_a -> 2*PIP2 + G_a , ( -1) * (k3)
+  DAG -> PIP2 + DAG , k7
+  DAG -> 2*DAG , ( -1) * (k7)
+  DAG + PKC -> DAG + PKC + PKC_a , k4
+  DAG + PKC -> DAG + 2*PKC , ( -1) * (k4)
+  PKC_a -> PKC + PKC_a , k8
+  PKC_a -> 2*PKC_a , ( -1) * (k8)
+  GpERK -> ERK + GpERK , k9
+  GpERK -> 2*GpERK , ( -1) * (k9)
+  bpERK -> ERK + bpERK , k25
+  bpERK -> 2*bpERK , ( -1) * (k25)
+  barr1 + HRP1 -> barr1 + HRP1 + Hbarr1RP1 , k11
+  barr1 + HRP1 -> barr1 + 2*HRP1 , ( -1) * (k11)
+  barr1 + HRP1 -> 2*barr1 + HRP1 , ( -1) * (k11)
+  barr2 + HRP1 -> barr2 + HRP1 + Hbarr2RP1 , k12
+  barr2 + HRP1 -> barr2 + 2*HRP1 , ( -1) * (k12)
+  barr2 + HRP1 -> 2*barr2 + HRP1 , ( -1) * (k12)
+  barr2 + HRP2 -> barr2 + HRP2 + Hbarr2RP2 , k20
+  barr2 + HRP2 -> barr2 + 2*HRP2 , ( -1) * (k20)
+  barr2 + HRP2 -> 2*barr2 + HRP2 , ( -1) * (k20)
+  G_a -> G + G_a , k6
+  G_a -> 2*G_a , ( -1) * (k6)
+  Hbarr1RP1 -> HR + Hbarr1RP1 , k15
+  Hbarr1RP1 -> barr1 + Hbarr1RP1 , k15+k13
+  Hbarr1RP1 -> HRP1 + Hbarr1RP1 , k13
+  Hbarr1RP1 -> 2*Hbarr1RP1 , ( -1) * (k13)+( -1) * (k15)
+  Hbarr2RP1 -> HR + Hbarr2RP1 , k16
+  Hbarr2RP1 -> barr2 + Hbarr2RP1 , k14+k16
+  Hbarr2RP1 -> HRP1 + Hbarr2RP1 , k14
+  Hbarr2RP1 -> 2*Hbarr2RP1 , ( -1) * (k16)+( -1) * (k14)
+  HRP2 -> HR + HRP2 , k17
+  HRP2 -> 2*HRP2 , ( -1) * (k17)
+  HRbarr2 -> HR + HRbarr2 , k23
+  HRbarr2 -> barr2 + HRbarr2 , k23
+  HRbarr2 -> 2*HRbarr2 , ( -1) * (k23)
+  Hbarr2RP2 -> barr2 + Hbarr2RP2 , k24
+  Hbarr2RP2 -> HRP2 + Hbarr2RP2 , k24
+  Hbarr2RP2 -> 2*Hbarr2RP2 , ( -1) * (k24)
+ end reactions
+
+end model
+

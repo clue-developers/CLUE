@@ -1,0 +1,60 @@
+begin model MODEL6185746832
+ begin parameters
+  a1 = 412.70811967196
+  d1 = 37.94672390883
+  k1 = 151.96497506695
+  a2 = 614.23550265579
+  d2 = 30.67781836734
+  k2 = 38.38638214661
+  a3 = 2747.66126515004
+  d3 = 36.76161197793
+  k3 = 31.62066767483
+  a4 = 4429.31666087101
+  d4 = 80.50728368758
+  k4 = 91.91932852474
+  a5 = 2127.55682187113
+  d5 = 57.71926789912
+  k5 = 231.57731814359
+  a6 = 1519.11858692455
+  d6 = 106.46098149694
+  k6 = 191.85288364598
+ end parameters
+ begin init
+  KKK
+  E1Aux = 6.30957E-6
+  KKKE1Aux
+  KKKS = 0.00743468337
+  E2 = 1.1836217E-4
+  KKKSE2
+  KK
+  KK_KKKS
+  KKP
+  KKPase = 0.00119813544
+  KKPKKPase
+  KKPKKKS
+  KKPP = 3.74917682536
+  KKPPKKPase
+ end init
+ begin reactions
+  KKK + E1Aux -> KKKE1Aux , a1 [J0_forw]
+  KKKE1Aux -> KKK + E1Aux , d1 [J1_forw]
+  KKKE1Aux -> E1Aux + KKKS , k1 [J2_forw]
+  KKKS + E2 -> KKKSE2 , a2 [J3_forw]
+  KKKSE2 -> KKKS + E2 , d2 [J4_forw]
+  KKKSE2 -> KKK + E2 , k2 [J5_forw]
+  KKKS + KK -> KK_KKKS , a3 [J6_forw]
+  KK_KKKS -> KKKS + KK , d3 [J7_forw]
+  KK_KKKS -> KKKS + KKP , k3 [J8_forw]
+  KKP + KKPase -> KKPKKPase , a4 [J9_forw]
+  KKPKKPase -> KKP + KKPase , d4 [J10_forw]
+  KKPKKPase -> KK + KKPase , k4 [J11_forw]
+  KKKS + KKP -> KKPKKKS , a5 [J12_forw]
+  KKPKKKS -> KKKS + KKP , d5 [J13_forw]
+  KKPKKKS -> KKKS + KKPP , k5 [J14_forw]
+  KKPase + KKPP -> KKPPKKPase , a6 [J15_forw]
+  KKPPKKPase -> KKPase + KKPP , d6 [J16_forw]
+  KKPPKKPase -> KKP + KKPase , k6 [J17_forw]
+ end reactions
+
+end model
+

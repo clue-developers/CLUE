@@ -1,0 +1,52 @@
+begin model BIOMD0000000101
+ begin parameters
+  ka = 1.0
+  ligand = 3.0E-5
+  kcd = 0.0277777778
+  klid = 0.25
+  ki = 0.3333333333333
+  pRI = 8.0
+  kr = 0.0333333333333333
+  alpha = 1.0
+  pRII = 4.0
+ end parameters
+ begin init
+  RI = 20.0 ( "Receptor 1" ) 
+  RII = 20.0 ( "Receptor 2" ) 
+  lRIRII ( "ligand receptor complex-plasma membrane" ) 
+  lRIRII_endo = 40.0 ( "ligand receptor complex-endosome" ) 
+  RI_endo ( "Receptor 1-endosome" ) 
+  RII_endo ( "Receptor 2 endosome" ) 
+  SINK
+  source = 1.0
+ end init
+ begin reactions
+  RI -> RI + RI_endo , ki
+  RI -> RI + SINK , ( -1) * (kcd)
+  RI -> 2*RI , ( -1) * (ki)+kcd
+  RI + RII -> RI + RII + lRIRII , ( ka) * (ligand)
+  RI + RII -> RI + 2*RII , ( -1) * (( ka) * (ligand))
+  RI + RII -> 2*RI + RII , ( -1) * (( ka) * (ligand))
+  RII -> RII + RII_endo , ki
+  RII -> RII + SINK , ( -1) * (kcd)
+  RII -> 2*RII , ( -1) * (ki)+kcd
+  lRIRII -> lRIRII + lRIRII_endo , ki
+  lRIRII -> lRIRII + SINK , ( -1) * (klid)+( -1) * (kcd)
+  lRIRII -> 2*lRIRII , ( -1) * (ki)+kcd+klid
+  lRIRII_endo -> RI + lRIRII_endo , kr
+  lRIRII_endo -> RII + lRIRII_endo , kr
+  lRIRII_endo -> 2*lRIRII_endo , ( -1) * (kr)
+  RI_endo -> RI + RI_endo , kr
+  RI_endo -> 2*RI_endo , ( -1) * (kr)
+  RII_endo -> RII + RII_endo , kr
+  RII_endo -> 2*RII_endo , ( -1) * (kr)
+  source -> RI + source , pRI
+  source -> RII + source , pRII
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

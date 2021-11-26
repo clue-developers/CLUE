@@ -1,0 +1,95 @@
+begin model BIIOMD0000000389
+ begin parameters
+  r = 3.0E-5
+  sD = 1.0E-4
+  phi = 1.0E-4
+  v_15 = 0.00998718
+ end parameters
+ begin init
+  RuBP = 2.0
+  PGA = 2.4
+  TP = 0.5
+  HeP = 2.2
+  TPGA = 0.2
+  E4P = 0.05
+  S7P = 2.0
+  Ru5P = 0.05
+  GG = 99.9999999999999
+  ATP = 3.875
+  ADP = 0.53
+  UTP = 3.871
+  UDP = 1.613
+  Pi = 2.5
+  CO2 = 31.0
+  TPc = 0.114
+  HePc = 0.1
+  Suc = 77.31
+  Pic = 0.8
+  SucV = 77.31
+  E = 0.5
+  Resp = 1.0
+  II = 1
+ end init
+ begin reactions
+  RuBP + CO2 -> RuBP + PGA + CO2 , ( 2) * (( 1.0) * (0.006))
+  RuBP + CO2 -> 2*RuBP + CO2 , ( -1) * (( 1.0) * (0.006))
+  PGA + ATP -> PGA + TP + ATP , ( 1.0) * (0.0207)
+  PGA + ATP -> PGA + ATP + ADP , ( 1.0) * (0.0207)
+  PGA + ATP -> PGA + ATP + Pi , ( 1.0) * (0.0207)
+  PGA + ATP -> PGA + 2*ATP , ( -1) * (( 1.0) * (0.0207))
+  PGA + ATP -> 2*PGA + ATP , ( -1) * (( 1.0) * (0.0207))
+  TP + TPGA -> TP + TPGA + Ru5P , ( 1.0) * (6.2)
+  TP + TPGA -> TP + 2*TPGA , ( -1) * (( 1.0) * (6.2))
+  TP + TPGA -> 2*TP + TPGA , ( -1) * (( 1.0) * (6.2))
+  TP + E4P -> TP + E4P + S7P , ( 1.0) * (3.1)
+  TP + E4P -> TP + E4P + Pi , ( 1.0) * (3.1)
+  TP + E4P -> TP + 2*E4P , ( -1) * (( 1.0) * (3.1))
+  TP + E4P -> 2*TP + E4P , ( -1) * (( 1.0) * (3.1))
+  TP + Pic -> TP + Pi + Pic , 0.5
+  TP + Pic -> TP + TPc + Pic , 0.5
+  TP + Pic -> TP + 2*Pic , ( -1) * (0.5)
+  TP + Pic -> 2*TP + Pic , ( -1) * (0.5)
+  2*TP -> 2*TP + HeP , ( 1.0) * (4.0)
+  2*TP -> 2*TP + Pi , ( 1.0) * (4.0)
+  2*TP -> 3*TP , ( -2) * (( 1.0) * (4.0))
+  HeP -> HeP + TPGA , ( 1.0) * (0.031)
+  HeP -> HeP + E4P , ( 1.0) * (0.031)
+  HeP -> 2*HeP , ( -1) * (( 1.0) * (0.031))
+  HeP + ATP -> HeP + GG + ATP , ( 1.0) * (0.002)
+  HeP + ATP -> HeP + ATP + ADP , ( 1.0) * (0.002)
+  HeP + ATP -> HeP + ATP + Pi , ( 2) * (( 1.0) * (0.002))
+  HeP + ATP -> HeP + 2*ATP , ( -1) * (( 1.0) * (0.002))
+  HeP + ATP -> 2*HeP + ATP , ( -1) * (( 1.0) * (0.002))
+  S7P -> TPGA + S7P , ( 1.0) * (0.31)
+  S7P -> S7P + Ru5P , ( 1.0) * (0.31)
+  S7P -> 2*S7P , ( -1) * (( 1.0) * (0.31))
+  Ru5P + ATP -> RuBP + Ru5P + ATP , ( 1.0) * (0.031)
+  Ru5P + ATP -> Ru5P + ATP + ADP , ( 1.0) * (0.031)
+  Ru5P + ATP -> Ru5P + 2*ATP , ( -1) * (( 1.0) * (0.031))
+  Ru5P + ATP -> 2*Ru5P + ATP , ( -1) * (( 1.0) * (0.031))
+  GG + Pi -> HeP + GG + Pi , ( 1.0) * (4.0E-5)
+  GG + Pi -> GG + 2*Pi , ( -1) * (( 1.0) * (4.0E-5))
+  GG + Pi -> 2*GG + Pi , ( -1) * (( 1.0) * (4.0E-5))
+  ADP + Pi -> ATP + ADP + Pi , ( 1.0) * (0.279)
+  ADP + Pi -> ADP + 2*Pi , ( -1) * (( 1.0) * (0.279))
+  ADP + Pi -> 2*ADP + Pi , ( -1) * (( 1.0) * (0.279))
+  UDP + Pic -> UTP + UDP + Pic , 0.00755
+  UDP + Pic -> UDP + 2*Pic , ( -1) * (0.00755)
+  UDP + Pic -> 2*UDP + Pic , ( -1) * (0.00755)
+  2*TPc -> 2*TPc + HePc , ( 1.0) * (1.55)
+  2*TPc -> 2*TPc + Pic , ( 1.0) * (1.55)
+  2*TPc -> 3*TPc , ( -2) * (( 1.0) * (1.55))
+  Suc -> Suc + SucV , sD
+  Suc -> 2*Suc , ( -1) * (sD)+( -1) * (phi)+( -1) * (r)
+  SucV -> Suc + SucV , ( -1) * (-(sD))
+  SucV -> 2*SucV , -(sD)
+  EE -> Suc + EE , ( -1) * (-(phi))
+  II -> UTP + II , ( -1) * (v_15)
+  II -> UDP + II , v_15
+  II -> HePc + II , ( -2) * (v_15)
+  II -> Suc + II , v_15
+  II -> Pic + II , ( 3) * (v_15)
+ end reactions
+
+end model
+

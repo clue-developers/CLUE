@@ -1,0 +1,50 @@
+begin model BIOMD0000000289
+ begin parameters
+  v = 0.0025
+  f = 1.0E-4
+  gamma = 2000.0
+  beta = 200.0
+  pi1 = 0.016
+  lambdaE = 1000.0
+  muAA = 0.25
+  muRRRR = 0.25
+  muE = 0.25
+  muG = 5.0
+  b1 = 0.25
+  sigma1 = 3.0E-6
+  mAA = 0.0
+  mG = 0.0
+  RRRR0 = 0.0
+ end parameters
+ begin init
+  AA = 1.0
+  RRRR
+  E
+  G = 1.0E8
+  AA_im
+  SINK
+ end init
+ begin reactions
+  AA -> AA + RRRR , beta
+  AA -> AA + EE , lambdaE
+  AA -> AA + SINK , ( -1) * (muAA)+( -1) * (b1)
+  AA -> 2*AA , muAA+b1
+  AA + RRRR -> 2*AA + RRRR , ( -1) * (sigma1)
+  AA + EE -> AA + RRRR + EE , pi1
+  RRRR -> RRRR + SINK , ( -1) * (muRRRR)
+  RRRR -> 2*RRRR , muRRRR
+  EE -> EE + G , gamma
+  EE -> E + SINK , ( -1) * (muE)
+  EE -> 2*EE , muE
+  G -> AA + G , ( f) * (v)
+  G -> G + AA_im , ( -1) * (( f) * (v))
+  G -> G + SINK , ( -1) * (muG)+( -1) * (v)
+  G -> 2*G , v+muG
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

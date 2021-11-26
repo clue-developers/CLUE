@@ -1,0 +1,43 @@
+begin model MODEL1008060002
+ begin parameters
+  N = 500.0
+  p = 0.0
+  sdelta = 1.0E-4
+  beta = 0.0095
+  kappa = 1.0E-4
+  sigma = 1.0E-4
+  gamma = 1.0E-4
+  rho = 0.05
+  zeta = 1.0E-4
+  alpha = 0.005
+ end parameters
+ begin init
+  I ( "Infected" ) 
+  Z ( "Zombie" ) 
+  R ( "Removed" ) 
+  Q ( "Quarantined" ) 
+  source = 1.0
+  S
+ end init
+ begin reactions
+  I -> I + Z , rho
+  I -> I + R , sdelta
+  I -> I + Q , kappa
+  I -> 2*I , ( -1) * (rho)+( -1) * (kappa)+( -1) * (sdelta)
+  Z -> Z + Q , sigma
+  Z -> 2*Z , ( -1) * (sigma)
+  Z + S -> I + Z + S , beta
+  Z + S -> Z + R + S , alpha
+  Z + S -> Z + 2*S , ( -1) * (beta)
+  Z + S -> 2*Z + S , ( -1) * (alpha)
+  R -> Z + R , zeta
+  R -> 2*R , ( -1) * (zeta)
+  Q -> R + Q , gamma
+  Q -> 2*Q , ( -1) * (gamma)
+  source + S -> source + 2*S , sdelta
+  S -> R + S , sdelta
+  S -> 2*S , ( -1) * (sdelta)
+ end reactions
+
+end model
+

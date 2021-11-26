@@ -1,0 +1,94 @@
+begin model BIOMD0000000257
+ begin parameters
+  k1 = 10.0
+  k1r = 10.0
+  k2 = 10.0
+  k2r = 10.0
+  k3 = 2.0
+  k3r = 1.0
+  k4 = 0.3
+  k5 = 1.0
+  k5r = 1.0
+  k6 = 1.0
+  k6r = 1.0
+  k7 = 0.1
+  k7r = 0.1
+  k8 = 0.0
+  k9 = 0.1
+  k9r = 0.05
+  k10 = 0.05
+  k10r = 0.05
+  k11 = 0.0
+ end parameters
+ begin init
+  SS = 4.0
+  U = 1.0
+  T = 2.0
+  SSTU = 5.0
+  SSTUSS
+  SSTUSST
+  SSTUSSU
+  SSU
+  SST
+  SSUSST
+  SSUSSTU
+  SSINK
+ end init
+ begin reactions
+  SS + SSTU -> SS + SSTU + SSTUSS , ( 1.0) * (k1)
+  SS + SSTU -> SS + 2*SSTU , ( -1) * (( 1.0) * (k1))
+  SS + SSTU -> 2*SS + SSTU , ( -1) * (( 1.0) * (k1))
+  U + SSTUSS -> U + SSTUSS + SSTUSSU , ( 1.0) * (k9)
+  U + SSTUSS -> U + 2*SSTUSS , ( -1) * (( 1.0) * (k9))
+  U + SSTUSS -> 2*U + SSTUSS , ( -1) * (( 1.0) * (k9))
+  U + SSUSST -> U + SSUSST + SSUSSTU , ( 1.0) * (k6)
+  U + SSUSST -> U + 2*SSUSST , ( -1) * (( 1.0) * (k6))
+  U + SSUSST -> 2*U + SSUSST , ( -1) * (( 1.0) * (k6))
+  T + SSTUSS -> T + SSTUSS + SSTUSST , ( 1.0) * (k2)
+  T + SSTUSS -> T + 2*SSTUSS , ( -1) * (( 1.0) * (k2))
+  T + SSTUSS -> 2*T + SSTUSS , ( -1) * (( 1.0) * (k2))
+  SSTU -> SSTU + SSINK , ( -1) * (( 1.0) * (k4))
+  SSTU -> 2*SSTU , ( 1.0) * (k4)
+  SSTU + SSU -> SSTU + SSTUSSU + SSU , ( -1) * (( 1.0) * (-(k10r)))
+  SSTU + SSU -> SSTU + SSU + SSUSSTU , ( -1) * (( 1.0) * (-(k7r)))
+  SSTU + SSU -> SSTU + 2*SSU , ( 1.0) * (-(k7r))+( 1.0) * (-(k10r))
+  SSTU + SSU -> 2*SSTU + SSU , ( 1.0) * (-(k7r))+( 1.0) * (-(k10r))
+  SSTU + SST -> SSTU + SSTUSST + SST , ( -1) * (( 1.0) * (-(k3r)))
+  SSTU + SST -> SSTU + 2*SST , ( 1.0) * (-(k3r))
+  SSTU + SST -> 2*SSTU + SST , ( 1.0) * (-(k3r))
+  SSTUSS -> SS + SSTUSS , ( -1) * (( 1.0) * (-(k1r)))
+  SSTUSS -> SSTU + SSTUSS , ( -1) * (( 1.0) * (-(k1r)))
+  SSTUSS -> 2*SSTUSS , ( 1.0) * (-(k1r))
+  SSTUSST -> T + SSTUSST , ( -1) * (( 1.0) * (-(k2r)))
+  SSTUSST -> SSTU + SSTUSST , ( 1.0) * (k3)
+  SSTUSST -> SSTUSS + SSTUSST , ( -1) * (( 1.0) * (-(k2r)))
+  SSTUSST -> SSTUSST + SST , ( 1.0) * (k3)
+  SSTUSST -> 2*SSTUSST , ( 1.0) * (-(k2r))+( -1) * (( 1.0) * (k3))
+  SSTUSSU -> U + SSTUSSU , ( -1) * (( 1.0) * (-(k9r)))
+  SSTUSSU -> SSTU + SSTUSSU , ( 1.0) * (k10)
+  SSTUSSU -> SSTUSS + SSTUSSU , ( -1) * (( 1.0) * (-(k9r)))
+  SSTUSSU -> SSTUSSU + SSU , ( 1.0) * (k10)
+  SSTUSSU -> 2*SSTUSSU , ( 1.0) * (-(k9r))+( -1) * (( 1.0) * (k10))
+  SSU -> SSU + SSINK , ( -1) * (( 1.0) * (k4))
+  SSU -> 2*SSU , ( 1.0) * (k4)
+  SSU + SST -> SSU + SST + SSUSST , ( 1.0) * (k5)
+  SSU + SST -> SSU + 2*SST , ( -1) * (( 1.0) * (k5))
+  SSU + SST -> 2*SSU + SST , ( -1) * (( 1.0) * (k5))
+  SST -> SST + SSINK , ( -1) * (( 1.0) * (k4))
+  SST -> 2*SST , ( 1.0) * (k4)
+  SSUSST -> SSU + SSUSST , ( -1) * (( 1.0) * (-(k5r)))
+  SSUSST -> SST + SSUSST , ( -1) * (( 1.0) * (-(k5r)))
+  SSUSST -> 2*SSUSST , ( 1.0) * (-(k5r))
+  SSUSSTU -> U + SSUSSTU , ( -1) * (( 1.0) * (-(k6r)))
+  SSUSSTU -> SSTU + SSUSSTU , ( 1.0) * (k7)
+  SSUSSTU -> SSU + SSUSSTU , ( 1.0) * (k7)
+  SSUSSTU -> SSUSST + SSUSSTU , ( -1) * (( 1.0) * (-(k6r)))
+  SSUSSTU -> 2*SSUSSTU , ( 1.0) * (-(k6r))+( -1) * (( 1.0) * (k7))
+ end reactions
+
+//Comments associated to the species
+//SSINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

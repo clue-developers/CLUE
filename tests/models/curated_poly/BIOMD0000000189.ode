@@ -1,0 +1,77 @@
+begin model BIOMD0000000189
+ begin parameters
+  IR = 0.0
+  ksynMdm2 = 4.95E-4
+  kdegMdm2 = 4.33E-4
+  ksynp53 = 0.078
+  kdegp53 = 8.25E-4
+  kbinMdm2p53 = 0.001155
+  krelMdm2p53 = 1.155E-5
+  ksynMdm2mRNA = 1.0E-4
+  kdegMdm2mRNA = 1.0E-4
+  kbinARFMdm2 = 0.01
+  kdegARFMdm2 = 0.001
+  kdegARF = 1.0E-4
+  kactARF = 3.3E-5
+  kdam = 0.08
+  krepair = 2.0E-5
+  kproteff = 1.0
+ end parameters
+ begin init
+  Mdm2 = 5.0
+  p53 = 5.0
+  Mdm2_p53 = 95.0
+  Mdm2_mRNA
+  ARF
+  ARF_Mdm2
+  damDNA
+  Sink = 1.0
+  Source = 1.0
+  p53deg
+  p53syn
+  mdm2deg
+  mdm2syn
+  Mdm2mRNAdeg
+  Mdm2mRNAsyn
+  totdamDNA
+  totp53
+  totMdm2
+  source = 1.0
+ end init
+ begin reactions
+  Mdm2 -> Mdm2 + mdm2deg , ( kdegMdm2) * (kproteff)
+  Mdm2 -> 2*Mdm2 , ( -1) * (( kdegMdm2) * (kproteff))
+  Mdm2 + p53 -> Mdm2 + p53 + Mdm2_p53 , kbinMdm2p53
+  Mdm2 + p53 -> Mdm2 + 2*p53 , ( -1) * (kbinMdm2p53)
+  Mdm2 + p53 -> 2*Mdm2 + p53 , ( -1) * (kbinMdm2p53)
+  Mdm2 + ARF -> Mdm2 + ARF + ARF_Mdm2 , kbinARFMdm2
+  Mdm2 + ARF -> Mdm2 + 2*ARF , ( -1) * (kbinARFMdm2)
+  Mdm2 + ARF -> 2*Mdm2 + ARF , ( -1) * (kbinARFMdm2)
+  p53 -> p53 + Mdm2_mRNA , ksynMdm2mRNA
+  p53 -> p53 + Mdm2mRNAsyn , ksynMdm2mRNA
+  Mdm2_p53 -> Mdm2 + Mdm2_p53 , krelMdm2p53+( kdegp53) * (kproteff)
+  Mdm2_p53 -> p53 + Mdm2_p53 , krelMdm2p53
+  Mdm2_p53 -> Mdm2_p53 + p53deg , ( kdegp53) * (kproteff)
+  Mdm2_p53 -> 2*Mdm2_p53 , ( -1) * (( kdegp53) * (kproteff))+( -1) * (krelMdm2p53)
+  Mdm2_mRNA -> Mdm2 + Mdm2_mRNA , ksynMdm2
+  Mdm2_mRNA -> Mdm2_mRNA + mdm2syn , ksynMdm2
+  Mdm2_mRNA -> Mdm2_mRNA + Mdm2mRNAdeg , kdegMdm2mRNA
+  Mdm2_mRNA -> 2*Mdm2_mRNA , ( -1) * (kdegMdm2mRNA)
+  ARF -> 2*ARF , ( -1) * (( kdegARF) * (kproteff))
+  ARF_Mdm2 -> ARF + ARF_Mdm2 , ( kdegARFMdm2) * (kproteff)
+  ARF_Mdm2 -> ARF_Mdm2 + mdm2deg , ( kdegARFMdm2) * (kproteff)
+  ARF_Mdm2 -> 2*ARF_Mdm2 , ( -1) * (( kdegARFMdm2) * (kproteff))
+  damDNA -> ARF + damDNA , kactARF
+  damDNA -> 2*damDNA , ( -1) * (krepair)
+  Source -> p53 + Source , ksynp53
+  Source -> Source + p53syn , ksynp53
+  source -> damDNA + source , ( kdam) * (IR)
+  source -> totdamDNA + source , ( kdam) * (IR)
+ end reactions
+
+//Comments associated to the species
+//Sink:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

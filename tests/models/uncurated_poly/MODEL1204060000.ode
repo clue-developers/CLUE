@@ -1,0 +1,84 @@
+begin model MODEL1204060000
+ begin init
+  proIR_complex = 46.22225
+  IR_complex = 46.22225
+  p2IR_complex
+  p1p2IR_complex
+  p1IR_complex
+  pAKT
+  AKT = 4.33812
+  pGSK3b
+  GSK3b = 10.56415
+  pmTOR
+  mTOR = 0.09592
+  pS6K
+  S6K = 2.77699
+  pX
+  X = 14.99133
+  pFOX01
+  FOX01 = 0.43571
+  G6Pase = 38.54029
+  phi_2
+  phi_3
+  insulin = 1.0
+  phi_1
+  phi_4
+ end init
+ begin reactions
+  proIR_complex -> proIR_complex + IR_complex , 0.0478
+  proIR_complex -> 2*proIR_complex , ( -1) * (0.0478)
+  IR_complex -> proIR_complex + IR_complex , ( -1) * (-(0.0478))
+  IR_complex -> 2*IR_complex , -(0.0478)
+  IR_complex + pmTOR -> IR_complex + p2IR_complex + pmTOR , 9.93311
+  IR_complex + pmTOR -> 2*IR_complex + pmTOR , ( -1) * (9.93311)
+  IR_complex + insulin -> IR_complex + p1IR_complex + insulin , 7.78161
+  IR_complex + insulin -> IR_complex + 2*insulin , ( -1) * (7.78161)
+  IR_complex + insulin -> 2*IR_complex + insulin , ( -1) * (7.78161)
+  p2IR_complex -> IR_complex + p2IR_complex , 1.0E-5
+  p2IR_complex -> p2IR_complex + phi_2 , 1.0E-5
+  p2IR_complex -> 2*p2IR_complex , ( -1) * (1.0E-5)+( -1) * (1.0E-5)
+  p2IR_complex + insulin -> p2IR_complex + p1p2IR_complex + insulin , 0.36303
+  p2IR_complex + insulin -> p2IR_complex + 2*insulin , ( -1) * (0.36303)
+  p2IR_complex + insulin -> 2*p2IR_complex + insulin , ( -1) * (0.36303)
+  p1p2IR_complex -> p2IR_complex + p1p2IR_complex , ( -1) * (-(0.40813))
+  p1p2IR_complex -> p1p2IR_complex + p1IR_complex , 0.28443
+  p1p2IR_complex -> p1p2IR_complex + phi_3 , 0.0949
+  p1p2IR_complex -> p1p2IR_complex + insulin , ( -1) * (-(0.40813))
+  p1p2IR_complex -> 2*p1p2IR_complex , -(0.40813)+( -1) * (0.28443)+( -1) * (0.0949)
+  p1IR_complex -> IR_complex + p1IR_complex , ( -1) * (-(1.61148))
+  p1IR_complex -> p1IR_complex + insulin , ( -1) * (-(1.61148))
+  p1IR_complex -> p1IR_complex + phi_1 , 0.00792
+  p1IR_complex -> 2*p1IR_complex , -(1.61148)+( -1) * (0.00792)
+  p1IR_complex + AKT -> p1IR_complex + pAKT + AKT , 0.0092
+  p1IR_complex + AKT -> p1IR_complex + 2*AKT , ( -1) * (0.0092)
+  p1IR_complex + pmTOR -> p1p2IR_complex + p1IR_complex + pmTOR , 4.0E-5
+  p1IR_complex + pmTOR -> 2*p1IR_complex + pmTOR , ( -1) * (4.0E-5)
+  pAKT -> pAKT + AKT , 7.70619
+  pAKT -> 2*pAKT , ( -1) * (7.70619)
+  pAKT + GSK3b -> pAKT + pGSK3b + GSK3b , 2.97538
+  pAKT + GSK3b -> pAKT + 2*GSK3b , ( -1) * (2.97538)
+  pAKT + mTOR -> pAKT + pmTOR + mTOR , 0.41968
+  pAKT + mTOR -> pAKT + 2*mTOR , ( -1) * (0.41968)
+  pAKT + FOX01 -> pAKT + pFOX01 + FOX01 , 4.59698
+  pAKT + FOX01 -> pAKT + 2*FOX01 , ( -1) * (4.59698)
+  pGSK3b -> pGSK3b + GSK3b , 0.9246
+  pGSK3b -> 2*pGSK3b , ( -1) * (0.9246)
+  pmTOR -> pmTOR + mTOR , 0.12433
+  pmTOR -> 2*pmTOR , ( -1) * (0.12433)
+  pmTOR + S6K -> pmTOR + pS6K + S6K , 0.00752
+  pmTOR + S6K -> pmTOR + 2*S6K , ( -1) * (0.00752)
+  pmTOR + X -> pmTOR + pX + X , 0.00105
+  pmTOR + X -> pmTOR + 2*X , ( -1) * (0.00105)
+  pS6K + pX -> pS6K + S6K + pX , 1.95498
+  pS6K + pX -> 2*pS6K + pX , ( -1) * (1.95498)
+  pX -> pX + X , 0.00146
+  pX -> 2*pX , ( -1) * (0.00146)
+  pFOX01 -> pFOX01 + FOX01 , 0.15172
+  pFOX01 -> 2*pFOX01 , ( -1) * (0.15172)
+  FOX01 -> FOX01 + G6Pase , 4.86146
+  G6Pase -> G6Pase + phi_4 , 0.05496
+  G6Pase -> 2*G6Pase , ( -1) * (0.05496)
+ end reactions
+
+end model
+

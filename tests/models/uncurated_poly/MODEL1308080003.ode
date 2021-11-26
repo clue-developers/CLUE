@@ -1,0 +1,108 @@
+begin model MODEL1308080003
+ begin parameters
+  kb_DimerDNA = 0.021
+  ku_CI2OR1 = 0.03998
+  ku_CI2OR1c1 = 5.0E-4
+  ku_CI2OR1c2 = 0.05531
+  ku_CI2OR2 = 1.026
+  ku_CI2OR2c1 = 0.01284
+  ku_CI2OR2c2 = 0.00928
+  ku_CI2OR2c3 = 0.01284
+  ku_CI2OR3 = 5.19753
+  ku_CI2OR3c1 = 0.04702
+  ku_CI2OR3c2 = 5.19753
+  ku_Cro2OR1 = 0.08999
+  ku_Cro2OR1c1 = 0.01776
+  ku_Cro2OR1c2 = 0.05531
+  ku_Cro2OR2 = 0.6306
+  ku_Cro2OR2c1 = 0.12448
+  ku_Cro2OR2c2 = 0.23822
+  ku_Cro2OR2c3 = 0.14641
+  ku_Cro2OR3 = 0.00928
+  ku_Cro2OR3c1 = 0.00351
+  ku_Cro2OR3c2 = 0.01092
+  kb_DimerCI = 0.05
+  kb_DimerCro = 0.0307
+  ku_Dimer = 0.5
+  kd_CI = 7.0E-4
+  kd_Cro = 0.0025
+  ks_CI = 0.0069
+  ks_CIcoop = 0.066
+  ks_Cro = 0.0929
+  default1 = 1.0
+ end parameters
+ begin init
+  OR1 = 1.0
+  OR2 = 1.0
+  OR3 = 1.0
+  CI ( "pCI" ) 
+  Cro ( "pCro" ) 
+  CI2 ( "R2" ) 
+  Cro2 ( "C2" ) 
+  ROR1
+  ROR2
+  ROR3
+  COR1
+  COR2
+  COR3
+  EmptySet
+  I = 1
+ end init
+ begin reactions
+  OR1 + CI2 -> OR1 + CI2 + ROR1 , ( 1.0) * (kb_DimerDNA)
+  OR1 + CI2 -> OR1 + 2*CI2 , ( -1) * (( 1.0) * (kb_DimerDNA))
+  OR1 + CI2 -> 2*OR1 + CI2 , ( -1) * (( 1.0) * (kb_DimerDNA))
+  OR1 + Cro2 -> OR1 + Cro2 + COR1 , ( 1.0) * (kb_DimerDNA)
+  OR1 + Cro2 -> OR1 + 2*Cro2 , ( -1) * (( 1.0) * (kb_DimerDNA))
+  OR1 + Cro2 -> 2*OR1 + Cro2 , ( -1) * (( 1.0) * (kb_DimerDNA))
+  OR2 + CI2 -> OR2 + CI2 + ROR2 , ( 1.0) * (kb_DimerDNA)
+  OR2 + CI2 -> OR2 + 2*CI2 , ( -1) * (( 1.0) * (kb_DimerDNA))
+  OR2 + CI2 -> 2*OR2 + CI2 , ( -1) * (( 1.0) * (kb_DimerDNA))
+  OR2 + Cro2 -> OR2 + Cro2 + COR2 , ( 1.0) * (kb_DimerDNA)
+  OR2 + Cro2 -> OR2 + 2*Cro2 , ( -1) * (( 1.0) * (kb_DimerDNA))
+  OR2 + Cro2 -> 2*OR2 + Cro2 , ( -1) * (( 1.0) * (kb_DimerDNA))
+  OR3 + CI2 -> OR3 + CI2 + ROR3 , ( 1.0) * (kb_DimerDNA)
+  OR3 + CI2 -> OR3 + 2*CI2 , ( -1) * (( 1.0) * (kb_DimerDNA))
+  OR3 + CI2 -> 2*OR3 + CI2 , ( -1) * (( 1.0) * (kb_DimerDNA))
+  OR3 + Cro2 -> OR3 + Cro2 + COR3 , ( 1.0) * (kb_DimerDNA)
+  OR3 + Cro2 -> OR3 + 2*Cro2 , ( -1) * (( 1.0) * (kb_DimerDNA))
+  OR3 + Cro2 -> 2*OR3 + Cro2 , ( -1) * (( 1.0) * (kb_DimerDNA))
+  CI -> CI + CI2 , ( 1.0) * (( ( kb_DimerCI) * (0.5)) * (-(1.0)))
+  CI -> CI + EmptySet , ( 1.0) * (kd_CI)
+  CI -> 2*CI , ( -1) * (( 1.0) * (kd_CI))+( -2) * (( 1.0) * (( ( kb_DimerCI) * (0.5)) * (-(1.0))))
+  2*CI -> 2*CI + CI2 , ( 1.0) * (( kb_DimerCI) * (0.5))
+  2*CI -> 3*CI , ( -2) * (( 1.0) * (( kb_DimerCI) * (0.5)))
+  Cro -> Cro + Cro2 , ( 1.0) * (( ( kb_DimerCro) * (0.5)) * (-(1.0)))
+  Cro -> Cro + EmptySet , ( 1.0) * (kd_Cro)
+  Cro -> 2*Cro , ( -1) * (( 1.0) * (kd_Cro))+( -2) * (( 1.0) * (( ( kb_DimerCro) * (0.5)) * (-(1.0))))
+  2*Cro -> 2*Cro + Cro2 , ( 1.0) * (( kb_DimerCro) * (0.5))
+  2*Cro -> 3*Cro , ( -2) * (( 1.0) * (( kb_DimerCro) * (0.5)))
+  CI2 -> CI + CI2 , ( -2) * (( 1.0) * (-(ku_Dimer)))
+  CI2 -> 2*CI2 , ( 1.0) * (-(ku_Dimer))
+  Cro2 -> Cro + Cro2 , ( -2) * (( 1.0) * (-(ku_Dimer)))
+  Cro2 -> 2*Cro2 , ( 1.0) * (-(ku_Dimer))
+  ROR1 -> OR1 + ROR1 , ( 1.0) * (ku_CI2OR1c1)+( 1.0) * (ku_CI2OR1c1)+( 1.0) * (ku_CI2OR1)+( 1.0) * (ku_CI2OR1)+( 1.0) * (ku_CI2OR1c2)
+  ROR1 -> CI2 + ROR1 , ( 1.0) * (ku_CI2OR1c1)+( 1.0) * (ku_CI2OR1c1)+( 1.0) * (ku_CI2OR1)+( 1.0) * (ku_CI2OR1)+( 1.0) * (ku_CI2OR1c2)
+  ROR1 -> 2*ROR1 , ( -1) * (( 1.0) * (ku_CI2OR1c2))+( -1) * (( 1.0) * (ku_CI2OR1))+( -1) * (( 1.0) * (ku_CI2OR1))+( -1) * (( 1.0) * (ku_CI2OR1c1))+( -1) * (( 1.0) * (ku_CI2OR1c1))
+  ROR2 -> OR2 + ROR2 , ( 1.0) * (ku_CI2OR2c2)+( 1.0) * (ku_CI2OR2c2)+( 1.0) * (ku_CI2OR2c1)+( 1.0) * (ku_CI2OR2c3)+( 1.0) * (ku_CI2OR2c1)+( 1.0) * (ku_CI2OR2)+( 1.0) * (ku_CI2OR2)+( 1.0) * (ku_CI2OR2)+( 1.0) * (ku_CI2OR2)
+  ROR2 -> CI2 + ROR2 , ( 1.0) * (ku_CI2OR2c2)+( 1.0) * (ku_CI2OR2c2)+( 1.0) * (ku_CI2OR2c1)+( 1.0) * (ku_CI2OR2c3)+( 1.0) * (ku_CI2OR2c1)+( 1.0) * (ku_CI2OR2)+( 1.0) * (ku_CI2OR2)+( 1.0) * (ku_CI2OR2)+( 1.0) * (ku_CI2OR2)
+  ROR2 -> 2*ROR2 , ( -1) * (( 1.0) * (ku_CI2OR2))+( -1) * (( 1.0) * (ku_CI2OR2))+( -1) * (( 1.0) * (ku_CI2OR2))+( -1) * (( 1.0) * (ku_CI2OR2))+( -1) * (( 1.0) * (ku_CI2OR2c1))+( -1) * (( 1.0) * (ku_CI2OR2c3))+( -1) * (( 1.0) * (ku_CI2OR2c1))+( -1) * (( 1.0) * (ku_CI2OR2c2))+( -1) * (( 1.0) * (ku_CI2OR2c2))
+  ROR3 -> OR3 + ROR3 , ( 1.0) * (ku_CI2OR3c1)+( 1.0) * (ku_CI2OR3c1)+( 1.0) * (ku_CI2OR3)+( 1.0) * (ku_CI2OR3c2)+( 1.0) * (ku_CI2OR3)
+  ROR3 -> CI2 + ROR3 , ( 1.0) * (ku_CI2OR3c1)+( 1.0) * (ku_CI2OR3c1)+( 1.0) * (ku_CI2OR3)+( 1.0) * (ku_CI2OR3c2)+( 1.0) * (ku_CI2OR3)
+  ROR3 -> 2*ROR3 , ( -1) * (( 1.0) * (ku_CI2OR3))+( -1) * (( 1.0) * (ku_CI2OR3c2))+( -1) * (( 1.0) * (ku_CI2OR3))+( -1) * (( 1.0) * (ku_CI2OR3c1))+( -1) * (( 1.0) * (ku_CI2OR3c1))
+  COR1 -> OR1 + COR1 , ( 1.0) * (ku_Cro2OR1c1)+( 1.0) * (ku_Cro2OR1c1)+( 1.0) * (ku_Cro2OR1c2)+( 1.0) * (ku_Cro2OR1)+( 1.0) * (ku_Cro2OR1)
+  COR1 -> Cro2 + COR1 , ( 1.0) * (ku_Cro2OR1c1)+( 1.0) * (ku_Cro2OR1c1)+( 1.0) * (ku_Cro2OR1c2)+( 1.0) * (ku_Cro2OR1)+( 1.0) * (ku_Cro2OR1)
+  COR1 -> 2*COR1 , ( -1) * (( 1.0) * (ku_Cro2OR1))+( -1) * (( 1.0) * (ku_Cro2OR1))+( -1) * (( 1.0) * (ku_Cro2OR1c2))+( -1) * (( 1.0) * (ku_Cro2OR1c1))+( -1) * (( 1.0) * (ku_Cro2OR1c1))
+  COR2 -> OR2 + COR2 , ( 1.0) * (ku_Cro2OR2c1)+( 1.0) * (ku_Cro2OR2c1)+( 1.0) * (ku_Cro2OR2c3)+( 1.0) * (ku_Cro2OR2c2)+( 1.0) * (ku_Cro2OR2c2)+( 1.0) * (ku_Cro2OR2)+( 1.0) * (ku_Cro2OR2)+( 1.0) * (ku_Cro2OR2)+( 1.0) * (ku_Cro2OR2)
+  COR2 -> Cro2 + COR2 , ( 1.0) * (ku_Cro2OR2c1)+( 1.0) * (ku_Cro2OR2c1)+( 1.0) * (ku_Cro2OR2c3)+( 1.0) * (ku_Cro2OR2c2)+( 1.0) * (ku_Cro2OR2c2)+( 1.0) * (ku_Cro2OR2)+( 1.0) * (ku_Cro2OR2)+( 1.0) * (ku_Cro2OR2)+( 1.0) * (ku_Cro2OR2)
+  COR2 -> 2*COR2 , ( -1) * (( 1.0) * (ku_Cro2OR2))+( -1) * (( 1.0) * (ku_Cro2OR2))+( -1) * (( 1.0) * (ku_Cro2OR2))+( -1) * (( 1.0) * (ku_Cro2OR2))+( -1) * (( 1.0) * (ku_Cro2OR2c2))+( -1) * (( 1.0) * (ku_Cro2OR2c2))+( -1) * (( 1.0) * (ku_Cro2OR2c3))+( -1) * (( 1.0) * (ku_Cro2OR2c1))+( -1) * (( 1.0) * (ku_Cro2OR2c1))
+  COR3 -> OR3 + COR3 , ( 1.0) * (ku_Cro2OR3c1)+( 1.0) * (ku_Cro2OR3c1)+( 1.0) * (ku_Cro2OR3)+( 1.0) * (ku_Cro2OR3)+( 1.0) * (ku_Cro2OR3c2)
+  COR3 -> Cro2 + COR3 , ( 1.0) * (ku_Cro2OR3c1)+( 1.0) * (ku_Cro2OR3c1)+( 1.0) * (ku_Cro2OR3)+( 1.0) * (ku_Cro2OR3)+( 1.0) * (ku_Cro2OR3c2)
+  COR3 -> 2*COR3 , ( -1) * (( 1.0) * (ku_Cro2OR3c2))+( -1) * (( 1.0) * (ku_Cro2OR3))+( -1) * (( 1.0) * (ku_Cro2OR3))+( -1) * (( 1.0) * (ku_Cro2OR3c1))+( -1) * (( 1.0) * (ku_Cro2OR3c1))
+  I -> CI + I , ( 1.0) * (ks_CI)+( 1.0) * (ks_CI)+( 1.0) * (ks_CIcoop)
+  I -> Cro + I , ( 1.0) * (ks_Cro)
+  I -> EmptySet + I , ( -1) * (( 1.0) * (ks_Cro))+( -1) * (( 1.0) * (ks_CIcoop))+( -1) * (( 1.0) * (ks_CI))+( -1) * (( 1.0) * (ks_CI))
+ end reactions
+
+end model
+

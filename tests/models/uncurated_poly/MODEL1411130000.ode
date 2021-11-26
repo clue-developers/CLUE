@@ -1,0 +1,41 @@
+begin model MODEL1411130000
+ begin parameters
+  alpha = 0.0
+  delta_lm = 0.83
+  delta_nm = 0.5
+  delta_sm = 0.5
+  gamma_nm = 0.0
+  gamma_slm = 7.6E-4
+  rho_nm = 1.3E-4
+  rho_sm = 9.6E-5
+  tau1 = 0.0
+  tau2 = 2.5
+  S2 = 0.0
+  S1 = 0.0
+ end parameters
+ begin init
+  s1 = 3400.0 ( "B_Cell_spleen" ) 
+  s2 = 1100.0 ( "B_Cell_MLN" ) 
+  s3 = 18.0 ( "B_Cell_Lung" ) 
+  s4
+  s5
+  s6
+  s7
+  s8
+ end init
+ begin reactions
+  s1 -> s1 + s3 , gamma_slm
+  s1 -> s1 + s5 , ( -1) * (( rho_sm) * (S2))
+  s1 -> s1 + s6 , delta_sm
+  s1 -> 2*s1 , ( -1) * (delta_sm)+( -1) * (gamma_slm)+( rho_sm) * (S2)
+  s2 -> s1 + s2 , ( alpha) * (gamma_nm)
+  s2 -> s2 + s3 , ( 1.0) * (gamma_nm)+( -(alpha)) * (gamma_nm)
+  s2 -> s2 + s7 , delta_nm
+  s2 -> s2 + s8 , ( -1) * (( rho_nm) * (S1))
+  s2 -> 2*s2 , ( -1) * (delta_nm)+( -1) * (( 1.0) * (gamma_nm))+( -1) * (( -(alpha)) * (gamma_nm))+( -1) * (( alpha) * (gamma_nm))+( rho_nm) * (S1)
+  s3 -> s3 + s4 , delta_lm
+  s3 -> 2*s3 , ( -1) * (delta_lm)
+ end reactions
+
+end model
+

@@ -1,0 +1,18 @@
+begin model BIOMD0000000233
+ begin init
+  S = 1.0
+  P = 1.0
+  X = 1.0
+  Y = 1.0
+ end init
+ begin reactions
+  SS + YY -> SS + XX + YY , ( 2) * (8.0)
+  SS + YY -> SS + 2*YY , ( -1) * (8.0)
+  XX -> 2*XX , ( -1) * (1.5)
+  XX + YY -> 2*XX + YY , ( -1) * (1.0)
+  2*XX -> 2*XX + YY , 1.0
+  2*XX -> 3*XX , ( -1) * (1.0)
+ end reactions
+
+end model
+

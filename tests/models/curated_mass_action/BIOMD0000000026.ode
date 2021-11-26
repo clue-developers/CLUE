@@ -1,0 +1,53 @@
+begin model BIOMD0000000026
+ begin parameters
+  k1 = 0.02
+  k_1 = 1.0
+  k2 = 0.01
+  k3 = 0.032
+  k_3 = 1.0
+  k4 = 15.0
+  h1 = 0.045
+  h_1 = 1.0
+  h2 = 0.092
+  h3 = 1.0
+  h_3 = 0.01
+  h4 = 0.01
+  h_4 = 1.0
+  h5 = 0.5
+  h6 = 0.086
+  h_6 = 0.0011
+ end parameters
+ begin init
+  M = 500.0
+  Mp
+  Mpp
+  MAPKK = 50.0
+  MKP3 = 100.0 ( "MKP" ) 
+  M_MAPKK
+  Mp_MAPKK
+  Mpp_MKP3 ( "Mpp_MKP" ) 
+  Mp_MKP3_dep ( "Mp_MKP" ) 
+  Mp_MKP3 ( "Mp_MKP*" ) 
+  M_MKP3 ( "M_MKP" ) 
+ end init
+ begin reactions
+  M + MAPKK -> M_MAPKK , ( 1.0) * (k1) [v1a_forw]
+  M_MAPKK -> M + MAPKK , ( -1) * (( 1.0) * (-(k_1))) [v1a_rev]
+  M_MAPKK -> Mp + MAPKK , ( 1.0) * (k2) [v1b_forw]
+  Mp + MAPKK -> Mp_MAPKK , ( 1.0) * (k3) [v2a_forw]
+  Mp_MAPKK -> Mp + MAPKK , ( -1) * (( 1.0) * (-(k_3))) [v2a_rev]
+  Mp_MAPKK -> Mpp + MAPKK , ( 1.0) * (k4) [v2b_forw]
+  Mpp + MKP3 -> Mpp_MKP3 , ( 1.0) * (h1) [v3a_forw]
+  Mpp_MKP3 -> Mpp + MKP3 , ( -1) * (( 1.0) * (-(h_1))) [v3a_rev]
+  Mpp_MKP3 -> Mp_MKP3_dep , ( 1.0) * (h2) [v3b_forw]
+  Mp_MKP3_dep -> Mp + MKP3 , h3 [v3c_forw]
+  Mp + MKP3 -> Mp_MKP3_dep , ( -1) * (-(h_3)) [v3c_rev]
+  Mp + MKP3 -> Mp_MKP3 , ( 1.0) * (h4) [v4a_forw]
+  Mp_MKP3 -> Mp + MKP3 , ( -1) * (( 1.0) * (-(h_4))) [v4a_rev]
+  Mp_MKP3 -> M_MKP3 , ( 1.0) * (h5) [v4b_forw]
+  M_MKP3 -> M + MKP3 , ( 1.0) * (h6) [v4c_forw]
+  M + MKP3 -> M_MKP3 , ( -1) * (( 1.0) * (-(h_6))) [v4c_rev]
+ end reactions
+
+end model
+

@@ -1,0 +1,215 @@
+begin model BIOMD0000000220
+ begin parameters
+  k1 = 4.0E-7
+  k_1 = 0.001
+  kc1 = 1.0E-5
+  k2 = 1.0E-6
+  k_2 = 0.001
+  k3 = 1.0E-6
+  k_3 = 0.001
+  kc3 = 1.0
+  k4 = 1.0E-6
+  k_4 = 0.001
+  k5 = 1.0E-7
+  k_5 = 0.001
+  kc5 = 1.0
+  k6 = 1.0E-6
+  k_6 = 0.001
+  kc6 = 1.0
+  k7 = 3.0E-8
+  k_7 = 0.001
+  k8 = 2.0E-6
+  k_8 = 0.001
+  kc8 = 0.1
+  k9 = 1.0E-6
+  k_9 = 0.01
+  kc9 = 1.0
+  k10 = 1.0E-7
+  k_10 = 0.001
+  kc10 = 1.0
+  k11 = 1.0E-6
+  k_11 = 0.001
+  k12 = 1.0E-7
+  k_12 = 0.001
+  kc12 = 1.0
+  k13 = 0.01
+  k_13 = 0.01
+  k14 = 1.0E-6
+  k_14 = 0.001
+  k15 = 1.0E-6
+  k_15 = 0.001
+  k16 = 1.0E-6
+  k_16 = 0.001
+  k17 = 1.0E-6
+  k_17 = 0.001
+  k18 = 1.0E-6
+  k_18 = 0.001
+  k19 = 1.0E-6
+  k_19 = 0.001
+  kc19 = 1.0
+  k20 = 2.0E-6
+  k_20 = 0.001
+  kc20 = 10.0
+  k21 = 2.0E-6
+  k_21 = 0.001
+  kc21 = 10.0
+  k22 = 0.01
+  k_22 = 0.01
+  k23 = 5.0E-7
+  k_23 = 0.001
+  kc23 = 1.0
+  k24 = 5.0E-8
+  k_24 = 0.001
+  k25 = 5.0E-9
+  k_25 = 0.001
+  kc25 = 1.0
+  k26 = 0.01
+  k_26 = 0.01
+  k27 = 2.0E-6
+  k_27 = 0.001
+  k28 = 7.0E-6
+  k_28 = 0.001
+  kc7 = 1.0
+  v = 0.07
+  pC3_frac = 0.0
+  C3_frac = 0.0
+  C3_UB_frac = 0.0
+  cPARP_frac = 0.0
+  C3_tot = 0.0
+  fC3_fract = 0.0
+ end parameters
+ begin init
+  L = 3000.0
+  R = 200.0
+  flip = 100.0
+  pC8 = 20000.0 ( "proC8" ) 
+  C8 ( "casp8" ) 
+  C6 ( "casp6" ) 
+  BAR = 1000.0
+  pC3 = 10000.0 ( "proC3" ) 
+  C3 ( "casp3" ) 
+  Bid = 40000.0
+  tBid
+  pC6 = 10000.0 ( "proC6" ) 
+  XIAP = 100000.0
+  C3_Ub ( "Ub C3" ) 
+  PARP = 1000000.0
+  CPARP ( "cPARP" ) 
+  Smac
+  Bcl2c = 20000.0 ( "cytosolic Bcl-2" ) 
+  Bax = 100000.0
+  Bax_hash ( "Bax#" ) 
+  Bcl2 = 20000.0 ( "Bcl-2" ) 
+  L_R ( "L:R" ) 
+  R_hash ( "R#" ) 
+  flip_R_hash ( "flip:R#" ) 
+  R_hash_pC8 ( "R#:pC8" ) 
+  C6_pC8 ( "C6:pC8" ) 
+  BAR_C8 ( "BAR:C8" ) 
+  C8_pC3 ( "C8:pC3" ) 
+  pC3_Apop ( "pC3:Apop" ) 
+  Apop
+  C8_Bid ( "C8:Bid" ) 
+  C3_pC6 ( "C3:pC6" ) 
+  XIAP_C3 ( "XIAP:C3" ) 
+  PARP_C3 ( "PARP:C3" ) 
+  Apop_XIAP ( "Apop:XIAP" ) 
+  Smac_XIAP ( "Smac:XIAP" ) 
+  Bcl2c_tBid ( "Bcl2c:tBid" ) 
+  Bax_tBid ( "Bax:tBid" ) 
+  Baxm_Bcl2 ( "Baxm:Bcl2" ) 
+  Bax4
+  Bax2_Bcl2 ( "Bax2:Bcl2" ) 
+  Bax4_Bcl2 ( "Bax4:Bcl2" ) 
+  M = 500000.0
+  Bax4_M ( "Bax4:M" ) 
+  M_hash ( "M#" ) 
+  Smacm = 100000.0 ( "Smac_m" ) 
+  M_hash_Smacm ( "M#:Smac_m" ) 
+  Smacr ( "Smac released" ) 
+  CytoCm = 500000.0 ( "CytoC_m" ) 
+  M_hash_CytoCm ( "M#:CytoC_m" ) 
+  CytoCr ( "CytoC released" ) 
+  CytoC
+  Apaf = 100000.0
+  CytoC_Apaf ( "CytoC:Apaf" ) 
+  Apaf_hash ( "Apaf#" ) 
+  pC9 = 100000.0 ( "proC9" ) 
+  Baxm
+  Bax2
+ end init
+ begin reactions
+  L + R -> L_R , ( 1.0) * (k1) [re1_forw]
+  L_R -> L + R , ( -1) * (( 1.0) * (-(k_1))) [re1_rev]
+  L_R -> R_hash , ( 1.0) * (kc1) [re2_forw]
+  flip + R_hash -> flip_R_hash , ( 1.0) * (k2) [re3_forw]
+  flip_R_hash -> flip + R_hash , ( -1) * (( 1.0) * (-(k_2))) [re3_rev]
+  pC8 + R_hash -> R_hash_pC8 , ( 1.0) * (k3) [re4_forw]
+  R_hash_pC8 -> pC8 + R_hash , ( -1) * (( 1.0) * (-(k_3))) [re4_rev]
+  R_hash_pC8 -> C8 + R_hash , ( 1.0) * (kc3) [re5_forw]
+  pC8 + C6 -> C6_pC8 , ( 1.0) * (k7) [re6_forw]
+  C6_pC8 -> pC8 + C6 , ( -1) * (( 1.0) * (-(k_7))) [re6_rev]
+  C6_pC8 -> C8 + C6 , ( 1.0) * (kc7) [re7_forw]
+  C8 + BAR -> BAR_C8 , ( 1.0) * (k4) [re8_forw]
+  BAR_C8 -> C8 + BAR , ( -1) * (( 1.0) * (-(k_4))) [re8_rev]
+  C8 + pC3 -> C8_pC3 , ( 1.0) * (k5) [re9_forw]
+  C8_pC3 -> C8 + pC3 , ( -1) * (( 1.0) * (-(k_5))) [re9_rev]
+  C8_pC3 -> C8 + C3 , ( 1.0) * (kc5) [re10_forw]
+  C8 + Bid -> C8_Bid , ( 1.0) * (k10) [re11_forw]
+  C8_Bid -> C8 + Bid , ( -1) * (( 1.0) * (-(k_10))) [re11_rev]
+  C8_Bid -> C8 + tBid , ( 1.0) * (kc10) [re12_forw]
+  pC3 + Apop -> pC3_Apop , ( 1.0) * (k25) [re13_forw]
+  pC3_Apop -> pC3 + Apop , ( -1) * (( 1.0) * (-(k_25))) [re13_rev]
+  pC3_Apop -> C3 + Apop , ( 1.0) * (kc25) [re14_forw]
+  C3 + pC6 -> C3_pC6 , ( 1.0) * (k6) [re15_forw]
+  C3_pC6 -> C3 + pC6 , ( -1) * (( 1.0) * (-(k_6))) [re15_rev]
+  C3_pC6 -> C6 + C3 , ( 1.0) * (kc6) [re16_forw]
+  C3 + XIAP -> XIAP_C3 , ( 1.0) * (k8) [re17_forw]
+  XIAP_C3 -> C3 + XIAP , ( -1) * (( 1.0) * (-(k_8))) [re17_rev]
+  XIAP_C3 -> XIAP + C3_Ub , ( 1.0) * (kc8) [re18_forw]
+  C3 + PARP -> PARP_C3 , ( 1.0) * (k9) [re19_forw]
+  PARP_C3 -> C3 + PARP , ( -1) * (( 1.0) * (-(k_9))) [re19_rev]
+  PARP_C3 -> C3 + CPARP , ( 1.0) * (kc9) [re20_forw]
+  XIAP + Apop -> Apop_XIAP , ( 1.0) * (k27) [re21_forw]
+  Apop_XIAP -> XIAP + Apop , ( -1) * (( 1.0) * (-(k_27))) [re21_rev]
+  XIAP + Smac -> Smac_XIAP , ( 1.0) * (k28) [re22_forw]
+  Smac_XIAP -> XIAP + Smac , ( -1) * (( 1.0) * (-(k_28))) [re22_rev]
+  tBid + Bcl2c -> Bcl2c_tBid , ( 1.0) * (k11) [re23_forw]
+  Bcl2c_tBid -> tBid + Bcl2c , ( -1) * (( 1.0) * (-(k_11))) [re23_rev]
+  tBid + Bax -> Bax_tBid , ( 1.0) * (k12) [re24_forw]
+  Bax_tBid -> tBid + Bax , ( -1) * (( 1.0) * (-(k_12))) [re24_rev]
+  Bax_tBid -> tBid + Bax_hash , ( 1.0) * (kc12) [re25_forw]
+  Bax_hash -> Baxm , ( 1.0) * (k13) [re26_forw]
+  Baxm -> Bax_hash , ( -1) * (( 1.0) * (-(k_13))) [re26_rev]
+  Bcl2 + Baxm -> Baxm_Bcl2 , ( 1.0) * ((k14) * v) [re27_forw]
+  Baxm_Bcl2 -> Bcl2 + Baxm , ( -1) * (( 1.0) * (-(k_14))) [re27_rev]
+  2*Baxm -> Bax2 , ( 1.0) * ((k15) * v) [re29_forw]
+  Bax2 -> 2*Baxm , ( -1) * (( 1.0) * (-(k_15))) [re29_rev]
+  2*Bax2 -> Bax4 , ( 1.0) * ((k17) * v) [re30_forw]
+  Bax4 -> 2*Bax2 , ( -1) * (( 1.0) * (-(k_17))) [re30_rev]
+  Bcl2 + Bax2 -> Bax2_Bcl2 , ( 1.0) * ((k16) * v) [re31_forw]
+  Bax2_Bcl2 -> Bcl2 + Bax2 , ( -1) * (( 1.0) * (-(k_16))) [re31_rev]
+  Bcl2 + Bax4 -> Bax4_Bcl2 , ( 1.0) * ((k18) * v) [re32_forw]
+  Bax4_Bcl2 -> Bcl2 + Bax4 , ( -1) * (( 1.0) * (-(k_18))) [re32_rev]
+  Bax4 + M -> Bax4_M , ( 1.0) * ((k19) * v) [re33_forw]
+  Bax4_M -> Bax4 + M , ( -1) * (( 1.0) * (-(k_19))) [re33_rev]
+  Bax4_M -> M_hash , ( 1.0) * (kc19) [re34_forw]
+  M_hash + Smacm -> M_hash_Smacm , ( 1.0) * ((k21) * v) [re35_forw]
+  M_hash_Smacm -> M_hash + Smacm , ( -1) * (( 1.0) * (-(k_21))) [re35_rev]
+  M_hash_Smacm -> M_hash + Smacr , ( 1.0) * (kc21) [re36_forw]
+  Smacr -> Smac , ( 1.0) * (k26) [re37_forw]
+  Smac -> Smacr , ( -1) * (( 1.0) * (-(k_26))) [re37_rev]
+  M_hash + CytoCm -> M_hash_CytoCm , ( 1.0) * ((k20) * v) [re38_forw]
+  M_hash_CytoCm -> M_hash + CytoCm , ( -1) * (( 1.0) * (-(k_20))) [re38_rev]
+  M_hash_CytoCm -> M_hash + CytoCr , ( 1.0) * (kc20) [re39_forw]
+  CytoCr -> CytoC , ( 1.0) * (k22) [re40_forw]
+  CytoC -> CytoCr , ( -1) * (( 1.0) * (-(k_22))) [re40_rev]
+  CytoC + Apaf -> CytoC_Apaf , ( 1.0) * (k23) [re41_forw]
+  CytoC_Apaf -> CytoC + Apaf , ( -1) * (( 1.0) * (-(k_23))) [re41_rev]
+  CytoC_Apaf -> CytoC + Apaf_hash , ( 1.0) * (kc23) [re42_forw]
+  Apaf_hash + pC9 -> Apop , ( 1.0) * (k24) [re43_forw]
+  Apop -> Apaf_hash + pC9 , ( -1) * (( 1.0) * (-(k_24))) [re43_rev]
+ end reactions
+
+end model
+
