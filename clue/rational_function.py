@@ -38,15 +38,30 @@ def to_rational(s):
 #------------------------------------------------------------------------------
 
 class SparsePolynomial(object):
-    """
-    Simplistic class for representing polynomials with sparse exponent vectors
-    Fields:
-      - domain - coefficient domain
-      - var_names - a list of names of variables
-      - data - dictionary from monomials to coefficients. Monomials are encoded as
-               tuples of pairs (index_of_variable, exponent) with only
-               nonzero exponents stored
-    """
+    r'''
+        Simplistic class for representing polynomials with sparse exponent vectors
+
+        Input
+            ``varnames`` - list of names of the variables for the polynomial.
+            ``domain`` - ambient space (in sympy format) for the coefficients of the polynomial
+            ``data`` - dictionary from monomials to coefficients. Monomials are encoded as
+                tuples of pairs (index_of_variable, exponent) with only nonzero exponents stored
+
+        Examples::
+
+            >>> from clue.rational_function import *
+            >>> from sympy import parse_expr, simplify
+            >>> poly = "a * (3 * a + b) - 8.5 * (a + b)**5 - 3 * c * b * (c - a)"
+            >>> parsed = parse_expr(poly)
+            >>> sp = SparsePolynomial.from_string(poly, ["a", "b", "c"])
+            >>> simplify(parse_expr(str(sp)) - parsed) == 0
+            True
+            >>> poly = "(a + b + c**2)**5 - 3 * a + b * 17 * 19 * 0.5"
+            >>> parsed = parse_expr(poly)
+            >>> sp = SparsePolynomial.from_string(poly, ["a", "b", "c"])
+            >>> simplify(parse_expr(str(sp)) - parsed) == 0
+            True
+    '''
 
     def __init__(self, varnames, domain=QQ, data=None):
         self._varnames = varnames
@@ -1081,12 +1096,43 @@ class SparsePolynomial(object):
 #------------------------------------------------------------------------------
 
 class RationalFunction:
-    """
-    Class for representing rational function with sparse polynomials
-    Fields:
-      - num - numerator SparsePolynomial
-      - denom - denominator SparsePolynomial
-    """
+    r'''
+        Class for representing rational function with sparse polynomials
+
+        Input:
+            ``num`` - numerator SparsePolynomial
+            ``denom`` - denominator SparsePolynomial
+
+        Examples::
+
+            >>> from clue.rational_function import *
+            >>> from sympy import parse_expr, simplify
+            >>> rat_fun = "0.1"
+            >>> parsed = parse_expr(rat_fun)
+            >>> rf = RationalFunction.from_string(rat_fun, ["a", "b", "c"])
+            >>> simplify(parse_expr(str(rf)) - parsed) == 0
+            True
+            >>> rat_fun = "1 / a + 1 / b"
+            >>> parsed = parse_expr(rat_fun)
+            >>> rf = RationalFunction.from_string(rat_fun, ["a", "b", "c"])
+            >>> simplify(parse_expr(str(rf)) - parsed) == 0
+            True
+            >>> rat_fun = "1 / (1 + 1/b + 1/(c + 1 / (a + b + 1/c)))"
+            >>> parsed = parse_expr(rat_fun)
+            >>> rf = RationalFunction.from_string(rat_fun, ["a", "b", "c"])
+            >>> simplify(parse_expr(str(rf)) - parsed) == 0
+            True
+            >>> rat_fun = "(a + b) / (1 - a + 1/ (b + c)) - 3/5 + (7 + a) / (c + 1 / b)"
+            >>> parsed = parse_expr(rat_fun)
+            >>> rf = RationalFunction.from_string(rat_fun, ["a", "b", "c"])
+            >>> simplify(parse_expr(str(rf)) - parsed) == 0
+            True
+            >>> rat_fun = "(a + b + c**2)**5 - 3 * a + b * 17 * 19 * 0.5"
+            >>> parsed = parse_expr(rat_fun)
+            >>> rf = RationalFunction.from_string(rat_fun, ["a", "b", "c"])
+            >>> simplify(parse_expr(str(rf)) - parsed) == 0
+            True
+    '''
 
     __parser = None
     __parser_stack = []
