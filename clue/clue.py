@@ -8,6 +8,7 @@ from functools import cached_property, reduce, lru_cache
 import sympy
 from sympy import GF, QQ, gcd, nextprime, lambdify, symbols
 from sympy.ntheory.modular import isprime
+from sympy.polys.fields import FracElement
 from sympy.polys.rings import PolyElement
 
 from clue.parser import read_system
@@ -17,7 +18,7 @@ from .nual import NualNumber
 
 ## Configuring logger for this module
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s %(levelname)-8s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 fh = logging.FileHandler("clue.log")
 ch = logging.StreamHandler(sys.stderr)
@@ -766,7 +767,7 @@ class FODESystem:
         * Provide a dictionary with the data (using the argument ``dic``). In this case, at least 
           an entry with key ``'equations'`` must be provided.
     '''
-    def __init__(self, equations=None, observables=None, variables = None, ic= None, name = None, dic=None, file = None, **kwds):
+    def __init__(self, equations=None, observables=None, variables = None, ic={}, name = None, dic=None, file = None, **kwds):
         if(equations is None):
             if(dic is None):
                 if(file is None):
@@ -780,7 +781,7 @@ class FODESystem:
             equations = dic['equations']
             observables = dic.get('observables', None)
             variables = dic.get('variables')
-            ic = dic.get('ic', None)
+            ic = dic.get('ic', {})
             name = dic.get('name', None)
         
         # Now we have the data in the first arguments
@@ -883,6 +884,14 @@ class FODESystem:
         ## Evaluation of lhs of self
         vec_vars = [el.linear_part_as_vec() for el in map_variables]
         lhs = [sum(vec_vars[i][j]*xdot_eval[j] for j in range(other.size)) for i in range(self.size)]
+        
+        # Checking the types of equations
+        if(isinstance(self.equations[0], PolyElement)):
+            logger.debug(":consistency: detected sympy polynomial. Casting to SparsePolynomial")
+            self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
+        elif(isinstance(self.equations[0], FracElement)):
+            logger.debug(":consistency: detected sympy polynomial. Casting to SparsePolynomial")
+            self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
         
         ## Evaluation of rhs of self
         if(isinstance(self.equations[0], (SparsePolynomial, RationalFunction))):
@@ -1325,22 +1334,92 @@ class FODESystem:
                 initial_conditions=None,
                 method = "polynomial"
     ):
-        """
-        Main function, performs a lumping of a polynomial ODE system
-        Input
-            - observable - a nonempty list of linear forms in state variables
-                        that must be kept nonlumped
-            - new_vars_name (optional) - the name for variables in the lumped polynomials
-            - print_system and print_reduction (optional) - whether to print the original system and the result, respectively on the screen
-            - out_format - "sympy" or "internal", the way the output polynomials should be represented
-            the options are sympy polynomials and SparsePolynomial
-            - loglevel - INFO (only essential information) or DEBUG (a lot of information about the computation process)
-            - initial_conditions - Initial conditions for some elements on the system to be lumped
-            - method - user decision about how to compute the internal matrices for lumping. See method 
-              :func:`construct_matrices` for further information.
-        Output
-            a tuple (the right-hand side of an aggregated system, new_variables)
-        """
+        r'''
+            Main function, performs a lumping of a polynomial ODE system
+            Input
+                - observable - a nonempty list of linear forms in state variables
+                            that must be kept nonlumped
+                - new_vars_name (optional) - the name for variables in the lumped polynomials
+                - print_system and print_reduction (optional) - whether to print the original system and the result, respectively on the screen
+                - out_format - "sympy" or "internal", the way the output polynomials should be represented
+                the options are sympy polynomials and SparsePolynomial
+                - loglevel - INFO (only essential information) or DEBUG (a lot of information about the computation process)
+                - initial_conditions - Initial conditions for some elements on the system to be lumped
+                - method - user decision about how to compute the internal matrices for lumping. See method 
+                :func:`construct_matrices` for further information.
+
+            Output
+                a tuple (the right-hand side of an aggregated system, new_variables)
+
+            Examples::
+
+                >>> from clue import *
+                >>> from sympy import QQ
+                >>> from sympy.polys.rings import vring
+                >>> R = sympy.polys.rings.vring(["x0", "x1", "x2"], QQ)
+                >>> ## Example 1
+                >>> system = FODESystem([x0**2 + x1 + x2, x2, x1], variables=['x0','x1','x2'])
+                >>> lumping = system.lumping([x0], print_reduction=False,initial_conditions={'x0': 1, 'x1': 2, 'x2': 5})
+                >>> lumping.ic
+                {'y0': 1, 'y1': 7}
+                >>> lumping.old_vars
+                [x0, x1 + x2]
+                >>> lumping.is_consistent()
+                True
+                >>> ## Example 2
+                >>> system = FODESystem([x1**2 + 4 * x1 * x2 + 4 * x2**2, 
+                ...     x1 + 2 * x0**2, 
+                ...     x2 - x0**2], variables=['x0','x1','x2'])
+                >>> lumping = system.lumping([x0], print_reduction=False)
+                >>> lumping.old_vars
+                [x0, x1 + 2*x2]
+                >>> lumping.is_consistent()
+                True
+
+            We can also lump system involving rational functions (see class 
+            :class:`~clue.rational_function.RationalFunction`)::
+
+                >>> varnames = ["x0", "x1", "x2"]
+                >>> ## Example 1
+                >>> rhs = [RationalFunction.from_string("(x0**2 + x1 + x2)/1", varnames),
+                ...     RationalFunction.from_string("x2/1", varnames),
+                ...     RationalFunction.from_string("x1/1", varnames)]
+                >>> system = FODESystem(rhs, variables=varnames)
+                >>> lumping = system.lumping([SparsePolynomial.from_string("x0", varnames)],
+                ...       print_reduction=False,
+                ...       initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
+                >>> lumping.ic
+                {'y0': 1, 'y1': 7}
+                >>> lumping.old_vars
+                [x0, x1 + x2]
+                >>> lumping.is_consistent()
+                True
+                >>> ## Example 2
+                >>> rhs = [RationalFunction.from_string("(x1**2 + 4 * x1 * x2 + 4 * x2**2)/1", varnames),
+                ...     RationalFunction.from_string("(x1 + 2 * x0**2)/1", varnames),
+                ...     RationalFunction.from_string("(x2 - x0**2)/1", varnames)]
+                >>> system = FODESystem(rhs, variables=varnames)
+                >>> lumping = system.lumping([SparsePolynomial.from_string("x0", varnames)],
+                ...       print_reduction=False)
+                >>> lumping.is_consistent()
+                True
+
+            The following example actually have rational functions involved::
+
+                >>> varnames = ["x", "y"]
+                >>> rhs = [RationalFunction.from_string("y/(x-y)", varnames),
+                ...     RationalFunction.from_string("x/(x-y)", varnames)]
+                >>> system = FODESystem(rhs, variables=varnames)
+                >>> lumping = system.lumping([SparsePolynomial.from_string("x-y", varnames)],
+                ...       print_reduction=False,
+                ...       initial_conditions={"x" : 1, "y" : 2})
+                >>> lumping.ic
+                {'y0': -1}
+                >>> lumping.old_vars
+                [x + -y]
+                >>> lumping.is_consistent()
+                True
+        '''
         ## Putting the logger level active
         old_level = logger.getEffectiveLevel()
         if(loglevel == "INFO"):
@@ -1359,6 +1438,9 @@ class FODESystem:
         elif isinstance(self.equations[0], PolyElement): # the inputs are polynomial in sympy
             logger.debug(":lumping: Input were polynomials in sympy, casting to SparsePolynomial")
             self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
+        elif isinstance(self.equations[0], FracElement): # the inputs are polynomial in sympy
+            logger.debug(":lumping: Input were fractions in sympy, casting to RationalFunction")
+            self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
         else:
             logger.debug(":lumping: Input is expected to be in SymPy format")
 
@@ -1376,10 +1458,12 @@ class FODESystem:
                 )
 
         if initial_conditions is not None:
-            eval_point = [self.ic.get(v, 0) for v in self.variables]
-            result["ic"] = []
-            for vect in result["subspace"]:
-                result["ic"].append(sum([p[0] * p[1] for p in zip(eval_point, vect)]))
+            eval_point = [self.ic.get(v, initial_conditions.get(v, 0)) for v in self.variables]
+            result["ic"] = {}
+            for i in range(len(result["variables"])):
+                vect = result["subspace"][i]
+                v = result["variables"][i]
+                result["ic"][v] = sum([p[0] * p[1] for p in zip(eval_point, vect)])
 
         if out_format == "sympy":
             if isinstance(result["equations"][0], SparsePolynomial):

@@ -63,57 +63,6 @@ if __name__ == "__main__":
 
     ## TODO: fix this file to fit the new structures of the module
 
-    # # Example 1 ----------------------------------------------------------------
-
-    # # SparsePolynomial
-    R = sympy.polys.rings.vring(["x0", "x1", "x2"], QQ)
-    polys = [x0**2 + x1 + x2, x2, x1]
-    lumping = do_lumping(polys, [x0], print_reduction=False, initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
-    check_lumping("Example 1 (SparsePolynomial)", polys, lumping, 2)
-    assert lumping["new_ic"] == [QQ(1), QQ(7)]
-    print("OK")
-
-    # # RationalFunction
-    varnames = ["x0", "x1", "x2"]
-    rhs = [RationalFunction.from_string("(x0**2 + x1 + x2)/1", varnames),
-           RationalFunction.from_string("x2/1", varnames),
-           RationalFunction.from_string("x1/1", varnames)]
-    lumping = do_lumping(rhs,
-                         [SparsePolynomial.from_string("x0", varnames)],
-                          print_reduction=False,
-                          initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
-    check_lumping("Example 1 (RationalFunction)", polys, lumping, 2)
-    assert lumping["new_ic"] == [QQ(1), QQ(7)]
-    print("OK")
-
-    # # # Example 2 ----------------------------------------------------------------
-
-    # # SparsePolynomial
-    polys = [x1**2 + 4 * x1 * x2 + 4 * x2**2, x1 + 2 * x0**2, x2 - x0**2]
-    lumping = do_lumping(polys, [x0], print_reduction=False)
-    check_lumping("Example 2 (SparsePolynomial)", polys, lumping, 2)
-
-    # # RationalFunction
-    varnames = ["x0", "x1", "x2"]
-    rhs = [RationalFunction.from_string("(x1**2 + 4 * x1 * x2 + 4 * x2**2)/1", varnames),
-           RationalFunction.from_string("(x1 + 2 * x0**2)/1", varnames),
-           RationalFunction.from_string("(x2 - x0**2)/1", varnames)]
-    lumping = do_lumping(rhs,
-                         [SparsePolynomial.from_string("x0", varnames)],
-                          print_reduction=False)
-    check_lumping("Example 2 (RationalFunction)", polys, lumping, 2)
-
-    # Actual Rational Function Example -----------------------------------------
-
-    varnames = ["x", "y"]
-    rhs = [RationalFunction.from_string("y/(x-y)", varnames),
-           RationalFunction.from_string("x/(x-y)", varnames)]
-    lumping = do_lumping(rhs,
-                         [SparsePolynomial.from_string("(x-y)", varnames)],
-                          print_reduction=True,
-                          initial_conditions={"x" : 1, "y" : 2 })
-    check_lumping("Actual Rational Function Example", rhs, lumping, 1)
-
     # # SparsePolynomial Models --------------------------------------------------
 
     # # PP for n = 2
