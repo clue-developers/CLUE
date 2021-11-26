@@ -1,0 +1,113 @@
+begin model BIOMD0000000122
+ begin parameters
+  k1 = 2.56E-5
+  k2 = 0.00256
+  k16 = 6.63
+  k15 = 0.00168
+  k18 = 9.6E-4
+  k17 = 0.0015
+  k6 = 9.2E-4
+  k5 = 0.0019
+  k14 = 0.00256
+  k13 = 0.5
+  k12 = 0.00168
+  k11 = 6.63
+  k10 = 0.005
+  k9 = 0.5
+  k3 = 0.005
+  k4 = 0.5
+  k7 = 0.005
+  k8 = 0.5
+  k19 = 1.0
+  k20 = 1.0
+  k21 = 0.21
+  k22 = 0.5
+  Time_in_Seconds = 100.0
+ end parameters
+ begin init
+  Ca_Nuc = 1.0 ( "Calcium in Nucleus" ) 
+  Ca_Cyt = 1.0 ( "Calcium in Cytosol" ) 
+  NFAT_Nuc = 5.219E-4 ( "NFAT_nuc" ) 
+  Act_C_Nuc = 5.05E-5 ( "Active Calcineurin in Nucleus" ) 
+  NFAT_Pi_Nuc = 2.272E-4 ( "Phosphorylated NFAT in nucleus" ) 
+  NFAT_Act_C_Nuc = 9.477E-4 ( "NFAT Calcineurin complex in nucleus" ) 
+  NFAT_Pi_Act_C_Nuc = 2.5E-6 ( "Phosphorylated NFAT Calcineurin complex in nucleus" ) 
+  Inact_C_Nuc = 0.049198 ( "Inactive Calcineurin in nucleus" ) 
+  NFAT_Cyt = 1.101E-4
+  Act_C_Cyt = 9.1E-6 ( "Active Calcineurin in cytosol" ) 
+  NFAT_Pi_Cyt = 0.0094397 ( "Phosphorylated NFAT in cytosol" ) 
+  NFAT_Act_C_Cyt = 6.1E-6 ( "NFAT Calcineurin complex in cytosol" ) 
+  NFAT_Pi_Act_C_Cyt = 2.2E-6 ( "Phosphorylated NFAT Calcineurin complex in cytosol" ) 
+  Inact_C_Cyt = 0.0097108 ( "Inactive Calcineurin in cytosol" ) 
+ end init
+ begin reactions
+  Ca_Nuc -> Ca_Nuc + Ca_Cyt , ( -1) * (-(( 1.13E-13) * (k22)))
+  Ca_Nuc -> 2*Ca_Nuc , -(( 1.13E-13) * (k22))
+  3*Ca_Nuc + Inact_C_Nuc -> 3*Ca_Nuc + Act_C_Nuc + Inact_C_Nuc , ( 1.13E-13) * (k19)
+  3*Ca_Nuc + Inact_C_Nuc -> 3*Ca_Nuc + 2*Inact_C_Nuc , ( -1) * (( 1.13E-13) * (k19))
+  3*Ca_Nuc + Inact_C_Nuc -> 4*Ca_Nuc + Inact_C_Nuc , ( -3) * (( 1.13E-13) * (k19))
+  Ca_Cyt -> Ca_Nuc + Ca_Cyt , ( 2.69E-13) * (k21)
+  Ca_Cyt -> 2*Ca_Cyt , ( -1) * (( 2.69E-13) * (k21))
+  3*Ca_Cyt + Inact_C_Cyt -> 3*Ca_Cyt + Act_C_Cyt + Inact_C_Cyt , ( 2.69E-13) * (k19)
+  3*Ca_Cyt + Inact_C_Cyt -> 3*Ca_Cyt + 2*Inact_C_Cyt , ( -1) * (( 2.69E-13) * (k19))
+  3*Ca_Cyt + Inact_C_Cyt -> 4*Ca_Cyt + Inact_C_Cyt , ( -3) * (( 2.69E-13) * (k19))
+  NFAT_Nuc -> NFAT_Nuc + NFAT_Pi_Nuc , ( -1) * (( 1.13E-13) * (-(k2)))
+  NFAT_Nuc -> NFAT_Nuc + NFAT_Cyt , ( 1.13E-13) * (k18)
+  NFAT_Nuc -> 2*NFAT_Nuc , ( 1.13E-13) * (-(k2))+( -1) * (( 1.13E-13) * (k18))
+  NFAT_Nuc + Act_C_Nuc -> NFAT_Nuc + Act_C_Nuc + NFAT_Act_C_Nuc , ( 1.13E-13) * (k16)
+  NFAT_Nuc + Act_C_Nuc -> NFAT_Nuc + 2*Act_C_Nuc , ( -1) * (( 1.13E-13) * (k16))
+  NFAT_Nuc + Act_C_Nuc -> 2*NFAT_Nuc + Act_C_Nuc , ( -1) * (( 1.13E-13) * (k16))
+  Act_C_Nuc -> Ca_Nuc + Act_C_Nuc , ( -3) * (( 1.13E-13) * (-(k20)))
+  Act_C_Nuc -> Act_C_Nuc + Inact_C_Nuc , ( -1) * (( 1.13E-13) * (-(k20)))
+  Act_C_Nuc -> Act_C_Nuc + Act_C_Cyt , ( 1.13E-13) * (k6)
+  Act_C_Nuc -> 2*Act_C_Nuc , ( 1.13E-13) * (-(k20))+( -1) * (( 1.13E-13) * (k6))
+  Act_C_Nuc + NFAT_Pi_Nuc -> Act_C_Nuc + NFAT_Pi_Nuc + NFAT_Pi_Act_C_Nuc , ( -1) * (( 1.13E-13) * (-(k11)))
+  Act_C_Nuc + NFAT_Pi_Nuc -> Act_C_Nuc + 2*NFAT_Pi_Nuc , ( 1.13E-13) * (-(k11))
+  Act_C_Nuc + NFAT_Pi_Nuc -> 2*Act_C_Nuc + NFAT_Pi_Nuc , ( 1.13E-13) * (-(k11))
+  NFAT_Pi_Nuc -> NFAT_Nuc + NFAT_Pi_Nuc , ( 1.13E-13) * (k1)
+  NFAT_Pi_Nuc -> NFAT_Pi_Nuc + NFAT_Pi_Cyt , ( -1) * (-(( 1.13E-13) * (k4)))
+  NFAT_Pi_Nuc -> 2*NFAT_Pi_Nuc , -(( 1.13E-13) * (k4))+( -1) * (( 1.13E-13) * (k1))
+  NFAT_Act_C_Nuc -> NFAT_Nuc + NFAT_Act_C_Nuc , ( -1) * (( 1.13E-13) * (-(k15)))
+  NFAT_Act_C_Nuc -> Act_C_Nuc + NFAT_Act_C_Nuc , ( -1) * (( 1.13E-13) * (-(k15)))
+  NFAT_Act_C_Nuc -> NFAT_Act_C_Nuc + NFAT_Pi_Act_C_Nuc , ( 1.13E-13) * (k14)
+  NFAT_Act_C_Nuc -> NFAT_Act_C_Nuc + NFAT_Act_C_Cyt , ( 1.13E-13) * (k10)
+  NFAT_Act_C_Nuc -> 2*NFAT_Act_C_Nuc , ( -1) * (( 1.13E-13) * (k10))+( -1) * (( 1.13E-13) * (k14))+( 1.13E-13) * (-(k15))
+  NFAT_Pi_Act_C_Nuc -> Act_C_Nuc + NFAT_Pi_Act_C_Nuc , ( 1.13E-13) * (k12)
+  NFAT_Pi_Act_C_Nuc -> NFAT_Pi_Nuc + NFAT_Pi_Act_C_Nuc , ( 1.13E-13) * (k12)
+  NFAT_Pi_Act_C_Nuc -> NFAT_Act_C_Nuc + NFAT_Pi_Act_C_Nuc , ( -1) * (( 1.13E-13) * (-(k13)))
+  NFAT_Pi_Act_C_Nuc -> NFAT_Pi_Act_C_Nuc + NFAT_Pi_Act_C_Cyt , ( -1) * (-(( 1.13E-13) * (k8)))
+  NFAT_Pi_Act_C_Nuc -> 2*NFAT_Pi_Act_C_Nuc , ( 1.13E-13) * (-(k13))+-(( 1.13E-13) * (k8))+( -1) * (( 1.13E-13) * (k12))
+  Inact_C_Nuc -> Inact_C_Nuc + Inact_C_Cyt , ( -1) * (-(( 1.13E-13) * (k6)))
+  Inact_C_Nuc -> 2*Inact_C_Nuc , -(( 1.13E-13) * (k6))
+  NFAT_Cyt -> NFAT_Nuc + NFAT_Cyt , ( -1) * (-(( 2.69E-13) * (k17)))
+  NFAT_Cyt -> NFAT_Cyt + NFAT_Pi_Cyt , ( -1) * (( 2.69E-13) * (-(k2)))
+  NFAT_Cyt -> 2*NFAT_Cyt , ( 2.69E-13) * (-(k2))+-(( 2.69E-13) * (k17))
+  NFAT_Cyt + Act_C_Cyt -> NFAT_Cyt + Act_C_Cyt + NFAT_Act_C_Cyt , ( -1) * (( 2.69E-13) * (-(k16)))
+  NFAT_Cyt + Act_C_Cyt -> NFAT_Cyt + 2*Act_C_Cyt , ( 2.69E-13) * (-(k16))
+  NFAT_Cyt + Act_C_Cyt -> 2*NFAT_Cyt + Act_C_Cyt , ( 2.69E-13) * (-(k16))
+  Act_C_Cyt -> Ca_Cyt + Act_C_Cyt , ( -3) * (( 2.69E-13) * (-(k20)))
+  Act_C_Cyt -> Act_C_Nuc + Act_C_Cyt , ( -1) * (-(( 2.69E-13) * (k5)))
+  Act_C_Cyt -> Act_C_Cyt + Inact_C_Cyt , ( -1) * (( 2.69E-13) * (-(k20)))
+  Act_C_Cyt -> 2*Act_C_Cyt , ( 2.69E-13) * (-(k20))+-(( 2.69E-13) * (k5))
+  Act_C_Cyt + NFAT_Pi_Cyt -> Act_C_Cyt + NFAT_Pi_Cyt + NFAT_Pi_Act_C_Cyt , ( -1) * (( 2.69E-13) * (-(k11)))
+  Act_C_Cyt + NFAT_Pi_Cyt -> Act_C_Cyt + 2*NFAT_Pi_Cyt , ( 2.69E-13) * (-(k11))
+  Act_C_Cyt + NFAT_Pi_Cyt -> 2*Act_C_Cyt + NFAT_Pi_Cyt , ( 2.69E-13) * (-(k11))
+  NFAT_Pi_Cyt -> NFAT_Pi_Nuc + NFAT_Pi_Cyt , ( 2.69E-13) * (k3)
+  NFAT_Pi_Cyt -> NFAT_Cyt + NFAT_Pi_Cyt , ( 2.69E-13) * (k1)
+  NFAT_Pi_Cyt -> 2*NFAT_Pi_Cyt , ( -1) * (( 2.69E-13) * (k3))+( -1) * (( 2.69E-13) * (k1))
+  NFAT_Act_C_Cyt -> NFAT_Act_C_Nuc + NFAT_Act_C_Cyt , ( -1) * (-(( 2.69E-13) * (k9)))
+  NFAT_Act_C_Cyt -> NFAT_Cyt + NFAT_Act_C_Cyt , ( 2.69E-13) * (k15)
+  NFAT_Act_C_Cyt -> Act_C_Cyt + NFAT_Act_C_Cyt , ( 2.69E-13) * (k15)
+  NFAT_Act_C_Cyt -> NFAT_Act_C_Cyt + NFAT_Pi_Act_C_Cyt , ( 2.69E-13) * (k14)
+  NFAT_Act_C_Cyt -> 2*NFAT_Act_C_Cyt , -(( 2.69E-13) * (k9))+( -1) * (( 2.69E-13) * (k14))+( -1) * (( 2.69E-13) * (k15))
+  NFAT_Pi_Act_C_Cyt -> NFAT_Pi_Act_C_Nuc + NFAT_Pi_Act_C_Cyt , ( 2.69E-13) * (k7)
+  NFAT_Pi_Act_C_Cyt -> Act_C_Cyt + NFAT_Pi_Act_C_Cyt , ( 2.69E-13) * (k12)
+  NFAT_Pi_Act_C_Cyt -> NFAT_Pi_Cyt + NFAT_Pi_Act_C_Cyt , ( 2.69E-13) * (k12)
+  NFAT_Pi_Act_C_Cyt -> NFAT_Act_C_Cyt + NFAT_Pi_Act_C_Cyt , ( -1) * (( 2.69E-13) * (-(k13)))
+  NFAT_Pi_Act_C_Cyt -> 2*NFAT_Pi_Act_C_Cyt , ( 2.69E-13) * (-(k13))+( -1) * (( 2.69E-13) * (k7))+( -1) * (( 2.69E-13) * (k12))
+  Inact_C_Cyt -> Inact_C_Nuc + Inact_C_Cyt , ( 2.69E-13) * (k5)
+  Inact_C_Cyt -> 2*Inact_C_Cyt , ( -1) * (( 2.69E-13) * (k5))
+ end reactions
+
+end model
+

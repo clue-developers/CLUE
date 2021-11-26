@@ -1,0 +1,27 @@
+begin model BIOMD0000000312
+ begin parameters
+  k1 = 2.0
+  k2 = 2.0
+  k3 = 1.0
+  k4 = 1.0
+  tau = 4.0
+ end parameters
+ begin init
+  X
+  S
+  SINK
+  R
+ end init
+ begin reactions
+  S -> S + R , k1 [r1]
+  X + R -> X , k2 [r2]
+  S -> X + S , k3 [r3]
+  SINK -> X , k4 [r4]
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

@@ -1,0 +1,91 @@
+begin model BIOMD0000000001
+ begin parameters
+  kf_0 = 3000.0
+  kr_0 = 8000.0
+  kf_1 = 1500.0
+  kr_1 = 16000.0
+  kf_2 = 30000.0
+  kr_2 = 700.0
+  kf_3 = 3000.0
+  kr_3 = 8.64
+  kf_4 = 1500.0
+  kr_4 = 17.28
+  kf_5 = 0.54
+  kr_5 = 10800.0
+  kf_6 = 130.0
+  kr_6 = 2740.0
+  kf_7 = 3000.0
+  kr_7 = 4.0
+  kf_8 = 1500.0
+  kr_8 = 8.0
+  kf_9 = 19.7
+  kr_9 = 3.74
+  kf_10 = 19.85
+  kr_10 = 1.74
+  kf_11 = 20.0
+  kr_11 = 0.81
+  kf_12 = 3000.0
+  kr_12 = 4.0
+  kf_13 = 1500.0
+  kr_13 = 8.0
+  kf_14 = 0.05
+  kr_14 = 0.0012
+  kf_15 = 0.05
+  kr_15 = 0.0012
+  kf_16 = 0.05
+  kr_16 = 0.0012
+  t2 = 20.0
+ end parameters
+ begin init
+  BLL ( "BasalACh2" ) 
+  IL ( "IntermediateACh" ) 
+  AL ( "ActiveACh" ) 
+  A ( "Active" ) 
+  BL ( "BasalACh" ) 
+  B = 1.66057788110262E-21 ( "Basal" ) 
+  DLL ( "DesensitisedACh2" ) 
+  sD ( "Desensitised" ) 
+  ILL ( "IntermediateACh2" ) 
+  DL ( "DesensitisedACh" ) 
+  I ( "Intermediate" ) 
+  sALL ( "ActiveACh2" ) 
+ end init
+ begin reactions
+  B -> BL , kf_0 [React0]
+  BL -> B , kr_0 [React0]
+  BL -> BLL , kf_1 [React1]
+  BLL -> BL , kr_1 [React1]
+  BLL -> sALL , kf_2 [React2]
+  sALL -> BLL , kr_2 [React2]
+  A -> AL , kf_3 [React3]
+  AL -> A , kr_3 [React3]
+  AL -> sALL , kf_4 [React4]
+  sALL -> AL , kr_4 [React4]
+  B -> A , kf_5 [React5]
+  A -> B , kr_5 [React5]
+  BL -> AL , kf_6 [React6]
+  AL -> BL , kr_6 [React6]
+  I -> IL , kf_7 [React7]
+  IL -> I , kr_7 [React7]
+  IL -> ILL , kf_8 [React8]
+  ILL -> IL , kr_8 [React8]
+  A -> I , kf_9 [React9]
+  I -> A , kr_9 [React9]
+  AL -> IL , kf_10 [React10]
+  IL -> AL , kr_10 [React10]
+  sALL -> ILL , kf_11 [React11]
+  ILL -> sALL , kr_11 [React11]
+  sD -> DL , kf_12 [React12]
+  DL -> sD , kr_12 [React12]
+  DL -> DLL , kf_13 [React13]
+  DLL -> DL , kr_13 [React13]
+  I -> sD , kf_14 [React14]
+  sD -> I , kr_14 [React14]
+  IL -> DL , kf_15 [React15]
+  DL -> IL , kr_15 [React15]
+  ILL -> DLL , kf_16 [React16]
+  DLL -> ILL , kr_16 [React16]
+ end reactions
+
+end model
+

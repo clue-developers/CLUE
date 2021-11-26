@@ -1,0 +1,80 @@
+begin model BIOMD0000000028
+ begin parameters
+  k1 = 0.005
+  k_1 = 1.0
+  k2 = 1.08
+  k3 = 0.025
+  k_3 = 1.0
+  k4 = 0.007
+  k5 = 0.05
+  k_5 = 1.0
+  k6 = 0.008
+  k7 = 0.005
+  k_7 = 1.0
+  k8 = 0.45
+  h1 = 0.045
+  h_1 = 1.0
+  h2 = 0.092
+  h3 = 1.0
+  h_3 = 0.01
+  h4 = 0.01
+  h_4 = 1.0
+  h5 = 0.5
+  h6 = 0.086
+  h_6 = 0.0011
+  h7 = 0.01
+  h_7 = 1.0
+  h8 = 0.47
+  h9 = 0.14
+  h_9 = 0.0018
+ end parameters
+ begin init
+  M = 800.0 ( "ERK" ) 
+  MpY ( "ERK-PY" ) 
+  MpT ( "ERK-PT" ) 
+  Mpp ( "ERK-PP" ) 
+  MEK = 180.0
+  MKP3 = 100.0
+  MpY_MEK ( "ERK-PY_MEK" ) 
+  MpT_MEK ( "ERK-PT_MEK" ) 
+  M_MEK_Y ( "ERK_MEK_Y" ) 
+  M_MEK_T ( "ERK_MEK_T" ) 
+  Mpp_MKP3 ( "ERK-PP_MKP3" ) 
+  MpY_MKP3 ( "ERK-PY_MKP3" ) 
+  MpT_MKP3_Y ( "ERK-PT_MKP3_Y" ) 
+  MpT_MKP3_T ( "ERK-PT_MKP3_T" ) 
+  M_MKP3_T ( "ERK_MKP3_T" ) 
+  M_MKP3_Y ( "ERK_MKP3_Y" ) 
+ end init
+ begin reactions
+  M + MEK -> M_MEK_Y , ( 1.0) * (k1) [reaction_0000001_forw]
+  M_MEK_Y -> M + MEK , ( -1) * (( 1.0) * (-(k_1))) [reaction_0000001_rev]
+  M_MEK_Y -> MpY + MEK , ( 1.0) * (k2) [reaction_0000002_forw]
+  MpY + MEK -> MpY_MEK , ( 1.0) * (k3) [reaction_0000003_forw]
+  MpY_MEK -> MpY + MEK , ( -1) * (( 1.0) * (-(k_3))) [reaction_0000003_rev]
+  MpY_MEK -> Mpp + MEK , ( 1.0) * (k4) [reaction_0000004_forw]
+  M + MEK -> M_MEK_T , ( 1.0) * (k5) [reaction_0000005_forw]
+  M_MEK_T -> M + MEK , ( -1) * (( 1.0) * (-(k_5))) [reaction_0000005_rev]
+  M_MEK_T -> MpT + MEK , ( 1.0) * (k6) [reaction_0000006_forw]
+  MpT + MEK -> MpT_MEK , ( 1.0) * (k7) [reaction_0000007_forw]
+  MpT_MEK -> MpT + MEK , ( -1) * (( 1.0) * (-(k_7))) [reaction_0000007_rev]
+  MpT_MEK -> Mpp + MEK , ( 1.0) * (k8) [reaction_0000008_forw]
+  Mpp + MKP3 -> Mpp_MKP3 , ( 1.0) * (h1) [reaction_0000009_forw]
+  Mpp_MKP3 -> Mpp + MKP3 , ( -1) * (( 1.0) * (-(h_1))) [reaction_0000009_rev]
+  Mpp_MKP3 -> MpT_MKP3_Y , ( 1.0) * (h2) [reaction_0000010_forw]
+  MpT_MKP3_Y -> MpT + MKP3 , ( 1.0) * (h3) [reaction_0000011_forw]
+  MpT + MKP3 -> MpT_MKP3_Y , ( -1) * (( 1.0) * (-(h_3))) [reaction_0000011_rev]
+  MpT_MKP3_T -> M_MKP3_T , ( 1.0) * (h5) [reaction_0000012_forw]
+  MpT + MKP3 -> MpT_MKP3_T , ( 1.0) * (h4) [reaction_0000013_forw]
+  MpT_MKP3_T -> MpT + MKP3 , ( -1) * (( 1.0) * (-(h_4))) [reaction_0000013_rev]
+  MpY_MKP3 -> M_MKP3_Y , ( 1.0) * (h8) [reaction_0000014_forw]
+  M_MKP3_T -> M + MKP3 , ( 1.0) * (h6) [reaction_0000015_forw]
+  M + MKP3 -> M_MKP3_T , ( -1) * (( 1.0) * (-(h_6))) [reaction_0000015_rev]
+  MpY + MKP3 -> MpY_MKP3 , ( 1.0) * (h7) [reaction_0000017_forw]
+  MpY_MKP3 -> MpY + MKP3 , ( -1) * (( 1.0) * (-(h_7))) [reaction_0000017_rev]
+  M_MKP3_Y -> M + MKP3 , ( 1.0) * (h9) [reaction_0000019_forw]
+  M + MKP3 -> M_MKP3_Y , ( -1) * (( 1.0) * (-(h_9))) [reaction_0000019_rev]
+ end reactions
+
+end model
+

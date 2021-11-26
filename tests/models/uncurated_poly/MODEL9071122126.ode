@@ -1,0 +1,366 @@
+begin model MODEL9071122126
+ begin init
+  PKC_slash_PKC_minus_Ca = 3.72083333333333E-17
+  PKC_slash_PKC_minus_DAG_minus_AA_star_ = 4.91366666666667E-18
+  PKC_slash_PKC_minus_Ca_minus_AA_star_ = 1.75E-16
+  PKC_slash_PKC_minus_Ca_minus_memb_star_ = 1.3896E-17
+  PKC_slash_PKC_minus_DAG_minus_memb_star_ = 9.43516666666667E-21
+  PKC_slash_PKC_minus_basal_star_ = 0.02
+  PKC_slash_PKC_minus_AA_star_ = 1.81333333333333E-17
+  PKC_slash_PKC_minus_Ca_minus_DAG = 8.46316666666667E-23
+  PKC_slash_PKC_minus_DAG = 1.16101666666667E-16
+  PKC_slash_PKC_minus_DAG_minus_AA = 2.51883333333333E-19
+  PKC_slash_PKC_minus_cytosolic = 1.0
+  AA
+  PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx
+  PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx
+  PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx
+  MAPK_slash_craf_minus_1 = 0.2
+  MAPK_slash_craf_minus_1_star_
+  MAPK_slash_MAPKK = 0.18
+  MAPK_slash_MAPK = 0.36
+  MAPK_slash_craf_minus_1_star__star_
+  MAPK_slash_MAPK_minus_tyr
+  MAPK_slash_MAPKK_star_
+  MAPK_slash_MAPKK_star__slash_MAPKKtyr_slash_MAPKKtyr_cplx
+  MAPK_slash_MAPKK_star__slash_MAPKKthr_slash_MAPKKthr_cplx
+  MAPK_slash_MAPKK_minus_ser
+  MAPK_slash_Raf_minus_GTP_minus_Ras_star_
+  MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_1_slash_Raf_minus_GTP_minus_Ras_star__dot_1_cplx
+  MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_2_slash_Raf_minus_GTP_minus_Ras_star__dot_2_cplx
+  MAPK_star_
+  MAPK_star__slash_MAPK_star__minus_feedback_slash_MAPK_star__minus_feedback_cplx
+  MAPK_star__slash_MAPK_star__slash_MAPK_star__cplx
+  MKP_minus_1 = 0.0032
+  MKP_minus_1_slash_MKP1_minus_tyr_minus_deph_slash_MKP1_minus_tyr_minus_deph_cplx
+  MKP_minus_1_slash_MKP1_minus_thr_minus_deph_slash_MKP1_minus_thr_minus_deph_cplx
+  PPhosphatase2A = 0.224
+  PPhosphatase2A_slash_craf_minus_deph_slash_craf_minus_deph_cplx
+  PPhosphatase2A_slash_MAPKK_minus_deph_slash_MAPKK_minus_deph_cplx
+  PPhosphatase2A_slash_MAPKK_minus_deph_minus_ser_slash_MAPKK_minus_deph_minus_ser_cplx
+  PPhosphatase2A_slash_craf_star__star__minus_deph_slash_craf_star__star__minus_deph_cplx
+  PLA2_slash_PLA2_minus_cytosolic = 0.4
+  PLA2_slash_PLA2_minus_Ca_star_
+  PLA2_slash_PLA2_minus_Ca_star__slash_kenz_slash_kenz_cplx
+  PLA2_slash_PIP2_minus_PLA2_star_
+  PLA2_slash_PIP2_minus_PLA2_star__slash_kenz_slash_kenz_cplx
+  PLA2_slash_PIP2_minus_Ca_minus_PLA2_star_
+  PLA2_slash_PIP2_minus_Ca_minus_PLA2_star__slash_kenz_slash_kenz_cplx
+  PLA2_slash_DAG_minus_Ca_minus_PLA2_star_
+  PLA2_slash_DAG_minus_Ca_minus_PLA2_star__slash_kenz_slash_kenz_cplx
+  PLA2_slash_PLA2_star__minus_Ca
+  PLA2_slash_PLA2_star__minus_Ca_slash_kenz_slash_kenz_cplx
+  PLA2_slash_PLA2_star_
+  Ras_slash_inact_minus_GEF = 0.1
+  Ras_slash_GEF_star_
+  Ras_slash_GEF_star__slash_GEF_star__minus_act_minus_ras_slash_GEF_star__minus_act_minus_ras_cplx
+  Ras_slash_GTP_minus_Ras
+  Ras_slash_GDP_minus_Ras = 0.2
+  Ras_slash_GAP_star_
+  Ras_slash_GAP = 0.002
+  Ras_slash_GAP_slash_GAP_minus_inact_minus_ras_slash_GAP_minus_inact_minus_ras_cplx
+  DAG = 11.661
+  Ca = 0.08
+  PLA2_slash_APC = 30.0
+  temp_minus_PIP2 = 2.5
+  PKC_minus_active = 2.12216666666667E-16
+ end init
+ begin reactions
+  PKC_slash_PKC_minus_Ca -> PKC_slash_PKC_minus_Ca + PKC_slash_PKC_minus_Ca_minus_memb_star_ , 1.2705E-12
+  PKC_slash_PKC_minus_Ca -> PKC_slash_PKC_minus_Ca + PKC_slash_PKC_minus_cytosolic , ( -1) * (-(5.0E-13))
+  PKC_slash_PKC_minus_Ca -> 2*PKC_slash_PKC_minus_Ca , ( -1) * (1.2705E-12)+-(5.0E-13)
+  PKC_slash_PKC_minus_Ca + AA -> PKC_slash_PKC_minus_Ca + PKC_slash_PKC_minus_Ca_minus_AA_star_ + AA , 1.2E-15
+  PKC_slash_PKC_minus_Ca + AA -> PKC_slash_PKC_minus_Ca + 2*AA , ( -1) * (1.2E-15)
+  PKC_slash_PKC_minus_Ca + AA -> 2*PKC_slash_PKC_minus_Ca + AA , ( -1) * (1.2E-15)
+  PKC_slash_PKC_minus_Ca + DAG -> PKC_slash_PKC_minus_Ca + PKC_slash_PKC_minus_Ca_minus_DAG + DAG , 7.9998E-15
+  PKC_slash_PKC_minus_Ca + DAG -> 2*PKC_slash_PKC_minus_Ca + DAG , ( -1) * (7.9998E-15)
+  PKC_slash_PKC_minus_DAG_minus_AA_star_ -> PKC_slash_PKC_minus_DAG_minus_AA_star_ + PKC_slash_PKC_minus_DAG_minus_AA , ( -1) * (-(2.0E-13))
+  PKC_slash_PKC_minus_DAG_minus_AA_star_ -> 2*PKC_slash_PKC_minus_DAG_minus_AA_star_ , -(2.0E-13)
+  PKC_slash_PKC_minus_DAG_minus_AA_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_DAG_minus_AA_star_ + PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + MAPK_slash_craf_minus_1 , 3.0E-13
+  PKC_slash_PKC_minus_DAG_minus_AA_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_DAG_minus_AA_star_ + MAPK_slash_craf_minus_1 + PKC_minus_active , ( -1) * (3.0E-13)
+  PKC_slash_PKC_minus_DAG_minus_AA_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_DAG_minus_AA_star_ + 2*MAPK_slash_craf_minus_1 , ( -1) * (3.0E-13)
+  PKC_slash_PKC_minus_DAG_minus_AA_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_DAG_minus_AA_star_ + PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_inact_minus_GEF , 6.0E-12
+  PKC_slash_PKC_minus_DAG_minus_AA_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_DAG_minus_AA_star_ + Ras_slash_inact_minus_GEF + PKC_minus_active , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_DAG_minus_AA_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_DAG_minus_AA_star_ + 2*Ras_slash_inact_minus_GEF , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_DAG_minus_AA_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_DAG_minus_AA_star_ + PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_GAP , 6.0E-12
+  PKC_slash_PKC_minus_DAG_minus_AA_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_DAG_minus_AA_star_ + Ras_slash_GAP + PKC_minus_active , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_DAG_minus_AA_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_DAG_minus_AA_star_ + 2*Ras_slash_GAP , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_Ca_minus_AA_star_ -> PKC_slash_PKC_minus_Ca + PKC_slash_PKC_minus_Ca_minus_AA_star_ , ( -1) * (-(1.0E-13))
+  PKC_slash_PKC_minus_Ca_minus_AA_star_ -> PKC_slash_PKC_minus_Ca_minus_AA_star_ + AA , ( -1) * (-(1.0E-13))
+  PKC_slash_PKC_minus_Ca_minus_AA_star_ -> 2*PKC_slash_PKC_minus_Ca_minus_AA_star_ , -(1.0E-13)
+  PKC_slash_PKC_minus_Ca_minus_AA_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_Ca_minus_AA_star_ + PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + MAPK_slash_craf_minus_1 , 3.0E-13
+  PKC_slash_PKC_minus_Ca_minus_AA_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_Ca_minus_AA_star_ + MAPK_slash_craf_minus_1 + PKC_minus_active , ( -1) * (3.0E-13)
+  PKC_slash_PKC_minus_Ca_minus_AA_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_Ca_minus_AA_star_ + 2*MAPK_slash_craf_minus_1 , ( -1) * (3.0E-13)
+  PKC_slash_PKC_minus_Ca_minus_AA_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_Ca_minus_AA_star_ + PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_inact_minus_GEF , 6.0E-12
+  PKC_slash_PKC_minus_Ca_minus_AA_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_Ca_minus_AA_star_ + Ras_slash_inact_minus_GEF + PKC_minus_active , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_Ca_minus_AA_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_Ca_minus_AA_star_ + 2*Ras_slash_inact_minus_GEF , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_Ca_minus_AA_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_Ca_minus_AA_star_ + PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_GAP , 6.0E-12
+  PKC_slash_PKC_minus_Ca_minus_AA_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_Ca_minus_AA_star_ + Ras_slash_GAP + PKC_minus_active , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_Ca_minus_AA_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_Ca_minus_AA_star_ + 2*Ras_slash_GAP , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_Ca_minus_memb_star_ -> PKC_slash_PKC_minus_Ca + PKC_slash_PKC_minus_Ca_minus_memb_star_ , ( -1) * (-(3.5026E-12))
+  PKC_slash_PKC_minus_Ca_minus_memb_star_ -> 2*PKC_slash_PKC_minus_Ca_minus_memb_star_ , -(3.5026E-12)
+  PKC_slash_PKC_minus_Ca_minus_memb_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_Ca_minus_memb_star_ + PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + MAPK_slash_craf_minus_1 , 3.0E-13
+  PKC_slash_PKC_minus_Ca_minus_memb_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_Ca_minus_memb_star_ + MAPK_slash_craf_minus_1 + PKC_minus_active , ( -1) * (3.0E-13)
+  PKC_slash_PKC_minus_Ca_minus_memb_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_Ca_minus_memb_star_ + 2*MAPK_slash_craf_minus_1 , ( -1) * (3.0E-13)
+  PKC_slash_PKC_minus_Ca_minus_memb_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_Ca_minus_memb_star_ + PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_inact_minus_GEF , 6.0E-12
+  PKC_slash_PKC_minus_Ca_minus_memb_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_Ca_minus_memb_star_ + Ras_slash_inact_minus_GEF + PKC_minus_active , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_Ca_minus_memb_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_Ca_minus_memb_star_ + 2*Ras_slash_inact_minus_GEF , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_Ca_minus_memb_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_Ca_minus_memb_star_ + PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_GAP , 6.0E-12
+  PKC_slash_PKC_minus_Ca_minus_memb_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_Ca_minus_memb_star_ + Ras_slash_GAP + PKC_minus_active , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_Ca_minus_memb_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_Ca_minus_memb_star_ + 2*Ras_slash_GAP , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_DAG_minus_memb_star_ -> PKC_slash_PKC_minus_DAG_minus_memb_star_ + PKC_slash_PKC_minus_Ca_minus_DAG , ( -1) * (-(1.0E-13))
+  PKC_slash_PKC_minus_DAG_minus_memb_star_ -> 2*PKC_slash_PKC_minus_DAG_minus_memb_star_ , -(1.0E-13)
+  PKC_slash_PKC_minus_DAG_minus_memb_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_DAG_minus_memb_star_ + PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + MAPK_slash_craf_minus_1 , 3.0E-13
+  PKC_slash_PKC_minus_DAG_minus_memb_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_DAG_minus_memb_star_ + MAPK_slash_craf_minus_1 + PKC_minus_active , ( -1) * (3.0E-13)
+  PKC_slash_PKC_minus_DAG_minus_memb_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_DAG_minus_memb_star_ + 2*MAPK_slash_craf_minus_1 , ( -1) * (3.0E-13)
+  PKC_slash_PKC_minus_DAG_minus_memb_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_DAG_minus_memb_star_ + PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_inact_minus_GEF , 6.0E-12
+  PKC_slash_PKC_minus_DAG_minus_memb_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_DAG_minus_memb_star_ + Ras_slash_inact_minus_GEF + PKC_minus_active , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_DAG_minus_memb_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_DAG_minus_memb_star_ + 2*Ras_slash_inact_minus_GEF , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_DAG_minus_memb_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_DAG_minus_memb_star_ + PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_GAP , 6.0E-12
+  PKC_slash_PKC_minus_DAG_minus_memb_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_DAG_minus_memb_star_ + Ras_slash_GAP + PKC_minus_active , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_DAG_minus_memb_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_DAG_minus_memb_star_ + 2*Ras_slash_GAP , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_basal_star_ -> PKC_slash_PKC_minus_basal_star_ + PKC_slash_PKC_minus_cytosolic , ( -1) * (-(5.0E-11))
+  PKC_slash_PKC_minus_basal_star_ -> 2*PKC_slash_PKC_minus_basal_star_ , -(5.0E-11)
+  PKC_slash_PKC_minus_basal_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_basal_star_ + PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + MAPK_slash_craf_minus_1 , 3.0E-13
+  PKC_slash_PKC_minus_basal_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_basal_star_ + MAPK_slash_craf_minus_1 + PKC_minus_active , ( -1) * (3.0E-13)
+  PKC_slash_PKC_minus_basal_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_basal_star_ + 2*MAPK_slash_craf_minus_1 , ( -1) * (3.0E-13)
+  PKC_slash_PKC_minus_basal_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_basal_star_ + PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_inact_minus_GEF , 6.0E-12
+  PKC_slash_PKC_minus_basal_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_basal_star_ + Ras_slash_inact_minus_GEF + PKC_minus_active , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_basal_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_basal_star_ + 2*Ras_slash_inact_minus_GEF , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_basal_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_basal_star_ + PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_GAP , 6.0E-12
+  PKC_slash_PKC_minus_basal_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_basal_star_ + Ras_slash_GAP + PKC_minus_active , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_basal_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_basal_star_ + 2*Ras_slash_GAP , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_AA_star_ -> PKC_slash_PKC_minus_AA_star_ + PKC_slash_PKC_minus_cytosolic , ( -1) * (-(1.0E-13))
+  PKC_slash_PKC_minus_AA_star_ -> PKC_slash_PKC_minus_AA_star_ + AA , ( -1) * (-(1.0E-13))
+  PKC_slash_PKC_minus_AA_star_ -> 2*PKC_slash_PKC_minus_AA_star_ , -(1.0E-13)
+  PKC_slash_PKC_minus_AA_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_AA_star_ + PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + MAPK_slash_craf_minus_1 , 3.0E-13
+  PKC_slash_PKC_minus_AA_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_AA_star_ + MAPK_slash_craf_minus_1 + PKC_minus_active , ( -1) * (3.0E-13)
+  PKC_slash_PKC_minus_AA_star_ + MAPK_slash_craf_minus_1 -> PKC_slash_PKC_minus_AA_star_ + 2*MAPK_slash_craf_minus_1 , ( -1) * (3.0E-13)
+  PKC_slash_PKC_minus_AA_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_AA_star_ + PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_inact_minus_GEF , 6.0E-12
+  PKC_slash_PKC_minus_AA_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_AA_star_ + Ras_slash_inact_minus_GEF + PKC_minus_active , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_AA_star_ + Ras_slash_inact_minus_GEF -> PKC_slash_PKC_minus_AA_star_ + 2*Ras_slash_inact_minus_GEF , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_AA_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_AA_star_ + PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_GAP , 6.0E-12
+  PKC_slash_PKC_minus_AA_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_AA_star_ + Ras_slash_GAP + PKC_minus_active , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_AA_star_ + Ras_slash_GAP -> PKC_slash_PKC_minus_AA_star_ + 2*Ras_slash_GAP , ( -1) * (6.0E-12)
+  PKC_slash_PKC_minus_Ca_minus_DAG -> PKC_slash_PKC_minus_Ca + PKC_slash_PKC_minus_Ca_minus_DAG , ( -1) * (-(8.6348E-12))
+  PKC_slash_PKC_minus_Ca_minus_DAG -> PKC_slash_PKC_minus_DAG_minus_memb_star_ + PKC_slash_PKC_minus_Ca_minus_DAG , 1.0E-12
+  PKC_slash_PKC_minus_Ca_minus_DAG -> 2*PKC_slash_PKC_minus_Ca_minus_DAG , -(8.6348E-12)+( -1) * (1.0E-12)
+  PKC_slash_PKC_minus_DAG -> PKC_slash_PKC_minus_DAG + PKC_slash_PKC_minus_cytosolic , ( -1) * (-(1.0E-13))
+  PKC_slash_PKC_minus_DAG -> 2*PKC_slash_PKC_minus_DAG , -(1.0E-13)
+  PKC_slash_PKC_minus_DAG + AA -> PKC_slash_PKC_minus_DAG + PKC_slash_PKC_minus_DAG_minus_AA + AA , 1.8E-14
+  PKC_slash_PKC_minus_DAG + AA -> PKC_slash_PKC_minus_DAG + 2*AA , ( -1) * (1.8E-14)
+  PKC_slash_PKC_minus_DAG + AA -> 2*PKC_slash_PKC_minus_DAG + AA , ( -1) * (1.8E-14)
+  PKC_slash_PKC_minus_DAG_minus_AA -> PKC_slash_PKC_minus_DAG_minus_AA_star_ + PKC_slash_PKC_minus_DAG_minus_AA , 2.0E-12
+  PKC_slash_PKC_minus_DAG_minus_AA -> PKC_slash_PKC_minus_DAG + PKC_slash_PKC_minus_DAG_minus_AA , ( -1) * (-(2.0E-12))
+  PKC_slash_PKC_minus_DAG_minus_AA -> PKC_slash_PKC_minus_DAG_minus_AA + AA , ( -1) * (-(2.0E-12))
+  PKC_slash_PKC_minus_DAG_minus_AA -> 2*PKC_slash_PKC_minus_DAG_minus_AA , ( -1) * (2.0E-12)+-(2.0E-12)
+  PKC_slash_PKC_minus_cytosolic -> PKC_slash_PKC_minus_basal_star_ + PKC_slash_PKC_minus_cytosolic , 1.0E-12
+  PKC_slash_PKC_minus_cytosolic -> 2*PKC_slash_PKC_minus_cytosolic , ( -1) * (1.0E-12)
+  PKC_slash_PKC_minus_cytosolic + AA -> PKC_slash_PKC_minus_AA_star_ + PKC_slash_PKC_minus_cytosolic + AA , 1.2E-16
+  PKC_slash_PKC_minus_cytosolic + AA -> PKC_slash_PKC_minus_cytosolic + 2*AA , ( -1) * (1.2E-16)
+  PKC_slash_PKC_minus_cytosolic + AA -> 2*PKC_slash_PKC_minus_cytosolic + AA , ( -1) * (1.2E-16)
+  PKC_slash_PKC_minus_cytosolic + DAG -> PKC_slash_PKC_minus_DAG + PKC_slash_PKC_minus_cytosolic + DAG , 6.0E-16
+  PKC_slash_PKC_minus_cytosolic + DAG -> 2*PKC_slash_PKC_minus_cytosolic + DAG , ( -1) * (6.0E-16)
+  PKC_slash_PKC_minus_cytosolic + Ca -> PKC_slash_PKC_minus_Ca + PKC_slash_PKC_minus_cytosolic + Ca , 6.0E-13
+  PKC_slash_PKC_minus_cytosolic + Ca -> 2*PKC_slash_PKC_minus_cytosolic + Ca , ( -1) * (6.0E-13)
+  AA -> 2*AA , ( -1) * (4.0E-13)
+  PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx -> PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + MAPK_slash_craf_minus_1 , ( -1) * (-(1.6E-11))
+  PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx -> PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + MAPK_slash_craf_minus_1_star_ , 4.0E-12
+  PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx -> PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + PKC_minus_active , 4.0E-12+( -1) * (-(1.6E-11))
+  PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx -> 2*PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx , -(1.6E-11)+( -1) * (4.0E-12)
+  PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + MAPK_slash_craf_minus_1 -> PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + MAPK_slash_craf_minus_1 + PKC_minus_active , ( -1) * (( 3.0E-13) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + MAPK_slash_craf_minus_1 -> PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + 2*MAPK_slash_craf_minus_1 , ( -1) * (( 3.0E-13) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + MAPK_slash_craf_minus_1 -> 2*PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + MAPK_slash_craf_minus_1 , ( 3.0E-13) * (-(1))
+  PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + Ras_slash_inact_minus_GEF -> PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_inact_minus_GEF , ( 6.0E-12) * (-(1))
+  PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + Ras_slash_inact_minus_GEF -> PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + Ras_slash_inact_minus_GEF + PKC_minus_active , ( -1) * (( 6.0E-12) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + Ras_slash_inact_minus_GEF -> PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + 2*Ras_slash_inact_minus_GEF , ( -1) * (( 6.0E-12) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + Ras_slash_GAP -> PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_GAP , ( 6.0E-12) * (-(1))
+  PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + Ras_slash_GAP -> PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + Ras_slash_GAP + PKC_minus_active , ( -1) * (( 6.0E-12) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + Ras_slash_GAP -> PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + 2*Ras_slash_GAP , ( -1) * (( 6.0E-12) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx -> PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_GAP_star_ , 4.0E-12
+  PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx -> PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_GAP , ( -1) * (-(1.6E-11))
+  PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx -> PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + PKC_minus_active , 4.0E-12+( -1) * (-(1.6E-11))
+  PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx -> 2*PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx , -(1.6E-11)+( -1) * (4.0E-12)
+  PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + MAPK_slash_craf_minus_1 -> PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + MAPK_slash_craf_minus_1 , ( 3.0E-13) * (-(1))
+  PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + MAPK_slash_craf_minus_1 -> PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + MAPK_slash_craf_minus_1 + PKC_minus_active , ( -1) * (( 3.0E-13) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + MAPK_slash_craf_minus_1 -> PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + 2*MAPK_slash_craf_minus_1 , ( -1) * (( 3.0E-13) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_inact_minus_GEF -> PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_inact_minus_GEF , ( 6.0E-12) * (-(1))
+  PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_inact_minus_GEF -> PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_inact_minus_GEF + PKC_minus_active , ( -1) * (( 6.0E-12) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_inact_minus_GEF -> PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + 2*Ras_slash_inact_minus_GEF , ( -1) * (( 6.0E-12) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_GAP -> PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_GAP + PKC_minus_active , ( -1) * (( 6.0E-12) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_GAP -> PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + 2*Ras_slash_GAP , ( -1) * (( 6.0E-12) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_GAP -> 2*PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + Ras_slash_GAP , ( 6.0E-12) * (-(1))
+  PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx -> PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_inact_minus_GEF , ( -1) * (-(1.6E-11))
+  PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx -> PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_GEF_star_ , 4.0E-12
+  PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx -> PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + PKC_minus_active , 4.0E-12+( -1) * (-(1.6E-11))
+  PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx -> 2*PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx , -(1.6E-11)+( -1) * (4.0E-12)
+  PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + MAPK_slash_craf_minus_1 -> PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx + PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + MAPK_slash_craf_minus_1 , ( 3.0E-13) * (-(1))
+  PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + MAPK_slash_craf_minus_1 -> PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + MAPK_slash_craf_minus_1 + PKC_minus_active , ( -1) * (( 3.0E-13) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + MAPK_slash_craf_minus_1 -> PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + 2*MAPK_slash_craf_minus_1 , ( -1) * (( 3.0E-13) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_inact_minus_GEF -> PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_inact_minus_GEF + PKC_minus_active , ( -1) * (( 6.0E-12) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_inact_minus_GEF -> PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + 2*Ras_slash_inact_minus_GEF , ( -1) * (( 6.0E-12) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_inact_minus_GEF -> 2*PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_inact_minus_GEF , ( 6.0E-12) * (-(1))
+  PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_GAP -> PKC_minus_active_slash_PKC_minus_inact_minus_GAP_slash_PKC_minus_inact_minus_GAP_cplx + PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_GAP , ( 6.0E-12) * (-(1))
+  PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_GAP -> PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_GAP + PKC_minus_active , ( -1) * (( 6.0E-12) * (-(1)))
+  PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + Ras_slash_GAP -> PKC_minus_active_slash_PKC_minus_act_minus_GEF_slash_PKC_minus_act_minus_GEF_cplx + 2*Ras_slash_GAP , ( -1) * (( 6.0E-12) * (-(1)))
+  MAPK_slash_craf_minus_1_star_ + MAPK_star_ -> MAPK_slash_craf_minus_1_star_ + MAPK_star_ + MAPK_star__slash_MAPK_star__minus_feedback_slash_MAPK_star__minus_feedback_cplx , 1.95E-12
+  MAPK_slash_craf_minus_1_star_ + MAPK_star_ -> MAPK_slash_craf_minus_1_star_ + 2*MAPK_star_ , ( -1) * (1.95E-12)
+  MAPK_slash_craf_minus_1_star_ + MAPK_star_ -> 2*MAPK_slash_craf_minus_1_star_ + MAPK_star_ , ( -1) * (1.95E-12)
+  MAPK_slash_craf_minus_1_star_ + PPhosphatase2A -> MAPK_slash_craf_minus_1_star_ + PPhosphatase2A + PPhosphatase2A_slash_craf_minus_deph_slash_craf_minus_deph_cplx , 1.98E-12
+  MAPK_slash_craf_minus_1_star_ + PPhosphatase2A -> MAPK_slash_craf_minus_1_star_ + 2*PPhosphatase2A , ( -1) * (1.98E-12)
+  MAPK_slash_craf_minus_1_star_ + PPhosphatase2A -> 2*MAPK_slash_craf_minus_1_star_ + PPhosphatase2A , ( -1) * (1.98E-12)
+  MAPK_slash_craf_minus_1_star_ + Ras_slash_GTP_minus_Ras -> MAPK_slash_craf_minus_1_star_ + MAPK_slash_Raf_minus_GTP_minus_Ras_star_ + Ras_slash_GTP_minus_Ras , 2.4E-11
+  MAPK_slash_craf_minus_1_star_ + Ras_slash_GTP_minus_Ras -> MAPK_slash_craf_minus_1_star_ + 2*Ras_slash_GTP_minus_Ras , ( -1) * (2.4E-11)
+  MAPK_slash_craf_minus_1_star_ + Ras_slash_GTP_minus_Ras -> 2*MAPK_slash_craf_minus_1_star_ + Ras_slash_GTP_minus_Ras , ( -1) * (2.4E-11)
+  MAPK_slash_MAPKK + MAPK_slash_Raf_minus_GTP_minus_Ras_star_ -> MAPK_slash_MAPKK + MAPK_slash_Raf_minus_GTP_minus_Ras_star_ + MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_1_slash_Raf_minus_GTP_minus_Ras_star__dot_1_cplx , 3.3E-12
+  MAPK_slash_MAPKK + MAPK_slash_Raf_minus_GTP_minus_Ras_star_ -> MAPK_slash_MAPKK + 2*MAPK_slash_Raf_minus_GTP_minus_Ras_star_ , ( -1) * (3.3E-12)
+  MAPK_slash_MAPKK + MAPK_slash_Raf_minus_GTP_minus_Ras_star_ -> 2*MAPK_slash_MAPKK + MAPK_slash_Raf_minus_GTP_minus_Ras_star_ , ( -1) * (3.3E-12)
+  MAPK_slash_MAPK + MAPK_slash_MAPKK_star_ -> MAPK_slash_MAPK + MAPK_slash_MAPKK_star_ + MAPK_slash_MAPKK_star__slash_MAPKKtyr_slash_MAPKKtyr_cplx , 1.62E-11
+  MAPK_slash_MAPK + MAPK_slash_MAPKK_star_ -> MAPK_slash_MAPK + 2*MAPK_slash_MAPKK_star_ , ( -1) * (1.62E-11)
+  MAPK_slash_MAPK + MAPK_slash_MAPKK_star_ -> 2*MAPK_slash_MAPK + MAPK_slash_MAPKK_star_ , ( -1) * (1.62E-11)
+  MAPK_slash_craf_minus_1_star__star_ + PPhosphatase2A -> MAPK_slash_craf_minus_1_star__star_ + PPhosphatase2A + PPhosphatase2A_slash_craf_star__star__minus_deph_slash_craf_star__star__minus_deph_cplx , 1.98E-12
+  MAPK_slash_craf_minus_1_star__star_ + PPhosphatase2A -> MAPK_slash_craf_minus_1_star__star_ + 2*PPhosphatase2A , ( -1) * (1.98E-12)
+  MAPK_slash_craf_minus_1_star__star_ + PPhosphatase2A -> 2*MAPK_slash_craf_minus_1_star__star_ + PPhosphatase2A , ( -1) * (1.98E-12)
+  MAPK_slash_MAPK_minus_tyr + MAPK_slash_MAPKK_star_ -> MAPK_slash_MAPK_minus_tyr + MAPK_slash_MAPKK_star_ + MAPK_slash_MAPKK_star__slash_MAPKKthr_slash_MAPKKthr_cplx , 1.62E-11
+  MAPK_slash_MAPK_minus_tyr + MAPK_slash_MAPKK_star_ -> MAPK_slash_MAPK_minus_tyr + 2*MAPK_slash_MAPKK_star_ , ( -1) * (1.62E-11)
+  MAPK_slash_MAPK_minus_tyr + MAPK_slash_MAPKK_star_ -> 2*MAPK_slash_MAPK_minus_tyr + MAPK_slash_MAPKK_star_ , ( -1) * (1.62E-11)
+  MAPK_slash_MAPK_minus_tyr + MKP_minus_1 -> MAPK_slash_MAPK_minus_tyr + MKP_minus_1 + MKP_minus_1_slash_MKP1_minus_tyr_minus_deph_slash_MKP1_minus_tyr_minus_deph_cplx , 7.5E-11
+  MAPK_slash_MAPK_minus_tyr + MKP_minus_1 -> MAPK_slash_MAPK_minus_tyr + 2*MKP_minus_1 , ( -1) * (7.5E-11)
+  MAPK_slash_MAPK_minus_tyr + MKP_minus_1 -> 2*MAPK_slash_MAPK_minus_tyr + MKP_minus_1 , ( -1) * (7.5E-11)
+  MAPK_slash_MAPKK_star_ + PPhosphatase2A -> MAPK_slash_MAPKK_star_ + PPhosphatase2A + PPhosphatase2A_slash_MAPKK_minus_deph_slash_MAPKK_minus_deph_cplx , 1.98E-12
+  MAPK_slash_MAPKK_star_ + PPhosphatase2A -> MAPK_slash_MAPKK_star_ + 2*PPhosphatase2A , ( -1) * (1.98E-12)
+  MAPK_slash_MAPKK_star_ + PPhosphatase2A -> 2*MAPK_slash_MAPKK_star_ + PPhosphatase2A , ( -1) * (1.98E-12)
+  MAPK_slash_MAPKK_star__slash_MAPKKtyr_slash_MAPKKtyr_cplx -> MAPK_slash_MAPK + MAPK_slash_MAPKK_star__slash_MAPKKtyr_slash_MAPKKtyr_cplx , ( -1) * (-(6.0E-13))
+  MAPK_slash_MAPKK_star__slash_MAPKKtyr_slash_MAPKKtyr_cplx -> MAPK_slash_MAPK_minus_tyr + MAPK_slash_MAPKK_star__slash_MAPKKtyr_slash_MAPKKtyr_cplx , 1.5E-13
+  MAPK_slash_MAPKK_star__slash_MAPKKtyr_slash_MAPKKtyr_cplx -> MAPK_slash_MAPKK_star_ + MAPK_slash_MAPKK_star__slash_MAPKKtyr_slash_MAPKKtyr_cplx , 1.5E-13+( -1) * (-(6.0E-13))
+  MAPK_slash_MAPKK_star__slash_MAPKKtyr_slash_MAPKKtyr_cplx -> 2*MAPK_slash_MAPKK_star__slash_MAPKKtyr_slash_MAPKKtyr_cplx , -(6.0E-13)+( -1) * (1.5E-13)
+  MAPK_slash_MAPKK_star__slash_MAPKKthr_slash_MAPKKthr_cplx -> MAPK_slash_MAPK_minus_tyr + MAPK_slash_MAPKK_star__slash_MAPKKthr_slash_MAPKKthr_cplx , ( -1) * (-(6.0E-13))
+  MAPK_slash_MAPKK_star__slash_MAPKKthr_slash_MAPKKthr_cplx -> MAPK_slash_MAPKK_star_ + MAPK_slash_MAPKK_star__slash_MAPKKthr_slash_MAPKKthr_cplx , 1.5E-13+( -1) * (-(6.0E-13))
+  MAPK_slash_MAPKK_star__slash_MAPKKthr_slash_MAPKKthr_cplx -> MAPK_slash_MAPKK_star__slash_MAPKKthr_slash_MAPKKthr_cplx + MAPK_star_ , 1.5E-13
+  MAPK_slash_MAPKK_star__slash_MAPKKthr_slash_MAPKKthr_cplx -> 2*MAPK_slash_MAPKK_star__slash_MAPKKthr_slash_MAPKKthr_cplx , -(6.0E-13)+( -1) * (1.5E-13)
+  MAPK_slash_MAPKK_minus_ser + MAPK_slash_Raf_minus_GTP_minus_Ras_star_ -> MAPK_slash_MAPKK_minus_ser + MAPK_slash_Raf_minus_GTP_minus_Ras_star_ + MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_2_slash_Raf_minus_GTP_minus_Ras_star__dot_2_cplx , 3.3E-12
+  MAPK_slash_MAPKK_minus_ser + MAPK_slash_Raf_minus_GTP_minus_Ras_star_ -> MAPK_slash_MAPKK_minus_ser + 2*MAPK_slash_Raf_minus_GTP_minus_Ras_star_ , ( -1) * (3.3E-12)
+  MAPK_slash_MAPKK_minus_ser + MAPK_slash_Raf_minus_GTP_minus_Ras_star_ -> 2*MAPK_slash_MAPKK_minus_ser + MAPK_slash_Raf_minus_GTP_minus_Ras_star_ , ( -1) * (3.3E-12)
+  MAPK_slash_MAPKK_minus_ser + PPhosphatase2A -> MAPK_slash_MAPKK_minus_ser + PPhosphatase2A + PPhosphatase2A_slash_MAPKK_minus_deph_minus_ser_slash_MAPKK_minus_deph_minus_ser_cplx , 1.98E-12
+  MAPK_slash_MAPKK_minus_ser + PPhosphatase2A -> MAPK_slash_MAPKK_minus_ser + 2*PPhosphatase2A , ( -1) * (1.98E-12)
+  MAPK_slash_MAPKK_minus_ser + PPhosphatase2A -> 2*MAPK_slash_MAPKK_minus_ser + PPhosphatase2A , ( -1) * (1.98E-12)
+  MAPK_slash_Raf_minus_GTP_minus_Ras_star_ -> MAPK_slash_craf_minus_1_star_ + MAPK_slash_Raf_minus_GTP_minus_Ras_star_ , ( -1) * (-(5.0E-13))
+  MAPK_slash_Raf_minus_GTP_minus_Ras_star_ -> MAPK_slash_Raf_minus_GTP_minus_Ras_star_ + Ras_slash_GTP_minus_Ras , ( -1) * (-(5.0E-13))
+  MAPK_slash_Raf_minus_GTP_minus_Ras_star_ -> 2*MAPK_slash_Raf_minus_GTP_minus_Ras_star_ , -(5.0E-13)
+  MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_1_slash_Raf_minus_GTP_minus_Ras_star__dot_1_cplx -> MAPK_slash_MAPKK + MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_1_slash_Raf_minus_GTP_minus_Ras_star__dot_1_cplx , ( -1) * (-(4.2E-13))
+  MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_1_slash_Raf_minus_GTP_minus_Ras_star__dot_1_cplx -> MAPK_slash_MAPKK_minus_ser + MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_1_slash_Raf_minus_GTP_minus_Ras_star__dot_1_cplx , 1.05E-13
+  MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_1_slash_Raf_minus_GTP_minus_Ras_star__dot_1_cplx -> MAPK_slash_Raf_minus_GTP_minus_Ras_star_ + MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_1_slash_Raf_minus_GTP_minus_Ras_star__dot_1_cplx , 1.05E-13+( -1) * (-(4.2E-13))
+  MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_1_slash_Raf_minus_GTP_minus_Ras_star__dot_1_cplx -> 2*MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_1_slash_Raf_minus_GTP_minus_Ras_star__dot_1_cplx , -(4.2E-13)+( -1) * (1.05E-13)
+  MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_2_slash_Raf_minus_GTP_minus_Ras_star__dot_2_cplx -> MAPK_slash_MAPKK_star_ + MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_2_slash_Raf_minus_GTP_minus_Ras_star__dot_2_cplx , 1.05E-13
+  MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_2_slash_Raf_minus_GTP_minus_Ras_star__dot_2_cplx -> MAPK_slash_MAPKK_minus_ser + MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_2_slash_Raf_minus_GTP_minus_Ras_star__dot_2_cplx , ( -1) * (-(4.2E-13))
+  MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_2_slash_Raf_minus_GTP_minus_Ras_star__dot_2_cplx -> MAPK_slash_Raf_minus_GTP_minus_Ras_star_ + MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_2_slash_Raf_minus_GTP_minus_Ras_star__dot_2_cplx , 1.05E-13+( -1) * (-(4.2E-13))
+  MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_2_slash_Raf_minus_GTP_minus_Ras_star__dot_2_cplx -> 2*MAPK_slash_Raf_minus_GTP_minus_Ras_star__slash_Raf_minus_GTP_minus_Ras_star__dot_2_slash_Raf_minus_GTP_minus_Ras_star__dot_2_cplx , -(4.2E-13)+( -1) * (1.05E-13)
+  MAPK_star_ + MKP_minus_1 -> MAPK_star_ + MKP_minus_1 + MKP_minus_1_slash_MKP1_minus_thr_minus_deph_slash_MKP1_minus_thr_minus_deph_cplx , 7.5E-11
+  MAPK_star_ + MKP_minus_1 -> MAPK_star_ + 2*MKP_minus_1 , ( -1) * (7.5E-11)
+  MAPK_star_ + MKP_minus_1 -> 2*MAPK_star_ + MKP_minus_1 , ( -1) * (7.5E-11)
+  MAPK_star_ + PLA2_slash_PLA2_minus_cytosolic -> MAPK_star_ + MAPK_star__slash_MAPK_star__slash_MAPK_star__cplx + PLA2_slash_PLA2_minus_cytosolic , 3.9E-12
+  MAPK_star_ + PLA2_slash_PLA2_minus_cytosolic -> MAPK_star_ + 2*PLA2_slash_PLA2_minus_cytosolic , ( -1) * (3.9E-12)
+  MAPK_star_ + PLA2_slash_PLA2_minus_cytosolic -> 2*MAPK_star_ + PLA2_slash_PLA2_minus_cytosolic , ( -1) * (3.9E-12)
+  MAPK_star__slash_MAPK_star__minus_feedback_slash_MAPK_star__minus_feedback_cplx -> MAPK_slash_craf_minus_1_star_ + MAPK_star__slash_MAPK_star__minus_feedback_slash_MAPK_star__minus_feedback_cplx , ( -1) * (-(4.0E-11))
+  MAPK_star__slash_MAPK_star__minus_feedback_slash_MAPK_star__minus_feedback_cplx -> MAPK_slash_craf_minus_1_star__star_ + MAPK_star__slash_MAPK_star__minus_feedback_slash_MAPK_star__minus_feedback_cplx , 1.0E-11
+  MAPK_star__slash_MAPK_star__minus_feedback_slash_MAPK_star__minus_feedback_cplx -> MAPK_star_ + MAPK_star__slash_MAPK_star__minus_feedback_slash_MAPK_star__minus_feedback_cplx , 1.0E-11+( -1) * (-(4.0E-11))
+  MAPK_star__slash_MAPK_star__minus_feedback_slash_MAPK_star__minus_feedback_cplx -> 2*MAPK_star__slash_MAPK_star__minus_feedback_slash_MAPK_star__minus_feedback_cplx , -(4.0E-11)+( -1) * (1.0E-11)
+  MAPK_star__slash_MAPK_star__slash_MAPK_star__cplx -> MAPK_star_ + MAPK_star__slash_MAPK_star__slash_MAPK_star__cplx , 2.0E-11+( -1) * (-(8.0E-11))
+  MAPK_star__slash_MAPK_star__slash_MAPK_star__cplx -> MAPK_star__slash_MAPK_star__slash_MAPK_star__cplx + PLA2_slash_PLA2_minus_cytosolic , ( -1) * (-(8.0E-11))
+  MAPK_star__slash_MAPK_star__slash_MAPK_star__cplx -> MAPK_star__slash_MAPK_star__slash_MAPK_star__cplx + PLA2_slash_PLA2_star_ , 2.0E-11
+  MAPK_star__slash_MAPK_star__slash_MAPK_star__cplx -> 2*MAPK_star__slash_MAPK_star__slash_MAPK_star__cplx , -(8.0E-11)+( -1) * (2.0E-11)
+  MKP_minus_1_slash_MKP1_minus_tyr_minus_deph_slash_MKP1_minus_tyr_minus_deph_cplx -> MAPK_slash_MAPK + MKP_minus_1_slash_MKP1_minus_tyr_minus_deph_slash_MKP1_minus_tyr_minus_deph_cplx , 1.0E-12
+  MKP_minus_1_slash_MKP1_minus_tyr_minus_deph_slash_MKP1_minus_tyr_minus_deph_cplx -> MAPK_slash_MAPK_minus_tyr + MKP_minus_1_slash_MKP1_minus_tyr_minus_deph_slash_MKP1_minus_tyr_minus_deph_cplx , ( -1) * (-(4.0E-12))
+  MKP_minus_1_slash_MKP1_minus_tyr_minus_deph_slash_MKP1_minus_tyr_minus_deph_cplx -> MKP_minus_1 + MKP_minus_1_slash_MKP1_minus_tyr_minus_deph_slash_MKP1_minus_tyr_minus_deph_cplx , 1.0E-12+( -1) * (-(4.0E-12))
+  MKP_minus_1_slash_MKP1_minus_tyr_minus_deph_slash_MKP1_minus_tyr_minus_deph_cplx -> 2*MKP_minus_1_slash_MKP1_minus_tyr_minus_deph_slash_MKP1_minus_tyr_minus_deph_cplx , -(4.0E-12)+( -1) * (1.0E-12)
+  MKP_minus_1_slash_MKP1_minus_thr_minus_deph_slash_MKP1_minus_thr_minus_deph_cplx -> MAPK_slash_MAPK_minus_tyr + MKP_minus_1_slash_MKP1_minus_thr_minus_deph_slash_MKP1_minus_thr_minus_deph_cplx , 1.0E-12
+  MKP_minus_1_slash_MKP1_minus_thr_minus_deph_slash_MKP1_minus_thr_minus_deph_cplx -> MAPK_star_ + MKP_minus_1_slash_MKP1_minus_thr_minus_deph_slash_MKP1_minus_thr_minus_deph_cplx , ( -1) * (-(4.0E-12))
+  MKP_minus_1_slash_MKP1_minus_thr_minus_deph_slash_MKP1_minus_thr_minus_deph_cplx -> MKP_minus_1 + MKP_minus_1_slash_MKP1_minus_thr_minus_deph_slash_MKP1_minus_thr_minus_deph_cplx , 1.0E-12+( -1) * (-(4.0E-12))
+  MKP_minus_1_slash_MKP1_minus_thr_minus_deph_slash_MKP1_minus_thr_minus_deph_cplx -> 2*MKP_minus_1_slash_MKP1_minus_thr_minus_deph_slash_MKP1_minus_thr_minus_deph_cplx , -(4.0E-12)+( -1) * (1.0E-12)
+  PPhosphatase2A_slash_craf_minus_deph_slash_craf_minus_deph_cplx -> MAPK_slash_craf_minus_1 + PPhosphatase2A_slash_craf_minus_deph_slash_craf_minus_deph_cplx , 6.0E-12
+  PPhosphatase2A_slash_craf_minus_deph_slash_craf_minus_deph_cplx -> MAPK_slash_craf_minus_1_star_ + PPhosphatase2A_slash_craf_minus_deph_slash_craf_minus_deph_cplx , ( -1) * (-(2.5E-11))
+  PPhosphatase2A_slash_craf_minus_deph_slash_craf_minus_deph_cplx -> PPhosphatase2A + PPhosphatase2A_slash_craf_minus_deph_slash_craf_minus_deph_cplx , 6.0E-12+( -1) * (-(2.5E-11))
+  PPhosphatase2A_slash_craf_minus_deph_slash_craf_minus_deph_cplx -> 2*PPhosphatase2A_slash_craf_minus_deph_slash_craf_minus_deph_cplx , -(2.5E-11)+( -1) * (6.0E-12)
+  PPhosphatase2A_slash_MAPKK_minus_deph_slash_MAPKK_minus_deph_cplx -> MAPK_slash_MAPKK_star_ + PPhosphatase2A_slash_MAPKK_minus_deph_slash_MAPKK_minus_deph_cplx , ( -1) * (-(2.5E-11))
+  PPhosphatase2A_slash_MAPKK_minus_deph_slash_MAPKK_minus_deph_cplx -> MAPK_slash_MAPKK_minus_ser + PPhosphatase2A_slash_MAPKK_minus_deph_slash_MAPKK_minus_deph_cplx , 6.0E-12
+  PPhosphatase2A_slash_MAPKK_minus_deph_slash_MAPKK_minus_deph_cplx -> PPhosphatase2A + PPhosphatase2A_slash_MAPKK_minus_deph_slash_MAPKK_minus_deph_cplx , 6.0E-12+( -1) * (-(2.5E-11))
+  PPhosphatase2A_slash_MAPKK_minus_deph_slash_MAPKK_minus_deph_cplx -> 2*PPhosphatase2A_slash_MAPKK_minus_deph_slash_MAPKK_minus_deph_cplx , -(2.5E-11)+( -1) * (6.0E-12)
+  PPhosphatase2A_slash_MAPKK_minus_deph_minus_ser_slash_MAPKK_minus_deph_minus_ser_cplx -> MAPK_slash_MAPKK + PPhosphatase2A_slash_MAPKK_minus_deph_minus_ser_slash_MAPKK_minus_deph_minus_ser_cplx , 6.0E-12
+  PPhosphatase2A_slash_MAPKK_minus_deph_minus_ser_slash_MAPKK_minus_deph_minus_ser_cplx -> MAPK_slash_MAPKK_minus_ser + PPhosphatase2A_slash_MAPKK_minus_deph_minus_ser_slash_MAPKK_minus_deph_minus_ser_cplx , ( -1) * (-(2.5E-11))
+  PPhosphatase2A_slash_MAPKK_minus_deph_minus_ser_slash_MAPKK_minus_deph_minus_ser_cplx -> PPhosphatase2A + PPhosphatase2A_slash_MAPKK_minus_deph_minus_ser_slash_MAPKK_minus_deph_minus_ser_cplx , 6.0E-12+( -1) * (-(2.5E-11))
+  PPhosphatase2A_slash_MAPKK_minus_deph_minus_ser_slash_MAPKK_minus_deph_minus_ser_cplx -> 2*PPhosphatase2A_slash_MAPKK_minus_deph_minus_ser_slash_MAPKK_minus_deph_minus_ser_cplx , -(2.5E-11)+( -1) * (6.0E-12)
+  PPhosphatase2A_slash_craf_star__star__minus_deph_slash_craf_star__star__minus_deph_cplx -> MAPK_slash_craf_minus_1_star_ + PPhosphatase2A_slash_craf_star__star__minus_deph_slash_craf_star__star__minus_deph_cplx , 6.0E-12
+  PPhosphatase2A_slash_craf_star__star__minus_deph_slash_craf_star__star__minus_deph_cplx -> MAPK_slash_craf_minus_1_star__star_ + PPhosphatase2A_slash_craf_star__star__minus_deph_slash_craf_star__star__minus_deph_cplx , ( -1) * (-(2.5E-11))
+  PPhosphatase2A_slash_craf_star__star__minus_deph_slash_craf_star__star__minus_deph_cplx -> PPhosphatase2A + PPhosphatase2A_slash_craf_star__star__minus_deph_slash_craf_star__star__minus_deph_cplx , 6.0E-12+( -1) * (-(2.5E-11))
+  PPhosphatase2A_slash_craf_star__star__minus_deph_slash_craf_star__star__minus_deph_cplx -> 2*PPhosphatase2A_slash_craf_star__star__minus_deph_slash_craf_star__star__minus_deph_cplx , -(2.5E-11)+( -1) * (6.0E-12)
+  PLA2_slash_PLA2_minus_cytosolic + Ca -> PLA2_slash_PLA2_minus_cytosolic + PLA2_slash_PLA2_minus_Ca_star_ + Ca , 1.00002E-12
+  PLA2_slash_PLA2_minus_cytosolic + Ca -> 2*PLA2_slash_PLA2_minus_cytosolic + Ca , ( -1) * (1.00002E-12)
+  PLA2_slash_PLA2_minus_cytosolic + temp_minus_PIP2 -> PLA2_slash_PLA2_minus_cytosolic + PLA2_slash_PIP2_minus_PLA2_star_ + temp_minus_PIP2 , 1.2E-15
+  PLA2_slash_PLA2_minus_cytosolic + temp_minus_PIP2 -> 2*PLA2_slash_PLA2_minus_cytosolic + temp_minus_PIP2 , ( -1) * (1.2E-15)
+  PLA2_slash_PLA2_minus_Ca_star_ -> PLA2_slash_PLA2_minus_cytosolic + PLA2_slash_PLA2_minus_Ca_star_ , ( -1) * (-(1.0E-13))
+  PLA2_slash_PLA2_minus_Ca_star_ -> 2*PLA2_slash_PLA2_minus_Ca_star_ , -(1.0E-13)
+  PLA2_slash_PLA2_minus_Ca_star_ + DAG -> PLA2_slash_PLA2_minus_Ca_star_ + PLA2_slash_DAG_minus_Ca_minus_PLA2_star_ + DAG , 3.0E-15
+  PLA2_slash_PLA2_minus_Ca_star_ + DAG -> 2*PLA2_slash_PLA2_minus_Ca_star_ + DAG , ( -1) * (3.0E-15)
+  PLA2_slash_PLA2_minus_Ca_star_ + PLA2_slash_APC -> PLA2_slash_PLA2_minus_Ca_star_ + PLA2_slash_PLA2_minus_Ca_star__slash_kenz_slash_kenz_cplx + PLA2_slash_APC , 1.35E-12
+  PLA2_slash_PLA2_minus_Ca_star_ + PLA2_slash_APC -> 2*PLA2_slash_PLA2_minus_Ca_star_ + PLA2_slash_APC , ( -1) * (1.35E-12)
+  PLA2_slash_PLA2_minus_Ca_star_ + temp_minus_PIP2 -> PLA2_slash_PLA2_minus_Ca_star_ + PLA2_slash_PIP2_minus_Ca_minus_PLA2_star_ + temp_minus_PIP2 , 1.2E-14
+  PLA2_slash_PLA2_minus_Ca_star_ + temp_minus_PIP2 -> 2*PLA2_slash_PLA2_minus_Ca_star_ + temp_minus_PIP2 , ( -1) * (1.2E-14)
+  PLA2_slash_PLA2_minus_Ca_star__slash_kenz_slash_kenz_cplx -> AA + PLA2_slash_PLA2_minus_Ca_star__slash_kenz_slash_kenz_cplx , 5.4E-12
+  PLA2_slash_PLA2_minus_Ca_star__slash_kenz_slash_kenz_cplx -> PLA2_slash_PLA2_minus_Ca_star_ + PLA2_slash_PLA2_minus_Ca_star__slash_kenz_slash_kenz_cplx , 5.4E-12+( -1) * (-(2.16E-11))
+  PLA2_slash_PLA2_minus_Ca_star__slash_kenz_slash_kenz_cplx -> 2*PLA2_slash_PLA2_minus_Ca_star__slash_kenz_slash_kenz_cplx , -(2.16E-11)+( -1) * (5.4E-12)
+  PLA2_slash_PIP2_minus_PLA2_star_ -> PLA2_slash_PLA2_minus_cytosolic + PLA2_slash_PIP2_minus_PLA2_star_ , ( -1) * (-(5.0E-13))
+  PLA2_slash_PIP2_minus_PLA2_star_ -> 2*PLA2_slash_PIP2_minus_PLA2_star_ , -(5.0E-13)
+  PLA2_slash_PIP2_minus_PLA2_star_ + PLA2_slash_APC -> PLA2_slash_PIP2_minus_PLA2_star_ + PLA2_slash_PIP2_minus_PLA2_star__slash_kenz_slash_kenz_cplx + PLA2_slash_APC , 2.76E-12
+  PLA2_slash_PIP2_minus_PLA2_star_ + PLA2_slash_APC -> 2*PLA2_slash_PIP2_minus_PLA2_star_ + PLA2_slash_APC , ( -1) * (2.76E-12)
+  PLA2_slash_PIP2_minus_PLA2_star__slash_kenz_slash_kenz_cplx -> AA + PLA2_slash_PIP2_minus_PLA2_star__slash_kenz_slash_kenz_cplx , 1.104E-11
+  PLA2_slash_PIP2_minus_PLA2_star__slash_kenz_slash_kenz_cplx -> PLA2_slash_PIP2_minus_PLA2_star_ + PLA2_slash_PIP2_minus_PLA2_star__slash_kenz_slash_kenz_cplx , 1.104E-11+( -1) * (-(4.416E-11))
+  PLA2_slash_PIP2_minus_PLA2_star__slash_kenz_slash_kenz_cplx -> 2*PLA2_slash_PIP2_minus_PLA2_star__slash_kenz_slash_kenz_cplx , -(4.416E-11)+( -1) * (1.104E-11)
+  PLA2_slash_PIP2_minus_Ca_minus_PLA2_star_ -> PLA2_slash_PLA2_minus_Ca_star_ + PLA2_slash_PIP2_minus_Ca_minus_PLA2_star_ , ( -1) * (-(1.0E-13))
+  PLA2_slash_PIP2_minus_Ca_minus_PLA2_star_ -> 2*PLA2_slash_PIP2_minus_Ca_minus_PLA2_star_ , -(1.0E-13)
+  PLA2_slash_PIP2_minus_Ca_minus_PLA2_star_ + PLA2_slash_APC -> PLA2_slash_PIP2_minus_Ca_minus_PLA2_star_ + PLA2_slash_PIP2_minus_Ca_minus_PLA2_star__slash_kenz_slash_kenz_cplx + PLA2_slash_APC , 9.0E-12
+  PLA2_slash_PIP2_minus_Ca_minus_PLA2_star_ + PLA2_slash_APC -> 2*PLA2_slash_PIP2_minus_Ca_minus_PLA2_star_ + PLA2_slash_APC , ( -1) * (9.0E-12)
+  PLA2_slash_PIP2_minus_Ca_minus_PLA2_star__slash_kenz_slash_kenz_cplx -> AA + PLA2_slash_PIP2_minus_Ca_minus_PLA2_star__slash_kenz_slash_kenz_cplx , 3.6E-11
+  PLA2_slash_PIP2_minus_Ca_minus_PLA2_star__slash_kenz_slash_kenz_cplx -> PLA2_slash_PIP2_minus_Ca_minus_PLA2_star_ + PLA2_slash_PIP2_minus_Ca_minus_PLA2_star__slash_kenz_slash_kenz_cplx , 3.6E-11+( -1) * (-(1.44E-10))
+  PLA2_slash_PIP2_minus_Ca_minus_PLA2_star__slash_kenz_slash_kenz_cplx -> 2*PLA2_slash_PIP2_minus_Ca_minus_PLA2_star__slash_kenz_slash_kenz_cplx , -(1.44E-10)+( -1) * (3.6E-11)
+  PLA2_slash_DAG_minus_Ca_minus_PLA2_star_ -> PLA2_slash_PLA2_minus_Ca_star_ + PLA2_slash_DAG_minus_Ca_minus_PLA2_star_ , ( -1) * (-(4.0E-12))
+  PLA2_slash_DAG_minus_Ca_minus_PLA2_star_ -> 2*PLA2_slash_DAG_minus_Ca_minus_PLA2_star_ , -(4.0E-12)
+  PLA2_slash_DAG_minus_Ca_minus_PLA2_star_ + PLA2_slash_APC -> PLA2_slash_DAG_minus_Ca_minus_PLA2_star_ + PLA2_slash_DAG_minus_Ca_minus_PLA2_star__slash_kenz_slash_kenz_cplx + PLA2_slash_APC , 1.5E-11
+  PLA2_slash_DAG_minus_Ca_minus_PLA2_star_ + PLA2_slash_APC -> 2*PLA2_slash_DAG_minus_Ca_minus_PLA2_star_ + PLA2_slash_APC , ( -1) * (1.5E-11)
+  PLA2_slash_DAG_minus_Ca_minus_PLA2_star__slash_kenz_slash_kenz_cplx -> AA + PLA2_slash_DAG_minus_Ca_minus_PLA2_star__slash_kenz_slash_kenz_cplx , 6.0E-11
+  PLA2_slash_DAG_minus_Ca_minus_PLA2_star__slash_kenz_slash_kenz_cplx -> PLA2_slash_DAG_minus_Ca_minus_PLA2_star_ + PLA2_slash_DAG_minus_Ca_minus_PLA2_star__slash_kenz_slash_kenz_cplx , 6.0E-11+( -1) * (-(2.4E-10))
+  PLA2_slash_DAG_minus_Ca_minus_PLA2_star__slash_kenz_slash_kenz_cplx -> 2*PLA2_slash_DAG_minus_Ca_minus_PLA2_star__slash_kenz_slash_kenz_cplx , -(2.4E-10)+( -1) * (6.0E-11)
+  PLA2_slash_PLA2_star__minus_Ca -> PLA2_slash_PLA2_star__minus_Ca + PLA2_slash_PLA2_star_ , ( -1) * (-(1.0E-13))
+  PLA2_slash_PLA2_star__minus_Ca -> 2*PLA2_slash_PLA2_star__minus_Ca , -(1.0E-13)
+  PLA2_slash_PLA2_star__minus_Ca + PLA2_slash_APC -> PLA2_slash_PLA2_star__minus_Ca + PLA2_slash_PLA2_star__minus_Ca_slash_kenz_slash_kenz_cplx + PLA2_slash_APC , 3.0E-11
+  PLA2_slash_PLA2_star__minus_Ca + PLA2_slash_APC -> 2*PLA2_slash_PLA2_star__minus_Ca + PLA2_slash_APC , ( -1) * (3.0E-11)
+  PLA2_slash_PLA2_star__minus_Ca_slash_kenz_slash_kenz_cplx -> AA + PLA2_slash_PLA2_star__minus_Ca_slash_kenz_slash_kenz_cplx , 1.2E-10
+  PLA2_slash_PLA2_star__minus_Ca_slash_kenz_slash_kenz_cplx -> PLA2_slash_PLA2_star__minus_Ca + PLA2_slash_PLA2_star__minus_Ca_slash_kenz_slash_kenz_cplx , 1.2E-10+( -1) * (-(4.8E-10))
+  PLA2_slash_PLA2_star__minus_Ca_slash_kenz_slash_kenz_cplx -> 2*PLA2_slash_PLA2_star__minus_Ca_slash_kenz_slash_kenz_cplx , -(4.8E-10)+( -1) * (1.2E-10)
+  PLA2_slash_PLA2_star_ -> PLA2_slash_PLA2_minus_cytosolic + PLA2_slash_PLA2_star_ , 1.7E-13
+  PLA2_slash_PLA2_star_ -> 2*PLA2_slash_PLA2_star_ , ( -1) * (1.7E-13)
+  PLA2_slash_PLA2_star_ + Ca -> PLA2_slash_PLA2_star__minus_Ca + PLA2_slash_PLA2_star_ + Ca , 6.0E-12
+  PLA2_slash_PLA2_star_ + Ca -> 2*PLA2_slash_PLA2_star_ + Ca , ( -1) * (6.0E-12)
+  Ras_slash_GEF_star_ -> Ras_slash_inact_minus_GEF + Ras_slash_GEF_star_ , 1.0E-12
+  Ras_slash_GEF_star_ -> 2*Ras_slash_GEF_star_ , ( -1) * (1.0E-12)
+  Ras_slash_GEF_star_ + Ras_slash_GDP_minus_Ras -> Ras_slash_GEF_star_ + Ras_slash_GEF_star__slash_GEF_star__minus_act_minus_ras_slash_GEF_star__minus_act_minus_ras_cplx + Ras_slash_GDP_minus_Ras , 1.98E-13
+  Ras_slash_GEF_star_ + Ras_slash_GDP_minus_Ras -> Ras_slash_GEF_star_ + 2*Ras_slash_GDP_minus_Ras , ( -1) * (1.98E-13)
+  Ras_slash_GEF_star_ + Ras_slash_GDP_minus_Ras -> 2*Ras_slash_GEF_star_ + Ras_slash_GDP_minus_Ras , ( -1) * (1.98E-13)
+  Ras_slash_GEF_star__slash_GEF_star__minus_act_minus_ras_slash_GEF_star__minus_act_minus_ras_cplx -> Ras_slash_GEF_star_ + Ras_slash_GEF_star__slash_GEF_star__minus_act_minus_ras_slash_GEF_star__minus_act_minus_ras_cplx , 2.0E-14+( -1) * (-(8.0E-14))
+  Ras_slash_GEF_star__slash_GEF_star__minus_act_minus_ras_slash_GEF_star__minus_act_minus_ras_cplx -> Ras_slash_GEF_star__slash_GEF_star__minus_act_minus_ras_slash_GEF_star__minus_act_minus_ras_cplx + Ras_slash_GTP_minus_Ras , 2.0E-14
+  Ras_slash_GEF_star__slash_GEF_star__minus_act_minus_ras_slash_GEF_star__minus_act_minus_ras_cplx -> Ras_slash_GEF_star__slash_GEF_star__minus_act_minus_ras_slash_GEF_star__minus_act_minus_ras_cplx + Ras_slash_GDP_minus_Ras , ( -1) * (-(8.0E-14))
+  Ras_slash_GEF_star__slash_GEF_star__minus_act_minus_ras_slash_GEF_star__minus_act_minus_ras_cplx -> 2*Ras_slash_GEF_star__slash_GEF_star__minus_act_minus_ras_slash_GEF_star__minus_act_minus_ras_cplx , -(8.0E-14)+( -1) * (2.0E-14)
+  Ras_slash_GTP_minus_Ras -> Ras_slash_GTP_minus_Ras + Ras_slash_GDP_minus_Ras , 1.0E-16
+  Ras_slash_GTP_minus_Ras -> 2*Ras_slash_GTP_minus_Ras , ( -1) * (1.0E-16)
+  Ras_slash_GTP_minus_Ras + Ras_slash_GAP -> Ras_slash_GTP_minus_Ras + Ras_slash_GAP + Ras_slash_GAP_slash_GAP_minus_inact_minus_ras_slash_GAP_minus_inact_minus_ras_cplx , 9.996E-10
+  Ras_slash_GTP_minus_Ras + Ras_slash_GAP -> Ras_slash_GTP_minus_Ras + 2*Ras_slash_GAP , ( -1) * (9.996E-10)
+  Ras_slash_GTP_minus_Ras + Ras_slash_GAP -> 2*Ras_slash_GTP_minus_Ras + Ras_slash_GAP , ( -1) * (9.996E-10)
+  Ras_slash_GAP_star_ -> Ras_slash_GAP_star_ + Ras_slash_GAP , 1.0E-13
+  Ras_slash_GAP_star_ -> 2*Ras_slash_GAP_star_ , ( -1) * (1.0E-13)
+  Ras_slash_GAP_slash_GAP_minus_inact_minus_ras_slash_GAP_minus_inact_minus_ras_cplx -> Ras_slash_GTP_minus_Ras + Ras_slash_GAP_slash_GAP_minus_inact_minus_ras_slash_GAP_minus_inact_minus_ras_cplx , ( -1) * (-(1.0E-9))
+  Ras_slash_GAP_slash_GAP_minus_inact_minus_ras_slash_GAP_minus_inact_minus_ras_cplx -> Ras_slash_GDP_minus_Ras + Ras_slash_GAP_slash_GAP_minus_inact_minus_ras_slash_GAP_minus_inact_minus_ras_cplx , 1.0E-11
+  Ras_slash_GAP_slash_GAP_minus_inact_minus_ras_slash_GAP_minus_inact_minus_ras_cplx -> Ras_slash_GAP + Ras_slash_GAP_slash_GAP_minus_inact_minus_ras_slash_GAP_minus_inact_minus_ras_cplx , 1.0E-11+( -1) * (-(1.0E-9))
+  Ras_slash_GAP_slash_GAP_minus_inact_minus_ras_slash_GAP_minus_inact_minus_ras_cplx -> 2*Ras_slash_GAP_slash_GAP_minus_inact_minus_ras_slash_GAP_minus_inact_minus_ras_cplx , -(1.0E-9)+( -1) * (1.0E-11)
+ end reactions
+
+end model
+

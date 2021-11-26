@@ -1,0 +1,25 @@
+begin model BIOMD0000000040
+ begin parameters
+  f = 1.0
+ end parameters
+ begin init
+  Br = 1.0E-7 ( "Br-" ) 
+  BrO3 = 0.06 ( "BrO3-" ) 
+  Ce = 0.05 ( "Ce4+" ) 
+  HBrO2 = 5.0E-11
+  HOBr
+ end init
+ begin reactions
+  Br + BrO3 -> Br + BrO3 + HBrO2 , ( 1.34) * (1.0)
+  Br + BrO3 -> 2*Br + BrO3 , ( -1) * (( 1.34) * (1.0))
+  Br + HBrO2 -> Br + 2*HBrO2 , ( -1) * (( 1.6E9) * (1.0))
+  Br + HBrO2 -> 2*Br + HBrO2 , ( -1) * (( 1.6E9) * (1.0))
+  BrO3 + HBrO2 -> BrO3 + Ce + HBrO2 , ( 8000.0) * (1.0)
+  BrO3 + HBrO2 -> BrO3 + 2*HBrO2 , ( 8000.0) * (1.0)
+  Ce -> Br + Ce , ( 1.0) * (1.0)
+  Ce -> 2*Ce , ( -1) * (( 1.0) * (1.0))
+  2*HBrO2 -> 3*HBrO2 , ( -2) * (( 4.0E7) * (1.0))
+ end reactions
+
+end model
+

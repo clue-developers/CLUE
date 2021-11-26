@@ -1,0 +1,37 @@
+begin model MODEL1511170000
+ begin init
+  mrna = 3.11023622047244E-9
+  asrna = 1.7007299270073E-9
+  protein = 5.04520833250758E-6
+  rib = 6.03811178998255E-6
+  mrnarib = 2.11057881910267E-10
+  SINK
+  source = 1.0
+ end init
+ begin reactions
+  mrna -> mrna + SINK , ( -1) * (( 5.5E-17) * (0.127))
+  mrna -> 2*mrna , ( 5.5E-17) * (0.127)
+  mrna + asrna -> mrna + asrna + SINK , ( -1) * (( 5.5E-17) * (6.0E7))
+  mrna + asrna -> mrna + 2*asrna , ( 5.5E-17) * (6.0E7)
+  mrna + asrna -> 2*mrna + asrna , ( 5.5E-17) * (6.0E7)
+  mrna + rib -> mrna + rib + mrnarib , ( 5.5E-17) * (13486.1596782129)
+  mrna + rib -> mrna + 2*rib , ( -1) * (( 5.5E-17) * (13486.1596782129))
+  mrna + rib -> 2*mrna + rib , ( -1) * (( 5.5E-17) * (13486.1596782129))
+  asrna -> asrna + SINK , ( -1) * (( 5.5E-17) * (0.137))
+  asrna -> 2*asrna , ( 5.5E-17) * (0.137)
+  protein -> protein + SINK , ( -1) * (( 5.5E-17) * (5.02E-5))
+  protein -> 2*protein , ( 5.5E-17) * (5.02E-5)
+  mrnarib -> mrna + mrnarib , ( 5.5E-17) * (1.2)
+  mrnarib -> protein + mrnarib , ( 5.5E-17) * (1.2)
+  mrnarib -> rib + mrnarib , ( 5.5E-17) * (1.2)
+  mrnarib -> 2*mrnarib , ( -1) * (( 5.5E-17) * (1.2))
+  source -> mrna + source , ( 5.5E-17) * (3.95E-10)
+  source -> asrna + source , ( 5.5E-17) * (2.33E-10)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

@@ -1,0 +1,106 @@
+begin model BIOMD0000000365
+ begin parameters
+  k1 = 1.0E8
+  k2 = 0.7
+  k3 = 0.064
+  k5 = 1.0
+  k6 = 5.2E-4
+  k7 = 0.028
+  k8 = 2570.0
+  k9 = 1.72E-5
+  k10 = 2630.0
+ end parameters
+ begin init
+  APC = 1.0E-8
+  Va = 2.0E-7
+  Va_APC
+  Va3
+  Va3_APC
+  Va5
+  Va5_APC
+  Va53
+  Va53_APC
+  Va56
+  Va56_APC
+  Va36
+  Va36_APC
+  Va536
+  Va536_APC
+  HC
+  LC
+  HC5
+  HC3
+  HC56
+  HC36
+  HC536
+  LC_APC
+  HC53
+  VaA3
+  VaA53
+  VaA36
+  VaA536
+  VaLCA1
+  VaLCA1_APC
+ end init
+ begin reactions
+  APC + Va -> Va_APC , k1 [r1]
+  Va_APC -> APC + Va , k2 [r1]
+  APC + Va3 -> Va3_APC , k1 [r2]
+  Va3_APC -> APC + Va3 , k2 [r2]
+  APC + Va5 -> Va5_APC , k1 [r3]
+  Va5_APC -> APC + Va5 , k2 [r3]
+  APC + Va53 -> Va53_APC , k1 [r4]
+  Va53_APC -> APC + Va53 , k2 [r4]
+  APC + Va56 -> Va56_APC , k1 [r5]
+  Va56_APC -> APC + Va56 , k2 [r5]
+  APC + Va36 -> Va36_APC , k1 [r6]
+  Va36_APC -> APC + Va36 , k2 [r6]
+  APC + Va536 -> Va536_APC , k1 [r7]
+  Va536_APC -> APC + Va536 , k2 [r7]
+  Va_APC -> Va5_APC , k5 [r8]
+  Va5_APC -> Va56_APC , k6 [r9]
+  Va56_APC -> Va536_APC , k3 [r10]
+  Va5_APC -> Va53_APC , k3 [r11]
+  Va53_APC -> Va536_APC , k6 [r12]
+  Va_APC -> Va3_APC , k3 [r13]
+  Va3_APC -> Va36_APC , k6 [r14]
+  Va36_APC -> Va536_APC , k5 [r15]
+  Va3_APC -> Va53_APC , k5 [r16]
+  Va -> HC + LC , k9 [r17]
+  HC + LC -> Va , k10 [r17]
+  Va5 -> LC + HC5 , k9 [r18]
+  LC + HC5 -> Va5 , k10 [r18]
+  Va3 -> LC + HC3 , k9 [r19]
+  LC + HC3 -> Va3 , k10 [r19]
+  Va56 -> LC + HC56 , k9 [r20]
+  LC + HC56 -> Va56 , k10 [r20]
+  Va53 -> LC + HC53 , k9 [r21]
+  LC + HC53 -> Va53 , k10 [r21]
+  Va36 -> LC + HC36 , k9 [r22]
+  LC + HC36 -> Va36 , k10 [r22]
+  Va536 -> LC + HC536 , k9 [r23]
+  LC + HC536 -> Va536 , k10 [r23]
+  APC + LC -> LC_APC , k1 [r24]
+  LC_APC -> APC + LC , k2 [r24]
+  Va3 -> VaA3 + VaLCA1 , k7 [r25]
+  VaA3 + VaLCA1 -> Va3 , k8 [r25]
+  Va53 -> VaA53 + VaLCA1 , k7 [r26]
+  VaA53 + VaLCA1 -> Va53 , k8 [r26]
+  Va36 -> VaA36 + VaLCA1 , k7 [r27]
+  VaA36 + VaLCA1 -> Va36 , k8 [r27]
+  Va536 -> VaA536 + VaLCA1 , k7 [r28]
+  VaA536 + VaLCA1 -> Va536 , k8 [r28]
+  Va3_APC -> VaA3 + VaLCA1_APC , k7 [r29]
+  VaA3 + VaLCA1_APC -> Va3_APC , k8 [r29]
+  Va53_APC -> VaA53 + VaLCA1_APC , k7 [r30]
+  VaA53 + VaLCA1_APC -> Va53_APC , k8 [r30]
+  Va36_APC -> VaA36 + VaLCA1_APC , k7 [r31]
+  VaA36 + VaLCA1_APC -> Va36_APC , k8 [r31]
+  Va536_APC -> VaA536 + VaLCA1_APC , ( 1.0) * (k7) [r32_forw]
+  VaA536 + VaLCA1_APC -> Va536_APC , ( -1) * (( 1.0) * (-(k7))) [r32_rev]
+  APC + VaLCA1 -> VaLCA1_APC , k1 [r33]
+  VaLCA1_APC -> APC + VaLCA1 , k2 [r33]
+ end reactions
+
+end model
+

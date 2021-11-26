@@ -1,0 +1,437 @@
+begin model MODEL1102210001
+ begin parameters
+  kf1 = 5.0E-11
+  kr1 = 0.001
+  kf2 = 5.0E-11
+  kr2 = 0.001
+  kf7 = 3.0E-6
+  kr7 = 0.001
+  kf10 = 3.0E-8
+  kf12 = 4.2E-9
+  kr12 = 0.001
+  kf30 = 1.0
+  kf38 = 5.0E-6
+  kr38 = 0.1
+  kf45 = 1.0
+  kf52 = 3.0E-6
+  kr52 = 0.1
+  kf54 = 7.5E-7
+  kr54 = 0.1
+  kf59 = 5.0E-6
+  kr59 = 0.1
+  kf61 = 5.0E-7
+  kr61 = 0.1
+  kf66 = 0.2
+  kf68 = 0.013
+  kf73 = 5.0E-6
+  kr73 = 0.1
+  kf74 = 0.1
+  kf75 = 2.6E-4
+  kr75 = 0.1
+  kf76 = 6.7E-5
+  kr76 = 0.1
+  kf77 = 1.0
+  kf78 = 0.2
+  kf81 = 1.0
+  kf82 = 1.7E-6
+  kr82 = 0.1
+  kf83 = 1.5
+  kf86 = 8.3E-9
+  kr86 = 0.5
+  kf87 = 0.1
+  kf88 = 0.1
+  kr88 = 0.005
+  kf93 = 0.005
+  kr93 = 0.005
+  kf98 = 0.005
+  kr98 = 0.005
+  kf127 = 0.038
+  kf185 = 0.002
+  kf187 = 0.002
+  kf192 = 0.002
+  kf201 = 0.002
+  kf30_weak = 0.001
+  kf10_weak = 3.0E-11
+  kflap1 = 6.4E-12
+  krlap1 = 3.83E-5
+  kflap2 = 1.5E-12
+  krlap2 = 3.83E-5
+  kflap3 = 1.28E-11
+  kflap4 = 3.0E-12
+ end parameters
+ begin init
+  Her3 = 33000.0
+  Her3_Nrg
+  Nrg = 5.0E7
+  Her3_2
+  Her3_2_Nrg
+  Her2 = 41000.0
+  pHer3_Nrg
+  pHer2
+  pHer3_2_Nrg
+  Egfr = 178000.0
+  Her3_1_Nrg
+  pHer3_1_Nrg
+  pHer2_2
+  Her3_1
+  Her1_2
+  Her1_1
+  Her2_2
+  phtase = 500000.0
+  pHer3_2_Nrg_phtase
+  pHer3_1_Nrg_phtase
+  pHer2_2_phtase
+  Pi3k = 800000.0
+  pHer3_2_Nrg_Pi3k
+  pHer3_1_Nrg_Pi3k
+  pHer2_2_Pi3k
+  Pip2 = 700000.0
+  pHer3_2_Nrg_Pi3k_Pip2
+  pHer3_1_Nrg_Pi3k_Pip2
+  pHer2_2_Pi3k_Pip2
+  Pip3
+  Pten = 350000.0
+  Pip3_Pten
+  Akt = 900000.0
+  Pip3_Akt
+  Pdk1 = 9500000.0
+  Pip3_Akt_Pdk1
+  Pip3_Pdk1
+  pAkt
+  Pip3_pAkt
+  Pip3_pAkt_Pdk1
+  ppAkt
+  PP2A = 4000.0
+  ppAkt_PP2A
+  pAkt_PP2A
+  PP2Aoff = 64000.0
+  ppAkt_PP2Aoff
+  iHer3_Nrg
+  iHer3_1_Nrg
+  iNrg
+  iHer3
+  iHer3_2
+  iHer3_2_Nrg
+  iHer2
+  iEgfr
+  iHer3_1
+  iHer2_1
+  iEgfr_Egfr
+  iHer2_2
+  ipHer3_Nrg
+  ipHer2
+  ipHer3_2_Nrg
+  ipHer3_2_Nrg_phtase
+  ipHer3_2_Nrg_Pi3k
+  ipHer3_2_Nrg_Pi3k_Pip2
+  ipHer3_1_Nrg
+  ipHer3_1_Nrg_phtase
+  ipHer3_1_Nrg_Pi3k
+  ipHer3_1_Nrg_Pi3k_Pip2
+  ipHer2_2
+  ipHer2_2_phtase
+  ipHer2_2_Pi3k
+  ipHer2_2_Pi3k_Pip2
+  dNrg
+  dHer3_Nrg
+  dpHer3_Nrg
+  dpHer2
+  dHer3_2_Nrg
+  dpHer3_2_Nrg
+  dpHer3_2_Nrg_phtase
+  dpHer3_2_Nrg_Pi3k
+  dpHer3_2_Nrg_Pi3k_Pip2
+  dpHer2_2
+  dpHer2_2_phtase
+  dpHer2_2_Pi3k
+  dpHer2_2_Pi3k_Pip2
+  dHer3_1_Nrg
+  dpHer3_1_Nrg
+  dpHer3_1_Nrg_phtase
+  dpHer3_1_Nrg_Pi3k
+  dpHer3_1_Nrg_Pi3k_Pip2
+  Her3_3
+  Her3_3_Nrg
+  pHer3_3_Nrg
+  pHer3_3_Nrg_phtase
+  pHer3_3_Nrg_Pi3k
+  pHer3_3_Nrg_Pi3k_Pip2
+  iHer3_3_Nrg
+  ipHer3_3_Nrg
+  ipHer3_3_Nrg_phtase
+  ipHer3_3_Nrg_Pi3k
+  ipHer3_3_Nrg_Pi3k_Pip2
+  dHer3_3_Nrg
+  dpHer3_3_Nrg
+  dpHer3_3_Nrg_phtase
+  dpHer3_3_Nrg_Pi3k
+  dpHer3_3_Nrg_Pi3k_Pip2
+  lap_Egfr
+  lap_Her2
+  lap_Egfr_Egfr
+  lap_Egfr_Her2
+  lap_Egfr_Her3
+  lap_Her2_2
+  lap_Her2_3
+  lap_lap_Egfr_Egfr
+  lap_lap_Egfr_Her2
+  lap_lap_Her2_Her2
+  lap_Nrg_Her2_3
+  lap_Nrg_Her3_1
+  lap
+ end init
+ begin reactions
+  Her3 + Nrg -> Her3_Nrg , kf1 [R1_forw]
+  Her3_Nrg -> Her3 + Nrg , ( -1) * (-(kr1)) [R1_rev]
+  Nrg + Her3_2 -> Her3_2_Nrg , kf2 [R2_forw]
+  Her3_2_Nrg -> Nrg + Her3_2 , ( -1) * (-(kr2)) [R2_rev]
+  Her3_Nrg + Her2 -> Her3_2_Nrg , kf7 [R7_forw]
+  Her3_2_Nrg -> Her3_Nrg + Her2 , ( -1) * (-(kr7)) [R7_rev]
+  pHer3_Nrg + pHer2 -> pHer3_2_Nrg , kf7 [R8_forw]
+  pHer3_2_Nrg -> pHer3_Nrg + pHer2 , ( -1) * (-(kr7)) [R8_rev]
+  Her2 + pHer3_Nrg -> pHer3_2_Nrg , kf7 [R9_forw]
+  Her3_Nrg + Egfr -> Her3_1_Nrg , kf10 [R10_forw]
+  Her3_1_Nrg -> Her3_Nrg + Egfr , ( -1) * (-(kr7)) [R10_rev]
+  pHer3_Nrg + Egfr -> pHer3_1_Nrg , kf10 [R11_forw]
+  pHer3_1_Nrg -> pHer3_Nrg + Egfr , ( -1) * (-(kr7)) [R11_rev]
+  Her2 + pHer2 -> pHer2_2 , kf12 [R12_forw]
+  2*pHer2 -> pHer2_2 , kf12 [R13_forw]
+  pHer2_2 -> 2*pHer2 , ( -1) * (-(kr12)) [R13_rev]
+  Her3 + Her2 -> Her3_2 , kf12 [R25_forw]
+  Her3_2 -> Her3 + Her2 , ( -1) * (-(kr12)) [R25_rev]
+  Her3 + Egfr -> Her3_1 , kf12 [R26_forw]
+  Her3_1 -> Her3 + Egfr , ( -1) * (-(kr12)) [R26_rev]
+  Her2 + Egfr -> Her1_2 , kf12 [R27_forw]
+  Her1_2 -> Her2 + Egfr , ( -1) * (-(kr12)) [R27_rev]
+  2*Egfr -> Her1_1 , kf12 [R28_forw]
+  Her1_1 -> 2*Egfr , ( -1) * (-(kr12)) [R28_rev]
+  2*Her2 -> Her2_2 , kf12 [R29_forw]
+  Her2_2 -> 2*Her2 , ( -1) * (-(kr12)) [R29_rev]
+  Her3_2_Nrg -> pHer3_2_Nrg , kf30 [R30_forw]
+  Her3_1_Nrg -> pHer3_1_Nrg , kf30 [R31_forw]
+  pHer3_Nrg -> Her3 + Nrg , kr1 [R36_forw]
+  pHer3_2_Nrg + phtase -> pHer3_2_Nrg_phtase , kf38 [R38_forw]
+  pHer3_2_Nrg_phtase -> pHer3_2_Nrg + phtase , ( -1) * (-(kr38)) [R38_rev]
+  pHer3_1_Nrg + phtase -> pHer3_1_Nrg_phtase , kf38 [R39_forw]
+  pHer3_1_Nrg_phtase -> pHer3_1_Nrg + phtase , ( -1) * (-(kr38)) [R39_rev]
+  pHer2_2 + phtase -> pHer2_2_phtase , kf38 [R44_forw]
+  pHer2_2_phtase -> pHer2_2 + phtase , ( -1) * (-(kr38)) [R44_rev]
+  pHer3_2_Nrg_phtase -> Her3_2_Nrg + phtase , kf45 [R45_forw]
+  pHer3_1_Nrg_phtase -> Her3_1_Nrg + phtase , kf45 [R46_forw]
+  pHer2_2_phtase -> Her2_2 + phtase , kf45 [R51_forw]
+  pHer3_2_Nrg + Pi3k -> pHer3_2_Nrg_Pi3k , kf52 [R52_forw]
+  pHer3_2_Nrg_Pi3k -> pHer3_2_Nrg + Pi3k , ( -1) * (-(kr52)) [R52_rev]
+  pHer3_1_Nrg + Pi3k -> pHer3_1_Nrg_Pi3k , kf52 [R53_forw]
+  pHer3_1_Nrg_Pi3k -> pHer3_1_Nrg + Pi3k , ( -1) * (-(kr52)) [R53_rev]
+  pHer2_2 + Pi3k -> pHer2_2_Pi3k , kf54 [R54_forw]
+  pHer2_2_Pi3k -> pHer2_2 + Pi3k , ( -1) * (-(kr54)) [R54_rev]
+  pHer3_2_Nrg_Pi3k + Pip2 -> pHer3_2_Nrg_Pi3k_Pip2 , kf59 [R59_forw]
+  pHer3_2_Nrg_Pi3k_Pip2 -> pHer3_2_Nrg_Pi3k + Pip2 , ( -1) * (-(kr59)) [R59_rev]
+  pHer3_1_Nrg_Pi3k + Pip2 -> pHer3_1_Nrg_Pi3k_Pip2 , kf59 [R60_forw]
+  pHer3_1_Nrg_Pi3k_Pip2 -> pHer3_1_Nrg_Pi3k + Pip2 , ( -1) * (-(kr59)) [R60_rev]
+  pHer2_2_Pi3k + Pip2 -> pHer2_2_Pi3k_Pip2 , kf61 [R61_forw]
+  pHer2_2_Pi3k_Pip2 -> pHer2_2_Pi3k + Pip2 , ( -1) * (-(kr61)) [R61_rev]
+  pHer3_2_Nrg_Pi3k_Pip2 -> pHer3_2_Nrg_Pi3k + Pip3 , kf66 [R66_forw]
+  pHer3_1_Nrg_Pi3k_Pip2 -> pHer3_1_Nrg_Pi3k + Pip3 , kf66 [R67_forw]
+  pHer2_2_Pi3k_Pip2 -> pHer2_2_Pi3k + Pip3 , kf68 [R68_forw]
+  Pip3 + Pten -> Pip3_Pten , kf73 [R73_forw]
+  Pip3_Pten -> Pip3 + Pten , ( -1) * (-(kr73)) [R73_rev]
+  Pip3_Pten -> Pip2 + Pten , kf74 [R74_forw]
+  Pip3 + Akt -> Pip3_Akt , kf75 [R75_forw]
+  Pip3_Akt -> Pip3 + Akt , ( -1) * (-(kr75)) [R75_rev]
+  Pip3_Akt + Pdk1 -> Pip3_Akt_Pdk1 , kf76 [R76_forw]
+  Pip3_Akt_Pdk1 -> Pip3_Akt + Pdk1 , ( -1) * (-(kr76)) [R76_rev]
+  Pip3_Akt_Pdk1 -> Pip3_Pdk1 + pAkt , kf77 [R77_forw]
+  Pip3_Pdk1 -> Pip3 + Pdk1 , kf78 [R78_forw]
+  Pip3 + pAkt -> Pip3_pAkt , kf75 [R79_forw]
+  Pip3_pAkt -> Pip3 + pAkt , ( -1) * (-(kr75)) [R79_rev]
+  Pdk1 + Pip3_pAkt -> Pip3_pAkt_Pdk1 , kf76 [R80_forw]
+  Pip3_pAkt_Pdk1 -> Pdk1 + Pip3_pAkt , ( -1) * (-(kr76)) [R80_rev]
+  Pip3_pAkt_Pdk1 -> Pip3_Pdk1 + ppAkt , kf81 [R81_forw]
+  ppAkt + PP2A -> ppAkt_PP2A , kf82 [R82_forw]
+  ppAkt_PP2A -> ppAkt + PP2A , ( -1) * (-(kr82)) [R82_rev]
+  ppAkt_PP2A -> pAkt + PP2A , kf83 [R83_forw]
+  pAkt + PP2A -> pAkt_PP2A , kf82 [R84_forw]
+  pAkt_PP2A -> pAkt + PP2A , ( -1) * (-(kr82)) [R84_rev]
+  pAkt_PP2A -> Akt + PP2A , kf83 [R85_forw]
+  ppAkt + PP2Aoff -> ppAkt_PP2Aoff , kf86 [R86_forw]
+  ppAkt_PP2Aoff -> ppAkt + PP2Aoff , ( -1) * (-(kr86)) [R86_rev]
+  ppAkt_PP2Aoff -> ppAkt + PP2A , kf87 [R87_forw]
+  Her3_Nrg -> iHer3_Nrg , kf88 [R88_forw]
+  iHer3_Nrg -> Her3_Nrg , ( -1) * (-(kr88)) [R88_rev]
+  pHer3_Nrg -> ipHer3_Nrg , kf88 [R89_forw]
+  ipHer3_Nrg -> pHer3_Nrg , ( -1) * (-(kr88)) [R89_rev]
+  pHer2 -> ipHer2 , kf88 [R90_forw]
+  ipHer2 -> pHer2 , ( -1) * (-(kr88)) [R90_rev]
+  Her3_2_Nrg -> iHer3_2_Nrg , kf93 [R93_forw]
+  iHer3_2_Nrg -> Her3_2_Nrg , ( -1) * (-(kr93)) [R93_rev]
+  pHer3_2_Nrg -> ipHer3_2_Nrg , kf93 [R94_forw]
+  ipHer3_2_Nrg -> pHer3_2_Nrg , ( -1) * (-(kr93)) [R94_rev]
+  pHer3_2_Nrg_phtase -> ipHer3_2_Nrg_phtase , kf93 [R95_forw]
+  ipHer3_2_Nrg_phtase -> pHer3_2_Nrg_phtase , ( -1) * (-(kr93)) [R95_rev]
+  pHer3_2_Nrg_Pi3k -> ipHer3_2_Nrg_Pi3k , kf93 [R96_forw]
+  ipHer3_2_Nrg_Pi3k -> pHer3_2_Nrg_Pi3k , ( -1) * (-(kr93)) [R96_rev]
+  pHer3_2_Nrg_Pi3k_Pip2 -> ipHer3_2_Nrg_Pi3k_Pip2 , kf93 [R97_forw]
+  ipHer3_2_Nrg_Pi3k_Pip2 -> pHer3_2_Nrg_Pi3k_Pip2 , ( -1) * (-(kr93)) [R97_rev]
+  Her3_1_Nrg -> iHer3_1_Nrg , kf98 [R98_forw]
+  iHer3_1_Nrg -> Her3_1_Nrg , ( -1) * (-(kr98)) [R98_rev]
+  pHer3_1_Nrg -> ipHer3_1_Nrg , kf98 [R99_forw]
+  ipHer3_1_Nrg -> pHer3_1_Nrg , ( -1) * (-(kr98)) [R99_rev]
+  pHer3_1_Nrg_phtase -> ipHer3_1_Nrg_phtase , kf98 [R100_forw]
+  ipHer3_1_Nrg_phtase -> pHer3_1_Nrg_phtase , ( -1) * (-(kr98)) [R100_rev]
+  pHer3_1_Nrg_Pi3k -> ipHer3_1_Nrg_Pi3k , kf98 [R101_forw]
+  ipHer3_1_Nrg_Pi3k -> pHer3_1_Nrg_Pi3k , ( -1) * (-(kr98)) [R101_rev]
+  pHer3_1_Nrg_Pi3k_Pip2 -> ipHer3_1_Nrg_Pi3k_Pip2 , kf98 [R102_forw]
+  ipHer3_1_Nrg_Pi3k_Pip2 -> pHer3_1_Nrg_Pi3k_Pip2 , ( -1) * (-(kr98)) [R102_rev]
+  pHer2_2 -> ipHer2_2 , kf93 [R103_forw]
+  ipHer2_2 -> pHer2_2 , ( -1) * (-(kr93)) [R103_rev]
+  pHer2_2_phtase -> ipHer2_2_phtase , kf93 [R104_forw]
+  ipHer2_2_phtase -> pHer2_2_phtase , ( -1) * (-(kr93)) [R104_rev]
+  pHer2_2_Pi3k -> ipHer2_2_Pi3k , kf93 [R105_forw]
+  ipHer2_2_Pi3k -> pHer2_2_Pi3k , ( -1) * (-(kr93)) [R105_rev]
+  pHer2_2_Pi3k_Pip2 -> ipHer2_2_Pi3k_Pip2 , kf93 [R106_forw]
+  ipHer2_2_Pi3k_Pip2 -> pHer2_2_Pi3k_Pip2 , ( -1) * (-(kr93)) [R106_rev]
+  iNrg + iHer3 -> iHer3_Nrg , kf127 [R127_forw]
+  iHer3_Nrg -> iNrg + iHer3 , ( -1) * (-(kr1)) [R127_rev]
+  iNrg + iHer3_2 -> iHer3_2_Nrg , kf127 [R128_forw]
+  iHer3_2_Nrg -> iNrg + iHer3_2 , ( -1) * (-(kr1)) [R128_rev]
+  iHer3_Nrg + iHer2 -> iHer3_2_Nrg , kf7 [R133_forw]
+  iHer3_2_Nrg -> iHer3_Nrg + iHer2 , ( -1) * (-(kr7)) [R133_rev]
+  ipHer3_Nrg + ipHer2 -> ipHer3_2_Nrg , kf7 [R134_forw]
+  ipHer3_2_Nrg -> ipHer3_Nrg + ipHer2 , ( -1) * (-(kr7)) [R134_rev]
+  iHer2 + ipHer3_Nrg -> ipHer3_2_Nrg , kf7 [R135_forw]
+  iHer3_Nrg + iEgfr -> iHer3_1_Nrg , kf10 [R136_forw]
+  iHer3_1_Nrg -> iHer3_Nrg + iEgfr , ( -1) * (-(kr7)) [R136_rev]
+  iEgfr + ipHer3_Nrg -> ipHer3_1_Nrg , kf10 [R137_forw]
+  ipHer3_1_Nrg -> iEgfr + ipHer3_Nrg , ( -1) * (-(kr7)) [R137_rev]
+  iHer2 + ipHer2 -> ipHer2_2 , kf12 [R138_forw]
+  2*ipHer2 -> ipHer2_2 , kf12 [R139_forw]
+  ipHer2_2 -> 2*ipHer2 , ( -1) * (-(kr12)) [R139_rev]
+  iHer3 + iHer2 -> iHer3_2 , kf12 [R151_forw]
+  iHer3_2 -> iHer3 + iHer2 , ( -1) * (-(kr12)) [R151_rev]
+  iHer3 + iEgfr -> iHer3_1 , kf12 [R152_forw]
+  iHer3_1 -> iHer3 + iEgfr , ( -1) * (-(kr12)) [R152_rev]
+  iHer2 + iEgfr -> iHer2_1 , kf12 [R153_forw]
+  iHer2_1 -> iHer2 + iEgfr , ( -1) * (-(kr12)) [R153_rev]
+  2*iEgfr -> iEgfr_Egfr , kf12 [R154_forw]
+  iEgfr_Egfr -> 2*iEgfr , ( -1) * (-(kr12)) [R154_rev]
+  2*iHer2 -> iHer2_2 , kf12 [R155_forw]
+  iHer2_2 -> 2*iHer2 , ( -1) * (-(kr12)) [R155_rev]
+  iHer3_2_Nrg -> ipHer3_2_Nrg , kf30 [R156_forw]
+  iHer3_1_Nrg -> ipHer3_1_Nrg , kf30 [R157_forw]
+  ipHer3_Nrg -> iNrg + iHer3 , kr1 [R162_forw]
+  phtase + ipHer3_2_Nrg -> ipHer3_2_Nrg_phtase , kf38 [R164_forw]
+  ipHer3_2_Nrg_phtase -> phtase + ipHer3_2_Nrg , ( -1) * (-(kr38)) [R164_rev]
+  phtase + ipHer3_1_Nrg -> ipHer3_1_Nrg_phtase , kf38 [R165_forw]
+  ipHer3_1_Nrg_phtase -> phtase + ipHer3_1_Nrg , ( -1) * (-(kr38)) [R165_rev]
+  phtase + ipHer2_2 -> ipHer2_2_phtase , kf38 [R166_forw]
+  ipHer2_2_phtase -> phtase + ipHer2_2 , ( -1) * (-(kr38)) [R166_rev]
+  ipHer3_2_Nrg_phtase -> phtase + iHer3_2_Nrg , kf45 [R171_forw]
+  ipHer3_1_Nrg_phtase -> phtase + iHer3_1_Nrg , kf45 [R172_forw]
+  ipHer2_2_phtase -> phtase + iHer2_2 , kf45 [R173_forw]
+  Pi3k + ipHer3_2_Nrg -> ipHer3_2_Nrg_Pi3k , kf52 [R178_forw]
+  ipHer3_2_Nrg_Pi3k -> Pi3k + ipHer3_2_Nrg , ( -1) * (-(kr52)) [R178_rev]
+  Pi3k + ipHer3_1_Nrg -> ipHer3_1_Nrg_Pi3k , kf52 [R179_forw]
+  ipHer3_1_Nrg_Pi3k -> Pi3k + ipHer3_1_Nrg , ( -1) * (-(kr52)) [R179_rev]
+  Pi3k + ipHer2_2 -> ipHer2_2_Pi3k , kf54 [R180_forw]
+  ipHer2_2_Pi3k -> Pi3k + ipHer2_2 , ( -1) * (-(kr54)) [R180_rev]
+  iNrg -> dNrg , kf185 [R185_forw]
+  iHer3_Nrg -> dHer3_Nrg , kf187 [R187_forw]
+  ipHer3_Nrg -> dpHer3_Nrg , kf187 [R189_forw]
+  ipHer2 -> dpHer2 , kf187 [R191_forw]
+  iHer3_2_Nrg -> dHer3_2_Nrg , kf192 [R192_forw]
+  ipHer3_2_Nrg -> dpHer3_2_Nrg , kf192 [R193_forw]
+  ipHer3_2_Nrg_phtase -> dpHer3_2_Nrg_phtase , kf192 [R194_forw]
+  ipHer3_2_Nrg_Pi3k -> dpHer3_2_Nrg_Pi3k , kf192 [R195_forw]
+  ipHer3_2_Nrg_Pi3k_Pip2 -> dpHer3_2_Nrg_Pi3k_Pip2 , kf192 [R196_forw]
+  ipHer2_2 -> dpHer2_2 , kf192 [R197_forw]
+  ipHer2_2_phtase -> dpHer2_2_phtase , kf192 [R198_forw]
+  ipHer2_2_Pi3k -> dpHer2_2_Pi3k , kf192 [R199_forw]
+  ipHer2_2_Pi3k_Pip2 -> dpHer2_2_Pi3k_Pip2 , kf192 [R200_forw]
+  iHer3_1_Nrg -> dHer3_1_Nrg , kf201 [R201_forw]
+  ipHer3_1_Nrg -> dpHer3_1_Nrg , kf201 [R202_forw]
+  ipHer3_1_Nrg_phtase -> dpHer3_1_Nrg_phtase , kf201 [R203_forw]
+  ipHer3_1_Nrg_Pi3k -> dpHer3_1_Nrg_Pi3k , kf201 [R204_forw]
+  ipHer3_1_Nrg_Pi3k_Pip2 -> dpHer3_1_Nrg_Pi3k_Pip2 , kf201 [R205_forw]
+  2*Her3 -> Her3_3 , kf12 [R206_forw]
+  Her3_3 -> 2*Her3 , ( -1) * (-(kr12)) [R206_rev]
+  Nrg + Her3_3 -> Her3_3_Nrg , kf1 [R207_forw]
+  Her3_3_Nrg -> Nrg + Her3_3 , ( -1) * (-(kr1)) [R207_rev]
+  Her3 + Her3_Nrg -> Her3_3_Nrg , kf7 [R208_forw]
+  Her3_3_Nrg -> Her3 + Her3_Nrg , ( -1) * (-(kr7)) [R208_rev]
+  Her3_3_Nrg -> pHer3_3_Nrg , kf30_weak [R209_forw]
+  phtase + pHer3_3_Nrg -> pHer3_3_Nrg_phtase , kf38 [R210_forw]
+  pHer3_3_Nrg_phtase -> phtase + pHer3_3_Nrg , ( -1) * (-(kr38)) [R210_rev]
+  pHer3_3_Nrg_phtase -> phtase + Her3_3_Nrg , kf45 [R211_forw]
+  Pi3k + pHer3_3_Nrg -> pHer3_3_Nrg_Pi3k , kf52 [R212_forw]
+  pHer3_3_Nrg_Pi3k -> Pi3k + pHer3_3_Nrg , ( -1) * (-(kr52)) [R212_rev]
+  Pip2 + pHer3_3_Nrg_Pi3k -> pHer3_3_Nrg_Pi3k_Pip2 , kf59 [R213_forw]
+  pHer3_3_Nrg_Pi3k_Pip2 -> Pip2 + pHer3_3_Nrg_Pi3k , ( -1) * (-(kr59)) [R213_rev]
+  pHer3_3_Nrg_Pi3k_Pip2 -> Pip3 + pHer3_3_Nrg_Pi3k , kf66 [R214_forw]
+  Her3 + pHer3_Nrg -> pHer3_3_Nrg , kf10_weak [R215_forw]
+  pHer3_3_Nrg -> Her3 + pHer3_Nrg , ( -1) * (-(kr7)) [R215_rev]
+  Her3_3_Nrg -> iHer3_3_Nrg , kf93 [R216_forw]
+  iHer3_3_Nrg -> Her3_3_Nrg , ( -1) * (-(kr93)) [R216_rev]
+  pHer3_3_Nrg -> ipHer3_3_Nrg , kf93 [R217_forw]
+  ipHer3_3_Nrg -> pHer3_3_Nrg , ( -1) * (-(kr93)) [R217_rev]
+  pHer3_3_Nrg_phtase -> ipHer3_3_Nrg_phtase , kf93 [R218_forw]
+  ipHer3_3_Nrg_phtase -> pHer3_3_Nrg_phtase , ( -1) * (-(kr93)) [R218_rev]
+  pHer3_3_Nrg_Pi3k -> ipHer3_3_Nrg_Pi3k , kf93 [R219_forw]
+  ipHer3_3_Nrg_Pi3k -> pHer3_3_Nrg_Pi3k , ( -1) * (-(kr93)) [R219_rev]
+  pHer3_3_Nrg_Pi3k_Pip2 -> ipHer3_3_Nrg_Pi3k_Pip2 , kf93 [R220_forw]
+  ipHer3_3_Nrg_Pi3k_Pip2 -> pHer3_3_Nrg_Pi3k_Pip2 , ( -1) * (-(kr93)) [R220_rev]
+  iHer3_3_Nrg -> dHer3_3_Nrg , kf192 [R221_forw]
+  ipHer3_3_Nrg -> dpHer3_3_Nrg , kf192 [R222_forw]
+  ipHer3_3_Nrg_phtase -> dpHer3_3_Nrg_phtase , kf192 [R223_forw]
+  ipHer3_3_Nrg_Pi3k -> dpHer3_3_Nrg_Pi3k , kf192 [R224_forw]
+  ipHer3_3_Nrg_Pi3k_Pip2 -> dpHer3_3_Nrg_Pi3k_Pip2 , kf192 [R225_forw]
+  Egfr + lap -> lap_Egfr , kflap1 [R226_forw]
+  lap_Egfr -> Egfr + lap , ( -1) * (-(krlap1)) [R226_rev]
+  Her2 + lap -> lap_Her2 , kflap2 [R227_forw]
+  lap_Her2 -> Her2 + lap , ( -1) * (-(krlap2)) [R227_rev]
+  Her1_1 + lap -> lap_Egfr_Egfr , kflap3 [R228_forw]
+  lap_Egfr_Egfr -> Her1_1 + lap , ( -1) * (-(krlap1)) [R228_rev]
+  Her1_2 + lap -> lap_Egfr_Her2 , kflap3 [R229_forw]
+  lap_Egfr_Her2 -> Her1_2 + lap , ( -1) * (-(krlap1)) [R229_rev]
+  Her3_1 + lap -> lap_Egfr_Her3 , kflap1 [R230_forw]
+  lap_Egfr_Her3 -> Her3_1 + lap , ( -1) * (-(krlap1)) [R230_rev]
+  Her2_2 + lap -> lap_Her2_2 , kflap4 [R231_forw]
+  lap_Her2_2 -> Her2_2 + lap , ( -1) * (-(krlap2)) [R231_rev]
+  Her3_2 + lap -> lap_Her2_3 , kflap2 [R232_forw]
+  lap_Her2_3 -> Her3_2 + lap , ( -1) * (-(krlap2)) [R232_rev]
+  lap_Egfr_Egfr + lap -> lap_lap_Egfr_Egfr , kflap1 [R233_forw]
+  lap_lap_Egfr_Egfr -> lap_Egfr_Egfr + lap , ( -1) * (-(krlap1)) [R233_rev]
+  lap_Egfr_Her2 + lap -> lap_lap_Egfr_Her2 , kflap1 [R234_forw]
+  lap_lap_Egfr_Her2 -> lap_Egfr_Her2 + lap , ( -1) * (-(krlap1)) [R234_rev]
+  lap_Her2_2 + lap -> lap_lap_Her2_Her2 , kflap2 [R235_forw]
+  lap_lap_Her2_Her2 -> lap_Her2_2 + lap , ( -1) * (-(krlap2)) [R235_rev]
+  Her3_2_Nrg + lap -> lap_Nrg_Her2_3 , kflap2 [R236_forw]
+  lap_Nrg_Her2_3 -> Her3_2_Nrg + lap , ( -1) * (-(krlap2)) [R236_rev]
+  Her3_1_Nrg + lap -> lap_Nrg_Her3_1 , kflap1 [R237_forw]
+  lap_Nrg_Her3_1 -> Her3_1_Nrg + lap , ( -1) * (-(krlap1)) [R237_rev]
+  Egfr + lap_Egfr -> lap_Egfr_Egfr , kf12 [R238_forw]
+  lap_Egfr_Egfr -> Egfr + lap_Egfr , ( -1) * (-(kr12)) [R238_rev]
+  Her2 + lap_Egfr -> lap_Egfr_Her2 , kf12 [R239_forw]
+  lap_Egfr_Her2 -> Her2 + lap_Egfr , ( -1) * (-(kr12)) [R239_rev]
+  Her3 + lap_Egfr -> lap_Egfr_Her3 , kf12 [R240_forw]
+  lap_Egfr_Her3 -> Her3 + lap_Egfr , ( -1) * (-(kr12)) [R240_rev]
+  Egfr + lap_Her2 -> lap_Egfr_Her2 , kf12 [R241_forw]
+  lap_Egfr_Her2 -> Egfr + lap_Her2 , ( -1) * (-(kr12)) [R241_rev]
+  Her3 + lap_Her2 -> lap_Her2_3 , kf12 [R242_forw]
+  lap_Her2_3 -> Her3 + lap_Her2 , ( -1) * (-(kr12)) [R242_rev]
+  2*lap_Egfr -> lap_lap_Egfr_Egfr , kf12 [R243_forw]
+  lap_lap_Egfr_Egfr -> 2*lap_Egfr , ( -1) * (-(kr12)) [R243_rev]
+  lap_Egfr + lap_Her2 -> lap_lap_Egfr_Her2 , kf12 [R244_forw]
+  lap_lap_Egfr_Her2 -> lap_Egfr + lap_Her2 , ( -1) * (-(kr12)) [R244_rev]
+  2*lap_Her2 -> lap_lap_Her2_Her2 , kf12 [R245_forw]
+  lap_lap_Her2_Her2 -> 2*lap_Her2 , ( -1) * (-(kr12)) [R245_rev]
+  Her3_Nrg + lap_Her2 -> lap_Nrg_Her2_3 , kf7 [R246_forw]
+  lap_Nrg_Her2_3 -> Her3_Nrg + lap_Her2 , ( -1) * (-(kr7)) [R246_rev]
+  Her3_Nrg + lap_Egfr -> lap_Nrg_Her3_1 , kf10 [R247_forw]
+  lap_Nrg_Her3_1 -> Her3_Nrg + lap_Egfr , ( -1) * (-(kr7)) [R247_rev]
+  Nrg + lap_Her2_3 -> lap_Nrg_Her2_3 , kf2 [R248_forw]
+  lap_Nrg_Her2_3 -> Nrg + lap_Her2_3 , ( -1) * (-(kr1)) [R248_rev]
+ end reactions
+
+end model
+

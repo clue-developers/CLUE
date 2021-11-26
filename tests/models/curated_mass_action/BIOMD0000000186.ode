@@ -1,0 +1,50 @@
+begin model BIOMD0000000186
+ begin parameters
+  k1f = 200000.0
+  k1r = 0.2
+  k2f = 1.0E8
+  k3f = 0.01
+  k4f = 1.0E7
+  k4r = 0.02
+  k5f = 10000.0
+  k5r = 0.2
+  kf6 = 1000.0
+  k7f = 1.0E8
+  k7r = 0.08
+  k8f = 5000000.0
+  k8r = 0.08
+  u = 1.0
+  u_prime = 0.0
+  const_val_0 = 0.0
+  const_val_1 = 1.0
+ end parameters
+ begin init
+  Mad1_CMad2 = 5.0E-8 ( "Mad1:C-Mad2" ) 
+  OMad2 = 1.3E-7 ( "O-Mad2" ) 
+  Mad1_CMad2_OMad2 ( "Mad1:C-Mad2:O-Mad2*" ) 
+  Cdc20 = 2.2E-7
+  Cdc20_CMad2 ( "Cdc20:C-Mad2" ) 
+  Bub3_BubR1 = 1.27E-7 ( "Bub3:BubR1" ) 
+  MCC
+  Bub3_BubR1_Cdc20 ( "Bub3:BubR1:Cdc20" ) 
+  APC = 9.0E-8
+  MCC_APC ( "MCC:APC" ) 
+  APC_Cdc20 ( "APC:Cdc20" ) 
+ end init
+ begin reactions
+  Mad1_CMad2 + OMad2 -> Mad1_CMad2_OMad2 , ( 1.0) * (( u) * (k1f)) [R1_forw]
+  Mad1_CMad2_OMad2 -> Mad1_CMad2 + OMad2 , ( -1) * (( 1.0) * (-(k1r))) [R1_rev]
+  Mad1_CMad2_OMad2 + Cdc20 -> Mad1_CMad2 + Cdc20_CMad2 , ( ( u) * (k2f)) * (1.0) [R2_forw]
+  Cdc20_CMad2 -> OMad2 + Cdc20 , ( k3f) * (1.0) [R3_forw]
+  Cdc20_CMad2 + Bub3_BubR1 -> MCC , ( 1.0) * (( u) * (k4f)) [R4_forw]
+  MCC -> Cdc20_CMad2 + Bub3_BubR1 , ( -1) * (( 1.0) * (-(k4r))) [R4_rev]
+  Cdc20 + Bub3_BubR1 -> Bub3_BubR1_Cdc20 , ( 1.0) * (( u) * (k5f)) [R5_forw]
+  Bub3_BubR1_Cdc20 -> Cdc20 + Bub3_BubR1 , ( -1) * (( 1.0) * (-(k5r))) [R5_rev]
+  OMad2 + Cdc20 -> Cdc20_CMad2 , ( kf6) * (1.0) [R6_forw]
+  MCC + APC -> MCC_APC , ( ( u) * (k7f)) * (1.0) [R7_forw]
+  Cdc20 + APC -> APC_Cdc20 , ( 1.0) * (k8f) [R8_forw]
+  APC_Cdc20 -> Cdc20 + APC , ( -1) * (( 1.0) * (-(k8r))) [R8_rev]
+ end reactions
+
+end model
+

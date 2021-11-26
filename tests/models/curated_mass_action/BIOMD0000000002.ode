@@ -1,0 +1,91 @@
+begin model BIOMD0000000002
+ begin parameters
+  kf_0 = 3.0E8
+  kr_0 = 8000.0
+  kf_1 = 1.5E8
+  kr_1 = 16000.0
+  kf_2 = 30000.0
+  kr_2 = 700.0
+  kf_3 = 3.0E8
+  kr_3 = 8.64
+  kf_4 = 1.5E8
+  kr_4 = 17.28
+  kf_5 = 0.54
+  kr_5 = 10800.0
+  kf_6 = 130.0
+  kr_6 = 2740.0
+  kf_7 = 3.0E8
+  kr_7 = 4.0
+  kf_8 = 1.5E8
+  kr_8 = 8.0
+  kf_9 = 19.7
+  kr_9 = 3.74
+  kf_10 = 19.85
+  kr_10 = 1.74
+  kf_11 = 20.0
+  kr_11 = 0.81
+  kf_12 = 3.0E8
+  kr_12 = 4.0
+  kf_13 = 1.5E8
+  kr_13 = 8.0
+  kf_14 = 0.05
+  kr_14 = 0.0012
+  kf_15 = 0.05
+  kr_15 = 0.0012
+  kf_16 = 0.05
+  kr_16 = 0.0012
+ end parameters
+ begin init
+  BLL ( "BasalACh2" ) 
+  IL ( "IntermediateACh" ) 
+  AL ( "ActiveACh" ) 
+  A ( "Active" ) 
+  BL ( "BasalACh" ) 
+  B = 1.0E-22 ( "Basal" ) 
+  DLL ( "DesensitisedACh2" ) 
+  sD ( "Desensitised" ) 
+  ILL ( "IntermediateACh2" ) 
+  DL ( "DesensitisedACh" ) 
+  I ( "Intermediate" ) 
+  sALL ( "ActiveACh2" ) 
+  L = 1.0E-21 ( "ACh" ) 
+ end init
+ begin reactions
+  B + L -> BL , ( 1.0E-16) * (kf_0) [React0_forw]
+  BL -> B + L , ( -1) * (( 1.0E-16) * (-(kr_0))) [React0_rev]
+  BL + L -> BLL , ( 1.0E-16) * (kf_1) [React1_forw]
+  BLL -> BL + L , ( -1) * (( 1.0E-16) * (-(kr_1))) [React1_rev]
+  BLL -> sALL , ( 1.0E-16) * (kf_2) [React2_forw]
+  sALL -> BLL , ( -1) * (( 1.0E-16) * (-(kr_2))) [React2_rev]
+  A + L -> AL , ( 1.0E-16) * (kf_3) [React3_forw]
+  AL -> A + L , ( -1) * (( 1.0E-16) * (-(kr_3))) [React3_rev]
+  AL + L -> sALL , ( 1.0E-16) * (kf_4) [React4_forw]
+  sALL -> AL + L , ( -1) * (( 1.0E-16) * (-(kr_4))) [React4_rev]
+  B -> A , ( 1.0E-16) * (kf_5) [React5_forw]
+  A -> B , ( -1) * (( 1.0E-16) * (-(kr_5))) [React5_rev]
+  BL -> AL , ( 1.0E-16) * (kf_6) [React6_forw]
+  AL -> BL , ( -1) * (( 1.0E-16) * (-(kr_6))) [React6_rev]
+  I + L -> IL , ( 1.0E-16) * (kf_7) [React7_forw]
+  IL -> I + L , ( -1) * (( 1.0E-16) * (-(kr_7))) [React7_rev]
+  IL + L -> ILL , ( 1.0E-16) * (kf_8) [React8_forw]
+  ILL -> IL + L , ( -1) * (( 1.0E-16) * (-(kr_8))) [React8_rev]
+  A -> I , ( 1.0E-16) * (kf_9) [React9_forw]
+  I -> A , ( -1) * (( 1.0E-16) * (-(kr_9))) [React9_rev]
+  AL -> IL , ( 1.0E-16) * (kf_10) [React10_forw]
+  IL -> AL , ( -1) * (( 1.0E-16) * (-(kr_10))) [React10_rev]
+  sALL -> ILL , ( 1.0E-16) * (kf_11) [React11_forw]
+  ILL -> sALL , ( -1) * (( 1.0E-16) * (-(kr_11))) [React11_rev]
+  sD + L -> DL , ( 1.0E-16) * (kf_12) [React12_forw]
+  DL -> sD + L , ( -1) * (( 1.0E-16) * (-(kr_12))) [React12_rev]
+  DL + L -> DLL , ( 1.0E-16) * (kf_13) [React13_forw]
+  DLL -> DL + L , ( -1) * (( 1.0E-16) * (-(kr_13))) [React13_rev]
+  I -> sD , ( 1.0E-16) * (kf_14) [React14_forw]
+  sD -> I , ( -1) * (( 1.0E-16) * (-(kr_14))) [React14_rev]
+  IL -> DL , ( 1.0E-16) * (kf_15) [React15_forw]
+  DL -> IL , ( -1) * (( 1.0E-16) * (-(kr_15))) [React15_rev]
+  ILL -> DLL , ( 1.0E-16) * (kf_16) [React16_forw]
+  DLL -> ILL , ( -1) * (( 1.0E-16) * (-(kr_16))) [React16_rev]
+ end reactions
+
+end model
+

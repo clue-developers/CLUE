@@ -6,21 +6,18 @@
 import sys
 import time
 
-from sympy import QQ
-
 sys.path.insert(0, "../")
 sys.path.insert(0, "./../../")
-import parser
-import clue
-from sparse_polynomial import SparsePolynomial
 
-system = parser.read_system("OrderedPhosphorylation.ode")
-obs = SparsePolynomial.from_string("s0", system['variables'])
+from clue import FODESystem, SparsePolynomial
+
+system = FODESystem(file="OrderedPhosphorylation.ode")
+obs = SparsePolynomial.from_string("s0", system.variables)
 
 start = time.time()
-lumped = clue.do_lumping(system['equations'], [obs])
+lumped = system.lumping([obs])
 end = time.time()
 
-print(f"The size of the original model is {len(system['equations'])}")
-print(f"The size of the reduced model is {len(lumped['polynomials'])}")
+print(f"The size of the original model is {system.size}")
+print(f"The size of the reduced model is {lumped.size}")
 print(f"Computation took {end - start} seconds")

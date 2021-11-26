@@ -1,0 +1,22 @@
+begin model MODEL1609100000
+ begin init
+  s1 = 0.1 ( "HS surface" ) 
+  s2 = 0.4 ( "early endosome" ) 
+  s3 = 0.4 ( "late endosome" ) 
+  s5
+  s6 = 0.155 ( "golgi" ) 
+  s8
+  s4 = 0.85 ( "lysosome" ) 
+ end init
+ begin reactions
+  s6 -> s1 + s6 , 0.96 [k_golgi_forw]
+  s1 -> s2 , 0.025 [k_endo_forw]
+  s2 -> s1 , 0.075 [k_exo_forw]
+  s2 -> s3 , 0.01 [k_le_forw]
+  s3 -> s4 , 0.01 [k_lys_forw]
+  s4 -> s5 , 0.005 [k_deg_forw]
+  s1 -> s8 , 0.1 [k_shed_forw]
+ end reactions
+
+end model
+

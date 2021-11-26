@@ -1,0 +1,43 @@
+begin model MODEL6185511733
+ begin parameters
+  a1 = 1870.65340919611
+  d1 = 502.75441575205
+  k1 = 36.95569535329
+  a2 = 1477.69323569819
+  d2 = 321.98140758674
+  k2 = 722.36086088928
+  a3 = 2583.10573366983
+  d3 = 46.55499308299
+  k3 = 195.80738302832
+  a4 = 4351.50747893472
+  d4 = 31.15705481377
+  k4 = 117.25830598353
+ end parameters
+ begin init
+  K
+  KKPP = 0.39984600804
+  KKKPP
+  KP
+  KPase = 0.2774315895
+  KPKPase
+  KPKKPP
+  KPP = 0.96691587903
+  KPPKPase
+ end init
+ begin reactions
+  K + KKPP -> KKKPP , a1 [J0_forw]
+  KKKPP -> K + KKPP , d1 [J1_forw]
+  KKKPP -> KKPP + KP , k1 [J2_forw]
+  KP + KPase -> KPKPase , a2 [J3_forw]
+  KPKPase -> KP + KPase , d2 [J4_forw]
+  KPKPase -> K + KPase , k2 [J5_forw]
+  KKPP + KP -> KPKKPP , a3 [J6_forw]
+  KPKKPP -> KKPP + KP , d3 [J7_forw]
+  KPKKPP -> KKPP + KPP , k3 [J8_forw]
+  KPase + KPP -> KPPKPase , a4 [J9_forw]
+  KPPKPase -> KPase + KPP , d4 [J10_forw]
+  KPPKPase -> KP + KPase , k4 [J11_forw]
+ end reactions
+
+end model
+

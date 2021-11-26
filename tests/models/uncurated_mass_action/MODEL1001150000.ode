@@ -1,0 +1,676 @@
+begin model MODEL1001150000
+ begin parameters
+  k1Con = 4.0
+  k1Coff = 40.0
+  k2Con = 10.0
+  k2Coff = 9.25
+  k1Non = 100.0
+  k1Noff = 2500.0
+  k2Non = 150.0
+  k2Noff = 750.0
+  kK1Con = 44.0
+  kK1Coff = 33.0
+  kK2Con = 44.0
+  kK2Coff = 2.7
+  kK1Non = 75.0
+  kK1Noff = 300.0
+  kK2Non = 76.0
+  kK2Noff = 33.0
+  kCaM0on = 0.0038
+  kCaM0off = 5.5
+  kCaM1Con = 0.059
+  kCaM1Coff = 6.8
+  kCaM2Con = 0.92
+  kCaM2Coff = 6.8
+  kCaM2C1Non = 5.2
+  kCaM2C1Noff = 3.8
+  kCaM1C1Non = 3.3
+  kCaM1C1Noff = 3.4
+  kCaM4on = 30.0
+  kCaM4off = 1.7
+  kCaM1Non = 0.022
+  kCaM1Noff = 3.1
+  kCaM1C2Non = 1.9
+  kCaM1C2Noff = 1.9
+  kCaM2Non = 0.1
+  kCaM2Noff = 1.7
+  k2CaMKon = 50.0
+  k2CaMKoff = 60.0
+  kpCaM0 = 0.0
+  kpCaM1C = 0.032
+  kpCaM2C = 0.064
+  kpCaM2C1N = 0.124
+  kpCaM1C1N = 0.094
+  kpCaM4 = 0.96
+  kpCaM1N = 0.06
+  kpCaM1C2N = 0.154
+  kpCaM2N = 0.12
+  caminit = 30.0
+  ckinit = 80.0
+  cainit = 100.0
+ end parameters
+ begin init
+  CaM_0_1
+  CaM_0_2
+  CaM_1_0
+  CaM_1_1
+  CaM_1_2
+  CaM_2_0
+  CaM_2_1
+  CaM_2_2
+  KCaM_0_0
+  KCaM_0_1
+  KCaM_0_2
+  KCaM_1_0
+  KCaM_1_1
+  KCaM_1_2
+  KCaM_2_0
+  KCaM_2_1
+  KCaM_2_2
+  KCaMcomplex_0_0_0_1
+  KCaMcomplex_0_0_0_2
+  KCaMcomplex_0_0_1_0
+  KCaMcomplex_0_0_1_1
+  KCaMcomplex_0_0_1_2
+  KCaMcomplex_0_0_2_0
+  KCaMcomplex_0_0_2_1
+  KCaMcomplex_0_0_2_2
+  KCaMcomplex_0_1_0_2
+  KCaMcomplex_0_1_1_0
+  KCaMcomplex_0_1_1_1
+  KCaMcomplex_0_1_1_2
+  KCaMcomplex_0_1_2_0
+  KCaMcomplex_0_1_2_1
+  KCaMcomplex_0_1_2_2
+  KCaMcomplex_0_2_1_0
+  KCaMcomplex_0_2_1_1
+  KCaMcomplex_0_2_1_2
+  KCaMcomplex_0_2_2_0
+  KCaMcomplex_0_2_2_1
+  KCaMcomplex_0_2_2_2
+  KCaMcomplex_1_0_1_1
+  KCaMcomplex_1_0_1_2
+  KCaMcomplex_1_0_2_0
+  KCaMcomplex_1_0_2_1
+  KCaMcomplex_1_0_2_2
+  KCaMcomplex_1_1_1_2
+  KCaMcomplex_1_1_2_0
+  KCaMcomplex_1_1_2_1
+  KCaMcomplex_1_1_2_2
+  KCaMcomplex_1_2_2_0
+  KCaMcomplex_1_2_2_1
+  KCaMcomplex_1_2_2_2
+  KCaMcomplex_2_0_2_1
+  KCaMcomplex_2_0_2_2
+  KCaMcomplex_2_1_2_2
+  KCaMcomplex_0_0_0_0
+  KCaMcomplex_0_1_0_1
+  KCaMcomplex_0_2_0_2
+  KCaMcomplex_1_0_1_0
+  KCaMcomplex_1_1_1_1
+  KCaMcomplex_1_2_1_2
+  KCaMcomplex_2_0_2_0
+  KCaMcomplex_2_1_2_1
+  KCaMcomplex_2_2_2_2
+  pKCaM_0_0
+  pKCaM_0_1
+  pKCaM_0_2
+  pKCaM_1_0
+  pKCaM_1_1
+  pKCaM_1_2
+  pKCaM_2_0
+  pKCaM_2_1
+  pKCaM_2_2
+  pKCaMcomplex_0_0_0_0
+  pKCaMcomplex_0_0_0_1
+  pKCaMcomplex_0_0_0_2
+  pKCaMcomplex_0_0_1_0
+  pKCaMcomplex_0_0_1_1
+  pKCaMcomplex_0_0_1_2
+  pKCaMcomplex_0_0_2_0
+  pKCaMcomplex_0_0_2_1
+  pKCaMcomplex_0_0_2_2
+  pKCaMcomplex_0_1_0_0
+  pKCaMcomplex_0_1_0_1
+  pKCaMcomplex_0_1_0_2
+  pKCaMcomplex_0_1_1_0
+  pKCaMcomplex_0_1_1_1
+  pKCaMcomplex_0_1_1_2
+  pKCaMcomplex_0_1_2_0
+  pKCaMcomplex_0_1_2_1
+  pKCaMcomplex_0_1_2_2
+  pKCaMcomplex_0_2_0_0
+  pKCaMcomplex_0_2_0_1
+  pKCaMcomplex_0_2_0_2
+  pKCaMcomplex_0_2_1_0
+  pKCaMcomplex_0_2_1_1
+  pKCaMcomplex_0_2_1_2
+  pKCaMcomplex_0_2_2_0
+  pKCaMcomplex_0_2_2_1
+  pKCaMcomplex_0_2_2_2
+  pKCaMcomplex_1_0_0_0
+  pKCaMcomplex_1_0_0_1
+  pKCaMcomplex_1_0_0_2
+  pKCaMcomplex_1_0_1_0
+  pKCaMcomplex_1_0_1_1
+  pKCaMcomplex_1_0_1_2
+  pKCaMcomplex_1_0_2_0
+  pKCaMcomplex_1_0_2_1
+  pKCaMcomplex_1_0_2_2
+  pKCaMcomplex_1_1_0_0
+  pKCaMcomplex_1_1_0_1
+  pKCaMcomplex_1_1_0_2
+  pKCaMcomplex_1_1_1_0
+  pKCaMcomplex_1_1_1_1
+  pKCaMcomplex_1_1_1_2
+  pKCaMcomplex_1_1_2_0
+  pKCaMcomplex_1_1_2_1
+  pKCaMcomplex_1_1_2_2
+  pKCaMcomplex_1_2_0_0
+  pKCaMcomplex_1_2_0_1
+  pKCaMcomplex_1_2_0_2
+  pKCaMcomplex_1_2_1_0
+  pKCaMcomplex_1_2_1_1
+  pKCaMcomplex_1_2_1_2
+  pKCaMcomplex_1_2_2_0
+  pKCaMcomplex_1_2_2_1
+  pKCaMcomplex_1_2_2_2
+  pKCaMcomplex_2_0_0_0
+  pKCaMcomplex_2_0_0_1
+  pKCaMcomplex_2_0_0_2
+  pKCaMcomplex_2_0_1_0
+  pKCaMcomplex_2_0_1_1
+  pKCaMcomplex_2_0_1_2
+  pKCaMcomplex_2_0_2_0
+  pKCaMcomplex_2_0_2_1
+  pKCaMcomplex_2_0_2_2
+  pKCaMcomplex_2_1_0_0
+  pKCaMcomplex_2_1_0_1
+  pKCaMcomplex_2_1_0_2
+  pKCaMcomplex_2_1_1_0
+  pKCaMcomplex_2_1_1_1
+  pKCaMcomplex_2_1_1_2
+  pKCaMcomplex_2_1_2_0
+  pKCaMcomplex_2_1_2_1
+  pKCaMcomplex_2_1_2_2
+  pKCaMcomplex_2_2_0_0
+  pKCaMcomplex_2_2_0_1
+  pKCaMcomplex_2_2_0_2
+  pKCaMcomplex_2_2_1_0
+  pKCaMcomplex_2_2_1_1
+  pKCaMcomplex_2_2_1_2
+  pKCaMcomplex_2_2_2_0
+  pKCaMcomplex_2_2_2_1
+  pKCaMcomplex_2_2_2_2
+  CaM_0_0 = 30.0
+  KaMe = 80.0
+  Ca = 100.0
+  KCaM2C_tot
+ end init
+ begin reactions
+  CaM_0_0 + Ca -> CaM_1_0 , k1Con [reaction1_forw]
+  CaM_1_0 -> CaM_0_0 + Ca , ( 1.0) * (k1Coff) [reaction2_forw]
+  CaM_0_1 + Ca -> CaM_1_1 , ( 1.0) * (k1Con) [reaction3_forw]
+  CaM_1_1 -> CaM_0_1 + Ca , ( 1.0) * (k1Coff) [reaction4_forw]
+  CaM_0_2 + Ca -> CaM_1_2 , ( 1.0) * (k1Con) [reaction5_forw]
+  CaM_1_2 -> CaM_0_2 + Ca , ( 1.0) * (k1Coff) [reaction6_forw]
+  CaM_1_0 + Ca -> CaM_2_0 , ( 1.0) * (k2Con) [reaction7_forw]
+  CaM_2_0 -> CaM_1_0 + Ca , ( 1.0) * (k2Coff) [reaction8_forw]
+  CaM_1_1 + Ca -> CaM_2_1 , ( 1.0) * (k2Con) [reaction9_forw]
+  CaM_2_1 -> CaM_1_1 + Ca , ( 1.0) * (k2Coff) [reaction10_forw]
+  CaM_1_2 + Ca -> CaM_2_2 , ( 1.0) * (k2Con) [reaction11_forw]
+  CaM_2_2 -> CaM_1_2 + Ca , ( 1.0) * (k2Coff) [reaction12_forw]
+  CaM_0_0 + Ca -> CaM_0_1 , ( 1.0) * (k1Non) [reaction13_forw]
+  CaM_0_1 -> CaM_0_0 + Ca , ( 1.0) * (k1Noff) [reaction14_forw]
+  CaM_0_1 + Ca -> CaM_0_2 , ( 1.0) * (k2Non) [reaction15_forw]
+  CaM_0_2 -> CaM_0_1 + Ca , ( 1.0) * (k2Noff) [reaction16_forw]
+  CaM_1_0 + Ca -> CaM_1_1 , ( 1.0) * (k1Non) [reaction17_forw]
+  CaM_1_1 -> CaM_1_0 + Ca , ( 1.0) * (k1Noff) [reaction18_forw]
+  CaM_1_1 + Ca -> CaM_1_2 , ( 1.0) * (k2Non) [reaction19_forw]
+  CaM_1_2 -> CaM_1_1 + Ca , ( 1.0) * (k2Noff) [reaction20_forw]
+  CaM_2_0 + Ca -> CaM_2_1 , ( 1.0) * (k1Non) [reaction21_forw]
+  CaM_2_1 -> CaM_2_0 + Ca , ( 1.0) * (k1Noff) [reaction22_forw]
+  CaM_2_1 + Ca -> CaM_2_2 , ( 1.0) * (k2Non) [reaction23_forw]
+  CaM_2_2 -> CaM_2_1 + Ca , ( 1.0) * (k2Noff) [reaction24_forw]
+  KCaM_0_0 + Ca -> KCaM_1_0 , ( 1.0) * (kK1Con) [reaction25_forw]
+  KCaM_1_0 -> KCaM_0_0 + Ca , ( 1.0) * (kK1Coff) [reaction26_forw]
+  KCaM_0_1 + Ca -> KCaM_1_1 , ( 1.0) * (kK1Con) [reaction27_forw]
+  KCaM_1_1 -> KCaM_0_1 + Ca , ( 1.0) * (kK1Coff) [reaction28_forw]
+  KCaM_0_2 + Ca -> KCaM_1_2 , ( 1.0) * (kK1Con) [reaction29_forw]
+  KCaM_1_2 -> KCaM_0_2 + Ca , ( 1.0) * (kK1Coff) [reaction30_forw]
+  KCaM_1_0 + Ca -> KCaM_2_0 , ( 1.0) * (kK2Con) [reaction31_forw]
+  KCaM_2_0 -> KCaM_1_0 + Ca , ( 1.0) * (kK2Coff) [reaction32_forw]
+  KCaM_1_1 + Ca -> KCaM_2_1 , ( 1.0) * (kK2Con) [reaction33_forw]
+  KCaM_2_1 -> KCaM_1_1 + Ca , ( 1.0) * (kK2Coff) [reaction34_forw]
+  KCaM_1_2 + Ca -> KCaM_2_2 , ( 1.0) * (kK2Con) [reaction35_forw]
+  KCaM_2_2 -> KCaM_1_2 + Ca , ( 1.0) * (kK2Coff) [reaction36_forw]
+  KCaM_0_0 + Ca -> KCaM_0_1 , ( 1.0) * (kK1Non) [reaction37_forw]
+  KCaM_0_1 -> KCaM_0_0 + Ca , ( 1.0) * (kK1Noff) [reaction38_forw]
+  KCaM_0_1 + Ca -> KCaM_0_2 , ( 1.0) * (kK2Non) [reaction39_forw]
+  KCaM_0_2 -> KCaM_0_1 + Ca , ( 1.0) * (kK2Noff) [reaction40_forw]
+  KCaM_1_0 + Ca -> KCaM_1_1 , ( 1.0) * (kK1Non) [reaction41_forw]
+  KCaM_1_1 -> KCaM_1_0 + Ca , ( 1.0) * (kK1Noff) [reaction42_forw]
+  KCaM_1_1 + Ca -> KCaM_1_2 , ( 1.0) * (kK2Non) [reaction43_forw]
+  KCaM_1_2 -> KCaM_1_1 + Ca , ( 1.0) * (kK2Noff) [reaction44_forw]
+  KCaM_2_0 + Ca -> KCaM_2_1 , ( 1.0) * (kK1Non) [reaction45_forw]
+  KCaM_2_1 -> KCaM_2_0 + Ca , ( 1.0) * (kK1Noff) [reaction46_forw]
+  KCaM_2_1 + Ca -> KCaM_2_2 , ( 1.0) * (kK2Non) [reaction47_forw]
+  KCaM_2_2 -> KCaM_2_1 + Ca , ( 1.0) * (kK2Noff) [reaction48_forw]
+  CaM_0_0 + KaMe -> KCaM_0_0 , ( 1.0) * (kCaM0on) [reaction49_forw]
+  KCaM_0_0 -> CaM_0_0 + KaMe , ( 1.0) * (kCaM0off) [reaction50_forw]
+  CaM_0_1 + KaMe -> KCaM_0_1 , ( 1.0) * (kCaM1Non) [reaction51_forw]
+  KCaM_0_1 -> CaM_0_1 + KaMe , ( 1.0) * (kCaM1Noff) [reaction52_forw]
+  CaM_0_2 + KaMe -> KCaM_0_2 , ( 1.0) * (kCaM2Non) [reaction53_forw]
+  KCaM_0_2 -> CaM_0_2 + KaMe , ( 1.0) * (kCaM2Noff) [reaction54_forw]
+  CaM_1_0 + KaMe -> KCaM_1_0 , ( 1.0) * (kCaM1Con) [reaction55_forw]
+  KCaM_1_0 -> CaM_1_0 + KaMe , ( 1.0) * (kCaM1Coff) [reaction56_forw]
+  CaM_1_1 + KaMe -> KCaM_1_1 , ( 1.0) * (kCaM1C1Non) [reaction57_forw]
+  KCaM_1_1 -> CaM_1_1 + KaMe , ( 1.0) * (kCaM1C1Noff) [reaction58_forw]
+  CaM_1_2 + KaMe -> KCaM_1_2 , ( 1.0) * (kCaM1C2Non) [reaction59_forw]
+  KCaM_1_2 -> CaM_1_2 + KaMe , ( 1.0) * (kCaM1C2Noff) [reaction60_forw]
+  CaM_2_0 + KaMe -> KCaM_2_0 , ( 1.0) * (kCaM2Con) [reaction61_forw]
+  KCaM_2_0 -> CaM_2_0 + KaMe , ( 1.0) * (kCaM2Coff) [reaction62_forw]
+  CaM_2_1 + KaMe -> KCaM_2_1 , ( 1.0) * (kCaM2C1Non) [reaction63_forw]
+  KCaM_2_1 -> CaM_2_1 + KaMe , ( 1.0) * (kCaM2C1Noff) [reaction64_forw]
+  CaM_2_2 + KaMe -> KCaM_2_2 , ( 1.0) * (kCaM4on) [reaction65_forw]
+  KCaM_2_2 -> CaM_2_2 + KaMe , ( 1.0) * (kCaM4off) [reaction66_forw]
+  KCaM_0_0 + KCaM_0_1 -> KCaMcomplex_0_0_0_1 , ( 1.0) * (k2CaMKon) [reaction67_forw]
+  KCaMcomplex_0_0_0_1 -> KCaM_0_0 + KCaM_0_1 , ( 1.0) * (k2CaMKoff) [reaction68_forw]
+  KCaM_0_0 + KCaM_0_2 -> KCaMcomplex_0_0_0_2 , ( 1.0) * (k2CaMKon) [reaction69_forw]
+  KCaMcomplex_0_0_0_2 -> KCaM_0_0 + KCaM_0_2 , ( 1.0) * (k2CaMKoff) [reaction70_forw]
+  KCaM_0_0 + KCaM_1_0 -> KCaMcomplex_0_0_1_0 , ( 1.0) * (k2CaMKon) [reaction71_forw]
+  KCaMcomplex_0_0_1_0 -> KCaM_0_0 + KCaM_1_0 , ( 1.0) * (k2CaMKoff) [reaction72_forw]
+  KCaM_0_0 + KCaM_1_1 -> KCaMcomplex_0_0_1_1 , ( 1.0) * (k2CaMKon) [reaction73_forw]
+  KCaMcomplex_0_0_1_1 -> KCaM_0_0 + KCaM_1_1 , ( 1.0) * (k2CaMKoff) [reaction74_forw]
+  KCaM_0_0 + KCaM_1_2 -> KCaMcomplex_0_0_1_2 , ( 1.0) * (k2CaMKon) [reaction75_forw]
+  KCaMcomplex_0_0_1_2 -> KCaM_0_0 + KCaM_1_2 , ( 1.0) * (k2CaMKoff) [reaction76_forw]
+  KCaM_0_0 + KCaM_2_0 -> KCaMcomplex_0_0_2_0 , ( 1.0) * (k2CaMKon) [reaction77_forw]
+  KCaMcomplex_0_0_2_0 -> KCaM_0_0 + KCaM_2_0 , ( 1.0) * (k2CaMKoff) [reaction78_forw]
+  KCaM_0_0 + KCaM_2_1 -> KCaMcomplex_0_0_2_1 , ( 1.0) * (k2CaMKon) [reaction79_forw]
+  KCaMcomplex_0_0_2_1 -> KCaM_0_0 + KCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction80_forw]
+  KCaM_0_0 + KCaM_2_2 -> KCaMcomplex_0_0_2_2 , ( 1.0) * (k2CaMKon) [reaction81_forw]
+  KCaMcomplex_0_0_2_2 -> KCaM_0_0 + KCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction82_forw]
+  KCaM_0_1 + KCaM_0_2 -> KCaMcomplex_0_1_0_2 , ( 1.0) * (k2CaMKon) [reaction83_forw]
+  KCaMcomplex_0_1_0_2 -> KCaM_0_1 + KCaM_0_2 , ( 1.0) * (k2CaMKoff) [reaction84_forw]
+  KCaM_0_1 + KCaM_1_0 -> KCaMcomplex_0_1_1_0 , ( 1.0) * (k2CaMKon) [reaction85_forw]
+  KCaMcomplex_0_1_1_0 -> KCaM_0_1 + KCaM_1_0 , ( 1.0) * (k2CaMKoff) [reaction86_forw]
+  KCaM_0_1 + KCaM_1_1 -> KCaMcomplex_0_1_1_1 , ( 1.0) * (k2CaMKon) [reaction87_forw]
+  KCaMcomplex_0_1_1_1 -> KCaM_0_1 + KCaM_1_1 , ( 1.0) * (k2CaMKoff) [reaction88_forw]
+  KCaM_0_1 + KCaM_1_2 -> KCaMcomplex_0_1_1_2 , ( 1.0) * (k2CaMKon) [reaction89_forw]
+  KCaMcomplex_0_1_1_2 -> KCaM_0_1 + KCaM_1_2 , ( 1.0) * (k2CaMKoff) [reaction90_forw]
+  KCaM_0_1 + KCaM_2_0 -> KCaMcomplex_0_1_2_0 , ( 1.0) * (k2CaMKon) [reaction91_forw]
+  KCaMcomplex_0_1_2_0 -> KCaM_0_1 + KCaM_2_0 , ( 1.0) * (k2CaMKoff) [reaction92_forw]
+  KCaM_0_1 + KCaM_2_1 -> KCaMcomplex_0_1_2_1 , ( 1.0) * (k2CaMKon) [reaction93_forw]
+  KCaMcomplex_0_1_2_1 -> KCaM_0_1 + KCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction94_forw]
+  KCaM_0_1 + KCaM_2_2 -> KCaMcomplex_0_1_2_2 , ( 1.0) * (k2CaMKon) [reaction95_forw]
+  KCaMcomplex_0_1_2_2 -> KCaM_0_1 + KCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction96_forw]
+  KCaM_0_2 + KCaM_1_0 -> KCaMcomplex_0_2_1_0 , ( 1.0) * (k2CaMKon) [reaction97_forw]
+  KCaMcomplex_0_2_1_0 -> KCaM_0_2 + KCaM_1_0 , ( 1.0) * (k2CaMKoff) [reaction98_forw]
+  KCaM_0_2 + KCaM_1_1 -> KCaMcomplex_0_2_1_1 , ( 1.0) * (k2CaMKon) [reaction99_forw]
+  KCaMcomplex_0_2_1_1 -> KCaM_0_2 + KCaM_1_1 , ( 1.0) * (k2CaMKoff) [reaction100_forw]
+  KCaM_0_2 + KCaM_1_2 -> KCaMcomplex_0_2_1_2 , ( 1.0) * (k2CaMKon) [reaction101_forw]
+  KCaMcomplex_0_2_1_2 -> KCaM_0_2 + KCaM_1_2 , ( 1.0) * (k2CaMKoff) [reaction102_forw]
+  KCaM_0_2 + KCaM_2_0 -> KCaMcomplex_0_2_2_0 , ( 1.0) * (k2CaMKon) [reaction103_forw]
+  KCaMcomplex_0_2_2_0 -> KCaM_0_2 + KCaM_2_0 , ( 1.0) * (k2CaMKoff) [reaction104_forw]
+  KCaM_0_2 + KCaM_2_1 -> KCaMcomplex_0_2_2_1 , ( 1.0) * (k2CaMKon) [reaction105_forw]
+  KCaMcomplex_0_2_2_1 -> KCaM_0_2 + KCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction106_forw]
+  KCaM_0_2 + KCaM_2_2 -> KCaMcomplex_0_2_2_2 , ( 1.0) * (k2CaMKon) [reaction107_forw]
+  KCaMcomplex_0_2_2_2 -> KCaM_0_2 + KCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction108_forw]
+  KCaM_1_0 + KCaM_1_1 -> KCaMcomplex_1_0_1_1 , ( 1.0) * (k2CaMKon) [reaction109_forw]
+  KCaMcomplex_1_0_1_1 -> KCaM_1_0 + KCaM_1_1 , ( 1.0) * (k2CaMKoff) [reaction110_forw]
+  KCaM_1_0 + KCaM_1_2 -> KCaMcomplex_1_0_1_2 , ( 1.0) * (k2CaMKon) [reaction111_forw]
+  KCaMcomplex_1_0_1_2 -> KCaM_1_0 + KCaM_1_2 , ( 1.0) * (k2CaMKoff) [reaction112_forw]
+  KCaM_1_0 + KCaM_2_0 -> KCaMcomplex_1_0_2_0 , ( 1.0) * (k2CaMKon) [reaction113_forw]
+  KCaMcomplex_1_0_2_0 -> KCaM_1_0 + KCaM_2_0 , ( 1.0) * (k2CaMKoff) [reaction114_forw]
+  KCaM_1_0 + KCaM_2_1 -> KCaMcomplex_1_0_2_1 , ( 1.0) * (k2CaMKon) [reaction115_forw]
+  KCaMcomplex_1_0_2_1 -> KCaM_1_0 + KCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction116_forw]
+  KCaM_1_0 + KCaM_2_2 -> KCaMcomplex_1_0_2_2 , ( 1.0) * (k2CaMKon) [reaction117_forw]
+  KCaMcomplex_1_0_2_2 -> KCaM_1_0 + KCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction118_forw]
+  KCaM_1_1 + KCaM_1_2 -> KCaMcomplex_1_1_1_2 , ( 1.0) * (k2CaMKon) [reaction119_forw]
+  KCaMcomplex_1_1_1_2 -> KCaM_1_1 + KCaM_1_2 , ( 1.0) * (k2CaMKoff) [reaction120_forw]
+  KCaM_1_1 + KCaM_2_0 -> KCaMcomplex_1_1_2_0 , ( 1.0) * (k2CaMKon) [reaction121_forw]
+  KCaMcomplex_1_1_2_0 -> KCaM_1_1 + KCaM_2_0 , ( 1.0) * (k2CaMKoff) [reaction122_forw]
+  KCaM_1_1 + KCaM_2_1 -> KCaMcomplex_1_1_2_1 , ( 1.0) * (k2CaMKon) [reaction123_forw]
+  KCaMcomplex_1_1_2_1 -> KCaM_1_1 + KCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction124_forw]
+  KCaM_1_1 + KCaM_2_2 -> KCaMcomplex_1_1_2_2 , ( 1.0) * (k2CaMKon) [reaction125_forw]
+  KCaMcomplex_1_1_2_2 -> KCaM_1_1 + KCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction126_forw]
+  KCaM_1_2 + KCaM_2_0 -> KCaMcomplex_1_2_2_0 , ( 1.0) * (k2CaMKon) [reaction127_forw]
+  KCaMcomplex_1_2_2_0 -> KCaM_1_2 + KCaM_2_0 , ( 1.0) * (k2CaMKoff) [reaction128_forw]
+  KCaM_1_2 + KCaM_2_1 -> KCaMcomplex_1_2_2_1 , ( 1.0) * (k2CaMKon) [reaction129_forw]
+  KCaMcomplex_1_2_2_1 -> KCaM_1_2 + KCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction130_forw]
+  KCaM_1_2 + KCaM_2_2 -> KCaMcomplex_1_2_2_2 , ( 1.0) * (k2CaMKon) [reaction131_forw]
+  KCaMcomplex_1_2_2_2 -> KCaM_1_2 + KCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction132_forw]
+  KCaM_2_0 + KCaM_2_1 -> KCaMcomplex_2_0_2_1 , ( 1.0) * (k2CaMKon) [reaction133_forw]
+  KCaMcomplex_2_0_2_1 -> KCaM_2_0 + KCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction134_forw]
+  KCaM_2_0 + KCaM_2_2 -> KCaMcomplex_2_0_2_2 , ( 1.0) * (k2CaMKon) [reaction135_forw]
+  KCaMcomplex_2_0_2_2 -> KCaM_2_0 + KCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction136_forw]
+  KCaM_2_1 + KCaM_2_2 -> KCaMcomplex_2_1_2_2 , ( 1.0) * (k2CaMKon) [reaction137_forw]
+  KCaMcomplex_2_1_2_2 -> KCaM_2_1 + KCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction138_forw]
+  2*KCaM_0_0 -> KCaMcomplex_0_0_0_0 , ( 1.0) * (k2CaMKon) [reaction139_forw]
+  KCaMcomplex_0_0_0_0 -> 2*KCaM_0_0 , ( 1.0) * (k2CaMKoff) [reaction140_forw]
+  2*KCaM_0_1 -> KCaMcomplex_0_1_0_1 , ( 1.0) * (k2CaMKon) [reaction141_forw]
+  KCaMcomplex_0_1_0_1 -> 2*KCaM_0_1 , ( 1.0) * (k2CaMKoff) [reaction142_forw]
+  2*KCaM_0_2 -> KCaMcomplex_0_2_0_2 , ( 1.0) * (k2CaMKon) [reaction143_forw]
+  KCaMcomplex_0_2_0_2 -> 2*KCaM_0_2 , ( 1.0) * (k2CaMKoff) [reaction144_forw]
+  2*KCaM_1_0 -> KCaMcomplex_1_0_1_0 , ( 1.0) * (k2CaMKon) [reaction145_forw]
+  KCaMcomplex_1_0_1_0 -> 2*KCaM_1_0 , ( 1.0) * (k2CaMKoff) [reaction146_forw]
+  2*KCaM_1_1 -> KCaMcomplex_1_1_1_1 , ( 1.0) * (k2CaMKon) [reaction147_forw]
+  KCaMcomplex_1_1_1_1 -> 2*KCaM_1_1 , ( 1.0) * (k2CaMKoff) [reaction148_forw]
+  2*KCaM_1_2 -> KCaMcomplex_1_2_1_2 , ( 1.0) * (k2CaMKon) [reaction149_forw]
+  KCaMcomplex_1_2_1_2 -> 2*KCaM_1_2 , ( 1.0) * (k2CaMKoff) [reaction150_forw]
+  2*KCaM_2_0 -> KCaMcomplex_2_0_2_0 , ( 1.0) * (k2CaMKon) [reaction151_forw]
+  KCaMcomplex_2_0_2_0 -> 2*KCaM_2_0 , ( 1.0) * (k2CaMKoff) [reaction152_forw]
+  2*KCaM_2_1 -> KCaMcomplex_2_1_2_1 , ( 1.0) * (k2CaMKon) [reaction153_forw]
+  KCaMcomplex_2_1_2_1 -> 2*KCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction154_forw]
+  2*KCaM_2_2 -> KCaMcomplex_2_2_2_2 , ( 1.0) * (k2CaMKon) [reaction155_forw]
+  KCaMcomplex_2_2_2_2 -> 2*KCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction156_forw]
+  KCaMcomplex_0_0_0_1 -> KCaM_0_0 + pKCaM_0_1 , ( 1.0) * (kpCaM1N) [reaction158_forw]
+  KCaMcomplex_0_0_0_2 -> KCaM_0_0 + pKCaM_0_2 , ( 1.0) * (kpCaM2N) [reaction160_forw]
+  KCaMcomplex_0_0_1_0 -> KCaM_0_0 + pKCaM_1_0 , ( 1.0) * (kpCaM1C) [reaction162_forw]
+  KCaMcomplex_0_0_1_1 -> KCaM_0_0 + pKCaM_1_1 , ( 1.0) * (kpCaM1C1N) [reaction164_forw]
+  KCaMcomplex_0_0_1_2 -> KCaM_0_0 + pKCaM_1_2 , ( 1.0) * (kpCaM1C2N) [reaction166_forw]
+  KCaMcomplex_0_0_2_0 -> KCaM_0_0 + pKCaM_2_0 , ( 1.0) * (kpCaM2C) [reaction168_forw]
+  KCaMcomplex_0_0_2_1 -> KCaM_0_0 + pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction170_forw]
+  KCaMcomplex_0_0_2_2 -> KCaM_0_0 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction172_forw]
+  KCaMcomplex_0_1_0_2 -> KCaM_0_2 + pKCaM_0_1 , ( 1.0) * (kpCaM1N) [reaction173_forw]
+  KCaMcomplex_0_1_0_2 -> KCaM_0_1 + pKCaM_0_2 , ( 1.0) * (kpCaM2N) [reaction174_forw]
+  KCaMcomplex_0_1_1_0 -> KCaM_1_0 + pKCaM_0_1 , ( 1.0) * (kpCaM1N) [reaction175_forw]
+  KCaMcomplex_0_1_1_0 -> KCaM_0_1 + pKCaM_1_0 , ( 1.0) * (kpCaM1C) [reaction176_forw]
+  KCaMcomplex_0_1_1_1 -> KCaM_1_1 + pKCaM_0_1 , ( 1.0) * (kpCaM1N) [reaction177_forw]
+  KCaMcomplex_0_1_1_1 -> KCaM_0_1 + pKCaM_1_1 , ( 1.0) * (kpCaM1C1N) [reaction178_forw]
+  KCaMcomplex_0_1_1_2 -> KCaM_1_2 + pKCaM_0_1 , ( 1.0) * (kpCaM1N) [reaction179_forw]
+  KCaMcomplex_0_1_1_2 -> KCaM_0_1 + pKCaM_1_2 , ( 1.0) * (kpCaM1C2N) [reaction180_forw]
+  KCaMcomplex_0_1_2_0 -> KCaM_2_0 + pKCaM_0_1 , ( 1.0) * (kpCaM1N) [reaction181_forw]
+  KCaMcomplex_0_1_2_0 -> KCaM_0_1 + pKCaM_2_0 , ( 1.0) * (kpCaM2C) [reaction182_forw]
+  KCaMcomplex_0_1_2_1 -> KCaM_2_1 + pKCaM_0_1 , ( 1.0) * (kpCaM1N) [reaction183_forw]
+  KCaMcomplex_0_1_2_1 -> KCaM_0_1 + pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction184_forw]
+  KCaMcomplex_0_1_2_2 -> KCaM_2_2 + pKCaM_0_1 , ( 1.0) * (kpCaM1N) [reaction185_forw]
+  KCaMcomplex_0_1_2_2 -> KCaM_0_1 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction186_forw]
+  KCaMcomplex_0_2_1_0 -> KCaM_1_0 + pKCaM_0_2 , ( 1.0) * (kpCaM2N) [reaction187_forw]
+  KCaMcomplex_0_2_1_0 -> KCaM_0_2 + pKCaM_1_0 , ( 1.0) * (kpCaM1C) [reaction188_forw]
+  KCaMcomplex_0_2_1_1 -> KCaM_1_1 + pKCaM_0_2 , ( 1.0) * (kpCaM2N) [reaction189_forw]
+  KCaMcomplex_0_2_1_1 -> KCaM_0_2 + pKCaM_1_1 , ( 1.0) * (kpCaM1C1N) [reaction190_forw]
+  KCaMcomplex_0_2_1_2 -> KCaM_1_2 + pKCaM_0_2 , ( 1.0) * (kpCaM2N) [reaction191_forw]
+  KCaMcomplex_0_2_1_2 -> KCaM_0_2 + pKCaM_1_2 , ( 1.0) * (kpCaM1C2N) [reaction192_forw]
+  KCaMcomplex_0_2_2_0 -> KCaM_2_0 + pKCaM_0_2 , ( 1.0) * (kpCaM2N) [reaction193_forw]
+  KCaMcomplex_0_2_2_0 -> KCaM_0_2 + pKCaM_2_0 , ( 1.0) * (kpCaM2C) [reaction194_forw]
+  KCaMcomplex_0_2_2_1 -> KCaM_2_1 + pKCaM_0_2 , ( 1.0) * (kpCaM2N) [reaction195_forw]
+  KCaMcomplex_0_2_2_1 -> KCaM_0_2 + pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction196_forw]
+  KCaMcomplex_0_2_2_2 -> KCaM_2_2 + pKCaM_0_2 , ( 1.0) * (kpCaM2N) [reaction197_forw]
+  KCaMcomplex_0_2_2_2 -> KCaM_0_2 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction198_forw]
+  KCaMcomplex_1_0_1_1 -> KCaM_1_1 + pKCaM_1_0 , ( 1.0) * (kpCaM1C) [reaction199_forw]
+  KCaMcomplex_1_0_1_1 -> KCaM_1_0 + pKCaM_1_1 , ( 1.0) * (kpCaM1C1N) [reaction200_forw]
+  KCaMcomplex_1_0_1_2 -> KCaM_1_2 + pKCaM_1_0 , ( 1.0) * (kpCaM1C) [reaction201_forw]
+  KCaMcomplex_1_0_1_2 -> KCaM_1_0 + pKCaM_1_2 , ( 1.0) * (kpCaM1C2N) [reaction202_forw]
+  KCaMcomplex_1_0_2_0 -> KCaM_2_0 + pKCaM_1_0 , ( 1.0) * (kpCaM1C) [reaction203_forw]
+  KCaMcomplex_1_0_2_0 -> KCaM_1_0 + pKCaM_2_0 , ( 1.0) * (kpCaM2C) [reaction204_forw]
+  KCaMcomplex_1_0_2_1 -> KCaM_2_1 + pKCaM_1_0 , ( 1.0) * (kpCaM1C) [reaction205_forw]
+  KCaMcomplex_1_0_2_1 -> KCaM_1_0 + pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction206_forw]
+  KCaMcomplex_1_0_2_2 -> KCaM_2_2 + pKCaM_1_0 , ( 1.0) * (kpCaM1C) [reaction207_forw]
+  KCaMcomplex_1_0_2_2 -> KCaM_1_0 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction208_forw]
+  KCaMcomplex_1_1_1_2 -> KCaM_1_2 + pKCaM_1_1 , ( 1.0) * (kpCaM1C1N) [reaction209_forw]
+  KCaMcomplex_1_1_1_2 -> KCaM_1_1 + pKCaM_1_2 , ( 1.0) * (kpCaM1C2N) [reaction210_forw]
+  KCaMcomplex_1_1_2_0 -> KCaM_2_0 + pKCaM_1_1 , ( 1.0) * (kpCaM1C1N) [reaction211_forw]
+  KCaMcomplex_1_1_2_0 -> KCaM_1_1 + pKCaM_2_0 , ( 1.0) * (kpCaM2C) [reaction212_forw]
+  KCaMcomplex_1_1_2_1 -> KCaM_2_1 + pKCaM_1_1 , ( 1.0) * (kpCaM1C1N) [reaction213_forw]
+  KCaMcomplex_1_1_2_1 -> KCaM_1_1 + pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction214_forw]
+  KCaMcomplex_1_1_2_2 -> KCaM_2_2 + pKCaM_1_1 , ( 1.0) * (kpCaM1C1N) [reaction215_forw]
+  KCaMcomplex_1_1_2_2 -> KCaM_1_1 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction216_forw]
+  KCaMcomplex_1_2_2_0 -> KCaM_2_0 + pKCaM_1_2 , ( 1.0) * (kpCaM1C2N) [reaction217_forw]
+  KCaMcomplex_1_2_2_0 -> KCaM_1_2 + pKCaM_2_0 , ( 1.0) * (kpCaM2C) [reaction218_forw]
+  KCaMcomplex_1_2_2_1 -> KCaM_2_1 + pKCaM_1_2 , ( 1.0) * (kpCaM1C2N) [reaction219_forw]
+  KCaMcomplex_1_2_2_1 -> KCaM_1_2 + pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction220_forw]
+  KCaMcomplex_1_2_2_2 -> KCaM_2_2 + pKCaM_1_2 , ( 1.0) * (kpCaM1C2N) [reaction221_forw]
+  KCaMcomplex_1_2_2_2 -> KCaM_1_2 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction222_forw]
+  KCaMcomplex_2_0_2_1 -> KCaM_2_1 + pKCaM_2_0 , ( 1.0) * (kpCaM2C) [reaction223_forw]
+  KCaMcomplex_2_0_2_1 -> KCaM_2_0 + pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction224_forw]
+  KCaMcomplex_2_0_2_2 -> KCaM_2_2 + pKCaM_2_0 , ( 1.0) * (kpCaM2C) [reaction225_forw]
+  KCaMcomplex_2_0_2_2 -> KCaM_2_0 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction226_forw]
+  KCaMcomplex_2_1_2_2 -> KCaM_2_2 + pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction227_forw]
+  KCaMcomplex_2_1_2_2 -> KCaM_2_1 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction228_forw]
+  KCaMcomplex_0_1_0_1 -> KCaM_0_1 + pKCaM_0_1 , ( 1.0) * (kpCaM1N) [reaction230_forw]
+  KCaMcomplex_0_2_0_2 -> KCaM_0_2 + pKCaM_0_2 , ( 1.0) * (kpCaM2N) [reaction231_forw]
+  KCaMcomplex_1_0_1_0 -> KCaM_1_0 + pKCaM_1_0 , ( 1.0) * (kpCaM1C) [reaction232_forw]
+  KCaMcomplex_1_1_1_1 -> KCaM_1_1 + pKCaM_1_1 , ( 1.0) * (kpCaM1C1N) [reaction233_forw]
+  KCaMcomplex_1_2_1_2 -> KCaM_1_2 + pKCaM_1_2 , ( 1.0) * (kpCaM1C2N) [reaction234_forw]
+  KCaMcomplex_2_0_2_0 -> KCaM_2_0 + pKCaM_2_0 , ( 1.0) * (kpCaM2C) [reaction235_forw]
+  KCaMcomplex_2_1_2_1 -> KCaM_2_1 + pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction236_forw]
+  KCaMcomplex_2_2_2_2 -> KCaM_2_2 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction237_forw]
+  KCaM_0_0 + pKCaM_0_0 -> pKCaMcomplex_0_0_0_0 , ( 1.0) * (k2CaMKon) [reaction238_forw]
+  pKCaMcomplex_0_0_0_0 -> KCaM_0_0 + pKCaM_0_0 , ( 1.0) * (k2CaMKoff) [reaction239_forw]
+  KCaM_0_1 + pKCaM_0_0 -> pKCaMcomplex_0_0_0_1 , ( 1.0) * (k2CaMKon) [reaction240_forw]
+  pKCaMcomplex_0_0_0_1 -> KCaM_0_1 + pKCaM_0_0 , ( 1.0) * (k2CaMKoff) [reaction241_forw]
+  KCaM_0_2 + pKCaM_0_0 -> pKCaMcomplex_0_0_0_2 , ( 1.0) * (k2CaMKon) [reaction242_forw]
+  pKCaMcomplex_0_0_0_2 -> KCaM_0_2 + pKCaM_0_0 , ( 1.0) * (k2CaMKoff) [reaction243_forw]
+  KCaM_1_0 + pKCaM_0_0 -> pKCaMcomplex_0_0_1_0 , ( 1.0) * (k2CaMKon) [reaction244_forw]
+  pKCaMcomplex_0_0_1_0 -> KCaM_1_0 + pKCaM_0_0 , ( 1.0) * (k2CaMKoff) [reaction245_forw]
+  KCaM_1_1 + pKCaM_0_0 -> pKCaMcomplex_0_0_1_1 , ( 1.0) * (k2CaMKon) [reaction246_forw]
+  pKCaMcomplex_0_0_1_1 -> KCaM_1_1 + pKCaM_0_0 , ( 1.0) * (k2CaMKoff) [reaction247_forw]
+  KCaM_1_2 + pKCaM_0_0 -> pKCaMcomplex_0_0_1_2 , ( 1.0) * (k2CaMKon) [reaction248_forw]
+  pKCaMcomplex_0_0_1_2 -> KCaM_1_2 + pKCaM_0_0 , ( 1.0) * (k2CaMKoff) [reaction249_forw]
+  KCaM_2_0 + pKCaM_0_0 -> pKCaMcomplex_0_0_2_0 , ( 1.0) * (k2CaMKon) [reaction250_forw]
+  pKCaMcomplex_0_0_2_0 -> KCaM_2_0 + pKCaM_0_0 , ( 1.0) * (k2CaMKoff) [reaction251_forw]
+  KCaM_2_1 + pKCaM_0_0 -> pKCaMcomplex_0_0_2_1 , ( 1.0) * (k2CaMKon) [reaction252_forw]
+  pKCaMcomplex_0_0_2_1 -> KCaM_2_1 + pKCaM_0_0 , ( 1.0) * (k2CaMKoff) [reaction253_forw]
+  KCaM_2_2 + pKCaM_0_0 -> pKCaMcomplex_0_0_2_2 , ( 1.0) * (k2CaMKon) [reaction254_forw]
+  pKCaMcomplex_0_0_2_2 -> KCaM_2_2 + pKCaM_0_0 , ( 1.0) * (k2CaMKoff) [reaction255_forw]
+  KCaM_0_0 + pKCaM_0_1 -> pKCaMcomplex_0_1_0_0 , ( 1.0) * (k2CaMKon) [reaction256_forw]
+  pKCaMcomplex_0_1_0_0 -> KCaM_0_0 + pKCaM_0_1 , ( 1.0) * (k2CaMKoff) [reaction257_forw]
+  KCaM_0_1 + pKCaM_0_1 -> pKCaMcomplex_0_1_0_1 , ( 1.0) * (k2CaMKon) [reaction258_forw]
+  pKCaMcomplex_0_1_0_1 -> KCaM_0_1 + pKCaM_0_1 , ( 1.0) * (k2CaMKoff) [reaction259_forw]
+  KCaM_0_2 + pKCaM_0_1 -> pKCaMcomplex_0_1_0_2 , ( 1.0) * (k2CaMKon) [reaction260_forw]
+  pKCaMcomplex_0_1_0_2 -> KCaM_0_2 + pKCaM_0_1 , ( 1.0) * (k2CaMKoff) [reaction261_forw]
+  KCaM_1_0 + pKCaM_0_1 -> pKCaMcomplex_0_1_1_0 , ( 1.0) * (k2CaMKon) [reaction262_forw]
+  pKCaMcomplex_0_1_1_0 -> KCaM_1_0 + pKCaM_0_1 , ( 1.0) * (k2CaMKoff) [reaction263_forw]
+  KCaM_1_1 + pKCaM_0_1 -> pKCaMcomplex_0_1_1_1 , ( 1.0) * (k2CaMKon) [reaction264_forw]
+  pKCaMcomplex_0_1_1_1 -> KCaM_1_1 + pKCaM_0_1 , ( 1.0) * (k2CaMKoff) [reaction265_forw]
+  KCaM_1_2 + pKCaM_0_1 -> pKCaMcomplex_0_1_1_2 , ( 1.0) * (k2CaMKon) [reaction266_forw]
+  pKCaMcomplex_0_1_1_2 -> KCaM_1_2 + pKCaM_0_1 , ( 1.0) * (k2CaMKoff) [reaction267_forw]
+  KCaM_2_0 + pKCaM_0_1 -> pKCaMcomplex_0_1_2_0 , ( 1.0) * (k2CaMKon) [reaction268_forw]
+  pKCaMcomplex_0_1_2_0 -> KCaM_2_0 + pKCaM_0_1 , ( 1.0) * (k2CaMKoff) [reaction269_forw]
+  KCaM_2_1 + pKCaM_0_1 -> pKCaMcomplex_0_1_2_1 , ( 1.0) * (k2CaMKon) [reaction270_forw]
+  pKCaMcomplex_0_1_2_1 -> KCaM_2_1 + pKCaM_0_1 , ( 1.0) * (k2CaMKoff) [reaction271_forw]
+  KCaM_2_2 + pKCaM_0_1 -> pKCaMcomplex_0_1_2_2 , ( 1.0) * (k2CaMKon) [reaction272_forw]
+  pKCaMcomplex_0_1_2_2 -> KCaM_2_2 + pKCaM_0_1 , ( 1.0) * (k2CaMKoff) [reaction273_forw]
+  KCaM_0_0 + pKCaM_0_2 -> pKCaMcomplex_0_2_0_0 , ( 1.0) * (k2CaMKon) [reaction274_forw]
+  pKCaMcomplex_0_2_0_0 -> KCaM_0_0 + pKCaM_0_2 , ( 1.0) * (k2CaMKoff) [reaction275_forw]
+  KCaM_0_1 + pKCaM_0_2 -> pKCaMcomplex_0_2_0_1 , ( 1.0) * (k2CaMKon) [reaction276_forw]
+  pKCaMcomplex_0_2_0_1 -> KCaM_0_1 + pKCaM_0_2 , ( 1.0) * (k2CaMKoff) [reaction277_forw]
+  KCaM_0_2 + pKCaM_0_2 -> pKCaMcomplex_0_2_0_2 , ( 1.0) * (k2CaMKon) [reaction278_forw]
+  pKCaMcomplex_0_2_0_2 -> KCaM_0_2 + pKCaM_0_2 , ( 1.0) * (k2CaMKoff) [reaction279_forw]
+  KCaM_1_0 + pKCaM_0_2 -> pKCaMcomplex_0_2_1_0 , ( 1.0) * (k2CaMKon) [reaction280_forw]
+  pKCaMcomplex_0_2_1_0 -> KCaM_1_0 + pKCaM_0_2 , ( 1.0) * (k2CaMKoff) [reaction281_forw]
+  KCaM_1_1 + pKCaM_0_2 -> pKCaMcomplex_0_2_1_1 , ( 1.0) * (k2CaMKon) [reaction282_forw]
+  pKCaMcomplex_0_2_1_1 -> KCaM_1_1 + pKCaM_0_2 , ( 1.0) * (k2CaMKoff) [reaction283_forw]
+  KCaM_1_2 + pKCaM_0_2 -> pKCaMcomplex_0_2_1_2 , ( 1.0) * (k2CaMKon) [reaction284_forw]
+  pKCaMcomplex_0_2_1_2 -> KCaM_1_2 + pKCaM_0_2 , ( 1.0) * (k2CaMKoff) [reaction285_forw]
+  KCaM_2_0 + pKCaM_0_2 -> pKCaMcomplex_0_2_2_0 , ( 1.0) * (k2CaMKon) [reaction286_forw]
+  pKCaMcomplex_0_2_2_0 -> KCaM_2_0 + pKCaM_0_2 , ( 1.0) * (k2CaMKoff) [reaction287_forw]
+  KCaM_2_1 + pKCaM_0_2 -> pKCaMcomplex_0_2_2_1 , ( 1.0) * (k2CaMKon) [reaction288_forw]
+  pKCaMcomplex_0_2_2_1 -> KCaM_2_1 + pKCaM_0_2 , ( 1.0) * (k2CaMKoff) [reaction289_forw]
+  KCaM_2_2 + pKCaM_0_2 -> pKCaMcomplex_0_2_2_2 , ( 1.0) * (k2CaMKon) [reaction290_forw]
+  pKCaMcomplex_0_2_2_2 -> KCaM_2_2 + pKCaM_0_2 , ( 1.0) * (k2CaMKoff) [reaction291_forw]
+  KCaM_0_0 + pKCaM_1_0 -> pKCaMcomplex_1_0_0_0 , ( 1.0) * (k2CaMKon) [reaction292_forw]
+  pKCaMcomplex_1_0_0_0 -> KCaM_0_0 + pKCaM_1_0 , ( 1.0) * (k2CaMKoff) [reaction293_forw]
+  KCaM_0_1 + pKCaM_1_0 -> pKCaMcomplex_1_0_0_1 , ( 1.0) * (k2CaMKon) [reaction294_forw]
+  pKCaMcomplex_1_0_0_1 -> KCaM_0_1 + pKCaM_1_0 , ( 1.0) * (k2CaMKoff) [reaction295_forw]
+  KCaM_0_2 + pKCaM_1_0 -> pKCaMcomplex_1_0_0_2 , ( 1.0) * (k2CaMKon) [reaction296_forw]
+  pKCaMcomplex_1_0_0_2 -> KCaM_0_2 + pKCaM_1_0 , ( 1.0) * (k2CaMKoff) [reaction297_forw]
+  KCaM_1_0 + pKCaM_1_0 -> pKCaMcomplex_1_0_1_0 , ( 1.0) * (k2CaMKon) [reaction298_forw]
+  pKCaMcomplex_1_0_1_0 -> KCaM_1_0 + pKCaM_1_0 , ( 1.0) * (k2CaMKoff) [reaction299_forw]
+  KCaM_1_1 + pKCaM_1_0 -> pKCaMcomplex_1_0_1_1 , ( 1.0) * (k2CaMKon) [reaction300_forw]
+  pKCaMcomplex_1_0_1_1 -> KCaM_1_1 + pKCaM_1_0 , ( 1.0) * (k2CaMKoff) [reaction301_forw]
+  KCaM_1_2 + pKCaM_1_0 -> pKCaMcomplex_1_0_1_2 , ( 1.0) * (k2CaMKon) [reaction302_forw]
+  pKCaMcomplex_1_0_1_2 -> KCaM_1_2 + pKCaM_1_0 , ( 1.0) * (k2CaMKoff) [reaction303_forw]
+  KCaM_2_0 + pKCaM_1_0 -> pKCaMcomplex_1_0_2_0 , ( 1.0) * (k2CaMKon) [reaction304_forw]
+  pKCaMcomplex_1_0_2_0 -> KCaM_2_0 + pKCaM_1_0 , ( 1.0) * (k2CaMKoff) [reaction305_forw]
+  KCaM_2_1 + pKCaM_1_0 -> pKCaMcomplex_1_0_2_1 , ( 1.0) * (k2CaMKon) [reaction306_forw]
+  pKCaMcomplex_1_0_2_1 -> KCaM_2_1 + pKCaM_1_0 , ( 1.0) * (k2CaMKoff) [reaction307_forw]
+  KCaM_2_2 + pKCaM_1_0 -> pKCaMcomplex_1_0_2_2 , ( 1.0) * (k2CaMKon) [reaction308_forw]
+  pKCaMcomplex_1_0_2_2 -> KCaM_2_2 + pKCaM_1_0 , ( 1.0) * (k2CaMKoff) [reaction309_forw]
+  KCaM_0_0 + pKCaM_1_1 -> pKCaMcomplex_1_1_0_0 , ( 1.0) * (k2CaMKon) [reaction310_forw]
+  pKCaMcomplex_1_1_0_0 -> KCaM_0_0 + pKCaM_1_1 , ( 1.0) * (k2CaMKoff) [reaction311_forw]
+  KCaM_0_1 + pKCaM_1_1 -> pKCaMcomplex_1_1_0_1 , ( 1.0) * (k2CaMKon) [reaction312_forw]
+  pKCaMcomplex_1_1_0_1 -> KCaM_0_1 + pKCaM_1_1 , ( 1.0) * (k2CaMKoff) [reaction313_forw]
+  KCaM_0_2 + pKCaM_1_1 -> pKCaMcomplex_1_1_0_2 , ( 1.0) * (k2CaMKon) [reaction314_forw]
+  pKCaMcomplex_1_1_0_2 -> KCaM_0_2 + pKCaM_1_1 , ( 1.0) * (k2CaMKoff) [reaction315_forw]
+  KCaM_1_0 + pKCaM_1_1 -> pKCaMcomplex_1_1_1_0 , ( 1.0) * (k2CaMKon) [reaction316_forw]
+  pKCaMcomplex_1_1_1_0 -> KCaM_1_0 + pKCaM_1_1 , ( 1.0) * (k2CaMKoff) [reaction317_forw]
+  KCaM_1_1 + pKCaM_1_1 -> pKCaMcomplex_1_1_1_1 , ( 1.0) * (k2CaMKon) [reaction318_forw]
+  pKCaMcomplex_1_1_1_1 -> KCaM_1_1 + pKCaM_1_1 , ( 1.0) * (k2CaMKoff) [reaction319_forw]
+  KCaM_1_2 + pKCaM_1_1 -> pKCaMcomplex_1_1_1_2 , ( 1.0) * (k2CaMKon) [reaction320_forw]
+  pKCaMcomplex_1_1_1_2 -> KCaM_1_2 + pKCaM_1_1 , ( 1.0) * (k2CaMKoff) [reaction321_forw]
+  KCaM_2_0 + pKCaM_1_1 -> pKCaMcomplex_1_1_2_0 , ( 1.0) * (k2CaMKon) [reaction322_forw]
+  pKCaMcomplex_1_1_2_0 -> KCaM_2_0 + pKCaM_1_1 , ( 1.0) * (k2CaMKoff) [reaction323_forw]
+  KCaM_2_1 + pKCaM_1_1 -> pKCaMcomplex_1_1_2_1 , ( 1.0) * (k2CaMKon) [reaction324_forw]
+  pKCaMcomplex_1_1_2_1 -> KCaM_2_1 + pKCaM_1_1 , ( 1.0) * (k2CaMKoff) [reaction325_forw]
+  KCaM_2_2 + pKCaM_1_1 -> pKCaMcomplex_1_1_2_2 , ( 1.0) * (k2CaMKon) [reaction326_forw]
+  pKCaMcomplex_1_1_2_2 -> KCaM_2_2 + pKCaM_1_1 , ( 1.0) * (k2CaMKoff) [reaction327_forw]
+  KCaM_0_0 + pKCaM_1_2 -> pKCaMcomplex_1_2_0_0 , ( 1.0) * (k2CaMKon) [reaction328_forw]
+  pKCaMcomplex_1_2_0_0 -> KCaM_0_0 + pKCaM_1_2 , ( 1.0) * (k2CaMKoff) [reaction329_forw]
+  KCaM_0_1 + pKCaM_1_2 -> pKCaMcomplex_1_2_0_1 , ( 1.0) * (k2CaMKon) [reaction330_forw]
+  pKCaMcomplex_1_2_0_1 -> KCaM_0_1 + pKCaM_1_2 , ( 1.0) * (k2CaMKoff) [reaction331_forw]
+  KCaM_0_2 + pKCaM_1_2 -> pKCaMcomplex_1_2_0_2 , ( 1.0) * (k2CaMKon) [reaction332_forw]
+  pKCaMcomplex_1_2_0_2 -> KCaM_0_2 + pKCaM_1_2 , ( 1.0) * (k2CaMKoff) [reaction333_forw]
+  KCaM_1_0 + pKCaM_1_2 -> pKCaMcomplex_1_2_1_0 , ( 1.0) * (k2CaMKon) [reaction334_forw]
+  pKCaMcomplex_1_2_1_0 -> KCaM_1_0 + pKCaM_1_2 , ( 1.0) * (k2CaMKoff) [reaction335_forw]
+  KCaM_1_1 + pKCaM_1_2 -> pKCaMcomplex_1_2_1_1 , ( 1.0) * (k2CaMKon) [reaction336_forw]
+  pKCaMcomplex_1_2_1_1 -> KCaM_1_1 + pKCaM_1_2 , ( 1.0) * (k2CaMKoff) [reaction337_forw]
+  KCaM_1_2 + pKCaM_1_2 -> pKCaMcomplex_1_2_1_2 , ( 1.0) * (k2CaMKon) [reaction338_forw]
+  pKCaMcomplex_1_2_1_2 -> KCaM_1_2 + pKCaM_1_2 , ( 1.0) * (k2CaMKoff) [reaction339_forw]
+  KCaM_2_0 + pKCaM_1_2 -> pKCaMcomplex_1_2_2_0 , ( 1.0) * (k2CaMKon) [reaction340_forw]
+  pKCaMcomplex_1_2_2_0 -> KCaM_2_0 + pKCaM_1_2 , ( 1.0) * (k2CaMKoff) [reaction341_forw]
+  KCaM_2_1 + pKCaM_1_2 -> pKCaMcomplex_1_2_2_1 , ( 1.0) * (k2CaMKon) [reaction342_forw]
+  pKCaMcomplex_1_2_2_1 -> KCaM_2_1 + pKCaM_1_2 , ( 1.0) * (k2CaMKoff) [reaction343_forw]
+  KCaM_2_2 + pKCaM_1_2 -> pKCaMcomplex_1_2_2_2 , ( 1.0) * (k2CaMKon) [reaction344_forw]
+  pKCaMcomplex_1_2_2_2 -> KCaM_2_2 + pKCaM_1_2 , ( 1.0) * (k2CaMKoff) [reaction345_forw]
+  KCaM_0_0 + pKCaM_2_0 -> pKCaMcomplex_2_0_0_0 , ( 1.0) * (k2CaMKon) [reaction346_forw]
+  pKCaMcomplex_2_0_0_0 -> KCaM_0_0 + pKCaM_2_0 , ( 1.0) * (k2CaMKoff) [reaction347_forw]
+  KCaM_0_1 + pKCaM_2_0 -> pKCaMcomplex_2_0_0_1 , ( 1.0) * (k2CaMKon) [reaction348_forw]
+  pKCaMcomplex_2_0_0_1 -> KCaM_0_1 + pKCaM_2_0 , ( 1.0) * (k2CaMKoff) [reaction349_forw]
+  KCaM_0_2 + pKCaM_2_0 -> pKCaMcomplex_2_0_0_2 , ( 1.0) * (k2CaMKon) [reaction350_forw]
+  pKCaMcomplex_2_0_0_2 -> KCaM_0_2 + pKCaM_2_0 , ( 1.0) * (k2CaMKoff) [reaction351_forw]
+  KCaM_1_0 + pKCaM_2_0 -> pKCaMcomplex_2_0_1_0 , ( 1.0) * (k2CaMKon) [reaction352_forw]
+  pKCaMcomplex_2_0_1_0 -> KCaM_1_0 + pKCaM_2_0 , ( 1.0) * (k2CaMKoff) [reaction353_forw]
+  KCaM_1_1 + pKCaM_2_0 -> pKCaMcomplex_2_0_1_1 , ( 1.0) * (k2CaMKon) [reaction354_forw]
+  pKCaMcomplex_2_0_1_1 -> KCaM_1_1 + pKCaM_2_0 , ( 1.0) * (k2CaMKoff) [reaction355_forw]
+  KCaM_1_2 + pKCaM_2_0 -> pKCaMcomplex_2_0_1_2 , ( 1.0) * (k2CaMKon) [reaction356_forw]
+  pKCaMcomplex_2_0_1_2 -> KCaM_1_2 + pKCaM_2_0 , ( 1.0) * (k2CaMKoff) [reaction357_forw]
+  KCaM_2_0 + pKCaM_2_0 -> pKCaMcomplex_2_0_2_0 , ( 1.0) * (k2CaMKon) [reaction358_forw]
+  pKCaMcomplex_2_0_2_0 -> KCaM_2_0 + pKCaM_2_0 , ( 1.0) * (k2CaMKoff) [reaction359_forw]
+  KCaM_2_1 + pKCaM_2_0 -> pKCaMcomplex_2_0_2_1 , ( 1.0) * (k2CaMKon) [reaction360_forw]
+  pKCaMcomplex_2_0_2_1 -> KCaM_2_1 + pKCaM_2_0 , ( 1.0) * (k2CaMKoff) [reaction361_forw]
+  KCaM_2_2 + pKCaM_2_0 -> pKCaMcomplex_2_0_2_2 , ( 1.0) * (k2CaMKon) [reaction362_forw]
+  pKCaMcomplex_2_0_2_2 -> KCaM_2_2 + pKCaM_2_0 , ( 1.0) * (k2CaMKoff) [reaction363_forw]
+  KCaM_0_0 + pKCaM_2_1 -> pKCaMcomplex_2_1_0_0 , ( 1.0) * (k2CaMKon) [reaction364_forw]
+  pKCaMcomplex_2_1_0_0 -> KCaM_0_0 + pKCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction365_forw]
+  KCaM_0_1 + pKCaM_2_1 -> pKCaMcomplex_2_1_0_1 , ( 1.0) * (k2CaMKon) [reaction366_forw]
+  pKCaMcomplex_2_1_0_1 -> KCaM_0_1 + pKCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction367_forw]
+  KCaM_0_2 + pKCaM_2_1 -> pKCaMcomplex_2_1_0_2 , ( 1.0) * (k2CaMKon) [reaction368_forw]
+  pKCaMcomplex_2_1_0_2 -> KCaM_0_2 + pKCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction369_forw]
+  KCaM_1_0 + pKCaM_2_1 -> pKCaMcomplex_2_1_1_0 , ( 1.0) * (k2CaMKon) [reaction370_forw]
+  pKCaMcomplex_2_1_1_0 -> KCaM_1_0 + pKCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction371_forw]
+  KCaM_1_1 + pKCaM_2_1 -> pKCaMcomplex_2_1_1_1 , ( 1.0) * (k2CaMKon) [reaction372_forw]
+  pKCaMcomplex_2_1_1_1 -> KCaM_1_1 + pKCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction373_forw]
+  KCaM_1_2 + pKCaM_2_1 -> pKCaMcomplex_2_1_1_2 , ( 1.0) * (k2CaMKon) [reaction374_forw]
+  pKCaMcomplex_2_1_1_2 -> KCaM_1_2 + pKCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction375_forw]
+  KCaM_2_0 + pKCaM_2_1 -> pKCaMcomplex_2_1_2_0 , ( 1.0) * (k2CaMKon) [reaction376_forw]
+  pKCaMcomplex_2_1_2_0 -> KCaM_2_0 + pKCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction377_forw]
+  KCaM_2_1 + pKCaM_2_1 -> pKCaMcomplex_2_1_2_1 , ( 1.0) * (k2CaMKon) [reaction378_forw]
+  pKCaMcomplex_2_1_2_1 -> KCaM_2_1 + pKCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction379_forw]
+  KCaM_2_2 + pKCaM_2_1 -> pKCaMcomplex_2_1_2_2 , ( 1.0) * (k2CaMKon) [reaction380_forw]
+  pKCaMcomplex_2_1_2_2 -> KCaM_2_2 + pKCaM_2_1 , ( 1.0) * (k2CaMKoff) [reaction381_forw]
+  KCaM_0_0 + pKCaM_2_2 -> pKCaMcomplex_2_2_0_0 , ( 1.0) * (k2CaMKon) [reaction382_forw]
+  pKCaMcomplex_2_2_0_0 -> KCaM_0_0 + pKCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction383_forw]
+  KCaM_0_1 + pKCaM_2_2 -> pKCaMcomplex_2_2_0_1 , ( 1.0) * (k2CaMKon) [reaction384_forw]
+  pKCaMcomplex_2_2_0_1 -> KCaM_0_1 + pKCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction385_forw]
+  KCaM_0_2 + pKCaM_2_2 -> pKCaMcomplex_2_2_0_2 , ( 1.0) * (k2CaMKon) [reaction386_forw]
+  pKCaMcomplex_2_2_0_2 -> KCaM_0_2 + pKCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction387_forw]
+  KCaM_1_0 + pKCaM_2_2 -> pKCaMcomplex_2_2_1_0 , ( 1.0) * (k2CaMKon) [reaction388_forw]
+  pKCaMcomplex_2_2_1_0 -> KCaM_1_0 + pKCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction389_forw]
+  KCaM_1_1 + pKCaM_2_2 -> pKCaMcomplex_2_2_1_1 , ( 1.0) * (k2CaMKon) [reaction390_forw]
+  pKCaMcomplex_2_2_1_1 -> KCaM_1_1 + pKCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction391_forw]
+  KCaM_1_2 + pKCaM_2_2 -> pKCaMcomplex_2_2_1_2 , ( 1.0) * (k2CaMKon) [reaction392_forw]
+  pKCaMcomplex_2_2_1_2 -> KCaM_1_2 + pKCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction393_forw]
+  KCaM_2_0 + pKCaM_2_2 -> pKCaMcomplex_2_2_2_0 , ( 1.0) * (k2CaMKon) [reaction394_forw]
+  pKCaMcomplex_2_2_2_0 -> KCaM_2_0 + pKCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction395_forw]
+  KCaM_2_1 + pKCaM_2_2 -> pKCaMcomplex_2_2_2_1 , ( 1.0) * (k2CaMKon) [reaction396_forw]
+  pKCaMcomplex_2_2_2_1 -> KCaM_2_1 + pKCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction397_forw]
+  KCaM_2_2 + pKCaM_2_2 -> pKCaMcomplex_2_2_2_2 , ( 1.0) * (k2CaMKon) [reaction398_forw]
+  pKCaMcomplex_2_2_2_2 -> KCaM_2_2 + pKCaM_2_2 , ( 1.0) * (k2CaMKoff) [reaction399_forw]
+  pKCaMcomplex_0_0_0_1 -> pKCaM_0_0 + pKCaM_0_1 , ( 1.0) * (kpCaM1N) [reaction401_forw]
+  pKCaMcomplex_0_0_0_2 -> pKCaM_0_0 + pKCaM_0_2 , ( 1.0) * (kpCaM2N) [reaction402_forw]
+  pKCaMcomplex_0_0_1_0 -> pKCaM_0_0 + pKCaM_1_0 , ( 1.0) * (kpCaM1C) [reaction403_forw]
+  pKCaMcomplex_0_0_1_1 -> pKCaM_0_0 + pKCaM_1_1 , ( 1.0) * (kpCaM1C1N) [reaction404_forw]
+  pKCaMcomplex_0_0_1_2 -> pKCaM_0_0 + pKCaM_1_2 , ( 1.0) * (kpCaM1C2N) [reaction405_forw]
+  pKCaMcomplex_0_0_2_0 -> pKCaM_0_0 + pKCaM_2_0 , ( 1.0) * (kpCaM2C) [reaction406_forw]
+  pKCaMcomplex_0_0_2_1 -> pKCaM_0_0 + pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction407_forw]
+  pKCaMcomplex_0_0_2_2 -> pKCaM_0_0 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction408_forw]
+  pKCaMcomplex_0_1_0_1 -> 2*pKCaM_0_1 , ( 1.0) * (kpCaM1N) [reaction410_forw]
+  pKCaMcomplex_0_1_0_2 -> pKCaM_0_1 + pKCaM_0_2 , ( 1.0) * (kpCaM2N) [reaction411_forw]
+  pKCaMcomplex_0_1_1_0 -> pKCaM_0_1 + pKCaM_1_0 , ( 1.0) * (kpCaM1C) [reaction412_forw]
+  pKCaMcomplex_0_1_1_1 -> pKCaM_0_1 + pKCaM_1_1 , ( 1.0) * (kpCaM1C1N) [reaction413_forw]
+  pKCaMcomplex_0_1_1_2 -> pKCaM_0_1 + pKCaM_1_2 , ( 1.0) * (kpCaM1C2N) [reaction414_forw]
+  pKCaMcomplex_0_1_2_0 -> pKCaM_0_1 + pKCaM_2_0 , ( 1.0) * (kpCaM2C) [reaction415_forw]
+  pKCaMcomplex_0_1_2_1 -> pKCaM_0_1 + pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction416_forw]
+  pKCaMcomplex_0_1_2_2 -> pKCaM_0_1 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction417_forw]
+  pKCaMcomplex_0_2_0_1 -> pKCaM_0_1 + pKCaM_0_2 , ( 1.0) * (kpCaM1N) [reaction419_forw]
+  pKCaMcomplex_0_2_0_2 -> 2*pKCaM_0_2 , ( 1.0) * (kpCaM2N) [reaction420_forw]
+  pKCaMcomplex_0_2_1_0 -> pKCaM_0_2 + pKCaM_1_0 , ( 1.0) * (kpCaM1C) [reaction421_forw]
+  pKCaMcomplex_0_2_1_1 -> pKCaM_0_2 + pKCaM_1_1 , ( 1.0) * (kpCaM1C1N) [reaction422_forw]
+  pKCaMcomplex_0_2_1_2 -> pKCaM_0_2 + pKCaM_1_2 , ( 1.0) * (kpCaM1C2N) [reaction423_forw]
+  pKCaMcomplex_0_2_2_0 -> pKCaM_0_2 + pKCaM_2_0 , ( 1.0) * (kpCaM2C) [reaction424_forw]
+  pKCaMcomplex_0_2_2_1 -> pKCaM_0_2 + pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction425_forw]
+  pKCaMcomplex_0_2_2_2 -> pKCaM_0_2 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction426_forw]
+  pKCaMcomplex_1_0_0_1 -> pKCaM_0_1 + pKCaM_1_0 , ( 1.0) * (kpCaM1N) [reaction428_forw]
+  pKCaMcomplex_1_0_0_2 -> pKCaM_0_2 + pKCaM_1_0 , ( 1.0) * (kpCaM2N) [reaction429_forw]
+  pKCaMcomplex_1_0_1_0 -> 2*pKCaM_1_0 , ( 1.0) * (kpCaM1C) [reaction430_forw]
+  pKCaMcomplex_1_0_1_1 -> pKCaM_1_0 + pKCaM_1_1 , ( 1.0) * (kpCaM1C1N) [reaction431_forw]
+  pKCaMcomplex_1_0_1_2 -> pKCaM_1_0 + pKCaM_1_2 , ( 1.0) * (kpCaM1C2N) [reaction432_forw]
+  pKCaMcomplex_1_0_2_0 -> pKCaM_1_0 + pKCaM_2_0 , ( 1.0) * (kpCaM2C) [reaction433_forw]
+  pKCaMcomplex_1_0_2_1 -> pKCaM_1_0 + pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction434_forw]
+  pKCaMcomplex_1_0_2_2 -> pKCaM_1_0 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction435_forw]
+  pKCaMcomplex_1_1_0_1 -> pKCaM_0_1 + pKCaM_1_1 , ( 1.0) * (kpCaM1N) [reaction437_forw]
+  pKCaMcomplex_1_1_0_2 -> pKCaM_0_2 + pKCaM_1_1 , ( 1.0) * (kpCaM2N) [reaction438_forw]
+  pKCaMcomplex_1_1_1_0 -> pKCaM_1_0 + pKCaM_1_1 , ( 1.0) * (kpCaM1C) [reaction439_forw]
+  pKCaMcomplex_1_1_1_1 -> 2*pKCaM_1_1 , ( 1.0) * (kpCaM1C1N) [reaction440_forw]
+  pKCaMcomplex_1_1_1_2 -> pKCaM_1_1 + pKCaM_1_2 , ( 1.0) * (kpCaM1C2N) [reaction441_forw]
+  pKCaMcomplex_1_1_2_0 -> pKCaM_1_1 + pKCaM_2_0 , ( 1.0) * (kpCaM2C) [reaction442_forw]
+  pKCaMcomplex_1_1_2_1 -> pKCaM_1_1 + pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction443_forw]
+  pKCaMcomplex_1_1_2_2 -> pKCaM_1_1 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction444_forw]
+  pKCaMcomplex_1_2_0_1 -> pKCaM_0_1 + pKCaM_1_2 , ( 1.0) * (kpCaM1N) [reaction446_forw]
+  pKCaMcomplex_1_2_0_2 -> pKCaM_0_2 + pKCaM_1_2 , ( 1.0) * (kpCaM2N) [reaction447_forw]
+  pKCaMcomplex_1_2_1_0 -> pKCaM_1_0 + pKCaM_1_2 , ( 1.0) * (kpCaM1C) [reaction448_forw]
+  pKCaMcomplex_1_2_1_1 -> pKCaM_1_1 + pKCaM_1_2 , ( 1.0) * (kpCaM1C1N) [reaction449_forw]
+  pKCaMcomplex_1_2_1_2 -> 2*pKCaM_1_2 , ( 1.0) * (kpCaM1C2N) [reaction450_forw]
+  pKCaMcomplex_1_2_2_0 -> pKCaM_1_2 + pKCaM_2_0 , ( 1.0) * (kpCaM2C) [reaction451_forw]
+  pKCaMcomplex_1_2_2_1 -> pKCaM_1_2 + pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction452_forw]
+  pKCaMcomplex_1_2_2_2 -> pKCaM_1_2 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction453_forw]
+  pKCaMcomplex_2_0_0_1 -> pKCaM_0_1 + pKCaM_2_0 , ( 1.0) * (kpCaM1N) [reaction455_forw]
+  pKCaMcomplex_2_0_0_2 -> pKCaM_0_2 + pKCaM_2_0 , ( 1.0) * (kpCaM2N) [reaction456_forw]
+  pKCaMcomplex_2_0_1_0 -> pKCaM_1_0 + pKCaM_2_0 , ( 1.0) * (kpCaM1C) [reaction457_forw]
+  pKCaMcomplex_2_0_1_1 -> pKCaM_1_1 + pKCaM_2_0 , ( 1.0) * (kpCaM1C1N) [reaction458_forw]
+  pKCaMcomplex_2_0_1_2 -> pKCaM_1_2 + pKCaM_2_0 , ( 1.0) * (kpCaM1C2N) [reaction459_forw]
+  pKCaMcomplex_2_0_2_0 -> 2*pKCaM_2_0 , ( 1.0) * (kpCaM2C) [reaction460_forw]
+  pKCaMcomplex_2_0_2_1 -> pKCaM_2_0 + pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction461_forw]
+  pKCaMcomplex_2_0_2_2 -> pKCaM_2_0 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction462_forw]
+  pKCaMcomplex_2_1_0_1 -> pKCaM_0_1 + pKCaM_2_1 , ( 1.0) * (kpCaM1N) [reaction464_forw]
+  pKCaMcomplex_2_1_0_2 -> pKCaM_0_2 + pKCaM_2_1 , ( 1.0) * (kpCaM2N) [reaction465_forw]
+  pKCaMcomplex_2_1_1_0 -> pKCaM_1_0 + pKCaM_2_1 , ( 1.0) * (kpCaM1C) [reaction466_forw]
+  pKCaMcomplex_2_1_1_1 -> pKCaM_1_1 + pKCaM_2_1 , ( 1.0) * (kpCaM1C1N) [reaction467_forw]
+  pKCaMcomplex_2_1_1_2 -> pKCaM_1_2 + pKCaM_2_1 , ( 1.0) * (kpCaM1C2N) [reaction468_forw]
+  pKCaMcomplex_2_1_2_0 -> pKCaM_2_0 + pKCaM_2_1 , ( 1.0) * (kpCaM2C) [reaction469_forw]
+  pKCaMcomplex_2_1_2_1 -> 2*pKCaM_2_1 , ( 1.0) * (kpCaM2C1N) [reaction470_forw]
+  pKCaMcomplex_2_1_2_2 -> pKCaM_2_1 + pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction471_forw]
+  pKCaMcomplex_2_2_0_1 -> pKCaM_0_1 + pKCaM_2_2 , ( 1.0) * (kpCaM1N) [reaction473_forw]
+  pKCaMcomplex_2_2_0_2 -> pKCaM_0_2 + pKCaM_2_2 , ( 1.0) * (kpCaM2N) [reaction474_forw]
+  pKCaMcomplex_2_2_1_0 -> pKCaM_1_0 + pKCaM_2_2 , ( 1.0) * (kpCaM1C) [reaction475_forw]
+  pKCaMcomplex_2_2_1_1 -> pKCaM_1_1 + pKCaM_2_2 , ( 1.0) * (kpCaM1C1N) [reaction476_forw]
+  pKCaMcomplex_2_2_1_2 -> pKCaM_1_2 + pKCaM_2_2 , ( 1.0) * (kpCaM1C2N) [reaction477_forw]
+  pKCaMcomplex_2_2_2_0 -> pKCaM_2_0 + pKCaM_2_2 , ( 1.0) * (kpCaM2C) [reaction478_forw]
+  pKCaMcomplex_2_2_2_1 -> pKCaM_2_1 + pKCaM_2_2 , ( 1.0) * (kpCaM2C1N) [reaction479_forw]
+  pKCaMcomplex_2_2_2_2 -> 2*pKCaM_2_2 , ( 1.0) * (kpCaM4) [reaction480_forw]
+ end reactions
+
+end model
+

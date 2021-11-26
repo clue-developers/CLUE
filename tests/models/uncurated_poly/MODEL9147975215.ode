@@ -1,0 +1,156 @@
+begin model MODEL9147975215
+ begin init
+  R = 0.427350427350427
+  C
+  C_star_
+  C2
+  A1 = 0.0427350427350427
+  A2 = 0.0427350427350427
+  C_star_A1
+  A1A2
+  E0_star_
+  E0_star__slash_E1Aux_activ_slash_E1Aux_activ_cplx
+  E1Aux = 0.0427350427350427
+  E1Aux_star_
+  E1Aux_star__slash_E2_activ_slash_E2_activ_cplx
+  P1 = 0.0213675213675214
+  P1_slash_E1Aux_star__deactiv_slash_E1Aux_star__deactiv_cplx
+  E2 = 0.0427350427350427
+  E2_star_
+  E2_star__slash_E3_activ_slash_E3_activ_cplx
+  P2 = 0.0213675213675214
+  P2_slash_E2_star__deactiv_slash_E2_star__deactiv_cplx
+  E3 = 0.0427350427350427
+  E3_star_
+  E3_star__slash_E4_activ_slash_E4_activ_cplx
+  P3 = 0.0213675213675214
+  P3_slash_E3_star__deactiv_slash_E3_star__deactiv_cplx
+  E4 = 0.0427350427350427
+  E4_star_
+  E4_star__slash_E5_activ_slash_E5_activ_cplx
+  E4_star__slash_E4_star__adpt_fb_slash_E4_star__adpt_fb_cplx
+  P4 = 0.0213675213675214
+  P4_slash_E4_star__deactiv_slash_E4_star__deactiv_cplx
+  E5 = 0.0427350427350427
+  P5 = 0.0213675213675214
+  P5_slash_E5_star__deactiv_slash_E5_star__deactiv_cplx
+  E5_star_
+  A2_minus_
+  L = 0.03
+ end init
+ begin reactions
+  R + L -> R + C + L , 6.49743822E-14
+  R + L -> 2*R + L , ( -1) * (6.49743822E-14)
+  C -> R + C , ( -1) * (-(1.95E-15))
+  C -> 2*C , -(1.95E-15)
+  2*C -> 2*C + C2 , 3.8999961E-13
+  2*C -> 3*C , ( -2) * (3.8999961E-13)
+  C_star_ -> C_star_ + C2 , ( -1) * (-(3.2487E-14))
+  C_star_ -> 2*C_star_ , -(3.2487E-14)
+  C_star_ + A1 -> C_star_ + A1 + C_star_A1 , 1.95004368E-12
+  C_star_ + A1 -> C_star_ + 2*A1 , ( -1) * (1.95004368E-12)
+  C_star_ + A1 -> 2*C_star_ + A1 , ( -1) * (1.95004368E-12)
+  C_star_ + A1A2 -> C_star_ + A1A2 + E0_star_ , 1.95004368E-12
+  C_star_ + A1A2 -> C_star_ + 2*A1A2 , ( -1) * (1.95004368E-12)
+  C_star_ + A1A2 -> 2*C_star_ + A1A2 , ( -1) * (1.95004368E-12)
+  C2 -> C + C2 , ( -2) * (-(3.9E-13))
+  C2 -> C_star_ + C2 , 3.2487E-13
+  C2 -> 2*C2 , -(3.9E-13)+( -1) * (3.2487E-13)
+  A1 + A2 -> A1 + A2 + A1A2 , 1.95004368E-12
+  A1 + A2 -> A1 + 2*A2 , ( -1) * (1.95004368E-12)
+  A1 + A2 -> 2*A1 + A2 , ( -1) * (1.95004368E-12)
+  A2 + C_star_A1 -> A2 + C_star_A1 + E0_star_ , 1.95004368E-12
+  A2 + C_star_A1 -> A2 + 2*C_star_A1 , ( -1) * (1.95004368E-12)
+  A2 + C_star_A1 -> 2*A2 + C_star_A1 , ( -1) * (1.95004368E-12)
+  C_star_A1 -> C_star_ + C_star_A1 , ( -1) * (-(1.950039E-13))
+  C_star_A1 -> A1 + C_star_A1 , ( -1) * (-(1.950039E-13))
+  C_star_A1 -> 2*C_star_A1 , -(1.950039E-13)
+  A1A2 -> A1 + A1A2 , ( -1) * (-(1.950039E-13))
+  A1A2 -> A2 + A1A2 , ( -1) * (-(1.950039E-13))
+  A1A2 -> 2*A1A2 , -(1.950039E-13)
+  E0_star_ -> C_star_ + E0_star_ , ( -1) * (-(1.950039E-13))
+  E0_star_ -> A2 + E0_star_ , ( -1) * (-(1.950039E-13))
+  E0_star_ -> C_star_A1 + E0_star_ , ( -1) * (-(1.950039E-13))
+  E0_star_ -> A1A2 + E0_star_ , ( -1) * (-(1.950039E-13))
+  E0_star_ -> 2*E0_star_ , -(1.950039E-13)+-(1.950039E-13)
+  E0_star_ + E1Aux -> E0_star_ + E0_star__slash_E1Aux_activ_slash_E1Aux_activ_cplx + E1Aux , 3.8999961E-12
+  E0_star_ + E1Aux -> E0_star_ + 2*E1Aux , ( -1) * (3.8999961E-12)
+  E0_star_ + E1Aux -> 2*E0_star_ + E1Aux , ( -1) * (3.8999961E-12)
+  E0_star_ + E4_star_ -> E0_star_ + E4_star_ + E4_star__slash_E4_star__adpt_fb_slash_E4_star__adpt_fb_cplx , 3.8999961E-12
+  E0_star_ + E4_star_ -> E0_star_ + 2*E4_star_ , ( -1) * (3.8999961E-12)
+  E0_star_ + E4_star_ -> 2*E0_star_ + E4_star_ , ( -1) * (3.8999961E-12)
+  E0_star__slash_E1Aux_activ_slash_E1Aux_activ_cplx -> E0_star_ + E0_star__slash_E1Aux_activ_slash_E1Aux_activ_cplx , 3.9E-14+( -1) * (-(1.95E-13))
+  E0_star__slash_E1Aux_activ_slash_E1Aux_activ_cplx -> E0_star__slash_E1Aux_activ_slash_E1Aux_activ_cplx + E1Aux , ( -1) * (-(1.95E-13))
+  E0_star__slash_E1Aux_activ_slash_E1Aux_activ_cplx -> E0_star__slash_E1Aux_activ_slash_E1Aux_activ_cplx + E1Aux_star_ , 3.9E-14
+  E0_star__slash_E1Aux_activ_slash_E1Aux_activ_cplx -> 2*E0_star__slash_E1Aux_activ_slash_E1Aux_activ_cplx , -(1.95E-13)+( -1) * (3.9E-14)
+  E1Aux_star_ + P1 -> E1Aux_star_ + P1 + P1_slash_E1Aux_star__deactiv_slash_E1Aux_star__deactiv_cplx , 3.8999961E-12
+  E1Aux_star_ + P1 -> E1Aux_star_ + 2*P1 , ( -1) * (3.8999961E-12)
+  E1Aux_star_ + P1 -> 2*E1Aux_star_ + P1 , ( -1) * (3.8999961E-12)
+  E1Aux_star_ + E2 -> E1Aux_star_ + E1Aux_star__slash_E2_activ_slash_E2_activ_cplx + E2 , 3.8999961E-12
+  E1Aux_star_ + E2 -> E1Aux_star_ + 2*E2 , ( -1) * (3.8999961E-12)
+  E1Aux_star_ + E2 -> 2*E1Aux_star_ + E2 , ( -1) * (3.8999961E-12)
+  E1Aux_star__slash_E2_activ_slash_E2_activ_cplx -> E1Aux_star_ + E1Aux_star__slash_E2_activ_slash_E2_activ_cplx , 3.9E-14+( -1) * (-(1.95E-13))
+  E1Aux_star__slash_E2_activ_slash_E2_activ_cplx -> E1Aux_star__slash_E2_activ_slash_E2_activ_cplx + E2 , ( -1) * (-(1.95E-13))
+  E1Aux_star__slash_E2_activ_slash_E2_activ_cplx -> E1Aux_star__slash_E2_activ_slash_E2_activ_cplx + E2_star_ , 3.9E-14
+  E1Aux_star__slash_E2_activ_slash_E2_activ_cplx -> 2*E1Aux_star__slash_E2_activ_slash_E2_activ_cplx , -(1.95E-13)+( -1) * (3.9E-14)
+  P1_slash_E1Aux_star__deactiv_slash_E1Aux_star__deactiv_cplx -> E1Aux + P1_slash_E1Aux_star__deactiv_slash_E1Aux_star__deactiv_cplx , 3.9E-14
+  P1_slash_E1Aux_star__deactiv_slash_E1Aux_star__deactiv_cplx -> E1Aux_star_ + P1_slash_E1Aux_star__deactiv_slash_E1Aux_star__deactiv_cplx , ( -1) * (-(1.95E-13))
+  P1_slash_E1Aux_star__deactiv_slash_E1Aux_star__deactiv_cplx -> P1 + P1_slash_E1Aux_star__deactiv_slash_E1Aux_star__deactiv_cplx , 3.9E-14+( -1) * (-(1.95E-13))
+  P1_slash_E1Aux_star__deactiv_slash_E1Aux_star__deactiv_cplx -> 2*P1_slash_E1Aux_star__deactiv_slash_E1Aux_star__deactiv_cplx , -(1.95E-13)+( -1) * (3.9E-14)
+  E2_star_ + P2 -> E2_star_ + P2 + P2_slash_E2_star__deactiv_slash_E2_star__deactiv_cplx , 3.8999961E-12
+  E2_star_ + P2 -> E2_star_ + 2*P2 , ( -1) * (3.8999961E-12)
+  E2_star_ + P2 -> 2*E2_star_ + P2 , ( -1) * (3.8999961E-12)
+  E2_star_ + E3 -> E2_star_ + E2_star__slash_E3_activ_slash_E3_activ_cplx + E3 , 3.8999961E-12
+  E2_star_ + E3 -> E2_star_ + 2*E3 , ( -1) * (3.8999961E-12)
+  E2_star_ + E3 -> 2*E2_star_ + E3 , ( -1) * (3.8999961E-12)
+  E2_star__slash_E3_activ_slash_E3_activ_cplx -> E2_star_ + E2_star__slash_E3_activ_slash_E3_activ_cplx , 3.9E-14+( -1) * (-(1.95E-13))
+  E2_star__slash_E3_activ_slash_E3_activ_cplx -> E2_star__slash_E3_activ_slash_E3_activ_cplx + E3 , ( -1) * (-(1.95E-13))
+  E2_star__slash_E3_activ_slash_E3_activ_cplx -> E2_star__slash_E3_activ_slash_E3_activ_cplx + E3_star_ , 3.9E-14
+  E2_star__slash_E3_activ_slash_E3_activ_cplx -> 2*E2_star__slash_E3_activ_slash_E3_activ_cplx , -(1.95E-13)+( -1) * (3.9E-14)
+  P2_slash_E2_star__deactiv_slash_E2_star__deactiv_cplx -> E2 + P2_slash_E2_star__deactiv_slash_E2_star__deactiv_cplx , 3.9E-14
+  P2_slash_E2_star__deactiv_slash_E2_star__deactiv_cplx -> E2_star_ + P2_slash_E2_star__deactiv_slash_E2_star__deactiv_cplx , ( -1) * (-(1.95E-13))
+  P2_slash_E2_star__deactiv_slash_E2_star__deactiv_cplx -> P2 + P2_slash_E2_star__deactiv_slash_E2_star__deactiv_cplx , 3.9E-14+( -1) * (-(1.95E-13))
+  P2_slash_E2_star__deactiv_slash_E2_star__deactiv_cplx -> 2*P2_slash_E2_star__deactiv_slash_E2_star__deactiv_cplx , -(1.95E-13)+( -1) * (3.9E-14)
+  E3_star_ + P3 -> E3_star_ + P3 + P3_slash_E3_star__deactiv_slash_E3_star__deactiv_cplx , 3.8999961E-12
+  E3_star_ + P3 -> E3_star_ + 2*P3 , ( -1) * (3.8999961E-12)
+  E3_star_ + P3 -> 2*E3_star_ + P3 , ( -1) * (3.8999961E-12)
+  E3_star_ + E4 -> E3_star_ + E3_star__slash_E4_activ_slash_E4_activ_cplx + E4 , 3.8999961E-12
+  E3_star_ + E4 -> E3_star_ + 2*E4 , ( -1) * (3.8999961E-12)
+  E3_star_ + E4 -> 2*E3_star_ + E4 , ( -1) * (3.8999961E-12)
+  E3_star__slash_E4_activ_slash_E4_activ_cplx -> E3_star_ + E3_star__slash_E4_activ_slash_E4_activ_cplx , 3.9E-14+( -1) * (-(1.95E-13))
+  E3_star__slash_E4_activ_slash_E4_activ_cplx -> E3_star__slash_E4_activ_slash_E4_activ_cplx + E4 , ( -1) * (-(1.95E-13))
+  E3_star__slash_E4_activ_slash_E4_activ_cplx -> E3_star__slash_E4_activ_slash_E4_activ_cplx + E4_star_ , 3.9E-14
+  E3_star__slash_E4_activ_slash_E4_activ_cplx -> 2*E3_star__slash_E4_activ_slash_E4_activ_cplx , -(1.95E-13)+( -1) * (3.9E-14)
+  P3_slash_E3_star__deactiv_slash_E3_star__deactiv_cplx -> E3 + P3_slash_E3_star__deactiv_slash_E3_star__deactiv_cplx , 3.9E-14
+  P3_slash_E3_star__deactiv_slash_E3_star__deactiv_cplx -> E3_star_ + P3_slash_E3_star__deactiv_slash_E3_star__deactiv_cplx , ( -1) * (-(1.95E-13))
+  P3_slash_E3_star__deactiv_slash_E3_star__deactiv_cplx -> P3 + P3_slash_E3_star__deactiv_slash_E3_star__deactiv_cplx , 3.9E-14+( -1) * (-(1.95E-13))
+  P3_slash_E3_star__deactiv_slash_E3_star__deactiv_cplx -> 2*P3_slash_E3_star__deactiv_slash_E3_star__deactiv_cplx , -(1.95E-13)+( -1) * (3.9E-14)
+  E4_star_ + P4 -> E4_star_ + P4 + P4_slash_E4_star__deactiv_slash_E4_star__deactiv_cplx , 3.8999961E-12
+  E4_star_ + P4 -> E4_star_ + 2*P4 , ( -1) * (3.8999961E-12)
+  E4_star_ + P4 -> 2*E4_star_ + P4 , ( -1) * (3.8999961E-12)
+  E4_star_ + E5 -> E4_star_ + E4_star__slash_E5_activ_slash_E5_activ_cplx + E5 , 3.8999961E-12
+  E4_star_ + E5 -> E4_star_ + 2*E5 , ( -1) * (3.8999961E-12)
+  E4_star_ + E5 -> 2*E4_star_ + E5 , ( -1) * (3.8999961E-12)
+  E4_star__slash_E5_activ_slash_E5_activ_cplx -> E4_star_ + E4_star__slash_E5_activ_slash_E5_activ_cplx , 3.9E-14+( -1) * (-(1.95E-13))
+  E4_star__slash_E5_activ_slash_E5_activ_cplx -> E4_star__slash_E5_activ_slash_E5_activ_cplx + E5 , ( -1) * (-(1.95E-13))
+  E4_star__slash_E5_activ_slash_E5_activ_cplx -> E4_star__slash_E5_activ_slash_E5_activ_cplx + E5_star_ , 3.9E-14
+  E4_star__slash_E5_activ_slash_E5_activ_cplx -> 2*E4_star__slash_E5_activ_slash_E5_activ_cplx , -(1.95E-13)+( -1) * (3.9E-14)
+  E4_star__slash_E4_star__adpt_fb_slash_E4_star__adpt_fb_cplx -> E0_star_ + E4_star__slash_E4_star__adpt_fb_slash_E4_star__adpt_fb_cplx , ( -1) * (-(1.95E-13))
+  E4_star__slash_E4_star__adpt_fb_slash_E4_star__adpt_fb_cplx -> E4_star_ + E4_star__slash_E4_star__adpt_fb_slash_E4_star__adpt_fb_cplx , 3.9E-14+( -1) * (-(1.95E-13))
+  E4_star__slash_E4_star__adpt_fb_slash_E4_star__adpt_fb_cplx -> E4_star__slash_E4_star__adpt_fb_slash_E4_star__adpt_fb_cplx + A2_minus_ , 3.9E-14
+  E4_star__slash_E4_star__adpt_fb_slash_E4_star__adpt_fb_cplx -> 2*E4_star__slash_E4_star__adpt_fb_slash_E4_star__adpt_fb_cplx , -(1.95E-13)+( -1) * (3.9E-14)
+  P4_slash_E4_star__deactiv_slash_E4_star__deactiv_cplx -> E4 + P4_slash_E4_star__deactiv_slash_E4_star__deactiv_cplx , 3.9E-14
+  P4_slash_E4_star__deactiv_slash_E4_star__deactiv_cplx -> E4_star_ + P4_slash_E4_star__deactiv_slash_E4_star__deactiv_cplx , ( -1) * (-(1.95E-13))
+  P4_slash_E4_star__deactiv_slash_E4_star__deactiv_cplx -> P4 + P4_slash_E4_star__deactiv_slash_E4_star__deactiv_cplx , 3.9E-14+( -1) * (-(1.95E-13))
+  P4_slash_E4_star__deactiv_slash_E4_star__deactiv_cplx -> 2*P4_slash_E4_star__deactiv_slash_E4_star__deactiv_cplx , -(1.95E-13)+( -1) * (3.9E-14)
+  P5 + E5_star_ -> P5 + P5_slash_E5_star__deactiv_slash_E5_star__deactiv_cplx + E5_star_ , 3.8999961E-12
+  P5 + E5_star_ -> P5 + 2*E5_star_ , ( -1) * (3.8999961E-12)
+  P5 + E5_star_ -> 2*P5 + E5_star_ , ( -1) * (3.8999961E-12)
+  P5_slash_E5_star__deactiv_slash_E5_star__deactiv_cplx -> E5 + P5_slash_E5_star__deactiv_slash_E5_star__deactiv_cplx , 3.9E-14
+  P5_slash_E5_star__deactiv_slash_E5_star__deactiv_cplx -> P5 + P5_slash_E5_star__deactiv_slash_E5_star__deactiv_cplx , 3.9E-14+( -1) * (-(1.95E-13))
+  P5_slash_E5_star__deactiv_slash_E5_star__deactiv_cplx -> P5_slash_E5_star__deactiv_slash_E5_star__deactiv_cplx + E5_star_ , ( -1) * (-(1.95E-13))
+  P5_slash_E5_star__deactiv_slash_E5_star__deactiv_cplx -> 2*P5_slash_E5_star__deactiv_slash_E5_star__deactiv_cplx , -(1.95E-13)+( -1) * (3.9E-14)
+ end reactions
+
+end model
+

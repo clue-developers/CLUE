@@ -1,0 +1,20 @@
+begin model BIOMD0000000150
+ begin parameters
+  basal_fluorescence = 1.21210648148148
+  total_fluorescence = 0.138886574074074
+ end parameters
+ begin init
+  CDK2cycA
+  CyclinA = 4.0E-7
+  Cdk2 = 1.0E-7
+  CDK2cycA_star_
+ end init
+ begin reactions
+  CyclinA + Cdk2 -> CDK2cycA , ( 1.9E7) * (1.0E-12) [Binding_forw]
+  CDK2cycA -> CyclinA + Cdk2 , ( -1) * (-(( 25.0) * (1.0E-12))) [Binding_rev]
+  CDK2cycA -> CDK2cycA_star_ , ( 0.813) * (1.0E-12) [Activation_forw]
+  CDK2cycA_star_ -> CDK2cycA , ( -1) * (-(( 0.557) * (1.0E-12))) [Activation_rev]
+ end reactions
+
+end model
+

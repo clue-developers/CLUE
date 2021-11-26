@@ -1,0 +1,413 @@
+begin model BIOMD0000000492
+ begin parameters
+  kdiss_re1 = 1.0
+  kass_re1 = 1.0
+  kdiss_re2 = 1.0
+  kass_re2 = 1.0
+  kdiss_re3 = 1.0
+  kass_re3 = 1.0
+  kdiss_re4 = 1.0
+  kass_re4 = 1.0
+  kdiss_re5 = 1.0
+  kass_re5 = 1.0
+  kdiss_re6 = 1.0
+  kass_re6 = 1.0
+  kdiss_re7 = 1.0
+  kass_re7 = 1.0
+  kdiss_re8 = 1.0
+  kass_re8 = 1.0
+  kdiss_re9 = 1.0
+  kass_re9 = 1.0
+  kdiss_re10 = 1.0
+  kass_re10 = 1.0
+  kdiss_re11 = 1.0
+  kass_re11 = 1.0
+  kdiss_re12 = 1.0
+  kass_re12 = 1.0
+  kdiss_re13 = 1.0
+  kass_re13 = 1.0
+  kdiss_re14 = 1.0
+  kass_re14 = 1.0
+  kdiss_re15 = 1.0
+  kass_re15 = 1.0
+  kdiss_re16 = 1.0
+  kass_re16 = 1.0
+  kdiss_re17 = 1.0
+  kass_re17 = 1.0
+  kdiss_re18 = 1.0
+  kass_re18 = 1.0
+  kdiss_re19 = 1.0
+  kass_re19 = 1.0
+  kdiss_re20 = 1.0
+  kass_re20 = 1.0
+  kdiss_re21 = 1.0
+  kass_re21 = 1.0
+  kdiss_re22 = 1.0
+  kass_re22 = 1.0
+  kdiss_re23 = 1.0
+  kass_re23 = 1.0
+  kdiss_re24 = 1.0
+  kass_re24 = 1.0
+  kdiss_re25 = 1.0
+  kass_re25 = 1.0
+  kdiss_re26 = 1.0
+  kass_re26 = 1.0
+  kdiss_re27 = 1.0
+  kass_re27 = 1.0
+  kdiss_re28 = 1.0
+  kass_re28 = 1.0
+  kdiss_re29 = 1.0
+  kass_re29 = 1.0
+  kdiss_re30 = 1.0
+  kass_re30 = 1.0
+  kdiss_re31 = 1.0
+  kass_re31 = 1.0
+  kdiss_re32 = 1.0
+  kass_re32 = 1.0
+  kdiss_re33 = 1.0
+  kass_re33 = 1.0
+  kdiss_re34 = 1.0
+  kass_re34 = 1.0
+  kdiss_re35 = 1.0
+  kass_re35 = 1.0
+  kdiss_re36 = 1.0
+  kass_re36 = 1.0
+  kdiss_re37 = 1.0
+  kass_re37 = 1.0
+  kdiss_re38 = 1.0
+  kass_re38 = 1.0
+  kdiss_re39 = 1.0
+  kass_re39 = 1.0
+  kdiss_re40 = 1.0
+  kass_re40 = 1.0
+  kdiss_re41 = 1.0
+  kass_re41 = 1.0
+  kdiss_re42 = 1.0
+  kass_re42 = 1.0
+  kdiss_re43 = 1.0
+  kass_re43 = 1.0
+  kdiss_re44 = 1.0
+  kass_re44 = 1.0
+  kdiss_re45 = 1.0
+  kass_re45 = 1.0
+  kdiss_re46 = 1.0
+  kass_re46 = 1.0
+  kdiss_re47 = 1.0
+  kass_re47 = 1.0
+  kdiss_re48 = 1.0
+  kass_re48 = 1.0
+  kdiss_re49 = 1.0
+  kass_re49 = 1.0
+  kdiss_re50 = 1.0
+  kass_re50 = 1.0
+  kdiss_re51 = 1.0
+  kass_re51 = 1.0
+  kdiss_re52 = 1.0
+  kass_re52 = 1.0
+  kdiss_re53 = 1.0
+  kass_re53 = 1.0
+  kdiss_re54 = 1.0
+  kass_re54 = 1.0
+  kdiss_re55 = 1.0
+  kass_re55 = 1.0
+  kdiss_re56 = 1.0
+  kass_re56 = 1.0
+  kdiss_re57 = 1.0
+  kass_re57 = 1.0
+  kdiss_re58 = 1.0
+  kass_re58 = 1.0
+  kdiss_re59 = 1.0
+  kass_re59 = 1.0
+  kdiss_re60 = 1.0
+  kass_re60 = 1.0
+  kdiss_re61 = 1.0
+  kass_re61 = 1.0
+  kdiss_re62 = 1.0
+  kass_re62 = 1.0
+  kdiss_re63 = 1.0
+  kass_re63 = 1.0
+  kdiss_re64 = 1.0
+  kass_re64 = 1.0
+  kdiss_re65 = 1.0
+  kass_re65 = 1.0
+  kdiss_re66 = 1.0
+  kass_re66 = 1.0
+  kdiss_re67 = 1.0
+  kass_re67 = 1.0
+  kdiss_re68 = 1.0
+  kass_re68 = 1.0
+  kdiss_re69 = 1.0
+  kass_re69 = 1.0
+  kdiss_re70 = 1.0
+  kass_re70 = 1.0
+  kdiss_re71 = 1.0
+  kass_re71 = 1.0
+  kdiss_re72 = 1.0
+  kass_re72 = 1.0
+  kdiss_re73 = 1.0
+  kass_re73 = 1.0
+  kdiss_re74 = 1.0
+  kass_re74 = 1.0
+  kdiss_re75 = 1.0
+  kass_re75 = 1.0
+  kdiss_re76 = 1.0
+  kass_re76 = 1.0
+  kdiss_re77 = 1.0
+  kass_re77 = 1.0
+  kdiss_re78 = 1.0
+  kass_re78 = 1.0
+  kdiss_re79 = 1.0
+  kass_re79 = 1.0
+  kdiss_re80 = 1.0
+  kass_re80 = 1.0
+  kdiss_re81 = 1.0
+  kass_re81 = 1.0
+  kdiss_re82 = 1.0
+  kass_re82 = 1.0
+  kdiss_re83 = 1.0
+  kass_re83 = 1.0
+  kdiss_re84 = 1.0
+  kass_re84 = 1.0
+  kdiss_re85 = 1.0
+  kass_re85 = 1.0
+  kdiss_re86 = 1.0
+  kass_re86 = 1.0
+  kdiss_re87 = 1.0
+  kass_re87 = 1.0
+  kdiss_re88 = 1.0
+  kass_re88 = 1.0
+ end parameters
+ begin init
+  s1 = 0.5 ( "Fungal pathogen" ) 
+  s2 = 0.5 ( "Bacterial pathogen" ) 
+  s3 = 0.8 ( "LysM" ) 
+  s4 = 0.8 ( "PRRs" ) 
+  s5 = 0.8 ( "FLS2" ) 
+  s6 = 0.8 ( "LRR" ) 
+  s7 = 1.0 ( "MAPKKK" ) 
+  s8 = 1.0 ( "MAPKKK" ) 
+  s9 = 1.0 ( "MAPKKK1" ) 
+  s10 = 1.0 ( "MAPKKK18" ) 
+  s11 = 1.0 ( "MAPKKK19" ) 
+  s12 = 1.0 ( "MAPKKK20" ) 
+  s13 = 1.0 ( "EDR1" ) 
+  s14 = 1.0 ( "MAPKK" ) 
+  s15 = 1.0 ( "MAPKK" ) 
+  s16 = 1.0 ( "MAPKK2" ) 
+  s17 = 1.0 ( "MAPKK4" ) 
+  s18 = 1.0 ( "MAPKK5" ) 
+  s19 = 1.0 ( "MAPKK9" ) 
+  s20 = 1.0 ( "MAPK" ) 
+  s21 = 1.0 ( "MAPK" ) 
+  s22 = 1.0 ( "MAPK2" ) 
+  s23 = 1.0 ( "MAPK3" ) 
+  s24 = 1.0 ( "MAPK4" ) 
+  s25 = 1.0 ( "MAPK6" ) 
+  s28 = 1.2 ( "WRKY1" ) 
+  s29 = 1.2 ( "WRKY1" ) 
+  s30 = 1.5 ( "MYB2" ) 
+  s31 = 1.5 ( "MYB2" ) 
+  s32 = 1.2 ( "WRKY33" ) 
+  s33 = 1.2 ( "WRKY33" ) 
+  s34 = 1.2 ( "WRKY6" ) 
+  s35 = 1.2 ( "WRKY6" ) 
+  s36 = 1.5 ( "MYB4" ) 
+  s37 = 1.5 ( "MYB4" ) 
+  s38 = 1.2 ( "WRKY25" ) 
+  s39 = 1.2 ( "WRKY25" ) 
+  s40 = 1.2 ( "WRKY12" ) 
+  s41 = 1.2 ( "WRKY12" ) 
+  s42 = 1.2 ( "WRKY22" ) 
+  s43 = 1.2 ( "WRKY22" ) 
+  s44 = 1.2 ( "WRKY28" ) 
+  s45 = 1.2 ( "WRKY28" ) 
+  s46 = 1.2 ( "WRKY29" ) 
+  s47 = 1.2 ( "WRKY29" ) 
+  s48 = 1.5 ( "MYB44" ) 
+  s49 = 1.8 ( "NAC" ) 
+  s50 = 2.0 ( "bZIP" ) 
+  s51 = 2.2 ( "AP2" ) 
+  s52 = 2.5 ( "Response" ) 
+  s26 = 1.0 ( "SIMK" ) 
+  s27 = 1.0 ( "SAMK" ) 
+ end init
+ begin reactions
+  s1 -> s3 , kass_re1 [re1_forw]
+  s3 -> s1 , ( -1) * (-(kdiss_re1)) [re1_rev]
+  s1 -> s4 , kass_re2 [re2_forw]
+  s4 -> s1 , ( -1) * (-(kdiss_re2)) [re2_rev]
+  s1 -> s5 , kass_re3 [re3_forw]
+  s5 -> s1 , ( -1) * (-(kdiss_re3)) [re3_rev]
+  s2 -> s4 , kass_re4 [re4_forw]
+  s4 -> s2 , ( -1) * (-(kdiss_re4)) [re4_rev]
+  s2 -> s5 , kass_re5 [re5_forw]
+  s5 -> s2 , ( -1) * (-(kdiss_re5)) [re5_rev]
+  s2 -> s6 , kass_re6 [re6_forw]
+  s6 -> s2 , ( -1) * (-(kdiss_re6)) [re6_rev]
+  s7 -> s8 , kass_re7 [re7_forw]
+  s8 -> s7 , ( -1) * (-(kdiss_re7)) [re7_rev]
+  s3 -> s7 , kass_re8 [re8_forw]
+  s7 -> s3 , ( -1) * (-(kdiss_re8)) [re8_rev]
+  s4 -> s7 , kass_re9 [re9_forw]
+  s7 -> s4 , ( -1) * (-(kdiss_re9)) [re9_rev]
+  s5 -> s7 , kass_re10 [re10_forw]
+  s7 -> s5 , ( -1) * (-(kdiss_re10)) [re10_rev]
+  s6 -> s7 , kass_re11 [re11_forw]
+  s7 -> s6 , ( -1) * (-(kdiss_re11)) [re11_rev]
+  s8 -> s9 , kass_re12 [re12_forw]
+  s9 -> s8 , ( -1) * (-(kdiss_re12)) [re12_rev]
+  s8 -> s10 , kass_re13 [re13_forw]
+  s10 -> s8 , ( -1) * (-(kdiss_re13)) [re13_rev]
+  s8 -> s11 , kass_re14 [re14_forw]
+  s11 -> s8 , ( -1) * (-(kdiss_re14)) [re14_rev]
+  s8 -> s12 , kass_re15 [re15_forw]
+  s12 -> s8 , ( -1) * (-(kdiss_re15)) [re15_rev]
+  s6 -> s9 , kass_re16 [re16_forw]
+  s9 -> s6 , ( -1) * (-(kdiss_re16)) [re16_rev]
+  s8 -> s13 , kass_re17 [re17_forw]
+  s13 -> s8 , ( -1) * (-(kdiss_re17)) [re17_rev]
+  s5 -> s13 , kass_re18 [re18_forw]
+  s13 -> s5 , ( -1) * (-(kdiss_re18)) [re18_rev]
+  s5 -> s11 , kass_re19 [re19_forw]
+  s11 -> s5 , ( -1) * (-(kdiss_re19)) [re19_rev]
+  s14 -> s15 , kass_re20 [re20_forw]
+  s15 -> s14 , ( -1) * (-(kdiss_re20)) [re20_rev]
+  s8 -> s14 , kass_re21 [re21_forw]
+  s14 -> s8 , ( -1) * (-(kdiss_re21)) [re21_rev]
+  s15 -> s16 , kass_re22 [re22_forw]
+  s16 -> s15 , ( -1) * (-(kdiss_re22)) [re22_rev]
+  s15 -> s17 , kass_re23 [re23_forw]
+  s17 -> s15 , ( -1) * (-(kdiss_re23)) [re23_rev]
+  s15 -> s18 , kass_re24 [re24_forw]
+  s18 -> s15 , ( -1) * (-(kdiss_re24)) [re24_rev]
+  s15 -> s19 , kass_re25 [re25_forw]
+  s19 -> s15 , ( -1) * (-(kdiss_re25)) [re25_rev]
+  s9 -> s16 , kass_re26 [re26_forw]
+  s16 -> s9 , ( -1) * (-(kdiss_re26)) [re26_rev]
+  s9 -> s17 , kass_re27 [re27_forw]
+  s17 -> s9 , ( -1) * (-(kdiss_re27)) [re27_rev]
+  s9 -> s18 , kass_re28 [re28_forw]
+  s18 -> s9 , ( -1) * (-(kdiss_re28)) [re28_rev]
+  s11 -> s19 , kass_re29 [re29_forw]
+  s19 -> s11 , ( -1) * (-(kdiss_re29)) [re29_rev]
+  s20 -> s21 , kass_re30 [re30_forw]
+  s21 -> s20 , ( -1) * (-(kdiss_re30)) [re30_rev]
+  s15 -> s20 , kass_re31 [re31_forw]
+  s20 -> s15 , ( -1) * (-(kdiss_re31)) [re31_rev]
+  s21 -> s22 , kass_re32 [re32_forw]
+  s22 -> s21 , ( -1) * (-(kdiss_re32)) [re32_rev]
+  s21 -> s23 , kass_re33 [re33_forw]
+  s23 -> s21 , ( -1) * (-(kdiss_re33)) [re33_rev]
+  s21 -> s24 , kass_re34 [re34_forw]
+  s24 -> s21 , ( -1) * (-(kdiss_re34)) [re34_rev]
+  s21 -> s25 , kass_re35 [re35_forw]
+  s25 -> s21 , ( -1) * (-(kdiss_re35)) [re35_rev]
+  s21 -> s26 , kass_re36 [re36_forw]
+  s26 -> s21 , ( -1) * (-(kdiss_re36)) [re36_rev]
+  s21 -> s27 , kass_re37 [re37_forw]
+  s27 -> s21 , ( -1) * (-(kdiss_re37)) [re37_rev]
+  s16 -> s22 , kass_re38 [re38_forw]
+  s22 -> s16 , ( -1) * (-(kdiss_re38)) [re38_rev]
+  s17 -> s22 , kass_re39 [re39_forw]
+  s22 -> s17 , ( -1) * (-(kdiss_re39)) [re39_rev]
+  s17 -> s23 , kass_re40 [re40_forw]
+  s23 -> s17 , ( -1) * (-(kdiss_re40)) [re40_rev]
+  s18 -> s23 , kass_re41 [re41_forw]
+  s23 -> s18 , ( -1) * (-(kdiss_re41)) [re41_rev]
+  s17 -> s25 , kass_re42 [re42_forw]
+  s25 -> s17 , ( -1) * (-(kdiss_re42)) [re42_rev]
+  s16 -> s24 , kass_re43 [re43_forw]
+  s24 -> s16 , ( -1) * (-(kdiss_re43)) [re43_rev]
+  s18 -> s25 , kass_re44 [re44_forw]
+  s25 -> s18 , ( -1) * (-(kdiss_re44)) [re44_rev]
+  s28 -> s29 , kass_re45 [re45_forw]
+  s29 -> s28 , ( -1) * (-(kdiss_re45)) [re45_rev]
+  s30 -> s31 , kass_re46 [re46_forw]
+  s31 -> s30 , ( -1) * (-(kdiss_re46)) [re46_rev]
+  s32 -> s33 , kass_re47 [re47_forw]
+  s33 -> s32 , ( -1) * (-(kdiss_re47)) [re47_rev]
+  s34 -> s35 , kass_re48 [re48_forw]
+  s35 -> s34 , ( -1) * (-(kdiss_re48)) [re48_rev]
+  s36 -> s37 , kass_re49 [re49_forw]
+  s37 -> s36 , ( -1) * (-(kdiss_re49)) [re49_rev]
+  s38 -> s39 , kass_re50 [re50_forw]
+  s39 -> s38 , ( -1) * (-(kdiss_re50)) [re50_rev]
+  s40 -> s41 , kass_re51 [re51_forw]
+  s41 -> s40 , ( -1) * (-(kdiss_re51)) [re51_rev]
+  s42 -> s43 , kass_re52 [re52_forw]
+  s43 -> s42 , ( -1) * (-(kdiss_re52)) [re52_rev]
+  s44 -> s45 , kass_re53 [re53_forw]
+  s45 -> s44 , ( -1) * (-(kdiss_re53)) [re53_rev]
+  s46 -> s47 , kass_re54 [re54_forw]
+  s47 -> s46 , ( -1) * (-(kdiss_re54)) [re54_rev]
+  s22 -> s28 , kass_re55 [re55_forw]
+  s28 -> s22 , ( -1) * (-(kdiss_re55)) [re55_rev]
+  s24 -> s28 , kass_re56 [re56_forw]
+  s28 -> s24 , ( -1) * (-(kdiss_re56)) [re56_rev]
+  s23 -> s32 , kass_re57 [re57_forw]
+  s32 -> s23 , ( -1) * (-(kdiss_re57)) [re57_rev]
+  s24 -> s32 , kass_re58 [re58_forw]
+  s32 -> s24 , ( -1) * (-(kdiss_re58)) [re58_rev]
+  s24 -> s38 , kass_re59 [re59_forw]
+  s38 -> s24 , ( -1) * (-(kdiss_re59)) [re59_rev]
+  s23 -> s42 , kass_re60 [re60_forw]
+  s42 -> s23 , ( -1) * (-(kdiss_re60)) [re60_rev]
+  s25 -> s42 , kass_re61 [re61_forw]
+  s42 -> s25 , ( -1) * (-(kdiss_re61)) [re61_rev]
+  s25 -> s46 , kass_re62 [re62_forw]
+  s46 -> s25 , ( -1) * (-(kdiss_re62)) [re62_rev]
+  s25 -> s32 , kass_re63 [re63_forw]
+  s32 -> s25 , ( -1) * (-(kdiss_re63)) [re63_rev]
+  s23 -> s46 , kass_re64 [re64_forw]
+  s46 -> s23 , ( -1) * (-(kdiss_re64)) [re64_rev]
+  s23 -> s44 , kass_re65 [re65_forw]
+  s44 -> s23 , ( -1) * (-(kdiss_re65)) [re65_rev]
+  s25 -> s44 , kass_re66 [re66_forw]
+  s44 -> s25 , ( -1) * (-(kdiss_re66)) [re66_rev]
+  s23 -> s40 , kass_re67 [re67_forw]
+  s40 -> s23 , ( -1) * (-(kdiss_re67)) [re67_rev]
+  s25 -> s36 , kass_re68 [re68_forw]
+  s36 -> s25 , ( -1) * (-(kdiss_re68)) [re68_rev]
+  s21 -> s30 , kass_re69 [re69_forw]
+  s30 -> s21 , ( -1) * (-(kdiss_re69)) [re69_rev]
+  s21 -> s48 , kass_re70 [re70_forw]
+  s48 -> s21 , ( -1) * (-(kdiss_re70)) [re70_rev]
+  s21 -> s49 , kass_re71 [re71_forw]
+  s49 -> s21 , ( -1) * (-(kdiss_re71)) [re71_rev]
+  s21 -> s51 , kass_re72 [re72_forw]
+  s51 -> s21 , ( -1) * (-(kdiss_re72)) [re72_rev]
+  s21 -> s50 , kass_re73 [re73_forw]
+  s50 -> s21 , ( -1) * (-(kdiss_re73)) [re73_rev]
+  s24 -> s34 , kass_re74 [re74_forw]
+  s34 -> s24 , ( -1) * (-(kdiss_re74)) [re74_rev]
+  s45 -> s52 , kass_re75 [re75_forw]
+  s52 -> s45 , ( -1) * (-(kdiss_re75)) [re75_rev]
+  s31 -> s52 , kass_re76 [re76_forw]
+  s52 -> s31 , ( -1) * (-(kdiss_re76)) [re76_rev]
+  s49 -> s52 , kass_re77 [re77_forw]
+  s52 -> s49 , ( -1) * (-(kdiss_re77)) [re77_rev]
+  s50 -> s52 , kass_re78 [re78_forw]
+  s52 -> s50 , ( -1) * (-(kdiss_re78)) [re78_rev]
+  s51 -> s52 , kass_re79 [re79_forw]
+  s52 -> s51 , ( -1) * (-(kdiss_re79)) [re79_rev]
+  s48 -> s52 , kass_re80 [re80_forw]
+  s52 -> s48 , ( -1) * (-(kdiss_re80)) [re80_rev]
+  s37 -> s52 , kass_re81 [re81_forw]
+  s52 -> s37 , ( -1) * (-(kdiss_re81)) [re81_rev]
+  s41 -> s52 , kass_re82 [re82_forw]
+  s52 -> s41 , ( -1) * (-(kdiss_re82)) [re82_rev]
+  s35 -> s52 , kass_re83 [re83_forw]
+  s52 -> s35 , ( -1) * (-(kdiss_re83)) [re83_rev]
+  s29 -> s52 , kass_re84 [re84_forw]
+  s52 -> s29 , ( -1) * (-(kdiss_re84)) [re84_rev]
+  s47 -> s52 , kass_re85 [re85_forw]
+  s52 -> s47 , ( -1) * (-(kdiss_re85)) [re85_rev]
+  s43 -> s52 , kass_re86 [re86_forw]
+  s52 -> s43 , ( -1) * (-(kdiss_re86)) [re86_rev]
+  s39 -> s52 , kass_re87 [re87_forw]
+  s52 -> s39 , ( -1) * (-(kdiss_re87)) [re87_rev]
+  s33 -> s52 , kass_re88 [re88_forw]
+  s52 -> s33 , ( -1) * (-(kdiss_re88)) [re88_rev]
+ end reactions
+end model
+

@@ -1,0 +1,209 @@
+begin model BIOMD0000000139
+ begin parameters
+  a4 = 30.0
+  d4 = 0.03
+  a5 = 30.0
+  d5 = 0.03
+  a6 = 30.0
+  d6 = 0.03
+  r4 = 1.224
+  r5 = 0.45
+  r6 = 0.66
+  deg4 = 0.00135
+  k1 = 5.4
+  k01 = 0.0048
+  tr2a = 9.25E-5
+  tr2 = 0.99
+  tr3 = 0.0168
+  tr2b = 0.0
+  tr2e = 0.0
+  a1 = 1.35
+  d1 = 0.075
+  tr1 = 0.2448
+  deg1 = 0.00678
+  tp1 = 0.018
+  tp2 = 0.012
+  a2 = 0.36
+  d2 = 0.105
+  a3 = 0.54
+  d3 = 0.105
+  a7 = 11.1
+  k2 = 0.828
+  a8 = 2.88
+  k2_beta = 0.624
+  a9 = 4.2
+  k2_eps = 0.624
+  r1 = 0.2442
+  r2 = 0.09
+  r3 = 0.132
+  k02 = 0.0072
+  trigger_value = 0.0
+  fr = 1.0
+  fr_after_trigger = 0.5
+  Total_IkBbeta = 0.0
+  Total_IkBeps = 0.0
+  Total_IkBalpha = 0.0
+  Total_NFkBn = 0.0
+  flag_for_after_trigger = 0.5
+ end parameters
+ begin init
+  IkBalpha = 0.1
+  NFkB = 0.1
+  IkBalpha_NFkB
+  IkBbeta
+  IkBbeta_NFkB
+  IkBeps
+  IkBeps_NFkB
+  IKK_IkBalpha
+  IKK_IkBalpha_NFkB
+  IKK
+  IKK_IkBbeta
+  IKK_IkBbeta_NFkB
+  IKK_IkBeps
+  IKK_IkBeps_NFkB
+  NFkB_nuc = 0.001
+  IkBalpha_nuc
+  IkBalpha_nuc_NFkB_nuc
+  IkBbeta_nuc
+  IkBbeta_nuc_NFkB_nuc
+  IkBeps_nuc
+  IkBalpha_transcript
+  IkBbeta_transcript
+  IkBeps_transcript
+  IkBeps_nuc_NFkB_nuc
+  SINK
+  source = 1.0
+ end init
+ begin reactions
+  IkBalpha -> IkBalpha + IkBalpha_nuc , ( 1.0) * (tp1)
+  IkBalpha -> IkBalpha + SINK , ( -1) * (( 1.0) * (deg1))
+  IkBalpha -> 2*IkBalpha , ( -1) * (( 1.0) * (tp1))+( 1.0) * (deg1)
+  IkBalpha + NFkB -> IkBalpha + NFkB + IkBalpha_NFkB , ( 1.0) * (a4)
+  IkBalpha + NFkB -> IkBalpha + 2*NFkB , ( -1) * (( 1.0) * (a4))
+  IkBalpha + NFkB -> 2*IkBalpha + NFkB , ( -1) * (( 1.0) * (a4))
+  IkBalpha + IKK -> IkBalpha + IKK_IkBalpha + IKK , ( 1.0) * (a1)
+  IkBalpha + IKK -> IkBalpha + 2*IKK , ( -1) * (( 1.0) * (a1))
+  IkBalpha + IKK -> 2*IkBalpha + IKK , ( -1) * (( 1.0) * (a1))
+  NFkB -> NFkB + NFkB_nuc , ( 1.0) * (k1)
+  NFkB -> 2*NFkB , ( -1) * (( 1.0) * (k1))
+  NFkB + IkBbeta -> NFkB + IkBbeta + IkBbeta_NFkB , ( 1.0) * (a5)
+  NFkB + IkBbeta -> NFkB + 2*IkBbeta , ( -1) * (( 1.0) * (a5))
+  NFkB + IkBbeta -> 2*NFkB + IkBbeta , ( -1) * (( 1.0) * (a5))
+  NFkB + IkBeps -> NFkB + IkBeps + IkBeps_NFkB , ( 1.0) * (a6)
+  NFkB + IkBeps -> NFkB + 2*IkBeps , ( -1) * (( 1.0) * (a6))
+  NFkB + IkBeps -> 2*NFkB + IkBeps , ( -1) * (( 1.0) * (a6))
+  NFkB + IKK_IkBalpha -> NFkB + IKK_IkBalpha + IKK_IkBalpha_NFkB , ( 1.0) * (a4)
+  NFkB + IKK_IkBalpha -> NFkB + 2*IKK_IkBalpha , ( -1) * (( 1.0) * (a4))
+  NFkB + IKK_IkBalpha -> 2*NFkB + IKK_IkBalpha , ( -1) * (( 1.0) * (a4))
+  NFkB + IKK_IkBbeta -> NFkB + IKK_IkBbeta + IKK_IkBbeta_NFkB , ( 1.0) * (a5)
+  NFkB + IKK_IkBbeta -> NFkB + 2*IKK_IkBbeta , ( -1) * (( 1.0) * (a5))
+  NFkB + IKK_IkBbeta -> 2*NFkB + IKK_IkBbeta , ( -1) * (( 1.0) * (a5))
+  NFkB + IKK_IkBeps -> NFkB + IKK_IkBeps + IKK_IkBeps_NFkB , ( 1.0) * (a6)
+  NFkB + IKK_IkBeps -> NFkB + 2*IKK_IkBeps , ( -1) * (( 1.0) * (a6))
+  NFkB + IKK_IkBeps -> 2*NFkB + IKK_IkBeps , ( -1) * (( 1.0) * (a6))
+  IkBalpha_NFkB -> IkBalpha + IkBalpha_NFkB , ( -1) * (( 1.0) * (-(d4)))
+  IkBalpha_NFkB -> NFkB + IkBalpha_NFkB , ( 1.0) * (deg4)+( -1) * (( 1.0) * (-(d4)))
+  IkBalpha_NFkB -> 2*IkBalpha_NFkB , ( 1.0) * (-(d4))+( -1) * (( 1.0) * (deg4))
+  IkBalpha_NFkB + IKK -> IkBalpha_NFkB + IKK_IkBalpha_NFkB + IKK , ( 1.0) * (a7)
+  IkBalpha_NFkB + IKK -> IkBalpha_NFkB + 2*IKK , ( -1) * (( 1.0) * (a7))
+  IkBalpha_NFkB + IKK -> 2*IkBalpha_NFkB + IKK , ( -1) * (( 1.0) * (a7))
+  IkBbeta -> IkBbeta + IkBbeta_nuc , ( ( 1.0) * (0.5)) * (tp1)
+  IkBbeta -> IkBbeta + SINK , ( -1) * (( 1.0) * (deg1))
+  IkBbeta -> 2*IkBbeta , ( -1) * (( ( 1.0) * (0.5)) * (tp1))+( 1.0) * (deg1)
+  IkBbeta + IKK -> IkBbeta + IKK + IKK_IkBbeta , ( 1.0) * (a2)
+  IkBbeta + IKK -> IkBbeta + 2*IKK , ( -1) * (( 1.0) * (a2))
+  IkBbeta + IKK -> 2*IkBbeta + IKK , ( -1) * (( 1.0) * (a2))
+  IkBbeta_NFkB -> NFkB + IkBbeta_NFkB , ( 1.0) * (deg4)+( -1) * (( 1.0) * (-(d5)))
+  IkBbeta_NFkB -> IkBbeta + IkBbeta_NFkB , ( -1) * (( 1.0) * (-(d5)))
+  IkBbeta_NFkB -> 2*IkBbeta_NFkB , ( 1.0) * (-(d5))+( -1) * (( 1.0) * (deg4))
+  IkBbeta_NFkB + IKK -> IkBbeta_NFkB + IKK + IKK_IkBbeta_NFkB , ( 1.0) * (a8)
+  IkBbeta_NFkB + IKK -> IkBbeta_NFkB + 2*IKK , ( -1) * (( 1.0) * (a8))
+  IkBbeta_NFkB + IKK -> 2*IkBbeta_NFkB + IKK , ( -1) * (( 1.0) * (a8))
+  IkBeps -> IkBeps + IkBeps_nuc , ( ( 1.0) * (0.5)) * (tp1)
+  IkBeps -> IkBeps + SINK , ( -1) * (( 1.0) * (deg1))
+  IkBeps -> 2*IkBeps , ( -1) * (( ( 1.0) * (0.5)) * (tp1))+( 1.0) * (deg1)
+  IkBeps + IKK -> IkBeps + IKK + IKK_IkBeps , ( 1.0) * (a3)
+  IkBeps + IKK -> IkBeps + 2*IKK , ( -1) * (( 1.0) * (a3))
+  IkBeps + IKK -> 2*IkBeps + IKK , ( -1) * (( 1.0) * (a3))
+  IkBeps_NFkB -> NFkB + IkBeps_NFkB , ( 1.0) * (deg4)+( -1) * (( 1.0) * (-(d6)))
+  IkBeps_NFkB -> IkBeps + IkBeps_NFkB , ( -1) * (( 1.0) * (-(d6)))
+  IkBeps_NFkB -> 2*IkBeps_NFkB , ( 1.0) * (-(d6))+( -1) * (( 1.0) * (deg4))
+  IkBeps_NFkB + IKK -> IkBeps_NFkB + IKK + IKK_IkBeps_NFkB , ( 1.0) * (a9)
+  IkBeps_NFkB + IKK -> IkBeps_NFkB + 2*IKK , ( -1) * (( 1.0) * (a9))
+  IkBeps_NFkB + IKK -> 2*IkBeps_NFkB + IKK , ( -1) * (( 1.0) * (a9))
+  IKK_IkBalpha -> IkBalpha + IKK_IkBalpha , ( -1) * (( 1.0) * (-(d1)))
+  IKK_IkBalpha -> IKK_IkBalpha + IKK , ( -1) * (( 1.0) * (-(d1)))+( 1.0) * (r1)
+  IKK_IkBalpha -> 2*IKK_IkBalpha , ( -1) * (( 1.0) * (r1))+( 1.0) * (-(d1))
+  IKK_IkBalpha_NFkB -> NFkB + IKK_IkBalpha_NFkB , ( -1) * (( 1.0) * (-(d4)))+( 1.0) * (r4)
+  IKK_IkBalpha_NFkB -> IkBalpha_NFkB + IKK_IkBalpha_NFkB , ( -1) * (( 1.0) * (-(d1)))
+  IKK_IkBalpha_NFkB -> IKK_IkBalpha + IKK_IkBalpha_NFkB , ( -1) * (( 1.0) * (-(d4)))
+  IKK_IkBalpha_NFkB -> IKK_IkBalpha_NFkB + IKK , ( -1) * (( 1.0) * (-(d1)))+( 1.0) * (r4)
+  IKK_IkBalpha_NFkB -> 2*IKK_IkBalpha_NFkB , ( -1) * (( 1.0) * (r4))+( 1.0) * (-(d1))+( 1.0) * (-(d4))
+  IKK -> IKK + SINK , ( -1) * (( 1.0) * (k02))
+  IKK -> 2*IKK , ( 1.0) * (k02)
+  IKK_IkBbeta -> IkBbeta + IKK_IkBbeta , ( -1) * (( 1.0) * (-(d2)))
+  IKK_IkBbeta -> IKK + IKK_IkBbeta , ( 1.0) * (r2)+( -1) * (( 1.0) * (-(d2)))
+  IKK_IkBbeta -> 2*IKK_IkBbeta , ( 1.0) * (-(d2))+( -1) * (( 1.0) * (r2))
+  IKK_IkBbeta_NFkB -> NFkB + IKK_IkBbeta_NFkB , ( -1) * (( 1.0) * (-(d5)))+( 1.0) * (r5)
+  IKK_IkBbeta_NFkB -> IkBbeta_NFkB + IKK_IkBbeta_NFkB , ( -1) * (( 1.0) * (-(d2)))
+  IKK_IkBbeta_NFkB -> IKK + IKK_IkBbeta_NFkB , ( -1) * (( 1.0) * (-(d2)))+( 1.0) * (r5)
+  IKK_IkBbeta_NFkB -> IKK_IkBbeta + IKK_IkBbeta_NFkB , ( -1) * (( 1.0) * (-(d5)))
+  IKK_IkBbeta_NFkB -> 2*IKK_IkBbeta_NFkB , ( -1) * (( 1.0) * (r5))+( 1.0) * (-(d2))+( 1.0) * (-(d5))
+  IKK_IkBeps -> IkBeps + IKK_IkBeps , ( -1) * (( 1.0) * (-(d3)))
+  IKK_IkBeps -> IKK + IKK_IkBeps , ( -1) * (( 1.0) * (-(d3)))+( 1.0) * (r3)
+  IKK_IkBeps -> 2*IKK_IkBeps , ( -1) * (( 1.0) * (r3))+( 1.0) * (-(d3))
+  IKK_IkBeps_NFkB -> NFkB + IKK_IkBeps_NFkB , ( -1) * (( 1.0) * (-(d6)))+( 1.0) * (r6)
+  IKK_IkBeps_NFkB -> IkBeps_NFkB + IKK_IkBeps_NFkB , ( -1) * (( 1.0) * (-(d3)))
+  IKK_IkBeps_NFkB -> IKK + IKK_IkBeps_NFkB , ( -1) * (( 1.0) * (-(d3)))+( 1.0) * (r6)
+  IKK_IkBeps_NFkB -> IKK_IkBeps + IKK_IkBeps_NFkB , ( -1) * (( 1.0) * (-(d6)))
+  IKK_IkBeps_NFkB -> 2*IKK_IkBeps_NFkB , ( -1) * (( 1.0) * (r6))+( 1.0) * (-(d3))+( 1.0) * (-(d6))
+  NFkB_nuc -> NFkB + NFkB_nuc , ( -1) * (-(( 1.0) * (k01)))
+  NFkB_nuc -> 2*NFkB_nuc , -(( 1.0) * (k01))
+  NFkB_nuc + IkBalpha_nuc -> NFkB_nuc + IkBalpha_nuc + IkBalpha_nuc_NFkB_nuc , ( 1.0) * (a4)
+  NFkB_nuc + IkBalpha_nuc -> NFkB_nuc + 2*IkBalpha_nuc , ( -1) * (( 1.0) * (a4))
+  NFkB_nuc + IkBalpha_nuc -> 2*NFkB_nuc + IkBalpha_nuc , ( -1) * (( 1.0) * (a4))
+  NFkB_nuc + IkBbeta_nuc -> NFkB_nuc + IkBbeta_nuc + IkBbeta_nuc_NFkB_nuc , ( 1.0) * (a5)
+  NFkB_nuc + IkBbeta_nuc -> NFkB_nuc + 2*IkBbeta_nuc , ( -1) * (( 1.0) * (a5))
+  NFkB_nuc + IkBbeta_nuc -> 2*NFkB_nuc + IkBbeta_nuc , ( -1) * (( 1.0) * (a5))
+  NFkB_nuc + IkBeps_nuc -> NFkB_nuc + IkBeps_nuc + IkBeps_nuc_NFkB_nuc , ( 1.0) * (a6)
+  NFkB_nuc + IkBeps_nuc -> NFkB_nuc + 2*IkBeps_nuc , ( -1) * (( 1.0) * (a6))
+  NFkB_nuc + IkBeps_nuc -> 2*NFkB_nuc + IkBeps_nuc , ( -1) * (( 1.0) * (a6))
+  2*NFkB_nuc -> 2*NFkB_nuc + IkBalpha_transcript , ( 1.0) * (tr2)
+  IkBalpha_nuc -> IkBalpha + IkBalpha_nuc , ( -1) * (-(( 1.0) * (tp2)))
+  IkBalpha_nuc -> 2*IkBalpha_nuc , -(( 1.0) * (tp2))
+  IkBalpha_nuc_NFkB_nuc -> IkBalpha_NFkB + IkBalpha_nuc_NFkB_nuc , ( 1.0) * (k2)
+  IkBalpha_nuc_NFkB_nuc -> NFkB_nuc + IkBalpha_nuc_NFkB_nuc , ( -1) * (( 1.0) * (-(d4)))
+  IkBalpha_nuc_NFkB_nuc -> IkBalpha_nuc + IkBalpha_nuc_NFkB_nuc , ( -1) * (( 1.0) * (-(d4)))
+  IkBalpha_nuc_NFkB_nuc -> 2*IkBalpha_nuc_NFkB_nuc , ( -1) * (( 1.0) * (k2))+( 1.0) * (-(d4))
+  IkBbeta_nuc -> IkBbeta + IkBbeta_nuc , ( -1) * (-(( ( 1.0) * (0.5)) * (tp2)))
+  IkBbeta_nuc -> 2*IkBbeta_nuc , -(( ( 1.0) * (0.5)) * (tp2))
+  IkBbeta_nuc_NFkB_nuc -> IkBbeta_NFkB + IkBbeta_nuc_NFkB_nuc , ( ( 1.0) * (0.0069)) * (fr_after_trigger)+( ( 1.0) * (0.0069)) * (flag_for_after_trigger)
+  IkBbeta_nuc_NFkB_nuc -> NFkB_nuc + IkBbeta_nuc_NFkB_nuc , ( -1) * (( 1.0) * (-(d5)))
+  IkBbeta_nuc_NFkB_nuc -> IkBbeta_nuc + IkBbeta_nuc_NFkB_nuc , ( -1) * (( 1.0) * (-(d5)))
+  IkBbeta_nuc_NFkB_nuc -> 2*IkBbeta_nuc_NFkB_nuc , ( 1.0) * (-(d5))+( -1) * (( ( 1.0) * (0.0069)) * (fr_after_trigger))+( -1) * (( ( 1.0) * (0.0069)) * (flag_for_after_trigger))
+  IkBeps_nuc -> IkBeps + IkBeps_nuc , ( -1) * (-(( ( 1.0) * (0.5)) * (tp2)))
+  IkBeps_nuc -> 2*IkBeps_nuc , -(( ( 1.0) * (0.5)) * (tp2))
+  IkBalpha_transcript -> IkBalpha + IkBalpha_transcript , ( 1.0) * (tr1)
+  IkBalpha_transcript -> IkBalpha_transcript + SINK , ( -1) * (( 1.0) * (tr3))
+  IkBalpha_transcript -> 2*IkBalpha_transcript , ( 1.0) * (tr3)
+  IkBbeta_transcript -> IkBbeta + IkBbeta_transcript , ( 1.0) * (tr1)
+  IkBbeta_transcript -> IkBbeta_transcript + SINK , ( -1) * (( 1.0) * (tr3))
+  IkBbeta_transcript -> 2*IkBbeta_transcript , ( 1.0) * (tr3)
+  IkBeps_transcript -> IkBeps + IkBeps_transcript , ( 1.0) * (tr1)
+  IkBeps_transcript -> IkBeps_transcript + SINK , ( -1) * (( 1.0) * (tr3))
+  IkBeps_transcript -> 2*IkBeps_transcript , ( 1.0) * (tr3)
+  IkBeps_nuc_NFkB_nuc -> IkBeps_NFkB + IkBeps_nuc_NFkB_nuc , ( ( 1.0) * (0.5)) * (k2_eps)
+  IkBeps_nuc_NFkB_nuc -> NFkB_nuc + IkBeps_nuc_NFkB_nuc , ( -1) * (( 1.0) * (-(d6)))
+  IkBeps_nuc_NFkB_nuc -> IkBeps_nuc + IkBeps_nuc_NFkB_nuc , ( -1) * (( 1.0) * (-(d6)))
+  IkBeps_nuc_NFkB_nuc -> 2*IkBeps_nuc_NFkB_nuc , ( -1) * (( ( 1.0) * (0.5)) * (k2_eps))+( 1.0) * (-(d6))
+  source -> IkBalpha_transcript + source , ( 1.0) * (tr2a)
+  source -> IkBbeta_transcript + source , ( 1.0) * (tr2b)
+  source -> IkBeps_transcript + source , ( 1.0) * (tr2e)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

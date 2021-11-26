@@ -1,0 +1,952 @@
+begin model MODEL1102210000
+ begin init
+  thrombin
+  Ca2plus_1
+  Hisatamine
+  Ca2plus_2
+  Ca2plus_3
+  Ca2plus_4
+  Ca2plus_5
+  Ca2plus_6
+  thrombin_R
+  pro_thrombinR = 0.05
+  thrombinR_active
+  RGS = 0.2
+  Inositol
+  degradation
+  RGSGq_alpha_GTP ( "RGS-Gq_alpha_GTP" ) 
+  GTP = 50.0
+  Gq_alpha_GTP
+  GDP = 5.0
+  IP3R = 0.33
+  IP3IP3R ( "IP3-IP3R" ) 
+  p115RhoGEF = 0.25
+  RhoGAP = 0.15
+  DAG
+  IP3
+  RhoGTP ( "Rho-GTP" ) 
+  PIP2 = 10.0
+  PC
+  RhoGDP = 0.1 ( "Rho-GDP" ) 
+  Ca2plus_CaM
+  CaM2Ca2plus ( "CaM-2Ca2plus" ) 
+  CaM3Ca2plus ( "CaM-3Ca2plus" ) 
+  CaM4Ca2plus ( "CaM-4Ca2plus" ) 
+  MLCK = 0.69
+  MLCK_Ca2plus_CaM
+  MLCK_3Ca2plus_CaM
+  MLCK_4Ca2plus_CaM
+  PKC = 0.2
+  PKC_active_3 ( "PKC active_3" ) 
+  PKC_active_3CPI17 ( "PKC active_3-CPI-17" ) 
+  CPI17MYPT1_PPase ( "CPI-17-MYPT1_PPase" ) 
+  pCPI17MYPT1_PPasep ( "pCPI-17-MYPT1_PPasep" ) 
+  CPI17 = 0.08 ( "CPI-17" ) 
+  MLC = 4.2
+  pMLC = 0.6
+  pCPI17 ( "pCPI-17" ) 
+  Ca2plus = 0.0083
+  CaM = 20.0
+  G_beta_gamma_2
+  PLC_beta = 0.57
+  Ca2plus_trunsp = 20.0
+  Ca2plus_pump = 0.08
+  G12_alpha_GDP
+  G12_alpha_GTP
+  Gq_alpha_GDP
+  PLC_beta_Gq_alpha_GTP
+  Ca2plus_trunsp_2Ca2plus
+  Ca2plus_pump_Ca2plus
+  ppMLC = 0.8
+  MYPT1_PPasepMLC ( "MYPT1_PPase-pMLC" ) 
+  MYPT1_PPaseppMLC ( "MYPT1_PPase-ppMLC" ) 
+  MLCKMLC ( "MLCK-MLC" ) 
+  MLCKpMLC ( "MLCK-pMLC" ) 
+  MLCK_4Ca2plus_CaM_MLC
+  MLCK_3Ca2plus_CaM_MLC
+  MLCK_4Ca2plus_CaM_pMLC
+  MLCK_3Ca2plus_CaM_pMLC
+  MLCK_2Ca2plus_CaMMLC ( "MLCK_2Ca2plus_CaM-MLC" ) 
+  MLCK_2Ca2plus_CaM_pMLC
+  MLCK_Ca2plus_CaM_MLC
+  MLCK_Ca2plus_CaM_pMLC
+  PLC_beta_Gq_alpha_GTP_Ca2plus
+  PKCCa2plus_DAG ( "PKC-Ca2plus_DAG" ) 
+  PKCCa2plus ( "PKC-Ca2plus" ) 
+  PLC_beta_Ca2plus
+  MYPT1_PPase = 0.4
+  pMYPT1_PPase = 0.01
+  thrombin_pro_thrombinR
+  G12_alpha_beta_gamma_1_GDP = 0.4
+  G12_alpha_beta_gamma_1_GDPthrombinR_active ( "G12_alpha_beta_gamma_1_GDP-thrombinR active" ) 
+  G_beta_gamma_1
+  Gq_alpha_beta_gamma_2_GDP = 0.5
+  Gq_alpha_beta_gamma_2_GDPthrombinR_active ( "Gq_alpha_beta_gamma_2_GDP-thrombinR active" ) 
+  p115RhoGEFG12_alpha_GTP ( "p115RhoGEF-G12_alpha_GTP" ) 
+  p115RhoGEFG12_alpha_GTPRhoGDP ( "p115RhoGEF-G12_alpha_GTP-Rho-GDP" ) 
+  RhoGTPRhoGAP ( "Rho-GTP-RhoGAP" ) 
+  PLC_beta_Ca2plus_PIP2
+  PLC_beta_Gq_alpha_GTPCa2plus_PIP2 ( "PLC_beta_Gq_alpha_GTP-Ca2plus_PIP2" ) 
+  MLCK2Ca2plus_CaM ( "MLCK-2Ca2plus_CaM" ) 
+  pMYPT1_PPaseppMLC ( "pMYPT1_PPase-ppMLC" ) 
+  pMYPT1_PPasepMLC ( "pMYPT1_PPase-pMLC" ) 
+  Ca2plus_extleak = 4.0
+  Ca2plus_IP3_IP3R
+  Ca2plus_ext1
+  Ca2plus_intleak = 0.8
+  Ca2plus_int1
+  RhoGDI = 0.05
+  RhoGDPRhoGDI ( "Rho-GDP-RhoGDI" ) 
+  pROCK
+  ROCK = 0.16
+  RhoGTPROCK ( "Rho-GTP-ROCK" ) 
+  pROCKMLC ( "pROCK-MLC" ) 
+  pROCKpMLC ( "pROCK-pMLC" ) 
+  RhoGTPROCKMLC ( "Rho-GTP-ROCK-MLC" ) 
+  RhoGTPROCKpMLC ( "Rho-GTP-ROCK-pMLC" ) 
+  pROCKMYPT1_PPase ( "pROCK-MYPT1_PPase" ) 
+  RhoGTPROCKMYPT1_PPase ( "Rho-GTP-ROCK-MYPT1_PPase" ) 
+  VEGF = 0.02
+  VEGFR2 = 0.02
+  VEGFVEGFR2 ( "VEGF-VEGFR2" ) 
+  VEGFVEGFR22 ( "VEGF-VEGFR2-2" ) 
+  VEGFpVEGFR22 ( "VEGF-pVEGFR2-2" ) 
+  VEGFpVEGFR22Shc ( "VEGF-pVEGFR2-2-Shc" ) 
+  VEGFpVEGFR22pShc ( "VEGF-pVEGFR2-2-pShc" ) 
+  pShc
+  pShcSHP ( "pShc-SHP" ) 
+  SHP = 0.25
+  Grb2 = 0.15
+  VEGFpVEGFR22pShcGrb2 ( "VEGF-pVEGFR2-2-pShc-Grb2" ) 
+  Sos = 0.12
+  VEGFpVEGFR22pShcGrb2SOS ( "VEGF-pVEGFR2-2-pShc-Grb2-SOS" ) 
+  Grb2Sos ( "Grb2-Sos" ) 
+  RasGDP = 0.5
+  VEGFpVEGFR22pShcGrb2SOSRasGDP ( "VEGF-pVEGFR2-2-pShc-Grb2-SOS-RasGDP" ) 
+  VEGFpVEGFR22Grb2 ( "VEGF-pVEGFR2-2-Grb2" ) 
+  VEGFpVEGFR22Grb2SOS ( "VEGF-pVEGFR2-2-Grb2-SOS" ) 
+  VEGFpVEGFR22Grb2SOSRasGDP ( "VEGF-pVEGFR2-2-Grb2-SOS-RasGDP" ) 
+  Shc = 0.5
+  RasGTP
+  Raf = 0.5
+  RasGTPRaf ( "RasGTP-Raf" ) 
+  pRaf
+  MEK = 0.05
+  pRafMEK ( "pRaf-MEK" ) 
+  pMEK
+  pRafpMEK ( "pRaf-pMEK" ) 
+  ppMEK
+  ERK = 0.05
+  ppMEKERK ( "ppMEK-ERK" ) 
+  pERK
+  ppMEKpERK ( "ppMEK-pERK" ) 
+  ppERK
+  Pase = 0.5
+  pRafPase ( "pRaf-Pase" ) 
+  PP2A = 0.02
+  ppMEKPP2A ( "ppMEK-PP2A" ) 
+  pMEKPP2A ( "pMEK-PP2A" ) 
+  MKP3 = 0.01
+  ppERKMKP3 ( "ppERK-MKP3" ) 
+  pERKMKP3 ( "pERK-MKP3" ) 
+  ppERKMLCK ( "ppERK-MLCK" ) 
+  RasGAP = 0.8
+  RasGTPRasGAP ( "RasGTP-RasGAP" ) 
+  pMLCK
+  ppERKpMLCK ( "ppERK-pMLCK" ) 
+  ppMLCK
+  ppMLCKMLC ( "ppMLCK-MLC" ) 
+  ppMLCKpMLC ( "ppMLCK-pMLC" ) 
+  PLC_gamma = 0.57
+  PLC_gammaCa2plus ( "PLC_gamma-Ca2plus" ) 
+  PLC_gammaCa2plus_PIP2 ( "PLC_gamma-Ca2plus_PIP2" ) 
+  VEGFpVEGFR22PLC_gammaCa2plus ( "VEGF-pVEGFR2-2-PLC_gamma-Ca2plus" ) 
+  VEGFpVEGFR22PLC_gammaCa2plus_PIP2 ( "VEGF-pVEGFR2-2-PLC_gamma-Ca2plus_PIP2" ) 
+  VEGFpVEGFR22PLC_gamma ( "VEGF-pVEGFR2-2-PLC_gamma" ) 
+  eNOS = 0.33
+  PKCCa2plus_eNOS ( "PKC-Ca2plus_eNOS" ) 
+  eNOSactive ( "eNOS-active" ) 
+  sNO ( "NO" ) 
+  GC = 0.05
+  NOGC ( "NO-GC" ) 
+  NOGCGTP ( "NO-GC-GTP" ) 
+  cGMP
+  PKG = 0.015
+  cGMPPKG ( "cGMP-PKG" ) 
+  PKGactive ( "PKG-active" ) 
+  PKGRaf ( "PKG-Raf" ) 
+  LArg = 0.55 ( "L-Arg" ) 
+  eNOSactiveLArg ( "eNOS-active-L-Arg" ) 
+  LCit ( "L-Cit" ) 
+  NO1
+  NO2
+  NO3
+  ppERKpMLCKMLC ( "ppERK-pMLCK-MLC" ) 
+  ppERKpMLCKpMLC ( "ppERK-pMLCK-pMLC" ) 
+  ppERKVEGFpVEGFR22pShcGrb2SOS ( "ppERK-VEGF-pVEGFR2-2-pShc-Grb2-SOS" ) 
+  pSOS
+  ppERKVEGFpVEGFR22Grb2SOS ( "ppERK-VEGF-pVEGFR2-2-Grb2-SOS" ) 
+  H1R = 0.35
+  HistamineH1R ( "Histamine-H1R" ) 
+  H1Ractive ( "H1R-active" ) 
+  G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive ( "G_sub_q_endsub_alpha_beta_gamma_2_GDP-H1R-active" ) 
+  PKGROCK ( "PKG-ROCK" ) 
+  Ca2plus_store
+ end init
+ begin reactions
+  thrombin + pro_thrombinR -> thrombin + pro_thrombinR + thrombin_pro_thrombinR , 3.0
+  thrombin + pro_thrombinR -> thrombin + 2*pro_thrombinR , ( -1) * (3.0)
+  thrombin + pro_thrombinR -> 2*thrombin + pro_thrombinR , ( -1) * (3.0)
+  Ca2plus_1 + Ca2plus_extleak -> Ca2plus_1 + Ca2plus_extleak + Ca2plus_ext1 , 0.008
+  Ca2plus_1 + Ca2plus_extleak -> Ca2plus_1 + 2*Ca2plus_extleak , ( -1) * (0.008)
+  Hisatamine + H1R -> Hisatamine + H1R + HistamineH1R , 3.0
+  Hisatamine + H1R -> Hisatamine + 2*H1R , ( -1) * (3.0)
+  Hisatamine + H1R -> 2*Hisatamine + H1R , ( -1) * (3.0)
+  thrombinR_active -> thrombinR_active + degradation , 0.002
+  thrombinR_active -> 2*thrombinR_active , ( -1) * (0.002)
+  thrombinR_active + G12_alpha_beta_gamma_1_GDP -> thrombinR_active + G12_alpha_beta_gamma_1_GDP + G12_alpha_beta_gamma_1_GDPthrombinR_active , 0.6
+  thrombinR_active + G12_alpha_beta_gamma_1_GDP -> thrombinR_active + 2*G12_alpha_beta_gamma_1_GDP , ( -1) * (0.6)
+  thrombinR_active + G12_alpha_beta_gamma_1_GDP -> 2*thrombinR_active + G12_alpha_beta_gamma_1_GDP , ( -1) * (0.6)
+  thrombinR_active + Gq_alpha_beta_gamma_2_GDP -> thrombinR_active + Gq_alpha_beta_gamma_2_GDP + Gq_alpha_beta_gamma_2_GDPthrombinR_active , 0.68
+  thrombinR_active + Gq_alpha_beta_gamma_2_GDP -> thrombinR_active + 2*Gq_alpha_beta_gamma_2_GDP , ( -1) * (0.68)
+  thrombinR_active + Gq_alpha_beta_gamma_2_GDP -> 2*thrombinR_active + Gq_alpha_beta_gamma_2_GDP , ( -1) * (0.68)
+  RGS + Gq_alpha_GTP -> RGS + RGSGq_alpha_GTP + Gq_alpha_GTP , 0.8
+  RGS + Gq_alpha_GTP -> RGS + 2*Gq_alpha_GTP , ( -1) * (0.8)
+  RGS + Gq_alpha_GTP -> 2*RGS + Gq_alpha_GTP , ( -1) * (0.8)
+  RGSGq_alpha_GTP -> RGS + RGSGq_alpha_GTP , ( -1) * (-(1.0E-5))+0.88
+  RGSGq_alpha_GTP -> RGSGq_alpha_GTP + Gq_alpha_GTP , ( -1) * (-(1.0E-5))
+  RGSGq_alpha_GTP -> RGSGq_alpha_GTP + Gq_alpha_GDP , 0.88
+  RGSGq_alpha_GTP -> 2*RGSGq_alpha_GTP , ( -1) * (0.88)+-(1.0E-5)
+  GTP + G12_alpha_beta_gamma_1_GDPthrombinR_active -> thrombin_R + GTP + G12_alpha_beta_gamma_1_GDPthrombinR_active , 0.1
+  GTP + G12_alpha_beta_gamma_1_GDPthrombinR_active -> GTP + G12_alpha_GTP + G12_alpha_beta_gamma_1_GDPthrombinR_active , 0.1
+  GTP + G12_alpha_beta_gamma_1_GDPthrombinR_active -> GTP + G12_alpha_beta_gamma_1_GDPthrombinR_active + G_beta_gamma_1 , 0.1
+  GTP + G12_alpha_beta_gamma_1_GDPthrombinR_active -> GTP + 2*G12_alpha_beta_gamma_1_GDPthrombinR_active , ( -1) * (0.1)
+  GTP + Gq_alpha_beta_gamma_2_GDPthrombinR_active -> thrombin_R + GTP + Gq_alpha_beta_gamma_2_GDPthrombinR_active , 0.08
+  GTP + Gq_alpha_beta_gamma_2_GDPthrombinR_active -> GTP + Gq_alpha_GTP + Gq_alpha_beta_gamma_2_GDPthrombinR_active , 0.08
+  GTP + Gq_alpha_beta_gamma_2_GDPthrombinR_active -> GTP + GDP + Gq_alpha_beta_gamma_2_GDPthrombinR_active , 0.08
+  GTP + Gq_alpha_beta_gamma_2_GDPthrombinR_active -> GTP + G_beta_gamma_2 + Gq_alpha_beta_gamma_2_GDPthrombinR_active , 0.08
+  GTP + Gq_alpha_beta_gamma_2_GDPthrombinR_active -> GTP + 2*Gq_alpha_beta_gamma_2_GDPthrombinR_active , ( -1) * (0.08)
+  GTP + Gq_alpha_beta_gamma_2_GDPthrombinR_active -> 2*GTP + Gq_alpha_beta_gamma_2_GDPthrombinR_active , ( -1) * (0.08)
+  GTP + NOGC -> GTP + NOGC + NOGCGTP , 2.11
+  GTP + NOGC -> GTP + 2*NOGC , ( -1) * (2.11)
+  GTP + NOGC -> 2*GTP + NOGC , ( -1) * (2.11)
+  GTP + G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive -> GTP + Gq_alpha_GTP + G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive , 0.08
+  GTP + G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive -> GTP + GDP + G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive , 0.08
+  GTP + G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive -> GTP + G_beta_gamma_2 + G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive , 0.08
+  GTP + G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive -> GTP + 2*G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive , ( -1) * (0.08)
+  GTP + G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive -> 2*GTP + G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive , ( -1) * (0.08)
+  Gq_alpha_GTP -> Gq_alpha_GTP + Gq_alpha_GDP , 0.0133
+  Gq_alpha_GTP -> 2*Gq_alpha_GTP , ( -1) * (0.0133)
+  Gq_alpha_GTP + PLC_beta -> Gq_alpha_GTP + PLC_beta + PLC_beta_Gq_alpha_GTP , 1.5201
+  Gq_alpha_GTP + PLC_beta -> Gq_alpha_GTP + 2*PLC_beta , ( -1) * (1.5201)
+  Gq_alpha_GTP + PLC_beta -> 2*Gq_alpha_GTP + PLC_beta , ( -1) * (1.5201)
+  Gq_alpha_GTP + PLC_beta_Ca2plus -> Gq_alpha_GTP + PLC_beta_Gq_alpha_GTP_Ca2plus + PLC_beta_Ca2plus , 1.0
+  Gq_alpha_GTP + PLC_beta_Ca2plus -> Gq_alpha_GTP + 2*PLC_beta_Ca2plus , ( -1) * (1.0)
+  Gq_alpha_GTP + PLC_beta_Ca2plus -> 2*Gq_alpha_GTP + PLC_beta_Ca2plus , ( -1) * (1.0)
+  IP3R + 3*IP3 -> IP3R + IP3IP3R + 3*IP3 , 0.5
+  IP3R + 3*IP3 -> IP3R + 4*IP3 , ( -3) * (0.5)
+  IP3R + 3*IP3 -> 2*IP3R + 3*IP3 , ( -1) * (0.5)
+  IP3IP3R -> IP3R + IP3IP3R , ( -1) * (-(10.0))
+  IP3IP3R -> IP3IP3R + IP3 , ( -3) * (-(10.0))
+  IP3IP3R -> 2*IP3IP3R , -(10.0)
+  IP3IP3R + Ca2plus_store -> IP3IP3R + Ca2plus_IP3_IP3R + Ca2plus_store , 17.0
+  IP3IP3R + Ca2plus_store -> IP3IP3R + 2*Ca2plus_store , ( -1) * (17.0)
+  IP3IP3R + Ca2plus_store -> 2*IP3IP3R + Ca2plus_store , ( -1) * (17.0)
+  p115RhoGEF + G12_alpha_GTP -> p115RhoGEF + G12_alpha_GTP + p115RhoGEFG12_alpha_GTP , 1.0
+  p115RhoGEF + G12_alpha_GTP -> p115RhoGEF + 2*G12_alpha_GTP , ( -1) * (1.0)
+  p115RhoGEF + G12_alpha_GTP -> 2*p115RhoGEF + G12_alpha_GTP , ( -1) * (1.0)
+  RhoGAP + RhoGTP -> RhoGAP + RhoGTP + RhoGTPRhoGAP , 8.0E-4
+  RhoGAP + RhoGTP -> RhoGAP + 2*RhoGTP , ( -1) * (8.0E-4)
+  RhoGAP + RhoGTP -> 2*RhoGAP + RhoGTP , ( -1) * (8.0E-4)
+  DAG -> DAG + PC , 0.15
+  DAG -> 2*DAG , ( -1) * (0.15)
+  DAG + PKCCa2plus -> DAG + PKCCa2plus_DAG + PKCCa2plus , 0.3
+  DAG + PKCCa2plus -> DAG + 2*PKCCa2plus , ( -1) * (0.3)
+  DAG + PKCCa2plus -> 2*DAG + PKCCa2plus , ( -1) * (0.3)
+  IP3 -> Inositol + IP3 , 0.01
+  IP3 -> 2*IP3 , ( -1) * (0.01)
+  RhoGTP -> RhoGTP + RhoGDP , 3.667E-4
+  RhoGTP -> 2*RhoGTP , ( -1) * (3.667E-4)
+  RhoGTP + ROCK -> RhoGTP + ROCK + RhoGTPROCK , 0.05
+  RhoGTP + ROCK -> RhoGTP + 2*ROCK , ( -1) * (0.05)
+  RhoGTP + ROCK -> 2*RhoGTP + ROCK , ( -1) * (0.05)
+  PIP2 + PLC_beta_Gq_alpha_GTP_Ca2plus -> PIP2 + PLC_beta_Gq_alpha_GTP_Ca2plus + PLC_beta_Gq_alpha_GTPCa2plus_PIP2 , 0.7
+  PIP2 + PLC_beta_Gq_alpha_GTP_Ca2plus -> PIP2 + 2*PLC_beta_Gq_alpha_GTP_Ca2plus , ( -1) * (0.7)
+  PIP2 + PLC_beta_Gq_alpha_GTP_Ca2plus -> 2*PIP2 + PLC_beta_Gq_alpha_GTP_Ca2plus , ( -1) * (0.7)
+  PIP2 + PLC_beta_Ca2plus -> PIP2 + PLC_beta_Ca2plus + PLC_beta_Ca2plus_PIP2 , 0.8
+  PIP2 + PLC_beta_Ca2plus -> PIP2 + 2*PLC_beta_Ca2plus , ( -1) * (0.8)
+  PIP2 + PLC_beta_Ca2plus -> 2*PIP2 + PLC_beta_Ca2plus , ( -1) * (0.8)
+  PIP2 + PLC_gammaCa2plus -> PIP2 + PLC_gammaCa2plus + PLC_gammaCa2plus_PIP2 , 0.78
+  PIP2 + PLC_gammaCa2plus -> PIP2 + 2*PLC_gammaCa2plus , ( -1) * (0.78)
+  PIP2 + PLC_gammaCa2plus -> 2*PIP2 + PLC_gammaCa2plus , ( -1) * (0.78)
+  PIP2 + VEGFpVEGFR22PLC_gammaCa2plus -> PIP2 + VEGFpVEGFR22PLC_gammaCa2plus + VEGFpVEGFR22PLC_gammaCa2plus_PIP2 , 0.78
+  PIP2 + VEGFpVEGFR22PLC_gammaCa2plus -> PIP2 + 2*VEGFpVEGFR22PLC_gammaCa2plus , ( -1) * (0.78)
+  PIP2 + VEGFpVEGFR22PLC_gammaCa2plus -> 2*PIP2 + VEGFpVEGFR22PLC_gammaCa2plus , ( -1) * (0.78)
+  RhoGDP + p115RhoGEFG12_alpha_GTP -> RhoGDP + p115RhoGEFG12_alpha_GTP + p115RhoGEFG12_alpha_GTPRhoGDP , 7.6
+  RhoGDP + p115RhoGEFG12_alpha_GTP -> RhoGDP + 2*p115RhoGEFG12_alpha_GTP , ( -1) * (7.6)
+  RhoGDP + p115RhoGEFG12_alpha_GTP -> 2*RhoGDP + p115RhoGEFG12_alpha_GTP , ( -1) * (7.6)
+  RhoGDP + RhoGDI -> RhoGDP + RhoGDI + RhoGDPRhoGDI , 5.0
+  RhoGDP + RhoGDI -> RhoGDP + 2*RhoGDI , ( -1) * (5.0)
+  RhoGDP + RhoGDI -> 2*RhoGDP + RhoGDI , ( -1) * (5.0)
+  Ca2plus_CaM -> Ca2plus_CaM + Ca2plus , ( -1) * (-(45.0))
+  Ca2plus_CaM -> Ca2plus_CaM + CaM , ( -1) * (-(45.0))
+  Ca2plus_CaM -> 2*Ca2plus_CaM , -(45.0)
+  Ca2plus_CaM + MLCK -> Ca2plus_CaM + MLCK + MLCK_Ca2plus_CaM , 0.03
+  Ca2plus_CaM + MLCK -> Ca2plus_CaM + 2*MLCK , ( -1) * (0.03)
+  Ca2plus_CaM + MLCK -> 2*Ca2plus_CaM + MLCK , ( -1) * (0.03)
+  Ca2plus_CaM + Ca2plus -> Ca2plus_CaM + CaM2Ca2plus + Ca2plus , 8.0
+  Ca2plus_CaM + Ca2plus -> Ca2plus_CaM + 2*Ca2plus , ( -1) * (8.0)
+  Ca2plus_CaM + Ca2plus -> 2*Ca2plus_CaM + Ca2plus , ( -1) * (8.0)
+  CaM2Ca2plus -> Ca2plus_CaM + CaM2Ca2plus , ( -1) * (-(40.0))
+  CaM2Ca2plus -> CaM2Ca2plus + Ca2plus , ( -1) * (-(40.0))
+  CaM2Ca2plus -> 2*CaM2Ca2plus , -(40.0)
+  CaM2Ca2plus + MLCK -> CaM2Ca2plus + MLCK + MLCK2Ca2plus_CaM , 0.04
+  CaM2Ca2plus + MLCK -> CaM2Ca2plus + 2*MLCK , ( -1) * (0.04)
+  CaM2Ca2plus + MLCK -> 2*CaM2Ca2plus + MLCK , ( -1) * (0.04)
+  CaM2Ca2plus + Ca2plus -> CaM2Ca2plus + CaM3Ca2plus + Ca2plus , 10.0
+  CaM2Ca2plus + Ca2plus -> CaM2Ca2plus + 2*Ca2plus , ( -1) * (10.0)
+  CaM2Ca2plus + Ca2plus -> 2*CaM2Ca2plus + Ca2plus , ( -1) * (10.0)
+  CaM3Ca2plus -> CaM2Ca2plus + CaM3Ca2plus , ( -1) * (-(170.0))
+  CaM3Ca2plus -> CaM3Ca2plus + Ca2plus , ( -1) * (-(170.0))
+  CaM3Ca2plus -> 2*CaM3Ca2plus , -(170.0)
+  CaM3Ca2plus + MLCK -> CaM3Ca2plus + MLCK + MLCK_3Ca2plus_CaM , 1.0
+  CaM3Ca2plus + MLCK -> CaM3Ca2plus + 2*MLCK , ( -1) * (1.0)
+  CaM3Ca2plus + MLCK -> 2*CaM3Ca2plus + MLCK , ( -1) * (1.0)
+  CaM3Ca2plus + Ca2plus -> CaM3Ca2plus + CaM4Ca2plus + Ca2plus , 10.0
+  CaM3Ca2plus + Ca2plus -> CaM3Ca2plus + 2*Ca2plus , ( -1) * (10.0)
+  CaM3Ca2plus + Ca2plus -> 2*CaM3Ca2plus + Ca2plus , ( -1) * (10.0)
+  CaM4Ca2plus -> CaM3Ca2plus + CaM4Ca2plus , ( -1) * (-(500.0))
+  CaM4Ca2plus -> CaM4Ca2plus + Ca2plus , ( -1) * (-(500.0))
+  CaM4Ca2plus -> 2*CaM4Ca2plus , -(500.0)
+  CaM4Ca2plus + MLCK -> CaM4Ca2plus + MLCK + MLCK_4Ca2plus_CaM , 10.0
+  CaM4Ca2plus + MLCK -> CaM4Ca2plus + 2*MLCK , ( -1) * (10.0)
+  CaM4Ca2plus + MLCK -> 2*CaM4Ca2plus + MLCK , ( -1) * (10.0)
+  MLCK + MLC -> MLCK + MLC + MLCKMLC , 0.16
+  MLCK + MLC -> MLCK + 2*MLC , ( -1) * (0.16)
+  MLCK + MLC -> 2*MLCK + MLC , ( -1) * (0.16)
+  MLCK + pMLC -> MLCK + pMLC + MLCKpMLC , 0.55
+  MLCK + pMLC -> MLCK + 2*pMLC , ( -1) * (0.55)
+  MLCK + pMLC -> 2*MLCK + pMLC , ( -1) * (0.55)
+  MLCK + ppERK -> MLCK + ppERK + ppERKMLCK , 0.44
+  MLCK + ppERK -> MLCK + 2*ppERK , ( -1) * (0.44)
+  MLCK + ppERK -> 2*MLCK + ppERK , ( -1) * (0.44)
+  MLCK_Ca2plus_CaM -> Ca2plus_CaM + MLCK_Ca2plus_CaM , ( -1) * (-(0.08))
+  MLCK_Ca2plus_CaM -> MLCK + MLCK_Ca2plus_CaM , ( -1) * (-(0.08))
+  MLCK_Ca2plus_CaM -> 2*MLCK_Ca2plus_CaM , -(0.08)
+  MLCK_Ca2plus_CaM + MLC -> MLCK_Ca2plus_CaM + MLC + MLCK_Ca2plus_CaM_MLC , 0.8
+  MLCK_Ca2plus_CaM + MLC -> MLCK_Ca2plus_CaM + 2*MLC , ( -1) * (0.8)
+  MLCK_Ca2plus_CaM + MLC -> 2*MLCK_Ca2plus_CaM + MLC , ( -1) * (0.8)
+  MLCK_Ca2plus_CaM + pMLC -> MLCK_Ca2plus_CaM + pMLC + MLCK_Ca2plus_CaM_pMLC , 0.082
+  MLCK_Ca2plus_CaM + pMLC -> MLCK_Ca2plus_CaM + 2*pMLC , ( -1) * (0.082)
+  MLCK_Ca2plus_CaM + pMLC -> 2*MLCK_Ca2plus_CaM + pMLC , ( -1) * (0.082)
+  MLCK_3Ca2plus_CaM -> CaM3Ca2plus + MLCK_3Ca2plus_CaM , ( -1) * (-(7.0E-4))
+  MLCK_3Ca2plus_CaM -> MLCK + MLCK_3Ca2plus_CaM , ( -1) * (-(7.0E-4))
+  MLCK_3Ca2plus_CaM -> 2*MLCK_3Ca2plus_CaM , -(7.0E-4)
+  MLCK_3Ca2plus_CaM + MLC -> MLCK_3Ca2plus_CaM + MLC + MLCK_3Ca2plus_CaM_MLC , 0.8
+  MLCK_3Ca2plus_CaM + MLC -> MLCK_3Ca2plus_CaM + 2*MLC , ( -1) * (0.8)
+  MLCK_3Ca2plus_CaM + MLC -> 2*MLCK_3Ca2plus_CaM + MLC , ( -1) * (0.8)
+  MLCK_3Ca2plus_CaM + pMLC -> MLCK_3Ca2plus_CaM + pMLC + MLCK_3Ca2plus_CaM_pMLC , 0.4
+  MLCK_3Ca2plus_CaM + pMLC -> MLCK_3Ca2plus_CaM + 2*pMLC , ( -1) * (0.4)
+  MLCK_3Ca2plus_CaM + pMLC -> 2*MLCK_3Ca2plus_CaM + pMLC , ( -1) * (0.4)
+  MLCK_4Ca2plus_CaM -> CaM4Ca2plus + MLCK_4Ca2plus_CaM , ( -1) * (-(0.01))
+  MLCK_4Ca2plus_CaM -> MLCK + MLCK_4Ca2plus_CaM , ( -1) * (-(0.01))
+  MLCK_4Ca2plus_CaM -> 2*MLCK_4Ca2plus_CaM , -(0.01)
+  MLCK_4Ca2plus_CaM + MLC -> MLCK_4Ca2plus_CaM + MLC + MLCK_4Ca2plus_CaM_MLC , 0.5
+  MLCK_4Ca2plus_CaM + MLC -> MLCK_4Ca2plus_CaM + 2*MLC , ( -1) * (0.5)
+  MLCK_4Ca2plus_CaM + MLC -> 2*MLCK_4Ca2plus_CaM + MLC , ( -1) * (0.5)
+  MLCK_4Ca2plus_CaM + pMLC -> MLCK_4Ca2plus_CaM + pMLC + MLCK_4Ca2plus_CaM_pMLC , 1.0
+  MLCK_4Ca2plus_CaM + pMLC -> MLCK_4Ca2plus_CaM + 2*pMLC , ( -1) * (1.0)
+  MLCK_4Ca2plus_CaM + pMLC -> 2*MLCK_4Ca2plus_CaM + pMLC , ( -1) * (1.0)
+  PKC + Ca2plus -> PKC + Ca2plus + PKCCa2plus , 0.3
+  PKC + Ca2plus -> PKC + 2*Ca2plus , ( -1) * (0.3)
+  PKC + Ca2plus -> 2*PKC + Ca2plus , ( -1) * (0.3)
+  PKC_active_3 -> degradation + PKC_active_3 , 4.63E-4
+  PKC_active_3 -> PKC_active_3 + PKCCa2plus_DAG , ( -1) * (-(0.01))
+  PKC_active_3 -> 2*PKC_active_3 , -(0.01)+( -1) * (4.63E-4)
+  PKC_active_3 + CPI17 -> PKC_active_3 + PKC_active_3CPI17 + CPI17 , 3.2
+  PKC_active_3 + CPI17 -> PKC_active_3 + 2*CPI17 , ( -1) * (3.2)
+  PKC_active_3 + CPI17 -> 2*PKC_active_3 + CPI17 , ( -1) * (3.2)
+  PKC_active_3CPI17 -> PKC_active_3 + PKC_active_3CPI17 , ( -1) * (-(0.01))+1.68
+  PKC_active_3CPI17 -> PKC_active_3CPI17 + CPI17 , ( -1) * (-(0.01))
+  PKC_active_3CPI17 -> PKC_active_3CPI17 + pCPI17 , 1.68
+  PKC_active_3CPI17 -> 2*PKC_active_3CPI17 , ( -1) * (1.68)+-(0.01)
+  CPI17MYPT1_PPase -> CPI17MYPT1_PPase + pCPI17MYPT1_PPasep , ( -1) * (-(0.001))
+  CPI17MYPT1_PPase -> CPI17MYPT1_PPase + CPI17 , ( -1) * (-(0.001))
+  CPI17MYPT1_PPase -> CPI17MYPT1_PPase + MYPT1_PPase , ( -1) * (-(0.001))
+  CPI17MYPT1_PPase -> 2*CPI17MYPT1_PPase , -(0.001)+-(0.001)
+  pCPI17MYPT1_PPasep -> CPI17MYPT1_PPase + pCPI17MYPT1_PPasep , 0.005
+  pCPI17MYPT1_PPasep -> pCPI17MYPT1_PPasep + pCPI17 , ( -1) * (-(0.62))
+  pCPI17MYPT1_PPasep -> pCPI17MYPT1_PPasep + MYPT1_PPase , ( -1) * (-(0.62))
+  pCPI17MYPT1_PPasep -> 2*pCPI17MYPT1_PPasep , -(0.62)+( -1) * (0.005)
+  CPI17 -> CPI17 + pCPI17 , ( -1) * (-(0.001))
+  CPI17 -> 2*CPI17 , -(0.001)
+  CPI17 + MYPT1_PPase -> CPI17MYPT1_PPase + CPI17 + MYPT1_PPase , 0.01
+  CPI17 + MYPT1_PPase -> CPI17 + 2*MYPT1_PPase , ( -1) * (0.01)
+  CPI17 + MYPT1_PPase -> 2*CPI17 + MYPT1_PPase , ( -1) * (0.01)
+  MLC + MLCK2Ca2plus_CaM -> MLC + MLCK_2Ca2plus_CaMMLC + MLCK2Ca2plus_CaM , 0.5
+  MLC + MLCK2Ca2plus_CaM -> MLC + 2*MLCK2Ca2plus_CaM , ( -1) * (0.5)
+  MLC + MLCK2Ca2plus_CaM -> 2*MLC + MLCK2Ca2plus_CaM , ( -1) * (0.5)
+  MLC + pROCK -> MLC + pROCK + pROCKMLC , 2.02
+  MLC + pROCK -> MLC + 2*pROCK , ( -1) * (2.02)
+  MLC + pROCK -> 2*MLC + pROCK , ( -1) * (2.02)
+  MLC + RhoGTPROCK -> MLC + RhoGTPROCK + RhoGTPROCKMLC , 0.05
+  MLC + RhoGTPROCK -> MLC + 2*RhoGTPROCK , ( -1) * (0.05)
+  MLC + RhoGTPROCK -> 2*MLC + RhoGTPROCK , ( -1) * (0.05)
+  MLC + ppERKpMLCK -> MLC + ppERKpMLCK + ppERKpMLCKMLC , 0.008
+  MLC + ppERKpMLCK -> MLC + 2*ppERKpMLCK , ( -1) * (0.008)
+  MLC + ppERKpMLCK -> 2*MLC + ppERKpMLCK , ( -1) * (0.008)
+  MLC + ppMLCK -> MLC + ppMLCK + ppMLCKMLC , 0.08
+  MLC + ppMLCK -> MLC + 2*ppMLCK , ( -1) * (0.08)
+  MLC + ppMLCK -> 2*MLC + ppMLCK , ( -1) * (0.08)
+  pMLC + MYPT1_PPase -> pMLC + MYPT1_PPasepMLC + MYPT1_PPase , 4.5
+  pMLC + MYPT1_PPase -> pMLC + 2*MYPT1_PPase , ( -1) * (4.5)
+  pMLC + MYPT1_PPase -> 2*pMLC + MYPT1_PPase , ( -1) * (4.5)
+  pMLC + pMYPT1_PPase -> pMLC + pMYPT1_PPase + pMYPT1_PPasepMLC , 0.25
+  pMLC + pMYPT1_PPase -> pMLC + 2*pMYPT1_PPase , ( -1) * (0.25)
+  pMLC + pMYPT1_PPase -> 2*pMLC + pMYPT1_PPase , ( -1) * (0.25)
+  pMLC + MLCK2Ca2plus_CaM -> pMLC + MLCK_2Ca2plus_CaM_pMLC + MLCK2Ca2plus_CaM , 1.0
+  pMLC + MLCK2Ca2plus_CaM -> pMLC + 2*MLCK2Ca2plus_CaM , ( -1) * (1.0)
+  pMLC + MLCK2Ca2plus_CaM -> 2*pMLC + MLCK2Ca2plus_CaM , ( -1) * (1.0)
+  pMLC + pROCK -> pMLC + pROCK + pROCKpMLC , 1.38
+  pMLC + pROCK -> pMLC + 2*pROCK , ( -1) * (1.38)
+  pMLC + pROCK -> 2*pMLC + pROCK , ( -1) * (1.38)
+  pMLC + RhoGTPROCK -> pMLC + RhoGTPROCK + RhoGTPROCKpMLC , 1.36
+  pMLC + RhoGTPROCK -> pMLC + 2*RhoGTPROCK , ( -1) * (1.36)
+  pMLC + RhoGTPROCK -> 2*pMLC + RhoGTPROCK , ( -1) * (1.36)
+  pMLC + ppERKpMLCK -> pMLC + ppERKpMLCK + ppERKpMLCKpMLC , 15.64
+  pMLC + ppERKpMLCK -> pMLC + 2*ppERKpMLCK , ( -1) * (15.64)
+  pMLC + ppERKpMLCK -> 2*pMLC + ppERKpMLCK , ( -1) * (15.64)
+  pMLC + ppMLCK -> pMLC + ppMLCK + ppMLCKpMLC , 2.96
+  pMLC + ppMLCK -> pMLC + 2*ppMLCK , ( -1) * (2.96)
+  pMLC + ppMLCK -> 2*pMLC + ppMLCK , ( -1) * (2.96)
+  pCPI17 -> CPI17 + pCPI17 , 0.5
+  pCPI17 -> 2*pCPI17 , ( -1) * (0.5)
+  pCPI17 + MYPT1_PPase -> pCPI17MYPT1_PPasep + pCPI17 + MYPT1_PPase , 7.2
+  pCPI17 + MYPT1_PPase -> pCPI17 + 2*MYPT1_PPase , ( -1) * (7.2)
+  pCPI17 + MYPT1_PPase -> 2*pCPI17 + MYPT1_PPase , ( -1) * (7.2)
+  Ca2plus + CaM -> Ca2plus_CaM + Ca2plus + CaM , 10.0
+  Ca2plus + CaM -> Ca2plus + 2*CaM , ( -1) * (10.0)
+  Ca2plus + CaM -> 2*Ca2plus + CaM , ( -1) * (10.0)
+  Ca2plus + PLC_beta -> Ca2plus + PLC_beta + PLC_beta_Ca2plus , 0.8
+  Ca2plus + PLC_beta -> Ca2plus + 2*PLC_beta , ( -1) * (0.8)
+  Ca2plus + PLC_beta -> 2*Ca2plus + PLC_beta , ( -1) * (0.8)
+  Ca2plus + Ca2plus_pump -> Ca2plus + Ca2plus_pump + Ca2plus_pump_Ca2plus , 6.0
+  Ca2plus + Ca2plus_pump -> Ca2plus + 2*Ca2plus_pump , ( -1) * (6.0)
+  Ca2plus + Ca2plus_pump -> 2*Ca2plus + Ca2plus_pump , ( -1) * (6.0)
+  Ca2plus + PLC_beta_Gq_alpha_GTP -> Ca2plus + PLC_beta_Gq_alpha_GTP + PLC_beta_Gq_alpha_GTP_Ca2plus , 1.6
+  Ca2plus + PLC_beta_Gq_alpha_GTP -> Ca2plus + 2*PLC_beta_Gq_alpha_GTP , ( -1) * (1.6)
+  Ca2plus + PLC_beta_Gq_alpha_GTP -> 2*Ca2plus + PLC_beta_Gq_alpha_GTP , ( -1) * (1.6)
+  Ca2plus + PLC_gamma -> Ca2plus + PLC_gamma + PLC_gammaCa2plus , 0.8
+  Ca2plus + PLC_gamma -> Ca2plus + 2*PLC_gamma , ( -1) * (0.8)
+  Ca2plus + PLC_gamma -> 2*Ca2plus + PLC_gamma , ( -1) * (0.8)
+  Ca2plus + VEGFpVEGFR22PLC_gamma -> Ca2plus + VEGFpVEGFR22PLC_gammaCa2plus + VEGFpVEGFR22PLC_gamma , 1.56
+  Ca2plus + VEGFpVEGFR22PLC_gamma -> Ca2plus + 2*VEGFpVEGFR22PLC_gamma , ( -1) * (1.56)
+  Ca2plus + VEGFpVEGFR22PLC_gamma -> 2*Ca2plus + VEGFpVEGFR22PLC_gamma , ( -1) * (1.56)
+  2*Ca2plus + Ca2plus_trunsp -> 2*Ca2plus + Ca2plus_trunsp + Ca2plus_trunsp_2Ca2plus , 10.0
+  2*Ca2plus + Ca2plus_trunsp -> 2*Ca2plus + 2*Ca2plus_trunsp , ( -1) * (10.0)
+  2*Ca2plus + Ca2plus_trunsp -> 3*Ca2plus + Ca2plus_trunsp , ( -2) * (10.0)
+  G_beta_gamma_2 + Gq_alpha_GDP -> G_beta_gamma_2 + Gq_alpha_GDP + Gq_alpha_beta_gamma_2_GDP , 0.01
+  G_beta_gamma_2 + Gq_alpha_GDP -> G_beta_gamma_2 + 2*Gq_alpha_GDP , ( -1) * (0.01)
+  G_beta_gamma_2 + Gq_alpha_GDP -> 2*G_beta_gamma_2 + Gq_alpha_GDP , ( -1) * (0.01)
+  Ca2plus_trunsp + Ca2plus_trunsp_2Ca2plus -> Ca2plus_trunsp + Ca2plus_trunsp_2Ca2plus + Ca2plus_store , 5.0
+  Ca2plus_trunsp + Ca2plus_trunsp_2Ca2plus -> Ca2plus_trunsp + 2*Ca2plus_trunsp_2Ca2plus , ( -1) * (5.0)
+  Ca2plus_trunsp + Ca2plus_trunsp_2Ca2plus -> 2*Ca2plus_trunsp + Ca2plus_trunsp_2Ca2plus , ( -1) * (5.0)
+  G12_alpha_GDP + G_beta_gamma_1 -> G12_alpha_GDP + G12_alpha_beta_gamma_1_GDP + G_beta_gamma_1 , 0.01
+  G12_alpha_GDP + G_beta_gamma_1 -> G12_alpha_GDP + 2*G_beta_gamma_1 , ( -1) * (0.01)
+  G12_alpha_GDP + G_beta_gamma_1 -> 2*G12_alpha_GDP + G_beta_gamma_1 , ( -1) * (0.01)
+  G12_alpha_GTP -> G12_alpha_GDP + G12_alpha_GTP , 0.00533
+  G12_alpha_GTP -> 2*G12_alpha_GTP , ( -1) * (0.00533)
+  PLC_beta_Gq_alpha_GTP -> Gq_alpha_GTP + PLC_beta_Gq_alpha_GTP , ( -1) * (-(0.5))
+  PLC_beta_Gq_alpha_GTP -> PLC_beta + PLC_beta_Gq_alpha_GTP , ( -1) * (-(0.5))
+  PLC_beta_Gq_alpha_GTP -> 2*PLC_beta_Gq_alpha_GTP , -(0.5)
+  Ca2plus_trunsp_2Ca2plus -> Ca2plus + Ca2plus_trunsp_2Ca2plus , ( -2) * (-(0.3))
+  Ca2plus_trunsp_2Ca2plus -> Ca2plus_trunsp + Ca2plus_trunsp_2Ca2plus , ( -1) * (-(0.3))
+  Ca2plus_trunsp_2Ca2plus -> 2*Ca2plus_trunsp_2Ca2plus , -(0.3)
+  Ca2plus_pump_Ca2plus -> Ca2plus + Ca2plus_pump_Ca2plus , ( -1) * (-(1.0E-4))
+  Ca2plus_pump_Ca2plus -> Ca2plus_pump + Ca2plus_pump_Ca2plus , ( -1) * (-(1.0E-4))+10.0
+  Ca2plus_pump_Ca2plus -> 2*Ca2plus_pump_Ca2plus , ( -1) * (10.0)+-(1.0E-4)
+  ppMLC + MYPT1_PPase -> ppMLC + MYPT1_PPaseppMLC + MYPT1_PPase , 0.15
+  ppMLC + MYPT1_PPase -> ppMLC + 2*MYPT1_PPase , ( -1) * (0.15)
+  ppMLC + MYPT1_PPase -> 2*ppMLC + MYPT1_PPase , ( -1) * (0.15)
+  ppMLC + pMYPT1_PPase -> ppMLC + pMYPT1_PPase + pMYPT1_PPaseppMLC , 0.08
+  ppMLC + pMYPT1_PPase -> ppMLC + 2*pMYPT1_PPase , ( -1) * (0.08)
+  ppMLC + pMYPT1_PPase -> 2*ppMLC + pMYPT1_PPase , ( -1) * (0.08)
+  MYPT1_PPasepMLC -> MLC + MYPT1_PPasepMLC , 1.68
+  MYPT1_PPasepMLC -> pMLC + MYPT1_PPasepMLC , ( -1) * (-(0.001))
+  MYPT1_PPasepMLC -> MYPT1_PPasepMLC + MYPT1_PPase , ( -1) * (-(0.001))+1.68
+  MYPT1_PPasepMLC -> 2*MYPT1_PPasepMLC , ( -1) * (1.68)+-(0.001)
+  MYPT1_PPaseppMLC -> pMLC + MYPT1_PPaseppMLC , 0.2
+  MYPT1_PPaseppMLC -> ppMLC + MYPT1_PPaseppMLC , ( -1) * (-(1.0E-4))
+  MYPT1_PPaseppMLC -> MYPT1_PPaseppMLC + MYPT1_PPase , ( -1) * (-(1.0E-4))+0.2
+  MYPT1_PPaseppMLC -> 2*MYPT1_PPaseppMLC , ( -1) * (0.2)+-(1.0E-4)
+  MLCKMLC -> MLCK + MLCKMLC , ( -1) * (-(0.01))+0.6
+  MLCKMLC -> MLC + MLCKMLC , ( -1) * (-(0.01))
+  MLCKMLC -> pMLC + MLCKMLC , 0.6
+  MLCKMLC -> 2*MLCKMLC , ( -1) * (0.6)+-(0.01)
+  MLCKpMLC -> MLCK + MLCKpMLC , ( -1) * (-(1.0E-5))+0.2
+  MLCKpMLC -> pMLC + MLCKpMLC , ( -1) * (-(1.0E-5))
+  MLCKpMLC -> ppMLC + MLCKpMLC , 0.2
+  MLCKpMLC -> 2*MLCKpMLC , ( -1) * (0.2)+-(1.0E-5)
+  MLCK_4Ca2plus_CaM_MLC -> MLCK_4Ca2plus_CaM + MLCK_4Ca2plus_CaM_MLC , ( -1) * (-(0.05))+1.5
+  MLCK_4Ca2plus_CaM_MLC -> MLC + MLCK_4Ca2plus_CaM_MLC , ( -1) * (-(0.05))
+  MLCK_4Ca2plus_CaM_MLC -> pMLC + MLCK_4Ca2plus_CaM_MLC , 1.5
+  MLCK_4Ca2plus_CaM_MLC -> 2*MLCK_4Ca2plus_CaM_MLC , ( -1) * (1.5)+-(0.05)
+  MLCK_3Ca2plus_CaM_MLC -> MLCK_3Ca2plus_CaM + MLCK_3Ca2plus_CaM_MLC , ( -1) * (-(1.0E-5))+0.3
+  MLCK_3Ca2plus_CaM_MLC -> MLC + MLCK_3Ca2plus_CaM_MLC , ( -1) * (-(1.0E-5))
+  MLCK_3Ca2plus_CaM_MLC -> pMLC + MLCK_3Ca2plus_CaM_MLC , 0.3
+  MLCK_3Ca2plus_CaM_MLC -> 2*MLCK_3Ca2plus_CaM_MLC , ( -1) * (0.3)+-(1.0E-5)
+  MLCK_4Ca2plus_CaM_pMLC -> MLCK_4Ca2plus_CaM + MLCK_4Ca2plus_CaM_pMLC , ( -1) * (-(0.02))+1.35
+  MLCK_4Ca2plus_CaM_pMLC -> pMLC + MLCK_4Ca2plus_CaM_pMLC , ( -1) * (-(0.02))
+  MLCK_4Ca2plus_CaM_pMLC -> ppMLC + MLCK_4Ca2plus_CaM_pMLC , 1.35
+  MLCK_4Ca2plus_CaM_pMLC -> 2*MLCK_4Ca2plus_CaM_pMLC , ( -1) * (1.35)+-(0.02)
+  MLCK_3Ca2plus_CaM_pMLC -> MLCK_3Ca2plus_CaM + MLCK_3Ca2plus_CaM_pMLC , ( -1) * (-(1.0E-4))
+  MLCK_3Ca2plus_CaM_pMLC -> pMLC + MLCK_3Ca2plus_CaM_pMLC , ( -1) * (-(1.0E-4))
+  MLCK_3Ca2plus_CaM_pMLC -> ppMLC + MLCK_3Ca2plus_CaM_pMLC , 1.2
+  MLCK_3Ca2plus_CaM_pMLC -> 2*MLCK_3Ca2plus_CaM_pMLC , ( -1) * (1.2)+-(1.0E-4)
+  MLCK_2Ca2plus_CaMMLC -> MLC + MLCK_2Ca2plus_CaMMLC , ( -1) * (-(0.006))
+  MLCK_2Ca2plus_CaMMLC -> pMLC + MLCK_2Ca2plus_CaMMLC , 2.0
+  MLCK_2Ca2plus_CaMMLC -> MLCK_2Ca2plus_CaMMLC + MLCK2Ca2plus_CaM , ( -1) * (-(0.006))+2.0
+  MLCK_2Ca2plus_CaMMLC -> 2*MLCK_2Ca2plus_CaMMLC , ( -1) * (2.0)+-(0.006)
+  MLCK_2Ca2plus_CaM_pMLC -> pMLC + MLCK_2Ca2plus_CaM_pMLC , ( -1) * (-(0.1))
+  MLCK_2Ca2plus_CaM_pMLC -> ppMLC + MLCK_2Ca2plus_CaM_pMLC , 1.6
+  MLCK_2Ca2plus_CaM_pMLC -> MLCK_2Ca2plus_CaM_pMLC + MLCK2Ca2plus_CaM , ( -1) * (-(0.1))+1.6
+  MLCK_2Ca2plus_CaM_pMLC -> 2*MLCK_2Ca2plus_CaM_pMLC , ( -1) * (1.6)+-(0.1)
+  MLCK_Ca2plus_CaM_MLC -> MLCK_Ca2plus_CaM + MLCK_Ca2plus_CaM_MLC , ( -1) * (-(1.0E-4))+0.35
+  MLCK_Ca2plus_CaM_MLC -> MLC + MLCK_Ca2plus_CaM_MLC , ( -1) * (-(1.0E-4))
+  MLCK_Ca2plus_CaM_MLC -> pMLC + MLCK_Ca2plus_CaM_MLC , 0.35
+  MLCK_Ca2plus_CaM_MLC -> 2*MLCK_Ca2plus_CaM_MLC , ( -1) * (0.35)+-(1.0E-4)
+  MLCK_Ca2plus_CaM_pMLC -> MLCK_Ca2plus_CaM + MLCK_Ca2plus_CaM_pMLC , ( -1) * (-(1.0E-4))+0.25
+  MLCK_Ca2plus_CaM_pMLC -> pMLC + MLCK_Ca2plus_CaM_pMLC , ( -1) * (-(1.0E-4))
+  MLCK_Ca2plus_CaM_pMLC -> ppMLC + MLCK_Ca2plus_CaM_pMLC , 0.25
+  MLCK_Ca2plus_CaM_pMLC -> 2*MLCK_Ca2plus_CaM_pMLC , ( -1) * (0.25)+-(1.0E-4)
+  PLC_beta_Gq_alpha_GTP_Ca2plus -> Gq_alpha_GTP + PLC_beta_Gq_alpha_GTP_Ca2plus , ( -1) * (-(1.0E-5))
+  PLC_beta_Gq_alpha_GTP_Ca2plus -> Ca2plus + PLC_beta_Gq_alpha_GTP_Ca2plus , ( -1) * (-(0.1))
+  PLC_beta_Gq_alpha_GTP_Ca2plus -> Gq_alpha_GDP + PLC_beta_Gq_alpha_GTP_Ca2plus , 0.0133
+  PLC_beta_Gq_alpha_GTP_Ca2plus -> PLC_beta_Gq_alpha_GTP + PLC_beta_Gq_alpha_GTP_Ca2plus , ( -1) * (-(0.1))
+  PLC_beta_Gq_alpha_GTP_Ca2plus -> PLC_beta_Gq_alpha_GTP_Ca2plus + PLC_beta_Ca2plus , ( -1) * (-(1.0E-5))+0.0133
+  PLC_beta_Gq_alpha_GTP_Ca2plus -> 2*PLC_beta_Gq_alpha_GTP_Ca2plus , -(0.1)+( -1) * (0.0133)+-(1.0E-5)
+  PKCCa2plus_DAG -> DAG + PKCCa2plus_DAG , ( -1) * (-(0.001))
+  PKCCa2plus_DAG -> PKC_active_3 + PKCCa2plus_DAG , 1.78
+  PKCCa2plus_DAG -> PKCCa2plus_DAG + PKCCa2plus , ( -1) * (-(0.001))
+  PKCCa2plus_DAG -> 2*PKCCa2plus_DAG , ( -1) * (1.78)+-(0.001)
+  PKCCa2plus -> PKC + PKCCa2plus , ( -1) * (-(0.01))
+  PKCCa2plus -> Ca2plus + PKCCa2plus , ( -1) * (-(0.01))
+  PKCCa2plus -> 2*PKCCa2plus , -(0.01)
+  PKCCa2plus + eNOS -> PKCCa2plus + eNOS + PKCCa2plus_eNOS , 55.0
+  PKCCa2plus + eNOS -> PKCCa2plus + 2*eNOS , ( -1) * (55.0)
+  PKCCa2plus + eNOS -> 2*PKCCa2plus + eNOS , ( -1) * (55.0)
+  PLC_beta_Ca2plus -> Ca2plus + PLC_beta_Ca2plus , ( -1) * (-(0.001))
+  PLC_beta_Ca2plus -> PLC_beta + PLC_beta_Ca2plus , ( -1) * (-(0.001))
+  PLC_beta_Ca2plus -> 2*PLC_beta_Ca2plus , -(0.001)
+  MYPT1_PPase + pROCK -> MYPT1_PPase + pROCK + pROCKMYPT1_PPase , 1.43
+  MYPT1_PPase + pROCK -> MYPT1_PPase + 2*pROCK , ( -1) * (1.43)
+  MYPT1_PPase + pROCK -> 2*MYPT1_PPase + pROCK , ( -1) * (1.43)
+  MYPT1_PPase + RhoGTPROCK -> MYPT1_PPase + RhoGTPROCK + RhoGTPROCKMYPT1_PPase , 1.0
+  MYPT1_PPase + RhoGTPROCK -> MYPT1_PPase + 2*RhoGTPROCK , ( -1) * (1.0)
+  MYPT1_PPase + RhoGTPROCK -> 2*MYPT1_PPase + RhoGTPROCK , ( -1) * (1.0)
+  pMYPT1_PPase -> MYPT1_PPase + pMYPT1_PPase , 0.2
+  pMYPT1_PPase -> 2*pMYPT1_PPase , ( -1) * (0.2)
+  thrombin_pro_thrombinR -> thrombin + thrombin_pro_thrombinR , ( -1) * (-(0.01))+0.8
+  thrombin_pro_thrombinR -> pro_thrombinR + thrombin_pro_thrombinR , ( -1) * (-(0.01))
+  thrombin_pro_thrombinR -> thrombinR_active + thrombin_pro_thrombinR , 0.8
+  thrombin_pro_thrombinR -> 2*thrombin_pro_thrombinR , ( -1) * (0.8)+-(0.01)
+  G12_alpha_beta_gamma_1_GDPthrombinR_active -> thrombinR_active + G12_alpha_beta_gamma_1_GDPthrombinR_active , ( -1) * (-(6.0E-4))
+  G12_alpha_beta_gamma_1_GDPthrombinR_active -> G12_alpha_beta_gamma_1_GDP + G12_alpha_beta_gamma_1_GDPthrombinR_active , ( -1) * (-(6.0E-4))
+  G12_alpha_beta_gamma_1_GDPthrombinR_active -> 2*G12_alpha_beta_gamma_1_GDPthrombinR_active , -(6.0E-4)
+  Gq_alpha_beta_gamma_2_GDP + H1Ractive -> Gq_alpha_beta_gamma_2_GDP + H1Ractive + G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive , 0.68
+  Gq_alpha_beta_gamma_2_GDP + H1Ractive -> Gq_alpha_beta_gamma_2_GDP + 2*H1Ractive , ( -1) * (0.68)
+  Gq_alpha_beta_gamma_2_GDP + H1Ractive -> 2*Gq_alpha_beta_gamma_2_GDP + H1Ractive , ( -1) * (0.68)
+  Gq_alpha_beta_gamma_2_GDPthrombinR_active -> thrombinR_active + Gq_alpha_beta_gamma_2_GDPthrombinR_active , ( -1) * (-(0.006))
+  Gq_alpha_beta_gamma_2_GDPthrombinR_active -> Gq_alpha_beta_gamma_2_GDP + Gq_alpha_beta_gamma_2_GDPthrombinR_active , ( -1) * (-(0.006))
+  Gq_alpha_beta_gamma_2_GDPthrombinR_active -> 2*Gq_alpha_beta_gamma_2_GDPthrombinR_active , -(0.006)
+  p115RhoGEFG12_alpha_GTP -> p115RhoGEF + p115RhoGEFG12_alpha_GTP , 0.0117+( -1) * (-(0.1))
+  p115RhoGEFG12_alpha_GTP -> G12_alpha_GDP + p115RhoGEFG12_alpha_GTP , 0.0117
+  p115RhoGEFG12_alpha_GTP -> G12_alpha_GTP + p115RhoGEFG12_alpha_GTP , ( -1) * (-(0.1))
+  p115RhoGEFG12_alpha_GTP -> 2*p115RhoGEFG12_alpha_GTP , -(0.1)+( -1) * (0.0117)
+  p115RhoGEFG12_alpha_GTPRhoGDP -> RhoGTP + p115RhoGEFG12_alpha_GTPRhoGDP , 0.07
+  p115RhoGEFG12_alpha_GTPRhoGDP -> RhoGDP + p115RhoGEFG12_alpha_GTPRhoGDP , ( -1) * (-(0.001))
+  p115RhoGEFG12_alpha_GTPRhoGDP -> p115RhoGEFG12_alpha_GTP + p115RhoGEFG12_alpha_GTPRhoGDP , ( -1) * (-(0.001))+0.07
+  p115RhoGEFG12_alpha_GTPRhoGDP -> 2*p115RhoGEFG12_alpha_GTPRhoGDP , ( -1) * (0.07)+-(0.001)
+  RhoGTPRhoGAP -> RhoGAP + RhoGTPRhoGAP , ( -1) * (-(1.0E-4))+0.08
+  RhoGTPRhoGAP -> RhoGTP + RhoGTPRhoGAP , ( -1) * (-(1.0E-4))
+  RhoGTPRhoGAP -> RhoGDP + RhoGTPRhoGAP , 0.08
+  RhoGTPRhoGAP -> 2*RhoGTPRhoGAP , ( -1) * (0.08)+-(1.0E-4)
+  PLC_beta_Ca2plus_PIP2 -> DAG + PLC_beta_Ca2plus_PIP2 , 0.8
+  PLC_beta_Ca2plus_PIP2 -> IP3 + PLC_beta_Ca2plus_PIP2 , 0.8
+  PLC_beta_Ca2plus_PIP2 -> PIP2 + PLC_beta_Ca2plus_PIP2 , ( -1) * (-(1.0E-4))
+  PLC_beta_Ca2plus_PIP2 -> PLC_beta_Ca2plus + PLC_beta_Ca2plus_PIP2 , ( -1) * (-(1.0E-4))+0.8
+  PLC_beta_Ca2plus_PIP2 -> 2*PLC_beta_Ca2plus_PIP2 , ( -1) * (0.8)+-(1.0E-4)
+  PLC_beta_Gq_alpha_GTPCa2plus_PIP2 -> DAG + PLC_beta_Gq_alpha_GTPCa2plus_PIP2 , 0.68
+  PLC_beta_Gq_alpha_GTPCa2plus_PIP2 -> IP3 + PLC_beta_Gq_alpha_GTPCa2plus_PIP2 , 0.68
+  PLC_beta_Gq_alpha_GTPCa2plus_PIP2 -> PIP2 + PLC_beta_Gq_alpha_GTPCa2plus_PIP2 , ( -1) * (-(4.0E-4))
+  PLC_beta_Gq_alpha_GTPCa2plus_PIP2 -> PLC_beta_Gq_alpha_GTP_Ca2plus + PLC_beta_Gq_alpha_GTPCa2plus_PIP2 , ( -1) * (-(4.0E-4))+0.68
+  PLC_beta_Gq_alpha_GTPCa2plus_PIP2 -> 2*PLC_beta_Gq_alpha_GTPCa2plus_PIP2 , ( -1) * (0.68)+-(4.0E-4)
+  MLCK2Ca2plus_CaM -> CaM2Ca2plus + MLCK2Ca2plus_CaM , ( -1) * (-(0.15))
+  MLCK2Ca2plus_CaM -> MLCK + MLCK2Ca2plus_CaM , ( -1) * (-(0.15))
+  MLCK2Ca2plus_CaM -> 2*MLCK2Ca2plus_CaM , -(0.15)
+  pMYPT1_PPaseppMLC -> pMLC + pMYPT1_PPaseppMLC , 0.3
+  pMYPT1_PPaseppMLC -> ppMLC + pMYPT1_PPaseppMLC , ( -1) * (-(1.0E-4))
+  pMYPT1_PPaseppMLC -> pMYPT1_PPase + pMYPT1_PPaseppMLC , ( -1) * (-(1.0E-4))+0.3
+  pMYPT1_PPaseppMLC -> 2*pMYPT1_PPaseppMLC , ( -1) * (0.3)+-(1.0E-4)
+  pMYPT1_PPasepMLC -> MLC + pMYPT1_PPasepMLC , 0.7
+  pMYPT1_PPasepMLC -> pMLC + pMYPT1_PPasepMLC , ( -1) * (-(1.0E-4))
+  pMYPT1_PPasepMLC -> pMYPT1_PPase + pMYPT1_PPasepMLC , ( -1) * (-(1.0E-4))+0.7
+  pMYPT1_PPasepMLC -> 2*pMYPT1_PPasepMLC , ( -1) * (0.7)+-(1.0E-4)
+  Ca2plus_IP3_IP3R -> IP3IP3R + Ca2plus_IP3_IP3R , ( -1) * (-(0.001))+3.0
+  Ca2plus_IP3_IP3R -> Ca2plus + Ca2plus_IP3_IP3R , 3.0
+  Ca2plus_IP3_IP3R -> Ca2plus_IP3_IP3R + Ca2plus_store , ( -1) * (-(0.001))
+  Ca2plus_IP3_IP3R -> 2*Ca2plus_IP3_IP3R , ( -1) * (3.0)+-(0.001)
+  Ca2plus_ext1 -> Ca2plus + Ca2plus_ext1 , 0.5
+  Ca2plus_ext1 -> Ca2plus_extleak + Ca2plus_ext1 , ( -1) * (-(1.0E-4))+0.5
+  Ca2plus_ext1 -> 2*Ca2plus_ext1 , ( -1) * (0.5)+-(1.0E-4)
+  Ca2plus_intleak + Ca2plus_store -> Ca2plus_intleak + Ca2plus_int1 + Ca2plus_store , 5.0
+  Ca2plus_intleak + Ca2plus_store -> Ca2plus_intleak + 2*Ca2plus_store , ( -1) * (5.0)
+  Ca2plus_intleak + Ca2plus_store -> 2*Ca2plus_intleak + Ca2plus_store , ( -1) * (5.0)
+  Ca2plus_int1 -> Ca2plus + Ca2plus_int1 , 0.5
+  Ca2plus_int1 -> Ca2plus_intleak + Ca2plus_int1 , ( -1) * (-(1.0E-4))+0.5
+  Ca2plus_int1 -> Ca2plus_int1 + Ca2plus_store , ( -1) * (-(1.0E-4))
+  Ca2plus_int1 -> 2*Ca2plus_int1 , ( -1) * (0.5)+-(1.0E-4)
+  RhoGDPRhoGDI -> RhoGDP + RhoGDPRhoGDI , ( -1) * (-(0.05))
+  RhoGDPRhoGDI -> RhoGDI + RhoGDPRhoGDI , ( -1) * (-(0.05))
+  RhoGDPRhoGDI -> 2*RhoGDPRhoGDI , -(0.05)
+  pROCK -> degradation + pROCK , 8.0E-4
+  pROCK -> 2*pROCK , ( -1) * (8.0E-4)
+  ROCK + PKGactive -> ROCK + PKGactive + PKGROCK , 0.35
+  ROCK + PKGactive -> ROCK + 2*PKGactive , ( -1) * (0.35)
+  ROCK + PKGactive -> 2*ROCK + PKGactive , ( -1) * (0.35)
+  RhoGTPROCK -> RhoGTP + RhoGTPROCK , ( -1) * (-(5.0E-4))+0.085
+  RhoGTPROCK -> pROCK + RhoGTPROCK , 0.085
+  RhoGTPROCK -> ROCK + RhoGTPROCK , ( -1) * (-(5.0E-4))
+  RhoGTPROCK -> 2*RhoGTPROCK , ( -1) * (0.085)+-(5.0E-4)
+  pROCKMLC -> MLC + pROCKMLC , ( -1) * (-(0.001))
+  pROCKMLC -> pMLC + pROCKMLC , 1.35
+  pROCKMLC -> pROCK + pROCKMLC , ( -1) * (-(0.001))+1.35
+  pROCKMLC -> 2*pROCKMLC , ( -1) * (1.35)+-(0.001)
+  pROCKpMLC -> pMLC + pROCKpMLC , ( -1) * (-(0.001))
+  pROCKpMLC -> ppMLC + pROCKpMLC , 0.07
+  pROCKpMLC -> pROCK + pROCKpMLC , ( -1) * (-(0.001))+0.07
+  pROCKpMLC -> 2*pROCKpMLC , ( -1) * (0.07)+-(0.001)
+  RhoGTPROCKMLC -> MLC + RhoGTPROCKMLC , ( -1) * (-(1.0E-4))
+  RhoGTPROCKMLC -> pMLC + RhoGTPROCKMLC , 0.06
+  RhoGTPROCKMLC -> RhoGTPROCK + RhoGTPROCKMLC , ( -1) * (-(1.0E-4))+0.06
+  RhoGTPROCKMLC -> 2*RhoGTPROCKMLC , ( -1) * (0.06)+-(1.0E-4)
+  RhoGTPROCKpMLC -> pMLC + RhoGTPROCKpMLC , ( -1) * (-(2.0E-4))
+  RhoGTPROCKpMLC -> ppMLC + RhoGTPROCKpMLC , 1.6
+  RhoGTPROCKpMLC -> RhoGTPROCK + RhoGTPROCKpMLC , ( -1) * (-(2.0E-4))+1.6
+  RhoGTPROCKpMLC -> 2*RhoGTPROCKpMLC , ( -1) * (1.6)+-(2.0E-4)
+  pROCKMYPT1_PPase -> MYPT1_PPase + pROCKMYPT1_PPase , ( -1) * (-(1.0E-4))
+  pROCKMYPT1_PPase -> pMYPT1_PPase + pROCKMYPT1_PPase , 0.72
+  pROCKMYPT1_PPase -> pROCK + pROCKMYPT1_PPase , ( -1) * (-(1.0E-4))+0.72
+  pROCKMYPT1_PPase -> 2*pROCKMYPT1_PPase , ( -1) * (0.72)+-(1.0E-4)
+  RhoGTPROCKMYPT1_PPase -> MYPT1_PPase + RhoGTPROCKMYPT1_PPase , ( -1) * (-(0.005))
+  RhoGTPROCKMYPT1_PPase -> pMYPT1_PPase + RhoGTPROCKMYPT1_PPase , 2.5
+  RhoGTPROCKMYPT1_PPase -> RhoGTPROCK + RhoGTPROCKMYPT1_PPase , ( -1) * (-(0.005))+2.5
+  RhoGTPROCKMYPT1_PPase -> 2*RhoGTPROCKMYPT1_PPase , ( -1) * (2.5)+-(0.005)
+  VEGF + VEGFR2 -> VEGF + VEGFR2 + VEGFVEGFR2 , 8.0
+  VEGF + VEGFR2 -> VEGF + 2*VEGFR2 , ( -1) * (8.0)
+  VEGF + VEGFR2 -> 2*VEGF + VEGFR2 , ( -1) * (8.0)
+  VEGFVEGFR2 -> VEGF + VEGFVEGFR2 , ( -1) * (-(1.0E-4))
+  VEGFVEGFR2 -> VEGFR2 + VEGFVEGFR2 , ( -1) * (-(1.0E-4))
+  VEGFVEGFR2 -> 2*VEGFVEGFR2 , -(1.0E-4)
+  2*VEGFVEGFR2 -> 2*VEGFVEGFR2 + VEGFVEGFR22 , 0.6
+  2*VEGFVEGFR2 -> 3*VEGFVEGFR2 , ( -2) * (0.6)
+  VEGFVEGFR22 -> VEGFVEGFR2 + VEGFVEGFR22 , ( -2) * (-(0.001))
+  VEGFVEGFR22 -> VEGFVEGFR22 + VEGFpVEGFR22 , 2.01
+  VEGFVEGFR22 -> 2*VEGFVEGFR22 , ( -1) * (2.01)+-(0.001)
+  VEGFpVEGFR22 + pShc -> VEGFpVEGFR22 + VEGFpVEGFR22pShc + pShc , ( -1) * (-(1.0E-4))
+  VEGFpVEGFR22 + pShc -> VEGFpVEGFR22 + 2*pShc , -(1.0E-4)
+  VEGFpVEGFR22 + pShc -> 2*VEGFpVEGFR22 + pShc , -(1.0E-4)
+  VEGFpVEGFR22 + Grb2 -> VEGFpVEGFR22 + Grb2 + VEGFpVEGFR22Grb2 , 1.67
+  VEGFpVEGFR22 + Grb2 -> VEGFpVEGFR22 + 2*Grb2 , ( -1) * (1.67)
+  VEGFpVEGFR22 + Grb2 -> 2*VEGFpVEGFR22 + Grb2 , ( -1) * (1.67)
+  VEGFpVEGFR22 + Grb2Sos -> VEGFpVEGFR22 + Grb2Sos + VEGFpVEGFR22Grb2SOS , 2.67
+  VEGFpVEGFR22 + Grb2Sos -> VEGFpVEGFR22 + 2*Grb2Sos , ( -1) * (2.67)
+  VEGFpVEGFR22 + Grb2Sos -> 2*VEGFpVEGFR22 + Grb2Sos , ( -1) * (2.67)
+  VEGFpVEGFR22 + Shc -> VEGFpVEGFR22 + VEGFpVEGFR22Shc + Shc , 0.3
+  VEGFpVEGFR22 + Shc -> VEGFpVEGFR22 + 2*Shc , ( -1) * (0.3)
+  VEGFpVEGFR22 + Shc -> 2*VEGFpVEGFR22 + Shc , ( -1) * (0.3)
+  VEGFpVEGFR22 + PLC_gamma -> VEGFpVEGFR22 + PLC_gamma + VEGFpVEGFR22PLC_gamma , 1.52
+  VEGFpVEGFR22 + PLC_gamma -> VEGFpVEGFR22 + 2*PLC_gamma , ( -1) * (1.52)
+  VEGFpVEGFR22 + PLC_gamma -> 2*VEGFpVEGFR22 + PLC_gamma , ( -1) * (1.52)
+  VEGFpVEGFR22 + PLC_gammaCa2plus -> VEGFpVEGFR22 + PLC_gammaCa2plus + VEGFpVEGFR22PLC_gammaCa2plus , 1.5
+  VEGFpVEGFR22 + PLC_gammaCa2plus -> VEGFpVEGFR22 + 2*PLC_gammaCa2plus , ( -1) * (1.5)
+  VEGFpVEGFR22 + PLC_gammaCa2plus -> 2*VEGFpVEGFR22 + PLC_gammaCa2plus , ( -1) * (1.5)
+  VEGFpVEGFR22Shc -> VEGFpVEGFR22 + VEGFpVEGFR22Shc , ( -1) * (-(0.006))
+  VEGFpVEGFR22Shc -> VEGFpVEGFR22Shc + VEGFpVEGFR22pShc , 0.5838
+  VEGFpVEGFR22Shc -> VEGFpVEGFR22Shc + Shc , ( -1) * (-(0.006))
+  VEGFpVEGFR22Shc -> 2*VEGFpVEGFR22Shc , ( -1) * (0.5838)+-(0.006)
+  VEGFpVEGFR22pShc -> VEGFpVEGFR22 + VEGFpVEGFR22pShc , 0.022
+  VEGFpVEGFR22pShc -> VEGFpVEGFR22pShc + pShc , 0.022
+  VEGFpVEGFR22pShc -> 2*VEGFpVEGFR22pShc , ( -1) * (0.022)
+  VEGFpVEGFR22pShc + Grb2 -> VEGFpVEGFR22pShc + Grb2 + VEGFpVEGFR22pShcGrb2 , 3.0
+  VEGFpVEGFR22pShc + Grb2 -> VEGFpVEGFR22pShc + 2*Grb2 , ( -1) * (3.0)
+  VEGFpVEGFR22pShc + Grb2 -> 2*VEGFpVEGFR22pShc + Grb2 , ( -1) * (3.0)
+  VEGFpVEGFR22pShc + Grb2Sos -> VEGFpVEGFR22pShc + VEGFpVEGFR22pShcGrb2SOS + Grb2Sos , 1.0
+  VEGFpVEGFR22pShc + Grb2Sos -> VEGFpVEGFR22pShc + 2*Grb2Sos , ( -1) * (1.0)
+  VEGFpVEGFR22pShc + Grb2Sos -> 2*VEGFpVEGFR22pShc + Grb2Sos , ( -1) * (1.0)
+  pShc + SHP -> pShc + pShcSHP + SHP , 0.05
+  pShc + SHP -> pShc + 2*SHP , ( -1) * (0.05)
+  pShc + SHP -> 2*pShc + SHP , ( -1) * (0.05)
+  pShcSHP -> pShc + pShcSHP , ( -1) * (-(1.0E-4))
+  pShcSHP -> pShcSHP + SHP , ( -1) * (-(1.0E-4))+0.28
+  pShcSHP -> pShcSHP + Shc , 0.28
+  pShcSHP -> 2*pShcSHP , ( -1) * (0.28)+-(1.0E-4)
+  Grb2 + Sos -> Grb2 + Sos + Grb2Sos , 0.1
+  Grb2 + Sos -> Grb2 + 2*Sos , ( -1) * (0.1)
+  Grb2 + Sos -> 2*Grb2 + Sos , ( -1) * (0.1)
+  VEGFpVEGFR22pShcGrb2 -> VEGFpVEGFR22pShc + VEGFpVEGFR22pShcGrb2 , ( -1) * (-(0.1))
+  VEGFpVEGFR22pShcGrb2 -> Grb2 + VEGFpVEGFR22pShcGrb2 , ( -1) * (-(0.1))
+  VEGFpVEGFR22pShcGrb2 -> 2*VEGFpVEGFR22pShcGrb2 , -(0.1)
+  VEGFpVEGFR22pShcGrb2 + Sos -> VEGFpVEGFR22pShcGrb2 + Sos + VEGFpVEGFR22pShcGrb2SOS , 1.0
+  VEGFpVEGFR22pShcGrb2 + Sos -> VEGFpVEGFR22pShcGrb2 + 2*Sos , ( -1) * (1.0)
+  VEGFpVEGFR22pShcGrb2 + Sos -> 2*VEGFpVEGFR22pShcGrb2 + Sos , ( -1) * (1.0)
+  Sos + VEGFpVEGFR22Grb2 -> Sos + VEGFpVEGFR22Grb2 + VEGFpVEGFR22Grb2SOS , 6.0
+  Sos + VEGFpVEGFR22Grb2 -> Sos + 2*VEGFpVEGFR22Grb2 , ( -1) * (6.0)
+  Sos + VEGFpVEGFR22Grb2 -> 2*Sos + VEGFpVEGFR22Grb2 , ( -1) * (6.0)
+  VEGFpVEGFR22pShcGrb2SOS -> VEGFpVEGFR22pShc + VEGFpVEGFR22pShcGrb2SOS , ( -1) * (-(0.045))
+  VEGFpVEGFR22pShcGrb2SOS -> VEGFpVEGFR22pShcGrb2 + VEGFpVEGFR22pShcGrb2SOS , ( -1) * (-(0.0214))
+  VEGFpVEGFR22pShcGrb2SOS -> Sos + VEGFpVEGFR22pShcGrb2SOS , ( -1) * (-(0.0214))
+  VEGFpVEGFR22pShcGrb2SOS -> VEGFpVEGFR22pShcGrb2SOS + Grb2Sos , ( -1) * (-(0.045))
+  VEGFpVEGFR22pShcGrb2SOS -> 2*VEGFpVEGFR22pShcGrb2SOS , -(0.045)+-(0.0214)
+  VEGFpVEGFR22pShcGrb2SOS + RasGDP -> VEGFpVEGFR22pShcGrb2SOS + RasGDP + VEGFpVEGFR22pShcGrb2SOSRasGDP , 9.2
+  VEGFpVEGFR22pShcGrb2SOS + RasGDP -> VEGFpVEGFR22pShcGrb2SOS + 2*RasGDP , ( -1) * (9.2)
+  VEGFpVEGFR22pShcGrb2SOS + RasGDP -> 2*VEGFpVEGFR22pShcGrb2SOS + RasGDP , ( -1) * (9.2)
+  VEGFpVEGFR22pShcGrb2SOS + ppERK -> VEGFpVEGFR22pShcGrb2SOS + ppERK + ppERKVEGFpVEGFR22pShcGrb2SOS , 20.898
+  VEGFpVEGFR22pShcGrb2SOS + ppERK -> VEGFpVEGFR22pShcGrb2SOS + 2*ppERK , ( -1) * (20.898)
+  VEGFpVEGFR22pShcGrb2SOS + ppERK -> 2*VEGFpVEGFR22pShcGrb2SOS + ppERK , ( -1) * (20.898)
+  Grb2Sos -> Grb2 + Grb2Sos , ( -1) * (-(0.0015))
+  Grb2Sos -> Sos + Grb2Sos , ( -1) * (-(0.0015))
+  Grb2Sos -> 2*Grb2Sos , -(0.0015)
+  RasGDP -> RasGDP + RasGTP , ( -1) * (-(1.0E-4))
+  RasGDP -> 2*RasGDP , -(1.0E-4)
+  RasGDP + VEGFpVEGFR22Grb2SOS -> RasGDP + VEGFpVEGFR22Grb2SOS + VEGFpVEGFR22Grb2SOSRasGDP , 12.22
+  RasGDP + VEGFpVEGFR22Grb2SOS -> RasGDP + 2*VEGFpVEGFR22Grb2SOS , ( -1) * (12.22)
+  RasGDP + VEGFpVEGFR22Grb2SOS -> 2*RasGDP + VEGFpVEGFR22Grb2SOS , ( -1) * (12.22)
+  VEGFpVEGFR22pShcGrb2SOSRasGDP -> VEGFpVEGFR22pShcGrb2SOS + VEGFpVEGFR22pShcGrb2SOSRasGDP , ( -1) * (-(0.0018))
+  VEGFpVEGFR22pShcGrb2SOSRasGDP -> RasGDP + VEGFpVEGFR22pShcGrb2SOSRasGDP , ( -1) * (-(0.0018))
+  VEGFpVEGFR22pShcGrb2SOSRasGDP -> 2*VEGFpVEGFR22pShcGrb2SOSRasGDP , -(0.0018)
+  VEGFpVEGFR22Grb2 -> VEGFpVEGFR22 + VEGFpVEGFR22Grb2 , ( -1) * (-(0.02))
+  VEGFpVEGFR22Grb2 -> Grb2 + VEGFpVEGFR22Grb2 , ( -1) * (-(0.02))
+  VEGFpVEGFR22Grb2 -> 2*VEGFpVEGFR22Grb2 , -(0.02)
+  VEGFpVEGFR22Grb2SOS -> VEGFpVEGFR22 + VEGFpVEGFR22Grb2SOS , ( -1) * (-(0.01))
+  VEGFpVEGFR22Grb2SOS -> Sos + VEGFpVEGFR22Grb2SOS , ( -1) * (-(0.03))
+  VEGFpVEGFR22Grb2SOS -> Grb2Sos + VEGFpVEGFR22Grb2SOS , ( -1) * (-(0.01))
+  VEGFpVEGFR22Grb2SOS -> VEGFpVEGFR22Grb2 + VEGFpVEGFR22Grb2SOS , ( -1) * (-(0.03))
+  VEGFpVEGFR22Grb2SOS -> 2*VEGFpVEGFR22Grb2SOS , -(0.03)+-(0.01)
+  VEGFpVEGFR22Grb2SOS + ppERK -> VEGFpVEGFR22Grb2SOS + ppERK + ppERKVEGFpVEGFR22Grb2SOS , 20.898
+  VEGFpVEGFR22Grb2SOS + ppERK -> VEGFpVEGFR22Grb2SOS + 2*ppERK , ( -1) * (20.898)
+  VEGFpVEGFR22Grb2SOS + ppERK -> 2*VEGFpVEGFR22Grb2SOS + ppERK , ( -1) * (20.898)
+  VEGFpVEGFR22Grb2SOSRasGDP -> RasGDP + VEGFpVEGFR22Grb2SOSRasGDP , ( -1) * (-(0.0016))
+  VEGFpVEGFR22Grb2SOSRasGDP -> VEGFpVEGFR22Grb2SOS + VEGFpVEGFR22Grb2SOSRasGDP , ( -1) * (-(0.0016))+6.8+10.56
+  VEGFpVEGFR22Grb2SOSRasGDP -> VEGFpVEGFR22Grb2SOSRasGDP + RasGTP , 6.8+10.56
+  VEGFpVEGFR22Grb2SOSRasGDP -> 2*VEGFpVEGFR22Grb2SOSRasGDP , ( -1) * (10.56)+( -1) * (6.8)+-(0.0016)
+  RasGTP -> RasGDP + RasGTP , 3.0
+  RasGTP -> 2*RasGTP , ( -1) * (3.0)
+  RasGTP + Raf -> RasGTP + Raf + RasGTPRaf , 1.8
+  RasGTP + Raf -> RasGTP + 2*Raf , ( -1) * (1.8)
+  RasGTP + Raf -> 2*RasGTP + Raf , ( -1) * (1.8)
+  RasGTP + RasGAP -> RasGTP + RasGAP + RasGTPRasGAP , 2.88
+  RasGTP + RasGAP -> RasGTP + 2*RasGAP , ( -1) * (2.88)
+  RasGTP + RasGAP -> 2*RasGTP + RasGAP , ( -1) * (2.88)
+  Raf + PKGactive -> Raf + PKGactive + PKGRaf , 0.22
+  Raf + PKGactive -> Raf + 2*PKGactive , ( -1) * (0.22)
+  Raf + PKGactive -> 2*Raf + PKGactive , ( -1) * (0.22)
+  RasGTPRaf -> RasGTP + RasGTPRaf , ( -1) * (-(0.05))+0.7624
+  RasGTPRaf -> Raf + RasGTPRaf , ( -1) * (-(0.05))
+  RasGTPRaf -> RasGTPRaf + pRaf , 0.7624
+  RasGTPRaf -> 2*RasGTPRaf , ( -1) * (0.7624)+-(0.05)
+  pRaf + MEK -> pRaf + MEK + pRafMEK , 4.0
+  pRaf + MEK -> pRaf + 2*MEK , ( -1) * (4.0)
+  pRaf + MEK -> 2*pRaf + MEK , ( -1) * (4.0)
+  pRaf + pMEK -> pRaf + pMEK + pRafpMEK , 4.0
+  pRaf + pMEK -> pRaf + 2*pMEK , ( -1) * (4.0)
+  pRaf + pMEK -> 2*pRaf + pMEK , ( -1) * (4.0)
+  pRaf + Pase -> pRaf + Pase + pRafPase , 6.0
+  pRaf + Pase -> pRaf + 2*Pase , ( -1) * (6.0)
+  pRaf + Pase -> 2*pRaf + Pase , ( -1) * (6.0)
+  pRafMEK -> pRaf + pRafMEK , ( -1) * (-(0.01833))+0.65
+  pRafMEK -> MEK + pRafMEK , ( -1) * (-(0.01833))
+  pRafMEK -> pRafMEK + pMEK , 0.65
+  pRafMEK -> 2*pRafMEK , ( -1) * (0.65)+-(0.01833)
+  pMEK + PP2A -> pMEK + PP2A + pMEKPP2A , 3.0
+  pMEK + PP2A -> pMEK + 2*PP2A , ( -1) * (3.0)
+  pMEK + PP2A -> 2*pMEK + PP2A , ( -1) * (3.0)
+  pRafpMEK -> pRaf + pRafpMEK , ( -1) * (-(0.01833))+2.9
+  pRafpMEK -> pMEK + pRafpMEK , ( -1) * (-(0.01833))
+  pRafpMEK -> pRafpMEK + ppMEK , 2.9
+  pRafpMEK -> 2*pRafpMEK , ( -1) * (2.9)+-(0.01833)
+  ppMEK + ERK -> ppMEK + ERK + ppMEKERK , 0.86
+  ppMEK + ERK -> ppMEK + 2*ERK , ( -1) * (0.86)
+  ppMEK + ERK -> 2*ppMEK + ERK , ( -1) * (0.86)
+  ppMEK + pERK -> ppMEK + pERK + ppMEKpERK , 3.98
+  ppMEK + pERK -> ppMEK + 2*pERK , ( -1) * (3.98)
+  ppMEK + pERK -> 2*ppMEK + pERK , ( -1) * (3.98)
+  ppMEK + PP2A -> ppMEK + PP2A + ppMEKPP2A , 3.0
+  ppMEK + PP2A -> ppMEK + 2*PP2A , ( -1) * (3.0)
+  ppMEK + PP2A -> 2*ppMEK + PP2A , ( -1) * (3.0)
+  ppMEKERK -> ppMEK + ppMEKERK , ( -1) * (-(0.0033))+2.88
+  ppMEKERK -> ERK + ppMEKERK , ( -1) * (-(0.0033))
+  ppMEKERK -> ppMEKERK + pERK , 2.88
+  ppMEKERK -> 2*ppMEKERK , ( -1) * (2.88)+-(0.0033)
+  pERK + MKP3 -> pERK + MKP3 + pERKMKP3 , 4.25
+  pERK + MKP3 -> pERK + 2*MKP3 , ( -1) * (4.25)
+  pERK + MKP3 -> 2*pERK + MKP3 , ( -1) * (4.25)
+  ppMEKpERK -> ppMEK + ppMEKpERK , ( -1) * (-(0.0033))+5.7
+  ppMEKpERK -> pERK + ppMEKpERK , ( -1) * (-(0.0033))
+  ppMEKpERK -> ppMEKpERK + ppERK , 5.7
+  ppMEKpERK -> 2*ppMEKpERK , ( -1) * (5.7)+-(0.0033)
+  ppERK -> degradation + ppERK , 0.0025
+  ppERK -> 2*ppERK , ( -1) * (0.0025)
+  ppERK + MKP3 -> ppERK + MKP3 + ppERKMKP3 , 0.8
+  ppERK + MKP3 -> ppERK + 2*MKP3 , ( -1) * (0.8)
+  ppERK + MKP3 -> 2*ppERK + MKP3 , ( -1) * (0.8)
+  ppERK + pMLCK -> ppERK + pMLCK + ppERKpMLCK , 0.05
+  ppERK + pMLCK -> ppERK + 2*pMLCK , ( -1) * (0.05)
+  ppERK + pMLCK -> 2*ppERK + pMLCK , ( -1) * (0.05)
+  pRafPase -> Raf + pRafPase , 1.0
+  pRafPase -> pRaf + pRafPase , ( -1) * (-(0.2))
+  pRafPase -> Pase + pRafPase , ( -1) * (-(0.2))+1.0
+  pRafPase -> 2*pRafPase , ( -1) * (1.0)+-(0.2)
+  ppMEKPP2A -> pMEK + ppMEKPP2A , 0.1
+  ppMEKPP2A -> ppMEK + ppMEKPP2A , ( -1) * (-(0.8))
+  ppMEKPP2A -> PP2A + ppMEKPP2A , 0.1+( -1) * (-(0.8))
+  ppMEKPP2A -> 2*ppMEKPP2A , -(0.8)+( -1) * (0.1)
+  pMEKPP2A -> MEK + pMEKPP2A , 0.1
+  pMEKPP2A -> pMEK + pMEKPP2A , ( -1) * (-(0.8))
+  pMEKPP2A -> PP2A + pMEKPP2A , 0.1+( -1) * (-(0.8))
+  pMEKPP2A -> 2*pMEKPP2A , -(0.8)+( -1) * (0.1)
+  ppERKMKP3 -> pERK + ppERKMKP3 , 0.27
+  ppERKMKP3 -> ppERK + ppERKMKP3 , ( -1) * (-(0.006))
+  ppERKMKP3 -> MKP3 + ppERKMKP3 , ( -1) * (-(0.006))+0.27
+  ppERKMKP3 -> 2*ppERKMKP3 , ( -1) * (0.27)+-(0.006)
+  pERKMKP3 -> ERK + pERKMKP3 , 0.3
+  pERKMKP3 -> pERK + pERKMKP3 , ( -1) * (-(5.0E-4))
+  pERKMKP3 -> MKP3 + pERKMKP3 , ( -1) * (-(5.0E-4))+0.3
+  pERKMKP3 -> 2*pERKMKP3 , ( -1) * (0.3)+-(5.0E-4)
+  ppERKMLCK -> MLCK + ppERKMLCK , ( -1) * (-(6.0E-4))
+  ppERKMLCK -> ppERK + ppERKMLCK , ( -1) * (-(6.0E-4))+0.943
+  ppERKMLCK -> ppERKMLCK + pMLCK , 0.943
+  ppERKMLCK -> 2*ppERKMLCK , ( -1) * (0.943)+-(6.0E-4)
+  RasGTPRasGAP -> RasGDP + RasGTPRasGAP , 0.8
+  RasGTPRasGAP -> RasGTP + RasGTPRasGAP , ( -1) * (-(1.0E-4))
+  RasGTPRasGAP -> RasGAP + RasGTPRasGAP , ( -1) * (-(1.0E-4))+0.8
+  RasGTPRasGAP -> 2*RasGTPRasGAP , ( -1) * (0.8)+-(1.0E-4)
+  ppERKpMLCK -> ppERK + ppERKpMLCK , ( -1) * (-(1.0E-5))+0.003
+  ppERKpMLCK -> pMLCK + ppERKpMLCK , ( -1) * (-(1.0E-5))
+  ppERKpMLCK -> ppERKpMLCK + ppMLCK , 0.003
+  ppERKpMLCK -> 2*ppERKpMLCK , ( -1) * (0.003)+-(1.0E-5)
+  ppMLCK -> degradation + ppMLCK , 8.0E-4
+  ppMLCK -> 2*ppMLCK , ( -1) * (8.0E-4)
+  ppMLCKMLC -> MLC + ppMLCKMLC , ( -1) * (-(1.0E-5))
+  ppMLCKMLC -> pMLC + ppMLCKMLC , 0.97
+  ppMLCKMLC -> ppMLCK + ppMLCKMLC , ( -1) * (-(1.0E-5))+0.97
+  ppMLCKMLC -> 2*ppMLCKMLC , ( -1) * (0.97)+-(1.0E-5)
+  ppMLCKpMLC -> pMLC + ppMLCKpMLC , ( -1) * (-(1.0E-4))
+  ppMLCKpMLC -> ppMLC + ppMLCKpMLC , 0.46
+  ppMLCKpMLC -> ppMLCK + ppMLCKpMLC , ( -1) * (-(1.0E-4))+0.46
+  ppMLCKpMLC -> 2*ppMLCKpMLC , ( -1) * (0.46)+-(1.0E-4)
+  PLC_gammaCa2plus -> Ca2plus + PLC_gammaCa2plus , ( -1) * (-(0.001))
+  PLC_gammaCa2plus -> PLC_gamma + PLC_gammaCa2plus , ( -1) * (-(0.001))
+  PLC_gammaCa2plus -> 2*PLC_gammaCa2plus , -(0.001)
+  PLC_gammaCa2plus_PIP2 -> DAG + PLC_gammaCa2plus_PIP2 , 0.8
+  PLC_gammaCa2plus_PIP2 -> IP3 + PLC_gammaCa2plus_PIP2 , 0.8
+  PLC_gammaCa2plus_PIP2 -> PIP2 + PLC_gammaCa2plus_PIP2 , ( -1) * (-(1.0E-4))
+  PLC_gammaCa2plus_PIP2 -> PLC_gammaCa2plus + PLC_gammaCa2plus_PIP2 , ( -1) * (-(1.0E-4))+0.8
+  PLC_gammaCa2plus_PIP2 -> 2*PLC_gammaCa2plus_PIP2 , ( -1) * (0.8)+-(1.0E-4)
+  VEGFpVEGFR22PLC_gammaCa2plus -> Ca2plus + VEGFpVEGFR22PLC_gammaCa2plus , ( -1) * (-(0.3))
+  VEGFpVEGFR22PLC_gammaCa2plus -> VEGFpVEGFR22 + VEGFpVEGFR22PLC_gammaCa2plus , ( -1) * (-(0.01))
+  VEGFpVEGFR22PLC_gammaCa2plus -> PLC_gammaCa2plus + VEGFpVEGFR22PLC_gammaCa2plus , ( -1) * (-(0.01))
+  VEGFpVEGFR22PLC_gammaCa2plus -> VEGFpVEGFR22PLC_gammaCa2plus + VEGFpVEGFR22PLC_gamma , ( -1) * (-(0.3))
+  VEGFpVEGFR22PLC_gammaCa2plus -> 2*VEGFpVEGFR22PLC_gammaCa2plus , -(0.3)+-(0.01)
+  VEGFpVEGFR22PLC_gammaCa2plus_PIP2 -> DAG + VEGFpVEGFR22PLC_gammaCa2plus_PIP2 , 0.5
+  VEGFpVEGFR22PLC_gammaCa2plus_PIP2 -> IP3 + VEGFpVEGFR22PLC_gammaCa2plus_PIP2 , 0.5
+  VEGFpVEGFR22PLC_gammaCa2plus_PIP2 -> PIP2 + VEGFpVEGFR22PLC_gammaCa2plus_PIP2 , ( -1) * (-(4.0E-4))
+  VEGFpVEGFR22PLC_gammaCa2plus_PIP2 -> VEGFpVEGFR22PLC_gammaCa2plus + VEGFpVEGFR22PLC_gammaCa2plus_PIP2 , ( -1) * (-(4.0E-4))+0.5
+  VEGFpVEGFR22PLC_gammaCa2plus_PIP2 -> 2*VEGFpVEGFR22PLC_gammaCa2plus_PIP2 , ( -1) * (0.5)+-(4.0E-4)
+  VEGFpVEGFR22PLC_gamma -> VEGFpVEGFR22 + VEGFpVEGFR22PLC_gamma , ( -1) * (-(0.1))
+  VEGFpVEGFR22PLC_gamma -> PLC_gamma + VEGFpVEGFR22PLC_gamma , ( -1) * (-(0.1))
+  VEGFpVEGFR22PLC_gamma -> 2*VEGFpVEGFR22PLC_gamma , -(0.1)
+  PKCCa2plus_eNOS -> PKCCa2plus + PKCCa2plus_eNOS , ( -1) * (-(1.0E-4))+0.25
+  PKCCa2plus_eNOS -> eNOS + PKCCa2plus_eNOS , ( -1) * (-(1.0E-4))
+  PKCCa2plus_eNOS -> PKCCa2plus_eNOS + eNOSactive , 0.25
+  PKCCa2plus_eNOS -> 2*PKCCa2plus_eNOS , ( -1) * (0.25)+-(1.0E-4)
+  eNOSactive + LArg -> eNOSactive + LArg + eNOSactiveLArg , 20.0
+  eNOSactive + LArg -> eNOSactive + 2*LArg , ( -1) * (20.0)
+  eNOSactive + LArg -> 2*eNOSactive + LArg , ( -1) * (20.0)
+  sNO -> sNO + NO1 , 0.15
+  sNO -> sNO + NO2 , 0.25
+  sNO -> sNO + NO3 , 0.25
+  sNO -> 2*sNO , ( -1) * (0.25)+( -1) * (0.25)+( -1) * (0.15)
+  sNO + GC -> sNO + GC + NOGC , 10.0
+  sNO + GC -> sNO + 2*GC , ( -1) * (10.0)
+  sNO + GC -> 2*sNO + GC , ( -1) * (10.0)
+  NOGC -> sNO + NOGC , ( -1) * (-(0.1))
+  NOGC -> GC + NOGC , ( -1) * (-(0.1))
+  NOGC -> 2*NOGC , -(0.1)
+  NOGCGTP -> GTP + NOGCGTP , ( -1) * (-(0.05))
+  NOGCGTP -> NOGC + NOGCGTP , ( -1) * (-(0.05))+0.8
+  NOGCGTP -> NOGCGTP + cGMP , 0.8
+  NOGCGTP -> 2*NOGCGTP , ( -1) * (0.8)+-(0.05)
+  cGMP + PKG -> cGMP + PKG + cGMPPKG , 0.68
+  cGMP + PKG -> cGMP + 2*PKG , ( -1) * (0.68)
+  cGMP + PKG -> 2*cGMP + PKG , ( -1) * (0.68)
+  cGMPPKG -> cGMP + cGMPPKG , ( -1) * (-(0.001))+0.06
+  cGMPPKG -> PKG + cGMPPKG , ( -1) * (-(0.001))
+  cGMPPKG -> cGMPPKG + PKGactive , 0.06
+  cGMPPKG -> 2*cGMPPKG , ( -1) * (0.06)+-(0.001)
+  PKGactive -> degradation + PKGactive , 0.001
+  PKGactive -> 2*PKGactive , ( -1) * (0.001)
+  PKGRaf -> Raf + PKGRaf , ( -1) * (-(0.001))
+  PKGRaf -> pRaf + PKGRaf , 0.021
+  PKGRaf -> PKGactive + PKGRaf , ( -1) * (-(0.001))+0.021
+  PKGRaf -> 2*PKGRaf , ( -1) * (0.021)+-(0.001)
+  eNOSactiveLArg -> eNOSactive + eNOSactiveLArg , ( -1) * (-(0.01))+1.2
+  eNOSactiveLArg -> sNO + eNOSactiveLArg , 1.2
+  eNOSactiveLArg -> LArg + eNOSactiveLArg , ( -1) * (-(0.01))
+  eNOSactiveLArg -> eNOSactiveLArg + LCit , 1.2
+  eNOSactiveLArg -> 2*eNOSactiveLArg , ( -1) * (1.2)+-(0.01)
+  ppERKpMLCKMLC -> MLC + ppERKpMLCKMLC , ( -1) * (-(1.0E-5))
+  ppERKpMLCKMLC -> pMLC + ppERKpMLCKMLC , 0.4
+  ppERKpMLCKMLC -> ppERKpMLCK + ppERKpMLCKMLC , ( -1) * (-(1.0E-5))+0.4
+  ppERKpMLCKMLC -> 2*ppERKpMLCKMLC , ( -1) * (0.4)+-(1.0E-5)
+  ppERKpMLCKpMLC -> pMLC + ppERKpMLCKpMLC , ( -1) * (-(0.001))
+  ppERKpMLCKpMLC -> ppMLC + ppERKpMLCKpMLC , 4.8
+  ppERKpMLCKpMLC -> ppERKpMLCK + ppERKpMLCKpMLC , ( -1) * (-(0.001))+4.8
+  ppERKpMLCKpMLC -> 2*ppERKpMLCKpMLC , ( -1) * (4.8)+-(0.001)
+  ppERKVEGFpVEGFR22pShcGrb2SOS -> VEGFpVEGFR22 + ppERKVEGFpVEGFR22pShcGrb2SOS , 0.0426
+  ppERKVEGFpVEGFR22pShcGrb2SOS -> pShc + ppERKVEGFpVEGFR22pShcGrb2SOS , 0.0426
+  ppERKVEGFpVEGFR22pShcGrb2SOS -> VEGFpVEGFR22pShcGrb2SOS + ppERKVEGFpVEGFR22pShcGrb2SOS , ( -1) * (-(1.0))
+  ppERKVEGFpVEGFR22pShcGrb2SOS -> ppERK + ppERKVEGFpVEGFR22pShcGrb2SOS , 0.0426+( -1) * (-(1.0))
+  ppERKVEGFpVEGFR22pShcGrb2SOS -> ppERKVEGFpVEGFR22pShcGrb2SOS + pSOS , 0.0426
+  ppERKVEGFpVEGFR22pShcGrb2SOS -> 2*ppERKVEGFpVEGFR22pShcGrb2SOS , -(1.0)+( -1) * (0.0426)
+  pSOS -> Sos + pSOS , 0.02
+  pSOS -> 2*pSOS , ( -1) * (0.02)
+  ppERKVEGFpVEGFR22Grb2SOS -> VEGFpVEGFR22 + ppERKVEGFpVEGFR22Grb2SOS , 0.0426
+  ppERKVEGFpVEGFR22Grb2SOS -> Grb2 + ppERKVEGFpVEGFR22Grb2SOS , 0.0426
+  ppERKVEGFpVEGFR22Grb2SOS -> VEGFpVEGFR22Grb2SOS + ppERKVEGFpVEGFR22Grb2SOS , ( -1) * (-(1.0))
+  ppERKVEGFpVEGFR22Grb2SOS -> ppERK + ppERKVEGFpVEGFR22Grb2SOS , 0.0426+( -1) * (-(1.0))
+  ppERKVEGFpVEGFR22Grb2SOS -> pSOS + ppERKVEGFpVEGFR22Grb2SOS , 0.0426
+  ppERKVEGFpVEGFR22Grb2SOS -> 2*ppERKVEGFpVEGFR22Grb2SOS , -(1.0)+( -1) * (0.0426)
+  H1R -> degradation + H1R , 0.0022
+  H1R -> 2*H1R , ( -1) * (0.0022)
+  HistamineH1R -> Hisatamine + HistamineH1R , ( -1) * (-(0.01))+0.8
+  HistamineH1R -> H1R + HistamineH1R , ( -1) * (-(0.01))
+  HistamineH1R -> HistamineH1R + H1Ractive , 0.8
+  HistamineH1R -> 2*HistamineH1R , ( -1) * (0.8)+-(0.01)
+  H1Ractive -> degradation + H1Ractive , 0.0133
+  H1Ractive -> 2*H1Ractive , ( -1) * (0.0133)
+  G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive -> Gq_alpha_beta_gamma_2_GDP + G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive , ( -1) * (-(6.0E-4))
+  G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive -> H1Ractive + G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive , ( -1) * (-(6.0E-4))
+  G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive -> 2*G_sub_q_endsub_alpha_beta_gamma_2_GDPH1Ractive , -(6.0E-4)
+  PKGROCK -> pROCK + PKGROCK , 1.85
+  PKGROCK -> ROCK + PKGROCK , ( -1) * (-(1.0E-4))
+  PKGROCK -> PKG + PKGROCK , 1.85
+  PKGROCK -> PKGactive + PKGROCK , ( -1) * (-(1.0E-4))
+  PKGROCK -> 2*PKGROCK , ( -1) * (1.85)+-(1.0E-4)
+  Ca2plus_store -> Ca2plus_trunsp + Ca2plus_store , ( -1) * (-(1.0))
+  Ca2plus_store -> Ca2plus_trunsp_2Ca2plus + Ca2plus_store , ( -1) * (-(1.0))
+  Ca2plus_store -> 2*Ca2plus_store , -(1.0)
+ end reactions
+
+end model
+

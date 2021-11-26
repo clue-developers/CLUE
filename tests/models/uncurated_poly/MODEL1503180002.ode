@@ -1,0 +1,28 @@
+begin model MODEL1503180002
+ begin parameters
+  E0 = 0.001
+  kf = 1.0
+  kr = 1.0
+  kcat = 1.0
+  Vmax = 0.001
+  Km = 2.0
+  R = 0.0
+ end parameters
+ begin init
+  S = 1.0
+  E = 0.001
+  ES
+  P
+ end init
+ begin reactions
+  S + E -> S + E + ES , kf
+  S + E -> S + 2*E , ( -1) * (kf)
+  S + E -> 2*S + E , ( -1) * (kf)
+  ES -> S + ES , ( -1) * (-(kr))
+  ES -> E + ES , ( -1) * (-(kr))+kcat
+  ES -> ES + P , kcat
+  ES -> 2*ES , -(kr)+( -1) * (kcat)
+ end reactions
+
+end model
+

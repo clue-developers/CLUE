@@ -1,0 +1,19 @@
+begin model BIOMD0000000484
+ begin parameters
+  k1 = 1.0
+  k2 = 0.025
+ end parameters
+ begin init
+  S
+  ES
+  I = 1
+ end init
+ begin reactions
+  SS -> SS + ES , k2
+  SS -> 2*SS , ( -1) * (k2)
+  I -> SS + I , ( 1.0) * (k1)
+  I -> ES + I , ( -1) * (( 1.0) * (k1))
+ end reactions
+
+end model
+

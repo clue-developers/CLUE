@@ -1,0 +1,44 @@
+begin model BIOMD0000000077
+ begin parameters
+  alpha = 2.0
+  beta = 4.0
+ end parameters
+ begin init
+  H = 1.0
+  HR
+  R = 0.01
+  HRRH
+  EE
+  GQ = 0.1
+  IP3
+  CHO
+  SINK
+ end init
+ begin reactions
+  H + R -> H + HR + R , ( 1.0) * (2.5)
+  H + R -> H + 2*R , ( -1) * (( 1.0) * (2.5))
+  H + R -> 2*H + R , ( -1) * (( 1.0) * (2.5))
+  HR -> H + HR , ( -1) * (( 1.0) * (-(5.0)))
+  HR -> HR + R , ( -1) * (( 1.0) * (-(5.0)))
+  HR -> 2*HR , ( 1.0) * (-(5.0))
+  2*HR -> 2*HR + HRRH , ( 1.0) * (2500.0)
+  2*HR -> 3*HR , ( -2) * (( 1.0) * (2500.0))
+  HRRH -> HR + HRRH , ( -2) * (( 1.0) * (-(5.0)))
+  HRRH -> 2*HRRH , ( 1.0) * (-(5.0))
+  HRRH + GQ -> HRRH + EE + GQ , ( 1.0) * (4000.0)
+  HRRH + GQ -> HRRH + 2*GQ , ( -1) * (( 1.0) * (4000.0))
+  HRRH + GQ -> 2*HRRH + GQ , ( -1) * (( 1.0) * (4000.0))
+  EE -> HRRH + EE , ( -1) * (( 1.0) * (-(200.0)))
+  EE -> EE + GQ , ( -1) * (( 1.0) * (-(200.0)))
+  EE -> EE + IP3 , ( 1.0) * (2.0E7)
+  EE -> 2*EE , ( 1.0) * (-(200.0))
+  IP3 -> IP3 + SINK , ( -1) * (( 1.0) * (10.0))
+  IP3 -> 2*IP3 , ( 1.0) * (10.0)
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

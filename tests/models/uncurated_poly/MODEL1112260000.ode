@@ -1,0 +1,166 @@
+begin model MODEL1112260000
+ begin init
+  null
+  degr_Foxo1
+  cytoplasm_Foxo1_Pa0_pUb0 = 1000.0
+  nucleus_Foxo1_Pa0_pUb0
+  dnabound_Foxo1_Pa0_pUb0
+  cytoplasm_Foxo1_Pa0_pUb1
+  nucleus_Foxo1_Pa0_pUb1
+  dnabound_Foxo1_Pa0_pUb1
+  cytoplasm_Foxo1_Pa1_pUb0
+  nucleus_Foxo1_Pa1_pUb0
+  dnabound_Foxo1_Pa1_pUb0
+  cytoplasm_Foxo1_Pa1_pUb1
+  nucleus_Foxo1_Pa1_pUb1
+  dnabound_Foxo1_Pa1_pUb1
+  Foxo1_Pa0_tot
+  Foxo1_Pa1_tot
+  Foxo1_pUb0_tot
+  Foxo1_pUb1_tot
+  cytoplasm_Foxo1_tot
+  nucleus_Foxo1_tot
+  dnabound_Foxo1_tot
+  Foxo1_all
+  nucleus_RNA_Inr
+  cytoplasm_RNA_Inr
+  cytoplasm_Inr
+  nucleus_RNA_Sod2
+  cytoplasm_RNA_Sod2
+  cytoplasm_Sod2
+  E2F1 = 100.0
+  Akt = 25000.0
+  SGK
+  CDK2
+  AMPK
+  IKKb
+  JNK
+  PP2A = 10000.0
+  CBPP300
+  SIRT1
+  E3
+  USP7 = 1000.0
+  SCF = 1000.0
+  Proteasome = 1000.0
+  I = 1
+ end init
+ begin reactions
+  cytoplasm_Foxo1_Pa0_pUb0 -> cytoplasm_Foxo1_Pa0_pUb0 + nucleus_Foxo1_Pa0_pUb0 , 0.181818181818
+  cytoplasm_Foxo1_Pa0_pUb0 -> 2*cytoplasm_Foxo1_Pa0_pUb0 , ( -1) * (0.181818181818)
+  cytoplasm_Foxo1_Pa0_pUb0 + Akt -> cytoplasm_Foxo1_Pa0_pUb0 + cytoplasm_Foxo1_Pa1_pUb0 + Akt , 5.0E-5
+  cytoplasm_Foxo1_Pa0_pUb0 + Akt -> 2*cytoplasm_Foxo1_Pa0_pUb0 + Akt , ( -1) * (5.0E-5)
+  cytoplasm_Foxo1_Pa0_pUb0 + SGK -> cytoplasm_Foxo1_Pa0_pUb0 + cytoplasm_Foxo1_Pa1_pUb0 + SGK , 5.0E-5
+  cytoplasm_Foxo1_Pa0_pUb0 + SGK -> 2*cytoplasm_Foxo1_Pa0_pUb0 + SGK , ( -1) * (5.0E-5)
+  cytoplasm_Foxo1_Pa0_pUb0 + SCF -> cytoplasm_Foxo1_Pa0_pUb0 + cytoplasm_Foxo1_Pa0_pUb1 + SCF , 1.0E-6
+  cytoplasm_Foxo1_Pa0_pUb0 + SCF -> 2*cytoplasm_Foxo1_Pa0_pUb0 + SCF , ( -1) * (1.0E-6)
+  nucleus_Foxo1_Pa0_pUb0 -> cytoplasm_Foxo1_Pa0_pUb0 + nucleus_Foxo1_Pa0_pUb0 , 0.055
+  nucleus_Foxo1_Pa0_pUb0 -> nucleus_Foxo1_Pa0_pUb0 + dnabound_Foxo1_Pa0_pUb0 , 0.25
+  nucleus_Foxo1_Pa0_pUb0 -> 2*nucleus_Foxo1_Pa0_pUb0 , ( -1) * (0.25)+( -1) * (0.055)
+  nucleus_Foxo1_Pa0_pUb0 + Akt -> nucleus_Foxo1_Pa0_pUb0 + nucleus_Foxo1_Pa1_pUb0 + Akt , 5.0E-5
+  nucleus_Foxo1_Pa0_pUb0 + Akt -> 2*nucleus_Foxo1_Pa0_pUb0 + Akt , ( -1) * (5.0E-5)
+  nucleus_Foxo1_Pa0_pUb0 + SGK -> nucleus_Foxo1_Pa0_pUb0 + nucleus_Foxo1_Pa1_pUb0 + SGK , 5.0E-5
+  nucleus_Foxo1_Pa0_pUb0 + SGK -> 2*nucleus_Foxo1_Pa0_pUb0 + SGK , ( -1) * (5.0E-5)
+  nucleus_Foxo1_Pa0_pUb0 + SCF -> nucleus_Foxo1_Pa0_pUb0 + nucleus_Foxo1_Pa0_pUb1 + SCF , 1.0E-6
+  nucleus_Foxo1_Pa0_pUb0 + SCF -> 2*nucleus_Foxo1_Pa0_pUb0 + SCF , ( -1) * (1.0E-6)
+  dnabound_Foxo1_Pa0_pUb0 -> null + dnabound_Foxo1_Pa0_pUb0 , ( -1) * (0.3)+( -1) * (0.3)
+  dnabound_Foxo1_Pa0_pUb0 -> nucleus_Foxo1_Pa0_pUb0 + dnabound_Foxo1_Pa0_pUb0 , 0.125
+  dnabound_Foxo1_Pa0_pUb0 -> dnabound_Foxo1_Pa0_pUb0 + nucleus_RNA_Inr , 0.3
+  dnabound_Foxo1_Pa0_pUb0 -> dnabound_Foxo1_Pa0_pUb0 + nucleus_RNA_Sod2 , 0.3
+  dnabound_Foxo1_Pa0_pUb0 -> 2*dnabound_Foxo1_Pa0_pUb0 , ( -1) * (0.125)
+  dnabound_Foxo1_Pa0_pUb0 + Akt -> dnabound_Foxo1_Pa0_pUb0 + dnabound_Foxo1_Pa1_pUb0 + Akt , 5.0E-5
+  dnabound_Foxo1_Pa0_pUb0 + Akt -> 2*dnabound_Foxo1_Pa0_pUb0 + Akt , ( -1) * (5.0E-5)
+  dnabound_Foxo1_Pa0_pUb0 + SGK -> dnabound_Foxo1_Pa0_pUb0 + dnabound_Foxo1_Pa1_pUb0 + SGK , 5.0E-5
+  dnabound_Foxo1_Pa0_pUb0 + SGK -> 2*dnabound_Foxo1_Pa0_pUb0 + SGK , ( -1) * (5.0E-5)
+  dnabound_Foxo1_Pa0_pUb0 + SCF -> dnabound_Foxo1_Pa0_pUb0 + dnabound_Foxo1_Pa0_pUb1 + SCF , 1.0E-6
+  dnabound_Foxo1_Pa0_pUb0 + SCF -> 2*dnabound_Foxo1_Pa0_pUb0 + SCF , ( -1) * (1.0E-6)
+  cytoplasm_Foxo1_Pa0_pUb1 -> cytoplasm_Foxo1_Pa0_pUb1 + nucleus_Foxo1_Pa0_pUb1 , 0.181818181818
+  cytoplasm_Foxo1_Pa0_pUb1 -> 2*cytoplasm_Foxo1_Pa0_pUb1 , ( -1) * (0.181818181818)
+  cytoplasm_Foxo1_Pa0_pUb1 + Akt -> cytoplasm_Foxo1_Pa0_pUb1 + cytoplasm_Foxo1_Pa1_pUb1 + Akt , 5.0E-5
+  cytoplasm_Foxo1_Pa0_pUb1 + Akt -> 2*cytoplasm_Foxo1_Pa0_pUb1 + Akt , ( -1) * (5.0E-5)
+  cytoplasm_Foxo1_Pa0_pUb1 + SGK -> cytoplasm_Foxo1_Pa0_pUb1 + cytoplasm_Foxo1_Pa1_pUb1 + SGK , 5.0E-5
+  cytoplasm_Foxo1_Pa0_pUb1 + SGK -> 2*cytoplasm_Foxo1_Pa0_pUb1 + SGK , ( -1) * (5.0E-5)
+  cytoplasm_Foxo1_Pa0_pUb1 + Proteasome -> degr_Foxo1 + cytoplasm_Foxo1_Pa0_pUb1 + Proteasome , 1.0E-4
+  cytoplasm_Foxo1_Pa0_pUb1 + Proteasome -> 2*cytoplasm_Foxo1_Pa0_pUb1 + Proteasome , ( -1) * (1.0E-4)
+  nucleus_Foxo1_Pa0_pUb1 -> cytoplasm_Foxo1_Pa0_pUb1 + nucleus_Foxo1_Pa0_pUb1 , 0.055
+  nucleus_Foxo1_Pa0_pUb1 -> nucleus_Foxo1_Pa0_pUb1 + dnabound_Foxo1_Pa0_pUb1 , 0.25
+  nucleus_Foxo1_Pa0_pUb1 -> 2*nucleus_Foxo1_Pa0_pUb1 , ( -1) * (0.25)+( -1) * (0.055)
+  nucleus_Foxo1_Pa0_pUb1 + Akt -> nucleus_Foxo1_Pa0_pUb1 + nucleus_Foxo1_Pa1_pUb1 + Akt , 5.0E-5
+  nucleus_Foxo1_Pa0_pUb1 + Akt -> 2*nucleus_Foxo1_Pa0_pUb1 + Akt , ( -1) * (5.0E-5)
+  nucleus_Foxo1_Pa0_pUb1 + SGK -> nucleus_Foxo1_Pa0_pUb1 + nucleus_Foxo1_Pa1_pUb1 + SGK , 5.0E-5
+  nucleus_Foxo1_Pa0_pUb1 + SGK -> 2*nucleus_Foxo1_Pa0_pUb1 + SGK , ( -1) * (5.0E-5)
+  dnabound_Foxo1_Pa0_pUb1 -> null + dnabound_Foxo1_Pa0_pUb1 , ( -1) * (0.3)+( -1) * (0.3)
+  dnabound_Foxo1_Pa0_pUb1 -> nucleus_Foxo1_Pa0_pUb1 + dnabound_Foxo1_Pa0_pUb1 , 0.125
+  dnabound_Foxo1_Pa0_pUb1 -> dnabound_Foxo1_Pa0_pUb1 + nucleus_RNA_Inr , 0.3
+  dnabound_Foxo1_Pa0_pUb1 -> dnabound_Foxo1_Pa0_pUb1 + nucleus_RNA_Sod2 , 0.3
+  dnabound_Foxo1_Pa0_pUb1 -> 2*dnabound_Foxo1_Pa0_pUb1 , ( -1) * (0.125)
+  dnabound_Foxo1_Pa0_pUb1 + Akt -> dnabound_Foxo1_Pa0_pUb1 + dnabound_Foxo1_Pa1_pUb1 + Akt , 5.0E-5
+  dnabound_Foxo1_Pa0_pUb1 + Akt -> 2*dnabound_Foxo1_Pa0_pUb1 + Akt , ( -1) * (5.0E-5)
+  dnabound_Foxo1_Pa0_pUb1 + SGK -> dnabound_Foxo1_Pa0_pUb1 + dnabound_Foxo1_Pa1_pUb1 + SGK , 5.0E-5
+  dnabound_Foxo1_Pa0_pUb1 + SGK -> 2*dnabound_Foxo1_Pa0_pUb1 + SGK , ( -1) * (5.0E-5)
+  cytoplasm_Foxo1_Pa1_pUb0 -> cytoplasm_Foxo1_Pa1_pUb0 + nucleus_Foxo1_Pa1_pUb0 , 0.0181818181818
+  cytoplasm_Foxo1_Pa1_pUb0 -> 2*cytoplasm_Foxo1_Pa1_pUb0 , ( -1) * (0.0181818181818)
+  cytoplasm_Foxo1_Pa1_pUb0 + PP2A -> cytoplasm_Foxo1_Pa0_pUb0 + cytoplasm_Foxo1_Pa1_pUb0 + PP2A , 5.0E-5
+  cytoplasm_Foxo1_Pa1_pUb0 + PP2A -> 2*cytoplasm_Foxo1_Pa1_pUb0 + PP2A , ( -1) * (5.0E-5)
+  cytoplasm_Foxo1_Pa1_pUb0 + SCF -> cytoplasm_Foxo1_Pa1_pUb0 + cytoplasm_Foxo1_Pa1_pUb1 + SCF , 3.0E-6
+  cytoplasm_Foxo1_Pa1_pUb0 + SCF -> 2*cytoplasm_Foxo1_Pa1_pUb0 + SCF , ( -1) * (3.0E-6)
+  nucleus_Foxo1_Pa1_pUb0 -> cytoplasm_Foxo1_Pa1_pUb0 + nucleus_Foxo1_Pa1_pUb0 , 0.55
+  nucleus_Foxo1_Pa1_pUb0 -> nucleus_Foxo1_Pa1_pUb0 + dnabound_Foxo1_Pa1_pUb0 , 0.125
+  nucleus_Foxo1_Pa1_pUb0 -> 2*nucleus_Foxo1_Pa1_pUb0 , ( -1) * (0.55)+( -1) * (0.125)
+  nucleus_Foxo1_Pa1_pUb0 + PP2A -> nucleus_Foxo1_Pa0_pUb0 + nucleus_Foxo1_Pa1_pUb0 + PP2A , 5.0E-5
+  nucleus_Foxo1_Pa1_pUb0 + PP2A -> 2*nucleus_Foxo1_Pa1_pUb0 + PP2A , ( -1) * (5.0E-5)
+  nucleus_Foxo1_Pa1_pUb0 + SCF -> nucleus_Foxo1_Pa1_pUb0 + nucleus_Foxo1_Pa1_pUb1 + SCF , 3.0E-6
+  nucleus_Foxo1_Pa1_pUb0 + SCF -> 2*nucleus_Foxo1_Pa1_pUb0 + SCF , ( -1) * (3.0E-6)
+  dnabound_Foxo1_Pa1_pUb0 -> null + dnabound_Foxo1_Pa1_pUb0 , ( -1) * (0.3)+( -1) * (0.3)
+  dnabound_Foxo1_Pa1_pUb0 -> nucleus_Foxo1_Pa1_pUb0 + dnabound_Foxo1_Pa1_pUb0 , 0.125
+  dnabound_Foxo1_Pa1_pUb0 -> dnabound_Foxo1_Pa1_pUb0 + nucleus_RNA_Inr , 0.3
+  dnabound_Foxo1_Pa1_pUb0 -> dnabound_Foxo1_Pa1_pUb0 + nucleus_RNA_Sod2 , 0.3
+  dnabound_Foxo1_Pa1_pUb0 -> 2*dnabound_Foxo1_Pa1_pUb0 , ( -1) * (0.125)
+  dnabound_Foxo1_Pa1_pUb0 + PP2A -> dnabound_Foxo1_Pa0_pUb0 + dnabound_Foxo1_Pa1_pUb0 + PP2A , 5.0E-5
+  dnabound_Foxo1_Pa1_pUb0 + PP2A -> 2*dnabound_Foxo1_Pa1_pUb0 + PP2A , ( -1) * (5.0E-5)
+  dnabound_Foxo1_Pa1_pUb0 + SCF -> dnabound_Foxo1_Pa1_pUb0 + dnabound_Foxo1_Pa1_pUb1 + SCF , 3.0E-6
+  dnabound_Foxo1_Pa1_pUb0 + SCF -> 2*dnabound_Foxo1_Pa1_pUb0 + SCF , ( -1) * (3.0E-6)
+  cytoplasm_Foxo1_Pa1_pUb1 -> cytoplasm_Foxo1_Pa1_pUb1 + nucleus_Foxo1_Pa1_pUb1 , 0.0181818181818
+  cytoplasm_Foxo1_Pa1_pUb1 -> 2*cytoplasm_Foxo1_Pa1_pUb1 , ( -1) * (0.0181818181818)
+  cytoplasm_Foxo1_Pa1_pUb1 + PP2A -> cytoplasm_Foxo1_Pa0_pUb1 + cytoplasm_Foxo1_Pa1_pUb1 + PP2A , 5.0E-5
+  cytoplasm_Foxo1_Pa1_pUb1 + PP2A -> 2*cytoplasm_Foxo1_Pa1_pUb1 + PP2A , ( -1) * (5.0E-5)
+  cytoplasm_Foxo1_Pa1_pUb1 + Proteasome -> degr_Foxo1 + cytoplasm_Foxo1_Pa1_pUb1 + Proteasome , 1.0E-4
+  cytoplasm_Foxo1_Pa1_pUb1 + Proteasome -> 2*cytoplasm_Foxo1_Pa1_pUb1 + Proteasome , ( -1) * (1.0E-4)
+  nucleus_Foxo1_Pa1_pUb1 -> cytoplasm_Foxo1_Pa1_pUb1 + nucleus_Foxo1_Pa1_pUb1 , 0.55
+  nucleus_Foxo1_Pa1_pUb1 -> nucleus_Foxo1_Pa1_pUb1 + dnabound_Foxo1_Pa1_pUb1 , 0.125
+  nucleus_Foxo1_Pa1_pUb1 -> 2*nucleus_Foxo1_Pa1_pUb1 , ( -1) * (0.55)+( -1) * (0.125)
+  nucleus_Foxo1_Pa1_pUb1 + PP2A -> nucleus_Foxo1_Pa0_pUb1 + nucleus_Foxo1_Pa1_pUb1 + PP2A , 5.0E-5
+  nucleus_Foxo1_Pa1_pUb1 + PP2A -> 2*nucleus_Foxo1_Pa1_pUb1 + PP2A , ( -1) * (5.0E-5)
+  dnabound_Foxo1_Pa1_pUb1 -> null + dnabound_Foxo1_Pa1_pUb1 , ( -1) * (0.3)+( -1) * (0.3)
+  dnabound_Foxo1_Pa1_pUb1 -> nucleus_Foxo1_Pa1_pUb1 + dnabound_Foxo1_Pa1_pUb1 , 0.125
+  dnabound_Foxo1_Pa1_pUb1 -> dnabound_Foxo1_Pa1_pUb1 + nucleus_RNA_Inr , 0.3
+  dnabound_Foxo1_Pa1_pUb1 -> dnabound_Foxo1_Pa1_pUb1 + nucleus_RNA_Sod2 , 0.3
+  dnabound_Foxo1_Pa1_pUb1 -> 2*dnabound_Foxo1_Pa1_pUb1 , ( -1) * (0.125)
+  dnabound_Foxo1_Pa1_pUb1 + PP2A -> dnabound_Foxo1_Pa0_pUb1 + dnabound_Foxo1_Pa1_pUb1 + PP2A , 5.0E-5
+  dnabound_Foxo1_Pa1_pUb1 + PP2A -> 2*dnabound_Foxo1_Pa1_pUb1 + PP2A , ( -1) * (5.0E-5)
+  nucleus_RNA_Inr -> nucleus_RNA_Inr + cytoplasm_RNA_Inr , 0.22
+  nucleus_RNA_Inr -> 2*nucleus_RNA_Inr , ( -1) * (0.22)
+  cytoplasm_RNA_Inr -> null + cytoplasm_RNA_Inr , ( -1) * (1.23)+5.622
+  cytoplasm_RNA_Inr -> cytoplasm_RNA_Inr + cytoplasm_Inr , 1.23
+  cytoplasm_RNA_Inr -> 2*cytoplasm_RNA_Inr , ( -1) * (5.622)
+  cytoplasm_Inr -> null + cytoplasm_Inr , 0.0019
+  cytoplasm_Inr -> 2*cytoplasm_Inr , ( -1) * (0.0019)
+  nucleus_RNA_Sod2 -> nucleus_RNA_Sod2 + cytoplasm_RNA_Sod2 , 0.22
+  nucleus_RNA_Sod2 -> 2*nucleus_RNA_Sod2 , ( -1) * (0.22)
+  cytoplasm_RNA_Sod2 -> null + cytoplasm_RNA_Sod2 , ( -1) * (1.23)+5.622
+  cytoplasm_RNA_Sod2 -> cytoplasm_RNA_Sod2 + cytoplasm_Sod2 , 1.23
+  cytoplasm_RNA_Sod2 -> 2*cytoplasm_RNA_Sod2 , ( -1) * (5.622)
+  cytoplasm_Sod2 -> null + cytoplasm_Sod2 , 0.0019
+  cytoplasm_Sod2 -> 2*cytoplasm_Sod2 , ( -1) * (0.0019)
+  E2F1 -> null + E2F1 , ( -1) * (0.0055)
+  E2F1 -> cytoplasm_Foxo1_Pa0_pUb0 + E2F1 , 0.0055
+  I -> null + I , ( -1) * (3.0)+( -1) * (3.0)
+  I -> nucleus_RNA_Inr + I , 3.0
+  I -> nucleus_RNA_Sod2 + I , 3.0
+ end reactions
+
+//Comments associated to the species
+//null:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

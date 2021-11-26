@@ -1,0 +1,86 @@
+begin model BIOMD0000000439
+ begin parameters
+  ka = 1.5
+  Ligand_conc = 0.1
+ end parameters
+ begin init
+  R = 205.0
+  L
+  RL
+  Gabg
+  RGabg
+  RGabgL
+  GaGTP
+  Gbg = 205.0
+  RGS = 60.0
+  RGSGaGTP
+  GaGDPP
+  Effector = 205.0
+  GaGTPEffector
+  inertGaGTP
+  RGSinertGaGTP
+  GaGDP = 205.0
+  P
+  z1
+  z2
+  z3
+ end init
+ begin reactions
+  R + L -> R + L + RL , ( 1.0) * (0.0025)
+  R + L -> R + 2*L , ( -1) * (( 1.0) * (0.0025))
+  R + L -> 2*R + L , ( -1) * (( 1.0) * (0.0025))
+  R + Gabg -> R + Gabg + RGabg , ( 1.0) * (0.005)
+  R + Gabg -> R + 2*Gabg , ( -1) * (( 1.0) * (0.005))
+  R + Gabg -> 2*R + Gabg , ( -1) * (( 1.0) * (0.005))
+  L + RGabg -> L + RGabg + RGabgL , ( 1.0) * (0.005)
+  L + RGabg -> L + 2*RGabg , ( -1) * (( 1.0) * (0.005))
+  L + RGabg -> 2*L + RGabg , ( -1) * (( 1.0) * (0.005))
+  RL + Gabg -> RL + Gabg + RGabgL , ( 1.0) * (0.02)
+  RL + Gabg -> RL + 2*Gabg , ( -1) * (( 1.0) * (0.02))
+  RL + Gabg -> 2*RL + Gabg , ( -1) * (( 1.0) * (0.02))
+  Gabg -> Gabg + GaGTP , ( 1.0) * (0.2)
+  Gabg -> Gabg + Gbg , ( 1.0) * (0.2)
+  Gabg -> 2*Gabg , ( -1) * (( 1.0) * (0.2))
+  RGabgL -> RL + RGabgL , ( 1.0) * (50.0)
+  RGabgL -> RGabgL + GaGTP , ( 1.0) * (50.0)
+  RGabgL -> RGabgL + Gbg , ( 1.0) * (50.0)
+  RGabgL -> 2*RGabgL , ( -1) * (( 1.0) * (50.0))
+  GaGTP -> GaGTP + GaGDPP , ( 1.0) * (0.005)
+  GaGTP -> 2*GaGTP , ( -1) * (( 1.0) * (0.005))
+  GaGTP + RGS -> GaGTP + RGS + RGSGaGTP , ( 1.0) * (500.0)
+  GaGTP + RGS -> GaGTP + 2*RGS , ( -1) * (( 1.0) * (500.0))
+  GaGTP + RGS -> 2*GaGTP + RGS , ( -1) * (( 1.0) * (500.0))
+  GaGTP + Effector -> GaGTP + Effector + GaGTPEffector , ( 1.0) * (10.0)
+  GaGTP + Effector -> GaGTP + 2*Effector , ( -1) * (( 1.0) * (10.0))
+  GaGTP + Effector -> 2*GaGTP + Effector , ( -1) * (( 1.0) * (10.0))
+  Gbg + GaGDP -> Gabg + Gbg + GaGDP , ( 1.0) * (1000.0)
+  Gbg + GaGDP -> Gbg + 2*GaGDP , ( -1) * (( 1.0) * (1000.0))
+  Gbg + GaGDP -> 2*Gbg + GaGDP , ( -1) * (( 1.0) * (1000.0))
+  RGS + inertGaGTP -> RGS + inertGaGTP + RGSinertGaGTP , ( 1.0) * (50.0)
+  RGS + inertGaGTP -> RGS + 2*inertGaGTP , ( -1) * (( 1.0) * (50.0))
+  RGS + inertGaGTP -> 2*RGS + inertGaGTP , ( -1) * (( 1.0) * (50.0))
+  RGSGaGTP -> RGS + RGSGaGTP , ( 1.0) * (2.5)
+  RGSGaGTP -> RGSGaGTP + GaGDPP , ( 1.0) * (2.5)
+  RGSGaGTP -> 2*RGSGaGTP , ( -1) * (( 1.0) * (2.5))
+  GaGDPP -> GaGDPP + GaGDP , ( 1.0) * (1000.0)
+  GaGDPP -> GaGDPP + P , ( 1.0) * (1000.0)
+  GaGDPP -> 2*GaGDPP , ( -1) * (( 1.0) * (1000.0))
+  GaGTPEffector -> Effector + GaGTPEffector , ( 1.0) * (1.0)
+  GaGTPEffector -> GaGTPEffector + inertGaGTP , ( 1.0) * (1.0)
+  GaGTPEffector -> GaGTPEffector + z1 , ( 1.0) * (ka)
+  GaGTPEffector -> 2*GaGTPEffector , ( -1) * (( 1.0) * (1.0))
+  inertGaGTP -> GaGDPP + inertGaGTP , ( 1.0) * (0.005)
+  inertGaGTP -> 2*inertGaGTP , ( -1) * (( 1.0) * (0.005))
+  RGSinertGaGTP -> RGS + RGSinertGaGTP , ( 1.0) * (0.3)
+  RGSinertGaGTP -> GaGDPP + RGSinertGaGTP , ( 1.0) * (0.3)
+  RGSinertGaGTP -> 2*RGSinertGaGTP , ( -1) * (( 1.0) * (0.3))
+  P -> 2*P , ( -1) * (( 1.0) * (10.0))
+  z1 -> z1 + z2 , ( 1.0) * (ka)
+  z1 -> 2*z1 , ( -1) * (( 1.0) * (ka))
+  z2 -> z2 + z3 , ( 1.0) * (ka)
+  z2 -> 2*z2 , ( -1) * (( 1.0) * (ka))
+  z3 -> 2*z3 , ( -1) * (( 1.0) * (ka))
+ end reactions
+
+end model
+

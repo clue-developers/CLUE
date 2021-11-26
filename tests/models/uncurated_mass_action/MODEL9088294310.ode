@@ -1,0 +1,17 @@
+begin model MODEL9088294310
+ begin init
+  Im_minus_nNOS = 1.0
+  Imidazole
+  NOH_minus_Arginine = 6000.0
+  Im_minus_nNOS_minus_NOH_minus_Arginine
+  nNOS_minus_NOH_minus_Arginine
+ end init
+ begin reactions
+  Im_minus_nNOS_minus_NOH_minus_Arginine -> Imidazole + nNOS_minus_NOH_minus_Arginine , 9.5E-17 [Imidazole_release_forw]
+  Imidazole + nNOS_minus_NOH_minus_Arginine -> Im_minus_nNOS_minus_NOH_minus_Arginine , ( -1) * (-(1.16666666666667E-19)) [Imidazole_release_rev]
+  Im_minus_nNOS + NOH_minus_Arginine -> Im_minus_nNOS_minus_NOH_minus_Arginine , 4.16666666666667E-17 [NOH_minus_Arginine_binding_forw]
+  Im_minus_nNOS_minus_NOH_minus_Arginine -> Im_minus_nNOS + NOH_minus_Arginine , ( -1) * (-(1.125E-13)) [NOH_minus_Arginine_binding_rev]
+ end reactions
+
+end model
+

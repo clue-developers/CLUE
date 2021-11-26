@@ -1,0 +1,139 @@
+begin model MODEL1202090003
+ begin parameters
+  konB = 1250000.0
+  koffB = 0.0012
+  konB4 = 20000.0
+  koffB4 = 0.0365
+  konBT = 3.65E7
+  konB4T = 3.65E7
+  konB5T = 7000000.0
+  koffBT = 0.183
+  konT = 1900000.0
+  koffT = 0.183
+  kfKin4 = 1000.0
+  kfKin4Cyto = 0.09
+  krKin4 = 0.0251
+  kfCdc5 = 1.0
+  krCdc5 = 0.01
+  khyd = 0.00224
+  knex = 0.0136
+  khydBT = 0.00224
+  khydB4T = 2.0
+  u = 1.0
+  alpha = 1.0
+  active_Tem1_SPB = 0.0
+  active_Tem1_Cytosol = 0.0
+  inactive_Tem1_SPB = 0.0
+  inactive_Tem1_Cytosol = 0.0
+  active_Bfa1_SPB = 0.0
+  active_Bfa1_Cytosol = 0.0
+  inactive_Bfa1_SPB = 0.0
+  inactive_Bfa1_Cytosol = 0.0
+  total_Tem1_SPB = 0.0
+  total_Tem1_Cytosol = 0.0
+  total_Bfa1_SPB = 0.0
+  total_Bfa1_Cytosol = 0.0
+  NA = 6.022E23
+ end parameters
+ begin init
+  SPB_B = 8.33E-5 ( "B" ) 
+  SPB_T = 1.66E-4 ( "T" ) 
+  Bfa1 = 2.03E-8
+  Bfa1P4
+  Bfa1P5
+  Tem1GTP = 4.91E-8
+  Tem1GDP = 7.99E-9
+  B_Bfa1 = 8.33E-5 ( "B-Bfa1" ) 
+  B_Bfa1P4 ( "B-Bfa1P4" ) 
+  B_Bfa1P5 ( "B-Bfa1P5" ) 
+  T_Tem1GTP ( "T-Tem1GTP" ) 
+  T_Tem1GDP ( "T-Tem1GDP" ) 
+  B_Bfa1_Tem1GTP ( "B-Bfa1-Tem1GTP" ) 
+  B_Bfa1P4_Tem1GTP ( "B-Bfa1P4-Tem1GTP" ) 
+  B_Bfa1P5_Tem1GTP ( "B-Bfa1P5-Tem1GTP" ) 
+  B_Bfa1_Tem1GDP ( "B-Bfa1-Tem1GDP" ) 
+  B_Bfa1P4_Tem1GDP ( "B-Bfa1P4-Tem1GDP" ) 
+  B_Bfa1P5_Tem1GDP ( "B-Bfa1P5-Tem1GDP" ) 
+  Bfa1_Tem1GTP ( "Bfa1-Tem1GTP" ) 
+  Bfa1P4_Tem1GTP ( "Bfa1P4-Tem1GTP" ) 
+  Bfa1P5_Tem1GTP ( "Bfa1P5-Tem1GTP" ) 
+  Bfa1_Tem1GDP ( "Bfa1-Tem1GDP" ) 
+  Bfa1P4_Tem1GDP ( "Bfa1P4-Tem1GDP" ) 
+  Bfa1P5_Tem1GDP ( "Bfa1P5-Tem1GDP" ) 
+ end init
+ begin reactions
+  SPB_B + Bfa1 -> B_Bfa1 , ( 3.0E-18) * (konB) [R1_forw]
+  B_Bfa1 -> SPB_B + Bfa1 , ( -1) * (( 3.0E-18) * (-(koffB))) [R1_rev]
+  SPB_B + Bfa1P4 -> B_Bfa1P4 , ( 3.0E-18) * (konB4) [R2_forw]
+  B_Bfa1P4 -> SPB_B + Bfa1P4 , ( -1) * (( 3.0E-18) * (-(koffB4))) [R2_rev]
+  SPB_B + Bfa1P5 -> B_Bfa1P5 , ( 3.0E-18) * (konB) [R3_forw]
+  B_Bfa1P5 -> SPB_B + Bfa1P5 , ( -1) * (( 3.0E-18) * (-(koffB))) [R3_rev]
+  SPB_B + Bfa1_Tem1GTP -> B_Bfa1_Tem1GTP , ( 3.0E-18) * (konB) [R4_forw]
+  B_Bfa1_Tem1GTP -> SPB_B + Bfa1_Tem1GTP , ( -1) * (( 3.0E-18) * (-(koffB))) [R4_rev]
+  SPB_B + Bfa1P4_Tem1GTP -> B_Bfa1P4_Tem1GTP , ( 3.0E-18) * (konB4) [R5_forw]
+  B_Bfa1P4_Tem1GTP -> SPB_B + Bfa1P4_Tem1GTP , ( -1) * (( 3.0E-18) * (-(koffB4))) [R5_rev]
+  SPB_B + Bfa1P5_Tem1GTP -> B_Bfa1P5_Tem1GTP , ( 3.0E-18) * (konB) [R6_forw]
+  B_Bfa1P5_Tem1GTP -> SPB_B + Bfa1P5_Tem1GTP , ( -1) * (( 3.0E-18) * (-(koffB))) [R6_rev]
+  SPB_B + Bfa1_Tem1GDP -> B_Bfa1_Tem1GDP , ( 3.0E-18) * (konB) [R7_forw]
+  B_Bfa1_Tem1GDP -> SPB_B + Bfa1_Tem1GDP , ( -1) * (( 3.0E-18) * (-(koffB))) [R7_rev]
+  SPB_B + Bfa1P4_Tem1GDP -> B_Bfa1P4_Tem1GDP , ( 3.0E-18) * (konB4) [R8_forw]
+  B_Bfa1P4_Tem1GDP -> SPB_B + Bfa1P4_Tem1GDP , ( -1) * (( 3.0E-18) * (-(koffB4))) [R8_rev]
+  SPB_B + Bfa1P5_Tem1GDP -> B_Bfa1P5_Tem1GDP , ( 3.0E-18) * (konB) [R9_forw]
+  B_Bfa1P5_Tem1GDP -> SPB_B + Bfa1P5_Tem1GDP , ( -1) * (( 3.0E-18) * (-(koffB))) [R9_rev]
+  Tem1GTP + B_Bfa1 -> B_Bfa1_Tem1GTP , ( 3.0E-18) * (konBT) [R10_forw]
+  B_Bfa1_Tem1GTP -> Tem1GTP + B_Bfa1 , ( -1) * (( 3.0E-18) * (-(koffBT))) [R10_rev]
+  Tem1GTP + B_Bfa1P4 -> B_Bfa1P4_Tem1GTP , ( 3.0E-18) * (konB4T) [R11_forw]
+  B_Bfa1P4_Tem1GTP -> Tem1GTP + B_Bfa1P4 , ( -1) * (( 3.0E-18) * (-(koffBT))) [R11_rev]
+  Tem1GTP + B_Bfa1P5 -> B_Bfa1P5_Tem1GTP , ( 3.0E-18) * (konB5T) [R12_forw]
+  B_Bfa1P5_Tem1GTP -> Tem1GTP + B_Bfa1P5 , ( -1) * (( 3.0E-18) * (-(koffBT))) [R12_rev]
+  Tem1GDP + B_Bfa1 -> B_Bfa1_Tem1GDP , ( 3.0E-18) * (konBT) [R13_forw]
+  B_Bfa1_Tem1GDP -> Tem1GDP + B_Bfa1 , ( -1) * (( 3.0E-18) * (-(koffBT))) [R13_rev]
+  Tem1GDP + B_Bfa1P4 -> B_Bfa1P4_Tem1GDP , ( 3.0E-18) * (konB4T) [R14_forw]
+  B_Bfa1P4_Tem1GDP -> Tem1GDP + B_Bfa1P4 , ( -1) * (( 3.0E-18) * (-(koffBT))) [R14_rev]
+  Tem1GDP + B_Bfa1P5 -> B_Bfa1P5_Tem1GDP , ( 3.0E-18) * (konB5T) [R15_forw]
+  B_Bfa1P5_Tem1GDP -> Tem1GDP + B_Bfa1P5 , ( -1) * (( 3.0E-18) * (-(koffBT))) [R15_rev]
+  Bfa1 + Tem1GTP -> Bfa1_Tem1GTP , ( 1.0E-13) * (( alpha) * (konBT)) [R16_forw]
+  Bfa1_Tem1GTP -> Bfa1 + Tem1GTP , ( -1) * (( 1.0E-13) * (-(koffBT))) [R16_rev]
+  Bfa1P4 + Tem1GTP -> Bfa1P4_Tem1GTP , ( 1.0E-13) * (( alpha) * (konB4T)) [R17_forw]
+  Bfa1P4_Tem1GTP -> Bfa1P4 + Tem1GTP , ( -1) * (( 1.0E-13) * (-(koffBT))) [R17_rev]
+  Bfa1P5 + Tem1GTP -> Bfa1P5_Tem1GTP , ( 1.0E-13) * (( alpha) * (konB5T)) [R18_forw]
+  Bfa1P5_Tem1GTP -> Bfa1P5 + Tem1GTP , ( -1) * (( 1.0E-13) * (-(koffBT))) [R18_rev]
+  Bfa1 + Tem1GDP -> Bfa1_Tem1GDP , ( 1.0E-13) * (( alpha) * (konBT)) [R19_forw]
+  Bfa1_Tem1GDP -> Bfa1 + Tem1GDP , ( -1) * (( 1.0E-13) * (-(koffBT))) [R19_rev]
+  Bfa1P4 + Tem1GDP -> Bfa1P4_Tem1GDP , ( 1.0E-13) * (( alpha) * (konB4T)) [R20_forw]
+  Bfa1P4_Tem1GDP -> Bfa1P4 + Tem1GDP , ( -1) * (( 1.0E-13) * (-(koffBT))) [R20_rev]
+  Bfa1P5 + Tem1GDP -> Bfa1P5_Tem1GDP , ( 1.0E-13) * (( alpha) * (konB5T)) [R21_forw]
+  Bfa1P5_Tem1GDP -> Bfa1P5 + Tem1GDP , ( -1) * (( 1.0E-13) * (-(koffBT))) [R21_rev]
+  SPB_T + Tem1GTP -> T_Tem1GTP , ( 3.0E-18) * (konT) [R22_forw]
+  T_Tem1GTP -> SPB_T + Tem1GTP , ( -1) * (( 3.0E-18) * (-(koffT))) [R22_rev]
+  SPB_T + Tem1GDP -> T_Tem1GDP , ( 3.0E-18) * (konT) [R23_forw]
+  T_Tem1GDP -> SPB_T + Tem1GDP , ( -1) * (( 3.0E-18) * (-(koffT))) [R23_rev]
+  B_Bfa1 -> B_Bfa1P4 , ( ( 3.0E-18) * (u)) * (kfKin4) [R24_forw]
+  B_Bfa1_Tem1GTP -> B_Bfa1P4_Tem1GTP , ( ( 3.0E-18) * (u)) * (kfKin4) [R25_forw]
+  B_Bfa1_Tem1GDP -> B_Bfa1P4_Tem1GDP , ( ( 3.0E-18) * (u)) * (kfKin4) [R26_forw]
+  B_Bfa1 -> B_Bfa1P5 , ( 3.0E-18) * (kfCdc5) [R27_forw]
+  B_Bfa1_Tem1GTP -> B_Bfa1P5_Tem1GTP , ( 3.0E-18) * (kfCdc5) [R28_forw]
+  B_Bfa1_Tem1GDP -> B_Bfa1P5_Tem1GDP , ( 3.0E-18) * (kfCdc5) [R29_forw]
+  B_Bfa1P4_Tem1GTP -> B_Bfa1P4_Tem1GDP , ( 3.0E-18) * (khydB4T) [R47_forw]
+  B_Bfa1_Tem1GTP -> B_Bfa1_Tem1GDP , ( 3.0E-18) * (khydBT) [R46_forw]
+  B_Bfa1P5_Tem1GTP -> B_Bfa1P5_Tem1GDP , ( 3.0E-18) * (khyd) [R48_forw]
+  Bfa1 -> Bfa1P4 , ( ( 1.0E-13) * (u)) * (kfKin4Cyto) [R30_forw]
+  Bfa1P4 -> Bfa1 , ( 1.0E-13) * (krKin4) [R33_forw]
+  Bfa1P5 -> Bfa1 , ( ( 1.0E-13) * (u)) * (krCdc5) [R36_forw]
+  Tem1GDP -> Tem1GTP , ( 1.0E-13) * (knex) [R40_forw]
+  Tem1GTP -> Tem1GDP , ( 1.0E-13) * (khyd) [R39_forw]
+  T_Tem1GDP -> T_Tem1GTP , ( 3.0E-18) * (knex) [R42_forw]
+  T_Tem1GTP -> T_Tem1GDP , ( 3.0E-18) * (khyd) [R41_forw]
+  Bfa1P4_Tem1GTP -> Bfa1P4_Tem1GDP , ( 1.0E-13) * (khydB4T) [R44_forw]
+  Bfa1_Tem1GTP -> Bfa1_Tem1GDP , ( 1.0E-13) * (khydBT) [R43_forw]
+  Bfa1P5_Tem1GTP -> Bfa1P5_Tem1GDP , ( 1.0E-13) * (khyd) [R45_forw]
+  Bfa1P4_Tem1GTP -> Bfa1_Tem1GTP , ( 1.0E-13) * (krKin4) [R34_forw]
+  Bfa1P5_Tem1GTP -> Bfa1_Tem1GTP , ( ( 1.0E-13) * (u)) * (krCdc5) [R37_forw]
+  Bfa1_Tem1GTP -> Bfa1P4_Tem1GTP , ( ( 1.0E-13) * (u)) * (kfKin4Cyto) [R31_forw]
+  Bfa1P4_Tem1GDP -> Bfa1_Tem1GDP , ( 1.0E-13) * (krKin4) [R35_forw]
+  Bfa1P5_Tem1GDP -> Bfa1_Tem1GDP , ( ( 1.0E-13) * (u)) * (krCdc5) [R38_forw]
+  Bfa1_Tem1GDP -> Bfa1P4_Tem1GDP , ( ( 1.0E-13) * (u)) * (kfKin4Cyto) [R32_forw]
+ end reactions
+
+end model
+

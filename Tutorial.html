@@ -13086,7 +13086,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="What-does-CLUE-do?">What does CLUE do?<a class="anchor-link" href="#What-does-CLUE-do?">&#182;</a></h2><p>CLUE (Constrained LUmping for differential Eqiations) implements in Python an algorithm that takes as <strong>input</strong></p>
 <ul>
-<li>a system of ODEs with polynomial right-hand side</li>
+<li>a system of ODEs with polynomial or rational right-hand side</li>
 <li>a list of linear combinations of the unknown functions to be preserved (<em>observables</em>)</li>
 </ul>
 <p>and <strong>returns</strong> the maximal exact reduction of the system by a linear transformation that preserves the given combinations.</p>
@@ -13119,8 +13119,8 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">vring</span><span class="p">,</span> <span class="n">QQ</span>
-<span class="kn">from</span> <span class="nn">clue</span> <span class="kn">import</span> <span class="n">do_lumping</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sympy</span> <span class="k">import</span> <span class="n">vring</span><span class="p">,</span> <span class="n">QQ</span>
+<span class="kn">from</span> <span class="nn">clue</span> <span class="k">import</span> <span class="n">FODESystem</span><span class="p">,</span> <span class="n">SparsePolynomial</span><span class="p">,</span> <span class="n">RationalFunction</span>
 </pre></div>
 
     </div>
@@ -13166,11 +13166,11 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ode</span> <span class="o">=</span> <span class="p">[</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ode</span> <span class="o">=</span> <span class="n">FODESystem</span><span class="p">([</span>
     <span class="n">x2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">*</span> <span class="n">x3</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">x3</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="c1"># derivative of x1</span>
     <span class="mi">4</span> <span class="o">*</span> <span class="n">x3</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x1</span><span class="p">,</span>                 <span class="c1"># derivative of x2</span>
     <span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span>                          <span class="c1"># derivative of x3</span>
-<span class="p">]</span>
+    <span class="p">],</span> <span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">,</span><span class="s1">&#39;x3&#39;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -13182,7 +13182,7 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ol>
-<li>Call <code>do_lumping</code> providing the system and the combinations to preserve, that is, <code>[x1]</code></li>
+<li>Call method <code>lumping</code> from the system poviding the combinations to preserve, that is, <code>[x1]</code></li>
 </ol>
 
 </div>
@@ -13193,7 +13193,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">do_lumping</span><span class="p">(</span><span class="n">ode</span><span class="p">,</span> <span class="p">[</span><span class="n">x1</span><span class="p">]);</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ode</span><span class="o">.</span><span class="n">lumping</span><span class="p">([</span><span class="n">x1</span><span class="p">]);</span>
 </pre></div>
 
     </div>
@@ -13231,11 +13231,80 @@ y1&#39; = 2*y1
 <p>$y_1 = x_1 \quad \text{ and }\quad y_2 = x_2 + 2x_3,$</p>
 <p>the system will be reduced to</p>
 <p>$\begin{cases} \dot{y}_1 = y_2^2, \\ \dot{y_2} = 2y_2. \end{cases}$</p>
-<p>The <code>polynomials</code> part of the output dictionary refers to the right-hand side of the reduced model, and the <code>subspace</code> part gives the coefficients for expressing $y_1$ and $y_2$ in terms of $x_1, x_2, x_3$.</p>
-<p><em>Remark:</em> to supress the output, use <code>print_reduction=False</code> keyword argument. If you would like to print the original system, use <code>print_system=True</code></p>
+<p><em>Remark:</em> to supress the output, use <code>print_reduction=False</code> keyword argument. If you would like to print the original system, use <code>print_system=True</code>. Check the documentation of the method <code>lumping</code> for further information.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This software also allows systems with rational functions:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">varnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">]</span>
+<span class="n">rational_ode</span> <span class="o">=</span> <span class="n">FODESystem</span><span class="p">([</span>
+    <span class="n">RationalFunction</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;y/(x-y)&quot;</span><span class="p">,</span> <span class="n">varnames</span><span class="p">),</span>
+    <span class="n">RationalFunction</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;x/(x-y)&quot;</span><span class="p">,</span> <span class="n">varnames</span><span class="p">)</span>
+<span class="p">],</span> <span class="n">variables</span> <span class="o">=</span> <span class="n">varnames</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rational_ode</span><span class="o">.</span><span class="n">lumping</span><span class="p">([</span><span class="n">SparsePolynomial</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;x-y&quot;</span><span class="p">,</span> <span class="n">varnames</span><span class="p">)]);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>2021-11-26 14:14:43 WARNING  Method [polynomial] selected but input is not SparsePolynomial. Trying random...
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>New variables:
+y0 = x + -y
+Lumped system:
+y0&#39; = (-1)/(1)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -13262,13 +13331,11 @@ y1&#39; = 2*y1
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">parser</span> <span class="kn">import</span> <span class="n">read_system</span>
-
-<span class="n">system</span> <span class="o">=</span> <span class="n">read_system</span><span class="p">(</span><span class="s2">&quot;Tutorial_files/model_example.ode&quot;</span><span class="p">)</span>
-<span class="n">system</span><span class="p">[</span><span class="s2">&quot;variables&quot;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">FODESystem</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">&quot;Tutorial_files/model_example.ode&quot;</span><span class="p">)</span>
+<span class="n">system</span><span class="o">.</span><span class="n">variables</span>
 </pre></div>
 
     </div>
@@ -13281,7 +13348,7 @@ y1&#39; = 2*y1
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[5]:</div>
+    <div class="prompt output_prompt">Out[7]:</div>
 
 
 
@@ -13306,17 +13373,17 @@ y1&#39; = 2*y1
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sparse_polynomial</span> <span class="kn">import</span> <span class="n">SparsePolynomial</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">clue.rational_function</span> <span class="k">import</span> <span class="n">SparsePolynomial</span>
 
 <span class="n">obs</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">SparsePolynomial</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;Au + Ap&quot;</span><span class="p">,</span> <span class="n">system</span><span class="p">[</span><span class="s2">&quot;variables&quot;</span><span class="p">]),</span>
-    <span class="n">SparsePolynomial</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;r1&quot;</span><span class="p">,</span> <span class="n">system</span><span class="p">[</span><span class="s2">&quot;variables&quot;</span><span class="p">]),</span>
+    <span class="n">SparsePolynomial</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;Au + Ap&quot;</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">variables</span><span class="p">),</span>
+    <span class="n">SparsePolynomial</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">&quot;r1&quot;</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">variables</span><span class="p">),</span>
 <span class="p">]</span>
 
-<span class="n">do_lumping</span><span class="p">(</span><span class="n">system</span><span class="p">[</span><span class="s2">&quot;equations&quot;</span><span class="p">],</span> <span class="n">obs</span><span class="p">);</span>
+<span class="n">system</span><span class="o">.</span><span class="n">lumping</span><span class="p">(</span><span class="n">obs</span><span class="p">);</span>
 </pre></div>
 
     </div>
@@ -13372,15 +13439,15 @@ The maximal lumping can be found as follows:</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">vring</span><span class="p">([</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;x2&quot;</span><span class="p">],</span> <span class="n">QQ</span><span class="p">)</span>
-<span class="n">ode</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">ode</span> <span class="o">=</span> <span class="n">FODESystem</span><span class="p">([</span>
     <span class="n">x1</span> <span class="o">+</span> <span class="n">QQ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">x2</span><span class="p">,</span>
     <span class="n">QQ</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">x1</span>
-<span class="p">]</span>
-<span class="n">do_lumping</span><span class="p">(</span><span class="n">ode</span><span class="p">,</span> <span class="p">[</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">]);</span>
+    <span class="p">],</span> <span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">])</span>
+<span class="n">ode</span><span class="o">.</span><span class="n">lumping</span><span class="p">([</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">]);</span>
 </pre></div>
 
     </div>
@@ -13441,17 +13508,17 @@ y0&#39; = 1/3*y0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">vring</span><span class="p">([</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">],</span> <span class="n">QQ</span><span class="p">)</span>
-<span class="n">ode</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">ode</span> <span class="o">=</span> <span class="n">FODESystem</span><span class="p">([</span>
     <span class="n">a</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">x2</span><span class="p">,</span>
     <span class="n">b</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x2</span><span class="p">,</span>
     <span class="n">R</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="c1"># this means that zero is interpreted as zero polynomial, not the zero number</span>
     <span class="n">R</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="p">]</span>
-<span class="n">do_lumping</span><span class="p">(</span><span class="n">ode</span><span class="p">,</span> <span class="p">[</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">]);</span>
+<span class="p">],</span> <span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">])</span>
+<span class="n">ode</span><span class="o">.</span><span class="n">lumping</span><span class="p">([</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">]);</span>
 </pre></div>
 
     </div>
@@ -13505,21 +13572,21 @@ y1&#39; = 0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># defining the coefficient field</span>
-<span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">FractionField</span>
+<span class="kn">from</span> <span class="nn">sympy</span> <span class="k">import</span> <span class="n">FractionField</span>
 <span class="n">coef_field</span> <span class="o">=</span> <span class="n">FractionField</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">])</span>
 <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">coef_field</span><span class="o">.</span><span class="n">gens</span>
 
 <span class="c1"># defining a system over this field</span>
 <span class="n">R</span> <span class="o">=</span> <span class="n">vring</span><span class="p">([</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;x2&quot;</span><span class="p">],</span> <span class="n">coef_field</span><span class="p">)</span>
-<span class="n">ode</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">ode</span> <span class="o">=</span> <span class="n">FODESystem</span><span class="p">([</span>
     <span class="n">a</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">x2</span><span class="p">,</span>
     <span class="n">b</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x2</span>
-<span class="p">]</span>
-<span class="n">do_lumping</span><span class="p">(</span><span class="n">ode</span><span class="p">,</span> <span class="p">[</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">]);</span>
+<span class="p">],</span> <span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">])</span>
+<span class="n">ode</span><span class="o">.</span><span class="n">lumping</span><span class="p">([</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">]);</span>
 </pre></div>
 
     </div>
@@ -13558,22 +13625,22 @@ y0&#39; = (a + b)*y0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># defining the coefficient field</span>
-<span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">FractionField</span>
+<span class="kn">from</span> <span class="nn">sympy</span> <span class="k">import</span> <span class="n">FractionField</span>
 <span class="n">coef_field</span> <span class="o">=</span> <span class="n">FractionField</span><span class="p">(</span><span class="n">QQ</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">])</span>
 <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">coef_field</span><span class="o">.</span><span class="n">gens</span>
 
 <span class="c1"># defining a system over this field</span>
 <span class="n">R</span> <span class="o">=</span> <span class="n">vring</span><span class="p">([</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="s2">&quot;x3&quot;</span><span class="p">],</span> <span class="n">coef_field</span><span class="p">)</span>
-<span class="n">ode</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">ode</span> <span class="o">=</span> <span class="n">FODESystem</span><span class="p">([</span>
     <span class="n">a</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">x3</span><span class="p">,</span>
     <span class="n">x2</span><span class="p">,</span> 
     <span class="n">x3</span>
-<span class="p">]</span>
-<span class="n">do_lumping</span><span class="p">(</span><span class="n">ode</span><span class="p">,</span> <span class="p">[</span><span class="n">x1</span><span class="p">]);</span>
+<span class="p">],</span> <span class="n">variables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">])</span>
+<span class="n">ode</span><span class="o">.</span><span class="n">lumping</span><span class="p">([</span><span class="n">x1</span><span class="p">]);</span>
 </pre></div>
 
     </div>
@@ -13626,13 +13693,13 @@ In order to apply CLUE to the system, one can include $\sqrt{2}$ into the field 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sqrt</span>
-<span class="n">R</span> <span class="o">=</span> <span class="n">vring</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;x</span><span class="si">{</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)],</span> <span class="n">QQ</span><span class="o">.</span><span class="n">algebraic_field</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sympy</span> <span class="k">import</span> <span class="n">sqrt</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">vring</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;x{i + 1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)],</span> <span class="n">QQ</span><span class="o">.</span><span class="n">algebraic_field</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
 
-<span class="n">ode</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">ode</span> <span class="o">=</span> <span class="n">FODESystem</span><span class="p">([</span>
     <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">x3</span> <span class="o">*</span> <span class="n">x4</span><span class="p">,</span>
     <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">x3</span> <span class="o">*</span> <span class="n">x4</span><span class="p">,</span>
     <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x3</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">x3</span> <span class="o">*</span> <span class="n">x4</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">x2</span><span class="p">,</span>
@@ -13641,8 +13708,8 @@ In order to apply CLUE to the system, one can include $\sqrt{2}$ into the field 
     <span class="o">-</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">x6</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x3</span> <span class="o">+</span> <span class="n">x5</span><span class="p">,</span>
     <span class="o">-</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">x7</span> <span class="o">+</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">x8</span><span class="p">,</span>
     <span class="o">-</span><span class="n">x8</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x4</span> <span class="o">+</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">x7</span>
-<span class="p">]</span>
-<span class="n">res</span> <span class="o">=</span> <span class="n">do_lumping</span><span class="p">(</span><span class="n">ode</span><span class="p">,</span> <span class="p">[</span><span class="n">x8</span> <span class="o">-</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">x7</span><span class="p">]);</span>
+<span class="p">],</span> <span class="n">variables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">,</span><span class="s1">&#39;x3&#39;</span><span class="p">,</span><span class="s1">&#39;x4&#39;</span><span class="p">,</span><span class="s1">&#39;x5&#39;</span><span class="p">,</span><span class="s1">&#39;x6&#39;</span><span class="p">,</span><span class="s1">&#39;x7&#39;</span><span class="p">,</span><span class="s1">&#39;x8&#39;</span><span class="p">])</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">ode</span><span class="o">.</span><span class="n">lumping</span><span class="p">([</span><span class="n">x8</span> <span class="o">-</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">x7</span><span class="p">]);</span>
 </pre></div>
 
     </div>

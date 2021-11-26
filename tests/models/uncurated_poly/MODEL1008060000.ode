@@ -1,0 +1,31 @@
+begin model MODEL1008060000
+ begin parameters
+  N = 500.0
+  p = 0.0
+  sdelta = 1.0E-4
+  beta = 0.0055
+  zeta = 0.09
+  alpha = 0.0075
+  n = 0.0
+  k = 0.25
+  tau = 2.5
+ end parameters
+ begin init
+  Z = 1.0 ( "Zombie" ) 
+  R ( "Removed" ) 
+  source = 1.0
+  S
+ end init
+ begin reactions
+  Z + S -> Z + R + S , alpha
+  Z + S -> Z + 2*S , ( -1) * (beta)
+  Z + S -> 2*Z + S , ( -1) * (alpha)+beta
+  R -> Z + R , zeta
+  R -> 2*R , ( -1) * (zeta)
+  source + S -> source + 2*S , sdelta
+  S -> R + S , sdelta
+  S -> 2*S , ( -1) * (sdelta)
+ end reactions
+
+end model
+

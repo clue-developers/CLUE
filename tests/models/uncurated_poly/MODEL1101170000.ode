@@ -1,0 +1,1374 @@
+begin model MODEL1101170000
+ begin parameters
+  kcat_PKA_act_I1 = 1.4
+  KM_PKA_act_I1 = 5.0
+  kcat_PKA_act_PP2A = 1.2
+  KM_PKA_act_PP2A = 1.0
+  kcat_PKA_act_D = 2.7
+  KM_PKA_act_D = 2.4
+  kcat_PKA_act_D137 = 2.7
+  KM_PKA_act_D137 = 2.4
+  kcat_PKA_act_GluR = 1.0
+  KM_PKA_act_GluR = 2.0
+  kcat_PKA_act_GluR_I = 1.0
+  KM_PKA_act_GluR_I = 2.0
+  kcat_PKA_act_PDE2 = 9.0
+  KM_PKA_act_PDE2 = 7.5
+  kcat_PDE1_cAMP = 9.0
+  KM_PDE1_cAMP = 39.7
+  kcat_PDE1_CaM_cAMP = 18.0
+  KM_PDE1_CaM_cAMP = 4.6
+  kcat_PDE2_cAMP = 18.0
+  KM_PDE2_cAMP = 39.7
+  kcat_PDE2_p_cAMP = 20.0
+  KM_PDE2_p_cAMP = 19.841
+  kcat_PP1_act_CaMKII_Thr286p_CaM = 0.35
+  KM_PP1_act_CaMKII_Thr286p_CaM = 5.1
+  kcat_PP1_act_CaMKII_Thr286 = 0.35
+  KM_PP1_act_CaMKII_Thr286 = 5.1
+  kcat_PP1_act_CaMKII_Thr286_305 = 0.35
+  KM_PP1_act_CaMKII_Thr286_305 = 5.1
+  kcat_PP1_act_CaMKII_Thr306 = 0.35
+  KM_PP1_act_CaMKII_Thr306 = 5.1
+  kcat_PP1_act_GluR_831p_845p = 1.0
+  KM_PP1_act_GluR_831p_845p = 100.0
+  kcat_PP1_act_GluR_845p = 3.0
+  KM_PP1_act_GluR_845p = 100.0
+  kcat_PP1_act_GluR_I_831p_845p = 1.0
+  KM_PP1_act_GluR_I_831p_845p = 100.0
+  kcat_PP1_act_GluR_I_845p = 3.0
+  KM_PP1_act_GluR_I_845p = 100.0
+  kcat_PP2A_PKA_D75 = 6.7
+  KM_PP2A_PKA_D75 = 0.37
+  kcat_PP2A_PKA_D34_75 = 6.7
+  KM_PP2A_PKA_D34_75 = 0.37
+  kcat_PP2A_PKA_D75_137 = 6.7
+  KM_PP2A_PKA_D75_137 = 0.37
+  kcat_PP2A_PKA_D34_75_137 = 6.7
+  KM_PP2A_PKA_D34_75_137 = 0.37
+  kcat_PP2A_PKA_GluR_831p_845p = 1.0
+  KM_PP2A_PKA_GluR_831p_845p = 30.0
+  kcat_PP2A_PKA_GluR_845p = 3.0
+  KM_PP2A_PKA_GluR_845p = 30.0
+  kcat_PP2A_PKA_GluR_I_831p_845p = 1.0
+  KM_PP2A_PKA_GluR_I_831p_845p = 30.0
+  kcat_PP2A_PKA_GluR_I_845p = 3.0
+  KM_PP2A_PKA_GluR_I_845p = 30.0
+  kcat_PP2A_Ca_D75 = 6.7
+  KM_PP2A_Ca_D75 = 0.372
+  kcat_PP2A_Ca_D34_75 = 6.7
+  KM_PP2A_Ca_D34_75 = 0.372
+  kcat_PP2A_Ca_D75_137 = 6.7
+  KM_PP2A_Ca_D75_137 = 0.372
+  kcat_PP2A_Ca_D34_75_137 = 6.7
+  KM_PP2A_Ca_D34_75_137 = 0.372
+  kcat_PP2A_Ca_GluR_831p_845p = 1.0
+  KM_PP2A_Ca_GluR_831p_845p = 30.0
+  kcat_PP2A_Ca_GluR_845p = 3.0
+  KM_PP2A_Ca_GluR_845p = 30.0
+  kcat_PP2A_Ca_GluR_I_831p_845p = 1.0
+  KM_PP2A_Ca_GluR_I_831p_845p = 30.0
+  kcat_PP2A_Ca_GluR_I_845p = 3.0
+  KM_PP2A_Ca_GluR_I_845p = 30.0
+  kcat_CaM_Ca2_CaNAB_Ca4_D34 = 6.8
+  KM_CaM_Ca2_CaNAB_Ca4_D34 = 0.0136
+  kcat_CaM_Ca2_CaNAB_Ca4_D34_75 = 6.8
+  KM_CaM_Ca2_CaNAB_Ca4_D34_75 = 0.0136
+  kcat_CaM_Ca2_CaNAB_Ca4_D34_137 = 2.0
+  KM_CaM_Ca2_CaNAB_Ca4_D34_137 = 0.0136
+  kcat_CaM_Ca2_CaNAB_Ca4_D34_75_137 = 2.0
+  KM_CaM_Ca2_CaNAB_Ca4_D34_75_137 = 0.0136
+  kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34 = 6.8
+  KM_CaM_Ca2_CaNAB_Ca4_PP1_D34 = 0.0136
+  kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75 = 6.8
+  KM_CaM_Ca2_CaNAB_Ca4_PP1_D34_75 = 0.0136
+  kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_137 = 2.0
+  KM_CaM_Ca2_CaNAB_Ca4_PP1_D34_137 = 0.0136
+  kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137 = 2.0
+  KM_CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137 = 0.0136
+  kcat_CaM_Ca2_CaNAB_Ca4_I1_p = 3.0
+  KM_CaM_Ca2_CaNAB_Ca4_I1_p = 4.0
+  kcat_CaM_Ca2_CaNAB_Ca4_PP1_I1_p = 1.4
+  KM_CaM_Ca2_CaNAB_Ca4_PP1_I1_p = 5.0
+  kcat_CaM_Ca2_CaNAB_Ca4_CK1p = 6.0
+  KM_CaM_Ca2_CaNAB_Ca4_CK1p = 2.0
+  kcat_CaM_Ca3_CaNAB_Ca4_D34 = 6.8
+  KM_CaM_Ca3_CaNAB_Ca4_D34 = 0.0136
+  kcat_CaM_Ca3_CaNAB_Ca4_D34_75 = 6.8
+  KM_CaM_Ca3_CaNAB_Ca4_D34_75 = 0.0136
+  kcat_CaM_Ca3_CaNAB_Ca4_D34_137 = 2.0
+  KM_CaM_Ca3_CaNAB_Ca4_D34_137 = 0.0136
+  kcat_CaM_Ca3_CaNAB_Ca4_D34_75_137 = 2.0
+  KM_CaM_Ca3_CaNAB_Ca4_D34_75_137 = 0.0136
+  kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34 = 6.8
+  KM_CaM_Ca3_CaNAB_Ca4_PP1_D34 = 0.0136
+  kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75 = 6.8
+  KM_CaM_Ca3_CaNAB_Ca4_PP1_D34_75 = 0.0136
+  kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_137 = 2.0
+  KM_CaM_Ca3_CaNAB_Ca4_PP1_D34_137 = 0.0136
+  kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137 = 2.0
+  KM_CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137 = 0.0136
+  kcat_CaM_Ca3_CaNAB_Ca4_I1_p = 3.0
+  KM_CaM_Ca3_CaNAB_Ca4_I1_p = 4.0
+  kcat_CaM_Ca3_CaNAB_Ca4_PP1_I1_p = 1.4
+  KM_CaM_Ca3_CaNAB_Ca4_PP1_I1_p = 5.0
+  kcat_CaM_Ca3_CaNAB_Ca4_CK1p = 6.0
+  KM_CaM_Ca3_CaNAB_Ca4_CK1p = 2.0
+  kcat_CaM_Ca4_CaNAB_Ca4_D34 = 6.8
+  KM_CaM_Ca4_CaNAB_Ca4_D34 = 0.0136
+  kcat_CaM_Ca4_CaNAB_Ca4_D34_75 = 6.8
+  KM_CaM_Ca4_CaNAB_Ca4_D34_75 = 0.0136
+  kcat_CaM_Ca4_CaNAB_Ca4_D34_137 = 2.0
+  KM_CaM_Ca4_CaNAB_Ca4_D34_137 = 0.0136
+  kcat_CaM_Ca4_CaNAB_Ca4_D34_75_137 = 2.0
+  KM_CaM_Ca4_CaNAB_Ca4_D34_75_137 = 0.0136
+  kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34 = 6.8
+  KM_CaM_Ca4_CaNAB_Ca4_PP1_D34 = 0.0136
+  kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75 = 6.8
+  KM_CaM_Ca4_CaNAB_Ca4_PP1_D34_75 = 0.0136
+  kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_137 = 2.0
+  KM_CaM_Ca4_CaNAB_Ca4_PP1_D34_137 = 0.0136
+  kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137 = 2.0
+  KM_CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137 = 0.0136
+  kcat_CaM_Ca4_CaNAB_Ca4_I1_p = 3.0
+  KM_CaM_Ca4_CaNAB_Ca4_I1_p = 4.0
+  kcat_CaM_Ca4_CaNAB_Ca4_PP1_I1_p = 1.4
+  KM_CaM_Ca4_CaNAB_Ca4_PP1_I1_p = 5.0
+  kcat_CaM_Ca4_CaNAB_Ca4_CK1p = 6.0
+  KM_CaM_Ca4_CaNAB_Ca4_CK1p = 2.0
+  kcat_tot_CaM_CAMKII_CaMKII_CaM = 0.5
+  KM_tot_CaM_CAMKII_CaMKII_CaM = 113.6
+  kcat_tot_CaM_CAMKII_CaMKII_Thr286 = 6.0
+  KM_tot_CaM_CAMKII_CaMKII_Thr286 = 113.6
+  kcat_tot_autonomous_CaMKII_CaMKII_CaM = 0.5
+  KM_tot_autonomous_CaMKII_CaMKII_CaM = 175.0
+  kcat_tot_autonomous_CaMKII_CaMKII_Thr286 = 6.0
+  KM_tot_autonomous_CaMKII_CaMKII_Thr286 = 175.0
+  kcat_CaMKII_act_GluR_845p = 1.0
+  KM_CaMKII_act_GluR_845p = 150.0
+  kcat_CaMKII_act_GluR_I_845p = 1.0
+  KM_CaMKII_act_GluR_I_845p = 150.0
+  kcat_CK1p_D = 3.0
+  KM_CK1p_D = 3.4
+  kcat_CK1p_D34 = 3.0
+  KM_CK1p_D34 = 3.4
+  kcat_CK1p_D75 = 3.0
+  KM_CK1p_D75 = 3.4
+  kcat_CK1p_D34_75 = 3.0
+  KM_CK1p_D34_75 = 3.4
+  kcat_CK1p_CDK5 = 4.0
+  KM_CK1p_CDK5 = 0.6
+  kcat_CDK5p_D = 3.0
+  KM_CDK5p_D = 4.0
+  kcat_CDK5p_D34 = 3.0
+  KM_CDK5p_D34 = 4.0
+  kcat_CDK5p_D137 = 3.0
+  KM_CDK5p_D137 = 4.0
+  kcat_CDK5p_D34_137 = 3.0
+  KM_CDK5p_D34_137 = 4.0
+  kcat_PP2C_D137 = 1.0
+  KM_PP2C_D137 = 3.0
+  kcat_PP2C_D34_137 = 1.0
+  KM_PP2C_D34_137 = 3.0
+  kcat_PP2C_D75_137 = 1.0
+  KM_PP2C_D75_137 = 3.0
+  kcat_PP2C_D34_75_137 = 1.0
+  KM_PP2C_D34_75_137 = 3.0
+  kf_D1R__DA = 1.11
+  kb_D1R__DA = 10.0
+  kf_D1R_Gs__DA = 3.33
+  kb_D1R_Gs__DA = 10.0
+  kf_D1R__Gs_GDP = 0.06
+  kb_D1R__Gs_GDP = 3.0E-4
+  kf_D1R_DA__Gs_GDP = 0.6
+  kb_D1R_DA__Gs_GDP = 0.001
+  kf_D1R_DA_Gs = 20.0
+  kb_D1R_DA_Gs = 0.0
+  kf_Gs_GTP = 10.0
+  kb_Gs_GTP = 0.0
+  kf_Gsa_GDP__bc = 100.0
+  kb_Gsa_GDP__bc = 0.0
+  kf_AC__Ca = 1.0
+  kb_AC__Ca = 0.9
+  kf_AC__Gsa_GTP = 38.5
+  kb_AC__Gsa_GTP = 50.0
+  kf_AC_Ca__Gsa_GTP = 19.2
+  kb_AC_Ca__Gsa_GTP = 25.0
+  kf_AC_Gsa__ATP = 0.128
+  kb_AC_Gsa__ATP = 0.261
+  kf_ACGsa_Ca__ATP = 0.06
+  kb_ACGsa_Ca__ATP = 0.131
+  kf_AC_Gsa_ATP = 28.46
+  kb_AC_Gsa_ATP = 0.259
+  kf_ACGsa_Ca_ATP = 14.23
+  kb_ACGsa_Ca_ATP = 0.13
+  kf_PDE1__CaM = 0.1
+  kb_PDE1__CaM = 1.0
+  kf_PDE2_p = 0.1
+  kb_PDE2_p = 0.0
+  kf_R2C2__cAMP = 0.035
+  kb_R2C2__cAMP = 0.06
+  kf_R2C2_cAMP2__cAMP = 0.27
+  kb_R2C2_cAMP2__cAMP = 0.28
+  kf_R2C2_cAMP4 = 0.05
+  kb_R2C2_cAMP4 = 0.085
+  kf_PKA_act__D75 = 4.6
+  kb_PKA_act__D75 = 2.4
+  kf_PKA_act__D75_137 = 4.6
+  kb_PKA_act__D75_137 = 2.4
+  kf_PP1_I1 = 1.0
+  kb_PP1_I1 = 0.0
+  kf_PP1_act__I1_p = 150.0
+  kb_PP1_act__I1_p = 0.1
+  kf_PP1_act__D34 = 100.0
+  kb_PP1_act__D34 = 0.2
+  kf_PP1_act__D34_75 = 100.0
+  kb_PP1_act__D34_75 = 0.2
+  kf_PP1_act__D34_137 = 100.0
+  kb_PP1_act__D34_137 = 0.2
+  kf_PP1_act__D34_75_137 = 100.0
+  kb_PP1_act__D34_75_137 = 0.2
+  kf_PP1_D = 10.0
+  kb_PP1_D = 0.0
+  kf_PP1_D75 = 10.0
+  kb_PP1_D75 = 0.0
+  kf_PP1_D137 = 10.0
+  kb_PP1_D137 = 0.0
+  kf_PP1_D75_137 = 10.0
+  kb_PP1_D75_137 = 0.0
+  kf_PP2A_B1__Ca = 0.082
+  kb_PP2A_B1__Ca = 2.0
+  kf_PP2A_B2p = 8.3
+  kb_PP2A_B2p = 0.0
+  kf_PP2A__PP2A_B2p = 7.4
+  kb_PP2A__PP2A_B2p = 6.8
+  kf_PP2A__PP2A_B1_2Ca = 1.0
+  kb_PP2A__PP2A_B1_2Ca = 0.12
+  kf_Ca__CaNAB = 10008.0
+  kb_Ca__CaNAB = 1.0
+  kf_Ca__CaNAB_Ca2 = 3.6
+  kb_Ca__CaNAB_Ca2 = 1.0
+  kf_CaM_Ca2__CaNAB_Ca4 = 0.24
+  kb_CaM_Ca2__CaNAB_Ca4 = 1.0
+  kf_CaM_Ca3__CaNAB_Ca4 = 22.38
+  kb_CaM_Ca3__CaNAB_Ca4 = 1.0
+  kf_CaM_Ca4__CaNAB_Ca4 = 600.0
+  kb_CaM_Ca4__CaNAB_Ca4 = 1.0
+  kf_CaMKII = 0.003
+  kb_CaMKII = 0.0
+  kf_CaMKII__CaM = 50.0
+  kb_CaMKII__CaM = 5.0
+  kf_CaMKII_Thr286__CaM = 1000.0
+  kb_CaMKII_Thr286__CaM = 0.1
+  kf_CaM__Ca = 72.0
+  kb_CaM__Ca = 72.0
+  kf_CaM_Ca2__Ca = 3.6
+  kb_CaM_Ca2__Ca = 10.0
+  kf_CaM_Ca3__Ca = 0.465
+  kb_CaM_Ca3__Ca = 10.0
+  kf_GluR = 8.0E-4
+  kb_GluR = 0.0
+  kf_IR__Anchor = 0.018
+  kb_IR__Anchor = 1.0
+  kf_GluR_I = 1.0
+  kb_GluR_I = 0.018
+  kf_GluR_I_845p = 2.0E-5
+  kb_GluR_I_845p = 0.0
+  kf_GluR_I_831p_845p = 2.0E-5
+  kb_GluR_I_831p_845p = 0.0
+  kf_CK1 = 1.54
+  kb_CK1 = 0.0
+  kf_CDK5p = 0.9
+  kb_CDK5p = 0.0
+  tau_Ca = 0.1
+  Ca_basal = 0.06
+  Ca_stim = 5.0
+  tau_DA = 0.1
+  DA_basal = 0.01
+  DA_stim = 1.0
+ end parameters
+ begin init
+  R2C2 = 3.59
+  R2C2_cAMP2 = 0.1
+  R2C2_cAMP4 = 0.00488
+  R2_cAMP4 = 0.69
+  PKA_act = 0.06
+  PKA_D75 = 1.23
+  PKA_D75_137 = 0.05
+  PP1_act = 2.3
+  PP1_D34 = 0.24
+  PP1_D34_137 = 0.03
+  PP1_D34_75 = 5.3E-5
+  PP1_D34_75_137 = 7.84E-6
+  PP1_D = 0.24
+  PP1_D75 = 5.32E-5
+  PP1_D137 = 0.01
+  PP1_D75_137 = 2.31E-6
+  I1 = 0.68
+  PP1_I1 = 0.01
+  PP1_I1_p = 2.2
+  I1_p = 6.73E-4
+  CaNAB = 0.27
+  CaNAB_Ca2 = 9.69
+  CaNAB_Ca4 = 0.13
+  CaM_Ca4_CaNAB = 9.55E-4
+  CaM_Ca3_CaNAB = 0.01
+  CaM_Ca2_CaNAB = 0.01
+  CaMKII = 18.89
+  CaMKII_CaM = 0.0029
+  CaMKII_Thr286 = 0.33
+  CaMKII_Thr306 = 0.01
+  tot_CaM_CaMKII = 0.02
+  tot_autonomous_CaMKII = 0.34
+  CaMKII_Thr286p_CaM = 0.02
+  CaMKII_Thr286_305 = 0.01
+  CaMKII_act = 0.36
+  basal_CaMKII = 2.0
+  CaM_Ca2 = 0.21
+  CaM_Ca3 = 0.00454
+  CaM = 58.4
+  CaM_Ca4 = 1.27E-5
+  Cam_total = 58.61
+  sD = 34.97
+  D34 = 0.01
+  D137 = 1.37
+  D75 = 9.92
+  D34_75 = 2.36E-6
+  D34_137 = 4.55E-4
+  D34_75_137 = 1.07E-7
+  D75_137 = 0.39
+  B1 = 2.37
+  B2 = 2.1
+  PP2A_PKA = 0.01
+  PP2A_Ca = 0.00121
+  B1_2Ca = 3.49E-4
+  PP2A = 0.42
+  B2p = 0.02
+  GluR = 0.02
+  GluR_845p = 0.01
+  GluR_831p_845p = 0.00146
+  GluR_I_831p_845p = 0.01
+  GluR_I_845p = 0.07
+  GluR_I = 0.16
+  Bulk_AMPAR = 9.0
+  Anchor = 11.56
+  D1R = 0.06
+  D1R_Gs = 0.44
+  D1R_DA = 9.89E-4
+  D1R_DA_Gs = 5.36E-4
+  Gs_GDP = 2.54
+  bc = 0.03
+  Gsa_GTP = 0.00107
+  Gsa_GDP = 0.00418
+  AC = 2.34
+  AC_Gsa = 0.00193
+  cAMP = 0.22
+  ATP = 2000.0
+  AC_Ca = 0.16
+  ACGsa_Ca = 1.28E-4
+  ACGsa_Ca_ATP = 0.00107
+  AC_Gsa_ATP = 0.02
+  PDE2 = 1.11
+  PDE2_p = 0.86
+  PDE1 = 3.98
+  PDE1_CaM = 5.04E-6
+  PP2C = 1.26
+  CK1p = 0.48
+  CK1 = 0.02
+  CDK5p = 0.07
+  CDK5 = 0.5
+  PKA_act_I1 = 0.00883
+  PKA_act_PP2A = 0.136
+  PP2A_p
+  PKA_act_D = 0.941
+  PKA_act_D137 = 0.0368
+  PKA_act_GluR = 5.67E-4
+  PKA_act_GluR_I = 0.00523
+  PKA_act_PDE2 = 0.00956
+  PDE1_cAMP = 0.0222
+  PDE1_CaM_cAMP = 2.43E-7
+  PDE2_cAMP = 0.0062
+  PDE2_p_cAMP = 0.00962
+  PP1_act_CaMKII_Thr286p_CaM = 0.00731
+  PP1_act_CaMKII_Thr286 = 0.149
+  PP1_act_CaMKII_Thr286_305 = 0.006
+  PP1_act_CaMKII_Thr306 = 0.006
+  PP1_act_GluR_831p_845p = 3.36E-5
+  PP1_act_GluR_845p = 1.91E-4
+  PP1_act_GluR_I_831p_845p = 1.63E-4
+  PP1_act_GluR_I_845p = 0.00171
+  PP2A_PKA_D75 = 0.237
+  PP2A_PKA_D34_75 = 5.63E-8
+  PP2A_PKA_D75_137 = 0.00928
+  PP2A_PKA_D34_75_137 = 2.56E-9
+  PP2A_PKA_GluR_831p_845p = 4.33E-7
+  PP2A_PKA_GluR_845p = 2.46E-6
+  PP2A_PKA_GluR_I_831p_845p = 2.1E-6
+  PP2A_PKA_GluR_I_845p = 2.21E-5
+  PP2A_Ca_D75 = 0.0323
+  PP2A_Ca_D34_75 = 7.67E-9
+  PP2A_Ca_D75_137 = 0.00126
+  PP2A_Ca_D34_75_137 = 3.49E-10
+  PP2A_Ca_GluR_831p_845p = 5.9E-8
+  PP2A_Ca_GluR_845p = 3.35E-7
+  PP2A_Ca_GluR_I_831p_845p = 2.86E-7
+  PP2A_Ca_GluR_I_845p = 3.01E-6
+  CaM_Ca2_CaNAB_Ca4
+  CaM_Ca2_CaNAB_Ca4_D34 = 0.00502
+  CaM_Ca2_CaNAB_Ca4_D34_75 = 1.1E-6
+  CaM_Ca2_CaNAB_Ca4_D34_137 = 2.12E-4
+  CaM_Ca2_CaNAB_Ca4_D34_75_137 = 5.0E-8
+  CaM_Ca2_CaNAB_Ca4_PP1_D34 = 0.113
+  CaM_Ca2_CaNAB_Ca4_PP1_D34_75 = 2.47E-5
+  CaM_Ca2_CaNAB_Ca4_PP1_D34_137 = 0.0155
+  CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137 = 3.65E-6
+  CaM_Ca2_CaNAB_Ca4_I1_p = 0.00279
+  CaM_Ca2_CaNAB_Ca4_PP1_I1_p = 1.07E-6
+  CaM_Ca2_CaNAB_Ca4_CK1p = 0.00151
+  CaM_Ca3_CaNAB_Ca4
+  CaM_Ca3_CaNAB_Ca4_D34 = 0.0101
+  CaM_Ca3_CaNAB_Ca4_D34_75 = 2.21E-6
+  CaM_Ca3_CaNAB_Ca4_D34_137 = 4.27E-4
+  CaM_Ca3_CaNAB_Ca4_D34_75_137 = 1.01E-7
+  CaM_Ca3_CaNAB_Ca4_PP1_D34 = 0.228
+  CaM_Ca3_CaNAB_Ca4_PP1_D34_75 = 4.98E-5
+  CaM_Ca3_CaNAB_Ca4_PP1_D34_137 = 0.0312
+  CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137 = 7.36E-6
+  CaM_Ca3_CaNAB_Ca4_I1_p = 2.15E-6
+  CaM_Ca3_CaNAB_Ca4_PP1_I1_p = 0.00561
+  CaM_Ca3_CaNAB_Ca4_CK1p = 0.00304
+  CaM_Ca4_CaNAB_Ca4
+  CaM_Ca4_CaNAB_Ca4_D34 = 0.017
+  CaM_Ca4_CaNAB_Ca4_D34_75 = 3.72E-6
+  CaM_Ca4_CaNAB_Ca4_D34_137 = 0.00233
+  CaM_Ca4_CaNAB_Ca4_D34_75_137 = 5.5E-7
+  CaM_Ca4_CaNAB_Ca4_PP1_D34 = 7.56E-4
+  CaM_Ca4_CaNAB_Ca4_PP1_D34_75 = 1.65E-7
+  CaM_Ca4_CaNAB_Ca4_PP1_D34_137 = 3.19E-5
+  CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137 = 7.53E-9
+  CaM_Ca4_CaNAB_Ca4_I1_p = 1.61E-7
+  CaM_Ca4_CaNAB_Ca4_PP1_I1_p = 4.2E-4
+  CaM_Ca4_CaNAB_Ca4_CK1p = 2.27E-4
+  tot_CaM_CAMKII
+  tot_CaM_CAMKII_CaMKII_CaM = 4.88E-7
+  tot_CaM_CAMKII_CaMKII_Thr286 = 5.54E-5
+  tot_autonomous_CaMKII_CaMKII_CaM = 5.69E-6
+  tot_autonomous_CaMKII_CaMKII_Thr286 = 6.45E-4
+  CaMKII_act_GluR_845p = 2.0E-5
+  CaMKII_act_GluR_I_845p = 1.8E-4
+  CK1p_D = 0.191
+  CK1p_D34 = 5.9E-5
+  CK1p_D75 = 0.0543
+  CK1p_D34_75 = 1.29E-8
+  CK1p_CDK5 = 0.0155
+  CDK5p_D = 0.601
+  CDK5p_D34 = 1.85E-4
+  CDK5p_D137 = 0.0235
+  CDK5p_D34_137 = 7.82E-6
+  PP2C_D137 = 0.574
+  PP2C_D34_137 = 1.91E-4
+  PP2C_D75_137 = 0.163
+  PP2C_D34_75_137 = 4.5E-8
+  Gs_GTP
+  PP2A_B1
+  PP2A_B1_2Ca
+  PP2A_B2p
+  PP2A_B2
+  IR
+  DA
+  Ca
+ end init
+ begin reactions
+  R2C2 + 2*cAMP -> R2C2 + R2C2_cAMP2 + 2*cAMP , ( 1.0E-15) * (kf_R2C2__cAMP)
+  R2C2 + 2*cAMP -> R2C2 + 3*cAMP , ( -2) * (( 1.0E-15) * (kf_R2C2__cAMP))
+  R2C2 + 2*cAMP -> 2*R2C2 + 2*cAMP , ( -1) * (( 1.0E-15) * (kf_R2C2__cAMP))
+  R2C2_cAMP2 -> R2C2 + R2C2_cAMP2 , ( -1) * (( 1.0E-15) * (-(kb_R2C2__cAMP)))
+  R2C2_cAMP2 -> R2C2_cAMP2 + cAMP , ( -2) * (( 1.0E-15) * (-(kb_R2C2__cAMP)))
+  R2C2_cAMP2 -> 2*R2C2_cAMP2 , ( 1.0E-15) * (-(kb_R2C2__cAMP))
+  R2C2_cAMP2 + 2*cAMP -> R2C2_cAMP2 + R2C2_cAMP4 + 2*cAMP , ( 1.0E-15) * (kf_R2C2_cAMP2__cAMP)
+  R2C2_cAMP2 + 2*cAMP -> R2C2_cAMP2 + 3*cAMP , ( -2) * (( 1.0E-15) * (kf_R2C2_cAMP2__cAMP))
+  R2C2_cAMP2 + 2*cAMP -> 2*R2C2_cAMP2 + 2*cAMP , ( -1) * (( 1.0E-15) * (kf_R2C2_cAMP2__cAMP))
+  R2C2_cAMP4 -> R2C2_cAMP2 + R2C2_cAMP4 , ( -1) * (( 1.0E-15) * (-(kb_R2C2_cAMP2__cAMP)))
+  R2C2_cAMP4 -> R2C2_cAMP4 + R2_cAMP4 , ( 1.0E-15) * (kf_R2C2_cAMP4)
+  R2C2_cAMP4 -> R2C2_cAMP4 + PKA_act , ( 2) * (( 1.0E-15) * (kf_R2C2_cAMP4))
+  R2C2_cAMP4 -> R2C2_cAMP4 + cAMP , ( -2) * (( 1.0E-15) * (-(kb_R2C2_cAMP2__cAMP)))
+  R2C2_cAMP4 -> 2*R2C2_cAMP4 , ( 1.0E-15) * (-(kb_R2C2_cAMP2__cAMP))+( -1) * (( 1.0E-15) * (kf_R2C2_cAMP4))
+  R2_cAMP4 + 2*PKA_act -> R2C2_cAMP4 + R2_cAMP4 + 2*PKA_act , ( -1) * (( 1.0E-15) * (-(kb_R2C2_cAMP4)))
+  R2_cAMP4 + 2*PKA_act -> R2_cAMP4 + 3*PKA_act , ( 2) * (( 1.0E-15) * (-(kb_R2C2_cAMP4)))
+  R2_cAMP4 + 2*PKA_act -> 2*R2_cAMP4 + 2*PKA_act , ( 1.0E-15) * (-(kb_R2C2_cAMP4))
+  PKA_act + I1 -> PKA_act + I1 + PKA_act_I1 , ( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_I1)*(KM_PKA_act_I1)))
+  PKA_act + I1 -> PKA_act + 2*I1 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_I1)*(KM_PKA_act_I1))))
+  PKA_act + I1 -> 2*PKA_act + I1 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_I1)*(KM_PKA_act_I1))))
+  PKA_act + sD -> PKA_act + sD + PKA_act_D , ( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_D)*(KM_PKA_act_D)))
+  PKA_act + sD -> PKA_act + 2*sD , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_D)*(KM_PKA_act_D))))
+  PKA_act + sD -> 2*PKA_act + sD , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_D)*(KM_PKA_act_D))))
+  PKA_act + D137 -> PKA_act + D137 + PKA_act_D137 , ( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_D137)*(KM_PKA_act_D137)))
+  PKA_act + D137 -> PKA_act + 2*D137 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_D137)*(KM_PKA_act_D137))))
+  PKA_act + D137 -> 2*PKA_act + D137 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_D137)*(KM_PKA_act_D137))))
+  PKA_act + D75 -> PKA_act + PKA_D75 + D75 , ( 1.0E-15) * (kf_PKA_act__D75)
+  PKA_act + D75 -> PKA_act + 2*D75 , ( -1) * (( 1.0E-15) * (kf_PKA_act__D75))
+  PKA_act + D75 -> 2*PKA_act + D75 , ( -1) * (( 1.0E-15) * (kf_PKA_act__D75))
+  PKA_act + D75_137 -> PKA_act + PKA_D75_137 + D75_137 , ( 1.0E-15) * (kf_PKA_act__D75_137)
+  PKA_act + D75_137 -> PKA_act + 2*D75_137 , ( -1) * (( 1.0E-15) * (kf_PKA_act__D75_137))
+  PKA_act + D75_137 -> 2*PKA_act + D75_137 , ( -1) * (( 1.0E-15) * (kf_PKA_act__D75_137))
+  PKA_act + PP2A -> PKA_act + PP2A + PKA_act_PP2A , ( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_PP2A)*(KM_PKA_act_PP2A)))
+  PKA_act + PP2A -> PKA_act + 2*PP2A , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_PP2A)*(KM_PKA_act_PP2A))))
+  PKA_act + PP2A -> 2*PKA_act + PP2A , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_PP2A)*(KM_PKA_act_PP2A))))
+  PKA_act + GluR -> PKA_act + GluR + PKA_act_GluR , ( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_GluR)*(KM_PKA_act_GluR)))
+  PKA_act + GluR -> PKA_act + 2*GluR , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_GluR)*(KM_PKA_act_GluR))))
+  PKA_act + GluR -> 2*PKA_act + GluR , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_GluR)*(KM_PKA_act_GluR))))
+  PKA_act + GluR_I -> PKA_act + GluR_I + PKA_act_GluR_I , ( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_GluR_I)*(KM_PKA_act_GluR_I)))
+  PKA_act + GluR_I -> PKA_act + 2*GluR_I , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_GluR_I)*(KM_PKA_act_GluR_I))))
+  PKA_act + GluR_I -> 2*PKA_act + GluR_I , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_GluR_I)*(KM_PKA_act_GluR_I))))
+  PKA_act + PDE2 -> PKA_act + PDE2 + PKA_act_PDE2 , ( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_PDE2)*(KM_PKA_act_PDE2)))
+  PKA_act + PDE2 -> PKA_act + 2*PDE2 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_PDE2)*(KM_PKA_act_PDE2))))
+  PKA_act + PDE2 -> 2*PKA_act + PDE2 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PKA_act_PDE2)*(KM_PKA_act_PDE2))))
+  PKA_D75 -> PKA_act + PKA_D75 , ( -1) * (( 1.0E-15) * (-(kb_PKA_act__D75)))
+  PKA_D75 -> PKA_D75 + D75 , ( -1) * (( 1.0E-15) * (-(kb_PKA_act__D75)))
+  PKA_D75 -> 2*PKA_D75 , ( 1.0E-15) * (-(kb_PKA_act__D75))
+  PKA_D75_137 -> PKA_act + PKA_D75_137 , ( -1) * (( 1.0E-15) * (-(kb_PKA_act__D75_137)))
+  PKA_D75_137 -> PKA_D75_137 + D75_137 , ( -1) * (( 1.0E-15) * (-(kb_PKA_act__D75_137)))
+  PKA_D75_137 -> 2*PKA_D75_137 , ( 1.0E-15) * (-(kb_PKA_act__D75_137))
+  PP1_act + I1 -> PP1_act + I1 + PP1_I1 , ( -1) * (( 1.0E-15) * (-(kb_PP1_I1)))
+  PP1_act + I1 -> PP1_act + 2*I1 , ( 1.0E-15) * (-(kb_PP1_I1))
+  PP1_act + I1 -> 2*PP1_act + I1 , ( 1.0E-15) * (-(kb_PP1_I1))
+  PP1_act + I1_p -> PP1_act + PP1_I1_p + I1_p , ( 1.0E-15) * (kf_PP1_act__I1_p)
+  PP1_act + I1_p -> PP1_act + 2*I1_p , ( -1) * (( 1.0E-15) * (kf_PP1_act__I1_p))
+  PP1_act + I1_p -> 2*PP1_act + I1_p , ( -1) * (( 1.0E-15) * (kf_PP1_act__I1_p))
+  PP1_act + CaMKII_Thr286 -> PP1_act + CaMKII_Thr286 + PP1_act_CaMKII_Thr286 , ( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_CaMKII_Thr286)*(KM_PP1_act_CaMKII_Thr286)))
+  PP1_act + CaMKII_Thr286 -> PP1_act + 2*CaMKII_Thr286 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_CaMKII_Thr286)*(KM_PP1_act_CaMKII_Thr286))))
+  PP1_act + CaMKII_Thr286 -> 2*PP1_act + CaMKII_Thr286 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_CaMKII_Thr286)*(KM_PP1_act_CaMKII_Thr286))))
+  PP1_act + CaMKII_Thr306 -> PP1_act + CaMKII_Thr306 + PP1_act_CaMKII_Thr306 , ( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_CaMKII_Thr306)*(KM_PP1_act_CaMKII_Thr306)))
+  PP1_act + CaMKII_Thr306 -> PP1_act + 2*CaMKII_Thr306 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_CaMKII_Thr306)*(KM_PP1_act_CaMKII_Thr306))))
+  PP1_act + CaMKII_Thr306 -> 2*PP1_act + CaMKII_Thr306 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_CaMKII_Thr306)*(KM_PP1_act_CaMKII_Thr306))))
+  PP1_act + CaMKII_Thr286p_CaM -> PP1_act + CaMKII_Thr286p_CaM + PP1_act_CaMKII_Thr286p_CaM , ( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_CaMKII_Thr286p_CaM)*(KM_PP1_act_CaMKII_Thr286p_CaM)))
+  PP1_act + CaMKII_Thr286p_CaM -> PP1_act + 2*CaMKII_Thr286p_CaM , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_CaMKII_Thr286p_CaM)*(KM_PP1_act_CaMKII_Thr286p_CaM))))
+  PP1_act + CaMKII_Thr286p_CaM -> 2*PP1_act + CaMKII_Thr286p_CaM , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_CaMKII_Thr286p_CaM)*(KM_PP1_act_CaMKII_Thr286p_CaM))))
+  PP1_act + CaMKII_Thr286_305 -> PP1_act + CaMKII_Thr286_305 + PP1_act_CaMKII_Thr286_305 , ( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_CaMKII_Thr286_305)*(KM_PP1_act_CaMKII_Thr286_305)))
+  PP1_act + CaMKII_Thr286_305 -> PP1_act + 2*CaMKII_Thr286_305 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_CaMKII_Thr286_305)*(KM_PP1_act_CaMKII_Thr286_305))))
+  PP1_act + CaMKII_Thr286_305 -> 2*PP1_act + CaMKII_Thr286_305 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_CaMKII_Thr286_305)*(KM_PP1_act_CaMKII_Thr286_305))))
+  PP1_act + sD -> PP1_act + PP1_D + sD , ( -1) * (( 1.0E-15) * (-(kb_PP1_D)))
+  PP1_act + sD -> PP1_act + 2*sD , ( 1.0E-15) * (-(kb_PP1_D))
+  PP1_act + sD -> 2*PP1_act + sD , ( 1.0E-15) * (-(kb_PP1_D))
+  PP1_act + D34 -> PP1_act + PP1_D34 + D34 , ( 1.0E-15) * (kf_PP1_act__D34)
+  PP1_act + D34 -> PP1_act + 2*D34 , ( -1) * (( 1.0E-15) * (kf_PP1_act__D34))
+  PP1_act + D34 -> 2*PP1_act + D34 , ( -1) * (( 1.0E-15) * (kf_PP1_act__D34))
+  PP1_act + D137 -> PP1_act + PP1_D137 + D137 , ( -1) * (( 1.0E-15) * (-(kb_PP1_D137)))
+  PP1_act + D137 -> PP1_act + 2*D137 , ( 1.0E-15) * (-(kb_PP1_D137))
+  PP1_act + D137 -> 2*PP1_act + D137 , ( 1.0E-15) * (-(kb_PP1_D137))
+  PP1_act + D75 -> PP1_act + PP1_D75 + D75 , ( -1) * (( 1.0E-15) * (-(kb_PP1_D75)))
+  PP1_act + D75 -> PP1_act + 2*D75 , ( 1.0E-15) * (-(kb_PP1_D75))
+  PP1_act + D75 -> 2*PP1_act + D75 , ( 1.0E-15) * (-(kb_PP1_D75))
+  PP1_act + D34_75 -> PP1_act + PP1_D34_75 + D34_75 , ( 1.0E-15) * (kf_PP1_act__D34_75)
+  PP1_act + D34_75 -> PP1_act + 2*D34_75 , ( -1) * (( 1.0E-15) * (kf_PP1_act__D34_75))
+  PP1_act + D34_75 -> 2*PP1_act + D34_75 , ( -1) * (( 1.0E-15) * (kf_PP1_act__D34_75))
+  PP1_act + D34_137 -> PP1_act + PP1_D34_137 + D34_137 , ( 1.0E-15) * (kf_PP1_act__D34_137)
+  PP1_act + D34_137 -> PP1_act + 2*D34_137 , ( -1) * (( 1.0E-15) * (kf_PP1_act__D34_137))
+  PP1_act + D34_137 -> 2*PP1_act + D34_137 , ( -1) * (( 1.0E-15) * (kf_PP1_act__D34_137))
+  PP1_act + D34_75_137 -> PP1_act + PP1_D34_75_137 + D34_75_137 , ( 1.0E-15) * (kf_PP1_act__D34_75_137)
+  PP1_act + D34_75_137 -> PP1_act + 2*D34_75_137 , ( -1) * (( 1.0E-15) * (kf_PP1_act__D34_75_137))
+  PP1_act + D34_75_137 -> 2*PP1_act + D34_75_137 , ( -1) * (( 1.0E-15) * (kf_PP1_act__D34_75_137))
+  PP1_act + D75_137 -> PP1_act + PP1_D75_137 + D75_137 , ( -1) * (( 1.0E-15) * (-(kb_PP1_D75_137)))
+  PP1_act + D75_137 -> PP1_act + 2*D75_137 , ( 1.0E-15) * (-(kb_PP1_D75_137))
+  PP1_act + D75_137 -> 2*PP1_act + D75_137 , ( 1.0E-15) * (-(kb_PP1_D75_137))
+  PP1_act + GluR_845p -> PP1_act + GluR_845p + PP1_act_GluR_845p , ( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_GluR_845p)*(KM_PP1_act_GluR_845p)))
+  PP1_act + GluR_845p -> PP1_act + 2*GluR_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_GluR_845p)*(KM_PP1_act_GluR_845p))))
+  PP1_act + GluR_845p -> 2*PP1_act + GluR_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_GluR_845p)*(KM_PP1_act_GluR_845p))))
+  PP1_act + GluR_831p_845p -> PP1_act + GluR_831p_845p + PP1_act_GluR_831p_845p , ( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_GluR_831p_845p)*(KM_PP1_act_GluR_831p_845p)))
+  PP1_act + GluR_831p_845p -> PP1_act + 2*GluR_831p_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_GluR_831p_845p)*(KM_PP1_act_GluR_831p_845p))))
+  PP1_act + GluR_831p_845p -> 2*PP1_act + GluR_831p_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_GluR_831p_845p)*(KM_PP1_act_GluR_831p_845p))))
+  PP1_act + GluR_I_831p_845p -> PP1_act + GluR_I_831p_845p + PP1_act_GluR_I_831p_845p , ( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_GluR_I_831p_845p)*(KM_PP1_act_GluR_I_831p_845p)))
+  PP1_act + GluR_I_831p_845p -> PP1_act + 2*GluR_I_831p_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_GluR_I_831p_845p)*(KM_PP1_act_GluR_I_831p_845p))))
+  PP1_act + GluR_I_831p_845p -> 2*PP1_act + GluR_I_831p_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_GluR_I_831p_845p)*(KM_PP1_act_GluR_I_831p_845p))))
+  PP1_act + GluR_I_845p -> PP1_act + GluR_I_845p + PP1_act_GluR_I_845p , ( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_GluR_I_845p)*(KM_PP1_act_GluR_I_845p)))
+  PP1_act + GluR_I_845p -> PP1_act + 2*GluR_I_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_GluR_I_845p)*(KM_PP1_act_GluR_I_845p))))
+  PP1_act + GluR_I_845p -> 2*PP1_act + GluR_I_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP1_act_GluR_I_845p)*(KM_PP1_act_GluR_I_845p))))
+  PP1_D34 -> PP1_act + PP1_D34 , ( -1) * (( 1.0E-15) * (-(kb_PP1_act__D34)))
+  PP1_D34 -> PP1_D34 + D34 , ( -1) * (( 1.0E-15) * (-(kb_PP1_act__D34)))
+  PP1_D34 -> 2*PP1_D34 , ( 1.0E-15) * (-(kb_PP1_act__D34))
+  PP1_D34 + CaM_Ca2_CaNAB_Ca4 -> PP1_D34 + CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_PP1_D34 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34)*(KM_CaM_Ca2_CaNAB_Ca4_PP1_D34)))
+  PP1_D34 + CaM_Ca2_CaNAB_Ca4 -> PP1_D34 + 2*CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34)*(KM_CaM_Ca2_CaNAB_Ca4_PP1_D34))))
+  PP1_D34 + CaM_Ca2_CaNAB_Ca4 -> 2*PP1_D34 + CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34)*(KM_CaM_Ca2_CaNAB_Ca4_PP1_D34))))
+  PP1_D34 + CaM_Ca3_CaNAB_Ca4 -> PP1_D34 + CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_PP1_D34 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34)*(KM_CaM_Ca3_CaNAB_Ca4_PP1_D34)))
+  PP1_D34 + CaM_Ca3_CaNAB_Ca4 -> PP1_D34 + 2*CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34)*(KM_CaM_Ca3_CaNAB_Ca4_PP1_D34))))
+  PP1_D34 + CaM_Ca3_CaNAB_Ca4 -> 2*PP1_D34 + CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34)*(KM_CaM_Ca3_CaNAB_Ca4_PP1_D34))))
+  PP1_D34 + CaM_Ca4_CaNAB_Ca4 -> PP1_D34 + CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_PP1_D34 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34)*(KM_CaM_Ca4_CaNAB_Ca4_PP1_D34)))
+  PP1_D34 + CaM_Ca4_CaNAB_Ca4 -> PP1_D34 + 2*CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34)*(KM_CaM_Ca4_CaNAB_Ca4_PP1_D34))))
+  PP1_D34 + CaM_Ca4_CaNAB_Ca4 -> 2*PP1_D34 + CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34)*(KM_CaM_Ca4_CaNAB_Ca4_PP1_D34))))
+  PP1_D34_137 -> PP1_act + PP1_D34_137 , ( -1) * (( 1.0E-15) * (-(kb_PP1_act__D34_137)))
+  PP1_D34_137 -> PP1_D34_137 + D34_137 , ( -1) * (( 1.0E-15) * (-(kb_PP1_act__D34_137)))
+  PP1_D34_137 -> 2*PP1_D34_137 , ( 1.0E-15) * (-(kb_PP1_act__D34_137))
+  PP1_D34_137 + CaM_Ca2_CaNAB_Ca4 -> PP1_D34_137 + CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_PP1_D34_137 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_137)*(KM_CaM_Ca2_CaNAB_Ca4_PP1_D34_137)))
+  PP1_D34_137 + CaM_Ca2_CaNAB_Ca4 -> PP1_D34_137 + 2*CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_137)*(KM_CaM_Ca2_CaNAB_Ca4_PP1_D34_137))))
+  PP1_D34_137 + CaM_Ca2_CaNAB_Ca4 -> 2*PP1_D34_137 + CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_137)*(KM_CaM_Ca2_CaNAB_Ca4_PP1_D34_137))))
+  PP1_D34_137 + CaM_Ca3_CaNAB_Ca4 -> PP1_D34_137 + CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_PP1_D34_137 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_137)*(KM_CaM_Ca3_CaNAB_Ca4_PP1_D34_137)))
+  PP1_D34_137 + CaM_Ca3_CaNAB_Ca4 -> PP1_D34_137 + 2*CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_137)*(KM_CaM_Ca3_CaNAB_Ca4_PP1_D34_137))))
+  PP1_D34_137 + CaM_Ca3_CaNAB_Ca4 -> 2*PP1_D34_137 + CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_137)*(KM_CaM_Ca3_CaNAB_Ca4_PP1_D34_137))))
+  PP1_D34_137 + CaM_Ca4_CaNAB_Ca4 -> PP1_D34_137 + CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_PP1_D34_137 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_137)*(KM_CaM_Ca4_CaNAB_Ca4_PP1_D34_137)))
+  PP1_D34_137 + CaM_Ca4_CaNAB_Ca4 -> PP1_D34_137 + 2*CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_137)*(KM_CaM_Ca4_CaNAB_Ca4_PP1_D34_137))))
+  PP1_D34_137 + CaM_Ca4_CaNAB_Ca4 -> 2*PP1_D34_137 + CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_137)*(KM_CaM_Ca4_CaNAB_Ca4_PP1_D34_137))))
+  PP1_D34_75 -> PP1_act + PP1_D34_75 , ( -1) * (( 1.0E-15) * (-(kb_PP1_act__D34_75)))
+  PP1_D34_75 -> PP1_D34_75 + D34_75 , ( -1) * (( 1.0E-15) * (-(kb_PP1_act__D34_75)))
+  PP1_D34_75 -> 2*PP1_D34_75 , ( 1.0E-15) * (-(kb_PP1_act__D34_75))
+  PP1_D34_75 + CaM_Ca2_CaNAB_Ca4 -> PP1_D34_75 + CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_PP1_D34_75 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75)*(KM_CaM_Ca2_CaNAB_Ca4_PP1_D34_75)))
+  PP1_D34_75 + CaM_Ca2_CaNAB_Ca4 -> PP1_D34_75 + 2*CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75)*(KM_CaM_Ca2_CaNAB_Ca4_PP1_D34_75))))
+  PP1_D34_75 + CaM_Ca2_CaNAB_Ca4 -> 2*PP1_D34_75 + CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75)*(KM_CaM_Ca2_CaNAB_Ca4_PP1_D34_75))))
+  PP1_D34_75 + CaM_Ca3_CaNAB_Ca4 -> PP1_D34_75 + CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_PP1_D34_75 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75)*(KM_CaM_Ca3_CaNAB_Ca4_PP1_D34_75)))
+  PP1_D34_75 + CaM_Ca3_CaNAB_Ca4 -> PP1_D34_75 + 2*CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75)*(KM_CaM_Ca3_CaNAB_Ca4_PP1_D34_75))))
+  PP1_D34_75 + CaM_Ca3_CaNAB_Ca4 -> 2*PP1_D34_75 + CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75)*(KM_CaM_Ca3_CaNAB_Ca4_PP1_D34_75))))
+  PP1_D34_75 + CaM_Ca4_CaNAB_Ca4 -> PP1_D34_75 + CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_PP1_D34_75 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75)*(KM_CaM_Ca4_CaNAB_Ca4_PP1_D34_75)))
+  PP1_D34_75 + CaM_Ca4_CaNAB_Ca4 -> PP1_D34_75 + 2*CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75)*(KM_CaM_Ca4_CaNAB_Ca4_PP1_D34_75))))
+  PP1_D34_75 + CaM_Ca4_CaNAB_Ca4 -> 2*PP1_D34_75 + CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75)*(KM_CaM_Ca4_CaNAB_Ca4_PP1_D34_75))))
+  PP1_D34_75_137 -> PP1_act + PP1_D34_75_137 , ( -1) * (( 1.0E-15) * (-(kb_PP1_act__D34_75_137)))
+  PP1_D34_75_137 -> PP1_D34_75_137 + D34_75_137 , ( -1) * (( 1.0E-15) * (-(kb_PP1_act__D34_75_137)))
+  PP1_D34_75_137 -> 2*PP1_D34_75_137 , ( 1.0E-15) * (-(kb_PP1_act__D34_75_137))
+  PP1_D34_75_137 + CaM_Ca2_CaNAB_Ca4 -> PP1_D34_75_137 + CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137)*(KM_CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137)))
+  PP1_D34_75_137 + CaM_Ca2_CaNAB_Ca4 -> PP1_D34_75_137 + 2*CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137)*(KM_CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137))))
+  PP1_D34_75_137 + CaM_Ca2_CaNAB_Ca4 -> 2*PP1_D34_75_137 + CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137)*(KM_CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137))))
+  PP1_D34_75_137 + CaM_Ca3_CaNAB_Ca4 -> PP1_D34_75_137 + CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137)*(KM_CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137)))
+  PP1_D34_75_137 + CaM_Ca3_CaNAB_Ca4 -> PP1_D34_75_137 + 2*CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137)*(KM_CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137))))
+  PP1_D34_75_137 + CaM_Ca3_CaNAB_Ca4 -> 2*PP1_D34_75_137 + CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137)*(KM_CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137))))
+  PP1_D34_75_137 + CaM_Ca4_CaNAB_Ca4 -> PP1_D34_75_137 + CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137)*(KM_CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137)))
+  PP1_D34_75_137 + CaM_Ca4_CaNAB_Ca4 -> PP1_D34_75_137 + 2*CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137)*(KM_CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137))))
+  PP1_D34_75_137 + CaM_Ca4_CaNAB_Ca4 -> 2*PP1_D34_75_137 + CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137)*(KM_CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137))))
+  PP1_D -> PP1_act + PP1_D , ( 1.0E-15) * (kf_PP1_D)
+  PP1_D -> PP1_D + sD , ( 1.0E-15) * (kf_PP1_D)
+  PP1_D -> 2*PP1_D , ( -1) * (( 1.0E-15) * (kf_PP1_D))
+  PP1_D75 -> PP1_act + PP1_D75 , ( 1.0E-15) * (kf_PP1_D75)
+  PP1_D75 -> PP1_D75 + D75 , ( 1.0E-15) * (kf_PP1_D75)
+  PP1_D75 -> 2*PP1_D75 , ( -1) * (( 1.0E-15) * (kf_PP1_D75))
+  PP1_D137 -> PP1_act + PP1_D137 , ( 1.0E-15) * (kf_PP1_D137)
+  PP1_D137 -> PP1_D137 + D137 , ( 1.0E-15) * (kf_PP1_D137)
+  PP1_D137 -> 2*PP1_D137 , ( -1) * (( 1.0E-15) * (kf_PP1_D137))
+  PP1_D75_137 -> PP1_act + PP1_D75_137 , ( 1.0E-15) * (kf_PP1_D75_137)
+  PP1_D75_137 -> PP1_D75_137 + D75_137 , ( 1.0E-15) * (kf_PP1_D75_137)
+  PP1_D75_137 -> 2*PP1_D75_137 , ( -1) * (( 1.0E-15) * (kf_PP1_D75_137))
+  PP1_I1 -> PP1_act + PP1_I1 , ( 1.0E-15) * (kf_PP1_I1)
+  PP1_I1 -> I1 + PP1_I1 , ( 1.0E-15) * (kf_PP1_I1)
+  PP1_I1 -> 2*PP1_I1 , ( -1) * (( 1.0E-15) * (kf_PP1_I1))
+  PP1_I1_p -> PP1_act + PP1_I1_p , ( -1) * (( 1.0E-15) * (-(kb_PP1_act__I1_p)))
+  PP1_I1_p -> PP1_I1_p + I1_p , ( -1) * (( 1.0E-15) * (-(kb_PP1_act__I1_p)))
+  PP1_I1_p -> 2*PP1_I1_p , ( 1.0E-15) * (-(kb_PP1_act__I1_p))
+  PP1_I1_p + CaM_Ca2_CaNAB_Ca4 -> PP1_I1_p + CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_PP1_I1_p , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_PP1_I1_p)*(KM_CaM_Ca2_CaNAB_Ca4_PP1_I1_p)))
+  PP1_I1_p + CaM_Ca2_CaNAB_Ca4 -> PP1_I1_p + 2*CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_PP1_I1_p)*(KM_CaM_Ca2_CaNAB_Ca4_PP1_I1_p))))
+  PP1_I1_p + CaM_Ca2_CaNAB_Ca4 -> 2*PP1_I1_p + CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_PP1_I1_p)*(KM_CaM_Ca2_CaNAB_Ca4_PP1_I1_p))))
+  PP1_I1_p + CaM_Ca3_CaNAB_Ca4 -> PP1_I1_p + CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_PP1_I1_p , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_PP1_I1_p)*(KM_CaM_Ca3_CaNAB_Ca4_PP1_I1_p)))
+  PP1_I1_p + CaM_Ca3_CaNAB_Ca4 -> PP1_I1_p + 2*CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_PP1_I1_p)*(KM_CaM_Ca3_CaNAB_Ca4_PP1_I1_p))))
+  PP1_I1_p + CaM_Ca3_CaNAB_Ca4 -> 2*PP1_I1_p + CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_PP1_I1_p)*(KM_CaM_Ca3_CaNAB_Ca4_PP1_I1_p))))
+  PP1_I1_p + CaM_Ca4_CaNAB_Ca4 -> PP1_I1_p + CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_PP1_I1_p , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_PP1_I1_p)*(KM_CaM_Ca4_CaNAB_Ca4_PP1_I1_p)))
+  PP1_I1_p + CaM_Ca4_CaNAB_Ca4 -> PP1_I1_p + 2*CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_PP1_I1_p)*(KM_CaM_Ca4_CaNAB_Ca4_PP1_I1_p))))
+  PP1_I1_p + CaM_Ca4_CaNAB_Ca4 -> 2*PP1_I1_p + CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_PP1_I1_p)*(KM_CaM_Ca4_CaNAB_Ca4_PP1_I1_p))))
+  I1_p + CaM_Ca2_CaNAB_Ca4 -> I1_p + CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_I1_p , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_I1_p)*(KM_CaM_Ca2_CaNAB_Ca4_I1_p)))
+  I1_p + CaM_Ca2_CaNAB_Ca4 -> I1_p + 2*CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_I1_p)*(KM_CaM_Ca2_CaNAB_Ca4_I1_p))))
+  I1_p + CaM_Ca2_CaNAB_Ca4 -> 2*I1_p + CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_I1_p)*(KM_CaM_Ca2_CaNAB_Ca4_I1_p))))
+  I1_p + CaM_Ca3_CaNAB_Ca4 -> I1_p + CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_I1_p , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_I1_p)*(KM_CaM_Ca3_CaNAB_Ca4_I1_p)))
+  I1_p + CaM_Ca3_CaNAB_Ca4 -> I1_p + 2*CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_I1_p)*(KM_CaM_Ca3_CaNAB_Ca4_I1_p))))
+  I1_p + CaM_Ca3_CaNAB_Ca4 -> 2*I1_p + CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_I1_p)*(KM_CaM_Ca3_CaNAB_Ca4_I1_p))))
+  I1_p + CaM_Ca4_CaNAB_Ca4 -> I1_p + CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_I1_p , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_I1_p)*(KM_CaM_Ca4_CaNAB_Ca4_I1_p)))
+  I1_p + CaM_Ca4_CaNAB_Ca4 -> I1_p + 2*CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_I1_p)*(KM_CaM_Ca4_CaNAB_Ca4_I1_p))))
+  I1_p + CaM_Ca4_CaNAB_Ca4 -> 2*I1_p + CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_I1_p)*(KM_CaM_Ca4_CaNAB_Ca4_I1_p))))
+  CaNAB + Ca -> CaNAB + CaNAB_Ca2 + Ca , ( 1.0E-15) * (kf_Ca__CaNAB)
+  CaNAB + Ca -> CaNAB + 2*Ca , ( -1) * (( 1.0E-15) * (kf_Ca__CaNAB))
+  CaNAB + Ca -> 2*CaNAB + Ca , ( -1) * (( 1.0E-15) * (kf_Ca__CaNAB))
+  CaNAB_Ca2 -> CaNAB + CaNAB_Ca2 , ( -1) * (( 1.0E-15) * (-(kb_Ca__CaNAB)))
+  CaNAB_Ca2 -> CaNAB_Ca2 + Ca , ( -1) * (( 1.0E-15) * (-(kb_Ca__CaNAB)))
+  CaNAB_Ca2 -> 2*CaNAB_Ca2 , ( 1.0E-15) * (-(kb_Ca__CaNAB))
+  CaNAB_Ca2 + Ca -> CaNAB_Ca2 + CaNAB_Ca4 + Ca , ( 1.0E-15) * (kf_Ca__CaNAB_Ca2)
+  CaNAB_Ca2 + Ca -> CaNAB_Ca2 + 2*Ca , ( -1) * (( 1.0E-15) * (kf_Ca__CaNAB_Ca2))
+  CaNAB_Ca2 + Ca -> 2*CaNAB_Ca2 + Ca , ( -1) * (( 1.0E-15) * (kf_Ca__CaNAB_Ca2))
+  CaNAB_Ca4 -> CaNAB_Ca2 + CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (-(kb_Ca__CaNAB_Ca2)))
+  CaNAB_Ca4 -> CaNAB_Ca4 + Ca , ( -1) * (( 1.0E-15) * (-(kb_Ca__CaNAB_Ca2)))
+  CaNAB_Ca4 -> 2*CaNAB_Ca4 , ( 1.0E-15) * (-(kb_Ca__CaNAB_Ca2))
+  CaNAB_Ca4 + CaM_Ca2 -> CaNAB_Ca4 + CaM_Ca2 + CaM_Ca2_CaNAB_Ca4 , ( 1.0E-15) * (kf_CaM_Ca2__CaNAB_Ca4)
+  CaNAB_Ca4 + CaM_Ca2 -> CaNAB_Ca4 + 2*CaM_Ca2 , ( -1) * (( 1.0E-15) * (kf_CaM_Ca2__CaNAB_Ca4))
+  CaNAB_Ca4 + CaM_Ca2 -> 2*CaNAB_Ca4 + CaM_Ca2 , ( -1) * (( 1.0E-15) * (kf_CaM_Ca2__CaNAB_Ca4))
+  CaNAB_Ca4 + CaM_Ca3 -> CaNAB_Ca4 + CaM_Ca3 + CaM_Ca3_CaNAB_Ca4 , ( 1.0E-15) * (kf_CaM_Ca3__CaNAB_Ca4)
+  CaNAB_Ca4 + CaM_Ca3 -> CaNAB_Ca4 + 2*CaM_Ca3 , ( -1) * (( 1.0E-15) * (kf_CaM_Ca3__CaNAB_Ca4))
+  CaNAB_Ca4 + CaM_Ca3 -> 2*CaNAB_Ca4 + CaM_Ca3 , ( -1) * (( 1.0E-15) * (kf_CaM_Ca3__CaNAB_Ca4))
+  CaNAB_Ca4 + CaM_Ca4 -> CaNAB_Ca4 + CaM_Ca4 + CaM_Ca4_CaNAB_Ca4 , ( 1.0E-15) * (kf_CaM_Ca4__CaNAB_Ca4)
+  CaNAB_Ca4 + CaM_Ca4 -> CaNAB_Ca4 + 2*CaM_Ca4 , ( -1) * (( 1.0E-15) * (kf_CaM_Ca4__CaNAB_Ca4))
+  CaNAB_Ca4 + CaM_Ca4 -> 2*CaNAB_Ca4 + CaM_Ca4 , ( -1) * (( 1.0E-15) * (kf_CaM_Ca4__CaNAB_Ca4))
+  CaMKII -> CaMKII + CaMKII_Thr286 , ( 1.0E-15) * (kf_CaMKII)
+  CaMKII -> 2*CaMKII , ( -1) * (( 1.0E-15) * (kf_CaMKII))
+  CaMKII + CaM -> CaMKII + CaMKII_CaM + CaM , ( 1.0E-15) * (kf_CaMKII__CaM)
+  CaMKII + CaM -> CaMKII + 2*CaM , ( -1) * (( 1.0E-15) * (kf_CaMKII__CaM))
+  CaMKII + CaM -> 2*CaMKII + CaM , ( -1) * (( 1.0E-15) * (kf_CaMKII__CaM))
+  CaMKII_CaM -> CaMKII + CaMKII_CaM , ( -1) * (( 1.0E-15) * (-(kb_CaMKII__CaM)))
+  CaMKII_CaM -> CaMKII_CaM + tot_autonomous_CaMKII , ( -1) * (( 1.0E-15) * (( ( 5.0) * ((kcat_tot_autonomous_CaMKII_CaMKII_CaM)*(KM_tot_autonomous_CaMKII_CaMKII_CaM))) * (0.34)))
+  CaMKII_CaM -> CaMKII_CaM + CaM , ( -1) * (( 1.0E-15) * (-(kb_CaMKII__CaM)))
+  CaMKII_CaM -> CaMKII_CaM + tot_autonomous_CaMKII_CaMKII_CaM , ( 1.0E-15) * (( ( 5.0) * ((kcat_tot_autonomous_CaMKII_CaMKII_CaM)*(KM_tot_autonomous_CaMKII_CaMKII_CaM))) * (0.34))
+  CaMKII_CaM -> 2*CaMKII_CaM , ( 1.0E-15) * (-(kb_CaMKII__CaM))+( -1) * (( 1.0E-15) * (( ( 5.0) * ((kcat_tot_autonomous_CaMKII_CaMKII_CaM)*(KM_tot_autonomous_CaMKII_CaMKII_CaM))) * (0.34)))
+  CaMKII_CaM + tot_CaM_CAMKII -> CaMKII_CaM + tot_CaM_CAMKII + tot_CaM_CAMKII_CaMKII_CaM , ( 1.0E-15) * (( 5.0) * ((kcat_tot_CaM_CAMKII_CaMKII_CaM)*(KM_tot_CaM_CAMKII_CaMKII_CaM)))
+  CaMKII_CaM + tot_CaM_CAMKII -> CaMKII_CaM + 2*tot_CaM_CAMKII , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_tot_CaM_CAMKII_CaMKII_CaM)*(KM_tot_CaM_CAMKII_CaMKII_CaM))))
+  CaMKII_CaM + tot_CaM_CAMKII -> 2*CaMKII_CaM + tot_CaM_CAMKII , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_tot_CaM_CAMKII_CaMKII_CaM)*(KM_tot_CaM_CAMKII_CaMKII_CaM))))
+  CaMKII_Thr286 -> CaMKII + CaMKII_Thr286 , ( -1) * (( 1.0E-15) * (-(kb_CaMKII)))
+  CaMKII_Thr286 -> CaMKII_Thr286 + tot_autonomous_CaMKII , ( -1) * (( 1.0E-15) * (( ( 5.0) * ((kcat_tot_autonomous_CaMKII_CaMKII_Thr286)*(KM_tot_autonomous_CaMKII_CaMKII_Thr286))) * (0.34)))
+  CaMKII_Thr286 -> CaMKII_Thr286 + tot_autonomous_CaMKII_CaMKII_Thr286 , ( 1.0E-15) * (( ( 5.0) * ((kcat_tot_autonomous_CaMKII_CaMKII_Thr286)*(KM_tot_autonomous_CaMKII_CaMKII_Thr286))) * (0.34))
+  CaMKII_Thr286 -> 2*CaMKII_Thr286 , ( -1) * (( 1.0E-15) * (( ( 5.0) * ((kcat_tot_autonomous_CaMKII_CaMKII_Thr286)*(KM_tot_autonomous_CaMKII_CaMKII_Thr286))) * (0.34)))+( 1.0E-15) * (-(kb_CaMKII))
+  CaMKII_Thr286 + CaM -> CaMKII_Thr286 + CaMKII_Thr286p_CaM + CaM , ( 1.0E-15) * (kf_CaMKII_Thr286__CaM)
+  CaMKII_Thr286 + CaM -> CaMKII_Thr286 + 2*CaM , ( -1) * (( 1.0E-15) * (kf_CaMKII_Thr286__CaM))
+  CaMKII_Thr286 + CaM -> 2*CaMKII_Thr286 + CaM , ( -1) * (( 1.0E-15) * (kf_CaMKII_Thr286__CaM))
+  CaMKII_Thr286 + tot_CaM_CAMKII -> CaMKII_Thr286 + tot_CaM_CAMKII + tot_CaM_CAMKII_CaMKII_Thr286 , ( 1.0E-15) * (( 5.0) * ((kcat_tot_CaM_CAMKII_CaMKII_Thr286)*(KM_tot_CaM_CAMKII_CaMKII_Thr286)))
+  CaMKII_Thr286 + tot_CaM_CAMKII -> CaMKII_Thr286 + 2*tot_CaM_CAMKII , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_tot_CaM_CAMKII_CaMKII_Thr286)*(KM_tot_CaM_CAMKII_CaMKII_Thr286))))
+  CaMKII_Thr286 + tot_CaM_CAMKII -> 2*CaMKII_Thr286 + tot_CaM_CAMKII , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_tot_CaM_CAMKII_CaMKII_Thr286)*(KM_tot_CaM_CAMKII_CaMKII_Thr286))))
+  CaMKII_Thr286p_CaM -> CaMKII_Thr286 + CaMKII_Thr286p_CaM , ( -1) * (( 1.0E-15) * (-(kb_CaMKII_Thr286__CaM)))
+  CaMKII_Thr286p_CaM -> CaMKII_Thr286p_CaM + CaM , ( -1) * (( 1.0E-15) * (-(kb_CaMKII_Thr286__CaM)))
+  CaMKII_Thr286p_CaM -> 2*CaMKII_Thr286p_CaM , ( 1.0E-15) * (-(kb_CaMKII_Thr286__CaM))
+  CaM_Ca2 -> CaM_Ca2 + CaM , ( -1) * (( 1.0E-15) * (-(kb_CaM__Ca)))
+  CaM_Ca2 -> CaM_Ca2 + Ca , ( -1) * (( 1.0E-15) * (-(kb_CaM__Ca)))
+  CaM_Ca2 -> 2*CaM_Ca2 , ( 1.0E-15) * (-(kb_CaM__Ca))
+  CaM_Ca2 + Ca -> CaM_Ca2 + CaM_Ca3 + Ca , ( 1.0E-15) * (kf_CaM_Ca2__Ca)
+  CaM_Ca2 + Ca -> CaM_Ca2 + 2*Ca , ( -1) * (( 1.0E-15) * (kf_CaM_Ca2__Ca))
+  CaM_Ca2 + Ca -> 2*CaM_Ca2 + Ca , ( -1) * (( 1.0E-15) * (kf_CaM_Ca2__Ca))
+  CaM_Ca3 -> CaM_Ca2 + CaM_Ca3 , ( -1) * (( 1.0E-15) * (-(kb_CaM_Ca2__Ca)))
+  CaM_Ca3 -> CaM_Ca3 + Ca , ( -1) * (( 1.0E-15) * (-(kb_CaM_Ca2__Ca)))
+  CaM_Ca3 -> 2*CaM_Ca3 , ( 1.0E-15) * (-(kb_CaM_Ca2__Ca))
+  CaM_Ca3 + Ca -> CaM_Ca3 + CaM_Ca4 + Ca , ( 1.0E-15) * (kf_CaM_Ca3__Ca)
+  CaM_Ca3 + Ca -> CaM_Ca3 + 2*Ca , ( -1) * (( 1.0E-15) * (kf_CaM_Ca3__Ca))
+  CaM_Ca3 + Ca -> 2*CaM_Ca3 + Ca , ( -1) * (( 1.0E-15) * (kf_CaM_Ca3__Ca))
+  CaM + PDE1 -> CaM + PDE1 + PDE1_CaM , ( 1.0E-15) * (kf_PDE1__CaM)
+  CaM + PDE1 -> CaM + 2*PDE1 , ( -1) * (( 1.0E-15) * (kf_PDE1__CaM))
+  CaM + PDE1 -> 2*CaM + PDE1 , ( -1) * (( 1.0E-15) * (kf_PDE1__CaM))
+  CaM + Ca -> CaM_Ca2 + CaM + Ca , ( 1.0E-15) * (kf_CaM__Ca)
+  CaM + Ca -> CaM + 2*Ca , ( -1) * (( 1.0E-15) * (kf_CaM__Ca))
+  CaM + Ca -> 2*CaM + Ca , ( -1) * (( 1.0E-15) * (kf_CaM__Ca))
+  CaM_Ca4 -> CaM_Ca3 + CaM_Ca4 , ( -1) * (( 1.0E-15) * (-(kb_CaM_Ca3__Ca)))
+  CaM_Ca4 -> CaM_Ca4 + Ca , ( -1) * (( 1.0E-15) * (-(kb_CaM_Ca3__Ca)))
+  CaM_Ca4 -> 2*CaM_Ca4 , ( 1.0E-15) * (-(kb_CaM_Ca3__Ca))
+  sD + CK1p -> sD + CK1p + CK1p_D , ( 1.0E-15) * (( 5.0) * ((kcat_CK1p_D)*(KM_CK1p_D)))
+  sD + CK1p -> sD + 2*CK1p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CK1p_D)*(KM_CK1p_D))))
+  sD + CK1p -> 2*sD + CK1p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CK1p_D)*(KM_CK1p_D))))
+  sD + CDK5p -> sD + CDK5p + CDK5p_D , ( 1.0E-15) * (( 5.0) * ((kcat_CDK5p_D)*(KM_CDK5p_D)))
+  sD + CDK5p -> sD + 2*CDK5p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CDK5p_D)*(KM_CDK5p_D))))
+  sD + CDK5p -> 2*sD + CDK5p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CDK5p_D)*(KM_CDK5p_D))))
+  D34 + CK1p -> D34 + CK1p + CK1p_D34 , ( 1.0E-15) * (( 5.0) * ((kcat_CK1p_D34)*(KM_CK1p_D34)))
+  D34 + CK1p -> D34 + 2*CK1p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CK1p_D34)*(KM_CK1p_D34))))
+  D34 + CK1p -> 2*D34 + CK1p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CK1p_D34)*(KM_CK1p_D34))))
+  D34 + CDK5p -> D34 + CDK5p + CDK5p_D34 , ( 1.0E-15) * (( 5.0) * ((kcat_CDK5p_D34)*(KM_CDK5p_D34)))
+  D34 + CDK5p -> D34 + 2*CDK5p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CDK5p_D34)*(KM_CDK5p_D34))))
+  D34 + CDK5p -> 2*D34 + CDK5p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CDK5p_D34)*(KM_CDK5p_D34))))
+  D34 + CaM_Ca2_CaNAB_Ca4 -> D34 + CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_D34 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_D34)*(KM_CaM_Ca2_CaNAB_Ca4_D34)))
+  D34 + CaM_Ca2_CaNAB_Ca4 -> D34 + 2*CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_D34)*(KM_CaM_Ca2_CaNAB_Ca4_D34))))
+  D34 + CaM_Ca2_CaNAB_Ca4 -> 2*D34 + CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_D34)*(KM_CaM_Ca2_CaNAB_Ca4_D34))))
+  D34 + CaM_Ca3_CaNAB_Ca4 -> D34 + CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_D34 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_D34)*(KM_CaM_Ca3_CaNAB_Ca4_D34)))
+  D34 + CaM_Ca3_CaNAB_Ca4 -> D34 + 2*CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_D34)*(KM_CaM_Ca3_CaNAB_Ca4_D34))))
+  D34 + CaM_Ca3_CaNAB_Ca4 -> 2*D34 + CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_D34)*(KM_CaM_Ca3_CaNAB_Ca4_D34))))
+  D34 + CaM_Ca4_CaNAB_Ca4 -> D34 + CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_D34 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_D34)*(KM_CaM_Ca4_CaNAB_Ca4_D34)))
+  D34 + CaM_Ca4_CaNAB_Ca4 -> D34 + 2*CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_D34)*(KM_CaM_Ca4_CaNAB_Ca4_D34))))
+  D34 + CaM_Ca4_CaNAB_Ca4 -> 2*D34 + CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_D34)*(KM_CaM_Ca4_CaNAB_Ca4_D34))))
+  D137 + PP2C -> D137 + PP2C + PP2C_D137 , ( 1.0E-15) * (( 5.0) * ((kcat_PP2C_D137)*(KM_PP2C_D137)))
+  D137 + PP2C -> D137 + 2*PP2C , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2C_D137)*(KM_PP2C_D137))))
+  D137 + PP2C -> 2*D137 + PP2C , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2C_D137)*(KM_PP2C_D137))))
+  D137 + CDK5p -> D137 + CDK5p + CDK5p_D137 , ( 1.0E-15) * (( 5.0) * ((kcat_CDK5p_D137)*(KM_CDK5p_D137)))
+  D137 + CDK5p -> D137 + 2*CDK5p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CDK5p_D137)*(KM_CDK5p_D137))))
+  D137 + CDK5p -> 2*D137 + CDK5p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CDK5p_D137)*(KM_CDK5p_D137))))
+  D75 + PP2A_PKA -> D75 + PP2A_PKA + PP2A_PKA_D75 , ( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_D75)*(KM_PP2A_PKA_D75)))
+  D75 + PP2A_PKA -> D75 + 2*PP2A_PKA , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_D75)*(KM_PP2A_PKA_D75))))
+  D75 + PP2A_PKA -> 2*D75 + PP2A_PKA , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_D75)*(KM_PP2A_PKA_D75))))
+  D75 + PP2A_Ca -> D75 + PP2A_Ca + PP2A_Ca_D75 , ( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_D75)*(KM_PP2A_Ca_D75)))
+  D75 + PP2A_Ca -> D75 + 2*PP2A_Ca , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_D75)*(KM_PP2A_Ca_D75))))
+  D75 + PP2A_Ca -> 2*D75 + PP2A_Ca , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_D75)*(KM_PP2A_Ca_D75))))
+  D75 + CK1p -> D75 + CK1p + CK1p_D75 , ( 1.0E-15) * (( 5.0) * ((kcat_CK1p_D75)*(KM_CK1p_D75)))
+  D75 + CK1p -> D75 + 2*CK1p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CK1p_D75)*(KM_CK1p_D75))))
+  D75 + CK1p -> 2*D75 + CK1p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CK1p_D75)*(KM_CK1p_D75))))
+  D34_75 + PP2A_PKA -> D34_75 + PP2A_PKA + PP2A_PKA_D34_75 , ( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_D34_75)*(KM_PP2A_PKA_D34_75)))
+  D34_75 + PP2A_PKA -> D34_75 + 2*PP2A_PKA , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_D34_75)*(KM_PP2A_PKA_D34_75))))
+  D34_75 + PP2A_PKA -> 2*D34_75 + PP2A_PKA , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_D34_75)*(KM_PP2A_PKA_D34_75))))
+  D34_75 + PP2A_Ca -> D34_75 + PP2A_Ca + PP2A_Ca_D34_75 , ( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_D34_75)*(KM_PP2A_Ca_D34_75)))
+  D34_75 + PP2A_Ca -> D34_75 + 2*PP2A_Ca , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_D34_75)*(KM_PP2A_Ca_D34_75))))
+  D34_75 + PP2A_Ca -> 2*D34_75 + PP2A_Ca , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_D34_75)*(KM_PP2A_Ca_D34_75))))
+  D34_75 + CK1p -> D34_75 + CK1p + CK1p_D34_75 , ( 1.0E-15) * (( 5.0) * ((kcat_CK1p_D34_75)*(KM_CK1p_D34_75)))
+  D34_75 + CK1p -> D34_75 + 2*CK1p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CK1p_D34_75)*(KM_CK1p_D34_75))))
+  D34_75 + CK1p -> 2*D34_75 + CK1p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CK1p_D34_75)*(KM_CK1p_D34_75))))
+  D34_75 + CaM_Ca2_CaNAB_Ca4 -> D34_75 + CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_D34_75 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_D34_75)*(KM_CaM_Ca2_CaNAB_Ca4_D34_75)))
+  D34_75 + CaM_Ca2_CaNAB_Ca4 -> D34_75 + 2*CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_D34_75)*(KM_CaM_Ca2_CaNAB_Ca4_D34_75))))
+  D34_75 + CaM_Ca2_CaNAB_Ca4 -> 2*D34_75 + CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_D34_75)*(KM_CaM_Ca2_CaNAB_Ca4_D34_75))))
+  D34_75 + CaM_Ca3_CaNAB_Ca4 -> D34_75 + CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_D34_75 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_D34_75)*(KM_CaM_Ca3_CaNAB_Ca4_D34_75)))
+  D34_75 + CaM_Ca3_CaNAB_Ca4 -> D34_75 + 2*CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_D34_75)*(KM_CaM_Ca3_CaNAB_Ca4_D34_75))))
+  D34_75 + CaM_Ca3_CaNAB_Ca4 -> 2*D34_75 + CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_D34_75)*(KM_CaM_Ca3_CaNAB_Ca4_D34_75))))
+  D34_75 + CaM_Ca4_CaNAB_Ca4 -> D34_75 + CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_D34_75 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_D34_75)*(KM_CaM_Ca4_CaNAB_Ca4_D34_75)))
+  D34_75 + CaM_Ca4_CaNAB_Ca4 -> D34_75 + 2*CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_D34_75)*(KM_CaM_Ca4_CaNAB_Ca4_D34_75))))
+  D34_75 + CaM_Ca4_CaNAB_Ca4 -> 2*D34_75 + CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_D34_75)*(KM_CaM_Ca4_CaNAB_Ca4_D34_75))))
+  D34_137 + PP2C -> D34_137 + PP2C + PP2C_D34_137 , ( 1.0E-15) * (( 5.0) * ((kcat_PP2C_D34_137)*(KM_PP2C_D34_137)))
+  D34_137 + PP2C -> D34_137 + 2*PP2C , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2C_D34_137)*(KM_PP2C_D34_137))))
+  D34_137 + PP2C -> 2*D34_137 + PP2C , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2C_D34_137)*(KM_PP2C_D34_137))))
+  D34_137 + CDK5p -> D34_137 + CDK5p + CDK5p_D34_137 , ( 1.0E-15) * (( 5.0) * ((kcat_CDK5p_D34_137)*(KM_CDK5p_D34_137)))
+  D34_137 + CDK5p -> D34_137 + 2*CDK5p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CDK5p_D34_137)*(KM_CDK5p_D34_137))))
+  D34_137 + CDK5p -> 2*D34_137 + CDK5p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CDK5p_D34_137)*(KM_CDK5p_D34_137))))
+  D34_137 + CaM_Ca2_CaNAB_Ca4 -> D34_137 + CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_D34_137 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_D34_137)*(KM_CaM_Ca2_CaNAB_Ca4_D34_137)))
+  D34_137 + CaM_Ca2_CaNAB_Ca4 -> D34_137 + 2*CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_D34_137)*(KM_CaM_Ca2_CaNAB_Ca4_D34_137))))
+  D34_137 + CaM_Ca2_CaNAB_Ca4 -> 2*D34_137 + CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_D34_137)*(KM_CaM_Ca2_CaNAB_Ca4_D34_137))))
+  D34_137 + CaM_Ca3_CaNAB_Ca4 -> D34_137 + CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_D34_137 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_D34_137)*(KM_CaM_Ca3_CaNAB_Ca4_D34_137)))
+  D34_137 + CaM_Ca3_CaNAB_Ca4 -> D34_137 + 2*CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_D34_137)*(KM_CaM_Ca3_CaNAB_Ca4_D34_137))))
+  D34_137 + CaM_Ca3_CaNAB_Ca4 -> 2*D34_137 + CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_D34_137)*(KM_CaM_Ca3_CaNAB_Ca4_D34_137))))
+  D34_137 + CaM_Ca4_CaNAB_Ca4 -> D34_137 + CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_D34_137 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_D34_137)*(KM_CaM_Ca4_CaNAB_Ca4_D34_137)))
+  D34_137 + CaM_Ca4_CaNAB_Ca4 -> D34_137 + 2*CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_D34_137)*(KM_CaM_Ca4_CaNAB_Ca4_D34_137))))
+  D34_137 + CaM_Ca4_CaNAB_Ca4 -> 2*D34_137 + CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_D34_137)*(KM_CaM_Ca4_CaNAB_Ca4_D34_137))))
+  D34_75_137 + PP2A_PKA -> D34_75_137 + PP2A_PKA + PP2A_PKA_D34_75_137 , ( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_D34_75_137)*(KM_PP2A_PKA_D34_75_137)))
+  D34_75_137 + PP2A_PKA -> D34_75_137 + 2*PP2A_PKA , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_D34_75_137)*(KM_PP2A_PKA_D34_75_137))))
+  D34_75_137 + PP2A_PKA -> 2*D34_75_137 + PP2A_PKA , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_D34_75_137)*(KM_PP2A_PKA_D34_75_137))))
+  D34_75_137 + PP2A_Ca -> D34_75_137 + PP2A_Ca + PP2A_Ca_D34_75_137 , ( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_D34_75_137)*(KM_PP2A_Ca_D34_75_137)))
+  D34_75_137 + PP2A_Ca -> D34_75_137 + 2*PP2A_Ca , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_D34_75_137)*(KM_PP2A_Ca_D34_75_137))))
+  D34_75_137 + PP2A_Ca -> 2*D34_75_137 + PP2A_Ca , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_D34_75_137)*(KM_PP2A_Ca_D34_75_137))))
+  D34_75_137 + PP2C -> D34_75_137 + PP2C + PP2C_D34_75_137 , ( 1.0E-15) * (( 5.0) * ((kcat_PP2C_D34_75_137)*(KM_PP2C_D34_75_137)))
+  D34_75_137 + PP2C -> D34_75_137 + 2*PP2C , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2C_D34_75_137)*(KM_PP2C_D34_75_137))))
+  D34_75_137 + PP2C -> 2*D34_75_137 + PP2C , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2C_D34_75_137)*(KM_PP2C_D34_75_137))))
+  D34_75_137 + CaM_Ca2_CaNAB_Ca4 -> D34_75_137 + CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_D34_75_137 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_D34_75_137)*(KM_CaM_Ca2_CaNAB_Ca4_D34_75_137)))
+  D34_75_137 + CaM_Ca2_CaNAB_Ca4 -> D34_75_137 + 2*CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_D34_75_137)*(KM_CaM_Ca2_CaNAB_Ca4_D34_75_137))))
+  D34_75_137 + CaM_Ca2_CaNAB_Ca4 -> 2*D34_75_137 + CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_D34_75_137)*(KM_CaM_Ca2_CaNAB_Ca4_D34_75_137))))
+  D34_75_137 + CaM_Ca3_CaNAB_Ca4 -> D34_75_137 + CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_D34_75_137 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_D34_75_137)*(KM_CaM_Ca3_CaNAB_Ca4_D34_75_137)))
+  D34_75_137 + CaM_Ca3_CaNAB_Ca4 -> D34_75_137 + 2*CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_D34_75_137)*(KM_CaM_Ca3_CaNAB_Ca4_D34_75_137))))
+  D34_75_137 + CaM_Ca3_CaNAB_Ca4 -> 2*D34_75_137 + CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_D34_75_137)*(KM_CaM_Ca3_CaNAB_Ca4_D34_75_137))))
+  D34_75_137 + CaM_Ca4_CaNAB_Ca4 -> D34_75_137 + CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_D34_75_137 , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_D34_75_137)*(KM_CaM_Ca4_CaNAB_Ca4_D34_75_137)))
+  D34_75_137 + CaM_Ca4_CaNAB_Ca4 -> D34_75_137 + 2*CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_D34_75_137)*(KM_CaM_Ca4_CaNAB_Ca4_D34_75_137))))
+  D34_75_137 + CaM_Ca4_CaNAB_Ca4 -> 2*D34_75_137 + CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_D34_75_137)*(KM_CaM_Ca4_CaNAB_Ca4_D34_75_137))))
+  D75_137 + PP2A_PKA -> D75_137 + PP2A_PKA + PP2A_PKA_D75_137 , ( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_D75_137)*(KM_PP2A_PKA_D75_137)))
+  D75_137 + PP2A_PKA -> D75_137 + 2*PP2A_PKA , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_D75_137)*(KM_PP2A_PKA_D75_137))))
+  D75_137 + PP2A_PKA -> 2*D75_137 + PP2A_PKA , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_D75_137)*(KM_PP2A_PKA_D75_137))))
+  D75_137 + PP2A_Ca -> D75_137 + PP2A_Ca + PP2A_Ca_D75_137 , ( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_D75_137)*(KM_PP2A_Ca_D75_137)))
+  D75_137 + PP2A_Ca -> D75_137 + 2*PP2A_Ca , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_D75_137)*(KM_PP2A_Ca_D75_137))))
+  D75_137 + PP2A_Ca -> 2*D75_137 + PP2A_Ca , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_D75_137)*(KM_PP2A_Ca_D75_137))))
+  D75_137 + PP2C -> D75_137 + PP2C + PP2C_D75_137 , ( 1.0E-15) * (( 5.0) * ((kcat_PP2C_D75_137)*(KM_PP2C_D75_137)))
+  D75_137 + PP2C -> D75_137 + 2*PP2C , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2C_D75_137)*(KM_PP2C_D75_137))))
+  D75_137 + PP2C -> 2*D75_137 + PP2C , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2C_D75_137)*(KM_PP2C_D75_137))))
+  PP2A_PKA -> PP2A_PKA + PP2A , ( -1) * (( 1.0E-15) * (-(kb_PP2A__PP2A_B2p)))
+  PP2A_PKA -> PP2A_PKA + PP2A_B2p , ( -1) * (( 1.0E-15) * (-(kb_PP2A__PP2A_B2p)))
+  PP2A_PKA -> 2*PP2A_PKA , ( 1.0E-15) * (-(kb_PP2A__PP2A_B2p))
+  PP2A_PKA + GluR_845p -> PP2A_PKA + GluR_845p + PP2A_PKA_GluR_845p , ( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_GluR_845p)*(KM_PP2A_PKA_GluR_845p)))
+  PP2A_PKA + GluR_845p -> PP2A_PKA + 2*GluR_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_GluR_845p)*(KM_PP2A_PKA_GluR_845p))))
+  PP2A_PKA + GluR_845p -> 2*PP2A_PKA + GluR_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_GluR_845p)*(KM_PP2A_PKA_GluR_845p))))
+  PP2A_PKA + GluR_831p_845p -> PP2A_PKA + GluR_831p_845p + PP2A_PKA_GluR_831p_845p , ( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_GluR_831p_845p)*(KM_PP2A_PKA_GluR_831p_845p)))
+  PP2A_PKA + GluR_831p_845p -> PP2A_PKA + 2*GluR_831p_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_GluR_831p_845p)*(KM_PP2A_PKA_GluR_831p_845p))))
+  PP2A_PKA + GluR_831p_845p -> 2*PP2A_PKA + GluR_831p_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_GluR_831p_845p)*(KM_PP2A_PKA_GluR_831p_845p))))
+  PP2A_PKA + GluR_I_831p_845p -> PP2A_PKA + GluR_I_831p_845p + PP2A_PKA_GluR_I_831p_845p , ( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_GluR_I_831p_845p)*(KM_PP2A_PKA_GluR_I_831p_845p)))
+  PP2A_PKA + GluR_I_831p_845p -> PP2A_PKA + 2*GluR_I_831p_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_GluR_I_831p_845p)*(KM_PP2A_PKA_GluR_I_831p_845p))))
+  PP2A_PKA + GluR_I_831p_845p -> 2*PP2A_PKA + GluR_I_831p_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_GluR_I_831p_845p)*(KM_PP2A_PKA_GluR_I_831p_845p))))
+  PP2A_PKA + GluR_I_845p -> PP2A_PKA + GluR_I_845p + PP2A_PKA_GluR_I_845p , ( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_GluR_I_845p)*(KM_PP2A_PKA_GluR_I_845p)))
+  PP2A_PKA + GluR_I_845p -> PP2A_PKA + 2*GluR_I_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_GluR_I_845p)*(KM_PP2A_PKA_GluR_I_845p))))
+  PP2A_PKA + GluR_I_845p -> 2*PP2A_PKA + GluR_I_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_PKA_GluR_I_845p)*(KM_PP2A_PKA_GluR_I_845p))))
+  PP2A_Ca -> PP2A_Ca + PP2A , ( -1) * (( 1.0E-15) * (-(kb_PP2A__PP2A_B1_2Ca)))
+  PP2A_Ca -> PP2A_Ca + PP2A_B1_2Ca , ( -1) * (( 1.0E-15) * (-(kb_PP2A__PP2A_B1_2Ca)))
+  PP2A_Ca -> 2*PP2A_Ca , ( 1.0E-15) * (-(kb_PP2A__PP2A_B1_2Ca))
+  PP2A_Ca + GluR_845p -> PP2A_Ca + GluR_845p + PP2A_Ca_GluR_845p , ( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_GluR_845p)*(KM_PP2A_Ca_GluR_845p)))
+  PP2A_Ca + GluR_845p -> PP2A_Ca + 2*GluR_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_GluR_845p)*(KM_PP2A_Ca_GluR_845p))))
+  PP2A_Ca + GluR_845p -> 2*PP2A_Ca + GluR_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_GluR_845p)*(KM_PP2A_Ca_GluR_845p))))
+  PP2A_Ca + GluR_831p_845p -> PP2A_Ca + GluR_831p_845p + PP2A_Ca_GluR_831p_845p , ( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_GluR_831p_845p)*(KM_PP2A_Ca_GluR_831p_845p)))
+  PP2A_Ca + GluR_831p_845p -> PP2A_Ca + 2*GluR_831p_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_GluR_831p_845p)*(KM_PP2A_Ca_GluR_831p_845p))))
+  PP2A_Ca + GluR_831p_845p -> 2*PP2A_Ca + GluR_831p_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_GluR_831p_845p)*(KM_PP2A_Ca_GluR_831p_845p))))
+  PP2A_Ca + GluR_I_831p_845p -> PP2A_Ca + GluR_I_831p_845p + PP2A_Ca_GluR_I_831p_845p , ( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_GluR_I_831p_845p)*(KM_PP2A_Ca_GluR_I_831p_845p)))
+  PP2A_Ca + GluR_I_831p_845p -> PP2A_Ca + 2*GluR_I_831p_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_GluR_I_831p_845p)*(KM_PP2A_Ca_GluR_I_831p_845p))))
+  PP2A_Ca + GluR_I_831p_845p -> 2*PP2A_Ca + GluR_I_831p_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_GluR_I_831p_845p)*(KM_PP2A_Ca_GluR_I_831p_845p))))
+  PP2A_Ca + GluR_I_845p -> PP2A_Ca + GluR_I_845p + PP2A_Ca_GluR_I_845p , ( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_GluR_I_845p)*(KM_PP2A_Ca_GluR_I_845p)))
+  PP2A_Ca + GluR_I_845p -> PP2A_Ca + 2*GluR_I_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_GluR_I_845p)*(KM_PP2A_Ca_GluR_I_845p))))
+  PP2A_Ca + GluR_I_845p -> 2*PP2A_Ca + GluR_I_845p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PP2A_Ca_GluR_I_845p)*(KM_PP2A_Ca_GluR_I_845p))))
+  PP2A + PP2A_B1_2Ca -> PP2A_Ca + PP2A + PP2A_B1_2Ca , ( 1.0E-15) * (kf_PP2A__PP2A_B1_2Ca)
+  PP2A + PP2A_B1_2Ca -> PP2A + 2*PP2A_B1_2Ca , ( -1) * (( 1.0E-15) * (kf_PP2A__PP2A_B1_2Ca))
+  PP2A + PP2A_B1_2Ca -> 2*PP2A + PP2A_B1_2Ca , ( -1) * (( 1.0E-15) * (kf_PP2A__PP2A_B1_2Ca))
+  PP2A + PP2A_B2p -> PP2A_PKA + PP2A + PP2A_B2p , ( 1.0E-15) * (kf_PP2A__PP2A_B2p)
+  PP2A + PP2A_B2p -> PP2A + 2*PP2A_B2p , ( -1) * (( 1.0E-15) * (kf_PP2A__PP2A_B2p))
+  PP2A + PP2A_B2p -> 2*PP2A + PP2A_B2p , ( -1) * (( 1.0E-15) * (kf_PP2A__PP2A_B2p))
+  GluR -> GluR + Anchor , ( 1.0E-15) * (kf_GluR)
+  GluR -> GluR + IR , ( 1.0E-15) * (kf_GluR)
+  GluR -> 2*GluR , ( -1) * (( 1.0E-15) * (kf_GluR))
+  GluR_845p -> CaMKII_act + GluR_845p , ( -1) * (( 1.0E-15) * (( ( 5.0) * ((kcat_CaMKII_act_GluR_845p)*(KM_CaMKII_act_GluR_845p))) * (0.36)))
+  GluR_845p -> GluR_845p + CaMKII_act_GluR_845p , ( 1.0E-15) * (( ( 5.0) * ((kcat_CaMKII_act_GluR_845p)*(KM_CaMKII_act_GluR_845p))) * (0.36))
+  GluR_845p -> 2*GluR_845p , ( -1) * (( 1.0E-15) * (( ( 5.0) * ((kcat_CaMKII_act_GluR_845p)*(KM_CaMKII_act_GluR_845p))) * (0.36)))
+  GluR_831p_845p -> GluR_831p_845p + Anchor , ( -1) * (( 1.0E-15) * (-(kb_IR__Anchor)))
+  GluR_831p_845p -> GluR_831p_845p + IR , ( -1) * (( 1.0E-15) * (-(kb_IR__Anchor)))
+  GluR_831p_845p -> 2*GluR_831p_845p , ( 1.0E-15) * (-(kb_IR__Anchor))
+  GluR_I_831p_845p -> GluR_I_831p_845p + Bulk_AMPAR , ( 1.0E-15) * (kf_GluR_I_831p_845p)
+  GluR_I_831p_845p -> 2*GluR_I_831p_845p , ( -1) * (( 1.0E-15) * (kf_GluR_I_831p_845p))
+  GluR_I_845p -> CaMKII_act + GluR_I_845p , ( -1) * (( 1.0E-15) * (( ( 5.0) * ((kcat_CaMKII_act_GluR_I_845p)*(KM_CaMKII_act_GluR_I_845p))) * (0.36)))
+  GluR_I_845p -> GluR_I_845p + Bulk_AMPAR , ( 1.0E-15) * (kf_GluR_I_845p)
+  GluR_I_845p -> GluR_I_845p + CaMKII_act_GluR_I_845p , ( 1.0E-15) * (( ( 5.0) * ((kcat_CaMKII_act_GluR_I_845p)*(KM_CaMKII_act_GluR_I_845p))) * (0.36))
+  GluR_I_845p -> 2*GluR_I_845p , ( -1) * (( 1.0E-15) * (( ( 5.0) * ((kcat_CaMKII_act_GluR_I_845p)*(KM_CaMKII_act_GluR_I_845p))) * (0.36)))+( -1) * (( 1.0E-15) * (kf_GluR_I_845p))
+  GluR_I -> GluR_I + Bulk_AMPAR , ( 1.0E-15) * (kf_GluR_I)
+  GluR_I -> 2*GluR_I , ( -1) * (( 1.0E-15) * (kf_GluR_I))
+  Bulk_AMPAR -> GluR_I_831p_845p + Bulk_AMPAR , ( -1) * (( 1.0E-15) * (-(kb_GluR_I_831p_845p)))
+  Bulk_AMPAR -> GluR_I_845p + Bulk_AMPAR , ( -1) * (( 1.0E-15) * (-(kb_GluR_I_845p)))
+  Bulk_AMPAR -> GluR_I + Bulk_AMPAR , ( -1) * (( 1.0E-15) * (-(kb_GluR_I)))
+  Bulk_AMPAR -> 2*Bulk_AMPAR , ( 1.0E-15) * (-(kb_GluR_I))+( 1.0E-15) * (-(kb_GluR_I_845p))+( 1.0E-15) * (-(kb_GluR_I_831p_845p))
+  Anchor + IR -> GluR + Anchor + IR , ( -1) * (( 1.0E-15) * (-(kb_GluR)))
+  Anchor + IR -> GluR_831p_845p + Anchor + IR , ( 1.0E-15) * (kf_IR__Anchor)
+  Anchor + IR -> Anchor + 2*IR , ( -1) * (( 1.0E-15) * (kf_IR__Anchor))+( 1.0E-15) * (-(kb_GluR))
+  Anchor + IR -> 2*Anchor + IR , ( -1) * (( 1.0E-15) * (kf_IR__Anchor))+( 1.0E-15) * (-(kb_GluR))
+  D1R + Gs_GDP -> D1R + D1R_Gs + Gs_GDP , ( 1.0E-15) * (kf_D1R__Gs_GDP)
+  D1R + Gs_GDP -> D1R + 2*Gs_GDP , ( -1) * (( 1.0E-15) * (kf_D1R__Gs_GDP))
+  D1R + Gs_GDP -> 2*D1R + Gs_GDP , ( -1) * (( 1.0E-15) * (kf_D1R__Gs_GDP))
+  D1R + DA -> D1R + D1R_DA + DA , ( 1.0E-15) * (kf_D1R__DA)
+  D1R + DA -> D1R + 2*DA , ( -1) * (( 1.0E-15) * (kf_D1R__DA))
+  D1R + DA -> 2*D1R + DA , ( -1) * (( 1.0E-15) * (kf_D1R__DA))
+  D1R_Gs -> D1R + D1R_Gs , ( -1) * (( 1.0E-15) * (-(kb_D1R__Gs_GDP)))
+  D1R_Gs -> D1R_Gs + Gs_GDP , ( -1) * (( 1.0E-15) * (-(kb_D1R__Gs_GDP)))
+  D1R_Gs -> 2*D1R_Gs , ( 1.0E-15) * (-(kb_D1R__Gs_GDP))
+  D1R_Gs + DA -> D1R_Gs + D1R_DA_Gs + DA , ( 1.0E-15) * (kf_D1R_Gs__DA)
+  D1R_Gs + DA -> D1R_Gs + 2*DA , ( -1) * (( 1.0E-15) * (kf_D1R_Gs__DA))
+  D1R_Gs + DA -> 2*D1R_Gs + DA , ( -1) * (( 1.0E-15) * (kf_D1R_Gs__DA))
+  D1R_DA -> D1R + D1R_DA , ( -1) * (( 1.0E-15) * (-(kb_D1R__DA)))
+  D1R_DA -> D1R_DA + DA , ( -1) * (( 1.0E-15) * (-(kb_D1R__DA)))
+  D1R_DA -> 2*D1R_DA , ( 1.0E-15) * (-(kb_D1R__DA))
+  D1R_DA + Gs_GDP -> D1R_DA + D1R_DA_Gs + Gs_GDP , ( 1.0E-15) * (kf_D1R_DA__Gs_GDP)
+  D1R_DA + Gs_GDP -> D1R_DA + 2*Gs_GDP , ( -1) * (( 1.0E-15) * (kf_D1R_DA__Gs_GDP))
+  D1R_DA + Gs_GDP -> 2*D1R_DA + Gs_GDP , ( -1) * (( 1.0E-15) * (kf_D1R_DA__Gs_GDP))
+  D1R_DA + bc + Gsa_GTP -> D1R_DA + D1R_DA_Gs + bc + Gsa_GTP , ( -1) * (( 1.0E-15) * (-(kb_D1R_DA_Gs)))
+  D1R_DA + bc + Gsa_GTP -> D1R_DA + bc + 2*Gsa_GTP , ( 1.0E-15) * (-(kb_D1R_DA_Gs))
+  D1R_DA + bc + Gsa_GTP -> D1R_DA + 2*bc + Gsa_GTP , ( 1.0E-15) * (-(kb_D1R_DA_Gs))
+  D1R_DA + bc + Gsa_GTP -> 2*D1R_DA + bc + Gsa_GTP , ( 1.0E-15) * (-(kb_D1R_DA_Gs))
+  D1R_DA_Gs -> D1R_Gs + D1R_DA_Gs , ( -1) * (( 1.0E-15) * (-(kb_D1R_Gs__DA)))
+  D1R_DA_Gs -> D1R_DA + D1R_DA_Gs , ( -1) * (( 1.0E-15) * (-(kb_D1R_DA__Gs_GDP)))+( 1.0E-15) * (kf_D1R_DA_Gs)
+  D1R_DA_Gs -> D1R_DA_Gs + Gs_GDP , ( -1) * (( 1.0E-15) * (-(kb_D1R_DA__Gs_GDP)))
+  D1R_DA_Gs -> D1R_DA_Gs + bc , ( 1.0E-15) * (kf_D1R_DA_Gs)
+  D1R_DA_Gs -> D1R_DA_Gs + Gsa_GTP , ( 1.0E-15) * (kf_D1R_DA_Gs)
+  D1R_DA_Gs -> D1R_DA_Gs + DA , ( -1) * (( 1.0E-15) * (-(kb_D1R_Gs__DA)))
+  D1R_DA_Gs -> 2*D1R_DA_Gs , ( -1) * (( 1.0E-15) * (kf_D1R_DA_Gs))+( 1.0E-15) * (-(kb_D1R_Gs__DA))+( 1.0E-15) * (-(kb_D1R_DA__Gs_GDP))
+  Gs_GDP -> Gs_GDP + bc , ( -1) * (( 1.0E-15) * (-(kb_Gsa_GDP__bc)))
+  Gs_GDP -> Gs_GDP + Gsa_GDP , ( -1) * (( 1.0E-15) * (-(kb_Gsa_GDP__bc)))
+  Gs_GDP -> Gs_GDP + Gs_GTP , ( -1) * (( 1.0E-15) * (-(kb_Gs_GTP)))
+  Gs_GDP -> 2*Gs_GDP , ( 1.0E-15) * (-(kb_Gs_GTP))+( 1.0E-15) * (-(kb_Gsa_GDP__bc))
+  bc + Gsa_GDP -> Gs_GDP + bc + Gsa_GDP , ( 1.0E-15) * (kf_Gsa_GDP__bc)
+  bc + Gsa_GDP -> bc + 2*Gsa_GDP , ( -1) * (( 1.0E-15) * (kf_Gsa_GDP__bc))
+  bc + Gsa_GDP -> 2*bc + Gsa_GDP , ( -1) * (( 1.0E-15) * (kf_Gsa_GDP__bc))
+  Gsa_GTP + AC -> Gsa_GTP + AC + AC_Gsa , ( 1.0E-15) * (kf_AC__Gsa_GTP)
+  Gsa_GTP + AC -> Gsa_GTP + 2*AC , ( -1) * (( 1.0E-15) * (kf_AC__Gsa_GTP))
+  Gsa_GTP + AC -> 2*Gsa_GTP + AC , ( -1) * (( 1.0E-15) * (kf_AC__Gsa_GTP))
+  Gsa_GTP + AC_Ca -> Gsa_GTP + AC_Ca + ACGsa_Ca , ( 1.0E-15) * (kf_AC_Ca__Gsa_GTP)
+  Gsa_GTP + AC_Ca -> Gsa_GTP + 2*AC_Ca , ( -1) * (( 1.0E-15) * (kf_AC_Ca__Gsa_GTP))
+  Gsa_GTP + AC_Ca -> 2*Gsa_GTP + AC_Ca , ( -1) * (( 1.0E-15) * (kf_AC_Ca__Gsa_GTP))
+  AC + Ca -> AC + AC_Ca + Ca , ( 1.0E-15) * (kf_AC__Ca)
+  AC + Ca -> AC + 2*Ca , ( -1) * (( 1.0E-15) * (kf_AC__Ca))
+  AC + Ca -> 2*AC + Ca , ( -1) * (( 1.0E-15) * (kf_AC__Ca))
+  AC_Gsa -> Gsa_GTP + AC_Gsa , ( -1) * (( 1.0E-15) * (-(kb_AC__Gsa_GTP)))
+  AC_Gsa -> AC + AC_Gsa , ( -1) * (( 1.0E-15) * (-(kb_AC__Gsa_GTP)))
+  AC_Gsa -> 2*AC_Gsa , ( 1.0E-15) * (-(kb_AC__Gsa_GTP))
+  AC_Gsa + cAMP -> AC_Gsa + cAMP + AC_Gsa_ATP , ( -1) * (( 1.0E-15) * (-(kb_AC_Gsa_ATP)))
+  AC_Gsa + cAMP -> AC_Gsa + 2*cAMP , ( 1.0E-15) * (-(kb_AC_Gsa_ATP))
+  AC_Gsa + cAMP -> 2*AC_Gsa + cAMP , ( 1.0E-15) * (-(kb_AC_Gsa_ATP))
+  AC_Gsa + ATP -> AC_Gsa + ATP + AC_Gsa_ATP , ( 1.0E-15) * (kf_AC_Gsa__ATP)
+  AC_Gsa + ATP -> AC_Gsa + 2*ATP , ( -1) * (( 1.0E-15) * (kf_AC_Gsa__ATP))
+  AC_Gsa + ATP -> 2*AC_Gsa + ATP , ( -1) * (( 1.0E-15) * (kf_AC_Gsa__ATP))
+  cAMP + ACGsa_Ca -> cAMP + ACGsa_Ca + ACGsa_Ca_ATP , ( -1) * (( 1.0E-15) * (-(kb_ACGsa_Ca_ATP)))
+  cAMP + ACGsa_Ca -> cAMP + 2*ACGsa_Ca , ( 1.0E-15) * (-(kb_ACGsa_Ca_ATP))
+  cAMP + ACGsa_Ca -> 2*cAMP + ACGsa_Ca , ( 1.0E-15) * (-(kb_ACGsa_Ca_ATP))
+  cAMP + PDE2 -> cAMP + PDE2 + PDE2_cAMP , ( 1.0E-15) * (( 5.0) * ((kcat_PDE2_cAMP)*(KM_PDE2_cAMP)))
+  cAMP + PDE2 -> cAMP + 2*PDE2 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PDE2_cAMP)*(KM_PDE2_cAMP))))
+  cAMP + PDE2 -> 2*cAMP + PDE2 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PDE2_cAMP)*(KM_PDE2_cAMP))))
+  cAMP + PDE2_p -> cAMP + PDE2_p + PDE2_p_cAMP , ( 1.0E-15) * (( 5.0) * ((kcat_PDE2_p_cAMP)*(KM_PDE2_p_cAMP)))
+  cAMP + PDE2_p -> cAMP + 2*PDE2_p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PDE2_p_cAMP)*(KM_PDE2_p_cAMP))))
+  cAMP + PDE2_p -> 2*cAMP + PDE2_p , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PDE2_p_cAMP)*(KM_PDE2_p_cAMP))))
+  cAMP + PDE1 -> cAMP + PDE1 + PDE1_cAMP , ( 1.0E-15) * (( 5.0) * ((kcat_PDE1_cAMP)*(KM_PDE1_cAMP)))
+  cAMP + PDE1 -> cAMP + 2*PDE1 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PDE1_cAMP)*(KM_PDE1_cAMP))))
+  cAMP + PDE1 -> 2*cAMP + PDE1 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PDE1_cAMP)*(KM_PDE1_cAMP))))
+  cAMP + PDE1_CaM -> cAMP + PDE1_CaM + PDE1_CaM_cAMP , ( 1.0E-15) * (( 5.0) * ((kcat_PDE1_CaM_cAMP)*(KM_PDE1_CaM_cAMP)))
+  cAMP + PDE1_CaM -> cAMP + 2*PDE1_CaM , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PDE1_CaM_cAMP)*(KM_PDE1_CaM_cAMP))))
+  cAMP + PDE1_CaM -> 2*cAMP + PDE1_CaM , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_PDE1_CaM_cAMP)*(KM_PDE1_CaM_cAMP))))
+  ATP + ACGsa_Ca -> ATP + ACGsa_Ca + ACGsa_Ca_ATP , ( 1.0E-15) * (kf_ACGsa_Ca__ATP)
+  ATP + ACGsa_Ca -> ATP + 2*ACGsa_Ca , ( -1) * (( 1.0E-15) * (kf_ACGsa_Ca__ATP))
+  ATP + ACGsa_Ca -> 2*ATP + ACGsa_Ca , ( -1) * (( 1.0E-15) * (kf_ACGsa_Ca__ATP))
+  AC_Ca -> AC + AC_Ca , ( -1) * (( 1.0E-15) * (-(kb_AC__Ca)))
+  AC_Ca -> AC_Ca + Ca , ( -1) * (( 1.0E-15) * (-(kb_AC__Ca)))
+  AC_Ca -> 2*AC_Ca , ( 1.0E-15) * (-(kb_AC__Ca))
+  ACGsa_Ca -> Gsa_GTP + ACGsa_Ca , ( -1) * (( 1.0E-15) * (-(kb_AC_Ca__Gsa_GTP)))
+  ACGsa_Ca -> AC_Ca + ACGsa_Ca , ( -1) * (( 1.0E-15) * (-(kb_AC_Ca__Gsa_GTP)))
+  ACGsa_Ca -> 2*ACGsa_Ca , ( 1.0E-15) * (-(kb_AC_Ca__Gsa_GTP))
+  ACGsa_Ca_ATP -> cAMP + ACGsa_Ca_ATP , ( 1.0E-15) * (kf_ACGsa_Ca_ATP)
+  ACGsa_Ca_ATP -> ATP + ACGsa_Ca_ATP , ( -1) * (( 1.0E-15) * (-(kb_ACGsa_Ca__ATP)))
+  ACGsa_Ca_ATP -> ACGsa_Ca + ACGsa_Ca_ATP , ( -1) * (( 1.0E-15) * (-(kb_ACGsa_Ca__ATP)))+( 1.0E-15) * (kf_ACGsa_Ca_ATP)
+  ACGsa_Ca_ATP -> 2*ACGsa_Ca_ATP , ( -1) * (( 1.0E-15) * (kf_ACGsa_Ca_ATP))+( 1.0E-15) * (-(kb_ACGsa_Ca__ATP))
+  AC_Gsa_ATP -> AC_Gsa + AC_Gsa_ATP , ( -1) * (( 1.0E-15) * (-(kb_AC_Gsa__ATP)))+( 1.0E-15) * (kf_AC_Gsa_ATP)
+  AC_Gsa_ATP -> cAMP + AC_Gsa_ATP , ( 1.0E-15) * (kf_AC_Gsa_ATP)
+  AC_Gsa_ATP -> ATP + AC_Gsa_ATP , ( -1) * (( 1.0E-15) * (-(kb_AC_Gsa__ATP)))
+  AC_Gsa_ATP -> 2*AC_Gsa_ATP , ( -1) * (( 1.0E-15) * (kf_AC_Gsa_ATP))+( 1.0E-15) * (-(kb_AC_Gsa__ATP))
+  PDE2 -> PDE2 + PDE2_p , ( -1) * (( 1.0E-15) * (-(kb_PDE2_p)))
+  PDE2 -> 2*PDE2 , ( 1.0E-15) * (-(kb_PDE2_p))
+  PDE2_p -> PDE2 + PDE2_p , ( 1.0E-15) * (kf_PDE2_p)
+  PDE2_p -> 2*PDE2_p , ( -1) * (( 1.0E-15) * (kf_PDE2_p))
+  PDE1_CaM -> CaM + PDE1_CaM , ( -1) * (( 1.0E-15) * (-(kb_PDE1__CaM)))
+  PDE1_CaM -> PDE1 + PDE1_CaM , ( -1) * (( 1.0E-15) * (-(kb_PDE1__CaM)))
+  PDE1_CaM -> 2*PDE1_CaM , ( 1.0E-15) * (-(kb_PDE1__CaM))
+  CK1p -> CK1p + CK1 , ( -1) * (( 1.0E-15) * (-(kb_CK1)))
+  CK1p -> 2*CK1p , ( 1.0E-15) * (-(kb_CK1))
+  CK1p + CDK5 -> CK1p + CDK5 + CK1p_CDK5 , ( 1.0E-15) * (( 5.0) * ((kcat_CK1p_CDK5)*(KM_CK1p_CDK5)))
+  CK1p + CDK5 -> CK1p + 2*CDK5 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CK1p_CDK5)*(KM_CK1p_CDK5))))
+  CK1p + CDK5 -> 2*CK1p + CDK5 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CK1p_CDK5)*(KM_CK1p_CDK5))))
+  CK1p + CaM_Ca2_CaNAB_Ca4 -> CK1p + CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_CK1p , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_CK1p)*(KM_CaM_Ca2_CaNAB_Ca4_CK1p)))
+  CK1p + CaM_Ca2_CaNAB_Ca4 -> CK1p + 2*CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_CK1p)*(KM_CaM_Ca2_CaNAB_Ca4_CK1p))))
+  CK1p + CaM_Ca2_CaNAB_Ca4 -> 2*CK1p + CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca2_CaNAB_Ca4_CK1p)*(KM_CaM_Ca2_CaNAB_Ca4_CK1p))))
+  CK1p + CaM_Ca3_CaNAB_Ca4 -> CK1p + CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_CK1p , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_CK1p)*(KM_CaM_Ca3_CaNAB_Ca4_CK1p)))
+  CK1p + CaM_Ca3_CaNAB_Ca4 -> CK1p + 2*CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_CK1p)*(KM_CaM_Ca3_CaNAB_Ca4_CK1p))))
+  CK1p + CaM_Ca3_CaNAB_Ca4 -> 2*CK1p + CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca3_CaNAB_Ca4_CK1p)*(KM_CaM_Ca3_CaNAB_Ca4_CK1p))))
+  CK1p + CaM_Ca4_CaNAB_Ca4 -> CK1p + CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_CK1p , ( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_CK1p)*(KM_CaM_Ca4_CaNAB_Ca4_CK1p)))
+  CK1p + CaM_Ca4_CaNAB_Ca4 -> CK1p + 2*CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_CK1p)*(KM_CaM_Ca4_CaNAB_Ca4_CK1p))))
+  CK1p + CaM_Ca4_CaNAB_Ca4 -> 2*CK1p + CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (( 5.0) * ((kcat_CaM_Ca4_CaNAB_Ca4_CK1p)*(KM_CaM_Ca4_CaNAB_Ca4_CK1p))))
+  CK1 -> CK1p + CK1 , ( 1.0E-15) * (kf_CK1)
+  CK1 -> 2*CK1 , ( -1) * (( 1.0E-15) * (kf_CK1))
+  CDK5p -> CDK5p + CDK5 , ( 1.0E-15) * (kf_CDK5p)
+  CDK5p -> 2*CDK5p , ( -1) * (( 1.0E-15) * (kf_CDK5p))
+  CDK5 -> CDK5p + CDK5 , ( -1) * (( 1.0E-15) * (-(kb_CDK5p)))
+  CDK5 -> 2*CDK5 , ( 1.0E-15) * (-(kb_CDK5p))
+  PKA_act_I1 -> PKA_act + PKA_act_I1 , ( 1.0E-15) * (kcat_PKA_act_I1)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_I1))))
+  PKA_act_I1 -> I1 + PKA_act_I1 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_I1))))
+  PKA_act_I1 -> I1_p + PKA_act_I1 , ( 1.0E-15) * (kcat_PKA_act_I1)
+  PKA_act_I1 -> 2*PKA_act_I1 , ( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_I1)))+( -1) * (( 1.0E-15) * (kcat_PKA_act_I1))
+  PKA_act_PP2A -> PKA_act + PKA_act_PP2A , ( 1.0E-15) * (kcat_PKA_act_PP2A)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_PP2A))))
+  PKA_act_PP2A -> PP2A + PKA_act_PP2A , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_PP2A))))
+  PKA_act_PP2A -> PKA_act_PP2A + PP2A_p , ( 1.0E-15) * (kcat_PKA_act_PP2A)
+  PKA_act_PP2A -> 2*PKA_act_PP2A , ( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_PP2A)))+( -1) * (( 1.0E-15) * (kcat_PKA_act_PP2A))
+  PKA_act_D -> PKA_act + PKA_act_D , ( 1.0E-15) * (kcat_PKA_act_D)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_D))))
+  PKA_act_D -> sD + PKA_act_D , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_D))))
+  PKA_act_D -> D34 + PKA_act_D , ( 1.0E-15) * (kcat_PKA_act_D)
+  PKA_act_D -> 2*PKA_act_D , ( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_D)))+( -1) * (( 1.0E-15) * (kcat_PKA_act_D))
+  PKA_act_D137 -> PKA_act + PKA_act_D137 , ( 1.0E-15) * (kcat_PKA_act_D137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_D137))))
+  PKA_act_D137 -> D137 + PKA_act_D137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_D137))))
+  PKA_act_D137 -> D34_137 + PKA_act_D137 , ( 1.0E-15) * (kcat_PKA_act_D137)
+  PKA_act_D137 -> 2*PKA_act_D137 , ( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_D137)))+( -1) * (( 1.0E-15) * (kcat_PKA_act_D137))
+  PKA_act_GluR -> PKA_act + PKA_act_GluR , ( 1.0E-15) * (kcat_PKA_act_GluR)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_GluR))))
+  PKA_act_GluR -> GluR + PKA_act_GluR , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_GluR))))
+  PKA_act_GluR -> GluR_845p + PKA_act_GluR , ( 1.0E-15) * (kcat_PKA_act_GluR)
+  PKA_act_GluR -> 2*PKA_act_GluR , ( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_GluR)))+( -1) * (( 1.0E-15) * (kcat_PKA_act_GluR))
+  PKA_act_GluR_I -> PKA_act + PKA_act_GluR_I , ( 1.0E-15) * (kcat_PKA_act_GluR_I)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_GluR_I))))
+  PKA_act_GluR_I -> GluR_I_845p + PKA_act_GluR_I , ( 1.0E-15) * (kcat_PKA_act_GluR_I)
+  PKA_act_GluR_I -> GluR_I + PKA_act_GluR_I , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_GluR_I))))
+  PKA_act_GluR_I -> 2*PKA_act_GluR_I , ( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_GluR_I)))+( -1) * (( 1.0E-15) * (kcat_PKA_act_GluR_I))
+  PKA_act_PDE2 -> PKA_act + PKA_act_PDE2 , ( 1.0E-15) * (kcat_PKA_act_PDE2)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_PDE2))))
+  PKA_act_PDE2 -> PDE2 + PKA_act_PDE2 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_PDE2))))
+  PKA_act_PDE2 -> PDE2_p + PKA_act_PDE2 , ( 1.0E-15) * (kcat_PKA_act_PDE2)
+  PKA_act_PDE2 -> 2*PKA_act_PDE2 , ( 1.0E-15) * (-(( 4.0) * (kcat_PKA_act_PDE2)))+( -1) * (( 1.0E-15) * (kcat_PKA_act_PDE2))
+  PDE1_cAMP -> cAMP + PDE1_cAMP , ( 1.0E-15) * (kcat_PDE1_cAMP)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PDE1_cAMP))))
+  PDE1_cAMP -> PDE1 + PDE1_cAMP , ( 1.0E-15) * (kcat_PDE1_cAMP)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PDE1_cAMP))))
+  PDE1_cAMP -> 2*PDE1_cAMP , ( 1.0E-15) * (-(( 4.0) * (kcat_PDE1_cAMP)))+( -1) * (( 1.0E-15) * (kcat_PDE1_cAMP))
+  PDE1_CaM_cAMP -> cAMP + PDE1_CaM_cAMP , ( 1.0E-15) * (kcat_PDE1_CaM_cAMP)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PDE1_CaM_cAMP))))
+  PDE1_CaM_cAMP -> PDE1_CaM + PDE1_CaM_cAMP , ( 1.0E-15) * (kcat_PDE1_CaM_cAMP)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PDE1_CaM_cAMP))))
+  PDE1_CaM_cAMP -> 2*PDE1_CaM_cAMP , ( 1.0E-15) * (-(( 4.0) * (kcat_PDE1_CaM_cAMP)))+( -1) * (( 1.0E-15) * (kcat_PDE1_CaM_cAMP))
+  PDE2_cAMP -> cAMP + PDE2_cAMP , ( 1.0E-15) * (kcat_PDE2_cAMP)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PDE2_cAMP))))
+  PDE2_cAMP -> PDE2 + PDE2_cAMP , ( 1.0E-15) * (kcat_PDE2_cAMP)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PDE2_cAMP))))
+  PDE2_cAMP -> 2*PDE2_cAMP , ( 1.0E-15) * (-(( 4.0) * (kcat_PDE2_cAMP)))+( -1) * (( 1.0E-15) * (kcat_PDE2_cAMP))
+  PDE2_p_cAMP -> cAMP + PDE2_p_cAMP , ( 1.0E-15) * (kcat_PDE2_p_cAMP)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PDE2_p_cAMP))))
+  PDE2_p_cAMP -> PDE2_p + PDE2_p_cAMP , ( 1.0E-15) * (kcat_PDE2_p_cAMP)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PDE2_p_cAMP))))
+  PDE2_p_cAMP -> 2*PDE2_p_cAMP , ( 1.0E-15) * (-(( 4.0) * (kcat_PDE2_p_cAMP)))+( -1) * (( 1.0E-15) * (kcat_PDE2_p_cAMP))
+  PP1_act_CaMKII_Thr286p_CaM -> PP1_act + PP1_act_CaMKII_Thr286p_CaM , ( 1.0E-15) * (kcat_PP1_act_CaMKII_Thr286p_CaM)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_CaMKII_Thr286p_CaM))))
+  PP1_act_CaMKII_Thr286p_CaM -> CaMKII_CaM + PP1_act_CaMKII_Thr286p_CaM , ( 1.0E-15) * (kcat_PP1_act_CaMKII_Thr286p_CaM)
+  PP1_act_CaMKII_Thr286p_CaM -> CaMKII_Thr286p_CaM + PP1_act_CaMKII_Thr286p_CaM , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_CaMKII_Thr286p_CaM))))
+  PP1_act_CaMKII_Thr286p_CaM -> 2*PP1_act_CaMKII_Thr286p_CaM , ( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_CaMKII_Thr286p_CaM)))+( -1) * (( 1.0E-15) * (kcat_PP1_act_CaMKII_Thr286p_CaM))
+  PP1_act_CaMKII_Thr286 -> PP1_act + PP1_act_CaMKII_Thr286 , ( 1.0E-15) * (kcat_PP1_act_CaMKII_Thr286)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_CaMKII_Thr286))))
+  PP1_act_CaMKII_Thr286 -> CaMKII + PP1_act_CaMKII_Thr286 , ( 1.0E-15) * (kcat_PP1_act_CaMKII_Thr286)
+  PP1_act_CaMKII_Thr286 -> CaMKII_Thr286 + PP1_act_CaMKII_Thr286 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_CaMKII_Thr286))))
+  PP1_act_CaMKII_Thr286 -> 2*PP1_act_CaMKII_Thr286 , ( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_CaMKII_Thr286)))+( -1) * (( 1.0E-15) * (kcat_PP1_act_CaMKII_Thr286))
+  PP1_act_CaMKII_Thr286_305 -> PP1_act + PP1_act_CaMKII_Thr286_305 , ( 1.0E-15) * (kcat_PP1_act_CaMKII_Thr286_305)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_CaMKII_Thr286_305))))
+  PP1_act_CaMKII_Thr286_305 -> CaMKII_Thr286 + PP1_act_CaMKII_Thr286_305 , ( 1.0E-15) * (kcat_PP1_act_CaMKII_Thr286_305)
+  PP1_act_CaMKII_Thr286_305 -> CaMKII_Thr286_305 + PP1_act_CaMKII_Thr286_305 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_CaMKII_Thr286_305))))
+  PP1_act_CaMKII_Thr286_305 -> 2*PP1_act_CaMKII_Thr286_305 , ( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_CaMKII_Thr286_305)))+( -1) * (( 1.0E-15) * (kcat_PP1_act_CaMKII_Thr286_305))
+  PP1_act_CaMKII_Thr306 -> PP1_act + PP1_act_CaMKII_Thr306 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_CaMKII_Thr306))))
+  PP1_act_CaMKII_Thr306 -> CaMKII_Thr306 + PP1_act_CaMKII_Thr306 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_CaMKII_Thr306))))
+  PP1_act_CaMKII_Thr306 -> 2*PP1_act_CaMKII_Thr306 , ( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_CaMKII_Thr306)))
+  PP1_act_GluR_831p_845p -> PP1_act + PP1_act_GluR_831p_845p , ( 1.0E-15) * (kcat_PP1_act_GluR_831p_845p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_GluR_831p_845p))))
+  PP1_act_GluR_831p_845p -> GluR_845p + PP1_act_GluR_831p_845p , ( 1.0E-15) * (kcat_PP1_act_GluR_831p_845p)
+  PP1_act_GluR_831p_845p -> GluR_831p_845p + PP1_act_GluR_831p_845p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_GluR_831p_845p))))
+  PP1_act_GluR_831p_845p -> 2*PP1_act_GluR_831p_845p , ( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_GluR_831p_845p)))+( -1) * (( 1.0E-15) * (kcat_PP1_act_GluR_831p_845p))
+  PP1_act_GluR_845p -> PP1_act + PP1_act_GluR_845p , ( 1.0E-15) * (kcat_PP1_act_GluR_845p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_GluR_845p))))
+  PP1_act_GluR_845p -> GluR + PP1_act_GluR_845p , ( 1.0E-15) * (kcat_PP1_act_GluR_845p)
+  PP1_act_GluR_845p -> GluR_845p + PP1_act_GluR_845p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_GluR_845p))))
+  PP1_act_GluR_845p -> 2*PP1_act_GluR_845p , ( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_GluR_845p)))+( -1) * (( 1.0E-15) * (kcat_PP1_act_GluR_845p))
+  PP1_act_GluR_I_831p_845p -> PP1_act + PP1_act_GluR_I_831p_845p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_GluR_I_831p_845p))))
+  PP1_act_GluR_I_831p_845p -> GluR_I_831p_845p + PP1_act_GluR_I_831p_845p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_GluR_I_831p_845p))))
+  PP1_act_GluR_I_831p_845p -> 2*PP1_act_GluR_I_831p_845p , ( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_GluR_I_831p_845p)))
+  PP1_act_GluR_I_845p -> PP1_act + PP1_act_GluR_I_845p , ( 1.0E-15) * (kcat_PP1_act_GluR_I_845p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_GluR_I_845p))))
+  PP1_act_GluR_I_845p -> GluR_I_845p + PP1_act_GluR_I_845p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_GluR_I_845p))))
+  PP1_act_GluR_I_845p -> GluR_I + PP1_act_GluR_I_845p , ( 1.0E-15) * (kcat_PP1_act_GluR_I_845p)
+  PP1_act_GluR_I_845p -> 2*PP1_act_GluR_I_845p , ( 1.0E-15) * (-(( 4.0) * (kcat_PP1_act_GluR_I_845p)))+( -1) * (( 1.0E-15) * (kcat_PP1_act_GluR_I_845p))
+  PP2A_PKA_D75 -> sD + PP2A_PKA_D75 , ( 1.0E-15) * (kcat_PP2A_PKA_D75)
+  PP2A_PKA_D75 -> D75 + PP2A_PKA_D75 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_D75))))
+  PP2A_PKA_D75 -> PP2A_PKA + PP2A_PKA_D75 , ( 1.0E-15) * (kcat_PP2A_PKA_D75)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_D75))))
+  PP2A_PKA_D75 -> 2*PP2A_PKA_D75 , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_D75)))+( -1) * (( 1.0E-15) * (kcat_PP2A_PKA_D75))
+  PP2A_PKA_D34_75 -> D34 + PP2A_PKA_D34_75 , ( 1.0E-15) * (kcat_PP2A_PKA_D34_75)
+  PP2A_PKA_D34_75 -> D34_75 + PP2A_PKA_D34_75 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_D34_75))))
+  PP2A_PKA_D34_75 -> PP2A_PKA + PP2A_PKA_D34_75 , ( 1.0E-15) * (kcat_PP2A_PKA_D34_75)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_D34_75))))
+  PP2A_PKA_D34_75 -> 2*PP2A_PKA_D34_75 , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_D34_75)))+( -1) * (( 1.0E-15) * (kcat_PP2A_PKA_D34_75))
+  PP2A_PKA_D75_137 -> D137 + PP2A_PKA_D75_137 , ( 1.0E-15) * (kcat_PP2A_PKA_D75_137)
+  PP2A_PKA_D75_137 -> D75_137 + PP2A_PKA_D75_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_D75_137))))
+  PP2A_PKA_D75_137 -> PP2A_PKA + PP2A_PKA_D75_137 , ( 1.0E-15) * (kcat_PP2A_PKA_D75_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_D75_137))))
+  PP2A_PKA_D75_137 -> 2*PP2A_PKA_D75_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_D75_137)))+( -1) * (( 1.0E-15) * (kcat_PP2A_PKA_D75_137))
+  PP2A_PKA_D34_75_137 -> D34_137 + PP2A_PKA_D34_75_137 , ( 1.0E-15) * (kcat_PP2A_PKA_D34_75_137)
+  PP2A_PKA_D34_75_137 -> D34_75_137 + PP2A_PKA_D34_75_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_D34_75_137))))
+  PP2A_PKA_D34_75_137 -> PP2A_PKA + PP2A_PKA_D34_75_137 , ( 1.0E-15) * (kcat_PP2A_PKA_D34_75_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_D34_75_137))))
+  PP2A_PKA_D34_75_137 -> 2*PP2A_PKA_D34_75_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_D34_75_137)))+( -1) * (( 1.0E-15) * (kcat_PP2A_PKA_D34_75_137))
+  PP2A_PKA_GluR_831p_845p -> PP2A_PKA + PP2A_PKA_GluR_831p_845p , ( 1.0E-15) * (kcat_PP2A_PKA_GluR_831p_845p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_GluR_831p_845p))))
+  PP2A_PKA_GluR_831p_845p -> GluR_845p + PP2A_PKA_GluR_831p_845p , ( 1.0E-15) * (kcat_PP2A_PKA_GluR_831p_845p)
+  PP2A_PKA_GluR_831p_845p -> GluR_831p_845p + PP2A_PKA_GluR_831p_845p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_GluR_831p_845p))))
+  PP2A_PKA_GluR_831p_845p -> 2*PP2A_PKA_GluR_831p_845p , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_GluR_831p_845p)))+( -1) * (( 1.0E-15) * (kcat_PP2A_PKA_GluR_831p_845p))
+  PP2A_PKA_GluR_845p -> PP2A_PKA + PP2A_PKA_GluR_845p , ( 1.0E-15) * (kcat_PP2A_PKA_GluR_845p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_GluR_845p))))
+  PP2A_PKA_GluR_845p -> GluR + PP2A_PKA_GluR_845p , ( 1.0E-15) * (kcat_PP2A_PKA_GluR_845p)
+  PP2A_PKA_GluR_845p -> GluR_845p + PP2A_PKA_GluR_845p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_GluR_845p))))
+  PP2A_PKA_GluR_845p -> 2*PP2A_PKA_GluR_845p , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_GluR_845p)))+( -1) * (( 1.0E-15) * (kcat_PP2A_PKA_GluR_845p))
+  PP2A_PKA_GluR_I_831p_845p -> PP2A_PKA + PP2A_PKA_GluR_I_831p_845p , ( 1.0E-15) * (kcat_PP2A_PKA_GluR_I_831p_845p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_GluR_I_831p_845p))))
+  PP2A_PKA_GluR_I_831p_845p -> GluR_I_831p_845p + PP2A_PKA_GluR_I_831p_845p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_GluR_I_831p_845p))))
+  PP2A_PKA_GluR_I_831p_845p -> GluR_I_845p + PP2A_PKA_GluR_I_831p_845p , ( 1.0E-15) * (kcat_PP2A_PKA_GluR_I_831p_845p)
+  PP2A_PKA_GluR_I_831p_845p -> 2*PP2A_PKA_GluR_I_831p_845p , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_GluR_I_831p_845p)))+( -1) * (( 1.0E-15) * (kcat_PP2A_PKA_GluR_I_831p_845p))
+  PP2A_PKA_GluR_I_845p -> PP2A_PKA + PP2A_PKA_GluR_I_845p , ( 1.0E-15) * (kcat_PP2A_PKA_GluR_I_845p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_GluR_I_845p))))
+  PP2A_PKA_GluR_I_845p -> GluR_I_845p + PP2A_PKA_GluR_I_845p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_GluR_I_845p))))
+  PP2A_PKA_GluR_I_845p -> GluR_I + PP2A_PKA_GluR_I_845p , ( 1.0E-15) * (kcat_PP2A_PKA_GluR_I_845p)
+  PP2A_PKA_GluR_I_845p -> 2*PP2A_PKA_GluR_I_845p , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_PKA_GluR_I_845p)))+( -1) * (( 1.0E-15) * (kcat_PP2A_PKA_GluR_I_845p))
+  PP2A_Ca_D75 -> sD + PP2A_Ca_D75 , ( 1.0E-15) * (kcat_PP2A_Ca_D75)
+  PP2A_Ca_D75 -> D75 + PP2A_Ca_D75 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_D75))))
+  PP2A_Ca_D75 -> PP2A_Ca + PP2A_Ca_D75 , ( 1.0E-15) * (kcat_PP2A_Ca_D75)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_D75))))
+  PP2A_Ca_D75 -> 2*PP2A_Ca_D75 , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_D75)))+( -1) * (( 1.0E-15) * (kcat_PP2A_Ca_D75))
+  PP2A_Ca_D34_75 -> D34 + PP2A_Ca_D34_75 , ( 1.0E-15) * (kcat_PP2A_Ca_D34_75)
+  PP2A_Ca_D34_75 -> D34_75 + PP2A_Ca_D34_75 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_D34_75))))
+  PP2A_Ca_D34_75 -> PP2A_Ca + PP2A_Ca_D34_75 , ( 1.0E-15) * (kcat_PP2A_Ca_D34_75)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_D34_75))))
+  PP2A_Ca_D34_75 -> 2*PP2A_Ca_D34_75 , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_D34_75)))+( -1) * (( 1.0E-15) * (kcat_PP2A_Ca_D34_75))
+  PP2A_Ca_D75_137 -> D137 + PP2A_Ca_D75_137 , ( 1.0E-15) * (kcat_PP2A_Ca_D75_137)
+  PP2A_Ca_D75_137 -> D75_137 + PP2A_Ca_D75_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_D75_137))))
+  PP2A_Ca_D75_137 -> PP2A_Ca + PP2A_Ca_D75_137 , ( 1.0E-15) * (kcat_PP2A_Ca_D75_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_D75_137))))
+  PP2A_Ca_D75_137 -> 2*PP2A_Ca_D75_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_D75_137)))+( -1) * (( 1.0E-15) * (kcat_PP2A_Ca_D75_137))
+  PP2A_Ca_D34_75_137 -> D34_137 + PP2A_Ca_D34_75_137 , ( 1.0E-15) * (kcat_PP2A_Ca_D34_75_137)
+  PP2A_Ca_D34_75_137 -> D34_75_137 + PP2A_Ca_D34_75_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_D34_75_137))))
+  PP2A_Ca_D34_75_137 -> PP2A_Ca + PP2A_Ca_D34_75_137 , ( 1.0E-15) * (kcat_PP2A_Ca_D34_75_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_D34_75_137))))
+  PP2A_Ca_D34_75_137 -> 2*PP2A_Ca_D34_75_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_D34_75_137)))+( -1) * (( 1.0E-15) * (kcat_PP2A_Ca_D34_75_137))
+  PP2A_Ca_GluR_831p_845p -> PP2A_Ca + PP2A_Ca_GluR_831p_845p , ( 1.0E-15) * (kcat_PP2A_Ca_GluR_831p_845p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_GluR_831p_845p))))
+  PP2A_Ca_GluR_831p_845p -> GluR_845p + PP2A_Ca_GluR_831p_845p , ( 1.0E-15) * (kcat_PP2A_Ca_GluR_831p_845p)
+  PP2A_Ca_GluR_831p_845p -> GluR_831p_845p + PP2A_Ca_GluR_831p_845p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_GluR_831p_845p))))
+  PP2A_Ca_GluR_831p_845p -> 2*PP2A_Ca_GluR_831p_845p , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_GluR_831p_845p)))+( -1) * (( 1.0E-15) * (kcat_PP2A_Ca_GluR_831p_845p))
+  PP2A_Ca_GluR_845p -> PP2A_Ca + PP2A_Ca_GluR_845p , ( 1.0E-15) * (kcat_PP2A_Ca_GluR_845p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_GluR_845p))))
+  PP2A_Ca_GluR_845p -> GluR + PP2A_Ca_GluR_845p , ( 1.0E-15) * (kcat_PP2A_Ca_GluR_845p)
+  PP2A_Ca_GluR_845p -> GluR_845p + PP2A_Ca_GluR_845p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_GluR_845p))))
+  PP2A_Ca_GluR_845p -> 2*PP2A_Ca_GluR_845p , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_GluR_845p)))+( -1) * (( 1.0E-15) * (kcat_PP2A_Ca_GluR_845p))
+  PP2A_Ca_GluR_I_831p_845p -> PP2A_Ca + PP2A_Ca_GluR_I_831p_845p , ( 1.0E-15) * (kcat_PP2A_Ca_GluR_I_831p_845p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_GluR_I_831p_845p))))
+  PP2A_Ca_GluR_I_831p_845p -> GluR_I_831p_845p + PP2A_Ca_GluR_I_831p_845p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_GluR_I_831p_845p))))
+  PP2A_Ca_GluR_I_831p_845p -> GluR_I_845p + PP2A_Ca_GluR_I_831p_845p , ( 1.0E-15) * (kcat_PP2A_Ca_GluR_I_831p_845p)
+  PP2A_Ca_GluR_I_831p_845p -> 2*PP2A_Ca_GluR_I_831p_845p , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_GluR_I_831p_845p)))+( -1) * (( 1.0E-15) * (kcat_PP2A_Ca_GluR_I_831p_845p))
+  PP2A_Ca_GluR_I_845p -> PP2A_Ca + PP2A_Ca_GluR_I_845p , ( 1.0E-15) * (kcat_PP2A_Ca_GluR_I_845p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_GluR_I_845p))))
+  PP2A_Ca_GluR_I_845p -> GluR_I_845p + PP2A_Ca_GluR_I_845p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_GluR_I_845p))))
+  PP2A_Ca_GluR_I_845p -> GluR_I + PP2A_Ca_GluR_I_845p , ( 1.0E-15) * (kcat_PP2A_Ca_GluR_I_845p)
+  PP2A_Ca_GluR_I_845p -> 2*PP2A_Ca_GluR_I_845p , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2A_Ca_GluR_I_845p)))+( -1) * (( 1.0E-15) * (kcat_PP2A_Ca_GluR_I_845p))
+  CaM_Ca2_CaNAB_Ca4 -> CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (-(kb_CaM_Ca2__CaNAB_Ca4)))
+  CaM_Ca2_CaNAB_Ca4 -> CaM_Ca2 + CaM_Ca2_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (-(kb_CaM_Ca2__CaNAB_Ca4)))
+  CaM_Ca2_CaNAB_Ca4 -> 2*CaM_Ca2_CaNAB_Ca4 , ( 1.0E-15) * (-(kb_CaM_Ca2__CaNAB_Ca4))
+  CaM_Ca2_CaNAB_Ca4_D34 -> sD + CaM_Ca2_CaNAB_Ca4_D34 , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_D34)
+  CaM_Ca2_CaNAB_Ca4_D34 -> D34 + CaM_Ca2_CaNAB_Ca4_D34 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_D34))))
+  CaM_Ca2_CaNAB_Ca4_D34 -> CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_D34 , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_D34)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_D34))))
+  CaM_Ca2_CaNAB_Ca4_D34 -> 2*CaM_Ca2_CaNAB_Ca4_D34 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_D34)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_D34))
+  CaM_Ca2_CaNAB_Ca4_D34_75 -> D75 + CaM_Ca2_CaNAB_Ca4_D34_75 , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_75)
+  CaM_Ca2_CaNAB_Ca4_D34_75 -> D34_75 + CaM_Ca2_CaNAB_Ca4_D34_75 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_75))))
+  CaM_Ca2_CaNAB_Ca4_D34_75 -> CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_D34_75 , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_75)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_75))))
+  CaM_Ca2_CaNAB_Ca4_D34_75 -> 2*CaM_Ca2_CaNAB_Ca4_D34_75 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_75)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_75))
+  CaM_Ca2_CaNAB_Ca4_D34_137 -> D137 + CaM_Ca2_CaNAB_Ca4_D34_137 , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_137)
+  CaM_Ca2_CaNAB_Ca4_D34_137 -> D34_137 + CaM_Ca2_CaNAB_Ca4_D34_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_137))))
+  CaM_Ca2_CaNAB_Ca4_D34_137 -> CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_D34_137 , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_137))))
+  CaM_Ca2_CaNAB_Ca4_D34_137 -> 2*CaM_Ca2_CaNAB_Ca4_D34_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_137)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_137))
+  CaM_Ca2_CaNAB_Ca4_D34_75_137 -> D34_75_137 + CaM_Ca2_CaNAB_Ca4_D34_75_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_75_137))))
+  CaM_Ca2_CaNAB_Ca4_D34_75_137 -> D75_137 + CaM_Ca2_CaNAB_Ca4_D34_75_137 , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_75_137)
+  CaM_Ca2_CaNAB_Ca4_D34_75_137 -> CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_D34_75_137 , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_75_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_75_137))))
+  CaM_Ca2_CaNAB_Ca4_D34_75_137 -> 2*CaM_Ca2_CaNAB_Ca4_D34_75_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_75_137)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_D34_75_137))
+  CaM_Ca2_CaNAB_Ca4_PP1_D34 -> PP1_D34 + CaM_Ca2_CaNAB_Ca4_PP1_D34 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34))))
+  CaM_Ca2_CaNAB_Ca4_PP1_D34 -> PP1_D + CaM_Ca2_CaNAB_Ca4_PP1_D34 , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34)
+  CaM_Ca2_CaNAB_Ca4_PP1_D34 -> CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_PP1_D34 , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34))))
+  CaM_Ca2_CaNAB_Ca4_PP1_D34 -> 2*CaM_Ca2_CaNAB_Ca4_PP1_D34 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34))
+  CaM_Ca2_CaNAB_Ca4_PP1_D34_75 -> PP1_D34_75 + CaM_Ca2_CaNAB_Ca4_PP1_D34_75 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75))))
+  CaM_Ca2_CaNAB_Ca4_PP1_D34_75 -> PP1_D75 + CaM_Ca2_CaNAB_Ca4_PP1_D34_75 , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75)
+  CaM_Ca2_CaNAB_Ca4_PP1_D34_75 -> CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_PP1_D34_75 , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75))))
+  CaM_Ca2_CaNAB_Ca4_PP1_D34_75 -> 2*CaM_Ca2_CaNAB_Ca4_PP1_D34_75 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75))
+  CaM_Ca2_CaNAB_Ca4_PP1_D34_137 -> PP1_D34_137 + CaM_Ca2_CaNAB_Ca4_PP1_D34_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_137))))
+  CaM_Ca2_CaNAB_Ca4_PP1_D34_137 -> PP1_D137 + CaM_Ca2_CaNAB_Ca4_PP1_D34_137 , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_137)
+  CaM_Ca2_CaNAB_Ca4_PP1_D34_137 -> CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_PP1_D34_137 , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_137))))
+  CaM_Ca2_CaNAB_Ca4_PP1_D34_137 -> 2*CaM_Ca2_CaNAB_Ca4_PP1_D34_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_137)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_137))
+  CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137 -> PP1_D34_75_137 + CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137))))
+  CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137 -> PP1_D75_137 + CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137 , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137)
+  CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137 -> CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137 , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137))))
+  CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137 -> 2*CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_D34_75_137))
+  CaM_Ca2_CaNAB_Ca4_I1_p -> I1 + CaM_Ca2_CaNAB_Ca4_I1_p , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_I1_p)
+  CaM_Ca2_CaNAB_Ca4_I1_p -> I1_p + CaM_Ca2_CaNAB_Ca4_I1_p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_I1_p))))
+  CaM_Ca2_CaNAB_Ca4_I1_p -> CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_I1_p , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_I1_p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_I1_p))))
+  CaM_Ca2_CaNAB_Ca4_I1_p -> 2*CaM_Ca2_CaNAB_Ca4_I1_p , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_I1_p)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_I1_p))
+  CaM_Ca2_CaNAB_Ca4_PP1_I1_p -> PP1_I1 + CaM_Ca2_CaNAB_Ca4_PP1_I1_p , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_I1_p)
+  CaM_Ca2_CaNAB_Ca4_PP1_I1_p -> PP1_I1_p + CaM_Ca2_CaNAB_Ca4_PP1_I1_p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_I1_p))))
+  CaM_Ca2_CaNAB_Ca4_PP1_I1_p -> CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_PP1_I1_p , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_I1_p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_I1_p))))
+  CaM_Ca2_CaNAB_Ca4_PP1_I1_p -> 2*CaM_Ca2_CaNAB_Ca4_PP1_I1_p , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_I1_p)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_PP1_I1_p))
+  CaM_Ca2_CaNAB_Ca4_CK1p -> CK1p + CaM_Ca2_CaNAB_Ca4_CK1p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_CK1p))))
+  CaM_Ca2_CaNAB_Ca4_CK1p -> CK1 + CaM_Ca2_CaNAB_Ca4_CK1p , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_CK1p)
+  CaM_Ca2_CaNAB_Ca4_CK1p -> CaM_Ca2_CaNAB_Ca4 + CaM_Ca2_CaNAB_Ca4_CK1p , ( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_CK1p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_CK1p))))
+  CaM_Ca2_CaNAB_Ca4_CK1p -> 2*CaM_Ca2_CaNAB_Ca4_CK1p , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca2_CaNAB_Ca4_CK1p)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca2_CaNAB_Ca4_CK1p))
+  CaM_Ca3_CaNAB_Ca4 -> CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (-(kb_CaM_Ca3__CaNAB_Ca4)))
+  CaM_Ca3_CaNAB_Ca4 -> CaM_Ca3 + CaM_Ca3_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (-(kb_CaM_Ca3__CaNAB_Ca4)))
+  CaM_Ca3_CaNAB_Ca4 -> 2*CaM_Ca3_CaNAB_Ca4 , ( 1.0E-15) * (-(kb_CaM_Ca3__CaNAB_Ca4))
+  CaM_Ca3_CaNAB_Ca4_D34 -> sD + CaM_Ca3_CaNAB_Ca4_D34 , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_D34)
+  CaM_Ca3_CaNAB_Ca4_D34 -> D34 + CaM_Ca3_CaNAB_Ca4_D34 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_D34))))
+  CaM_Ca3_CaNAB_Ca4_D34 -> CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_D34 , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_D34)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_D34))))
+  CaM_Ca3_CaNAB_Ca4_D34 -> 2*CaM_Ca3_CaNAB_Ca4_D34 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_D34)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_D34))
+  CaM_Ca3_CaNAB_Ca4_D34_75 -> D75 + CaM_Ca3_CaNAB_Ca4_D34_75 , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_75)
+  CaM_Ca3_CaNAB_Ca4_D34_75 -> D34_75 + CaM_Ca3_CaNAB_Ca4_D34_75 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_75))))
+  CaM_Ca3_CaNAB_Ca4_D34_75 -> CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_D34_75 , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_75)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_75))))
+  CaM_Ca3_CaNAB_Ca4_D34_75 -> 2*CaM_Ca3_CaNAB_Ca4_D34_75 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_75)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_75))
+  CaM_Ca3_CaNAB_Ca4_D34_137 -> D137 + CaM_Ca3_CaNAB_Ca4_D34_137 , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_137)
+  CaM_Ca3_CaNAB_Ca4_D34_137 -> D34_137 + CaM_Ca3_CaNAB_Ca4_D34_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_137))))
+  CaM_Ca3_CaNAB_Ca4_D34_137 -> CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_D34_137 , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_137))))
+  CaM_Ca3_CaNAB_Ca4_D34_137 -> 2*CaM_Ca3_CaNAB_Ca4_D34_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_137)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_137))
+  CaM_Ca3_CaNAB_Ca4_D34_75_137 -> D34_75_137 + CaM_Ca3_CaNAB_Ca4_D34_75_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_75_137))))
+  CaM_Ca3_CaNAB_Ca4_D34_75_137 -> D75_137 + CaM_Ca3_CaNAB_Ca4_D34_75_137 , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_75_137)
+  CaM_Ca3_CaNAB_Ca4_D34_75_137 -> CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_D34_75_137 , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_75_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_75_137))))
+  CaM_Ca3_CaNAB_Ca4_D34_75_137 -> 2*CaM_Ca3_CaNAB_Ca4_D34_75_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_75_137)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_D34_75_137))
+  CaM_Ca3_CaNAB_Ca4_PP1_D34 -> PP1_D34 + CaM_Ca3_CaNAB_Ca4_PP1_D34 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34))))
+  CaM_Ca3_CaNAB_Ca4_PP1_D34 -> PP1_D + CaM_Ca3_CaNAB_Ca4_PP1_D34 , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34)
+  CaM_Ca3_CaNAB_Ca4_PP1_D34 -> CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_PP1_D34 , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34))))
+  CaM_Ca3_CaNAB_Ca4_PP1_D34 -> 2*CaM_Ca3_CaNAB_Ca4_PP1_D34 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34))
+  CaM_Ca3_CaNAB_Ca4_PP1_D34_75 -> PP1_D34_75 + CaM_Ca3_CaNAB_Ca4_PP1_D34_75 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75))))
+  CaM_Ca3_CaNAB_Ca4_PP1_D34_75 -> PP1_D75 + CaM_Ca3_CaNAB_Ca4_PP1_D34_75 , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75)
+  CaM_Ca3_CaNAB_Ca4_PP1_D34_75 -> CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_PP1_D34_75 , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75))))
+  CaM_Ca3_CaNAB_Ca4_PP1_D34_75 -> 2*CaM_Ca3_CaNAB_Ca4_PP1_D34_75 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75))
+  CaM_Ca3_CaNAB_Ca4_PP1_D34_137 -> PP1_D34_137 + CaM_Ca3_CaNAB_Ca4_PP1_D34_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_137))))
+  CaM_Ca3_CaNAB_Ca4_PP1_D34_137 -> PP1_D137 + CaM_Ca3_CaNAB_Ca4_PP1_D34_137 , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_137)
+  CaM_Ca3_CaNAB_Ca4_PP1_D34_137 -> CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_PP1_D34_137 , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_137))))
+  CaM_Ca3_CaNAB_Ca4_PP1_D34_137 -> 2*CaM_Ca3_CaNAB_Ca4_PP1_D34_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_137)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_137))
+  CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137 -> PP1_D34_75_137 + CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137))))
+  CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137 -> PP1_D75_137 + CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137 , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137)
+  CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137 -> CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137 , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137))))
+  CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137 -> 2*CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_D34_75_137))
+  CaM_Ca3_CaNAB_Ca4_I1_p -> I1 + CaM_Ca3_CaNAB_Ca4_I1_p , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_I1_p)
+  CaM_Ca3_CaNAB_Ca4_I1_p -> I1_p + CaM_Ca3_CaNAB_Ca4_I1_p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_I1_p))))
+  CaM_Ca3_CaNAB_Ca4_I1_p -> CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_I1_p , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_I1_p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_I1_p))))
+  CaM_Ca3_CaNAB_Ca4_I1_p -> 2*CaM_Ca3_CaNAB_Ca4_I1_p , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_I1_p)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_I1_p))
+  CaM_Ca3_CaNAB_Ca4_PP1_I1_p -> PP1_I1 + CaM_Ca3_CaNAB_Ca4_PP1_I1_p , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_I1_p)
+  CaM_Ca3_CaNAB_Ca4_PP1_I1_p -> PP1_I1_p + CaM_Ca3_CaNAB_Ca4_PP1_I1_p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_I1_p))))
+  CaM_Ca3_CaNAB_Ca4_PP1_I1_p -> CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_PP1_I1_p , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_I1_p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_I1_p))))
+  CaM_Ca3_CaNAB_Ca4_PP1_I1_p -> 2*CaM_Ca3_CaNAB_Ca4_PP1_I1_p , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_I1_p)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_PP1_I1_p))
+  CaM_Ca3_CaNAB_Ca4_CK1p -> CK1p + CaM_Ca3_CaNAB_Ca4_CK1p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_CK1p))))
+  CaM_Ca3_CaNAB_Ca4_CK1p -> CK1 + CaM_Ca3_CaNAB_Ca4_CK1p , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_CK1p)
+  CaM_Ca3_CaNAB_Ca4_CK1p -> CaM_Ca3_CaNAB_Ca4 + CaM_Ca3_CaNAB_Ca4_CK1p , ( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_CK1p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_CK1p))))
+  CaM_Ca3_CaNAB_Ca4_CK1p -> 2*CaM_Ca3_CaNAB_Ca4_CK1p , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca3_CaNAB_Ca4_CK1p)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca3_CaNAB_Ca4_CK1p))
+  CaM_Ca4_CaNAB_Ca4 -> CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (-(kb_CaM_Ca4__CaNAB_Ca4)))
+  CaM_Ca4_CaNAB_Ca4 -> CaM_Ca4 + CaM_Ca4_CaNAB_Ca4 , ( -1) * (( 1.0E-15) * (-(kb_CaM_Ca4__CaNAB_Ca4)))
+  CaM_Ca4_CaNAB_Ca4 -> 2*CaM_Ca4_CaNAB_Ca4 , ( 1.0E-15) * (-(kb_CaM_Ca4__CaNAB_Ca4))
+  CaM_Ca4_CaNAB_Ca4_D34 -> sD + CaM_Ca4_CaNAB_Ca4_D34 , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_D34)
+  CaM_Ca4_CaNAB_Ca4_D34 -> D34 + CaM_Ca4_CaNAB_Ca4_D34 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_D34))))
+  CaM_Ca4_CaNAB_Ca4_D34 -> CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_D34 , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_D34)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_D34))))
+  CaM_Ca4_CaNAB_Ca4_D34 -> 2*CaM_Ca4_CaNAB_Ca4_D34 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_D34)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_D34))
+  CaM_Ca4_CaNAB_Ca4_D34_75 -> D75 + CaM_Ca4_CaNAB_Ca4_D34_75 , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_75)
+  CaM_Ca4_CaNAB_Ca4_D34_75 -> D34_75 + CaM_Ca4_CaNAB_Ca4_D34_75 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_75))))
+  CaM_Ca4_CaNAB_Ca4_D34_75 -> CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_D34_75 , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_75)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_75))))
+  CaM_Ca4_CaNAB_Ca4_D34_75 -> 2*CaM_Ca4_CaNAB_Ca4_D34_75 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_75)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_75))
+  CaM_Ca4_CaNAB_Ca4_D34_137 -> D137 + CaM_Ca4_CaNAB_Ca4_D34_137 , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_137)
+  CaM_Ca4_CaNAB_Ca4_D34_137 -> D34_137 + CaM_Ca4_CaNAB_Ca4_D34_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_137))))
+  CaM_Ca4_CaNAB_Ca4_D34_137 -> CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_D34_137 , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_137))))
+  CaM_Ca4_CaNAB_Ca4_D34_137 -> 2*CaM_Ca4_CaNAB_Ca4_D34_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_137)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_137))
+  CaM_Ca4_CaNAB_Ca4_D34_75_137 -> D34_75_137 + CaM_Ca4_CaNAB_Ca4_D34_75_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_75_137))))
+  CaM_Ca4_CaNAB_Ca4_D34_75_137 -> D75_137 + CaM_Ca4_CaNAB_Ca4_D34_75_137 , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_75_137)
+  CaM_Ca4_CaNAB_Ca4_D34_75_137 -> CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_D34_75_137 , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_75_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_75_137))))
+  CaM_Ca4_CaNAB_Ca4_D34_75_137 -> 2*CaM_Ca4_CaNAB_Ca4_D34_75_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_75_137)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_D34_75_137))
+  CaM_Ca4_CaNAB_Ca4_PP1_D34 -> PP1_D34 + CaM_Ca4_CaNAB_Ca4_PP1_D34 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34))))
+  CaM_Ca4_CaNAB_Ca4_PP1_D34 -> PP1_D + CaM_Ca4_CaNAB_Ca4_PP1_D34 , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34)
+  CaM_Ca4_CaNAB_Ca4_PP1_D34 -> CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_PP1_D34 , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34))))
+  CaM_Ca4_CaNAB_Ca4_PP1_D34 -> 2*CaM_Ca4_CaNAB_Ca4_PP1_D34 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34))
+  CaM_Ca4_CaNAB_Ca4_PP1_D34_75 -> PP1_D34_75 + CaM_Ca4_CaNAB_Ca4_PP1_D34_75 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75))))
+  CaM_Ca4_CaNAB_Ca4_PP1_D34_75 -> PP1_D75 + CaM_Ca4_CaNAB_Ca4_PP1_D34_75 , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75)
+  CaM_Ca4_CaNAB_Ca4_PP1_D34_75 -> CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_PP1_D34_75 , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75))))
+  CaM_Ca4_CaNAB_Ca4_PP1_D34_75 -> 2*CaM_Ca4_CaNAB_Ca4_PP1_D34_75 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75))
+  CaM_Ca4_CaNAB_Ca4_PP1_D34_137 -> PP1_D34_137 + CaM_Ca4_CaNAB_Ca4_PP1_D34_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_137))))
+  CaM_Ca4_CaNAB_Ca4_PP1_D34_137 -> PP1_D137 + CaM_Ca4_CaNAB_Ca4_PP1_D34_137 , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_137)
+  CaM_Ca4_CaNAB_Ca4_PP1_D34_137 -> CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_PP1_D34_137 , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_137))))
+  CaM_Ca4_CaNAB_Ca4_PP1_D34_137 -> 2*CaM_Ca4_CaNAB_Ca4_PP1_D34_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_137)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_137))
+  CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137 -> PP1_D34_75_137 + CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137))))
+  CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137 -> PP1_D75_137 + CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137 , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137)
+  CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137 -> CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137 , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137))))
+  CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137 -> 2*CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_D34_75_137))
+  CaM_Ca4_CaNAB_Ca4_I1_p -> I1 + CaM_Ca4_CaNAB_Ca4_I1_p , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_I1_p)
+  CaM_Ca4_CaNAB_Ca4_I1_p -> I1_p + CaM_Ca4_CaNAB_Ca4_I1_p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_I1_p))))
+  CaM_Ca4_CaNAB_Ca4_I1_p -> CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_I1_p , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_I1_p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_I1_p))))
+  CaM_Ca4_CaNAB_Ca4_I1_p -> 2*CaM_Ca4_CaNAB_Ca4_I1_p , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_I1_p)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_I1_p))
+  CaM_Ca4_CaNAB_Ca4_PP1_I1_p -> PP1_I1 + CaM_Ca4_CaNAB_Ca4_PP1_I1_p , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_I1_p)
+  CaM_Ca4_CaNAB_Ca4_PP1_I1_p -> PP1_I1_p + CaM_Ca4_CaNAB_Ca4_PP1_I1_p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_I1_p))))
+  CaM_Ca4_CaNAB_Ca4_PP1_I1_p -> CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_PP1_I1_p , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_I1_p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_I1_p))))
+  CaM_Ca4_CaNAB_Ca4_PP1_I1_p -> 2*CaM_Ca4_CaNAB_Ca4_PP1_I1_p , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_I1_p)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_PP1_I1_p))
+  CaM_Ca4_CaNAB_Ca4_CK1p -> CK1p + CaM_Ca4_CaNAB_Ca4_CK1p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_CK1p))))
+  CaM_Ca4_CaNAB_Ca4_CK1p -> CK1 + CaM_Ca4_CaNAB_Ca4_CK1p , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_CK1p)
+  CaM_Ca4_CaNAB_Ca4_CK1p -> CaM_Ca4_CaNAB_Ca4 + CaM_Ca4_CaNAB_Ca4_CK1p , ( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_CK1p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_CK1p))))
+  CaM_Ca4_CaNAB_Ca4_CK1p -> 2*CaM_Ca4_CaNAB_Ca4_CK1p , ( 1.0E-15) * (-(( 4.0) * (kcat_CaM_Ca4_CaNAB_Ca4_CK1p)))+( -1) * (( 1.0E-15) * (kcat_CaM_Ca4_CaNAB_Ca4_CK1p))
+  tot_CaM_CAMKII_CaMKII_CaM -> CaMKII_CaM + tot_CaM_CAMKII_CaMKII_CaM , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_tot_CaM_CAMKII_CaMKII_CaM))))
+  tot_CaM_CAMKII_CaMKII_CaM -> CaMKII_Thr286p_CaM + tot_CaM_CAMKII_CaMKII_CaM , ( 1.0E-15) * (kcat_tot_CaM_CAMKII_CaMKII_CaM)
+  tot_CaM_CAMKII_CaMKII_CaM -> tot_CaM_CAMKII + tot_CaM_CAMKII_CaMKII_CaM , ( 1.0E-15) * (kcat_tot_CaM_CAMKII_CaMKII_CaM)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_tot_CaM_CAMKII_CaMKII_CaM))))
+  tot_CaM_CAMKII_CaMKII_CaM -> 2*tot_CaM_CAMKII_CaMKII_CaM , ( 1.0E-15) * (-(( 4.0) * (kcat_tot_CaM_CAMKII_CaMKII_CaM)))+( -1) * (( 1.0E-15) * (kcat_tot_CaM_CAMKII_CaMKII_CaM))
+  tot_CaM_CAMKII_CaMKII_Thr286 -> CaMKII_Thr286 + tot_CaM_CAMKII_CaMKII_Thr286 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_tot_CaM_CAMKII_CaMKII_Thr286))))
+  tot_CaM_CAMKII_CaMKII_Thr286 -> CaMKII_Thr286_305 + tot_CaM_CAMKII_CaMKII_Thr286 , ( 1.0E-15) * (kcat_tot_CaM_CAMKII_CaMKII_Thr286)
+  tot_CaM_CAMKII_CaMKII_Thr286 -> tot_CaM_CAMKII + tot_CaM_CAMKII_CaMKII_Thr286 , ( 1.0E-15) * (kcat_tot_CaM_CAMKII_CaMKII_Thr286)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_tot_CaM_CAMKII_CaMKII_Thr286))))
+  tot_CaM_CAMKII_CaMKII_Thr286 -> 2*tot_CaM_CAMKII_CaMKII_Thr286 , ( 1.0E-15) * (-(( 4.0) * (kcat_tot_CaM_CAMKII_CaMKII_Thr286)))+( -1) * (( 1.0E-15) * (kcat_tot_CaM_CAMKII_CaMKII_Thr286))
+  tot_autonomous_CaMKII_CaMKII_CaM -> CaMKII_CaM + tot_autonomous_CaMKII_CaMKII_CaM , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_tot_autonomous_CaMKII_CaMKII_CaM))))
+  tot_autonomous_CaMKII_CaMKII_CaM -> tot_autonomous_CaMKII + tot_autonomous_CaMKII_CaMKII_CaM , ( 1.0E-15) * (kcat_tot_autonomous_CaMKII_CaMKII_CaM)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_tot_autonomous_CaMKII_CaMKII_CaM))))
+  tot_autonomous_CaMKII_CaMKII_CaM -> CaMKII_Thr286p_CaM + tot_autonomous_CaMKII_CaMKII_CaM , ( 1.0E-15) * (kcat_tot_autonomous_CaMKII_CaMKII_CaM)
+  tot_autonomous_CaMKII_CaMKII_CaM -> 2*tot_autonomous_CaMKII_CaMKII_CaM , ( 1.0E-15) * (-(( 4.0) * (kcat_tot_autonomous_CaMKII_CaMKII_CaM)))+( -1) * (( 1.0E-15) * (kcat_tot_autonomous_CaMKII_CaMKII_CaM))
+  tot_autonomous_CaMKII_CaMKII_Thr286 -> CaMKII_Thr286 + tot_autonomous_CaMKII_CaMKII_Thr286 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_tot_autonomous_CaMKII_CaMKII_Thr286))))
+  tot_autonomous_CaMKII_CaMKII_Thr286 -> tot_autonomous_CaMKII + tot_autonomous_CaMKII_CaMKII_Thr286 , ( 1.0E-15) * (kcat_tot_autonomous_CaMKII_CaMKII_Thr286)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_tot_autonomous_CaMKII_CaMKII_Thr286))))
+  tot_autonomous_CaMKII_CaMKII_Thr286 -> CaMKII_Thr286_305 + tot_autonomous_CaMKII_CaMKII_Thr286 , ( 1.0E-15) * (kcat_tot_autonomous_CaMKII_CaMKII_Thr286)
+  tot_autonomous_CaMKII_CaMKII_Thr286 -> 2*tot_autonomous_CaMKII_CaMKII_Thr286 , ( 1.0E-15) * (-(( 4.0) * (kcat_tot_autonomous_CaMKII_CaMKII_Thr286)))+( -1) * (( 1.0E-15) * (kcat_tot_autonomous_CaMKII_CaMKII_Thr286))
+  CaMKII_act_GluR_845p -> CaMKII_act + CaMKII_act_GluR_845p , ( 1.0E-15) * (kcat_CaMKII_act_GluR_845p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaMKII_act_GluR_845p))))
+  CaMKII_act_GluR_845p -> GluR_845p + CaMKII_act_GluR_845p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaMKII_act_GluR_845p))))
+  CaMKII_act_GluR_845p -> GluR_831p_845p + CaMKII_act_GluR_845p , ( 1.0E-15) * (kcat_CaMKII_act_GluR_845p)
+  CaMKII_act_GluR_845p -> 2*CaMKII_act_GluR_845p , ( 1.0E-15) * (-(( 4.0) * (kcat_CaMKII_act_GluR_845p)))+( -1) * (( 1.0E-15) * (kcat_CaMKII_act_GluR_845p))
+  CaMKII_act_GluR_I_845p -> CaMKII_act + CaMKII_act_GluR_I_845p , ( 1.0E-15) * (kcat_CaMKII_act_GluR_I_845p)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaMKII_act_GluR_I_845p))))
+  CaMKII_act_GluR_I_845p -> GluR_I_831p_845p + CaMKII_act_GluR_I_845p , ( 1.0E-15) * (kcat_CaMKII_act_GluR_I_845p)
+  CaMKII_act_GluR_I_845p -> GluR_I_845p + CaMKII_act_GluR_I_845p , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CaMKII_act_GluR_I_845p))))
+  CaMKII_act_GluR_I_845p -> 2*CaMKII_act_GluR_I_845p , ( 1.0E-15) * (-(( 4.0) * (kcat_CaMKII_act_GluR_I_845p)))+( -1) * (( 1.0E-15) * (kcat_CaMKII_act_GluR_I_845p))
+  CK1p_D -> sD + CK1p_D , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CK1p_D))))
+  CK1p_D -> D137 + CK1p_D , ( 1.0E-15) * (kcat_CK1p_D)
+  CK1p_D -> CK1p + CK1p_D , ( 1.0E-15) * (kcat_CK1p_D)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CK1p_D))))
+  CK1p_D -> 2*CK1p_D , ( 1.0E-15) * (-(( 4.0) * (kcat_CK1p_D)))+( -1) * (( 1.0E-15) * (kcat_CK1p_D))
+  CK1p_D34 -> D34 + CK1p_D34 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CK1p_D34))))
+  CK1p_D34 -> D34_137 + CK1p_D34 , ( 1.0E-15) * (kcat_CK1p_D34)
+  CK1p_D34 -> CK1p + CK1p_D34 , ( 1.0E-15) * (kcat_CK1p_D34)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CK1p_D34))))
+  CK1p_D34 -> 2*CK1p_D34 , ( 1.0E-15) * (-(( 4.0) * (kcat_CK1p_D34)))+( -1) * (( 1.0E-15) * (kcat_CK1p_D34))
+  CK1p_D75 -> D75 + CK1p_D75 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CK1p_D75))))
+  CK1p_D75 -> D75_137 + CK1p_D75 , ( 1.0E-15) * (kcat_CK1p_D75)
+  CK1p_D75 -> CK1p + CK1p_D75 , ( 1.0E-15) * (kcat_CK1p_D75)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CK1p_D75))))
+  CK1p_D75 -> 2*CK1p_D75 , ( 1.0E-15) * (-(( 4.0) * (kcat_CK1p_D75)))+( -1) * (( 1.0E-15) * (kcat_CK1p_D75))
+  CK1p_D34_75 -> D34_75 + CK1p_D34_75 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CK1p_D34_75))))
+  CK1p_D34_75 -> D34_75_137 + CK1p_D34_75 , ( 1.0E-15) * (kcat_CK1p_D34_75)
+  CK1p_D34_75 -> CK1p + CK1p_D34_75 , ( 1.0E-15) * (kcat_CK1p_D34_75)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CK1p_D34_75))))
+  CK1p_D34_75 -> 2*CK1p_D34_75 , ( 1.0E-15) * (-(( 4.0) * (kcat_CK1p_D34_75)))+( -1) * (( 1.0E-15) * (kcat_CK1p_D34_75))
+  CK1p_CDK5 -> CK1p + CK1p_CDK5 , ( 1.0E-15) * (kcat_CK1p_CDK5)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CK1p_CDK5))))
+  CK1p_CDK5 -> CDK5p + CK1p_CDK5 , ( 1.0E-15) * (kcat_CK1p_CDK5)
+  CK1p_CDK5 -> CDK5 + CK1p_CDK5 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CK1p_CDK5))))
+  CK1p_CDK5 -> 2*CK1p_CDK5 , ( 1.0E-15) * (-(( 4.0) * (kcat_CK1p_CDK5)))+( -1) * (( 1.0E-15) * (kcat_CK1p_CDK5))
+  CDK5p_D -> sD + CDK5p_D , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CDK5p_D))))
+  CDK5p_D -> D75 + CDK5p_D , ( 1.0E-15) * (kcat_CDK5p_D)
+  CDK5p_D -> CDK5p + CDK5p_D , ( 1.0E-15) * (kcat_CDK5p_D)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CDK5p_D))))
+  CDK5p_D -> 2*CDK5p_D , ( 1.0E-15) * (-(( 4.0) * (kcat_CDK5p_D)))+( -1) * (( 1.0E-15) * (kcat_CDK5p_D))
+  CDK5p_D34 -> D34 + CDK5p_D34 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CDK5p_D34))))
+  CDK5p_D34 -> D34_75 + CDK5p_D34 , ( 1.0E-15) * (kcat_CDK5p_D34)
+  CDK5p_D34 -> CDK5p + CDK5p_D34 , ( 1.0E-15) * (kcat_CDK5p_D34)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CDK5p_D34))))
+  CDK5p_D34 -> 2*CDK5p_D34 , ( 1.0E-15) * (-(( 4.0) * (kcat_CDK5p_D34)))+( -1) * (( 1.0E-15) * (kcat_CDK5p_D34))
+  CDK5p_D137 -> D137 + CDK5p_D137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CDK5p_D137))))
+  CDK5p_D137 -> D75_137 + CDK5p_D137 , ( 1.0E-15) * (kcat_CDK5p_D137)
+  CDK5p_D137 -> CDK5p + CDK5p_D137 , ( 1.0E-15) * (kcat_CDK5p_D137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CDK5p_D137))))
+  CDK5p_D137 -> 2*CDK5p_D137 , ( 1.0E-15) * (-(( 4.0) * (kcat_CDK5p_D137)))+( -1) * (( 1.0E-15) * (kcat_CDK5p_D137))
+  CDK5p_D34_137 -> D34_137 + CDK5p_D34_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CDK5p_D34_137))))
+  CDK5p_D34_137 -> D34_75_137 + CDK5p_D34_137 , ( 1.0E-15) * (kcat_CDK5p_D34_137)
+  CDK5p_D34_137 -> CDK5p + CDK5p_D34_137 , ( 1.0E-15) * (kcat_CDK5p_D34_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_CDK5p_D34_137))))
+  CDK5p_D34_137 -> 2*CDK5p_D34_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_CDK5p_D34_137)))+( -1) * (( 1.0E-15) * (kcat_CDK5p_D34_137))
+  PP2C_D137 -> sD + PP2C_D137 , ( 1.0E-15) * (kcat_PP2C_D137)
+  PP2C_D137 -> D137 + PP2C_D137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2C_D137))))
+  PP2C_D137 -> PP2C + PP2C_D137 , ( 1.0E-15) * (kcat_PP2C_D137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2C_D137))))
+  PP2C_D137 -> 2*PP2C_D137 , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2C_D137)))+( -1) * (( 1.0E-15) * (kcat_PP2C_D137))
+  PP2C_D34_137 -> D34 + PP2C_D34_137 , ( 1.0E-15) * (kcat_PP2C_D34_137)
+  PP2C_D34_137 -> D34_137 + PP2C_D34_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2C_D34_137))))
+  PP2C_D34_137 -> PP2C + PP2C_D34_137 , ( 1.0E-15) * (kcat_PP2C_D34_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2C_D34_137))))
+  PP2C_D34_137 -> 2*PP2C_D34_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2C_D34_137)))+( -1) * (( 1.0E-15) * (kcat_PP2C_D34_137))
+  PP2C_D75_137 -> D75 + PP2C_D75_137 , ( 1.0E-15) * (kcat_PP2C_D75_137)
+  PP2C_D75_137 -> D75_137 + PP2C_D75_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2C_D75_137))))
+  PP2C_D75_137 -> PP2C + PP2C_D75_137 , ( 1.0E-15) * (kcat_PP2C_D75_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2C_D75_137))))
+  PP2C_D75_137 -> 2*PP2C_D75_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2C_D75_137)))+( -1) * (( 1.0E-15) * (kcat_PP2C_D75_137))
+  PP2C_D34_75_137 -> D34_75 + PP2C_D34_75_137 , ( 1.0E-15) * (kcat_PP2C_D34_75_137)
+  PP2C_D34_75_137 -> D34_75_137 + PP2C_D34_75_137 , ( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2C_D34_75_137))))
+  PP2C_D34_75_137 -> PP2C + PP2C_D34_75_137 , ( 1.0E-15) * (kcat_PP2C_D34_75_137)+( -1) * (( 1.0E-15) * (-(( 4.0) * (kcat_PP2C_D34_75_137))))
+  PP2C_D34_75_137 -> 2*PP2C_D34_75_137 , ( 1.0E-15) * (-(( 4.0) * (kcat_PP2C_D34_75_137)))+( -1) * (( 1.0E-15) * (kcat_PP2C_D34_75_137))
+  Gs_GTP -> Gs_GDP + Gs_GTP , ( 1.0E-15) * (kf_Gs_GTP)
+  Gs_GTP -> 2*Gs_GTP , ( -1) * (( 1.0E-15) * (kf_Gs_GTP))
+  PP2A_B1 + 2*Ca -> PP2A_B1 + PP2A_B1_2Ca + 2*Ca , ( 1.0E-15) * (kf_PP2A_B1__Ca)
+  PP2A_B1 + 2*Ca -> PP2A_B1 + 3*Ca , ( -2) * (( 1.0E-15) * (kf_PP2A_B1__Ca))
+  PP2A_B1 + 2*Ca -> 2*PP2A_B1 + 2*Ca , ( -1) * (( 1.0E-15) * (kf_PP2A_B1__Ca))
+  PP2A_B1_2Ca -> PP2A_B1 + PP2A_B1_2Ca , ( -1) * (( 1.0E-15) * (-(kb_PP2A_B1__Ca)))
+  PP2A_B1_2Ca -> PP2A_B1_2Ca + Ca , ( -2) * (( 1.0E-15) * (-(kb_PP2A_B1__Ca)))
+  PP2A_B1_2Ca -> 2*PP2A_B1_2Ca , ( 1.0E-15) * (-(kb_PP2A_B1__Ca))
+  PP2A_B2p -> PP2A_B2p + PP2A_B2 , ( 1.0E-15) * (kf_PP2A_B2p)
+  PP2A_B2p -> 2*PP2A_B2p , ( -1) * (( 1.0E-15) * (kf_PP2A_B2p))
+  PP2A_B2 -> PP2A_B2p + PP2A_B2 , ( -1) * (( 1.0E-15) * (-(kb_PP2A_B2p)))
+  PP2A_B2 -> 2*PP2A_B2 , ( 1.0E-15) * (-(kb_PP2A_B2p))
+ end reactions
+
+end model
+

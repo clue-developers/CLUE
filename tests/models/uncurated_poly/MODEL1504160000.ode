@@ -1,0 +1,36 @@
+begin model MODEL1504160000
+ begin parameters
+  rho_m = 1.66E-5
+  delta_m = 0.0
+  gamma_ms = 0.157
+  gamma_ml = 0.0
+  rho_s = 4.48E-5
+  delta_s = 0.0
+  gamma_sl = 0.495
+  delta_l = 3.96
+  tau = 3.08
+  D_m = 1.0
+  D_s = 1.0
+ end parameters
+ begin init
+  cd8_in_spleen = 36400.0
+  cd8_in_lung = 1310.0
+  cd8_in_mln = 3960.0
+  s6
+  s7
+  s8
+ end init
+ begin reactions
+  cd8_in_spleen -> cd8_in_spleen + cd8_in_lung , gamma_sl
+  cd8_in_spleen -> cd8_in_spleen + s8 , ( -1) * (( rho_s) * (D_m))+( -1) * (-(delta_s))
+  cd8_in_spleen -> 2*cd8_in_spleen , ( -1) * (gamma_sl)+-(delta_s)+( rho_s) * (D_m)
+  cd8_in_lung -> cd8_in_lung + s6 , delta_l
+  cd8_in_lung -> 2*cd8_in_lung , ( -1) * (delta_l)
+  cd8_in_mln -> cd8_in_spleen + cd8_in_mln , gamma_ms
+  cd8_in_mln -> cd8_in_lung + cd8_in_mln , gamma_ml
+  cd8_in_mln -> cd8_in_mln + s7 , ( -1) * (( rho_m) * (D_m))+( -1) * (-(delta_m))
+  cd8_in_mln -> 2*cd8_in_mln , ( -1) * (gamma_ms)+-(delta_m)+( -1) * (gamma_ml)+( rho_m) * (D_m)
+ end reactions
+
+end model
+

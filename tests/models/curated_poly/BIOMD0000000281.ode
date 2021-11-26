@@ -1,0 +1,154 @@
+begin model BIOMD0000000281
+ begin parameters
+  GLU_0 = 0.0
+  ENZ_0 = 0.0
+  ENG_0 = 0.0
+  TP1_0 = 0.0
+  ADP_0 = 0.0
+  GLP_0 = 0.0
+  ETZ_0 = 0.0
+  ETG_0 = 0.0
+  GPP_0 = 0.0
+  GAP_0 = 0.0
+  DHA_0 = 0.0
+  DPN_0 = 0.0
+  DPH_0 = 0.0
+  PID_0 = 0.0
+  DGA_0 = 0.0
+  PGA_0 = 0.0
+  PYR_0 = 0.0
+  LAC_0 = 0.0
+  DIN_0 = 0.0
+  DIH_0 = 0.0
+  XI_0 = 0.0
+  XSI_0 = 0.0
+  OXY_0 = 0.0
+  XSP_0 = 0.0
+  TP2_0 = 0.0
+  DBP_0 = 0.0
+  PUE_0 = 0.0
+  PPP_0 = 0.0
+  AGP_0 = 0.0
+  MOD_0 = 0.0
+  MOB_0 = 0.0
+  MOX_0 = 0.0
+ end parameters
+ begin init
+  GLU ( "(GLU) glucose" ) 
+  ENZ = 1.0E-5 ( "(ENZ) hexokinase" ) 
+  ENG ( "(ENG) hexokinase-glucose intermediate" ) 
+  TP1 = 5.0E-4 ( "(TP1) adenosine triphosphate in store 1 (cytoplasm)" ) 
+  ADP = 1.0E-4 ( "(ADP) adenosine diphosphate" ) 
+  GLP ( "(GLP) glucose 6-phosphate" ) 
+  ETZ = 1.0E-5 ( "(ETZ) phosphofructokinase" ) 
+  ETG ( "(ETG) phosphofructokinase intermediate" ) 
+  GPP ( "(GPP) hexose diphosphate" ) 
+  GAP ( "(GAP) glyceraldehyde 3-phosphate" ) 
+  DHA ( "(DHA) dihydroxacetone phosphate" ) 
+  DPN = 1.0E-4 ( "(DPN) extramitochondrial diphospyridine nucleotide" ) 
+  DPH = 1.0E-4 ( "(DPH) extramitochondrial reduced diphospyridine nucleotide" ) 
+  PID = 0.004 ( "(PID) inorganic phosphate" ) 
+  DGA ( "(DGA) 1,3 diphosphoglycerate" ) 
+  PGA ( "(PGA) 3 phosphoglycerate" ) 
+  PYR = 0.001 ( "(PYR) pyruvate" ) 
+  LAC = 0.001 ( "(LAC) lactate" ) 
+  DIN = 3.0E-5 ( "(DIN) intramitochondrial diphospyridine nucleotide" ) 
+  DIH = 3.0E-5 ( "(DIH) intramitochondrial reduced diphospyridine nucleotide" ) 
+  XI = 2.0E-5 ( "(XI) low energy intermediate in oxidative phosphorylation" ) 
+  XSI = 2.0E-5 ( "(XSI) high energy intermediate in oxidative phosphorylation" ) 
+  OXY = 5.0E-4 ( "(OXY) oxygen" ) 
+  XSP = 2.0E-5 ( "(XSP) phosphorylated intermediate in oxidative phosphorylation" ) 
+  TP2 = 5.0E-4 ( "(TP2) adenosine triphosphate in store 2 (mitochondria)" ) 
+  DBP ( "(DBP) dibromophenol" ) 
+  PUE = 2.0E-6 ( "(PUE) enzyme concerned in ATP utilization" ) 
+  PPP = 1.0E-6 ( "(PPP) enzyme intermediate concerned in ATP utilization" ) 
+  AGP ( "(AGP) alpha-glycerophosphate" ) 
+  MOD = 5.0E-5 ( "(MOD) glyceraldehyde 3-phoshphate dehydrogenase-DPN complex" ) 
+  MOB ( "(MOB) acyl enzyme intermediate of glyceraldehyde 3-phoshphate dehydrogenase" ) 
+  MOX ( "(MOX) glyceraldehyde 3-phoshphate dehydrogenase" ) 
+ end init
+ begin reactions
+  GLU + ENZ -> GLU + ENZ + ENG , ( ( 1.0) * (1.0E-6)) * (3.0E9)
+  GLU + ENZ -> GLU + 2*ENZ , ( -1) * (( ( 1.0) * (1.0E-6)) * (3.0E9))
+  GLU + ENZ -> 2*GLU + ENZ , ( -1) * (( ( 1.0) * (1.0E-6)) * (3.0E9))
+  ENG + TP1 -> ENZ + ENG + TP1 , ( ( 1.0) * (1.0E-6)) * (1.0E10)
+  ENG + TP1 -> ENG + TP1 + ADP , ( ( 1.0) * (1.0E-6)) * (1.0E10)
+  ENG + TP1 -> ENG + TP1 + GLP , ( ( 1.0) * (1.0E-6)) * (1.0E10)
+  ENG + TP1 -> ENG + 2*TP1 , ( -1) * (( ( 1.0) * (1.0E-6)) * (1.0E10))
+  ENG + TP1 -> 2*ENG + TP1 , ( -1) * (( ( 1.0) * (1.0E-6)) * (1.0E10))
+  TP1 + ETG -> TP1 + ADP + ETG , ( ( 1.0) * (1.0E-6)) * (4.0E10)
+  TP1 + ETG -> TP1 + ETZ + ETG , ( ( 1.0) * (1.0E-6)) * (4.0E10)
+  TP1 + ETG -> TP1 + ETG + GPP , ( ( 1.0) * (1.0E-6)) * (4.0E10)
+  TP1 + ETG -> TP1 + 2*ETG , ( -1) * (( ( 1.0) * (1.0E-6)) * (4.0E10))
+  TP1 + ETG -> 2*TP1 + ETG , ( -1) * (( ( 1.0) * (1.0E-6)) * (4.0E10))
+  TP1 + PUE -> TP1 + PUE + PPP , ( ( 1.0) * (1.0E-6)) * (3.0E9)
+  TP1 + PUE -> TP1 + 2*PUE , ( -1) * (( ( 1.0) * (1.0E-6)) * (3.0E9))
+  TP1 + PUE -> 2*TP1 + PUE , ( -1) * (( ( 1.0) * (1.0E-6)) * (3.0E9))
+  ADP + DGA -> TP1 + ADP + DGA , ( ( 1.0) * (1.0E-6)) * (1.0E10)
+  ADP + DGA -> ADP + DGA + PGA , ( ( 1.0) * (1.0E-6)) * (1.0E10)
+  ADP + DGA -> ADP + 2*DGA , ( -1) * (( ( 1.0) * (1.0E-6)) * (1.0E10))
+  ADP + DGA -> 2*ADP + DGA , ( -1) * (( ( 1.0) * (1.0E-6)) * (1.0E10))
+  ADP + PGA -> TP1 + ADP + PGA , ( ( 1.0) * (1.0E-6)) * (5.0E9)
+  ADP + PGA -> ADP + PGA + PYR , ( ( 1.0) * (1.0E-6)) * (5.0E9)
+  ADP + PGA -> ADP + 2*PGA , ( -1) * (( ( 1.0) * (1.0E-6)) * (5.0E9))
+  ADP + PGA -> 2*ADP + PGA , ( -1) * (( ( 1.0) * (1.0E-6)) * (5.0E9))
+  ADP + XSP -> ADP + XI + XSP , ( ( 1.0) * (1.0E-6)) * (1.5E10)
+  ADP + XSP -> ADP + XSP + TP2 , ( ( 1.0) * (1.0E-6)) * (1.5E10)
+  ADP + XSP -> ADP + 2*XSP , ( -1) * (( ( 1.0) * (1.0E-6)) * (1.5E10))
+  ADP + XSP -> 2*ADP + XSP , ( -1) * (( ( 1.0) * (1.0E-6)) * (1.5E10))
+  GLP + ETZ -> GLP + ETZ + ETG , ( ( 1.0) * (1.0E-6)) * (4.0E10)
+  GLP + ETZ -> GLP + 2*ETZ , ( -1) * (( ( 1.0) * (1.0E-6)) * (4.0E10))
+  GLP + ETZ -> 2*GLP + ETZ , ( -1) * (( ( 1.0) * (1.0E-6)) * (4.0E10))
+  GPP -> GPP + GAP , ( ( 1.0) * (1.0E-6)) * (100000.0)
+  GPP -> GPP + DHA , ( ( 1.0) * (1.0E-6)) * (100000.0)
+  GPP -> 2*GPP , ( -1) * (( ( 1.0) * (1.0E-6)) * (100000.0))
+  GAP + MOD -> GAP + DPH + MOD , ( ( 1.0) * (1.0E-6)) * (6.0E11)
+  GAP + MOD -> GAP + MOD + MOB , ( ( 1.0) * (1.0E-6)) * (6.0E11)
+  GAP + MOD -> GAP + 2*MOD , ( -1) * (( ( 1.0) * (1.0E-6)) * (6.0E11))
+  GAP + MOD -> 2*GAP + MOD , ( -1) * (( ( 1.0) * (1.0E-6)) * (6.0E11))
+  DHA + DPH -> DHA + DPN + DPH , ( ( 1.0) * (1.0E-6)) * (2.0E9)
+  DHA + DPH -> DHA + DPH + AGP , ( ( 1.0) * (1.0E-6)) * (2.0E9)
+  DHA + DPH -> DHA + 2*DPH , ( -1) * (( ( 1.0) * (1.0E-6)) * (2.0E9))
+  DHA + DPH -> 2*DHA + DPH , ( -1) * (( ( 1.0) * (1.0E-6)) * (2.0E9))
+  DPN + LAC -> DPN + DPH + LAC , ( ( 1.0) * (1.0E-6)) * (1.0E7)
+  DPN + LAC -> DPN + PYR + LAC , ( ( 1.0) * (1.0E-6)) * (1.0E7)
+  DPN + LAC -> DPN + 2*LAC , ( -1) * (( ( 1.0) * (1.0E-6)) * (1.0E7))
+  DPN + LAC -> 2*DPN + LAC , ( -1) * (( ( 1.0) * (1.0E-6)) * (1.0E7))
+  DPN + AGP -> DHA + DPN + AGP , ( ( 1.0) * (1.0E-6)) * (8.0E7)
+  DPN + AGP -> DPN + DPH + AGP , ( ( 1.0) * (1.0E-6)) * (8.0E7)
+  DPN + AGP -> DPN + 2*AGP , ( -1) * (( ( 1.0) * (1.0E-6)) * (8.0E7))
+  DPN + AGP -> 2*DPN + AGP , ( -1) * (( ( 1.0) * (1.0E-6)) * (8.0E7))
+  DPN + MOX -> DPN + MOD + MOX , ( ( 1.0) * (1.0E-6)) * (6.0E9)
+  DPN + MOX -> DPN + 2*MOX , ( -1) * (( ( 1.0) * (1.0E-6)) * (6.0E9))
+  DPN + MOX -> 2*DPN + MOX , ( -1) * (( ( 1.0) * (1.0E-6)) * (6.0E9))
+  DPH + PYR -> DPN + DPH + PYR , ( ( 1.0) * (1.0E-6)) * (5.0E8)
+  DPH + PYR -> DPH + PYR + LAC , ( ( 1.0) * (1.0E-6)) * (5.0E8)
+  DPH + PYR -> DPH + 2*PYR , ( -1) * (( ( 1.0) * (1.0E-6)) * (5.0E8))
+  DPH + PYR -> 2*DPH + PYR , ( -1) * (( ( 1.0) * (1.0E-6)) * (5.0E8))
+  PID + XSI -> PID + XSI + XSP , ( ( 1.0) * (1.0E-6)) * (4.0E8)
+  PID + XSI -> PID + 2*XSI , ( -1) * (( ( 1.0) * (1.0E-6)) * (4.0E8))
+  PID + XSI -> 2*PID + XSI , ( -1) * (( ( 1.0) * (1.0E-6)) * (4.0E8))
+  PID + MOB -> PID + DGA + MOB , ( ( 1.0) * (1.0E-6)) * (4.0E8)
+  PID + MOB -> PID + MOB + MOX , ( ( 1.0) * (1.0E-6)) * (4.0E8)
+  PID + MOB -> PID + 2*MOB , ( -1) * (( ( 1.0) * (1.0E-6)) * (4.0E8))
+  PID + MOB -> 2*PID + MOB , ( -1) * (( ( 1.0) * (1.0E-6)) * (4.0E8))
+  PYR + DIN -> PYR + DIN + DIH , ( 4) * (( ( 1.0) * (1.0E-6)) * (2.0E7))
+  PYR + DIN -> PYR + 2*DIN , ( -4) * (( ( 1.0) * (1.0E-6)) * (2.0E7))
+  PYR + DIN -> 2*PYR + DIN , ( -1) * (( ( 1.0) * (1.0E-6)) * (2.0E7))
+  DIH + XI + OXY -> DIN + DIH + XI + OXY , ( ( 1.0) * (1.0E-6)) * (7.5E12)
+  DIH + XI + OXY -> DIH + XI + XSI + OXY , ( 3) * (( ( 1.0) * (1.0E-6)) * (7.5E12))
+  DIH + XI + OXY -> DIH + XI + 2*OXY , ( -1) * (( ( 1.0) * (1.0E-6)) * (7.5E12))
+  DIH + XI + OXY -> DIH + 2*XI + OXY , ( -3) * (( ( 1.0) * (1.0E-6)) * (7.5E12))
+  DIH + XI + OXY -> 2*DIH + XI + OXY , ( -1) * (( ( 1.0) * (1.0E-6)) * (7.5E12))
+  XSI + DBP -> XI + XSI + DBP , ( ( 1.0) * (1.0E-6)) * (1.2E8)
+  XSI + DBP -> 2*XSI + DBP , ( -1) * (( ( 1.0) * (1.0E-6)) * (1.2E8))
+  TP2 + DBP -> TP1 + TP2 + DBP , ( ( 1.0) * (1.0E-6)) * (4000000.0)
+  TP2 + DBP -> 2*TP2 + DBP , ( -1) * (( ( 1.0) * (1.0E-6)) * (4000000.0))
+  PPP -> ADP + PPP , ( ( 1.0) * (1.0E-6)) * (2000000.0)
+  PPP -> PID + PPP , ( ( 1.0) * (1.0E-6)) * (2000000.0)
+  PPP -> PUE + PPP , ( ( 1.0) * (1.0E-6)) * (2000000.0)
+  PPP -> 2*PPP , ( -1) * (( ( 1.0) * (1.0E-6)) * (2000000.0))
+ end reactions
+
+end model
+
