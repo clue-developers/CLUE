@@ -561,7 +561,7 @@ class Subspace(object):
             for j in vec.nonzero_iter():
                 # ordering is important due to the implementation of
                 # multiplication for SparsePolynomial
-                if isinstance(rhs[0], SparsePolynomial) or isinstance(rhs[0], RationalFunction):
+                if not isinstance(vec._data[j], FracElement):
                     new_rhs[i] += rhs[j] * vec._data[j]
                 else:
                     new_rhs[i] += rhs[j] * vec._data[j].as_expr()
@@ -636,7 +636,10 @@ class Subspace(object):
             old_vars = [old_vars] if type(old_vars) == sympy.core.symbol.Symbol else old_vars
             subs = {v : 0 for v in old_vars}
             for j in range(len(lpivots)):
-                subs[old_vars[lpivots[j]]] += new_vars[j]/basis[j][lpivots[j]].as_expr()
+                if isinstance(basis[j][lpivots[j]], FracElement):
+                    subs[old_vars[lpivots[j]]] += new_vars[j]/basis[j][lpivots[j]].as_expr()
+                else:
+                    subs[old_vars[lpivots[j]]] += new_vars[j]/basis[j][lpivots[j]]
 
             shrinked_expr = [expr.subs(subs) for expr in new_rhs]
             # Maybe here add for expanding the new expression
@@ -724,7 +727,9 @@ def _func_for_expr(expr, varnames, domain):
         def __func(*args):
             base = _func_for_expr(expr.args[0], varnames, domain)(*args)
             exp = _func_for_expr(expr.args[1], varnames, domain)(*args)
-            return base**int(exp.as_expr())
+            if isinstance(exp, FracElement):
+                return base**int(exp.as_expr())
+            return base**int(exp)
     elif(isinstance(expr, sympy.core.numbers.Rational)):
         def __func(*args): #pylint: disable=unused-argument
             return domain.convert(expr)
@@ -1496,7 +1501,7 @@ class FODESystem:
             observable = [p.linear_part_as_vec() for p in observable]
         else:
             logger.debug(":lumping: observables seem to be in SymPy expression format, converting")
-            observable = [[self.field(p.diff(sympy.Symbol(x))) for x in self.variables] for p in observable]
+            observable = [[self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables] for p in observable]
 
             
         
