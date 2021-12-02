@@ -305,6 +305,7 @@ def read_system(filename, read_ic=False, parser="polynomial"):
         raise KeyError("Neither ODE nor reactions sections is found, cannot generate an ODE system")
 
     varnames = get_varnames(sections_raw['ODE'] if 'ODE' in sections_raw else sections_raw['reactions'])
+    varnames = natsorted(varnames)
 
     equations = None
     logging.debug("Parsing equations")

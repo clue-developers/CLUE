@@ -561,7 +561,10 @@ class Subspace(object):
             for j in vec.nonzero_iter():
                 # ordering is important due to the implementation of
                 # multiplication for SparsePolynomial
-                new_rhs[i] += rhs[j] * vec._data[j]
+                if not isinstance(vec._data[j], FracElement):
+                    new_rhs[i] += rhs[j] * vec._data[j]
+                else:
+                    new_rhs[i] += rhs[j] * vec._data[j].as_expr()
 
         logger.debug("Plugging zero to nonpivot coordinates")
 
@@ -633,7 +636,10 @@ class Subspace(object):
             old_vars = [old_vars] if type(old_vars) == sympy.core.symbol.Symbol else old_vars
             subs = {v : 0 for v in old_vars}
             for j in range(len(lpivots)):
-                subs[old_vars[lpivots[j]]] += new_vars[j]/basis[j][lpivots[j]]
+                if isinstance(basis[j][lpivots[j]], FracElement):
+                    subs[old_vars[lpivots[j]]] += new_vars[j]/basis[j][lpivots[j]].as_expr()
+                else:
+                    subs[old_vars[lpivots[j]]] += new_vars[j]/basis[j][lpivots[j]]
 
             shrinked_expr = [expr.subs(subs) for expr in new_rhs]
             # Maybe here add for expanding the new expression
@@ -721,12 +727,17 @@ def _func_for_expr(expr, varnames, domain):
         def __func(*args):
             base = _func_for_expr(expr.args[0], varnames, domain)(*args)
             exp = _func_for_expr(expr.args[1], varnames, domain)(*args)
-            return base**exp
+            if isinstance(exp, FracElement):
+                return base**int(exp.as_expr())
+            return base**int(exp)
     elif(isinstance(expr, sympy.core.numbers.Rational)):
         def __func(*args): #pylint: disable=unused-argument
             return domain.convert(expr)
-    elif(isinstance(expr, sympy.core.symbol.Symbol)):
+    elif(isinstance(expr, sympy.core.symbol.Symbol) and str(expr) in varnames):
         __func = lambdify([symbols(v) for v in varnames], expr, modules="sympy")
+    elif(isinstance(expr, sympy.core.symbol.Symbol)):
+        def __func(*args):
+            return domain.convert(expr)
     else:
         raise TypeError("Incorrect expression found [%s]: %s" %(type(expr), expr))
 
@@ -744,7 +755,6 @@ def _automated_differentiation(expr, varnames, domain, point):
     else:
         func = _func_for_expr(expr, tuple(varnames), domain)
         to_eval = [NualNumber([domain.convert(point[i])] + [domain.convert(1) if j == i else domain.convert(0) for j in range(len(point))]) for i in range(len(point))]
-
         return func(*to_eval)
 
 
@@ -1148,6 +1158,7 @@ class FODESystem:
         if(isinstance(funcs[0], (SparsePolynomial, RationalFunction))):
             n = sum(len(func.variables()) for func in funcs)
         else:
+            # TODO: fix for the presence of parametrs
             n = sum(len(func.free_symbols) for func in funcs)
         m = 1 # number of generated matrices
 
@@ -1559,11 +1570,25 @@ class FODESystem:
             logger.debug(":lumping: Input were fractions in sympy, casting to RationalFunction")
             self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
         else:
-            logger.debug(":lumping: Input is expected to be in SymPy format")
+            logger.debug(":lumping: Input is expected to be in SymPy format, computing the ground field")
+            allvars = set()
+            for eq in self.equations:
+                allvars = allvars.union(eq.free_symbols)
+            params = list(filter(lambda s: str(s) not in self.variables, allvars))
+            if len(params) == 0:
+                logger.debug(":lumping: no parameters, the ground field is QQ then")
+            else:
+                self.field = sympy.FractionField(QQ, [str(p) for p in params])
 
         if isinstance(observable[0], PolyElement):
             logger.debug(":lumping: observables in PolyElement format. Casting to SparsePolynomial")
-            observable = [SparsePolynomial.from_sympy(el, self.variables) for el in observable]
+            observable = [SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable]
+        if isinstance(observable[0], SparsePolynomial):
+            observable = [p.linear_part_as_vec() for p in observable]
+        else:
+            logger.debug(":lumping: observables seem to be in SymPy expression format, converting")
+            observable = [[self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables] for p in observable]
+
             
         
         result = self._lumping(observable,
@@ -1610,7 +1635,7 @@ class FODESystem:
         Performs a lumping of a polynomial ODE system represented by SparsePolynomial
         Input
             - observable - a nonempty list of linear forms in state variables
-                        that must be kept nonlumped
+                        that must be kept nonlumped, linear forms represented as lists of coefficients
             - new_vars_name (optional) - the name for variables in the lumped polynomials
             - print_system and print_reduction (optional) - whether to print the original system and the result, respectively on the screen
             - ic - Initial conditions for some elements on the system to be lumped
@@ -1634,7 +1659,7 @@ class FODESystem:
         field = self.field
         vectors_to_include = []
         for linear_form in observable:
-            vec = SparseVector.from_list(linear_form.linear_part_as_vec(), field)
+            vec = SparseVector.from_list(linear_form, field)
             vectors_to_include.append(vec)
         logger.debug(":ilumping: Computing the lumping subspace...")
         start = timeit.default_timer()
