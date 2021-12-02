@@ -1,4 +1,4 @@
-Read the model in 0.17698931694030762s
+Read the model in 0.1719217300415039s
 Original system:
 ADP_ch' = -3500*ADP_ch**2*Light_on*Pi_ch**2/((ADP_ch + 7/500)*(Pi_ch + 3/10)) + 40*ATP_ch**2*F6P_ch*FBP_ch*G1P_ch**2*PGA_ch/(F6P_ch/50 + FBP_ch/50 + (ADP_ch/10 + 1)*(ATP_ch + 2/25)*(G1P_ch + 2/25) + 4*Pi_ch/(5*PGA_ch)) + 10000*ATP_ch**2*Light_on*PGA_ch*Pi_ch*Ru5P_ch**2/((ADP_ch/8 + ATP_ch*(2*ADP_ch/5 + 1) + 1/20)*(PGA_ch/40 + Pi_ch/80 + Ru5P_ch + RuBP_ch/14 + 1/20)) + 500000000*ATP_ch*Light_on*PGA_ch*(-100000*ADP_ch*BPGA_ch/31 + ATP_ch*PGA_ch)
 ATP_ch' = 3500*ADP_ch**2*Light_on*Pi_ch**2/((ADP_ch + 7/500)*(Pi_ch + 3/10)) - 40*ATP_ch**2*F6P_ch*FBP_ch*G1P_ch**2*PGA_ch/(F6P_ch/50 + FBP_ch/50 + (ADP_ch/10 + 1)*(ATP_ch + 2/25)*(G1P_ch + 2/25) + 4*Pi_ch/(5*PGA_ch)) - 10000*ATP_ch**2*Light_on*PGA_ch*Pi_ch*Ru5P_ch**2/((ADP_ch/8 + ATP_ch*(2*ADP_ch/5 + 1) + 1/20)*(PGA_ch/40 + Pi_ch/80 + Ru5P_ch + RuBP_ch/14 + 1/20)) - 500000000*ATP_ch*Light_on*PGA_ch*(-100000*ADP_ch*BPGA_ch/31 + ATP_ch*PGA_ch)
@@ -84,4 +84,4 @@ y23' = -500000000*y10*y2*y20*y23*(-y12*y21*y9/16000000 + y2*y20*y23)
 y24' = 40*y1**2*y11*y5*y6*y7**2/(y5/50 + y6/50 + (y0/10 + 1)*(y1 + 2/25)*(y7 + 2/25) + 4*y12/(5*y11)) - 40*y12**2*y24/(y12 + 2*y7 + 1/10)
 The size of the original model is 28
 The size of the reduced model is 25
-Computation took 659.0479056835175 seconds
+Computation took 630.5666062831879 seconds

@@ -12,7 +12,7 @@ print(f"Read the model in {time.time() - start}s")
 obs = SparsePolynomial.from_string("x_CO2", system.variables)
 
 start = time.time()
-lumped = system.lumping([obs], print_system=True, loglevel="INFO")
+lumped = system.lumping([obs], print_system=True, loglevel="DEBUG")
 end = time.time()
 
 print(f"The size of the original model is {system.size}")

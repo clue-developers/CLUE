@@ -805,6 +805,36 @@ class FODESystem:
     @property
     def name(self): return self._name
     @cached_property
+    def bounds(self): 
+        r'''
+            Bounds of the degrees for the right hand side.
+
+            This tuple contains bounds for the degree of the numerator and denominator
+            of the rational functions (or polynomials) that are the equations of 
+            the differential system (see property :func:`equations`).
+        '''
+        ## Checking the data is of the correct types
+        if(isinstance(self.equations[0], PolyElement)):
+            logger.debug(":bounds: detected sympy polynomial. Casting to SparsePolynomial")
+            self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
+        elif(isinstance(self.equations[0], FracElement)):
+            logger.debug(":bounds: detected sympy polynomial. Casting to SparsePolynomial")
+            self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
+
+        ## Computing the bounds
+        if(isinstance(self.equations[0], SparsePolynomial)):
+            Dn = max(equ.degree() for equ in self.equations)
+            Dd = 0
+        elif(isinstance(self.equations[0], RationalFunction)):
+            Dn = max(equ.num.degree() for equ in self.equations)
+            Dd = max(equ.denom.degree() for equ in self.equations)
+        else: # sympy expression case
+            bounds = [FODESystem.bound_degree_expr(equ) for equ in self.equations]
+            Dn = max(bound[0] for bound in bounds)
+            Dd = max(bound[1] for bound in bounds)
+        return (Dn, Dd)
+
+    @cached_property
     def size(self): return len(self._equations)
 
     @cached_property
@@ -1056,7 +1086,6 @@ class FODESystem:
         m = 1 # number of random generated matrices
         start = timeit.default_timer()
         finished = False
-        D = None
         while(not finished):
             while(pivot_index >= 0):
                 new_matr = FODESystem.build_random_evaluation_matrix(J)
@@ -1074,19 +1103,9 @@ class FODESystem:
             else: # we checked (probabilistic) if we have finished
                 logger.debug(f"We compute the maximal bound for the random coefficients to have less than {prob_err} probabilites \
                 to get an element in the current space.")
-                # D is the degree for Schwarz-Zippel Lemma
-                if(D is None): # only computed once if ever needed
-                    if(isinstance(rational_functions[0], SparsePolynomial)):
-                        D = max(max(el.degree() for el in row) for row in J)
-                    elif(isinstance(rational_functions[0], RationalFunction)):
-                        D = 0; max_num = -1
-                        for row in J:
-                            for el in row:
-                                if(el != 0):
-                                    max_num = max(el.num.degree(), max_num)
-                                    D += el.denom.degree()
-                
-                N = int(math.ceil(D/prob_err))
+                Dn, Dd = self.bounds
+                # Value for the size of coefficients (see paper ``Exact linear reduction for rational dynamics``)
+                N = int(math.ceil((Dn + 2*m*Dd)/prob_err)) + self.size*Dd
 
                 logger.debug(f"Bound for the coefficients: {N}")
 
@@ -1134,7 +1153,6 @@ class FODESystem:
 
         start = timeit.default_timer()
         finished = False
-        D = None
         while(not finished):
             while(pivot_index >= 0):
                 new_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field)
@@ -1152,20 +1170,9 @@ class FODESystem:
             else: # we checked (probabilistic) if we have finished
                 logger.debug(f"We compute the maximal bound for the random coefficients to have less than {prob_err} probabilites \
                 to get an element in the current space.")
-                # D is the degree for Schwarz-Zippel Lemma
-                if(D is None): # only computed once if ever needed
-                    if(isinstance(funcs[0], SparsePolynomial)): # polynomial case
-                        D = max(func.degree() for func in funcs) - 1 # derivatives reduces the degree in 1  
-                    elif(isinstance(funcs[0], RationalFunction)):
-                        ## We add all the degrees of denominators in the jacobian
-                        D = sum(2*len(func.denom.variables())*func.denom.degree() for func in funcs if func != 0)
-                        ## We add the maximal degree on the numerator in the jacobian
-                        D += (max(func.num.degree() + func.denom.degree() for func in funcs if func != 0) - 1)
-                    else: # sympy expression case
-                        logger.warning(f"Sympy case detected for the degree bound. Not yet implemented, so we pick 100 by default")
-                        D = 100 
-                
-                N = int(math.ceil(D/prob_err))
+                Dn, Dd = self.bounds
+                # Value for the size of coefficients (see paper ``Exact linear reduction for rational dynamics``)
+                N = int(math.ceil((Dn + 2*m*Dd)/prob_err)) + self.size*Dd
 
                 logger.debug(f"Bound for the (prob.) coefficients: {N}")
 
@@ -1322,6 +1329,83 @@ class FODESystem:
                 raise e
             except ZeroDivisionError:
                 pass
+    
+    @staticmethod
+    def bound_degree_expr(expr: sympy.core):
+        r'''
+            Static method to compute a degree bound for a sympy expression
+            
+            This method computes a degree bound for the numerator and denominator of a 
+            sympy rational expression without expanding it.
+
+            Input
+                - ``exp`` - a sympy expression
+            Output
+                - ``(num_bound, denom_bound)`` - ``num_bound`` is the upper bound for the degree of
+                the numerator and ``denom_bound`` is the upper bound for the degree of the denominator.
+
+            Examples::
+
+                >>> from sympy import Symbol
+                >>> from clue import FODESystem
+                >>> a = sympy.Symbol("a")
+                >>> b = sympy.Symbol("b")
+                >>> c = sympy.Symbol("c")
+                >>> d = sympy.Symbol("d")
+                >>> FODESystem.bound_degree_expr(a/b)
+                (1, 1)
+                >>> FODESystem.bound_degree_expr(a + b)
+                (1, 0)
+                >>> FODESystem.bound_degree_expr(a/b + c/d)
+                (2, 2)
+                >>> FODESystem.bound_degree_expr((a**2)/1)
+                (2, 0)
+                >>> FODESystem.bound_degree_expr((a**2)/b)
+                (2, 1)
+                >>> FODESystem.bound_degree_expr(a/(b**42))
+                (1, 42)
+                >>> FODESystem.bound_degree_expr((a+b)**2/1)
+                (2, 0)
+                >>> FODESystem.bound_degree_expr((a*b*(1+b)) / (42 - a)**2)
+                (3, 2)
+                >>> FODESystem.bound_degree_expr(1/(b/(a + b) + 1))
+                (1, 1)
+                >>> FODESystem.bound_degree_expr((1 + a**3 / b**2) / (1 + b / (a + b)))
+                (4, 3)
+                >>> FODESystem.bound_degree_expr((a**2 + b**2*c**2) / d**3)
+                (4, 3)
+        '''
+        if isinstance(expr, sympy.core.mul.Mul):
+            arg_bounds = [FODESystem.bound_degree_expr(arg) for arg in expr._args]
+            num_bound = sum([bound[0] for bound in arg_bounds]) 
+            denom_bound = sum([bound[1] for bound in arg_bounds])
+        elif isinstance(expr, sympy.core.add.Add):
+            arg_bounds = [FODESystem.bound_degree_expr(arg) for arg in expr._args]
+            denom_bound = sum([bound[1] for bound in arg_bounds])
+            if denom_bound == 0:
+                num_bound = max([bound[0] for bound in arg_bounds])
+            else:
+                num_bound = max([bound[0] + denom_bound - bound[1] for bound in arg_bounds])
+        elif isinstance(expr, sympy.core.power.Pow):
+            arg_bounds = FODESystem.bound_degree_expr(expr._args[0])
+            power = expr._args[1]
+            if power >= 0:
+                num_bound = arg_bounds[0]*power
+                denom_bound = arg_bounds[1]*power
+            else:
+                num_bound = arg_bounds[1]*(-power)
+                denom_bound = arg_bounds[0]*(-power)
+        elif isinstance(expr, sympy.core.symbol.Symbol):
+            num_bound = 1
+            denom_bound = 0
+        elif isinstance(expr, sympy.core.numbers.Number):
+            num_bound = 0
+            denom_bound = 0
+        else:
+            raise NotImplementedError
+
+        return (num_bound, denom_bound)
+
     ##############################################################################################################
     ##############################################################################################################
 
@@ -1455,6 +1539,8 @@ class FODESystem:
         old_level = logger.getEffectiveLevel()
         if(loglevel == "INFO"):
             logger.setLevel(logging.INFO)
+        elif(loglevel == "DEBUG"):
+            logger.setLevel(logging.DEBUG)
         elif(loglevel == "WARNING"):
             logger.setLevel(logging.WARNING)
         elif(loglevel == "ERROR"):
