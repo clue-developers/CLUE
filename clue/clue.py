@@ -839,7 +839,7 @@ class FODESystem:
             Dn = max(equ.num.degree() for equ in self.equations)
             Dd = max(equ.denom.degree() for equ in self.equations)
         else: # sympy expression case
-            bounds = [FODESystem.bound_degree_expr(equ) for equ in self.equations]
+            bounds = [FODESystem.bound_degree_expr(equ, self.variables) for equ in self.equations]
             Dn = max(bound[0] for bound in bounds)
             Dd = max(bound[1] for bound in bounds)
         return (Dn, Dd)
@@ -1341,7 +1341,7 @@ class FODESystem:
                 pass
     
     @staticmethod
-    def bound_degree_expr(expr: sympy.core):
+    def bound_degree_expr(expr: sympy.core, varnames=None):
         r'''
             Static method to compute a degree bound for a sympy expression
             
@@ -1350,6 +1350,8 @@ class FODESystem:
 
             Input
                 - ``exp`` - a sympy expression
+                - ``varnames`` - list of names for the symbols that will counted for degree. Other symbols will 
+                  be ignored. If ``None`` is given, then all symbols will be taken into consideration.
             Output
                 - ``(num_bound, denom_bound)`` - ``num_bound`` is the upper bound for the degree of
                 the numerator and ``denom_bound`` is the upper bound for the degree of the denominator.
@@ -1386,18 +1388,18 @@ class FODESystem:
                 (4, 3)
         '''
         if isinstance(expr, sympy.core.mul.Mul):
-            arg_bounds = [FODESystem.bound_degree_expr(arg) for arg in expr._args]
+            arg_bounds = [FODESystem.bound_degree_expr(arg, varnames) for arg in expr._args]
             num_bound = sum([bound[0] for bound in arg_bounds]) 
             denom_bound = sum([bound[1] for bound in arg_bounds])
         elif isinstance(expr, sympy.core.add.Add):
-            arg_bounds = [FODESystem.bound_degree_expr(arg) for arg in expr._args]
+            arg_bounds = [FODESystem.bound_degree_expr(arg, varnames) for arg in expr._args]
             denom_bound = sum([bound[1] for bound in arg_bounds])
             if denom_bound == 0:
                 num_bound = max([bound[0] for bound in arg_bounds])
             else:
                 num_bound = max([bound[0] + denom_bound - bound[1] for bound in arg_bounds])
         elif isinstance(expr, sympy.core.power.Pow):
-            arg_bounds = FODESystem.bound_degree_expr(expr._args[0])
+            arg_bounds = FODESystem.bound_degree_expr(expr._args[0], varnames)
             power = expr._args[1]
             if power >= 0:
                 num_bound = arg_bounds[0]*power
@@ -1406,7 +1408,7 @@ class FODESystem:
                 num_bound = arg_bounds[1]*(-power)
                 denom_bound = arg_bounds[0]*(-power)
         elif isinstance(expr, sympy.core.symbol.Symbol):
-            num_bound = 1
+            num_bound = 1 if (varnames is None or str(expr) in varnames) else 0
             denom_bound = 0
         elif isinstance(expr, sympy.core.numbers.Number):
             num_bound = 0
@@ -1582,14 +1584,12 @@ class FODESystem:
         if isinstance(observable[0], PolyElement):
             logger.debug(":lumping: observables in PolyElement format. Casting to SparsePolynomial")
             observable = [SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable]
-        if isinstance(observable[0], SparsePolynomial):
+        elif isinstance(observable[0], SparsePolynomial):
             observable = [p.linear_part_as_vec() for p in observable]
         else:
             logger.debug(":lumping: observables seem to be in SymPy expression format, converting")
             observable = [[self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables] for p in observable]
 
-            
-        
         result = self._lumping(observable,
                     new_vars_name,
                     print_system, 
