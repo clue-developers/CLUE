@@ -110,34 +110,39 @@ class SparseVector(object):
         """
         self = self + c * v
         """
-        if not coef:
-            return
+        if not coef: # case coeff == 0
+            return # no changes
 
         new_nonzero = []
         left, right = 0, 0
         while (left < len(self._nonzero) or right < len(vect._nonzero)):
-            if right == len(vect._nonzero):
+            if right == len(vect._nonzero): # all remaining coeffs from vect are zero
+                ## Nothing else needs to be done
                 new_nonzero.extend(self._nonzero[left:])
                 left = len(self._nonzero)
-            elif left == len(self._nonzero):
+            elif left == len(self._nonzero): # all remaining coeffs from self are zero
+                ## We add all the elements of vect
                 new_nonzero.extend(vect._nonzero[right:])
                 for i in range(right, len(vect._nonzero)):
                     self._data[vect._nonzero[i]] = coef * vect._data[vect._nonzero[i]]
                 right = len(vect._nonzero)
-            else:
-                if self._nonzero[left] == vect._nonzero[right]:
+            else: ## There are remaining elements for both vectors
+                if self._nonzero[left] == vect._nonzero[right]: # We are on the same index
+                    ## Compute the new value
                     result = self._data[self._nonzero[left]] + coef * vect._data[vect._nonzero[right]]
-                    if result:
+                    if result: # If not zero, we keep the information
                         self._data[self._nonzero[left]] = result
                         new_nonzero.append(self._nonzero[left])
-                    else:
+                    else: # Otherwise, we remove the element
                         del self._data[self._nonzero[left]]
                     left += 1
                     right += 1
-                elif self._nonzero[left] < vect._nonzero[right]:
+                elif self._nonzero[left] < vect._nonzero[right]: # Next coefficient is only for self
+                    ## We do nothing
                     new_nonzero.append(self._nonzero[left])
                     left += 1
-                else:
+                else: # Next coefficient is only for vect
+                    ## We add this part
                     new_nonzero.append(vect._nonzero[right])
                     self._data[vect._nonzero[right]] = coef * vect._data[vect._nonzero[right]]
                     right += 1
@@ -409,7 +414,7 @@ class Subspace(object):
     def reduce_vector(self, vector):
         """
         Input
-          - ``vector`` - a SparseVector to te reduced with respect to this subspace. This is 
+          - ``vector`` - a SparseVector to be reduced with respect to this subspace. This is 
             performed inplace, changing the input of the method.
         Output
           the vector once it is reduced.
@@ -844,37 +849,6 @@ class FODESystem:
             Dd = max(bound[1] for bound in bounds)
         return (Dn, Dd)
     @cached_property
-    def field(self):
-        r'''
-            Property that gives the ground field of the system.
-
-            The ground field is a sympy structure that allows the user to manipulate any rational
-            expression in all the symbols appearing in the equations that are not variables (see 
-            property :func:`variables`).
-
-            This is different that the property :func:`pars`, since those are the actual variables
-            that are constant.
-        '''
-        if(isinstance(self.equations[0], PolyElement)):
-            logger.debug(":field: detected sympy polynomial. Casting to SparsePolynomial")
-            self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
-        elif(isinstance(self.equations[0], FracElement)):
-            logger.debug(":field: detected sympy polynomial. Casting to SparsePolynomial")
-            self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
-
-        if(isinstance(self.equations[0], (SparsePolynomial, RationalFunction))):
-            return self.equations[0].domain
-        else:
-            allvars = set()
-            for eq in self.equations:
-                allvars = allvars.union(eq.free_symbols)
-            params = list(filter(lambda s: str(s) not in self.variables, allvars))
-            if len(params) == 0:
-                logger.debug(":field: no parameters, the ground field is QQ then")
-            else:
-                return sympy.FractionField(QQ, [str(p) for p in params])
-
-    @cached_property
     def size(self): return len(self._equations)
 
     @cached_property
@@ -915,9 +889,34 @@ class FODESystem:
 
     @cached_property
     def field(self):
+        r'''
+            Property that gives the ground field of the system.
+
+            The ground field is a sympy structure that allows the user to manipulate any rational
+            expression in all the symbols appearing in the equations that are not variables (see 
+            property :func:`variables`).
+
+            This is different that the property :func:`pars`, since those are the actual variables
+            that are constant.
+        '''
+        if(isinstance(self.equations[0], PolyElement)):
+            logger.debug(":field: detected sympy polynomial. Casting to SparsePolynomial")
+            self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
+        elif(isinstance(self.equations[0], FracElement)):
+            logger.debug(":field: detected sympy polynomial. Casting to SparsePolynomial")
+            self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
+
         if(isinstance(self.equations[0], (SparsePolynomial, RationalFunction))):
             return self.equations[0].domain
-        return QQ
+        else:
+            allvars = set()
+            for eq in self.equations:
+                allvars = allvars.union(eq.free_symbols)
+            params = list(filter(lambda s: str(s) not in self.variables, allvars))
+            if len(params) == 0:
+                logger.debug(":field: no parameters, the ground field is QQ then")
+            else:
+                return sympy.FractionField(QQ, [str(p) for p in params])
 
     @cached_property
     def type(self):
