@@ -843,6 +843,36 @@ class FODESystem:
             Dn = max(bound[0] for bound in bounds)
             Dd = max(bound[1] for bound in bounds)
         return (Dn, Dd)
+    @cached_property
+    def field(self):
+        r'''
+            Property that gives the ground field of the system.
+
+            The ground field is a sympy structure that allows the user to manipulate any rational
+            expression in all the symbols appearing in the equations that are not variables (see 
+            property :func:`variables`).
+
+            This is different that the property :func:`pars`, since those are the actual variables
+            that are constant.
+        '''
+        if(isinstance(self.equations[0], PolyElement)):
+            logger.debug(":field: detected sympy polynomial. Casting to SparsePolynomial")
+            self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
+        elif(isinstance(self.equations[0], FracElement)):
+            logger.debug(":field: detected sympy polynomial. Casting to SparsePolynomial")
+            self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
+
+        if(isinstance(self.equations[0], (SparsePolynomial, RationalFunction))):
+            return self.equations[0].domain
+        else:
+            allvars = set()
+            for eq in self.equations:
+                allvars = allvars.union(eq.free_symbols)
+            params = list(filter(lambda s: str(s) not in self.variables, allvars))
+            if len(params) == 0:
+                logger.debug(":field: no parameters, the ground field is QQ then")
+            else:
+                return sympy.FractionField(QQ, [str(p) for p in params])
 
     @cached_property
     def size(self): return len(self._equations)
@@ -1088,7 +1118,6 @@ class FODESystem:
         J = [[rf.derivative(v) for rf in rational_functions] for v in variables]
 
         # we create the matrices by evaluating the jacobian
-        field = rational_functions[0].domain
         random_matr = [FODESystem.build_random_evaluation_matrix(J)]
         subspace = Subspace(field)
         pivot_index = subspace.absorb_new_vector(random_matr[0].to_vector())
@@ -1571,15 +1600,7 @@ class FODESystem:
             logger.debug(":lumping: Input were fractions in sympy, casting to RationalFunction")
             self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
         else:
-            logger.debug(":lumping: Input is expected to be in SymPy format, computing the ground field")
-            allvars = set()
-            for eq in self.equations:
-                allvars = allvars.union(eq.free_symbols)
-            params = list(filter(lambda s: str(s) not in self.variables, allvars))
-            if len(params) == 0:
-                logger.debug(":lumping: no parameters, the ground field is QQ then")
-            else:
-                self.field = sympy.FractionField(QQ, [str(p) for p in params])
+            logger.debug(":lumping: Input is expected to be in SymPy format, ground field will be adjusted if necessary")
 
         if isinstance(observable[0], PolyElement):
             logger.debug(":lumping: observables in PolyElement format. Casting to SparsePolynomial")
