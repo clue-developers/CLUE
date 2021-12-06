@@ -1158,8 +1158,7 @@ class FODESystem:
         if(isinstance(funcs[0], (SparsePolynomial, RationalFunction))):
             n = sum(len(func.variables()) for func in funcs)
         else:
-            # TODO: fix for the presence of parametrs
-            n = sum(len(func.free_symbols) for func in funcs)
+            n = sum(len([el for el in func.free_symbols if str(el) in self.variables]) for func in funcs)
         m = 1 # number of generated matrices
 
         start = timeit.default_timer()
