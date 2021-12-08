@@ -8,6 +8,7 @@ CURRENT:=$(shell echo $$(git rev-parse --abbrev-ref HEAD))
 
 RALG=sympy
 MALG=auto_diff
+TIME=1000
 
 FILES=BIOMD0000000013 BIOMD0000000023 BIOMD0000000033
 BIOMD0000000013_OBS=x_CO2
@@ -29,7 +30,7 @@ clean:
 	@git checkout $(BASE)
 	@rep=1 ; while [[ $$rep -le $(REPETITIONS) ]]; do \
 		echo -ne "Executing repetition $$rep/$(REPETITIONS) in branch $(BASE)...\r" ; \
-		python3 time_test.py $@ $(FOLDER)/$@_$(BASE)_$(RALG)_$(MALG).$(EXT) --r $(RALG) --m $(MALG) --t $(TIME) $($@_OBS) ; \
+		python3 test_time.py $@ $(FOLDER)/$@_$(BASE)_$(RALG)_$(MALG).$(EXT) --r $(RALG) --m $(MALG) --t $(TIME) $($@_OBS) ; \
 		(( rep = rep + 1 )) ; \
 	done
 	@echo -e "\nFinished"
