@@ -1,5 +1,5 @@
 SHELL:=/bin/bash
-REPETITIONS=10
+REPETITIONS=5
 
 FOLDER=results
 EXT=results.csv
@@ -15,16 +15,29 @@ BIOMD0000000013_OBS=x_CO2
 BIOMD0000000023_OBS=Fru
 BIOMD0000000033_OBS=freeEGFReceptor
 
+BRANCHES=rational.b
+READ_ALGS=polynomial.r rational.r sympy.r
+MATR_ALGS=polynomial.m auto_diff.m
+
 ## Rules of the makefile
-all: $(FILES)
+all: $(BRANCHES)
 	@echo "Finished all the tests"
 
 clean:
 	@rm -f ./reslts/*.$(EXT)
 
+%.r: 
+	@$(MAKE) $(FILES) RALG=$(basename $@) MALG=$(MALG) BRANCH=$(BRANCH) TIME=$(TIME)
+
+%.m:
+	@$(MAKE) $(READ_ALGS) MALG=$(basename $@) BRANCH=$(BRANCH) TIME=$(TIME)
+
+%.b:
+	@$(MAKE) $(MATR_ALGS) BRANCH=$(basename $@)
+
 %:
 	@echo "####################################################################################"
-	@echo "## Running test for $@"
+	@echo "## Running test for $@ -- [$(BRANCH)]##r=$(RALG)##m=$(MALG)##t=$(TIME)"
 	@echo "####################################################################################"
 	@echo "## Moving to $(BRANCH) branch"
 	@git checkout $(BRANCH)
