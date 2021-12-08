@@ -25,6 +25,9 @@ def measure_times(file_name, observables, read_algorithm = "sympy", mat_algorith
     except TimeoutError:
         signal.signal(signal.SIGALRM, old_handler)
         return ("Not finished", "Not finished", "Not finished")
+    except ValueError:
+        signal.signal(signal.SIGALRM, old_handler)
+        return ("Error", "Not finished", "Not finished")
     
     ## Computing the matrices for the system
     try:
@@ -34,6 +37,9 @@ def measure_times(file_name, observables, read_algorithm = "sympy", mat_algorith
     except TimeoutError:
         signal.signal(signal.SIGALRM, old_handler)
         return (read_time, "Not finished", "Not finished")
+    except:
+        signal.signal(signal.SIGALRM, old_handler)
+        return (read_time, "Error", "Not finished")
         
     ## Computing the lumping from the observables
     try:
@@ -44,6 +50,10 @@ def measure_times(file_name, observables, read_algorithm = "sympy", mat_algorith
     except TimeoutError:
         signal.signal(signal.SIGALRM, old_handler)
         return (read_time, matrix_time, "Not finished")
+    except:
+        signal.signal(signal.SIGALRM, old_handler)
+        return (read_time, matrix_time, "Error")
+
     signal.alarm(0) # cancel the alarm
     signal.signal(signal.SIGALRM, old_handler)
     return (read_time, matrix_time, lumping_time)
