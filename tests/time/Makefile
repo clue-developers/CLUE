@@ -26,11 +26,11 @@ clean:
 	@echo "####################################################################################"
 	@echo "## Running test for $@"
 	@echo "####################################################################################"
-	@echo "## Moving to $(BASE) branch"
-	@git checkout $(BASE)
+	@echo "## Moving to $(BRANCH) branch"
+	@git checkout $(BRANCH)
 	@rep=1 ; while [[ $$rep -le $(REPETITIONS) ]]; do \
-		echo -ne "Executing repetition $$rep/$(REPETITIONS) in branch $(BASE)...\r" ; \
-		python3 test_time.py $@ $(FOLDER)/$@_$(BASE)_$(RALG)_$(MALG).$(EXT) --r $(RALG) --m $(MALG) --t $(TIME) $($@_OBS) ; \
+		echo -ne "Executing repetition $$rep/$(REPETITIONS) in branch $(BRANCH)...\r" ; \
+		python3 test_time.py $@ $(FOLDER)/$@_$(BRANCH)_$(RALG)_$(MALG).$(EXT) --r $(RALG) --m $(MALG) --t $(TIME) $($@_OBS) ; \
 		(( rep = rep + 1 )) ; \
 	done
 	@echo -e "\nFinished"
