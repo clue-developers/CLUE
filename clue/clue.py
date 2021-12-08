@@ -915,7 +915,9 @@ class FODESystem:
             params = list(filter(lambda s: str(s) not in self.variables, allvars))
             if len(params) == 0:
                 logger.debug(":field: no parameters, the ground field is QQ then")
+                return QQ
             else:
+                logger.debug(":field: some parameters found, extending Q as needed")
                 return sympy.FractionField(QQ, [str(p) for p in params])
 
     @cached_property
