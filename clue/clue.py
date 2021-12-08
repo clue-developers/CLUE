@@ -1187,6 +1187,7 @@ class FODESystem:
             n = sum(len(func.variables()) for func in funcs)
         else:
             n = sum(len([el for el in func.free_symbols if str(el) in self.variables]) for func in funcs)
+        logger.debug(":_construct_AD: bound for dimension: %d" %n)
         m = 1 # number of generated matrices
 
         start = timeit.default_timer()
@@ -1454,7 +1455,7 @@ class FODESystem:
                 print_system=False,
                 print_reduction=True,
                 out_format="sympy",
-                loglevel="INFO",
+                loglevel=None,
                 initial_conditions=None,
                 method = "polynomial"
     ):
@@ -1576,15 +1577,17 @@ class FODESystem:
                 >>> assert lumping.size == 54, "Error in model MODEL9085850385: size"
         '''
         ## Putting the logger level active
-        old_level = logger.getEffectiveLevel()
-        if(loglevel == "INFO"):
-            logger.setLevel(logging.INFO)
-        elif(loglevel == "DEBUG"):
-            logger.setLevel(logging.DEBUG)
-        elif(loglevel == "WARNING"):
-            logger.setLevel(logging.WARNING)
-        elif(loglevel == "ERROR"):
-            logger.setLevel(logging.ERROR)
+        if(loglevel != None):
+            old_level = logger.getEffectiveLevel()
+            if(loglevel == "INFO"):
+                logger.setLevel(logging.INFO)
+            elif(loglevel == "DEBUG"):
+                logger.setLevel(logging.DEBUG)
+            elif(loglevel == "WARNING"):
+                logger.setLevel(logging.WARNING)
+            elif(loglevel == "ERROR"):
+                logger.setLevel(logging.ERROR)
+        
         logger.debug(":lumping: Starting aggregation")
 
         ## Logger: printing the type of the input
@@ -1637,10 +1640,11 @@ class FODESystem:
         elif out_format == "internal":
             pass
         else:
+            if(loglevel != None): logger.setLevel(old_level)
             raise ValueError(f"Unknown output format {out_format}")
 
         ## Fixing the level of the logger
-        logger.setLevel(old_level)
+        if(loglevel != None): logger.setLevel(old_level)
         return LDESystem(old_system = self, dic=result)
 
     def _lumping(self, observable, 
