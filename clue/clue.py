@@ -1,5 +1,5 @@
 from bisect import bisect
-import copy, logging, math, timeit, sys
+import copy, logging, math, timeit, sys, time
 
 from random import randint
 
@@ -103,6 +103,9 @@ class SparseVector(object):
         if not self._nonzero:
             return 0
         return max(len(str(c)) for c in self._data.values())
+
+    def density(self):
+        return len(self._nonzero) / self._dim
 
     #--------------------------------------------------------------------------
 
@@ -307,6 +310,12 @@ class SparseRowMatrix(object):
     def field(self):
         return self._field
 
+    def copy(self):
+        res = SparseVector(self._dim, self._field)
+        res._nonzero = self._nonzero.copy()
+        res._data = self._data.copy()
+        return res
+
     #--------------------------------------------------------------------------
 
     def nonzero_iter(self):
@@ -314,6 +323,9 @@ class SparseRowMatrix(object):
 
     def nonzero_count(self):
         return sum([v.nonzero_count() for v in self._data.values()])
+
+    def density(self):
+        return self.nonzero_count() / self._dim**2
 
     #--------------------------------------------------------------------------
 
@@ -394,6 +406,11 @@ class Subspace(object):
         self._field = field
         self._echelon_form = dict()
 
+    def copy(self):
+        res = Subspace(self._field)
+        res._echelon_form = {k: v.copy() for k, v in self._echelon_form.items()}
+        return res
+
     @property
     def field(self):
         return self._field
@@ -408,6 +425,9 @@ class Subspace(object):
         if not self._echelon_form:
             return 0
         return max([v.digits() for v in self._echelon_form.values()])
+
+    def densities(self):
+        return [m.density() for m in self._echelon_form.values()]
 
     #--------------------------------------------------------------------------
 
@@ -441,6 +461,7 @@ class Subspace(object):
 
         if new_vector.is_zero():
             return -1
+
         pivot = new_vector.first_nonzero()
         new_vector.scale(self.field.convert(1) / new_vector[pivot])
         for piv, vect in self._echelon_form.items():
@@ -1194,15 +1215,37 @@ class FODESystem:
 
         start = timeit.default_timer()
         finished = False
+        for i in range(len(varnames)):
+            start = time.time()
+            new_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field, index=i)
+            if new_matr is None:
+                logger.debug(f"None matrix for coordinate {varnames[i]}")
+                continue
+            pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
+            logger.debug(f"Densities for now {subspace.densities()}")
+            if(pivot_index >= 0):
+                random_matr.append(new_matr)
+                logger.debug(f"New matrix density: {new_matr.density()}")
+                m += 1
+            if(m % 10 == 0):
+                logger.debug(f"Generated {m} random matrices...")
+            end = time.time()
+            logger.debug(f"Matrix in {end - start}")
+
         while(not finished):
             while(pivot_index >= 0):
+                start = time.time()
                 new_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field)
                 pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
+                logger.debug(f"Densities for now {subspace.densities()}")
                 if(pivot_index >= 0):
                     random_matr.append(new_matr)
+                    logger.debug(f"New matrix density: {new_matr.density()}")
                     m += 1
                 if(m % 10 == 0):
                     logger.debug(f"Generated {m} random matrices...")
+                end = time.time()
+                logger.debug(f"Matrix in {end - start}")
             ## We had a linearly dependant matrix: we check the probability of this being complete
             logger.debug(f"Found a linearly dependant matrix after {m} attempts.")
             if(m >= n): # we grew too much, reached the maximal
@@ -1337,7 +1380,7 @@ class FODESystem:
         return result
 
     @staticmethod
-    def build_random_evaluation_jacobian(funcs, varnames, domain, min=0, max=100, attempts=1000):
+    def build_random_evaluation_jacobian(funcs, varnames, domain, min=0, max=20, attempts=1000, index=None):
         r'''
             Computes the evaluation of the Jacobian of some rational functions via automatic differentiation.
 
@@ -1363,7 +1406,11 @@ class FODESystem:
                 a :class:`SparseRowMatrix` with the evaluation of ``matrix`` at a random place.
         '''
         for _ in range(attempts):
-            values = [randint(min, max) for v in varnames]
+            if index is None:
+                values = [randint(min, max) for v in varnames]
+            else:
+                values = [0] * len(varnames)
+                values[index] = randint(min, max)
             try:
                 return FODESystem.evaluate_jacobian(funcs, varnames, domain, values)
             except KeyboardInterrupt as e:
