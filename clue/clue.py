@@ -1,5 +1,5 @@
 from bisect import bisect
-import copy, logging, math, timeit, sys, time
+import copy, logging, math, sys, time
 
 from random import randint
 
@@ -1244,19 +1244,18 @@ class FODESystem:
         J = [[rf.derivative(v) for rf in rational_functions] for v in variables]
 
         # we create the matrices by evaluating the jacobian
-        random_matr = [FODESystem.build_random_evaluation_matrix(J)]
         subspace = Subspace(field)
-        pivot_index = subspace.absorb_new_vector(random_matr[0].to_vector())
+        pivot_index = subspace.absorb_new_vector(FODESystem.build_random_evaluation_matrix(J).to_vector())
         n = sum(sum(1 for el in row if el != 0) for row in J) # number of non-zero entries 
         m = 1 # number of random generated matrices
-        start = timeit.default_timer()
+        start = time.time()
         finished = False
         while(not finished):
             while(pivot_index >= 0):
-                new_matr = FODESystem.build_random_evaluation_matrix(J)
-                pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
+                pivot_index = subspace.absorb_new_vector(
+                    FODESystem.build_random_evaluation_matrix(J).to_vector()
+                )
                 if(pivot_index >= 0):
-                    random_matr.append(new_matr)
                     m += 1
                 if(m % 10 == 0):
                     logger.debug(f"Generated {m} random matrices...")
@@ -1266,25 +1265,26 @@ class FODESystem:
                 logger.debug(f"We found the maximal amount of linearly independent matrices")
                 finished = True
             else: # we checked (probabilistic) if we have finished
-                logger.debug(f"We compute the maximal bound for the random coefficients to have less than {prob_err} probabilites \
-                to get an element in the current space.")
+                logger.debug(f"We compute the maximal bound for the random coefficients to have \
+                    less than {prob_err} probabilites to get an element in the current space.")
                 Dn, Dd = self.bounds
                 # Value for the size of coefficients (see paper ``Exact linear reduction for rational dynamics``)
                 N = int(math.ceil((Dn + 2*m*Dd)/prob_err)) + self.size*Dd
 
                 logger.debug(f"Bound for the coefficients: {N}")
 
-                extra_matr = FODESystem.build_random_evaluation_matrix(J, max=N)
-                pivot_index = subspace.absorb_new_vector(extra_matr.to_vector())
+                pivot_index = subspace.absorb_new_vector(
+                    FODESystem.build_random_evaluation_matrix(J, max=N).to_vector()
+                )
                 if(pivot_index < 0): # we are finished
                     logger.debug("The new matrix is in the vector space: we are done")
                     finished = True
                 else: # we add the matrix to the list
                     logger.debug("The new matrix is NOT in the vector space: we continue")
-                    random_matr.append(extra_matr)
                 
-        logger.debug(f"-> I created {m} linearly independent matrices in {timeit.default_timer()-start}s")
-        return random_matr
+        logger.debug(f"-> I created {m} linearly independent matrices in {time.time()-start}s")
+        # We return the basis obtained
+        return [el.as_matrix(self.size) for el in subspace.basis()]
     
     def _construct_matrices_AD_random(self, prob_err=0.01):
         r'''
@@ -1305,9 +1305,9 @@ class FODESystem:
         varnames = self.variables
         field = self.field
 
-        random_matr = [FODESystem.build_random_evaluation_jacobian(funcs, varnames, field)]
+        evaluator = lambda : FODESystem.build_random_evaluation_jacobian(funcs, varnames, field)
         subspace = Subspace(field)
-        pivot_index = subspace.absorb_new_vector(random_matr[0].to_vector())
+        pivot_index = subspace.absorb_new_vector(evaluator().to_vector())
 
         # computing number of non-zero entries in the jacobian
         if(isinstance(funcs[0], (SparsePolynomial, RationalFunction))):
@@ -1317,8 +1317,12 @@ class FODESystem:
         logger.debug(":_construct_AD: bound for dimension: %d" %n)
         m = 1 # number of generated matrices
 
-        start = timeit.default_timer()
-        finished = False
+        start_global = time.time()
+
+        # We first create some sparse evaluations
+        ## Computing invalid singleton evaluations
+
+        ## Getting some sparse evaluations
         for i in range(len(varnames)):
             start = time.time()
             new_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field, index=i)
@@ -1328,22 +1332,22 @@ class FODESystem:
             pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
             logger.debug(f"Densities for now {subspace.densities()}")
             if(pivot_index >= 0):
-                random_matr.append(new_matr)
                 logger.debug(f"New matrix density: {new_matr.density()}")
                 m += 1
             if(m % 10 == 0):
                 logger.debug(f"Generated {m} random matrices...")
             end = time.time()
-            logger.debug(f"Matrix in {end - start}")
+            logger.debug(f"Matrix for {self.variables[i]} in {end - start}")
+
+        finished = (m >= n)
 
         while(not finished):
             while(pivot_index >= 0):
                 start = time.time()
-                new_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field)
+                new_matr = evaluator()
                 pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
                 logger.debug(f"Densities for now {subspace.densities()}")
                 if(pivot_index >= 0):
-                    random_matr.append(new_matr)
                     logger.debug(f"New matrix density: {new_matr.density()}")
                     m += 1
                 if(m % 10 == 0):
@@ -1364,17 +1368,18 @@ class FODESystem:
 
                 logger.debug(f"Bound for the (prob.) coefficients: {N}")
 
-                extra_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field, max=N)
-                pivot_index = subspace.absorb_new_vector(extra_matr.to_vector())
+                pivot_index = subspace.absorb_new_vector(
+                    FODESystem.build_random_evaluation_jacobian(funcs, varnames, field, max=N).to_vector()
+                )
                 if(pivot_index < 0): # we are finished
                     logger.debug("The new matrix is in the vector space: we are done")
                     finished = True
                 else: # we add the matrix to the list
                     logger.debug("The new matrix is NOT in the vector space: we continue")
-                    random_matr.append(extra_matr)
                 
-        logger.debug(f"-> I created {m} linearly independent matrices in {timeit.default_timer()-start}s")
-        return random_matr
+        logger.debug(f"-> I created {m} linearly independent matrices in {time.time()-start_global}s")
+        # We return the basis obtained
+        return [el.as_matrix(self.size) for el in subspace.basis()]
     
     ##############################################################################################################
     ### Static and private methods for building matrices
@@ -1826,10 +1831,10 @@ class FODESystem:
         vars_old = self.variables
         
         # Building the matrices for lumping
-        start = timeit.default_timer()
+        start = time.time()
         logger.debug(":ilumping: Computing matrices for perform lumping...")
         matrices = self.construct_matrices(method)
-        logger.debug(f"ilumping: -> Computed {len(matrices)} in {timeit.default_timer()-start}s")
+        logger.debug(f"ilumping: -> Computed {len(matrices)} in {time.time()-start}s")
 
         # Find a lumping
         field = self.field
@@ -1838,9 +1843,9 @@ class FODESystem:
             vec = SparseVector.from_list(linear_form, field)
             vectors_to_include.append(vec)
         logger.debug(":ilumping: Computing the lumping subspace...")
-        start = timeit.default_timer()
+        start = time.time()
         lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include)
-        logger.debug(f":ilumping: -> Found the lumping subspace in {timeit.default_timer()-start}s")
+        logger.debug(f":ilumping: -> Found the lumping subspace in {time.time()-start}s")
 
         lumped_rhs = lumping_subspace.perform_change_of_variables(self.equations, vars_old, field, new_vars_name)
 
