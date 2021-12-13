@@ -963,10 +963,10 @@ class FODESystem:
 
         ## Computing the bounds
         if(isinstance(self.equations[0], SparsePolynomial)):
-            Dn = max(equ.degree() for equ in self.equations)
+            Dn = max([equ.degree() for equ in self.equations if equ != 0])
             Dd = 0
         elif(isinstance(self.equations[0], RationalFunction)):
-            Dn = max(equ.num.degree() for equ in self.equations)
+            Dn = max([equ.num.degree() for equ in self.equations if equ != 0])
             Dd = max(equ.denom.degree() for equ in self.equations)
         else: # sympy expression case
             bounds = [FODESystem.bound_degree_expr(equ, self.variables) for equ in self.equations]
