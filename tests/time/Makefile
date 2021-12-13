@@ -24,7 +24,7 @@ all: $(BRANCHES)
 	@echo "Finished all the tests"
 
 clean:
-	@rm -f ./reslts/*.$(EXT)
+	@rm -f ./results/*.$(EXT)
 
 %.r: 
 	@$(MAKE) $(FILES) RALG=$(basename $@) MALG=$(MALG) BRANCH=$(BRANCH) TIME=$(TIME)
