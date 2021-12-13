@@ -180,6 +180,55 @@ class SparseVector(object):
             copied.__append__(i, self[i])
         return copied
 
+    def as_matrix(self, nrows):
+        r'''
+            Return a copy of this vector as a matrix with ``nrows`` rows.
+
+            This method returns a :class:`SparseMatrix` that can be constructed
+            using the inputs of this vector in the given numbers of rows.
+
+            This method is the inverse equivalent of :func:`SparseMatrix.to_vector`.
+
+            Input
+              - ``nrows`` - number of rows for the final matrix. If the number of rows does
+                not divide the length of the vector, a :class:`ValueError` is raised.
+
+            Output
+            
+            A :class:`SparseMatrix` such that the method :func:`SparseMatrix.to_vector` return 
+            a copy of ``self``.
+
+            Examples::
+
+                >>> from clue.clue import SparseVector, SparseRowMatrix
+                >>> from sympy import QQ
+                >>> v = SparseVector.from_list([1,10,0,0,0,7,17,8,9,0,0,1], QQ)
+                >>> print(v.as_matrix(3).pretty_print())
+                [ 1 10  0 0 ]
+                [ 0  7 17 8 ]
+                [ 9  0  0 1 ]
+                >>> print(v.as_matrix(4).pretty_print())
+                [  1 10 0 ]
+                [  0  0 7 ]
+                [ 17  8 9 ]
+                [  0  0 1 ]
+                >>> v.as_matrix(5)
+                Traceback (most recent call last):
+                ...
+                ValueError: this vector does not represent a matrix with 5 rows
+        '''
+        if self.dim % nrows != 0:
+            raise ValueError(f"this vector does not represent a matrix with {nrows} rows")
+
+        ncols = self.dim//nrows
+        output = SparseRowMatrix(ncols, self.field)
+        for el in self.nonzero_iter():
+            row = el // ncols
+            col = el % ncols
+            output.increment(row, col, self[el])
+
+        return output
+
     #--------------------------------------------------------------------------
 
     def inner_product(self, rhs):
@@ -291,27 +340,39 @@ class SparseVector(object):
 class SparseRowMatrix(object):
     """
     A class for sparse matrices. Contains the following fields:
-      dim - the dimension of the ambient space
+      nrows - number of rows for the matrix
+      ncols - number of columns for the matrix
       _nonzero - sorted list of the indiced of the nonzero rows
       _data - dictionary containing nonzero rows in the form index_of_the_row : SparseVector
       field - the field of entries (of type sympy.polys.domains.domain.Domain)
     """
     def __init__(self, dim, field):
-        self._dim = dim
+        if(not isinstance(dim, (list, tuple))):
+            dim = (dim, dim)
+        
+        self._nrows = dim[0]
+        self._ncols = dim[1]
         self._data = dict()
         self._nonzero = []
         self._field = field
 
     @property
     def dim(self):
-        return self._dim
+        return self.nrows, self.ncols
+
+    @property
+    def nrows(self):
+        return self._nrows
+    @property
+    def ncols(self):
+        return self._ncols
 
     @property
     def field(self):
         return self._field
 
     def copy(self):
-        res = SparseVector(self._dim, self._field)
+        res = SparseVector((self.nrows, self.ncols), self._field)
         res._nonzero = self._nonzero.copy()
         res._data = self._data.copy()
         return res
@@ -325,15 +386,19 @@ class SparseRowMatrix(object):
         return sum([v.nonzero_count() for v in self._data.values()])
 
     def density(self):
-        return self.nonzero_count() / self._dim**2
+        return self.nonzero_count() / self.nrows*self.ncols
 
     #--------------------------------------------------------------------------
 
     def __setitem__(self, cell, value):
         i, j = cell
+        if(i < 0 and i > self.nrows):
+            raise IndexError(f"row {i} non-existent")
+        if(j < 0 and j > self.ncols):
+            raise IndexError(f"column {j} non-existent")
         if bisect(self._nonzero, i) == 0 or self._nonzero[bisect(self._nonzero, i) - 1] != i:
             self._nonzero.insert(bisect(self._nonzero, i), i)
-            self._data[i] = SparseVector(self.dim, self.field)
+            self._data[i] = SparseVector(self.ncols, self.field)
         self._data[i][j] = value
 
     #--------------------------------------------------------------------------
@@ -353,7 +418,9 @@ class SparseRowMatrix(object):
     def row(self, i):
         if i in self._data:
             return self._data[i]
-        return SparseVector(self.dim, self.field)
+        elif i > 0 or i <= self.nrows:
+            return SparseVector(self.ncols, self.field)
+        raise IndexError(f"row {i} non-existent")
 
     #--------------------------------------------------------------------------
 
@@ -376,20 +443,38 @@ class SparseRowMatrix(object):
 
     def to_vector(self):
         """
-        Returns SparseVector representation of matrix
+        Returns :class:`SparseVector` representation of matrix
 
         a b -> a
         c d    b
                c
                d
         """
-        result = SparseVector(self._dim**2)
+        result = SparseVector(self.nrows*self.ncols)
         for i in self.nonzero_iter():
             ith_column = self._data[i]
             for j in ith_column.nonzero_iter():
-                result[self._dim*i + j] = ith_column[j]
+                result[self.ncols*i + j] = ith_column[j]
         return result
 
+    def as_list(self):
+        r'''
+            Return the Sparse matrix as a list of lists.
+        '''
+        return [[self[i,j] for j in range(self.ncols)] for i in range(self.nrows)]
+
+    def pretty_print(self):
+        r'''
+            Method to generate a pretty printing of the Sparse matrix
+        '''
+        entries = [[str(el) for el in row] for row in self.as_list()]
+        sizes = [[len(el) for el in row] for row in entries]
+        max_sizes = [max(sizes[i][j] for i in range(self.nrows)) for j in range(self.ncols)]
+        print(max_sizes)
+        return "\n".join(
+            ["[ " +  " ".join([(max_sizes[j] - sizes[i][j])*" " + entries[i][j] for j in range(self.ncols)]) + " ]"
+            for i in range(self.nrows)]
+        )
 #------------------------------------------------------------------------------
 
 class Subspace(object):
@@ -762,7 +847,7 @@ def _func_for_expr(expr, varnames, domain):
     elif(isinstance(expr, sympy.core.symbol.Symbol) and str(expr) in varnames):
         __func = lambdify([symbols(v) for v in varnames], expr, modules="sympy")
     elif(isinstance(expr, sympy.core.symbol.Symbol)):
-        def __func(*args):
+        def __func(*args): #pylint: disable=unused-argument
             return domain.convert(expr)
     else:
         raise TypeError("Incorrect expression found [%s]: %s" %(type(expr), expr))
