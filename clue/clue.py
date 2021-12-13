@@ -164,9 +164,13 @@ class SparseVector(object):
     #--------------------------------------------------------------------------
 
     def __getitem__(self, i):
+        if(i < 0 or i >= self.dim):
+            raise IndexError(f"element {i} non-existent")
         return self._data.get(i, 0)
 
     def __setitem__(self, i, value):
+        if(i < 0 or i >= self.dim):
+            raise IndexError(f"element {i} non-existent")
         if bisect(self._nonzero, i) == 0 or self._nonzero[bisect(self._nonzero, i) - 1] != i:
             self._nonzero.insert(bisect(self._nonzero, i), i)
         self._data[i] = value
@@ -221,7 +225,7 @@ class SparseVector(object):
             raise ValueError(f"this vector does not represent a matrix with {nrows} rows")
 
         ncols = self.dim//nrows
-        output = SparseRowMatrix(ncols, self.field)
+        output = SparseRowMatrix((nrows, ncols), self.field)
         for el in self.nonzero_iter():
             row = el // ncols
             col = el % ncols
@@ -252,6 +256,8 @@ class SparseVector(object):
     #--------------------------------------------------------------------------
 
     def apply_matrix(self, matr):
+        if(self.dim != matr.ncols):
+            raise TypeError(f"Impossible to multiply matrix with {matr.ncols} with vector of size {self.dim}")
         result = SparseVector(self.dim, self.field)
         for i in matr.nonzero_iter():
             prod = self.inner_product(matr.row(i))
@@ -358,13 +364,22 @@ class SparseRowMatrix(object):
 
     @property
     def dim(self):
+        r'''
+            Property with the size of the matrix in format ``(nrows, ncols)``
+        '''
         return self.nrows, self.ncols
 
     @property
     def nrows(self):
+        r'''
+            Property with the number of rows of the sparse matrix.
+        '''
         return self._nrows
     @property
     def ncols(self):
+        r'''
+            Property with the number of columns of the sparse matrix.
+        '''
         return self._ncols
 
     @property
@@ -372,7 +387,7 @@ class SparseRowMatrix(object):
         return self._field
 
     def copy(self):
-        res = SparseVector((self.nrows, self.ncols), self._field)
+        res = SparseVector(self.dim, self._field)
         res._nonzero = self._nonzero.copy()
         res._data = self._data.copy()
         return res
@@ -392,9 +407,9 @@ class SparseRowMatrix(object):
 
     def __setitem__(self, cell, value):
         i, j = cell
-        if(i < 0 and i > self.nrows):
+        if(i < 0 and i >= self.nrows):
             raise IndexError(f"row {i} non-existent")
-        if(j < 0 and j > self.ncols):
+        if(j < 0 and j >= self.ncols):
             raise IndexError(f"column {j} non-existent")
         if bisect(self._nonzero, i) == 0 or self._nonzero[bisect(self._nonzero, i) - 1] != i:
             self._nonzero.insert(bisect(self._nonzero, i), i)
@@ -404,9 +419,14 @@ class SparseRowMatrix(object):
     #--------------------------------------------------------------------------
 
     def __getitem__(self, cell):
-        if not cell[0] in self._data:
+        i,j = cell
+        if(i < 0 and i >= self.nrows):
+            raise IndexError(f"row {i} non-existent")
+        if(j < 0 and j >= self.ncols):
+            raise IndexError(f"column {j} non-existent")
+        if not i in self._data:
             return self.field.convert(0)
-        return self._data[cell[0]][cell[1]]
+        return self._data[i][j]
 
     #--------------------------------------------------------------------------
 
@@ -418,7 +438,7 @@ class SparseRowMatrix(object):
     def row(self, i):
         if i in self._data:
             return self._data[i]
-        elif i > 0 or i <= self.nrows:
+        elif i > 0 or i < self.nrows:
             return SparseVector(self.ncols, self.field)
         raise IndexError(f"row {i} non-existent")
 
@@ -470,7 +490,6 @@ class SparseRowMatrix(object):
         entries = [[str(el) for el in row] for row in self.as_list()]
         sizes = [[len(el) for el in row] for row in entries]
         max_sizes = [max(sizes[i][j] for i in range(self.nrows)) for j in range(self.ncols)]
-        print(max_sizes)
         return "\n".join(
             ["[ " +  " ".join([(max_sizes[j] - sizes[i][j])*" " + entries[i][j] for j in range(self.ncols)]) + " ]"
             for i in range(self.nrows)]
