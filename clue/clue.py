@@ -1305,9 +1305,10 @@ class FODESystem:
         varnames = self.variables
         field = self.field
 
-        evaluator = lambda : FODESystem.build_random_evaluation_jacobian(funcs, varnames, field)
         subspace = Subspace(field)
-        pivot_index = subspace.absorb_new_vector(evaluator().to_vector())
+        pivot_index = subspace.absorb_new_vector(
+            FODESystem.build_random_evaluation_jacobian(funcs, varnames, field).to_vector()
+        )
 
         # computing number of non-zero entries in the jacobian
         if(isinstance(funcs[0], (SparsePolynomial, RationalFunction))):
@@ -1344,7 +1345,7 @@ class FODESystem:
         while(not finished):
             while(pivot_index >= 0):
                 start = time.time()
-                new_matr = evaluator()
+                new_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field)
                 pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
                 logger.debug(f"Densities for now {subspace.densities()}")
                 if(pivot_index >= 0):
