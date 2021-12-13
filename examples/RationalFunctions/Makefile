@@ -1,0 +1,8 @@
+SHELL:=/bin/bash
+
+MODELS=BIOMD0000000013 BIOMD0000000023 BIOMD0000000033 MODEL1502270000
+
+all: $(MODELS)
+
+%:
+	@python3 $@.py > results$@.txt
