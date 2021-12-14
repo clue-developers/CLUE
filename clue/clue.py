@@ -1644,8 +1644,8 @@ class FODESystem:
                 >>> ## Example 1
                 >>> system = FODESystem([x0**2 + x1 + x2, x2, x1], variables=['x0','x1','x2'])
                 >>> lumping = system.lumping([x0], print_reduction=False,initial_conditions={'x0': 1, 'x1': 2, 'x2': 5})
-                >>> print(lumping.ic)
-                {'y0': 1, 'y1': 7}
+                >>> lumping.ic
+                {'y0': MPQ(1,1), 'y1': MPQ(7,1)}
                 >>> lumping.old_vars
                 [x0, x1 + x2]
                 >>> lumping.is_consistent()
@@ -1673,7 +1673,7 @@ class FODESystem:
                 ...       print_reduction=False,
                 ...       initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
                 >>> lumping.ic
-                {'y0': 1, 'y1': 7}
+                {'y0': MPQ(1,1), 'y1': MPQ(7,1)}
                 >>> lumping.old_vars
                 [x0, x1 + x2]
                 >>> lumping.is_consistent()
@@ -1698,7 +1698,7 @@ class FODESystem:
                 ...       print_reduction=False,
                 ...       initial_conditions={"x" : 1, "y" : 2})
                 >>> lumping.ic
-                {'y0': -1}
+                {'y0': MPQ(-1,1)}
                 >>> lumping.old_vars
                 [x + -y]
                 >>> lumping.is_consistent()

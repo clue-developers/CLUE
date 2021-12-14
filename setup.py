@@ -34,6 +34,6 @@ setup(
     keywords = "lumping differential system",
     packages = ["clue"],
     setup_requires   = [],
-    install_requires = ['sympy', 'pyparsing', 'natsort'],
+    install_requires = ['sympy >= 1.9', 'pyparsing', 'natsort'],
 )
     

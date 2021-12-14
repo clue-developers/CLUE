@@ -66,7 +66,7 @@ class SparsePolynomial(object):
     def __init__(self, varnames, domain=QQ, data=None):
         self._varnames = varnames
         self._domain = domain
-        self._data = dict() if data is None else {key : data[key] for key in data if data[key] != QQ(0)}
+        self._data = dict() if data is None else {key : domain.convert(data[key]) for key in data if data[key] != domain.convert(0)}
 
     def dataiter(self):
         return self._data.items()
@@ -139,9 +139,9 @@ class SparsePolynomial(object):
                 >>> from clue.rational_function import SparsePolynomial
                 >>> p = SparsePolynomial.from_string("1 + x/2 + 3*y + 5*x*y", ['x','y'])
                 >>> print(p.coefficients)
-                (1, 1/2, 3, 5)
+                (MPQ(1,1), MPQ(1,2), MPQ(3,1), MPQ(5,1))
                 >>> SparsePolynomial.from_const(10, ["x", "y"]).coefficients
-                (10,)
+                (MPQ(10,1),)
 
             This method return an empty tuple if no monomial is contained, i.e., the polynomial 
             is equal to zero::
@@ -213,22 +213,22 @@ class SparsePolynomial(object):
 
                 >>> from clue.rational_function import *
                 >>> sp = SparsePolynomial.from_string("x*y*z + x*6 - 10", ['x','y','z'])
-                >>> print(sp.constant_term)
-                -10
+                >>> sp.constant_term
+                MPQ(-10,1)
                 >>> sp = SparsePolynomial.from_string("x - y", ['x','y'])
                 >>> sp.constant_term
-                0
+                MPQ(0,1)
                 >>> sp = SparsePolynomial.from_const(13, ['x','y','z'])
                 >>> sp.constant_term
-                13
+                MPQ(13,1)
                 >>> sp = SparsePolynomial(['x']) # zero polynomial
                 >>> sp.constant_term
-                0
+                MPQ(0,1)
 
             This property can also be obtained via :func:`ct`::
 
                 >>> sp.ct
-                0
+                MPQ(0,1)
         '''
         return self._data.get((), self.domain.zero)
 
@@ -259,7 +259,7 @@ class SparsePolynomial(object):
                 >>> one = SparsePolynomial(["x", "y"], QQ, {(): 1})
                 >>> p = one + x//(2*one) + (3*one)*y + (5*one)*x*y
                 >>> print(p.linear_components)
-                ((1, x, y, x*y), (1, 1/2, 3, 5))
+                ((1, x, y, x*y), (MPQ(1,1), MPQ(1,2), MPQ(3,1), MPQ(5,1)))
         '''
         return self.monomials, self.coefficients
 
@@ -1082,11 +1082,11 @@ class SparsePolynomial(object):
     @staticmethod
     def var_from_string(vname, varnames):
         i = varnames.index(vname)
-        return SparsePolynomial(varnames, QQ, {((i, 1), ) : QQ(1)})
+        return SparsePolynomial(varnames, QQ, {((i, 1), ) : QQ.convert(1)})
 
     @staticmethod
     def from_const(c, varnames):
-        return SparsePolynomial(varnames, QQ, {tuple() : c})
+        return SparsePolynomial(varnames, QQ, {tuple() : QQ.convert(c)})
 
     @staticmethod
     def from_string(s, varnames):
