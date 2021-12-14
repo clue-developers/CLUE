@@ -973,6 +973,7 @@ class FODESystem:
             Dn = max(bound[0] for bound in bounds)
             Dd = max(bound[1] for bound in bounds)
         return (Dn, Dd)
+
     @cached_property
     def size(self): return len(self._equations)
 
@@ -1306,9 +1307,6 @@ class FODESystem:
         field = self.field
 
         subspace = Subspace(field)
-        pivot_index = subspace.absorb_new_vector(
-            FODESystem.build_random_evaluation_jacobian(funcs, varnames, field).to_vector()
-        )
 
         # computing number of non-zero entries in the jacobian
         if(isinstance(funcs[0], (SparsePolynomial, RationalFunction))):
@@ -1316,29 +1314,55 @@ class FODESystem:
         else:
             n = sum(len([el for el in func.free_symbols if str(el) in self.variables]) for func in funcs)
         logger.debug(":_construct_AD: bound for dimension: %d" %n)
-        m = 1 # number of generated matrices
+        m = 0 # number of generated matrices
 
         start_global = time.time()
 
         # We first create some sparse evaluations
         ## Computing invalid singleton evaluations
-
-        ## Getting some sparse evaluations
-        for i in range(len(varnames)):
+        start = time.time()
+        sparse_eval_points = self._sparse_evaluation_points()
+        end = time.time()
+        logger.debug(f":_construct_AD: Created {len(sparse_eval_points)} sparse evaluation points in {end-start}s")
+        pivot_index = None
+        for point in sparse_eval_points:
             start = time.time()
-            new_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field, index=i)
-            if new_matr is None:
-                logger.debug(f"None matrix for coordinate {varnames[i]}")
-                continue
+            new_matr = FODESystem.evaluate_jacobian(funcs, varnames, field, point)
             pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
-            logger.debug(f"Densities for now {subspace.densities()}")
-            if(pivot_index >= 0):
-                logger.debug(f"New matrix density: {new_matr.density()}")
+            logger.debug(f":_construct_AD: Densities for now {subspace.densities()}")
+            if(pivot_index >= 0): # new matrix added
+                logger.debug(f":_construct_AD: New matrix added with density: {new_matr.density()}")
                 m += 1
             if(m % 10 == 0):
-                logger.debug(f"Generated {m} random matrices...")
+                logger.debug(f":_construct_AD: Generated {m} random matrices...")
             end = time.time()
-            logger.debug(f"Matrix for {self.variables[i]} in {end - start}")
+            logger.debug(f":_construct_AD: Matrix created and checked in {end - start}")
+        ## Getting some sparse evaluations
+        # for i in range(len(varnames)):
+        #     start = time.time()
+        #     new_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field, index=i)
+        #     if new_matr is None:
+        #         logger.debug(f"None matrix for coordinate {varnames[i]}")
+        #         continue
+        #     pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
+        #     logger.debug(f"Densities for now {subspace.densities()}")
+        #     if(pivot_index >= 0):
+        #         logger.debug(f"New matrix density: {new_matr.density()}")
+        #         m += 1
+        #     if(m % 10 == 0):
+        #         logger.debug(f"Generated {m} random matrices...")
+        #     end = time.time()
+        #     logger.debug(f"Matrix for {self.variables[i]} in {end - start}")
+        
+        if(m == 0): 
+            logger.debug(f":_construct_AD: No sparse evaluation was done. Creating one starting evaluation...")
+            start = time.time()
+            pivot_index = subspace.absorb_new_vector(
+                FODESystem.build_random_evaluation_jacobian(funcs, varnames, field).to_vector()
+            )
+            end = time.time()
+            logger.debug(f":_construct_AD: Matrix created and checked in {end - start}")
+            m = 1
 
         finished = (m >= n)
 
@@ -1347,41 +1371,61 @@ class FODESystem:
                 start = time.time()
                 new_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field)
                 pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
-                logger.debug(f"Densities for now {subspace.densities()}")
+                logger.debug(f":_construct_AD: Densities for now {subspace.densities()}")
                 if(pivot_index >= 0):
-                    logger.debug(f"New matrix density: {new_matr.density()}")
+                    logger.debug(f":_construct_AD: New matrix density: {new_matr.density()}")
                     m += 1
                 if(m % 10 == 0):
-                    logger.debug(f"Generated {m} random matrices...")
+                    logger.debug(f":_construct_AD: Generated {m} random matrices...")
                 end = time.time()
-                logger.debug(f"Matrix in {end - start}")
+                logger.debug(f":_construct_AD: Matrix in {end - start}")
             ## We had a linearly dependant matrix: we check the probability of this being complete
-            logger.debug(f"Found a linearly dependant matrix after {m} attempts.")
+            logger.debug(f":_construct_AD: Found a linearly dependant matrix after {m} attempts.")
             if(m >= n): # we grew too much, reached the maximal
-                logger.debug(f"We found the maximal amount of linearly independent matrices")
+                logger.debug(f":_construct_AD: We found the maximal amount of linearly independent matrices")
                 finished = True
             else: # we checked (probabilistic) if we have finished
-                logger.debug(f"We compute the maximal bound for the random coefficients to have less than {prob_err} probabilites \
+                logger.debug(f":_construct_AD: We compute the maximal bound for the random coefficients to have less than {prob_err} probabilites \
                 to get an element in the current space.")
                 Dn, Dd = self.bounds
                 # Value for the size of coefficients (see paper ``Exact linear reduction for rational dynamics``)
                 N = int(math.ceil((Dn + 2*m*Dd)/prob_err)) + self.size*Dd
 
-                logger.debug(f"Bound for the (prob.) coefficients: {N}")
+                logger.debug(f":_construct_AD: Bound for the (prob.) coefficients: {N}")
 
                 pivot_index = subspace.absorb_new_vector(
                     FODESystem.build_random_evaluation_jacobian(funcs, varnames, field, max=N).to_vector()
                 )
                 if(pivot_index < 0): # we are finished
-                    logger.debug("The new matrix is in the vector space: we are done")
+                    logger.debug(":_construct_AD: The new matrix is in the vector space: we are done")
                     finished = True
                 else: # we add the matrix to the list
-                    logger.debug("The new matrix is NOT in the vector space: we continue")
+                    logger.debug(":_construct_AD: The new matrix is NOT in the vector space: we continue")
                 
-        logger.debug(f"-> I created {m} linearly independent matrices in {time.time()-start_global}s")
+        logger.debug(f":_construct_AD: -> I created {m} linearly independent matrices in {time.time()-start_global}s")
         # We return the basis obtained
         return [el.as_matrix(self.size) for el in subspace.basis()]
     
+    def _sparse_evaluation_points(self):
+        base_sparse = [i*[0] + [1] + (self.size - i - 1)*[0] for i in range(self.size)]
+        if(isinstance(self.equations[0], SparsePolynomial)):
+            result = base_sparse
+        elif(isinstance(self.equations[0], RationalFunction)):
+            denoms = [el.denom for el in self.equations]
+            result = []
+            for point in base_sparse:
+                current = [el for el in denoms if el.eval(**{self.variables[i]: point[i] for i in range(self.size)}) == 0]
+                while(len(current) > 0):
+                    for v in current[0].variables():
+                        if(point[self.variables.index(v)] == 0):
+                            point[self.variables.index(v)] = 1
+                            break
+                    current = [el for el in denoms if el.eval(**{self.variables[i]: point[i] for i in range(self.size)}) == 0]
+                result.append(point)
+        else: # sympy expression case
+            result = FODESystem.sparse_evaluation_points_sympy(self.equations, self.variables, base_sparse)
+        return result
+
     ##############################################################################################################
     ### Static and private methods for building matrices
     @staticmethod
@@ -1605,6 +1649,100 @@ class FODESystem:
             raise NotImplementedError
 
         return (num_bound, denom_bound)
+
+    @staticmethod
+    def sparse_evaluation_points_sympy(funcs, varnames, base_sparse, attempts = 5):
+        r'''
+            Method to get a set of sparse evaluation points for sympy expressions
+
+            This method tries to build a set of points where the evaluation of some
+            sympy expressions can be computed while having as many zeros in the input 
+            as possible.
+
+            This method acts recursively from bottom to top of the expression tree
+            of the functions. This method works both for one expression or a list of
+            expressions, where we simply call iteratively to this method with the following
+            points.
+
+            Input
+                - ``funcs`` - either a list of sympy expressions or a sympy expression
+                - ``varnames`` - list of variables to be considered to evaluate
+                - ``base_sparse`` - a base set of "sparse" evaluation points.
+
+            Output
+            
+            A new list of points "as sparse as possible" (i.e., having as many zeros as possible)
+            such that any expression in funcs can be evaluated.
+
+            Examples::
+
+                >>> from clue import FODESystem
+                >>> import sympy
+                >>> a = sympy.Symbol("a")
+                >>> b = sympy.Symbol("b")
+                >>> c = sympy.Symbol("c")
+                >>> d = sympy.Symbol("d")
+                >>> FODESystem.sparse_evaluation_points_sympy(a/b, varnames=['a', 'b'], base_sparse=[[1,0],[0,1]])
+                [[0, 1], [1, 1]]
+        '''
+        if(isinstance(funcs, (list, tuple))):
+            if(len(funcs) == 0):
+                return base_sparse
+            result = FODESystem.sparse_evaluation_points_sympy(funcs[0], varnames, base_sparse, attempts)
+            return FODESystem.sparse_evaluation_points_sympy(funcs[1:], varnames, result, attempts)
+        
+        ## The case of simply one expression
+        expr = funcs
+        if isinstance(expr, sympy.core.mul.Mul):
+            ## we need to evaluate all the operands
+            result = FODESystem.sparse_evaluation_points_sympy(expr.args, varnames, base_sparse, attempts)
+        elif isinstance(expr, sympy.core.add.Add):
+            ## we need to evaluate all the operands
+            result = FODESystem.sparse_evaluation_points_sympy(expr.args, varnames, base_sparse, attempts)
+        elif isinstance(expr, sympy.core.power.Pow):
+            ## we need to evaluate the base
+            partial = FODESystem.sparse_evaluation_points_sympy(expr.args[0], varnames, base_sparse, attempts)
+            try:
+                power = int(expr.args[1])
+                if(power < 0): # we need to avoid the evaluation to zero of this denominator
+                    base_expr = expr.args[0]
+                    result = []
+                    for point in partial:
+                        evaluation = [(symbols(varnames[i]), point[i]) for i in range(len(point))]
+                        variables = [str(el) for el in base_expr.free_symbols if str(el) in varnames]
+                        to_add = True
+                        tries = 0
+                        while(base_expr.subs(evaluation) == 0):
+                            # if we have something nonzero, we set it up to 1
+                            if(any(point[varnames.index(v)] == 0 for v in variables)):
+                                for v in variables:
+                                    if(point[varnames.index(v)] == 0):
+                                        point[varnames.index(v)] = 1
+                            else:
+                                # if everything is non-zero, we mix them up randomly as many as
+                                # ''attempts'' times
+                                for v in variables:
+                                    point[varnames.index(v)] = randint(1,10)
+                                tries += 1
+                                if(tries > attempts): 
+                                    # if we repeated too many times, we quit and 
+                                    # forget about this point
+                                    to_add = False
+                                    break
+                            evaluation = ((symbols(varnames[i]), point[i]) for i in range(len(point)))
+                        if(to_add): result.append(point)
+                else:
+                    result = partial                
+            except TypeError:
+                result = []
+        elif isinstance(expr, sympy.core.symbol.Symbol):
+            result = base_sparse
+        elif isinstance(expr, sympy.core.numbers.Number):
+            result = base_sparse
+        else:
+            raise NotImplementedError
+
+        return [list(el) for el in set(tuple([tuple(el) for el in result]))]
 
     ##############################################################################################################
     ##############################################################################################################

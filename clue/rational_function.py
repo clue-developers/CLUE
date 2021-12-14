@@ -63,10 +63,13 @@ class SparsePolynomial(object):
             True
     '''
 
-    def __init__(self, varnames, domain=QQ, data=None):
+    def __init__(self, varnames, domain=QQ, data=None, cast=True):
         self._varnames = varnames
         self._domain = domain
-        self._data = dict() if data is None else {key : domain.convert(data[key]) for key in data if data[key] != domain.convert(0)}
+        if(cast):
+            self._data = dict() if data is None else {key : domain.convert(data[key]) for key in data if data[key] != domain.convert(0)}
+        else:
+            self._data = dict() if data is None else {key : data[key] for key in data if data[key] != 0}
 
     def dataiter(self):
         return self._data.items()
@@ -763,7 +766,7 @@ class SparsePolynomial(object):
             else:
                 new_data[new_monomial] = value
         ## Returning the resulting polynomial
-        return SparsePolynomial(self.gens, self.domain, new_data)
+        return SparsePolynomial(self.gens, self.domain, new_data, cast=False)
 
     def automated_diff(self, **values):
         r'''
