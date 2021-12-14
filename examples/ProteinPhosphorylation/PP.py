@@ -12,21 +12,21 @@ sys.path.insert(0, "./../../")
 
 from clue import FODESystem, SparsePolynomial
 
-for n in range(2, 9):
+# for n in range(2, 9):
 
-    system = FODESystem(file=f"e{n}.ode")
+system = FODESystem(file=f"{sys.argv[1]}.ode")
 
-    print("===============================================")
-    obs = [
-        SparsePolynomial.from_string("S0", system.variables),
-        SparsePolynomial.from_string("S1", system.variables)
-    ]
+# print("===============================================")
+obs = [
+    SparsePolynomial.from_string("S0", system.variables),
+    SparsePolynomial.from_string("S1", system.variables)
+]
 
-    start = time.time()
-    lumped = system.lumping(obs)
-    end = time.time()
+start = time.time()
+lumped = system.lumping(obs)
+end = time.time()
 
-    print(f"Model for n = {n}")
-    print(f"The size of the original model is {system.size}")
-    print(f"The size of the reduced model is {lumped.size}")
-    print(f"Computation took {end - start} seconds")    
+print(f"Model for {sys.argv[1]}")
+print(f"The size of the original model is {system.size}")
+print(f"The size of the reduced model is {lumped.size}")
+print(f"Computation took {end - start} seconds")    
