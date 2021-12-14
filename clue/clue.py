@@ -1644,7 +1644,7 @@ class FODESystem:
                 >>> ## Example 1
                 >>> system = FODESystem([x0**2 + x1 + x2, x2, x1], variables=['x0','x1','x2'])
                 >>> lumping = system.lumping([x0], print_reduction=False,initial_conditions={'x0': 1, 'x1': 2, 'x2': 5})
-                >>> lumping.ic
+                >>> print(lumping.ic)
                 {'y0': 1, 'y1': 7}
                 >>> lumping.old_vars
                 [x0, x1 + x2]

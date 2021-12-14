@@ -138,7 +138,7 @@ class SparsePolynomial(object):
                 >>> from sympy import QQ
                 >>> from clue.rational_function import SparsePolynomial
                 >>> p = SparsePolynomial.from_string("1 + x/2 + 3*y + 5*x*y", ['x','y'])
-                >>> p.coefficients
+                >>> print(p.coefficients)
                 (1, 1/2, 3, 5)
                 >>> SparsePolynomial.from_const(10, ["x", "y"]).coefficients
                 (10,)
@@ -213,7 +213,7 @@ class SparsePolynomial(object):
 
                 >>> from clue.rational_function import *
                 >>> sp = SparsePolynomial.from_string("x*y*z + x*6 - 10", ['x','y','z'])
-                >>> sp.constant_term
+                >>> print(sp.constant_term)
                 -10
                 >>> sp = SparsePolynomial.from_string("x - y", ['x','y'])
                 >>> sp.constant_term
@@ -258,7 +258,7 @@ class SparsePolynomial(object):
                 >>> y = SparsePolynomial(["x", "y"], QQ, {tuple([(1,1)]): 1})
                 >>> one = SparsePolynomial(["x", "y"], QQ, {(): 1})
                 >>> p = one + x//(2*one) + (3*one)*y + (5*one)*x*y
-                >>> p.linear_components
+                >>> print(p.linear_components)
                 ((1, x, y, x*y), (1, 1/2, 3, 5))
         '''
         return self.monomials, self.coefficients
