@@ -6,7 +6,7 @@ sys.path.insert(0, "./../../")
 
 from clue import FODESystem, SparsePolynomial
 
-system = FODESystem(file="Barua.ode")
+system = FODESystem(file="Barua.ode", parser="polynomial")
 
 obs_sets = [
     ["aS000"],
