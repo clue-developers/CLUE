@@ -712,7 +712,7 @@ class SparsePolynomial(object):
         r'''
             Method to evaluate a polynomial.
 
-            This method evaluates a polynomial subtituing its variables by given values simultaneously.
+            This method evaluates a polynomial substituting its variables by given values simultaneously.
             Currently, the only valid input for the values are elements contained in 
             ``self.domain``.
 
@@ -748,7 +748,7 @@ class SparsePolynomial(object):
         rem_variables = [self.gens.index(el) for el in rem_variables]
         values = {self.gens.index(el) : values[el] for el in values if el in self.gens}
         ## Here `rem_variables` contains the indices of the variables remaining in the evaluation
-        ## and values `values` contains a dictionary index -> value (instead of the anme of the variable)
+        ## and values `values` contains a dictionary index -> value (instead of the name of the variable)
         
         new_data = {}
         for monomial in self._data:
@@ -874,7 +874,7 @@ class SparsePolynomial(object):
     
     def is_constant(self):
         r'''
-            Checks wheter a polynomial is a constant
+            Checks whether a polynomial is a constant
 
             This method checks whether a :class:`SparsePolynomial` is a constant or not. For doing so
             we simply check if ``self`` is zero (see :func:`is_zero`) or if the only monomial in the 
@@ -1145,7 +1145,7 @@ class RationalFunction:
         assert num.gens == denom.gens
         assert not denom.is_zero()
 
-        ## Asigning the values for the rational function
+        ## Assigning the values for the rational function
         self._domain = num.domain
         self._varnames = num.gens
         self.num = num
