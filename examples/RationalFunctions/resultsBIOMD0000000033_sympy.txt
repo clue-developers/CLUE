@@ -1,0 +1,99 @@
+Read the model in 0.19817256927490234s
+Original system:
+AktActive' = AktInactive**2*PI3KActive**2*kAkt/(AktInactive + KmAkt)
+AktInactive' = -AktInactive**2*PI3KActive**2*kAkt/(AktInactive + KmAkt)
+BRafActive' = -BRafActive**2*Raf1PPtase**2*kdBRaf/(BRafActive + KmdBRaf) + BRafInactive**2*Rap1Active**2*kRap1ToBRaf/(BRafInactive + KmRap1ToBRaf)
+BRafInactive' = BRafActive**2*Raf1PPtase**2*kdBRaf/(BRafActive + KmdBRaf) - BRafInactive**2*Rap1Active**2*kRap1ToBRaf/(BRafInactive + KmRap1ToBRaf)
+C3GActive' = C3GInactive**2*boundNGFReceptor**2*kC3GNGF/(C3GInactive + KmC3GNGF)
+C3GInactive' = -C3GInactive**2*boundNGFReceptor**2*kC3GNGF/(C3GInactive + KmC3GNGF)
+EGF' = -EGF**2*freeEGFReceptor**2*krbEGF + boundEGFReceptor**2*kruEGF
+ErkActive' = -ErkActive**2*PP2AActive**2*kdErk/(ErkActive + KmdErk) + ErkInactive**2*MekActive**2*kpMekCytoplasmic/(ErkInactive + KmpMekCytoplasmic)
+ErkInactive' = ErkActive**2*PP2AActive**2*kdErk/(ErkActive + KmdErk) - ErkInactive**2*MekActive**2*kpMekCytoplasmic/(ErkInactive + KmpMekCytoplasmic)
+KmAkt' = 0
+KmC3G' = 0
+KmC3GNGF' = 0
+KmEGF' = 0
+KmNGF' = 0
+KmPI3K' = 0
+KmPI3KRas' = 0
+KmRaf1ByAkt' = 0
+KmRap1ToBRaf' = 0
+KmRapGap' = 0
+KmRasGap' = 0
+KmRasToRaf1' = 0
+KmSos' = 0
+KmdBRaf' = 0
+KmdErk' = 0
+KmdMek' = 0
+KmdRaf1' = 0
+KmdSos' = 0
+KmpBRaf' = 0
+KmpMekCytoplasmic' = 0
+KmpP90Rsk' = 0
+KmpRaf1' = 0
+MekActive' = BRafActive**2*MekInactive**2*kpBRaf/(KmpBRaf + MekInactive) - MekActive**2*PP2AActive**2*kdMek/(KmdMek + MekActive) + MekInactive**2*Raf1Active**2*kpRaf1/(KmpRaf1 + MekInactive)
+MekInactive' = -BRafActive**2*MekInactive**2*kpBRaf/(KmpBRaf + MekInactive) + MekActive**2*PP2AActive**2*kdMek/(KmdMek + MekActive) - MekInactive**2*Raf1Active**2*kpRaf1/(KmpRaf1 + MekInactive)
+NGF' = -NGF**2*freeNGFReceptor**2*krbNGF + boundNGFReceptor**2*kruNGF
+P90RskActive' = ErkActive**2*P90RskInactive**2*kpP90Rsk/(KmpP90Rsk + P90RskInactive)
+P90RskInactive' = -ErkActive**2*P90RskInactive**2*kpP90Rsk/(KmpP90Rsk + P90RskInactive)
+PI3KActive' = PI3KInactive**2*RasActive**2*kPI3KRas/(KmPI3KRas + PI3KInactive) + PI3KInactive**2*boundEGFReceptor**2*kPI3K/(KmPI3K + PI3KInactive)
+PI3KInactive' = -PI3KInactive**2*RasActive**2*kPI3KRas/(KmPI3KRas + PI3KInactive) - PI3KInactive**2*boundEGFReceptor**2*kPI3K/(KmPI3K + PI3KInactive)
+PP2AActive' = 0
+Raf1Active' = -AktActive**2*Raf1Active**2*kdRaf1ByAkt/(KmRaf1ByAkt + Raf1Active) - Raf1Active**2*Raf1PPtase**2*kdRaf1/(KmdRaf1 + Raf1Active) + Raf1Inactive**2*RasActive**2*kRasToRaf1/(KmRasToRaf1 + Raf1Inactive)
+Raf1Inactive' = AktActive**2*Raf1Active**2*kdRaf1ByAkt/(KmRaf1ByAkt + Raf1Active) + Raf1Active**2*Raf1PPtase**2*kdRaf1/(KmdRaf1 + Raf1Active) - Raf1Inactive**2*RasActive**2*kRasToRaf1/(KmRasToRaf1 + Raf1Inactive)
+Raf1PPtase' = 0
+Rap1Active' = C3GActive**2*Rap1Inactive**2*kC3G/(KmC3G + Rap1Inactive) - Rap1Active**2*RapGapActive**2*kRapGap/(KmRapGap + Rap1Active)
+Rap1Inactive' = -C3GActive**2*Rap1Inactive**2*kC3G/(KmC3G + Rap1Inactive) + Rap1Active**2*RapGapActive**2*kRapGap/(KmRapGap + Rap1Active)
+RapGapActive' = 0
+RasActive' = -RasActive**2*RasGapActive**2*kRasGap/(KmRasGap + RasActive) + RasInactive**2*SosActive**2*kSos/(KmSos + RasInactive)
+RasGapActive' = 0
+RasInactive' = RasActive**2*RasGapActive**2*kRasGap/(KmRasGap + RasActive) - RasInactive**2*SosActive**2*kSos/(KmSos + RasInactive)
+SosActive' = -P90RskActive**2*SosActive**2*kdSos/(KmdSos + SosActive) + SosInactive**2*boundEGFReceptor**2*kEGF/(KmEGF + SosInactive) + SosInactive**2*boundNGFReceptor**2*kNGF/(KmNGF + SosInactive)
+SosInactive' = P90RskActive**2*SosActive**2*kdSos/(KmdSos + SosActive) - SosInactive**2*boundEGFReceptor**2*kEGF/(KmEGF + SosInactive) - SosInactive**2*boundNGFReceptor**2*kNGF/(KmNGF + SosInactive)
+boundEGFReceptor' = EGF**2*freeEGFReceptor**2*krbEGF - boundEGFReceptor**2*kruEGF
+boundNGFReceptor' = NGF**2*freeNGFReceptor**2*krbNGF - boundNGFReceptor**2*kruNGF
+freeEGFReceptor' = -EGF**2*freeEGFReceptor**2*krbEGF + boundEGFReceptor**2*kruEGF
+freeNGFReceptor' = -NGF**2*freeNGFReceptor**2*krbNGF + boundNGFReceptor**2*kruNGF
+kAkt' = 0
+kC3G' = 0
+kC3GNGF' = 0
+kEGF' = 0
+kNGF' = 0
+kPI3K' = 0
+kPI3KRas' = 0
+kRap1ToBRaf' = 0
+kRapGap' = 0
+kRasGap' = 0
+kRasToRaf1' = 0
+kSos' = 0
+kdBRaf' = 0
+kdErk' = 0
+kdMek' = 0
+kdRaf1' = 0
+kdRaf1ByAkt' = 0
+kdSos' = 0
+kpBRaf' = 0
+kpMekCytoplasmic' = 0
+kpP90Rsk' = 0
+kpRaf1' = 0
+krbEGF' = 0
+krbNGF' = 0
+kruEGF' = 0
+kruNGF' = 0
+Outputs to fix:
+[MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(1,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1)]
+New variables:
+y0 = EGF
+y1 = boundEGFReceptor
+y2 = freeEGFReceptor
+y3 = krbEGF
+y4 = kruEGF
+Lumped system:
+y0' = -y0**2*y2**2*y3 + y1**2*y4
+y1' = y0**2*y2**2*y3 - y1**2*y4
+y2' = -y0**2*y2**2*y3 + y1**2*y4
+y3' = 0
+y4' = 0
+The size of the original model is 80
+The size of the reduced model is 5
+Computation took 185.69341945648193 seconds

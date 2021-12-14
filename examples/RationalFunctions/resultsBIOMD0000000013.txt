@@ -1,4 +1,4 @@
-Read the model in 0.1719217300415039s
+Read the model in 0.18207049369812012s
 Original system:
 ADP_ch' = -3500*ADP_ch**2*Light_on*Pi_ch**2/((ADP_ch + 7/500)*(Pi_ch + 3/10)) + 40*ATP_ch**2*F6P_ch*FBP_ch*G1P_ch**2*PGA_ch/(F6P_ch/50 + FBP_ch/50 + (ADP_ch/10 + 1)*(ATP_ch + 2/25)*(G1P_ch + 2/25) + 4*Pi_ch/(5*PGA_ch)) + 10000*ATP_ch**2*Light_on*PGA_ch*Pi_ch*Ru5P_ch**2/((ADP_ch/8 + ATP_ch*(2*ADP_ch/5 + 1) + 1/20)*(PGA_ch/40 + Pi_ch/80 + Ru5P_ch + RuBP_ch/14 + 1/20)) + 500000000*ATP_ch*Light_on*PGA_ch*(-100000*ADP_ch*BPGA_ch/31 + ATP_ch*PGA_ch)
 ATP_ch' = 3500*ADP_ch**2*Light_on*Pi_ch**2/((ADP_ch + 7/500)*(Pi_ch + 3/10)) - 40*ATP_ch**2*F6P_ch*FBP_ch*G1P_ch**2*PGA_ch/(F6P_ch/50 + FBP_ch/50 + (ADP_ch/10 + 1)*(ATP_ch + 2/25)*(G1P_ch + 2/25) + 4*Pi_ch/(5*PGA_ch)) - 10000*ATP_ch**2*Light_on*PGA_ch*Pi_ch*Ru5P_ch**2/((ADP_ch/8 + ATP_ch*(2*ADP_ch/5 + 1) + 1/20)*(PGA_ch/40 + Pi_ch/80 + Ru5P_ch + RuBP_ch/14 + 1/20)) - 500000000*ATP_ch*Light_on*PGA_ch*(-100000*ADP_ch*BPGA_ch/31 + ATP_ch*PGA_ch)
@@ -29,7 +29,7 @@ x_Pi_cyt' = -250*DHAP_ch**2*GAP_ch*PGA_ch*x_Pi_cyt/(77*(1 + 37/(50*x_Pi_cyt))*(1
 x_Proton_ch' = -500000000*BPGA_ch*Light_on*x_NADPH_ch*x_Proton_ch*(BPGA_ch*x_NADPH_ch*x_Proton_ch - GAP_ch*Pi_ch*x_NADP_ch/16000000)
 x_Starch_ch' = 40*ATP_ch**2*F6P_ch*FBP_ch*G1P_ch**2*PGA_ch/(F6P_ch/50 + FBP_ch/50 + (ADP_ch/10 + 1)*(ATP_ch + 2/25)*(G1P_ch + 2/25) + 4*Pi_ch/(5*PGA_ch)) - 40*Pi_ch**2*x_Starch_ch/(2*G1P_ch + Pi_ch + 1/10)
 Outputs to fix:
-x_CO2
+[MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(1,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1)]
 New variables:
 y0 = ADP_ch
 y1 = ATP_ch
@@ -84,4 +84,4 @@ y23' = -500000000*y10*y2*y20*y23*(-y12*y21*y9/16000000 + y2*y20*y23)
 y24' = 40*y1**2*y11*y5*y6*y7**2/(y5/50 + y6/50 + (y0/10 + 1)*(y1 + 2/25)*(y7 + 2/25) + 4*y12/(5*y11)) - 40*y12**2*y24/(y12 + 2*y7 + 1/10)
 The size of the original model is 28
 The size of the reduced model is 25
-Computation took 630.5666062831879 seconds
+Computation took 181.74116158485413 seconds

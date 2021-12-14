@@ -1,4 +1,4 @@
-Read the model in 0.14847493171691895s
+Read the model in 0.14856743812561035s
 Original system:
 ADP' = 197*ATP**2*Fru**2*Glc/(2500*(4*ATP + 1)*(Fru/10 + 100*Glc/7 + 4543*HexP/4000 + 1)) + 328*ATP**2*Fru**2/(17*(Fru/12 + 1)*(ADP/2 + 2000*ATP*Fru/17 + 200*ATP/17 + 10*Fru + 1)) + 394*ATP**2*Fru*Glc**2/(35*(4*ATP + 1)*(Fru/10 + 100*Glc/7 + 4543*HexP/4000 + 1))
 ATP' = -197*ATP**2*Fru**2*Glc/(2500*(4*ATP + 1)*(Fru/10 + 100*Glc/7 + 4543*HexP/4000 + 1)) - 328*ATP**2*Fru**2/(17*(Fru/12 + 1)*(ADP/2 + 2000*ATP*Fru/17 + 200*ATP/17 + 10*Fru + 1)) - 394*ATP**2*Fru*Glc**2/(35*(4*ATP + 1)*(Fru/10 + 100*Glc/7 + 4543*HexP/4000 + 1))
@@ -14,7 +14,7 @@ UDP' = Fru*HexP*(5572387*Fru*HexP/50000000 - 677*Suc*UDP/1000)/(677*Fru*(10*UDP/
 glycolysis' = 23*HexP**2/(4000*(23*HexP/400 + 1/5))
 phos' = Suc6P**2/(2*(Suc6P + 1/10))
 Outputs to fix:
-Fru
+[MPQ(0,1), MPQ(0,1), MPQ(1,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1)]
 New variables:
 y0 = ADP
 y1 = ATP
@@ -41,4 +41,4 @@ y9' = y10*y6**2*(71749627*y6**2/4000000000 - 379*y8*y9/10000)/(189313*y6**2*(100
 y10' = y8**2/(2*(y8 + 1/10))
 The size of the original model is 13
 The size of the reduced model is 11
-Computation took 6.35800313949585 seconds
+Computation took 3.6189136505126953 seconds

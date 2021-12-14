@@ -1,4 +1,4 @@
-Read the model in 2.126162528991699s
+Read the model in 1.936439037322998s
 Original system:
 AktActive' = (AktInactive**2*PI3KActive**2*kAkt)/(AktInactive + KmAkt)
 AktInactive' = (-AktInactive**2*PI3KActive**2*kAkt)/(AktInactive + KmAkt)
@@ -81,7 +81,7 @@ krbNGF' = (0)/(1)
 kruEGF' = (0)/(1)
 kruNGF' = (0)/(1)
 Outputs to fix:
-freeEGFReceptor
+[MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(1,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1)]
 New variables:
 y0 = EGF
 y1 = boundEGFReceptor
@@ -96,4 +96,4 @@ y3' = (0)/(1)
 y4' = (0)/(1)
 The size of the original model is 80
 The size of the reduced model is 5
-Computation took 339.87017703056335 seconds
+Computation took 125.91735053062439 seconds
