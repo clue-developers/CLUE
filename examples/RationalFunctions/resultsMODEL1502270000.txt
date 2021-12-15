@@ -1,4 +1,4 @@
-Read the model in 14.268074035644531s
+Read the model in 8.787759065628052s
 Original system:
 Km' = (0)/(1)
 Kp' = (0)/(1)
@@ -47,7 +47,7 @@ zmq' = (-Kp*b*gmax*zmq**3 + -a*b*zmq**3 + Kp*cl*gmax*k_cm*rmq**3 + a*cl*k_cm*rmq
 zmr' = (-M*a**2*gmax*rmm*rmp*rmq**2*rmr*rmt*zmr**3 + -M*a**2*gmax*rmm*rmp*rmq*rmr**2*rmt*zmr**3 + -M*a**2*gmax*rmm*rmp**2*rmq*rmr*rmt*zmr**3 + -M*a**2*gmax*rmm*rmp*rmq*rmr*rmt**2*zmr**3 + -M*a**2*gmax*rmm**2*rmp*rmq*rmr*rmt*zmr**3 + -Kp*b*gmax*zmr**3 + -a*b*zmr**3 + Kp*cl*gmax*k_cm*rmr**3 + a*cl*k_cm*rmr**3)/(Kp*gmax + a)
 zmt' = (Kp*cl*gmax*k_cm*rmt**3 + a*cl*k_cm*rmt**3 + -Kp*b*gmax*zmt**3 + -a*b*zmt**3 + -M*a**2*gmax*rmm*rmp*rmq**2*rmr*rmt*zmt**3 + -M*a**2*gmax*rmm*rmp*rmq*rmr**2*rmt*zmt**3 + -M*a**2*gmax*rmm*rmp**2*rmq*rmr*rmt*zmt**3 + -M*a**2*gmax*rmm*rmp*rmq*rmr*rmt**2*zmt**3 + -M*a**2*gmax*rmm**2*rmp*rmq*rmr*rmt*zmt**3)/(Kp*gmax + a)
 Outputs to fix:
-rmr
+[MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(1,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1), MPQ(0,1)]
 New variables:
 y0 = Km
 y1 = Kp
@@ -142,4 +142,4 @@ y43' = (-y4*y5**2*y11*y25*y26*y27**2*y28*y29*y43**3 + -y4*y5**2*y11*y25*y26*y27*
 y44' = (y1*y7*y11*y12*y29**3 + y5*y7*y12*y29**3 + -y1*y6*y11*y44**3 + -y5*y6*y44**3 + -y4*y5**2*y11*y25*y26*y27**2*y28*y29*y44**3 + -y4*y5**2*y11*y25*y26*y27*y28**2*y29*y44**3 + -y4*y5**2*y11*y25*y26**2*y27*y28*y29*y44**3 + -y4*y5**2*y11*y25*y26*y27*y28*y29**2*y44**3 + -y4*y5**2*y11*y25**2*y26*y27*y28*y29*y44**3)/(y1*y11 + y5)
 The size of the original model is 46
 The size of the reduced model is 45
-Computation took 31013.910936117172 seconds
+Computation took 3607.8953137397766 seconds
