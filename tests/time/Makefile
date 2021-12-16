@@ -39,12 +39,12 @@ clean:
 
 %:
 	@echo "####################################################################################"
-	@echo "## Running test for $@ -- [$(BRANCH)]##r=$(RALG)##m=$(MALG)##t=$(TIME)"
+	@echo "## Running test for $@ -- [$(BRANCH)]## r=$(RALG) ## m=$(MALG) ## t=$(TIME)"
 	@echo "####################################################################################"
 	@echo "## Moving to $(BRANCH) branch"
 	@git checkout $(BRANCH)
 	@rep=1 ; while [[ $$rep -le $(REPETITIONS) ]]; do \
-		echo -ne "Executing repetition $$rep/$(REPETITIONS) in branch $(BRANCH)...\r" ; \
+		echo "Executing repetition $$rep/$(REPETITIONS) in branch $(BRANCH)..." ; \
 		python3 test_time.py $@ $(FOLDER)/$@_$(BRANCH)_$(RALG)_$(MALG).$(EXT) --r $(RALG) --m $(MALG) --t $(TIME) $($@_OBS) ; \
 		(( rep = rep + 1 )) ; \
 	done
