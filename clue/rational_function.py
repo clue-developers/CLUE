@@ -4,6 +4,7 @@ from functools import reduce
 
 from pyparsing import (
     Literal,
+    ParseException,
     Word,
     Group,
     Forward,
@@ -1462,7 +1463,7 @@ class RationalFunction:
             if(not isinstance(other, RationalFunction)):
                 try:
                     other = RationalFunction.from_string(str(other), self.gens)
-                except:
+                except (ParseException, TypeError):
                     return NotImplemented
         return self.num*other.denom == other.num*self.denom
 

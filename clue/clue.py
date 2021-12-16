@@ -1499,7 +1499,7 @@ class FODESystem:
                 return FODESystem.evaluate_matrix(matrix, values)
             except KeyboardInterrupt as e:
                 raise e
-            except:
+            except ZeroDivisionError:
                 pass
 
         raise ValueError("After %d attempts, we did not find a valid random evaluation. Consider changing the bounds." %attempts)
