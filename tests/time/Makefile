@@ -10,12 +10,12 @@ RALG=sympy
 MALG=auto_diff
 TIME=1000
 
-FILES=BIOMD0000000013 BIOMD0000000023 BIOMD0000000033 Barua e8
+FILES=BIOMD0000000013 BIOMD0000000023 BIOMD0000000033 Barua e7
 BIOMD0000000013_OBS=x_CO2
 BIOMD0000000023_OBS=Fru
 BIOMD0000000033_OBS=freeEGFReceptor
 Barua_OBS=aS000
-e8_OBS=S0 S1
+e7_OBS=S0 S1
 
 BRANCHES=rational.b
 READ_ALGS=polynomial.r rational.r sympy.r
@@ -36,6 +36,24 @@ clean:
 
 %.b:
 	@$(MAKE) $(MATR_ALGS) BRANCH=$(basename $@)
+
+# Run polynomial models in the three categories
+%.poly:
+	@$(MAKE) $(basename $@) RALG=polynomial MALG=polynomial BRANCH=$(BRANCH) TIME=$(TIME)
+	@$(MAKE) $(basename $@) RALG=polynomial MALG=auto_diff BRANCH=$(BRANCH) TIME=$(TIME)
+	@$(MAKE) $(basename $@) RALG=sympy MALG=auto_diff BRANCH=$(BRANCH) TIME=$(TIME)
+
+# Run rational models in the four categories
+%.rat_full:
+	@$(MAKE) $(basename $@) RALG=rational MALG=rational BRANCH=$(BRANCH) TIME=$(TIME)
+	@$(MAKE) $(basename $@) RALG=rational MALG=random BRANCH=$(BRANCH) TIME=$(TIME)
+	@$(MAKE) $(basename $@) RALG=rational MALG=auto_diff BRANCH=$(BRANCH) TIME=$(TIME)
+	@$(MAKE) $(basename $@) RALG=sympy MALG=auto_diff BRANCH=$(BRANCH) TIME=$(TIME)
+
+# Run quickly rational models in the simplest two categories
+%.rat:
+	@$(MAKE) $(basename $@) RALG=rational MALG=rational BRANCH=$(BRANCH) TIME=$(TIME)
+	@$(MAKE) $(basename $@) RALG=sympy MALG=auto_diff BRANCH=$(BRANCH) TIME=$(TIME)
 
 %:
 	@echo "####################################################################################"
