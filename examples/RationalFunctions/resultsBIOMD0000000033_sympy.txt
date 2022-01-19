@@ -1,4 +1,4 @@
-Read the model in 0.19817256927490234s
+Read the model in 0.1470472812652588s
 Original system:
 AktActive' = AktInactive**2*PI3KActive**2*kAkt/(AktInactive + KmAkt)
 AktInactive' = -AktInactive**2*PI3KActive**2*kAkt/(AktInactive + KmAkt)
@@ -96,4 +96,4 @@ y3' = 0
 y4' = 0
 The size of the original model is 80
 The size of the reduced model is 5
-Computation took 185.69341945648193 seconds
+Computation took 135.3954598903656 seconds
