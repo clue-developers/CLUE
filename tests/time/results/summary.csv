@@ -1,0 +1,6 @@
+branch,model,read:poly,read:rat,read:sympy,mat:poly,mat:rat,mat:random,mat:auto_diff,lump_det,lump_rand
+rational,BIOMD0000000023,f{nan},f{4.31844654083252},f{0.10976667404174804},f{inf},None,None,None,f{inf},f{0.2142477512359619}
+rational,BIOMD0000000033,f{nan},f{1.612828540802002},f{0.13885722160339356},f{inf},None,None,None,f{inf},f{0.08153853416442872}
+rational,Barua,f{1.3180717468261718},f{2.053671407699585},f{8.51067271232605},f{inf},None,None,None,f{inf},f{inf}
+rational,e8,f{inf},f{inf},f{inf},f{inf},None,None,None,f{inf},f{inf}
+rational,BIOMD0000000013,f{nan},f{554.1994067668915},f{0.13188638687133789},f{inf},None,None,None,f{inf},f{0.8114568710327148}
