@@ -27,4 +27,4 @@ y11' = 0
 Model for e2
 The size of the original model is 24
 The size of the reduced model is 12
-Computation took 0.010323524475097656 seconds
+Computation took 0.010096311569213867 seconds

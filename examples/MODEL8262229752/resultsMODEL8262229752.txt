@@ -72,4 +72,4 @@ y33' = 0
 y34' = 0
 The size of the original model is 47
 The size of the reduced model is 35
-Computation took 0.015685319900512695 seconds
+Computation took 0.015457391738891602 seconds

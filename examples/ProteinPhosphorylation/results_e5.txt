@@ -27,4 +27,4 @@ y11' = 0
 Model for e5
 The size of the original model is 1032
 The size of the reduced model is 12
-Computation took 1.1063828468322754 seconds
+Computation took 1.0873048305511475 seconds

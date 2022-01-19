@@ -1,4 +1,4 @@
-Read the model in 0.11397957801818848s
+Read the model in 0.11630082130432129s
 Original system:
 ADP' = 197*ATP**2*Fru**2*Glc/(2500*(4*ATP + 1)*(Fru/10 + 100*Glc/7 + 4543*HexP/4000 + 1)) + 328*ATP**2*Fru**2/(17*(Fru/12 + 1)*(ADP/2 + 2000*ATP*Fru/17 + 200*ATP/17 + 10*Fru + 1)) + 394*ATP**2*Fru*Glc**2/(35*(4*ATP + 1)*(Fru/10 + 100*Glc/7 + 4543*HexP/4000 + 1))
 ATP' = -197*ATP**2*Fru**2*Glc/(2500*(4*ATP + 1)*(Fru/10 + 100*Glc/7 + 4543*HexP/4000 + 1)) - 328*ATP**2*Fru**2/(17*(Fru/12 + 1)*(ADP/2 + 2000*ATP*Fru/17 + 200*ATP/17 + 10*Fru + 1)) - 394*ATP**2*Fru*Glc**2/(35*(4*ATP + 1)*(Fru/10 + 100*Glc/7 + 4543*HexP/4000 + 1))
@@ -41,4 +41,4 @@ y9' = y10*y6**2*(71749627*y6**2/4000000000 - 379*y8*y9/10000)/(189313*y6**2*(100
 y10' = y8**2/(2*(y8 + 1/10))
 The size of the original model is 13
 The size of the reduced model is 11
-Computation took 2.562943935394287 seconds
+Computation took 2.703465700149536 seconds

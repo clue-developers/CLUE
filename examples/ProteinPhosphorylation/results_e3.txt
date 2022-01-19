@@ -27,4 +27,4 @@ y11' = 0
 Model for e3
 The size of the original model is 72
 The size of the reduced model is 12
-Computation took 0.04493975639343262 seconds
+Computation took 0.04571652412414551 seconds

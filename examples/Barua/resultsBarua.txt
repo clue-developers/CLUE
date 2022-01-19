@@ -701,7 +701,7 @@ y347' = 0
 y348' = 0
 The size of the original model is 497
 The size of the reduced model is 349
-Computation took 69.36325240135193 seconds
+Computation took 70.21238231658936 seconds
 ===============================================
 New variables:
 y0 = aS000
@@ -1503,4 +1503,4 @@ y396' = 0
 y397' = 0
 The size of the original model is 497
 The size of the reduced model is 398
-Computation took 80.58661341667175 seconds
+Computation took 83.7533061504364 seconds

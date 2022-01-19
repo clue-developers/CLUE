@@ -27,4 +27,4 @@ y11' = 0
 Model for e6
 The size of the original model is 4104
 The size of the reduced model is 12
-Computation took 5.996376037597656 seconds
+Computation took 5.406068563461304 seconds

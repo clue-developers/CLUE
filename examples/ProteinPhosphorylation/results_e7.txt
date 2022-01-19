@@ -27,4 +27,4 @@ y11' = 0
 Model for e7
 The size of the original model is 16392
 The size of the reduced model is 12
-Computation took 30.10896897315979 seconds
+Computation took 30.04215717315674 seconds

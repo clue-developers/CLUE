@@ -27,4 +27,4 @@ y11' = 0
 Model for e8
 The size of the original model is 65544
 The size of the reduced model is 12
-Computation took 215.59042954444885 seconds
+Computation took 216.04390335083008 seconds

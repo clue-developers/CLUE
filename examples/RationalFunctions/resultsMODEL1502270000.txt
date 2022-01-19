@@ -1,4 +1,4 @@
-Read the model in 8.787759065628052s
+Read the model in 9.011640548706055s
 Original system:
 Km' = (0)/(1)
 Kp' = (0)/(1)
@@ -142,4 +142,4 @@ y43' = (-y4*y5**2*y11*y25*y26*y27**2*y28*y29*y43**3 + -y4*y5**2*y11*y25*y26*y27*
 y44' = (y1*y7*y11*y12*y29**3 + y5*y7*y12*y29**3 + -y1*y6*y11*y44**3 + -y5*y6*y44**3 + -y4*y5**2*y11*y25*y26*y27**2*y28*y29*y44**3 + -y4*y5**2*y11*y25*y26*y27*y28**2*y29*y44**3 + -y4*y5**2*y11*y25*y26**2*y27*y28*y29*y44**3 + -y4*y5**2*y11*y25*y26*y27*y28*y29**2*y44**3 + -y4*y5**2*y11*y25**2*y26*y27*y28*y29*y44**3)/(y1*y11 + y5)
 The size of the original model is 46
 The size of the reduced model is 45
-Computation took 3607.8953137397766 seconds
+Computation took 3457.6469535827637 seconds
