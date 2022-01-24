@@ -61,6 +61,23 @@ clean:
 	@$(MAKE) $(basename $@) RALG=rational MALG=rational BRANCH=$(BRANCH) TIME=$(TIME)
 	@$(MAKE) $(basename $@) RALG=sympy MALG=auto_diff BRANCH=$(BRANCH) TIME=$(TIME)
 
+# Special test for the MMK models for some sizes
+MMK.sp:
+	@echo "####################################################################################"
+	@echo "## Running test for MMK -- [$(BRANCH)]## min=4, max=10 ## t=$(TIME)"
+	@echo "####################################################################################"
+	@echo "## Moving to $(BRANCH) branch"
+	@git checkout $(BRANCH)
+	@rep=1 ; while [[ $$rep -le $(REPETITIONS) ]]; do \
+		echo "Executing repetition $$rep/$(REPETITIONS) in branch $(BRANCH)..." ; \
+		python3 test_time_MMK.py $(FOLDER)/MMK_$(BRANCH).$(EXT) --m 4 --M 6 --t $(TIME) ; \
+		(( rep = rep + 1 )) ; \
+	done
+	@echo -e "\nFinished"
+	@echo "## Returning to original branch..."
+	@git checkout $(CURRENT)
+	@echo "####################################################################################"
+
 %:
 	@echo "####################################################################################"
 	@echo "## Running test for $@ -- [$(BRANCH)]## r=$(RALG) ## m=$(MALG) ## t=$(TIME)"
