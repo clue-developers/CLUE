@@ -70,7 +70,7 @@ MMK.sp:
 	@git checkout $(BRANCH)
 	@rep=1 ; while [[ $$rep -le $(REPETITIONS) ]]; do \
 		echo "Executing repetition $$rep/$(REPETITIONS) in branch $(BRANCH)..." ; \
-		python3 test_time_MMK.py $(FOLDER)/MMK_$(BRANCH).$(EXT) --m 4 --M 6 --t $(TIME) ; \
+		python3 test_time_MMK.py $(FOLDER)/MMK_$(BRANCH).$(EXT) --m 4 --M 10 --t $(TIME) ; \
 		(( rep = rep + 1 )) ; \
 	done
 	@echo -e "\nFinished"
