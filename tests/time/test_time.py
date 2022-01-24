@@ -89,7 +89,7 @@ if __name__ == '__main__':
     # writing results in output file
     existed = os.path.isfile(out_file)
     with open(out_file, "a+") as file:
-        writer = csv.writer(file, delimiter=";")
+        writer = csv.writer(file, delimiter=",")
         if(not existed):
             writer.writerow(['read', 'matrix', 'lumping'])
         
