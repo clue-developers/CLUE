@@ -1556,7 +1556,11 @@ class RationalFunction:
                 if op == "/":
                     return op1 / op2
             if op == "^" or op == "**":
-                exp = int(s.pop())
+                exp_str = s.pop()
+                exp = to_rational(exp_str)
+                if(exp.denominator != 1):
+                    raise ValueError("invalid literal for int() with base 10: %s" %exp_str)
+                exp = int(exp)
                 base = evaluate_stack(s)
                 return base.exp(exp)
             if re.match(r"^[+-]?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?$", op):
