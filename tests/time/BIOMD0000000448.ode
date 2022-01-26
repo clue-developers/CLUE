@@ -1,3 +1,4 @@
+// modified file to remove parameters (n6 --> 2.0 (v6f1), n9 --> 1.0 (v9f1))
 begin model BIOMD0000000448
  begin parameters
   diabetes = 1.0
@@ -32,7 +33,7 @@ begin model BIOMD0000000448
   k6f1 = 2.652
   k6f2 = 36.93
   km6 = 30.54
-  n6 = 2.137
+//  n6 = 2.137
   k6b = 65.18
   k7f = 50.98
   k7b = 2286.0
@@ -43,7 +44,7 @@ begin model BIOMD0000000448
   k9f2 = 3.329
   k9b2 = 31.0
   km9 = 5873.0
-  n9 = 0.9855
+//  n9 = 0.9855
   scaleIR = 5.2022
   scaleIRS1 = 0.37615
   scaleIRS1ds = 14.892
@@ -125,11 +126,11 @@ begin model BIOMD0000000448
   2*IRS1p307 + 2*PKB473p -> 2*IRS1p307 + PKB473p + PKB308p473p , arbitrary k4e*PKB473p*IRS1p307 [v4e]
   2*PKB308p473p -> PKB473p + PKB308p473p , arbitrary k4f*PKB308p473p [v4f]
   2*PKB473p -> PKB + PKB473p , arbitrary k4h*PKB473p [v4h]
-  2*PKB473p + 2*PKB308p473p + 2*AS160 -> 2*PKB473p + 2*PKB308p473p + AS160 + AS160p , arbitrary AS160*(k6f1*PKB308p473p+k6f2*PKB473p^n6/(km6^n6+PKB473p^n6)) [v6f1]
+  2*PKB473p + 2*PKB308p473p + 2*AS160 -> 2*PKB473p + 2*PKB308p473p + AS160 + AS160p , arbitrary AS160*(k6f1*PKB308p473p+k6f2*PKB473p^2.0/(km6^2.0+PKB473p^2.0)) [v6f1]
   2*AS160p -> AS160 + AS160p , arbitrary AS160p*k6b [v6b1]
   2*AS160p + 2*GLUT4 -> 2*AS160p + GLUT4m + GLUT4 , arbitrary GLUT4*k7f*AS160p [v7f]
   2*GLUT4m -> GLUT4m + GLUT4 , arbitrary GLUT4m*k7b [v7b]
-  2*mTORC1a + 2*S6K -> 2*mTORC1a + S6K + S6Kp , arbitrary S6K*k9f1*mTORC1a^n9/(km9^n9+mTORC1a^n9) [v9f1]
+  2*mTORC1a + 2*S6K -> 2*mTORC1a + S6K + S6Kp , arbitrary S6K*k9f1*mTORC1a^1.0/(km9^1.0+mTORC1a^1.0) [v9f1]
   2*S6Kp -> S6K + S6Kp , arbitrary S6Kp*k9b1 [v9b1]
   2*S6Kp + 2*S6 -> 2*S6Kp + S6 + S6p , arbitrary S6*k9f2*S6Kp [v9f2]
   2*S6p -> S6 + S6p , arbitrary S6p*k9b2 [v9b2]
