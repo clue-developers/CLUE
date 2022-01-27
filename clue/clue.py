@@ -1754,7 +1754,8 @@ class FODESystem:
                 out_format="sympy",
                 loglevel=None,
                 initial_conditions=None,
-                method = "polynomial"
+                method = "polynomial",
+                file=sys.stdout,
     ):
         r'''
             Main function, performs a lumping of a polynomial ODE system
@@ -1769,6 +1770,7 @@ class FODESystem:
                 - initial_conditions - Initial conditions for some elements on the system to be lumped
                 - method - user decision about how to compute the internal matrices for lumping. See method 
                 :func:`construct_matrices` for further information.
+                - file - optional file descriptor to print the results (in case ``print_system`` or ``print_reduction`` are ``True``)
 
             Output
                 a tuple (the right-hand side of an aggregated system, new_variables)
@@ -1915,7 +1917,8 @@ class FODESystem:
                     print_system, 
                     print_reduction, 
                     initial_conditions, 
-                    method
+                    method,
+                    file
                 )
 
         if initial_conditions is not None:
@@ -1950,6 +1953,7 @@ class FODESystem:
                 print_reduction=False, 
                 ic=None, 
                 method = "auto_diff",
+                file=sys.stdout,
     ):
         """
         Performs a lumping of a polynomial ODE system represented by SparsePolynomial
@@ -1961,6 +1965,7 @@ class FODESystem:
             - ic - Initial conditions for some elements on the system to be lumped
             - method - user decision about how to compute the internal matrices for lumping. See method 
               :func:`construct_matrices` for further information.
+            - file - optional file descriptor to print the results (in case ``print_system`` or ``print_reduction`` are ``True``)
         Output
             a dictionary with all the information so the method :func:`lumping`can build the Lumped 
             system (see class :class`LDESystem`)
@@ -2008,23 +2013,23 @@ class FODESystem:
 
         ## Nice printing
         if print_system:
-            print("Original system:")
+            print("Original system:", file=file)
             for i in range(len(self.equations)):
-                print(f"{vars_old[i]}' = {self.equations[i]}")
-            print("Outputs to fix:")
-            print(", ".join(map(str, observable)))
+                print(f"{vars_old[i]}' = {self.equations[i]}", file=file)
+            print("Outputs to fix:", file=file)
+            print(", ".join(map(str, observable)), file=file)
         
         if print_reduction:
-            print("New variables:")
+            print("New variables:", file=file)
             for i in range(lumping_subspace.dim()):
-                print(f"{vars_new[i]} = {map_old_variables[i]}")
+                print(f"{vars_new[i]} = {map_old_variables[i]}", file=file)
             if new_ic is not None:
-                print("New initial conditions:")
+                print("New initial conditions:", file=file)
                 for v, val in zip(vars_new, new_ic):
-                    print(f"{v}(0) = {float(val)}")
-            print("Lumped system:")
+                    print(f"{v}(0) = {float(val)}", file=file)
+            print("Lumped system:", file=file)
             for i in range(lumping_subspace.dim()):
-                print(f"{vars_new[i]}' = {lumped_rhs[i]}")
+                print(f"{vars_new[i]}' = {lumped_rhs[i]}", file=file)
 
         return {"equations" : lumped_rhs, 
                 "variables" : vars_new,
