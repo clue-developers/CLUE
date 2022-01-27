@@ -2,14 +2,14 @@ import json, os
 
 class Model:
     @staticmethod
-    def process_range(range):
+    def process_range(rng):
         ## No range case
-        if(range in (None, "")):
+        if(rng in (None, "")):
             return []
 
         ## We first remove spaces
-        range = range.replace(" ", "")
-        separate_values = range.split(",")
+        rng = rng.replace(" ", "")
+        separate_values = rng.split(",")
         values = []
         for value in separate_values:
             if(value.find("..") > 0):
@@ -51,7 +51,6 @@ class Model:
         
         raise IndexError("The index %d is not valid for the ranged model %s" %(range, self.name))
 
-
 script_dir = os.path.dirname(__file__) if __name__ != "__main__" else "./"
 with open(os.path.join(script_dir,'data.json')) as f:
     data = json.load(f)
@@ -61,7 +60,8 @@ with open(os.path.join(script_dir,'data.json')) as f:
 if __name__ == "__main__":
     ## Reading and sorting the models
     by_types = {}
-    for model in models:
+    for key in models:
+        model = models[key]
         if(not model.type in by_types):
             by_types[model.type] = []
         by_types[model.type] += [model]
@@ -82,7 +82,7 @@ if __name__ == "__main__":
                     readme.write(f"* {model.name}: No reference\n")
                 elif(model.title in ("", None)): # no title but doi
                     readme.write(f"* {model.name}: [{model.doi}](https://doi.org/{model.doi})\n")
-                elif(model['ref_doi'] in ("", None)): # no doi but title
+                elif(model.doi in ("", None)): # no doi but title
                     readme.write(f"* {model.name}: {model.title}\n")
                 else: # both title and doi
                     readme.write(f"* {model.name}: [{model.title}](https://doi.org/{model.doi})\n")
