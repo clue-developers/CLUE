@@ -134,6 +134,7 @@
         ]
     },
     "BIOMD0000000033_sympy": {
+        "model": "BIOMD0000000033",
         "read": "sympy",
         "matrix": "auto_diff",
         "observables": [
@@ -148,6 +149,7 @@
         ]
     },
     "MODEL1502270000_sympy": {
+        "model": "MODEL1502270000",
         "read": "sympy",
         "matrix": "auto_diff",
         "observables": [
