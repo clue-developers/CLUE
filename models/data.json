@@ -50,13 +50,6 @@
     },
     {
         "name": "BIOMD0000000013",
-        "type": "",
-        "range": "",
-        "ref_title": "",
-        "ref_doi": ""
-    },
-    {
-        "name": "BIOMD0000000013",
         "type": "rational",
         "range": "",
         "ref_title": "Applications of metabolic modelling to plant metabolism",
