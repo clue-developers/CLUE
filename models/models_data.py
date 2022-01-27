@@ -47,7 +47,7 @@ class Model:
         if(len(self.range) == 0):
             return os.path.join(script_dir, f"{self.type}/{self.name}.ode")
         elif(range in self.range):
-            return os.path.join(script_dir, f"{self.type}/{self.name}({range}).ode")
+            return os.path.join(script_dir, f"{self.type}/{self.name}[{range}].ode")
         
         raise IndexError("The index %d is not valid for the ranged model %s" %(range, self.name))
 
