@@ -14,7 +14,7 @@ class Model:
         for value in separate_values:
             if(value.find("..") > 0):
                 limits = value.split("..")
-                values += [el for el in range(int(limits[0]), int(limits[1]))]
+                values += [el for el in range(int(limits[0]), int(limits[1])+1)]
             else:
                 values += [int(value)]
         return list(set(values))
