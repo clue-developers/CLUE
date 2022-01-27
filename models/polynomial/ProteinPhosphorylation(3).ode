@@ -1,0 +1,371 @@
+begin model e3
+ begin init
+  S0 = 300.0
+  S1 = 300.0
+  S2 = 3000.0
+  S3
+  S4
+  S5
+  S6
+  S7
+  S8
+  S9
+  S10
+  S11
+  S12
+  S13
+  S14
+  S15
+  S16
+  S17
+  S18
+  S19
+  S20
+  S21
+  S22
+  S23
+  S24
+  S25
+  S26
+  S27
+  S28
+  S29
+  S30
+  S31
+  S32
+  S33
+  S34
+  S35
+  S36
+  S37
+  S38
+  S39
+  S40
+  S41
+  S42
+  S43
+  S44
+  S45
+  S46
+  S47
+  S48
+  S49
+  S50
+  S51
+  S52
+  S53
+  S54
+  S55
+  S56
+  S57
+  S58
+  S59
+  S60
+  S61
+  S62
+  S63
+  S64
+  S65
+  Etot = 300.0
+  Ftot = 300.0
+  Stot = 3000.0
+  kOnE = 0.7
+  kOffE = 3.0
+  kCatE = 5.0
+  kOnF = 0.7
+  kOffF = 3.0
+  kCatF = 5.1
+ end init
+ begin reactions
+  S0 + S2 + kOnE -> S3 + kOnE , 1
+  S0 + S2 + kOnE -> S4 + kOnE , 1
+  S0 + S2 + kOnE -> S5 + kOnE , 1
+  S0 + S4 + kOnE -> S6 + kOnE , 1
+  S0 + S5 + kOnE -> S7 + kOnE , 1
+  S3 + kOffE -> S0 + S2 + kOffE , 1
+  S3 + kCatE -> S0 + S8 + kCatE , 1
+  S0 + S3 + kOnE -> S6 + kOnE , 1
+  S0 + S5 + kOnE -> S9 + kOnE , 1
+  S4 + kOffE -> S0 + S2 + kOffE , 1
+  S4 + kCatE -> S0 + S10 + kCatE , 1
+  S0 + S3 + kOnE -> S7 + kOnE , 1
+  S0 + S4 + kOnE -> S9 + kOnE , 1
+  S5 + kOffE -> S0 + S2 + kOffE , 1
+  S5 + kCatE -> S0 + S11 + kCatE , 1
+  S0 + S9 + kOnE -> S12 + kOnE , 1
+  S0 + S10 + kOnE -> S13 + kOnE , 1
+  S0 + S11 + kOnE -> S14 + kOnE , 1
+  S6 + kOffE -> S0 + S4 + kOffE , 1
+  S7 + kOffE -> S0 + S5 + kOffE , 1
+  S6 + kCatE -> S0 + S15 + kCatE , 1
+  S7 + kCatE -> S0 + S16 + kCatE , 1
+  S1 + S8 + kOnF -> S17 + kOnF , 1
+  S0 + S7 + kOnE -> S12 + kOnE , 1
+  S0 + S8 + kOnE -> S15 + kOnE , 1
+  S0 + S11 + kOnE -> S18 + kOnE , 1
+  S6 + kOffE -> S0 + S3 + kOffE , 1
+  S9 + kOffE -> S0 + S5 + kOffE , 1
+  S6 + kCatE -> S0 + S13 + kCatE , 1
+  S9 + kCatE -> S0 + S19 + kCatE , 1
+  S1 + S10 + kOnF -> S20 + kOnF , 1
+  S0 + S6 + kOnE -> S12 + kOnE , 1
+  S0 + S8 + kOnE -> S16 + kOnE , 1
+  S0 + S10 + kOnE -> S19 + kOnE , 1
+  S7 + kOffE -> S0 + S3 + kOffE , 1
+  S9 + kOffE -> S0 + S4 + kOffE , 1
+  S7 + kCatE -> S0 + S14 + kCatE , 1
+  S9 + kCatE -> S0 + S18 + kCatE , 1
+  S1 + S11 + kOnF -> S21 + kOnF , 1
+  S0 + S18 + kOnE -> S22 + kOnE , 1
+  S0 + S19 + kOnE -> S23 + kOnE , 1
+  S0 + S20 + kOnE -> S24 + kOnE , 1
+  S0 + S21 + kOnE -> S25 + kOnE , 1
+  S12 + kOffE -> S0 + S9 + kOffE , 1
+  S13 + kOffE -> S0 + S10 + kOffE , 1
+  S14 + kOffE -> S0 + S11 + kOffE , 1
+  S12 + kCatE -> S0 + S26 + kCatE , 1
+  S13 + kCatE -> S0 + S27 + kCatE , 1
+  S14 + kCatE -> S0 + S28 + kCatE , 1
+  S1 + S15 + kOnF -> S29 + kOnF , 1
+  S1 + S16 + kOnF -> S30 + kOnF , 1
+  S17 + kOffF -> S1 + S8 + kOffF , 1
+  S17 + kCatF -> S1 + S2 + kCatF , 1
+  S0 + S14 + kOnE -> S22 + kOnE , 1
+  S0 + S16 + kOnE -> S26 + kOnE , 1
+  S0 + S17 + kOnE -> S29 + kOnE , 1
+  S0 + S21 + kOnE -> S31 + kOnE , 1
+  S12 + kOffE -> S0 + S7 + kOffE , 1
+  S15 + kOffE -> S0 + S8 + kOffE , 1
+  S18 + kOffE -> S0 + S11 + kOffE , 1
+  S12 + kCatE -> S0 + S23 + kCatE , 1
+  S15 + kCatE -> S0 + S27 + kCatE , 1
+  S18 + kCatE -> S0 + S32 + kCatE , 1
+  S1 + S13 + kOnF -> S24 + kOnF , 1
+  S1 + S19 + kOnF -> S33 + kOnF , 1
+  S20 + kOffF -> S1 + S10 + kOffF , 1
+  S20 + kCatF -> S1 + S2 + kCatF , 1
+  S0 + S13 + kOnE -> S23 + kOnE , 1
+  S0 + S15 + kOnE -> S26 + kOnE , 1
+  S0 + S17 + kOnE -> S30 + kOnE , 1
+  S0 + S20 + kOnE -> S33 + kOnE , 1
+  S12 + kOffE -> S0 + S6 + kOffE , 1
+  S16 + kOffE -> S0 + S8 + kOffE , 1
+  S19 + kOffE -> S0 + S10 + kOffE , 1
+  S12 + kCatE -> S0 + S22 + kCatE , 1
+  S16 + kCatE -> S0 + S28 + kCatE , 1
+  S19 + kCatE -> S0 + S32 + kCatE , 1
+  S1 + S14 + kOnF -> S25 + kOnF , 1
+  S1 + S18 + kOnF -> S31 + kOnF , 1
+  S21 + kOffF -> S1 + S11 + kOffF , 1
+  S21 + kCatF -> S1 + S2 + kCatF , 1
+  S0 + S31 + kOnE -> S34 + kOnE , 1
+  S0 + S32 + kOnE -> S35 + kOnE , 1
+  S0 + S33 + kOnE -> S36 + kOnE , 1
+  S22 + kOffE -> S0 + S18 + kOffE , 1
+  S23 + kOffE -> S0 + S19 + kOffE , 1
+  S24 + kOffE -> S0 + S20 + kOffE , 1
+  S25 + kOffE -> S0 + S21 + kOffE , 1
+  S22 + kCatE -> S0 + S37 + kCatE , 1
+  S23 + kCatE -> S0 + S38 + kCatE , 1
+  S24 + kCatE -> S0 + S39 + kCatE , 1
+  S25 + kCatE -> S0 + S40 + kCatE , 1
+  S1 + S26 + kOnF -> S41 + kOnF , 1
+  S1 + S27 + kOnF -> S42 + kOnF , 1
+  S1 + S28 + kOnF -> S43 + kOnF , 1
+  S29 + kOffF -> S1 + S15 + kOffF , 1
+  S30 + kOffF -> S1 + S16 + kOffF , 1
+  S29 + kCatF -> S1 + S4 + kCatF , 1
+  S30 + kCatF -> S1 + S5 + kCatF , 1
+  S0 + S25 + kOnE -> S34 + kOnE , 1
+  S0 + S28 + kOnE -> S37 + kOnE , 1
+  S0 + S30 + kOnE -> S41 + kOnE , 1
+  S22 + kOffE -> S0 + S14 + kOffE , 1
+  S26 + kOffE -> S0 + S16 + kOffE , 1
+  S29 + kOffE -> S0 + S17 + kOffE , 1
+  S31 + kOffE -> S0 + S21 + kOffE , 1
+  S22 + kCatE -> S0 + S35 + kCatE , 1
+  S26 + kCatE -> S0 + S38 + kCatE , 1
+  S29 + kCatE -> S0 + S42 + kCatE , 1
+  S31 + kCatE -> S0 + S44 + kCatE , 1
+  S1 + S23 + kOnF -> S36 + kOnF , 1
+  S1 + S27 + kOnF -> S39 + kOnF , 1
+  S1 + S32 + kOnF -> S45 + kOnF , 1
+  S24 + kOffF -> S1 + S13 + kOffF , 1
+  S33 + kOffF -> S1 + S19 + kOffF , 1
+  S24 + kCatF -> S1 + S3 + kCatF , 1
+  S33 + kCatF -> S1 + S5 + kCatF , 1
+  S0 + S24 + kOnE -> S36 + kOnE , 1
+  S0 + S27 + kOnE -> S38 + kOnE , 1
+  S0 + S29 + kOnE -> S41 + kOnE , 1
+  S23 + kOffE -> S0 + S13 + kOffE , 1
+  S26 + kOffE -> S0 + S15 + kOffE , 1
+  S30 + kOffE -> S0 + S17 + kOffE , 1
+  S33 + kOffE -> S0 + S20 + kOffE , 1
+  S23 + kCatE -> S0 + S35 + kCatE , 1
+  S26 + kCatE -> S0 + S37 + kCatE , 1
+  S30 + kCatE -> S0 + S43 + kCatE , 1
+  S33 + kCatE -> S0 + S45 + kCatE , 1
+  S1 + S22 + kOnF -> S34 + kOnF , 1
+  S1 + S28 + kOnF -> S40 + kOnF , 1
+  S1 + S32 + kOnF -> S44 + kOnF , 1
+  S25 + kOffF -> S1 + S14 + kOffF , 1
+  S31 + kOffF -> S1 + S18 + kOffF , 1
+  S25 + kCatF -> S1 + S3 + kCatF , 1
+  S31 + kCatF -> S1 + S4 + kCatF , 1
+  S0 + S44 + kOnE -> S46 + kOnE , 1
+  S0 + S45 + kOnE -> S47 + kOnE , 1
+  S34 + kOffE -> S0 + S31 + kOffE , 1
+  S35 + kOffE -> S0 + S32 + kOffE , 1
+  S36 + kOffE -> S0 + S33 + kOffE , 1
+  S34 + kCatE -> S0 + S48 + kCatE , 1
+  S35 + kCatE -> S0 + S49 + kCatE , 1
+  S36 + kCatE -> S0 + S50 + kCatE , 1
+  S1 + S37 + kOnF -> S51 + kOnF , 1
+  S1 + S38 + kOnF -> S52 + kOnF , 1
+  S1 + S39 + kOnF -> S53 + kOnF , 1
+  S1 + S40 + kOnF -> S54 + kOnF , 1
+  S41 + kOffF -> S1 + S26 + kOffF , 1
+  S42 + kOffF -> S1 + S27 + kOffF , 1
+  S43 + kOffF -> S1 + S28 + kOffF , 1
+  S41 + kCatF -> S1 + S9 + kCatF , 1
+  S42 + kCatF -> S1 + S10 + kCatF , 1
+  S43 + kCatF -> S1 + S11 + kCatF , 1
+  S0 + S40 + kOnE -> S48 + kOnE , 1
+  S0 + S43 + kOnE -> S51 + kOnE , 1
+  S34 + kOffE -> S0 + S25 + kOffE , 1
+  S37 + kOffE -> S0 + S28 + kOffE , 1
+  S41 + kOffE -> S0 + S30 + kOffE , 1
+  S34 + kCatE -> S0 + S46 + kCatE , 1
+  S37 + kCatE -> S0 + S49 + kCatE , 1
+  S41 + kCatE -> S0 + S52 + kCatE , 1
+  S1 + S35 + kOnF -> S47 + kOnF , 1
+  S1 + S38 + kOnF -> S50 + kOnF , 1
+  S1 + S42 + kOnF -> S53 + kOnF , 1
+  S1 + S44 + kOnF -> S55 + kOnF , 1
+  S36 + kOffF -> S1 + S23 + kOffF , 1
+  S39 + kOffF -> S1 + S27 + kOffF , 1
+  S45 + kOffF -> S1 + S32 + kOffF , 1
+  S36 + kCatF -> S1 + S7 + kCatF , 1
+  S39 + kCatF -> S1 + S8 + kCatF , 1
+  S45 + kCatF -> S1 + S11 + kCatF , 1
+  S0 + S39 + kOnE -> S50 + kOnE , 1
+  S0 + S42 + kOnE -> S52 + kOnE , 1
+  S36 + kOffE -> S0 + S24 + kOffE , 1
+  S38 + kOffE -> S0 + S27 + kOffE , 1
+  S41 + kOffE -> S0 + S29 + kOffE , 1
+  S36 + kCatE -> S0 + S47 + kCatE , 1
+  S38 + kCatE -> S0 + S49 + kCatE , 1
+  S41 + kCatE -> S0 + S51 + kCatE , 1
+  S1 + S35 + kOnF -> S46 + kOnF , 1
+  S1 + S37 + kOnF -> S48 + kOnF , 1
+  S1 + S43 + kOnF -> S54 + kOnF , 1
+  S1 + S45 + kOnF -> S55 + kOnF , 1
+  S34 + kOffF -> S1 + S22 + kOffF , 1
+  S40 + kOffF -> S1 + S28 + kOffF , 1
+  S44 + kOffF -> S1 + S32 + kOffF , 1
+  S34 + kCatF -> S1 + S6 + kCatF , 1
+  S40 + kCatF -> S1 + S8 + kCatF , 1
+  S44 + kCatF -> S1 + S10 + kCatF , 1
+  S0 + S55 + kOnE -> S56 + kOnE , 1
+  S46 + kOffE -> S0 + S44 + kOffE , 1
+  S47 + kOffE -> S0 + S45 + kOffE , 1
+  S46 + kCatE -> S0 + S57 + kCatE , 1
+  S47 + kCatE -> S0 + S58 + kCatE , 1
+  S1 + S48 + kOnF -> S59 + kOnF , 1
+  S1 + S49 + kOnF -> S60 + kOnF , 1
+  S1 + S50 + kOnF -> S61 + kOnF , 1
+  S51 + kOffF -> S1 + S37 + kOffF , 1
+  S52 + kOffF -> S1 + S38 + kOffF , 1
+  S53 + kOffF -> S1 + S39 + kOffF , 1
+  S54 + kOffF -> S1 + S40 + kOffF , 1
+  S51 + kCatF -> S1 + S18 + kCatF , 1
+  S52 + kCatF -> S1 + S19 + kCatF , 1
+  S53 + kCatF -> S1 + S20 + kCatF , 1
+  S54 + kCatF -> S1 + S21 + kCatF , 1
+  S0 + S54 + kOnE -> S59 + kOnE , 1
+  S48 + kOffE -> S0 + S40 + kOffE , 1
+  S51 + kOffE -> S0 + S43 + kOffE , 1
+  S48 + kCatE -> S0 + S57 + kCatE , 1
+  S51 + kCatE -> S0 + S60 + kCatE , 1
+  S1 + S46 + kOnF -> S56 + kOnF , 1
+  S1 + S49 + kOnF -> S58 + kOnF , 1
+  S1 + S52 + kOnF -> S61 + kOnF , 1
+  S47 + kOffF -> S1 + S35 + kOffF , 1
+  S50 + kOffF -> S1 + S38 + kOffF , 1
+  S53 + kOffF -> S1 + S42 + kOffF , 1
+  S55 + kOffF -> S1 + S44 + kOffF , 1
+  S47 + kCatF -> S1 + S14 + kCatF , 1
+  S50 + kCatF -> S1 + S16 + kCatF , 1
+  S53 + kCatF -> S1 + S17 + kCatF , 1
+  S55 + kCatF -> S1 + S21 + kCatF , 1
+  S0 + S53 + kOnE -> S61 + kOnE , 1
+  S50 + kOffE -> S0 + S39 + kOffE , 1
+  S52 + kOffE -> S0 + S42 + kOffE , 1
+  S50 + kCatE -> S0 + S58 + kCatE , 1
+  S52 + kCatE -> S0 + S60 + kCatE , 1
+  S1 + S47 + kOnF -> S56 + kOnF , 1
+  S1 + S49 + kOnF -> S57 + kOnF , 1
+  S1 + S51 + kOnF -> S59 + kOnF , 1
+  S46 + kOffF -> S1 + S35 + kOffF , 1
+  S48 + kOffF -> S1 + S37 + kOffF , 1
+  S54 + kOffF -> S1 + S43 + kOffF , 1
+  S55 + kOffF -> S1 + S45 + kOffF , 1
+  S46 + kCatF -> S1 + S13 + kCatF , 1
+  S48 + kCatF -> S1 + S15 + kCatF , 1
+  S54 + kCatF -> S1 + S17 + kCatF , 1
+  S55 + kCatF -> S1 + S20 + kCatF , 1
+  S56 + kOffE -> S0 + S55 + kOffE , 1
+  S56 + kCatE -> S0 + S62 + kCatE , 1
+  S1 + S57 + kOnF -> S63 + kOnF , 1
+  S1 + S58 + kOnF -> S64 + kOnF , 1
+  S59 + kOffF -> S1 + S48 + kOffF , 1
+  S60 + kOffF -> S1 + S49 + kOffF , 1
+  S61 + kOffF -> S1 + S50 + kOffF , 1
+  S59 + kCatF -> S1 + S31 + kCatF , 1
+  S60 + kCatF -> S1 + S32 + kCatF , 1
+  S61 + kCatF -> S1 + S33 + kCatF , 1
+  S59 + kOffE -> S0 + S54 + kOffE , 1
+  S59 + kCatE -> S0 + S63 + kCatE , 1
+  S1 + S57 + kOnF -> S62 + kOnF , 1
+  S1 + S60 + kOnF -> S64 + kOnF , 1
+  S56 + kOffF -> S1 + S46 + kOffF , 1
+  S58 + kOffF -> S1 + S49 + kOffF , 1
+  S61 + kOffF -> S1 + S52 + kOffF , 1
+  S56 + kCatF -> S1 + S25 + kCatF , 1
+  S58 + kCatF -> S1 + S28 + kCatF , 1
+  S61 + kCatF -> S1 + S30 + kCatF , 1
+  S61 + kOffE -> S0 + S53 + kOffE , 1
+  S61 + kCatE -> S0 + S64 + kCatE , 1
+  S1 + S58 + kOnF -> S62 + kOnF , 1
+  S1 + S60 + kOnF -> S63 + kOnF , 1
+  S56 + kOffF -> S1 + S47 + kOffF , 1
+  S57 + kOffF -> S1 + S49 + kOffF , 1
+  S59 + kOffF -> S1 + S51 + kOffF , 1
+  S56 + kCatF -> S1 + S24 + kCatF , 1
+  S57 + kCatF -> S1 + S27 + kCatF , 1
+  S59 + kCatF -> S1 + S29 + kCatF , 1
+  S1 + S62 + kOnF -> S65 + kOnF , 1
+  S63 + kOffF -> S1 + S57 + kOffF , 1
+  S64 + kOffF -> S1 + S58 + kOffF , 1
+  S63 + kCatF -> S1 + S44 + kCatF , 1
+  S64 + kCatF -> S1 + S45 + kCatF , 1
+  S1 + S63 + kOnF -> S65 + kOnF , 1
+  S62 + kOffF -> S1 + S57 + kOffF , 1
+  S64 + kOffF -> S1 + S60 + kOffF , 1
+  S62 + kCatF -> S1 + S40 + kCatF , 1
+  S64 + kCatF -> S1 + S43 + kCatF , 1
+  S1 + S64 + kOnF -> S65 + kOnF , 1
+  S62 + kOffF -> S1 + S58 + kOffF , 1
+  S63 + kOffF -> S1 + S60 + kOffF , 1
+  S62 + kCatF -> S1 + S39 + kCatF , 1
+  S63 + kCatF -> S1 + S42 + kCatF , 1
+  S65 + kOffF -> S1 + S62 + kOffF , 1
+  S65 + kCatF -> S1 + S55 + kCatF , 1
+  S65 + kOffF -> S1 + S63 + kOffF , 1
+  S65 + kCatF -> S1 + S54 + kCatF , 1
+  S65 + kOffF -> S1 + S64 + kOffF , 1
+  S65 + kCatF -> S1 + S53 + kCatF , 1
+ end reactions
+
+end model
+

@@ -1,0 +1,83 @@
+begin model e2
+ begin init
+  S0 = 300.0
+  S1 = 300.0
+  S2 = 3000.0
+  S3
+  S4
+  S5
+  S6
+  S7
+  S8
+  S9
+  S10
+  S11
+  S12
+  S13
+  S14
+  S15
+  S16
+  S17
+  Etot = 300.0
+  Ftot = 300.0
+  Stot = 3000.0
+  kOnE = 0.7
+  kOffE = 3.0
+  kCatE = 5.0
+  kOnF = 0.7
+  kOffF = 3.0
+  kCatF = 5.1
+ end init
+ begin reactions
+  S0 + S2 + kOnE -> S3 + kOnE , 1
+  S0 + S2 + kOnE -> S4 + kOnE , 1
+  S0 + S4 + kOnE -> S5 + kOnE , 1
+  S3 + kOffE -> S0 + S2 + kOffE , 1
+  S3 + kCatE -> S0 + S6 + kCatE , 1
+  S0 + S3 + kOnE -> S5 + kOnE , 1
+  S4 + kOffE -> S0 + S2 + kOffE , 1
+  S4 + kCatE -> S0 + S7 + kCatE , 1
+  S0 + S7 + kOnE -> S8 + kOnE , 1
+  S5 + kOffE -> S0 + S4 + kOffE , 1
+  S5 + kCatE -> S0 + S9 + kCatE , 1
+  S1 + S6 + kOnF -> S10 + kOnF , 1
+  S0 + S6 + kOnE -> S9 + kOnE , 1
+  S5 + kOffE -> S0 + S3 + kOffE , 1
+  S5 + kCatE -> S0 + S8 + kCatE , 1
+  S1 + S7 + kOnF -> S11 + kOnF , 1
+  S0 + S11 + kOnE -> S12 + kOnE , 1
+  S8 + kOffE -> S0 + S7 + kOffE , 1
+  S8 + kCatE -> S0 + S13 + kCatE , 1
+  S1 + S9 + kOnF -> S14 + kOnF , 1
+  S10 + kOffF -> S1 + S6 + kOffF , 1
+  S10 + kCatF -> S1 + S2 + kCatF , 1
+  S0 + S10 + kOnE -> S14 + kOnE , 1
+  S9 + kOffE -> S0 + S6 + kOffE , 1
+  S9 + kCatE -> S0 + S13 + kCatE , 1
+  S1 + S8 + kOnF -> S12 + kOnF , 1
+  S11 + kOffF -> S1 + S7 + kOffF , 1
+  S11 + kCatF -> S1 + S2 + kCatF , 1
+  S12 + kOffE -> S0 + S11 + kOffE , 1
+  S12 + kCatE -> S0 + S15 + kCatE , 1
+  S1 + S13 + kOnF -> S16 + kOnF , 1
+  S14 + kOffF -> S1 + S9 + kOffF , 1
+  S14 + kCatF -> S1 + S4 + kCatF , 1
+  S14 + kOffE -> S0 + S10 + kOffE , 1
+  S14 + kCatE -> S0 + S16 + kCatE , 1
+  S1 + S13 + kOnF -> S15 + kOnF , 1
+  S12 + kOffF -> S1 + S8 + kOffF , 1
+  S12 + kCatF -> S1 + S3 + kCatF , 1
+  S1 + S15 + kOnF -> S17 + kOnF , 1
+  S16 + kOffF -> S1 + S13 + kOffF , 1
+  S16 + kCatF -> S1 + S7 + kCatF , 1
+  S1 + S16 + kOnF -> S17 + kOnF , 1
+  S15 + kOffF -> S1 + S13 + kOffF , 1
+  S15 + kCatF -> S1 + S6 + kCatF , 1
+  S17 + kOffF -> S1 + S15 + kOffF , 1
+  S17 + kCatF -> S1 + S11 + kCatF , 1
+  S17 + kOffF -> S1 + S16 + kOffF , 1
+  S17 + kCatF -> S1 + S10 + kCatF , 1
+ end reactions
+
+end model
+

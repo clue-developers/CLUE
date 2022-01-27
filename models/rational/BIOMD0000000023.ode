@@ -1,0 +1,32 @@
+begin model BIOMD0000000023
+ begin init
+  Fru = 1.0
+  Glc = 1.0
+  HexP = 1.0
+  Suc6P = 1.0
+  Suc = 1.0
+  Sucvac
+  glycolysis
+  phos = 5.1
+  UDP = 0.2
+  ADP = 0.2
+  ATP = 1.0
+  Glcex = 5.0
+  Fruex = 5.0
+ end init
+ begin reactions
+  Fruex -> Fru ,  1*0.286*Fruex/(0.2*(1+Fru/1)+Fruex) [v1]
+  Glcex -> Glc ,  1*0.286*Glcex/(0.2*(1+Glc/1)+Glcex) [v2]
+  Fru + Glc + ATP -> Fru + HexP + ADP ,  1*0.197*Glc/0.07*ATP/0.25/((1+ATP/0.25)*(1+Glc/0.07+Fru/10+0.113*HexP/0.1+0.0575*HexP/10)) [v3]
+  Fru + Glc + ATP -> Glc + HexP + ADP ,  1*0.197*Fru/10*ATP/0.25/((1+ATP/0.25)*(1+Glc/0.07+Fru/10+0.113*HexP/0.1+0.0575*HexP/10)) [v4]
+  Fru + ATP -> HexP + ADP ,  1*0.164/(1+Fru/12)*Fru/0.1*ATP/0.085/(1+Fru/0.1+ATP/0.085+Fru*ATP/(0.1*0.085)+ADP/2) [v5]
+  2*HexP + phos -> Suc6P + phos + UDP ,  1*0.379*(0.0575*HexP*0.8231*HexP-Suc6P*UDP/10)/(0.0575*HexP*0.8231*HexP*(1+Suc6P/0.07)+0.6*(1+phos/3)*(0.8231*HexP+1.4)+1.8*0.0575*HexP+0.379/(0.2*10)*(0.3*Suc6P*(1+0.8231*HexP/1.4)+UDP*(0.1*(1+1.8*0.0575*HexP/(1.4*0.6*(1+phos/3)))+Suc6P*(1+0.0575*HexP/0.4)))) [v6]
+  Suc6P -> Suc + phos ,  1*0.5*Suc6P/(0.1+Suc6P) [v7]
+  Fru + HexP -> Suc + UDP ,  1*(-0.677)*(Suc*UDP-Fru*0.8231*HexP/5)/(Suc*UDP*(1+Fru/4)+50*(UDP+0.3)+0.3*Suc+0.677/(0.3*5)*(0.3*Fru*(1+UDP/0.3)+0.8231*HexP*(4*(1+0.3*Suc/(0.3*50))+Fru*(1+Suc/40)))) [v8]
+  Suc -> Fru + Glc ,  1*0.372/(1+Glc/15)*Suc/(10*(1+Fru/15)+Suc) [v9]
+  HexP -> glycolysis ,  1*0.1*0.0575*HexP/(0.2+0.0575*HexP) [v10]
+  Suc -> Sucvac ,  1*1*Suc/(100+Suc) [v11]
+ end reactions
+
+end model
+

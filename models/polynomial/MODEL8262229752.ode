@@ -1,0 +1,84 @@
+begin model MODEL8262229752
+ begin init
+  Nutrients = 28350.0
+  Met = 2248.0
+  SAM = 10000.0
+  SAH = 320.0
+  Decarb_SAM = 220.0
+  Putrescine = 4400.0
+  Pfs_mRNA = 32.0
+  pfs_gene = 1.0
+  Pfs_prot = 800.0
+  Adenine = 596.0
+  SRH = 300.0
+  LuxS_gene = 1.0
+  LuxS_mRNA = 16.0
+  LuxS_prot = 400.0
+  DPD = 300.0
+  Homocys = 300.0
+  MTA = 296.0
+  Spermidine = 940.0
+  MTR = 180.0
+  AI2_intra = 60.0
+  AI2_extra = 60.0
+  SINK
+  AI2_trans_r
+  AI2_phos_r
+  AI2_excret_r = 0.25
+  AI2_syn_r = 6.7E-4
+  AdoMet_r = 0.962
+  DPD_deg_r = 0.005
+  LuxS_mRNA_d = 0.03
+  LuxS_prot_d = 0.012
+  LuxS_transc = 1.25
+  LuxS_transl = 0.74
+  MTR_e = 0.02
+  MTR_syn_r = 2.21E-5
+  Met_recov = 0.35
+  Methy_trans = 0.15
+  Pfs_prot_d = 0.003
+  Polyamine_uti = 0.15
+  SAH_Hydro_r = 5.5E-4
+  SAM_Dec = 0.055
+  SRH_cleav = 0.00224
+  SpeE_syn_r = 4.03E-6
+  Spermi_uti = 0.0208
+  b_reac_r = 0.01
+  pfs_mRNA_d = 0.022
+  pfs_transc = 2.1
+  pfs_transl = 0.54
+ end init
+ begin reactions
+  Nutrients -> Met , b_reac_r
+  Met -> SAM , AdoMet_r
+  SAM -> SAH , Methy_trans
+  SAM -> Decarb_SAM , SAM_Dec
+  Decarb_SAM + Putrescine -> MTA + Spermidine , SpeE_syn_r
+  Spermidine -> SINK , Spermi_uti
+  Pfs_prot + MTA -> Pfs_prot + Adenine + MTR , MTR_syn_r
+  MTR -> SINK , MTR_e
+  Adenine -> SINK , Polyamine_uti
+  Pfs_prot -> SINK , Pfs_prot_d
+  Pfs_mRNA -> Pfs_mRNA + Pfs_prot , pfs_transl
+  Pfs_mRNA -> SINK , pfs_mRNA_d
+  pfs_gene -> Pfs_mRNA + pfs_gene , pfs_transc
+  SAH + Pfs_prot -> Pfs_prot + Adenine + SRH , SAH_Hydro_r
+  SRH + LuxS_prot -> LuxS_prot + DPD + Homocys , SRH_cleav
+  Homocys -> Met , Met_recov
+  DPD -> SINK , DPD_deg_r
+  LuxS_prot -> SINK , LuxS_prot_d
+  LuxS_mRNA -> LuxS_mRNA + LuxS_prot , LuxS_transl
+  LuxS_mRNA -> SINK , LuxS_mRNA_d
+  LuxS_gene -> LuxS_gene + LuxS_mRNA , LuxS_transc
+  DPD -> AI2_intra , AI2_syn_r
+  AI2_intra -> AI2_extra , AI2_excret_r
+  AI2_extra -> AI2_intra , AI2_trans_r
+  AI2_intra -> SINK , AI2_phos_r
+ end reactions
+
+//Comments associated to the species
+//SINK:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+
