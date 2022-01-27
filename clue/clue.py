@@ -1845,28 +1845,28 @@ class FODESystem:
             We add now some tests using some external files from folder ``tests``::
 
                 >>> ## Example 1
-                >>> system = FODESystem(file="tests/e2.ode") 
+                >>> system = FODESystem(file="models/polynomial/ProteinPhosphorylation(2).ode") 
                 >>> lumping = system.lumping(
                 ...     [SparsePolynomial.from_string("S0", system.variables)], 
                 ...     print_reduction=False)
-                >>> assert lumping.is_consistent(), "Error in model e2: consistency"
-                >>> assert lumping.size == 12, "Error in model e2: size"
+                >>> assert lumping.is_consistent(), "Error in model ProteinPhosphorylation(2): consistency"
+                >>> assert lumping.size == 12, "Error in model ProteinPhosphorylation(2): size"
                 >>> ## Example 2
-                >>> system = FODESystem(file="tests/BIOMD0000000101.ode")
+                >>> system = FODESystem(file="models/polynomial/BIOMD0000000101.ode")
                 >>> lumping = system.lumping(
                 ...     [SparsePolynomial.from_string("RI", system.variables)], 
                 ...     print_reduction=False)
                 >>> assert lumping.is_consistent(), "Error in model BIOMD0000000101: consistency"
                 >>> assert lumping.size == 14, "Error in model BIOMD0000000101: size"
                 >>> ## Example 3
-                >>> system = FODESystem(file="tests/MODEL1504160000.ode")
+                >>> system = FODESystem(file="models/polynomial/MODEL1504160000.ode")
                 >>> lumping = system.lumping(
                 ...     [SparsePolynomial.from_string("cd8_in_spleen", system.variables)], 
                 ...     print_reduction=False)
                 >>> assert lumping.is_consistent(), "Error in model MODEL1504160000: consistency"
                 >>> assert lumping.size == 8, "Error in model MODEL1504160000: size"
                 >>> ## Example 4
-                >>> system = FODESystem(file="tests/MODEL9085850385.ode")
+                >>> system = FODESystem(file="models/polynomial/MODEL9085850385.ode")
                 >>> lumping = system.lumping(
                 ...     [SparsePolynomial.from_string("PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx", system.variables)], 
                 ...     print_reduction=False)

@@ -7,6 +7,13 @@
         "ref_doi": "10.1371/journal.pcbi.1000364"
     },
     {
+        "name": "BIOMD0000000101",
+        "type": "polynomial",
+        "range": "",
+        "ref_title": "Signal processing in the TGF-beta superfamily ligand-receptor network",
+        "ref_doi": "10.1371/journal.pcbi.0020003"
+    },
+    {
         "name": "BIOMD0000000504",
         "type": "polynomial",
         "range": "",
@@ -21,6 +28,13 @@
         "ref_doi": "10.4049/jimmunol.170.7.3769"
     },
     {
+        "name": "model_example",
+        "type": "polynomial",
+        "range": "",
+        "ref_title": "model example for the tutorial of the package",
+        "ref_doi": ""
+    },
+    {
         "name": "MODEL1001150000",
         "type": "polynomial",
         "range": "",
@@ -28,11 +42,25 @@
         "ref_doi": "10.1371/journal.pcbi.1000675"
     },
     {
+        "name": "MODEL1504160000",
+        "type": "polynomial",
+        "range": "",
+        "ref_title": "Modeling of influenza-specific CD8+ T cells during the primary response indicates that the spleen is a major source of effectors",
+        "ref_doi": "10.4049/jimmunol.1101443"
+    },
+    {
         "name": "MODEL8262229752",
         "type": "polynomial",
         "range": "",
         "ref_title": "A stochastic model of Escherichia coli AI‐2 quorum signal circuit reveals alternative synthesis pathways",
         "ref_doi": "10.1038/msb4100107"
+    },
+    {
+        "name": "MODEL9085850385",
+        "type": "polynomial",
+        "range": "",
+        "ref_title": "Signaling in small subcellular volumes. II. Stochastic and diffusion effects on synaptic network properties",
+        "ref_doi": "10.1529/biophysj.104.040501"
     },
     {
         "name": "OrderedPhosphorylation",
