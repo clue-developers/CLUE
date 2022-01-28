@@ -1847,11 +1847,11 @@ class FODESystem:
             We add now some tests using some external files from folder ``tests``::
 
                 >>> ## Example 1
-                >>> system = FODESystem(file="models/polynomial/ProteinPhosphorylation(2).ode") 
+                >>> system = FODESystem(file="models/polynomial/ProteinPhosphorylation[2].ode") 
                 >>> lumping = system.lumping(
                 ...     [SparsePolynomial.from_string("S0", system.variables)], 
                 ...     print_reduction=False)
-                >>> assert lumping.is_consistent(), "Error in model ProteinPhosphorylation(2): consistency"
+                >>> assert lumping.is_consistent(), "Error in model ProteinPhosphorylation[2]: consistency"
                 >>> assert lumping.size == 12, "Error in model ProteinPhosphorylation(2): size"
                 >>> ## Example 2
                 >>> system = FODESystem(file="models/polynomial/BIOMD0000000101.ode")

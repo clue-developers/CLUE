@@ -525,6 +525,7 @@ class SparsePolynomial(object):
         else:
             result = SparsePolynomial(self.gens, self.domain)
             if other != 0:
+                other = self.domain.convert(other)
                 for m, c in self._data.items():
                     result._data[m] = c * other
             return result
