@@ -108,19 +108,22 @@ if __name__ == '__main__':
     # writing results in output file
     if(out_file == "stdout"):
         for n in sizes:
-            print(f"{n}: {sizes[n][0]}, {sizes[n][1]}, {sizes[n][2]}", file=sys.stdout)
+            total = sizes[n][0] + sizes[n][1] + sizes[n][2]
+            print(f"{n}: {sizes[n][0]}, {sizes[n][1]}, {sizes[n][2]} --> {total}", file=sys.stdout)
     elif(out_file == "stderr"):
         for n in sizes:
-            print(f"{n}: {sizes[n][0]}, {sizes[n][1]}, {sizes[n][2]}", file=sys.stderr)
+            total = sizes[n][0] + sizes[n][1] + sizes[n][2]
+            print(f"{n}: {sizes[n][0]}, {sizes[n][1]}, {sizes[n][2]} --> {total}", file=sys.stderr)
     else:
         existed = os.path.isfile(out_file)
         with open(out_file, "a+") as file:
-            writer = csv.writer(file, delimiter=";")
+            writer = csv.writer(file, delimiter=",")
             if(not existed):
-                writer.writerow(['size', 'create', 'matrix', 'lumping'])
+                writer.writerow(['size', 'create', 'matrix', 'lumping', 'total'])
             
             for n in sizes:
-                writer.writerow([n, sizes[n][0], sizes[n][1], sizes[n][2]])
+                total = sizes[n][0] + sizes[n][1] + sizes[n][2]
+                writer.writerow([n, sizes[n][0], sizes[n][1], sizes[n][2], total])
 
     sys.exit(0)
 

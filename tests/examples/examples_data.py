@@ -1,6 +1,6 @@
 import json, os, sys
 
-sys.path.insert(0, "./../../") # models_data is here
+sys.path.insert(0, "./../../") # models is here
 
 import models.models_data
 
