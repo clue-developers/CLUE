@@ -25,10 +25,10 @@ def run_test(model, observables, read_algorithm = "sympy", mat_algorithm="auto_d
         read_time = time.time()-start
     except TimeoutError:
         signal.signal(signal.SIGALRM, old_handler)
-        return (f">{timeout}", "--", "--")
+        return (f">{timeout}", "--", "--", f">{timeout}")
     except ValueError:
         signal.signal(signal.SIGALRM, old_handler)
-        return ("Error", "--", "--")
+        return ("Error", "--", "--", "Error")
     
     ## Computing the matrices for the system
     try:
@@ -37,10 +37,10 @@ def run_test(model, observables, read_algorithm = "sympy", mat_algorithm="auto_d
         matrix_time = time.time()-start
     except TimeoutError:
         signal.signal(signal.SIGALRM, old_handler)
-        return (read_time, f">{timeout}", "--")
+        return (read_time, f">{timeout}", "--", f">{timeout}")
     except:
         signal.signal(signal.SIGALRM, old_handler)
-        return (read_time, "Error", "--")
+        return (read_time, "Error", "--", "Error")
         
     ## Computing the lumping from the observables
     try:
@@ -50,14 +50,14 @@ def run_test(model, observables, read_algorithm = "sympy", mat_algorithm="auto_d
             lumping_time = time.time() - start
     except TimeoutError:
         signal.signal(signal.SIGALRM, old_handler)
-        return (read_time, matrix_time, f">{timeout}")
+        return (read_time, matrix_time, f">{timeout}", f">{timeout}")
     except:
         signal.signal(signal.SIGALRM, old_handler)
-        return (read_time, matrix_time, "Error")
+        return (read_time, matrix_time, "Error", "Error")
 
     signal.alarm(0) # cancel the alarm
     signal.signal(signal.SIGALRM, old_handler)
-    return (read_time, matrix_time, lumping_time)
+    return (read_time, matrix_time, lumping_time, read_time+matrix_time+lumping_time)
 
 if __name__ == '__main__':
     # mandatory values
@@ -104,8 +104,7 @@ if __name__ == '__main__':
         observables = test_obs
     
     # obtaining the corresponding times
-    read_time, matrix_time, lumping_time = run_test(model, observables, read_algorithm, mat_algorithm, timeout)
-    total = read_time + matrix_time + lumping_time
+    read_time, matrix_time, lumping_time, total = run_test(model, observables, read_algorithm, mat_algorithm, timeout)
     # writing results in output file
     if(out_file == "stdout"):
         print(f"{read_time}, {matrix_time}, {lumping_time} --> {total}")

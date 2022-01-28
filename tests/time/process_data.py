@@ -7,98 +7,111 @@ import csv, os, sys
 
 from math import sqrt
 
-class Stats:
-    def __init__(self, data : list):
-        # Checking input
-        if(len(data) == 0):
-            raise TypeError("No data to compute stats")
-        self._data = [float(d) for d in data] # casting everything to float. Raising error if something is not on format
+def treat_data(data):
+    r''''
+        Manipulate the data to cast it (if possible) to a float
+    '''
+    try:
+        return float(data)
+    except ValueError:
+        if(data == "--"):
+            return (None,None)
+        if(data.startswith(">")):
+            return (">", float(data[1:]))
+        if(data == "Error"):
+            return ("Error", None)
 
-        # Generating values
-        self._m = min(data)
-        self._M = max(data)
-        self._avg = sum(data)/len(data)
-        self._var = sum((self._avg - d)**2 for d in data)/len(data)
-        self._std_dev = sqrt(self._var)
+def special_average(data):
+    r'''
+        Computes a special average considering special possible inputs
+    '''
+    float_data = [el for el in data if isinstance(el, float)]
+    other_data = [el for el in data if not el in float_data]
 
-    @property
-    def min(self): return self._m
-    @property
-    def max(self): return self._M
-    @property
-    def avg(self): return self._avg
-    @property
-    def var(self): return self._var
-    @property
-    def std_der(self): return self._std_der
-    @property
-    def size(self): return len(self._data)
+    avg = sum(float_data)/len(float_data)
 
-    def merge(self, other):
-        if(other is None):
-            return self
-        return Stats(self._data + other._data)
+    if len(other_data) == 0 or all(el[0] is None for el in other_data): # nothing special
+        return avg
+    
+    if(any(el[0] == "Error" for el in other_data)):
+        return f"Error ({avg})"
+
+    max_timeout = max([el[1] for el in other_data if el[0]==">"])
+    return f">{max_timeout}"
 
 def process_file(path_file):
     r'''
         Read a file and generate data for the three columns
     '''
     with open(path_file, "r") as file:
-        reader = csv.reader(file, delimiter=";")
-        data = [[],[],[]]
+        reader = csv.reader(file, delimiter=",")
+        data = [[],[],[],[]]
         line_count = 0
         for row in reader:
             if(line_count == 0): # header line
                 line_count += 1
             else:
-                tr, tm, tl = [
-                                float("NaN") if el  == "Error" else float("infinity") if el == "Not finished" else float(el) 
-                             for el in row]
+                tr, tm, tl, tt = [treat_data(el) for el in row]
 
-                data[0].append(tr); data[1].append(tm); data[2].append(tl) 
+                data[0].append(tr); data[1].append(tm); data[2].append(tl); data[3].append(tt) 
             
-        return [Stats(d) for d in data]
+        return [special_average(d) for d in data]
+
+def process_mmk_file(path_file):
+    r'''
+        Read a file and generate data for the four columns of the mmk file
+    '''
+    with open(path_file, "r") as file:
+        reader = csv.reader(file, delimiter=",")
+        data = {}
+        line_count = 0
+        for row in reader:
+            if(line_count == 0): # header line
+                line_count += 1
+            else:
+                n, tr, tm, tl, tt = [treat_data(el) for el in row]
+                n = int(n)
+                if not n in data:
+                    data[n] = [[],[],[],[]]
+
+                data[n][0].append(tr); data[n][1].append(tm); data[n][2].append(tl); data[n][3].append(tt) 
+            
+        return {key : [special_average(d) for d in data[key]] for key in data}
 
 if __name__ == "__main__":
     directory = "./results"
     output = {}
     for file in os.listdir(directory):
-        if(file.endswith(".csv") and file != "summary.csv"):
-            print("#### Processing file %s" %file)
-            st_read, st_mat, st_lum = process_file(os.path.join(directory, file))
-            ## Do something
+        if(file.endswith(".csv") and file != "summary.csv" and file != "MMK.results.csv"):
+            print("#### Processing file %s... " %file, end="")
+            data = process_file(os.path.join(directory, file))
+            ## getting the information of the model
             fragments = file.split(".")[0].split("_")
-            model, branch, ralg = fragments[0], fragments[1], fragments[2]
-            malg = "_".join(fragments[3:])
+            model, ralg = fragments[0], fragments[1]
+            malg = "_".join(fragments[2:])
 
-            if(not (branch, model) in output):
-                output[(branch, model)] = [None for _ in range(9)]
+            if((model, ralg, malg) in output): 
+                raise ValueError("the same model and algorithms are treated twice: IMPOSSIBLE!!")
 
-            ## Updating reading stats
-            if(ralg == "polynomial"): output[(branch, model)][0] = st_read.merge(output[(branch, model)][0])
-            if(ralg == "rational"): output[(branch, model)][1] = st_read.merge(output[(branch, model)][1])
-            if(ralg == "sympy"): output[(branch, model)][2] = st_read.merge(output[(branch, model)][2])
+            output[(model, ralg, malg)] = data
+            print("Finished.")
+        if(file == "MMK.results.csv"):
+            print("#### Processing file %s... " %file, end="")
+            data = process_mmk_file(os.path.join(directory, file))
+            for key in data:
+                model = f"MMK[{key}]"; ralg = "sympy"; malg = "auto_diff"
+                output[(model,ralg,malg)] = data[key]
+            print("Finished.")
 
-            ## Updating building matrices stats
-            if(malg == "polynomial"): output[(branch, model)][3] = st_mat.merge(output[(branch, model)][3])
-            if(malg == "rational"): output[(branch, model)][4] = st_mat.merge(output[(branch, model)][4])
-            if(malg == "random"): output[(branch, model)][5] = st_mat.merge(output[(branch, model)][5])
-            if(malg == "auto_diff"): output[(branch, model)][6] = st_mat.merge(output[(branch, model)][6])
 
-            ## Updating lumping stats
-            if(ralg != "sympy" and malg in ("polynomial", "rational")): 
-                output[(branch, model)][7] = st_lum.merge(output[(branch, model)][7])
-            else: 
-                output[(branch, model)][8] = st_lum.merge(output[(branch, model)][8])
-            
     # Writing the processed data
-    columns = ["branch", "model", "read:poly", "read:rat", "read:sympy", "mat:poly", "mat:rat", "mat:random", "mat:auto_diff", "lump_det", "lump_rand"]
+    columns = ["model", "RALG", "MALG", "read", "matrix", "lumping", "total"]
     data = []
     for key,value in output.items():
-        data.append([key[0],key[1]] + ["f{%s}" %st.avg if st != None else "None" for st in value])
+        data.append(list(key) + list(value))
 
     with open("./results/summary.csv", "w") as file:
-        writer = csv.writer(file, delimiter=";")
+        writer = csv.writer(file, delimiter=",")
         writer.writerow(columns)
         for row in data:
             writer.writerow(row)

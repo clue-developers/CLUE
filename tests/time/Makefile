@@ -1,9 +1,7 @@
 SHELL:=/bin/bash
 REPETITIONS=5
 
-PYTHON=python3
-
-all: $(shell python3 times_data.py -a) MMK
+all: $(shell python3 times_data.py -a) MMK summary
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	@echo "Finished all tests"
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -26,15 +24,19 @@ MMK:
 	@ind=4; while [[ $$ind -le 10 ]]; do \
 		rep=1 ; while [[ $$rep -le $(REPETITIONS) ]]; do \
 			echo "Executing with n=$$ind; repetition $$rep/$(REPETITIONS)..." ; \
-			python3 run_time_MMK.py results/MMK_$(BRANCH).results.csv --f $$ind --t 1800 ; \
+			python3 run_time_MMK.py results/MMK.results.csv --f $$ind --t 1800 ; \
 			(( rep = rep + 1 )) ; \
 		done; \
 		(( ind = ind + 1 )) ; \
 	done
 	@echo -e "\nFinished"
-	@echo "## Returning to original branch..."
-	@git checkout $(CURRENT)
 	@echo "####################################################################################"
+
+# summary goal
+summary:
+	@echo "Generating statistics in a summary file..."
+	@python3 process_data.py
+	@echo "Finished."
 
 %.m: 
 	$(MAKE) $(shell python3 times_data.py -n $(basename $@))

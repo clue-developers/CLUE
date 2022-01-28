@@ -46,10 +46,10 @@ def measure_times(size, timeout=1000):
         create_time = time.time()-start
     except TimeoutError:
         signal.signal(signal.SIGALRM, old_handler)
-        return ("Not finished", "Not finished", "Not finished")
+        return (f">{timeout}", "--", "--", f">{timeout}")
     except ValueError:
         signal.signal(signal.SIGALRM, old_handler)
-        return ("Error", "Not finished", "Not finished")
+        return ("Error", "--", "--", "Error")
     
     ## Computing the matrices for the system
     try:
@@ -58,10 +58,10 @@ def measure_times(size, timeout=1000):
         matrix_time = time.time()-start
     except TimeoutError:
         signal.signal(signal.SIGALRM, old_handler)
-        return (create_time, "Not finished", "Not finished")
+        return (create_time, f">{timeout}", "--", f">{timeout}")
     except:
         signal.signal(signal.SIGALRM, old_handler)
-        return (create_time, "Error", "Not finished")
+        return (create_time, "Error", "--", "Error")
         
     ## Computing the lumping from the observables
     try:
@@ -70,14 +70,14 @@ def measure_times(size, timeout=1000):
         lumping_time = time.time() - start
     except TimeoutError:
         signal.signal(signal.SIGALRM, old_handler)
-        return (create_time, matrix_time, "Not finished")
+        return (create_time, matrix_time, f">{timeout}", f">{timeout}")
     except:
         signal.signal(signal.SIGALRM, old_handler)
-        return (create_time, matrix_time, "Error")
+        return (create_time, matrix_time, "Error", "Error")
 
     signal.alarm(0) # cancel the alarm
     signal.signal(signal.SIGALRM, old_handler)
-    return (create_time, matrix_time, lumping_time)
+    return (create_time, matrix_time, lumping_time, create_time+matrix_time+lumping_time)
 
 
 if __name__ == '__main__':
@@ -108,12 +108,10 @@ if __name__ == '__main__':
     # writing results in output file
     if(out_file == "stdout"):
         for n in sizes:
-            total = sizes[n][0] + sizes[n][1] + sizes[n][2]
-            print(f"{n}: {sizes[n][0]}, {sizes[n][1]}, {sizes[n][2]} --> {total}", file=sys.stdout)
+            print(f"{n}: {sizes[n][0]}, {sizes[n][1]}, {sizes[n][2]} --> {sizes[n][3]}", file=sys.stdout)
     elif(out_file == "stderr"):
         for n in sizes:
-            total = sizes[n][0] + sizes[n][1] + sizes[n][2]
-            print(f"{n}: {sizes[n][0]}, {sizes[n][1]}, {sizes[n][2]} --> {total}", file=sys.stderr)
+            print(f"{n}: {sizes[n][0]}, {sizes[n][1]}, {sizes[n][2]} --> {sizes[n][3]}", file=sys.stderr)
     else:
         existed = os.path.isfile(out_file)
         with open(out_file, "a+") as file:
@@ -122,8 +120,7 @@ if __name__ == '__main__':
                 writer.writerow(['size', 'create', 'matrix', 'lumping', 'total'])
             
             for n in sizes:
-                total = sizes[n][0] + sizes[n][1] + sizes[n][2]
-                writer.writerow([n, sizes[n][0], sizes[n][1], sizes[n][2], total])
+                writer.writerow([n, sizes[n][0], sizes[n][1], sizes[n][2], sizes[n][3]])
 
     sys.exit(0)
 
