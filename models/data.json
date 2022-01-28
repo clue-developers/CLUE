@@ -67,6 +67,11 @@
     },
     "BIOMD0000000033": {
         "type": "rational",
+        "ref_title": "The statistical mechanics of complex signaling networks: nerve growth factor signaling",
+        "ref_doi": "10.1088/1478-3967/1/3/006"
+    },
+    "BIOMD0000000113": {
+        "type": "rational",
         "ref_title": "Protein phosphorylation driven by intracellular calcium oscillations: A kinetic analysis",
         "ref_doi": "10.1016/0301-4622(92)80018-z"
     },

@@ -5,7 +5,8 @@ This folder contains a sequence of `.ode` files with different models from the [
 Below are the references to the original papers for some of the models:
 * BIOMD0000000013: [Applications of metabolic modelling to plant metabolism](https://doi.org/10.1093/jxb/erh090)
 * BIOMD0000000023: [Analysis of sucrose accumulation in the sugar cane culm on the basis of in vitro kinetic data](https://doi.org/10.1088/1478-3967/1/3/006)
-* BIOMD0000000033: [Protein phosphorylation driven by intracellular calcium oscillations: A kinetic analysis](https://doi.org/10.1016/0301-4622(92)80018-z)
+* BIOMD0000000033: [The statistical mechanics of complex signaling networks: nerve growth factor signaling](https://doi.org/10.1088/1478-3967/1/3/006)
+* BIOMD0000000113: [Protein phosphorylation driven by intracellular calcium oscillations: A kinetic analysis](https://doi.org/10.1016/0301-4622(92)80018-z)
 * BIOMD0000000182: [Cell shape and negative links in regulatory motifs together control spatial information flow in signaling networks](https://doi.org/10.1016/j.cell.2008.04.025)
 * BIOMD0000000313: [Dynamic mathematical modeling of IL13-induced signaling in hodgkin and primary mediastinal b-cell lymphoma allows prediction of therapeutic targets](https://doi.org/10.1158/0008-5472.can-10-2987)
 * BIOMD0000000448: [Insulin signaling in type 2 diabetes](https://doi.org/10.1074/jbc.m112.432062)

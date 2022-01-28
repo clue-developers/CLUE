@@ -56,6 +56,9 @@ with open(os.path.join(script_dir,'data.json')) as f:
     data = json.load(f)
     models = {key : Model(key, **data[key]) for key in data}
     
+def get_model(name):
+    return models[name]
+    
 ## Script area
 if __name__ == "__main__":
     ## Reading and sorting the models
