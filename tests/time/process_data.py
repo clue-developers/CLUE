@@ -5,8 +5,6 @@
 
 import csv, os, sys
 
-from math import sqrt
-
 def treat_data(data):
     r''''
         Manipulate the data to cast it (if possible) to a float
