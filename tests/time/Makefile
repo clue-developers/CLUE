@@ -1,40 +1,57 @@
 SHELL:=/bin/bash
-REPETITIONS=10
+REPETITIONS=5
 
-FOLDER=results
-EXT=results.txt
-BASE=rational
-TEST=caching
-CURRENT:=$(shell echo $$(git rev-parse --abbrev-ref HEAD))
+all: $(shell python3 times_data.py -a) MMK summary
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	@echo "Finished all tests"
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-FILES=BIOMD0000000013 BIOMD0000000023 BIOMD0000000033
+poly: $(shell python3 times_data.py -t polynomial)
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	@echo "Finished all polynomial tests"
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-## Rules of the makefile
-all: $(FILES)
-	@echo "Finished all the tests"
+rational: $(shell python3 times_data.py -t rational)
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	@echo "Finished all rational tests"
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-clean:
-	@rm -f ./reslts/*.$(EXT)
+# Special test for the MMK models for some sizes
+MMK:
+	@echo "####################################################################################"
+	@echo "## Running test for MMK ## min=4, max=10"
+	@echo "####################################################################################"
+	@ind=4; while [[ $$ind -le 10 ]]; do \
+		rep=1 ; while [[ $$rep -le $(REPETITIONS) ]]; do \
+			echo "Executing with n=$$ind; repetition $$rep/$(REPETITIONS)..." ; \
+			python3 run_time_MMK.py results/MMK.results.csv --f $$ind --t 1800 ; \
+			(( rep = rep + 1 )) ; \
+		done; \
+		(( ind = ind + 1 )) ; \
+	done
+	@echo -e "\nFinished"
+	@echo "####################################################################################"
+
+# summary goal
+summary:
+	@echo "Generating statistics in a summary file..."
+	@python3 process_data.py
+	@echo "Finished."
+
+%.m: 
+	$(MAKE) $(shell python3 times_data.py -n $(basename $@))
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	@echo "Finished all tests for $(basename $@)"
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 %:
 	@echo "####################################################################################"
 	@echo "## Running test for $@"
 	@echo "####################################################################################"
-	@echo "## Moving to $(BASE) branch"
-	@git checkout $(BASE)
 	@rep=1 ; while [[ $$rep -le $(REPETITIONS) ]]; do \
-		echo -ne "Executing repetition $$rep/$(REPETITIONS) in branch $(BASE)...\r" ; \
-		python3 $@.py >> $(FOLDER)/$@_$(BASE).$(EXT) ; \
-		(( rep = rep + 1 )) ; \
-	done
-	@echo "## Moving to $(TEST) branch"
-	@git checkout $(TEST)
-	@rep=1 ; while [[ $$rep -le $(REPETITIONS) ]]; do \
-		echo -ne "Executing repetition $$rep/$(REPETITIONS) in branch $(TEST)...\r" ; \
-		python3 $@.py >> $(FOLDER)/$@_$(TEST).$(EXT) ; \
+		echo "Executing repetition $$rep/$(REPETITIONS) in branch $(BRANCH)..." ; \
+		python3 run_time.py $@ ; \
 		(( rep = rep + 1 )) ; \
 	done
 	@echo -e "\nFinished"
-	@echo "## Returning to original branch..."
-	@git checkout $(CURRENT)
 	@echo "####################################################################################"

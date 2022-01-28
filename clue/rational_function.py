@@ -4,6 +4,7 @@ from functools import reduce
 
 from pyparsing import (
     Literal,
+    ParseException,
     Word,
     Group,
     Forward,
@@ -63,10 +64,13 @@ class SparsePolynomial(object):
             True
     '''
 
-    def __init__(self, varnames, domain=QQ, data=None):
+    def __init__(self, varnames, domain=QQ, data=None, cast=True):
         self._varnames = varnames
         self._domain = domain
-        self._data = dict() if data is None else {key : data[key] for key in data if data[key] != QQ(0)}
+        if(cast):
+            self._data = dict() if data is None else {key : domain.convert(data[key]) for key in data if data[key] != domain.convert(0)}
+        else:
+            self._data = dict() if data is None else {key : data[key] for key in data if data[key] != 0}
 
     def dataiter(self):
         return self._data.items()
@@ -138,10 +142,10 @@ class SparsePolynomial(object):
                 >>> from sympy import QQ
                 >>> from clue.rational_function import SparsePolynomial
                 >>> p = SparsePolynomial.from_string("1 + x/2 + 3*y + 5*x*y", ['x','y'])
-                >>> p.coefficients
-                (1, 1/2, 3, 5)
+                >>> print(p.coefficients)
+                (MPQ(1,1), MPQ(1,2), MPQ(3,1), MPQ(5,1))
                 >>> SparsePolynomial.from_const(10, ["x", "y"]).coefficients
-                (10,)
+                (MPQ(10,1),)
 
             This method return an empty tuple if no monomial is contained, i.e., the polynomial 
             is equal to zero::
@@ -214,21 +218,21 @@ class SparsePolynomial(object):
                 >>> from clue.rational_function import *
                 >>> sp = SparsePolynomial.from_string("x*y*z + x*6 - 10", ['x','y','z'])
                 >>> sp.constant_term
-                -10
+                MPQ(-10,1)
                 >>> sp = SparsePolynomial.from_string("x - y", ['x','y'])
                 >>> sp.constant_term
-                0
+                MPQ(0,1)
                 >>> sp = SparsePolynomial.from_const(13, ['x','y','z'])
                 >>> sp.constant_term
-                13
+                MPQ(13,1)
                 >>> sp = SparsePolynomial(['x']) # zero polynomial
                 >>> sp.constant_term
-                0
+                MPQ(0,1)
 
             This property can also be obtained via :func:`ct`::
 
                 >>> sp.ct
-                0
+                MPQ(0,1)
         '''
         return self._data.get((), self.domain.zero)
 
@@ -258,8 +262,8 @@ class SparsePolynomial(object):
                 >>> y = SparsePolynomial(["x", "y"], QQ, {tuple([(1,1)]): 1})
                 >>> one = SparsePolynomial(["x", "y"], QQ, {(): 1})
                 >>> p = one + x//(2*one) + (3*one)*y + (5*one)*x*y
-                >>> p.linear_components
-                ((1, x, y, x*y), (1, 1/2, 3, 5))
+                >>> print(p.linear_components)
+                ((1, x, y, x*y), (MPQ(1,1), MPQ(1,2), MPQ(3,1), MPQ(5,1)))
         '''
         return self.monomials, self.coefficients
 
@@ -521,6 +525,7 @@ class SparsePolynomial(object):
         else:
             result = SparsePolynomial(self.gens, self.domain)
             if other != 0:
+                other = self.domain.convert(other)
                 for m, c in self._data.items():
                     result._data[m] = c * other
             return result
@@ -712,7 +717,7 @@ class SparsePolynomial(object):
         r'''
             Method to evaluate a polynomial.
 
-            This method evaluates a polynomial subtituing its variables by given values simultaneously.
+            This method evaluates a polynomial substituting its variables by given values simultaneously.
             Currently, the only valid input for the values are elements contained in 
             ``self.domain``.
 
@@ -748,7 +753,7 @@ class SparsePolynomial(object):
         rem_variables = [self.gens.index(el) for el in rem_variables]
         values = {self.gens.index(el) : values[el] for el in values if el in self.gens}
         ## Here `rem_variables` contains the indices of the variables remaining in the evaluation
-        ## and values `values` contains a dictionary index -> value (instead of the anme of the variable)
+        ## and values `values` contains a dictionary index -> value (instead of the name of the variable)
         
         new_data = {}
         for monomial in self._data:
@@ -763,7 +768,7 @@ class SparsePolynomial(object):
             else:
                 new_data[new_monomial] = value
         ## Returning the resulting polynomial
-        return SparsePolynomial(self.gens, self.domain, new_data)
+        return SparsePolynomial(self.gens, self.domain, new_data, cast=False)
 
     def automated_diff(self, **values):
         r'''
@@ -800,7 +805,10 @@ class SparsePolynomial(object):
             return NualNumber([self.domain.convert(self.ct)] + [0 for _ in range(n)])
         to_eval = {gens[i] : NualNumber([values.get(gens[i], 0)] + [1 if j == i else 0 for j in range(n)]) for i in range(n)}
 
-        return self.eval(**to_eval).ct
+        result = self.eval(**to_eval).ct
+        if(not isinstance(result, NualNumber)): # evaluation was zero
+            return NualNumber((n+1)*[self.domain.convert(0)])
+        return result
 
     #--------------------------------------------------------------------------
 
@@ -874,7 +882,7 @@ class SparsePolynomial(object):
     
     def is_constant(self):
         r'''
-            Checks wheter a polynomial is a constant
+            Checks whether a polynomial is a constant
 
             This method checks whether a :class:`SparsePolynomial` is a constant or not. For doing so
             we simply check if ``self`` is zero (see :func:`is_zero`) or if the only monomial in the 
@@ -1082,11 +1090,11 @@ class SparsePolynomial(object):
     @staticmethod
     def var_from_string(vname, varnames):
         i = varnames.index(vname)
-        return SparsePolynomial(varnames, QQ, {((i, 1), ) : QQ(1)})
+        return SparsePolynomial(varnames, QQ, {((i, 1), ) : QQ.convert(1)})
 
     @staticmethod
     def from_const(c, varnames):
-        return SparsePolynomial(varnames, QQ, {tuple() : c})
+        return SparsePolynomial(varnames, QQ, {tuple() : QQ.convert(c)})
 
     @staticmethod
     def from_string(s, varnames):
@@ -1145,7 +1153,7 @@ class RationalFunction:
         assert num.gens == denom.gens
         assert not denom.is_zero()
 
-        ## Asigning the values for the rational function
+        ## Assigning the values for the rational function
         self._domain = num.domain
         self._varnames = num.gens
         self.num = num
@@ -1456,7 +1464,7 @@ class RationalFunction:
             if(not isinstance(other, RationalFunction)):
                 try:
                     other = RationalFunction.from_string(str(other), self.gens)
-                except:
+                except (ParseException, TypeError):
                     return NotImplemented
         return self.num*other.denom == other.num*self.denom
 
@@ -1549,7 +1557,11 @@ class RationalFunction:
                 if op == "/":
                     return op1 / op2
             if op == "^" or op == "**":
-                exp = int(s.pop())
+                exp_str = s.pop()
+                exp = to_rational(exp_str)
+                if(exp.denominator != 1):
+                    raise ValueError("invalid literal for int() with base 10: %s" %exp_str)
+                exp = int(exp)
                 base = evaluate_stack(s)
                 return base.exp(exp)
             if re.match(r"^[+-]?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?$", op):

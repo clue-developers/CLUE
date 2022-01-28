@@ -1,5 +1,5 @@
 r'''
-    Module for a description of the aithmetic of `n`-ual numbers.
+    Module for a description of the arithmetic of `n`-ual numbers.
 
     This module contains a basic Python implementation of `n`-ual numbers in the class
     :class:`NualNumber`.
@@ -18,7 +18,7 @@ class NualNumber:
                 (v_1, v_2) (w_1, w_2) &=& (v_1w_1, v_1w_2 + v_2w_1)
             \end{array}
 
-        Assume the coordinates of the dual numbes belong to a ring `R`. Then,
+        Assume the coordinates of the dual numbers belong to a ring `R`. Then,
         the dual numbers can be understood as the elements of the quotient ring
 
         .. MATH::
@@ -192,7 +192,7 @@ class NualNumber:
     def __eq__(self, other):
         try:
             return (self - other).is_zero()
-        except:
+        except TypeError:
             return False
 
     ## Arithmetic operations

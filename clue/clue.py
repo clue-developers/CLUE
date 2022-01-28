@@ -1,5 +1,5 @@
 from bisect import bisect
-import copy, logging, math, timeit, sys
+import copy, logging, math, sys, time
 
 from random import randint
 
@@ -104,40 +104,48 @@ class SparseVector(object):
             return 0
         return max(len(str(c)) for c in self._data.values())
 
+    def density(self):
+        return len(self._nonzero) / self._dim
+
     #--------------------------------------------------------------------------
 
     def reduce(self, coef, vect):
         """
         self = self + c * v
         """
-        if not coef:
-            return
+        if not coef: # case coeff == 0
+            return # no changes
 
         new_nonzero = []
         left, right = 0, 0
         while (left < len(self._nonzero) or right < len(vect._nonzero)):
-            if right == len(vect._nonzero):
+            if right == len(vect._nonzero): # all remaining coeffs from vect are zero
+                ## Nothing else needs to be done
                 new_nonzero.extend(self._nonzero[left:])
                 left = len(self._nonzero)
-            elif left == len(self._nonzero):
+            elif left == len(self._nonzero): # all remaining coeffs from self are zero
+                ## We add all the elements of vect
                 new_nonzero.extend(vect._nonzero[right:])
                 for i in range(right, len(vect._nonzero)):
                     self._data[vect._nonzero[i]] = coef * vect._data[vect._nonzero[i]]
                 right = len(vect._nonzero)
-            else:
-                if self._nonzero[left] == vect._nonzero[right]:
+            else: ## There are remaining elements for both vectors
+                if self._nonzero[left] == vect._nonzero[right]: # We are on the same index
+                    ## Compute the new value
                     result = self._data[self._nonzero[left]] + coef * vect._data[vect._nonzero[right]]
-                    if result:
+                    if result: # If not zero, we keep the information
                         self._data[self._nonzero[left]] = result
                         new_nonzero.append(self._nonzero[left])
-                    else:
+                    else: # Otherwise, we remove the element
                         del self._data[self._nonzero[left]]
                     left += 1
                     right += 1
-                elif self._nonzero[left] < vect._nonzero[right]:
+                elif self._nonzero[left] < vect._nonzero[right]: # Next coefficient is only for self
+                    ## We do nothing
                     new_nonzero.append(self._nonzero[left])
                     left += 1
-                else:
+                else: # Next coefficient is only for vect
+                    ## We add this part
                     new_nonzero.append(vect._nonzero[right])
                     self._data[vect._nonzero[right]] = coef * vect._data[vect._nonzero[right]]
                     right += 1
@@ -156,9 +164,13 @@ class SparseVector(object):
     #--------------------------------------------------------------------------
 
     def __getitem__(self, i):
+        if(i < 0 or i >= self.dim):
+            raise IndexError(f"element {i} non-existent")
         return self._data.get(i, 0)
 
     def __setitem__(self, i, value):
+        if(i < 0 or i >= self.dim):
+            raise IndexError(f"element {i} non-existent")
         if bisect(self._nonzero, i) == 0 or self._nonzero[bisect(self._nonzero, i) - 1] != i:
             self._nonzero.insert(bisect(self._nonzero, i), i)
         self._data[i] = value
@@ -171,6 +183,55 @@ class SparseVector(object):
         for i in self.nonzero_iter():
             copied.__append__(i, self[i])
         return copied
+
+    def as_matrix(self, nrows):
+        r'''
+            Return a copy of this vector as a matrix with ``nrows`` rows.
+
+            This method returns a :class:`SparseMatrix` that can be constructed
+            using the inputs of this vector in the given numbers of rows.
+
+            This method is the inverse equivalent of :func:`SparseMatrix.to_vector`.
+
+            Input
+              - ``nrows`` - number of rows for the final matrix. If the number of rows does
+                not divide the length of the vector, a :class:`ValueError` is raised.
+
+            Output
+            
+            A :class:`SparseMatrix` such that the method :func:`SparseMatrix.to_vector` return 
+            a copy of ``self``.
+
+            Examples::
+
+                >>> from clue.clue import SparseVector, SparseRowMatrix
+                >>> from sympy import QQ
+                >>> v = SparseVector.from_list([1,10,0,0,0,7,17,8,9,0,0,1], QQ)
+                >>> print(v.as_matrix(3).pretty_print())
+                [ 1 10  0 0 ]
+                [ 0  7 17 8 ]
+                [ 9  0  0 1 ]
+                >>> print(v.as_matrix(4).pretty_print())
+                [  1 10 0 ]
+                [  0  0 7 ]
+                [ 17  8 9 ]
+                [  0  0 1 ]
+                >>> v.as_matrix(5)
+                Traceback (most recent call last):
+                ...
+                ValueError: this vector does not represent a matrix with 5 rows
+        '''
+        if self.dim % nrows != 0:
+            raise ValueError(f"this vector does not represent a matrix with {nrows} rows")
+
+        ncols = self.dim//nrows
+        output = SparseRowMatrix((nrows, ncols), self.field)
+        for el in self.nonzero_iter():
+            row = el // ncols
+            col = el % ncols
+            output.increment(row, col, self[el])
+
+        return output
 
     #--------------------------------------------------------------------------
 
@@ -195,6 +256,8 @@ class SparseVector(object):
     #--------------------------------------------------------------------------
 
     def apply_matrix(self, matr):
+        if(self.dim != matr.ncols):
+            raise TypeError(f"Impossible to multiply matrix with {matr.ncols} with vector of size {self.dim}")
         result = SparseVector(self.dim, self.field)
         for i in matr.nonzero_iter():
             prod = self.inner_product(matr.row(i))
@@ -283,24 +346,51 @@ class SparseVector(object):
 class SparseRowMatrix(object):
     """
     A class for sparse matrices. Contains the following fields:
-      dim - the dimension of the ambient space
+      nrows - number of rows for the matrix
+      ncols - number of columns for the matrix
       _nonzero - sorted list of the indiced of the nonzero rows
       _data - dictionary containing nonzero rows in the form index_of_the_row : SparseVector
       field - the field of entries (of type sympy.polys.domains.domain.Domain)
     """
     def __init__(self, dim, field):
-        self._dim = dim
+        if(not isinstance(dim, (list, tuple))):
+            dim = (dim, dim)
+        
+        self._nrows = dim[0]
+        self._ncols = dim[1]
         self._data = dict()
         self._nonzero = []
         self._field = field
 
     @property
     def dim(self):
-        return self._dim
+        r'''
+            Property with the size of the matrix in format ``(nrows, ncols)``
+        '''
+        return self.nrows, self.ncols
+
+    @property
+    def nrows(self):
+        r'''
+            Property with the number of rows of the sparse matrix.
+        '''
+        return self._nrows
+    @property
+    def ncols(self):
+        r'''
+            Property with the number of columns of the sparse matrix.
+        '''
+        return self._ncols
 
     @property
     def field(self):
         return self._field
+
+    def copy(self):
+        res = SparseVector(self.dim, self._field)
+        res._nonzero = self._nonzero.copy()
+        res._data = self._data.copy()
+        return res
 
     #--------------------------------------------------------------------------
 
@@ -310,21 +400,33 @@ class SparseRowMatrix(object):
     def nonzero_count(self):
         return sum([v.nonzero_count() for v in self._data.values()])
 
+    def density(self):
+        return self.nonzero_count() / self.nrows*self.ncols
+
     #--------------------------------------------------------------------------
 
     def __setitem__(self, cell, value):
         i, j = cell
+        if(i < 0 and i >= self.nrows):
+            raise IndexError(f"row {i} non-existent")
+        if(j < 0 and j >= self.ncols):
+            raise IndexError(f"column {j} non-existent")
         if bisect(self._nonzero, i) == 0 or self._nonzero[bisect(self._nonzero, i) - 1] != i:
             self._nonzero.insert(bisect(self._nonzero, i), i)
-            self._data[i] = SparseVector(self.dim, self.field)
+            self._data[i] = SparseVector(self.ncols, self.field)
         self._data[i][j] = value
 
     #--------------------------------------------------------------------------
 
     def __getitem__(self, cell):
-        if not cell[0] in self._data:
+        i,j = cell
+        if(i < 0 and i >= self.nrows):
+            raise IndexError(f"row {i} non-existent")
+        if(j < 0 and j >= self.ncols):
+            raise IndexError(f"column {j} non-existent")
+        if not i in self._data:
             return self.field.convert(0)
-        return self._data[cell[0]][cell[1]]
+        return self._data[i][j]
 
     #--------------------------------------------------------------------------
 
@@ -336,7 +438,9 @@ class SparseRowMatrix(object):
     def row(self, i):
         if i in self._data:
             return self._data[i]
-        return SparseVector(self.dim, self.field)
+        elif i > 0 or i < self.nrows:
+            return SparseVector(self.ncols, self.field)
+        raise IndexError(f"row {i} non-existent")
 
     #--------------------------------------------------------------------------
 
@@ -359,20 +463,37 @@ class SparseRowMatrix(object):
 
     def to_vector(self):
         """
-        Returns SparseVector representation of matrix
+        Returns :class:`SparseVector` representation of matrix
 
         a b -> a
         c d    b
                c
                d
         """
-        result = SparseVector(self._dim**2)
+        result = SparseVector(self.nrows*self.ncols)
         for i in self.nonzero_iter():
             ith_column = self._data[i]
             for j in ith_column.nonzero_iter():
-                result[self._dim*i + j] = ith_column[j]
+                result[self.ncols*i + j] = ith_column[j]
         return result
 
+    def as_list(self):
+        r'''
+            Return the Sparse matrix as a list of lists.
+        '''
+        return [[self[i,j] for j in range(self.ncols)] for i in range(self.nrows)]
+
+    def pretty_print(self):
+        r'''
+            Method to generate a pretty printing of the Sparse matrix
+        '''
+        entries = [[str(el) for el in row] for row in self.as_list()]
+        sizes = [[len(el) for el in row] for row in entries]
+        max_sizes = [max(sizes[i][j] for i in range(self.nrows)) for j in range(self.ncols)]
+        return "\n".join(
+            ["[ " +  " ".join([(max_sizes[j] - sizes[i][j])*" " + entries[i][j] for j in range(self.ncols)]) + " ]"
+            for i in range(self.nrows)]
+        )
 #------------------------------------------------------------------------------
 
 class Subspace(object):
@@ -389,6 +510,11 @@ class Subspace(object):
         self._field = field
         self._echelon_form = dict()
 
+    def copy(self):
+        res = Subspace(self._field)
+        res._echelon_form = {k: v.copy() for k, v in self._echelon_form.items()}
+        return res
+
     @property
     def field(self):
         return self._field
@@ -404,12 +530,15 @@ class Subspace(object):
             return 0
         return max([v.digits() for v in self._echelon_form.values()])
 
+    def densities(self):
+        return [m.density() for m in self._echelon_form.values()]
+
     #--------------------------------------------------------------------------
 
     def reduce_vector(self, vector):
         """
         Input
-          - ``vector`` - a SparseVector to te reduced with respect to this subspace. This is 
+          - ``vector`` - a SparseVector to be reduced with respect to this subspace. This is 
             performed inplace, changing the input of the method.
         Output
           the vector once it is reduced.
@@ -436,6 +565,7 @@ class Subspace(object):
 
         if new_vector.is_zero():
             return -1
+
         pivot = new_vector.first_nonzero()
         new_vector.scale(self.field.convert(1) / new_vector[pivot])
         for piv, vect in self._echelon_form.items():
@@ -736,7 +866,7 @@ def _func_for_expr(expr, varnames, domain):
     elif(isinstance(expr, sympy.core.symbol.Symbol) and str(expr) in varnames):
         __func = lambdify([symbols(v) for v in varnames], expr, modules="sympy")
     elif(isinstance(expr, sympy.core.symbol.Symbol)):
-        def __func(*args):
+        def __func(*args): #pylint: disable=unused-argument
             return domain.convert(expr)
     else:
         raise TypeError("Incorrect expression found [%s]: %s" %(type(expr), expr))
@@ -815,6 +945,36 @@ class FODESystem:
     @property
     def name(self): return self._name
     @cached_property
+    def bounds(self): 
+        r'''
+            Bounds of the degrees for the right hand side.
+
+            This tuple contains bounds for the degree of the numerator and denominator
+            of the rational functions (or polynomials) that are the equations of 
+            the differential system (see property :func:`equations`).
+        '''
+        ## Checking the data is of the correct types
+        if(isinstance(self.equations[0], PolyElement)):
+            logger.debug(":bounds: detected sympy polynomial. Casting to SparsePolynomial")
+            self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
+        elif(isinstance(self.equations[0], FracElement)):
+            logger.debug(":bounds: detected sympy polynomial. Casting to SparsePolynomial")
+            self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
+
+        ## Computing the bounds
+        if(isinstance(self.equations[0], SparsePolynomial)):
+            Dn = max([equ.degree() for equ in self.equations if equ != 0])
+            Dd = 0
+        elif(isinstance(self.equations[0], RationalFunction)):
+            Dn = max([equ.num.degree() for equ in self.equations if equ != 0])
+            Dd = max(equ.denom.degree() for equ in self.equations)
+        else: # sympy expression case
+            bounds = [FODESystem.bound_degree_expr(equ, self.variables) for equ in self.equations]
+            Dn = max(bound[0] for bound in bounds)
+            Dd = max(bound[1] for bound in bounds)
+        return (Dn, Dd)
+
+    @cached_property
     def size(self): return len(self._equations)
 
     @cached_property
@@ -855,9 +1015,36 @@ class FODESystem:
 
     @cached_property
     def field(self):
+        r'''
+            Property that gives the ground field of the system.
+
+            The ground field is a sympy structure that allows the user to manipulate any rational
+            expression in all the symbols appearing in the equations that are not variables (see 
+            property :func:`variables`).
+
+            This is different that the property :func:`pars`, since those are the actual variables
+            that are constant.
+        '''
+        if(isinstance(self.equations[0], PolyElement)):
+            logger.debug(":field: detected sympy polynomial. Casting to SparsePolynomial")
+            self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
+        elif(isinstance(self.equations[0], FracElement)):
+            logger.debug(":field: detected sympy polynomial. Casting to SparsePolynomial")
+            self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
+
         if(isinstance(self.equations[0], (SparsePolynomial, RationalFunction))):
             return self.equations[0].domain
-        return QQ
+        else:
+            allvars = set()
+            for eq in self.equations:
+                allvars = allvars.union(eq.free_symbols)
+            params = list(filter(lambda s: str(s) not in self.variables, allvars))
+            if len(params) == 0:
+                logger.debug(":field: no parameters, the ground field is QQ then")
+                return QQ
+            else:
+                logger.debug(":field: some parameters found, extending Q as needed")
+                return sympy.FractionField(QQ, [str(p) for p in params])
 
     @cached_property
     def type(self):
@@ -1058,21 +1245,18 @@ class FODESystem:
         J = [[rf.derivative(v) for rf in rational_functions] for v in variables]
 
         # we create the matrices by evaluating the jacobian
-        field = rational_functions[0].domain
-        random_matr = [FODESystem.build_random_evaluation_matrix(J)]
         subspace = Subspace(field)
-        pivot_index = subspace.absorb_new_vector(random_matr[0].to_vector())
+        pivot_index = subspace.absorb_new_vector(FODESystem.build_random_evaluation_matrix(J).to_vector())
         n = sum(sum(1 for el in row if el != 0) for row in J) # number of non-zero entries 
         m = 1 # number of random generated matrices
-        start = timeit.default_timer()
+        start = time.time()
         finished = False
-        D = None
         while(not finished):
             while(pivot_index >= 0):
-                new_matr = FODESystem.build_random_evaluation_matrix(J)
-                pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
+                pivot_index = subspace.absorb_new_vector(
+                    FODESystem.build_random_evaluation_matrix(J).to_vector()
+                )
                 if(pivot_index >= 0):
-                    random_matr.append(new_matr)
                     m += 1
                 if(m % 10 == 0):
                     logger.debug(f"Generated {m} random matrices...")
@@ -1082,35 +1266,26 @@ class FODESystem:
                 logger.debug(f"We found the maximal amount of linearly independent matrices")
                 finished = True
             else: # we checked (probabilistic) if we have finished
-                logger.debug(f"We compute the maximal bound for the random coefficients to have less than {prob_err} probabilites \
-                to get an element in the current space.")
-                # D is the degree for Schwarz-Zippel Lemma
-                if(D is None): # only computed once if ever needed
-                    if(isinstance(rational_functions[0], SparsePolynomial)):
-                        D = max(max(el.degree() for el in row) for row in J)
-                    elif(isinstance(rational_functions[0], RationalFunction)):
-                        D = 0; max_num = -1
-                        for row in J:
-                            for el in row:
-                                if(el != 0):
-                                    max_num = max(el.num.degree(), max_num)
-                                    D += el.denom.degree()
-                
-                N = int(math.ceil(D/prob_err))
+                logger.debug(f"We compute the maximal bound for the random coefficients to have \
+                    less than {prob_err} probabilites to get an element in the current space.")
+                Dn, Dd = self.bounds
+                # Value for the size of coefficients (see paper ``Exact linear reduction for rational dynamics``)
+                N = int(math.ceil((Dn + 2*m*Dd)/prob_err)) + self.size*Dd
 
                 logger.debug(f"Bound for the coefficients: {N}")
 
-                extra_matr = FODESystem.build_random_evaluation_matrix(J, max=N)
-                pivot_index = subspace.absorb_new_vector(extra_matr.to_vector())
+                pivot_index = subspace.absorb_new_vector(
+                    FODESystem.build_random_evaluation_matrix(J, max=N).to_vector()
+                )
                 if(pivot_index < 0): # we are finished
                     logger.debug("The new matrix is in the vector space: we are done")
                     finished = True
                 else: # we add the matrix to the list
                     logger.debug("The new matrix is NOT in the vector space: we continue")
-                    random_matr.append(extra_matr)
                 
-        logger.debug(f"-> I created {m} linearly independent matrices in {timeit.default_timer()-start}s")
-        return random_matr
+        logger.debug(f"-> I created {m} linearly independent matrices in {time.time()-start}s")
+        # We return the basis obtained
+        return [el.as_matrix(self.size) for el in subspace.basis()]
     
     def _construct_matrices_AD_random(self, prob_err=0.01):
         r'''
@@ -1131,67 +1306,126 @@ class FODESystem:
         varnames = self.variables
         field = self.field
 
-        random_matr = [FODESystem.build_random_evaluation_jacobian(funcs, varnames, field)]
         subspace = Subspace(field)
-        pivot_index = subspace.absorb_new_vector(random_matr[0].to_vector())
 
         # computing number of non-zero entries in the jacobian
         if(isinstance(funcs[0], (SparsePolynomial, RationalFunction))):
             n = sum(len(func.variables()) for func in funcs)
         else:
-            # TODO: fix for the presence of parametrs
-            n = sum(len(func.free_symbols) for func in funcs)
-        m = 1 # number of generated matrices
+            n = sum(len([el for el in func.free_symbols if str(el) in self.variables]) for func in funcs)
+        logger.debug(":_construct_AD: bound for dimension: %d" %n)
+        m = 0 # number of generated matrices
 
-        start = timeit.default_timer()
-        finished = False
-        D = None
+        start_global = time.time()
+
+        # We first create some sparse evaluations
+        ## Computing invalid singleton evaluations
+        start = time.time()
+        sparse_eval_points = self._sparse_evaluation_points()
+        end = time.time()
+        logger.debug(f":_construct_AD: Created {len(sparse_eval_points)} sparse evaluation points in {end-start}s")
+        pivot_index = None
+        for point in sparse_eval_points:
+            start = time.time()
+            new_matr = FODESystem.evaluate_jacobian(funcs, varnames, field, point)
+            pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
+            logger.debug(f":_construct_AD: Densities for now {subspace.densities()}")
+            if(pivot_index >= 0): # new matrix added
+                logger.debug(f":_construct_AD: New matrix added with density: {new_matr.density()}")
+                m += 1
+            if(m % 10 == 0):
+                logger.debug(f":_construct_AD: Generated {m} random matrices...")
+            end = time.time()
+            logger.debug(f":_construct_AD: Matrix created and checked in {end - start}")
+        ## Getting some sparse evaluations
+        # for i in range(len(varnames)):
+        #     start = time.time()
+        #     new_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field, index=i)
+        #     if new_matr is None:
+        #         logger.debug(f"None matrix for coordinate {varnames[i]}")
+        #         continue
+        #     pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
+        #     logger.debug(f"Densities for now {subspace.densities()}")
+        #     if(pivot_index >= 0):
+        #         logger.debug(f"New matrix density: {new_matr.density()}")
+        #         m += 1
+        #     if(m % 10 == 0):
+        #         logger.debug(f"Generated {m} random matrices...")
+        #     end = time.time()
+        #     logger.debug(f"Matrix for {self.variables[i]} in {end - start}")
+        
+        if(m == 0): 
+            logger.debug(f":_construct_AD: No sparse evaluation was done. Creating one starting evaluation...")
+            start = time.time()
+            pivot_index = subspace.absorb_new_vector(
+                FODESystem.build_random_evaluation_jacobian(funcs, varnames, field).to_vector()
+            )
+            end = time.time()
+            logger.debug(f":_construct_AD: Matrix created and checked in {end - start}")
+            m = 1
+
+        finished = (m >= n)
+
         while(not finished):
             while(pivot_index >= 0):
+                start = time.time()
                 new_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field)
                 pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
+                logger.debug(f":_construct_AD: Densities for now {subspace.densities()}")
                 if(pivot_index >= 0):
-                    random_matr.append(new_matr)
+                    logger.debug(f":_construct_AD: New matrix density: {new_matr.density()}")
                     m += 1
                 if(m % 10 == 0):
-                    logger.debug(f"Generated {m} random matrices...")
+                    logger.debug(f":_construct_AD: Generated {m} random matrices...")
+                end = time.time()
+                logger.debug(f":_construct_AD: Matrix in {end - start}")
             ## We had a linearly dependant matrix: we check the probability of this being complete
-            logger.debug(f"Found a linearly dependant matrix after {m} attempts.")
+            logger.debug(f":_construct_AD: Found a linearly dependant matrix after {m} attempts.")
             if(m >= n): # we grew too much, reached the maximal
-                logger.debug(f"We found the maximal amount of linearly independent matrices")
+                logger.debug(f":_construct_AD: We found the maximal amount of linearly independent matrices")
                 finished = True
             else: # we checked (probabilistic) if we have finished
-                logger.debug(f"We compute the maximal bound for the random coefficients to have less than {prob_err} probabilites \
+                logger.debug(f":_construct_AD: We compute the maximal bound for the random coefficients to have less than {prob_err} probabilites \
                 to get an element in the current space.")
-                # D is the degree for Schwarz-Zippel Lemma
-                if(D is None): # only computed once if ever needed
-                    if(isinstance(funcs[0], SparsePolynomial)): # polynomial case
-                        D = max(func.degree() for func in funcs) - 1 # derivatives reduces the degree in 1  
-                    elif(isinstance(funcs[0], RationalFunction)):
-                        ## We add all the degrees of denominators in the jacobian
-                        D = sum(2*len(func.denom.variables())*func.denom.degree() for func in funcs if func != 0)
-                        ## We add the maximal degree on the numerator in the jacobian
-                        D += (max(func.num.degree() + func.denom.degree() for func in funcs if func != 0) - 1)
-                    else: # sympy expression case
-                        logger.warning(f"Sympy case detected for the degree bound. Not yet implemented, so we pick 100 by default")
-                        D = 100 
-                
-                N = int(math.ceil(D/prob_err))
+                Dn, Dd = self.bounds
+                # Value for the size of coefficients (see paper ``Exact linear reduction for rational dynamics``)
+                N = int(math.ceil((Dn + 2*m*Dd)/prob_err)) + self.size*Dd
 
-                logger.debug(f"Bound for the (prob.) coefficients: {N}")
+                logger.debug(f":_construct_AD: Bound for the (prob.) coefficients: {N}")
 
-                extra_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field, max=N)
-                pivot_index = subspace.absorb_new_vector(extra_matr.to_vector())
+                pivot_index = subspace.absorb_new_vector(
+                    FODESystem.build_random_evaluation_jacobian(funcs, varnames, field, max=N).to_vector()
+                )
                 if(pivot_index < 0): # we are finished
-                    logger.debug("The new matrix is in the vector space: we are done")
+                    logger.debug(":_construct_AD: The new matrix is in the vector space: we are done")
                     finished = True
                 else: # we add the matrix to the list
-                    logger.debug("The new matrix is NOT in the vector space: we continue")
-                    random_matr.append(extra_matr)
+                    logger.debug(":_construct_AD: The new matrix is NOT in the vector space: we continue")
                 
-        logger.debug(f"-> I created {m} linearly independent matrices in {timeit.default_timer()-start}s")
-        return random_matr
+        logger.debug(f":_construct_AD: -> I created {m} linearly independent matrices in {time.time()-start_global}s")
+        # We return the basis obtained
+        return [el.as_matrix(self.size) for el in subspace.basis()]
     
+    def _sparse_evaluation_points(self):
+        base_sparse = [i*[0] + [1] + (self.size - i - 1)*[0] for i in range(self.size)]
+        if(isinstance(self.equations[0], SparsePolynomial)):
+            result = base_sparse
+        elif(isinstance(self.equations[0], RationalFunction)):
+            denoms = [el.denom for el in self.equations]
+            result = []
+            for point in base_sparse:
+                current = [el for el in denoms if el.eval(**{self.variables[i]: point[i] for i in range(self.size)}) == 0]
+                while(len(current) > 0):
+                    for v in current[0].variables():
+                        if(point[self.variables.index(v)] == 0):
+                            point[self.variables.index(v)] = 1
+                            break
+                    current = [el for el in denoms if el.eval(**{self.variables[i]: point[i] for i in range(self.size)}) == 0]
+                result.append(point)
+        else: # sympy expression case
+            result = FODESystem.sparse_evaluation_points_sympy(self.equations, self.variables, base_sparse)
+        return result
+
     ##############################################################################################################
     ### Static and private methods for building matrices
     @staticmethod
@@ -1265,7 +1499,7 @@ class FODESystem:
                 return FODESystem.evaluate_matrix(matrix, values)
             except KeyboardInterrupt as e:
                 raise e
-            except:
+            except ZeroDivisionError:
                 pass
 
         raise ValueError("After %d attempts, we did not find a valid random evaluation. Consider changing the bounds." %attempts)
@@ -1300,7 +1534,7 @@ class FODESystem:
         return result
 
     @staticmethod
-    def build_random_evaluation_jacobian(funcs, varnames, domain, min=0, max=100, attempts=1000):
+    def build_random_evaluation_jacobian(funcs, varnames, domain, min=0, max=20, attempts=1000, index=None):
         r'''
             Computes the evaluation of the Jacobian of some rational functions via automatic differentiation.
 
@@ -1326,13 +1560,190 @@ class FODESystem:
                 a :class:`SparseRowMatrix` with the evaluation of ``matrix`` at a random place.
         '''
         for _ in range(attempts):
-            values = [randint(min, max) for v in varnames]
+            if index is None:
+                values = [randint(min, max) for v in varnames]
+            else:
+                values = [0] * len(varnames)
+                values[index] = randint(min, max)
             try:
                 return FODESystem.evaluate_jacobian(funcs, varnames, domain, values)
             except KeyboardInterrupt as e:
                 raise e
             except ZeroDivisionError:
                 pass
+    
+    @staticmethod
+    def bound_degree_expr(expr: sympy.core, varnames=None):
+        r'''
+            Static method to compute a degree bound for a sympy expression
+            
+            This method computes a degree bound for the numerator and denominator of a 
+            sympy rational expression without expanding it.
+
+            Input
+                - ``exp`` - a sympy expression
+                - ``varnames`` - list of names for the symbols that will counted for degree. Other symbols will 
+                  be ignored. If ``None`` is given, then all symbols will be taken into consideration.
+            Output
+                - ``(num_bound, denom_bound)`` - ``num_bound`` is the upper bound for the degree of
+                the numerator and ``denom_bound`` is the upper bound for the degree of the denominator.
+
+            Examples::
+
+                >>> from sympy import Symbol
+                >>> from clue import FODESystem
+                >>> a = sympy.Symbol("a")
+                >>> b = sympy.Symbol("b")
+                >>> c = sympy.Symbol("c")
+                >>> d = sympy.Symbol("d")
+                >>> FODESystem.bound_degree_expr(a/b)
+                (1, 1)
+                >>> FODESystem.bound_degree_expr(a + b)
+                (1, 0)
+                >>> FODESystem.bound_degree_expr(a/b + c/d)
+                (2, 2)
+                >>> FODESystem.bound_degree_expr((a**2)/1)
+                (2, 0)
+                >>> FODESystem.bound_degree_expr((a**2)/b)
+                (2, 1)
+                >>> FODESystem.bound_degree_expr(a/(b**42))
+                (1, 42)
+                >>> FODESystem.bound_degree_expr((a+b)**2/1)
+                (2, 0)
+                >>> FODESystem.bound_degree_expr((a*b*(1+b)) / (42 - a)**2)
+                (3, 2)
+                >>> FODESystem.bound_degree_expr(1/(b/(a + b) + 1))
+                (1, 1)
+                >>> FODESystem.bound_degree_expr((1 + a**3 / b**2) / (1 + b / (a + b)))
+                (4, 3)
+                >>> FODESystem.bound_degree_expr((a**2 + b**2*c**2) / d**3)
+                (4, 3)
+        '''
+        if isinstance(expr, sympy.core.mul.Mul):
+            arg_bounds = [FODESystem.bound_degree_expr(arg, varnames) for arg in expr._args]
+            num_bound = sum([bound[0] for bound in arg_bounds]) 
+            denom_bound = sum([bound[1] for bound in arg_bounds])
+        elif isinstance(expr, sympy.core.add.Add):
+            arg_bounds = [FODESystem.bound_degree_expr(arg, varnames) for arg in expr._args]
+            denom_bound = sum([bound[1] for bound in arg_bounds])
+            if denom_bound == 0:
+                num_bound = max([bound[0] for bound in arg_bounds])
+            else:
+                num_bound = max([bound[0] + denom_bound - bound[1] for bound in arg_bounds])
+        elif isinstance(expr, sympy.core.power.Pow):
+            arg_bounds = FODESystem.bound_degree_expr(expr._args[0], varnames)
+            power = expr._args[1]
+            if power >= 0:
+                num_bound = arg_bounds[0]*power
+                denom_bound = arg_bounds[1]*power
+            else:
+                num_bound = arg_bounds[1]*(-power)
+                denom_bound = arg_bounds[0]*(-power)
+        elif isinstance(expr, sympy.core.symbol.Symbol):
+            num_bound = 1 if (varnames is None or str(expr) in varnames) else 0
+            denom_bound = 0
+        elif isinstance(expr, sympy.core.numbers.Number):
+            num_bound = 0
+            denom_bound = 0
+        else:
+            raise NotImplementedError
+
+        return (num_bound, denom_bound)
+
+    @staticmethod
+    def sparse_evaluation_points_sympy(funcs, varnames, base_sparse, attempts = 5):
+        r'''
+            Method to get a set of sparse evaluation points for sympy expressions
+
+            This method tries to build a set of points where the evaluation of some
+            sympy expressions can be computed while having as many zeros in the input 
+            as possible.
+
+            This method acts recursively from bottom to top of the expression tree
+            of the functions. This method works both for one expression or a list of
+            expressions, where we simply call iteratively to this method with the following
+            points.
+
+            Input
+                - ``funcs`` - either a list of sympy expressions or a sympy expression
+                - ``varnames`` - list of variables to be considered to evaluate
+                - ``base_sparse`` - a base set of "sparse" evaluation points.
+
+            Output
+            
+            A new list of points "as sparse as possible" (i.e., having as many zeros as possible)
+            such that any expression in funcs can be evaluated.
+
+            Examples::
+
+                >>> from clue import FODESystem
+                >>> import sympy
+                >>> a = sympy.Symbol("a")
+                >>> b = sympy.Symbol("b")
+                >>> c = sympy.Symbol("c")
+                >>> d = sympy.Symbol("d")
+                >>> FODESystem.sparse_evaluation_points_sympy(a/b, varnames=['a', 'b'], base_sparse=[[1,0],[0,1]])
+                [[0, 1], [1, 1]]
+        '''
+        if(isinstance(funcs, (list, tuple))):
+            if(len(funcs) == 0):
+                return base_sparse
+            result = FODESystem.sparse_evaluation_points_sympy(funcs[0], varnames, base_sparse, attempts)
+            return FODESystem.sparse_evaluation_points_sympy(funcs[1:], varnames, result, attempts)
+        
+        ## The case of simply one expression
+        expr = funcs
+        if isinstance(expr, sympy.core.mul.Mul):
+            ## we need to evaluate all the operands
+            result = FODESystem.sparse_evaluation_points_sympy(expr.args, varnames, base_sparse, attempts)
+        elif isinstance(expr, sympy.core.add.Add):
+            ## we need to evaluate all the operands
+            result = FODESystem.sparse_evaluation_points_sympy(expr.args, varnames, base_sparse, attempts)
+        elif isinstance(expr, sympy.core.power.Pow):
+            ## we need to evaluate the base
+            partial = FODESystem.sparse_evaluation_points_sympy(expr.args[0], varnames, base_sparse, attempts)
+            try:
+                power = int(expr.args[1])
+                if(power < 0): # we need to avoid the evaluation to zero of this denominator
+                    base_expr = expr.args[0]
+                    result = []
+                    for point in partial:
+                        evaluation = [(symbols(varnames[i]), point[i]) for i in range(len(point))]
+                        variables = [str(el) for el in base_expr.free_symbols if str(el) in varnames]
+                        to_add = True
+                        tries = 0
+                        while(base_expr.subs(evaluation) == 0):
+                            # if we have something nonzero, we set it up to 1
+                            if(any(point[varnames.index(v)] == 0 for v in variables)):
+                                for v in variables:
+                                    if(point[varnames.index(v)] == 0):
+                                        point[varnames.index(v)] = 1
+                            else:
+                                # if everything is non-zero, we mix them up randomly as many as
+                                # ''attempts'' times
+                                for v in variables:
+                                    point[varnames.index(v)] = randint(1,10)
+                                tries += 1
+                                if(tries > attempts): 
+                                    # if we repeated too many times, we quit and 
+                                    # forget about this point
+                                    to_add = False
+                                    break
+                            evaluation = ((symbols(varnames[i]), point[i]) for i in range(len(point)))
+                        if(to_add): result.append(point)
+                else:
+                    result = partial                
+            except TypeError:
+                result = []
+        elif isinstance(expr, sympy.core.symbol.Symbol):
+            result = base_sparse
+        elif isinstance(expr, sympy.core.numbers.Number):
+            result = base_sparse
+        else:
+            raise NotImplementedError
+
+        return [list(el) for el in set(tuple([tuple(el) for el in result]))]
+
     ##############################################################################################################
     ##############################################################################################################
 
@@ -1341,9 +1752,10 @@ class FODESystem:
                 print_system=False,
                 print_reduction=True,
                 out_format="sympy",
-                loglevel="INFO",
+                loglevel=None,
                 initial_conditions=None,
-                method = "polynomial"
+                method = "polynomial",
+                file=sys.stdout,
     ):
         r'''
             Main function, performs a lumping of a polynomial ODE system
@@ -1358,6 +1770,7 @@ class FODESystem:
                 - initial_conditions - Initial conditions for some elements on the system to be lumped
                 - method - user decision about how to compute the internal matrices for lumping. See method 
                 :func:`construct_matrices` for further information.
+                - file - optional file descriptor to print the results (in case ``print_system`` or ``print_reduction`` are ``True``)
 
             Output
                 a tuple (the right-hand side of an aggregated system, new_variables)
@@ -1372,7 +1785,7 @@ class FODESystem:
                 >>> system = FODESystem([x0**2 + x1 + x2, x2, x1], variables=['x0','x1','x2'])
                 >>> lumping = system.lumping([x0], print_reduction=False,initial_conditions={'x0': 1, 'x1': 2, 'x2': 5})
                 >>> lumping.ic
-                {'y0': 1, 'y1': 7}
+                {'y0': MPQ(1,1), 'y1': MPQ(7,1)}
                 >>> lumping.old_vars
                 [x0, x1 + x2]
                 >>> lumping.is_consistent()
@@ -1400,7 +1813,7 @@ class FODESystem:
                 ...       print_reduction=False,
                 ...       initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
                 >>> lumping.ic
-                {'y0': 1, 'y1': 7}
+                {'y0': MPQ(1,1), 'y1': MPQ(7,1)}
                 >>> lumping.old_vars
                 [x0, x1 + x2]
                 >>> lumping.is_consistent()
@@ -1425,7 +1838,7 @@ class FODESystem:
                 ...       print_reduction=False,
                 ...       initial_conditions={"x" : 1, "y" : 2})
                 >>> lumping.ic
-                {'y0': -1}
+                {'y0': MPQ(-1,1)}
                 >>> lumping.old_vars
                 [x + -y]
                 >>> lumping.is_consistent()
@@ -1434,28 +1847,28 @@ class FODESystem:
             We add now some tests using some external files from folder ``tests``::
 
                 >>> ## Example 1
-                >>> system = FODESystem(file="tests/e2.ode") 
+                >>> system = FODESystem(file="models/polynomial/ProteinPhosphorylation[2].ode") 
                 >>> lumping = system.lumping(
                 ...     [SparsePolynomial.from_string("S0", system.variables)], 
                 ...     print_reduction=False)
-                >>> assert lumping.is_consistent(), "Error in model e2: consistency"
-                >>> assert lumping.size == 12, "Error in model e2: size"
+                >>> assert lumping.is_consistent(), "Error in model ProteinPhosphorylation[2]: consistency"
+                >>> assert lumping.size == 12, "Error in model ProteinPhosphorylation(2): size"
                 >>> ## Example 2
-                >>> system = FODESystem(file="tests/BIOMD0000000101.ode")
+                >>> system = FODESystem(file="models/polynomial/BIOMD0000000101.ode")
                 >>> lumping = system.lumping(
                 ...     [SparsePolynomial.from_string("RI", system.variables)], 
                 ...     print_reduction=False)
                 >>> assert lumping.is_consistent(), "Error in model BIOMD0000000101: consistency"
                 >>> assert lumping.size == 14, "Error in model BIOMD0000000101: size"
                 >>> ## Example 3
-                >>> system = FODESystem(file="tests/MODEL1504160000.ode")
+                >>> system = FODESystem(file="models/polynomial/MODEL1504160000.ode")
                 >>> lumping = system.lumping(
                 ...     [SparsePolynomial.from_string("cd8_in_spleen", system.variables)], 
                 ...     print_reduction=False)
                 >>> assert lumping.is_consistent(), "Error in model MODEL1504160000: consistency"
                 >>> assert lumping.size == 8, "Error in model MODEL1504160000: size"
                 >>> ## Example 4
-                >>> system = FODESystem(file="tests/MODEL9085850385.ode")
+                >>> system = FODESystem(file="models/polynomial/MODEL9085850385.ode")
                 >>> lumping = system.lumping(
                 ...     [SparsePolynomial.from_string("PKC_minus_active_slash_PKC_minus_act_minus_raf_slash_PKC_minus_act_minus_raf_cplx", system.variables)], 
                 ...     print_reduction=False)
@@ -1463,13 +1876,17 @@ class FODESystem:
                 >>> assert lumping.size == 54, "Error in model MODEL9085850385: size"
         '''
         ## Putting the logger level active
-        old_level = logger.getEffectiveLevel()
-        if(loglevel == "INFO"):
-            logger.setLevel(logging.INFO)
-        elif(loglevel == "WARNING"):
-            logger.setLevel(logging.WARNING)
-        elif(loglevel == "ERROR"):
-            logger.setLevel(logging.ERROR)
+        if(loglevel != None):
+            old_level = logger.getEffectiveLevel()
+            if(loglevel == "INFO"):
+                logger.setLevel(logging.INFO)
+            elif(loglevel == "DEBUG"):
+                logger.setLevel(logging.DEBUG)
+            elif(loglevel == "WARNING"):
+                logger.setLevel(logging.WARNING)
+            elif(loglevel == "ERROR"):
+                logger.setLevel(logging.ERROR)
+        
         logger.debug(":lumping: Starting aggregation")
 
         ## Logger: printing the type of the input
@@ -1484,33 +1901,24 @@ class FODESystem:
             logger.debug(":lumping: Input were fractions in sympy, casting to RationalFunction")
             self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
         else:
-            logger.debug(":lumping: Input is expected to be in SymPy format, computing the ground field")
-            allvars = set()
-            for eq in self.equations:
-                allvars = allvars.union(eq.free_symbols)
-            params = list(filter(lambda s: str(s) not in self.variables, allvars))
-            if len(params) == 0:
-                logger.debug(":lumping: no parameters, the ground field is QQ then")
-            else:
-                self.field = sympy.FractionField(QQ, [str(p) for p in params])
+            logger.debug(":lumping: Input is expected to be in SymPy format, ground field will be adjusted if necessary")
 
         if isinstance(observable[0], PolyElement):
             logger.debug(":lumping: observables in PolyElement format. Casting to SparsePolynomial")
             observable = [SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable]
-        if isinstance(observable[0], SparsePolynomial):
+        elif isinstance(observable[0], SparsePolynomial):
             observable = [p.linear_part_as_vec() for p in observable]
         else:
             logger.debug(":lumping: observables seem to be in SymPy expression format, converting")
             observable = [[self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables] for p in observable]
 
-            
-        
         result = self._lumping(observable,
                     new_vars_name,
                     print_system, 
                     print_reduction, 
                     initial_conditions, 
-                    method
+                    method,
+                    file
                 )
 
         if initial_conditions is not None:
@@ -1532,10 +1940,11 @@ class FODESystem:
         elif out_format == "internal":
             pass
         else:
+            if(loglevel != None): logger.setLevel(old_level)
             raise ValueError(f"Unknown output format {out_format}")
 
         ## Fixing the level of the logger
-        logger.setLevel(old_level)
+        if(loglevel != None): logger.setLevel(old_level)
         return LDESystem(old_system = self, dic=result)
 
     def _lumping(self, observable, 
@@ -1544,6 +1953,7 @@ class FODESystem:
                 print_reduction=False, 
                 ic=None, 
                 method = "auto_diff",
+                file=sys.stdout,
     ):
         """
         Performs a lumping of a polynomial ODE system represented by SparsePolynomial
@@ -1555,6 +1965,7 @@ class FODESystem:
             - ic - Initial conditions for some elements on the system to be lumped
             - method - user decision about how to compute the internal matrices for lumping. See method 
               :func:`construct_matrices` for further information.
+            - file - optional file descriptor to print the results (in case ``print_system`` or ``print_reduction`` are ``True``)
         Output
             a dictionary with all the information so the method :func:`lumping`can build the Lumped 
             system (see class :class`LDESystem`)
@@ -1564,10 +1975,10 @@ class FODESystem:
         vars_old = self.variables
         
         # Building the matrices for lumping
-        start = timeit.default_timer()
+        start = time.time()
         logger.debug(":ilumping: Computing matrices for perform lumping...")
         matrices = self.construct_matrices(method)
-        logger.debug(f"ilumping: -> Computed {len(matrices)} in {timeit.default_timer()-start}s")
+        logger.debug(f"ilumping: -> Computed {len(matrices)} in {time.time()-start}s")
 
         # Find a lumping
         field = self.field
@@ -1576,9 +1987,9 @@ class FODESystem:
             vec = SparseVector.from_list(linear_form, field)
             vectors_to_include.append(vec)
         logger.debug(":ilumping: Computing the lumping subspace...")
-        start = timeit.default_timer()
+        start = time.time()
         lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include)
-        logger.debug(f":ilumping: -> Found the lumping subspace in {timeit.default_timer()-start}s")
+        logger.debug(f":ilumping: -> Found the lumping subspace in {time.time()-start}s")
 
         lumped_rhs = lumping_subspace.perform_change_of_variables(self.equations, vars_old, field, new_vars_name)
 
@@ -1602,23 +2013,23 @@ class FODESystem:
 
         ## Nice printing
         if print_system:
-            print("Original system:")
+            print("Original system:", file=file)
             for i in range(len(self.equations)):
-                print(f"{vars_old[i]}' = {self.equations[i]}")
-            print("Outputs to fix:")
-            print(", ".join(map(str, observable)))
+                print(f"{vars_old[i]}' = {self.equations[i]}", file=file)
+            print("Outputs to fix:", file=file)
+            print(", ".join(map(str, observable)), file=file)
         
         if print_reduction:
-            print("New variables:")
+            print("New variables:", file=file)
             for i in range(lumping_subspace.dim()):
-                print(f"{vars_new[i]} = {map_old_variables[i]}")
+                print(f"{vars_new[i]} = {map_old_variables[i]}", file=file)
             if new_ic is not None:
-                print("New initial conditions:")
+                print("New initial conditions:", file=file)
                 for v, val in zip(vars_new, new_ic):
-                    print(f"{v}(0) = {float(val)}")
-            print("Lumped system:")
+                    print(f"{v}(0) = {float(val)}", file=file)
+            print("Lumped system:", file=file)
             for i in range(lumping_subspace.dim()):
-                print(f"{vars_new[i]}' = {lumped_rhs[i]}")
+                print(f"{vars_new[i]}' = {lumped_rhs[i]}", file=file)
 
         return {"equations" : lumped_rhs, 
                 "variables" : vars_new,

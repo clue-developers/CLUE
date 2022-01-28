@@ -18,7 +18,7 @@ setup(
     url='https://github.com/pogudingleb/CLUE',
     author = "Gleb Pogudin",
     author_email = "gleb.pogudin@polytechnique.edu",
-    license = "GPLv3+", # See LICENCE file
+    license = "GPLv3+", # See LICENSE file
     classifiers=[
       # How mature is this project? Common values are
       #   3 - Alpha
@@ -34,6 +34,6 @@ setup(
     keywords = "lumping differential system",
     packages = ["clue"],
     setup_requires   = [],
-    install_requires = ['sympy', 'pyparsing'],
+    install_requires = ['sympy >= 1.9', 'pyparsing', 'natsort'],
 )
     

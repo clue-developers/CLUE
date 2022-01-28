@@ -1,0 +1,82 @@
+{
+    "Barua" : {
+        "inputs" : [
+            ["polynomial", "polynomial"],
+            ["polynomial", "auto_diff"],
+            ["sympy", "auto_diff"]
+        ]
+    },
+
+    "OrderedPhosphorylation" : {
+        "type": "polynomial"
+    },
+
+    "ProteinPhosphorylation" : {
+        "example": "ProteinPhosphorylation[7]",
+        "type": "polynomial"
+    },
+
+    "MODEL1001150000" : {
+        "type": "polynomial"
+    },
+
+    "MODEL8262229752" : {
+        "type": "polynomial"
+    },
+
+    "fceri_ji" : {
+        "type": "polynomial"
+    },
+
+    "BIOMD0000000013" : {
+        "inputs" : [
+            ["rational", "rational"],
+            ["rational", "auto_diff"],
+            ["sympy", "auto_diff"]
+        ]
+    },
+
+    "BIOMD0000000023" : {
+        "type": "rational"
+    },
+
+    "BIOMD0000000033" : {
+        "type": "rational"
+    },
+
+    "BIOMD0000000113" : {
+        "type": "rational",
+        "model": "BIOMD0000000113",
+        "observables": ["Y"]
+    },
+
+    "BIOMD0000000182" : {
+        "type": "rational",
+        "model": "BIOMD0000000182",
+        "observables": ["AC_cyto_mem"]
+    },
+
+    "BIOMD0000000313" : {
+        "type": "rational",
+        "model": "BIOMD0000000313",
+        "observables": ["IL13_DecoyR"]
+    },
+
+    "BIOMD0000000448" : {
+        "type": "rational",
+        "model": "BIOMD0000000448",
+        "observables": ["mTORC1a"]
+    },
+
+    "BIOMD0000000526" : {
+        "type": "rational",
+        "model": "BIOMD0000000526",
+        "observables": ["DISC"]
+    },
+
+    "BIOMD0000000535" : {
+        "type": "rational",
+        "model": "BIOMD0000000535",
+        "observables": ["mw1d9426a3_e1e9_49e0_ad77_eb6833be398a"]
+    }
+}

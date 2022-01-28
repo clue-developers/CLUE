@@ -4,6 +4,8 @@ from functools import reduce, lru_cache
 
 sys.setrecursionlimit(10000000)
 
+from natsort import natsorted
+
 from sympy import QQ, parse_expr, symbols
 from sympy.parsing.sympy_parser import standard_transformations, rationalize
 

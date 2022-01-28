@@ -1,0 +1,62 @@
+begin model BIOMD0000000526
+ begin parameters
+  kon_FADD = 0.00108871858684363
+  koff_FADD = 0.00130854998177646
+  kDISC = 3.64965874405544E-4
+  kD216 = 0.00639775937416746
+  kD216trans_p55 = 2.23246421372882E-4
+  kD216trans_p43 = 5.29906975294056E-5
+  kD374 = 6.44612643975149E-4
+  kD374trans_p55 = 5.43518631342483E-4
+  kD374trans_p43 = 0.00413530054938906
+  kdiss_p18 = 0.064713651554491
+  kBid = 5.2134055139547E-4
+  kD374probe = 0.00153710001025539
+  KDR = 57.2050013008496
+  KDL = 30.0060394758199
+  CD95act = 0.0
+ end parameters
+ begin init
+  CD95 = 12.0
+  FADD = 90.0
+  p55free = 127.0
+  Bid = 224.0
+  PrNES_mCherry = 1909.0
+  PrER_mGFP = 3316.0
+  DISC
+  DISCp55
+  p30
+  p43
+  p18
+  p18inactive
+  tBid
+  PrNES
+  mCherry
+  PrER
+  mGFP
+  CD95L = 16.6
+ end init
+ begin reactions
+  2*FADD -> FADD + DISC , arbitrary kon_FADD*CD95^3*KDL^2*CD95L/((CD95L+KDL)*(CD95^2*KDL^2+KDR*CD95L^2+2*KDR*KDL*CD95L+KDR*KDL^2))*FADD*1 [reaction_1]
+  2*DISC -> FADD + DISC , arbitrary koff_FADD*DISC*1 [reaction_2]
+  2*p55free + 2*DISC -> p55free + DISC + DISCp55 , arbitrary kDISC*p55free*DISC*1 [reaction_3]
+  2*DISCp55 -> DISCp55 + p30 , arbitrary kD216*DISCp55*1 [reaction_4]
+  3*DISCp55 + 2*p30 -> 2*DISCp55 + 3*p30 , arbitrary kD216trans_p55*DISCp55*(DISCp55+p30)*1 [reaction_5]
+  2*DISCp55 + 2*p43 -> DISCp55 + p30 + 2*p43 , arbitrary kD216trans_p43*DISCp55*p43*1 [reaction_6]
+  2*p43 -> DISC + p43 + p18 , arbitrary kD216*p43*1 [reaction_7]
+  2*DISCp55 + 2*p30 + 2*p43 -> DISC + 2*DISCp55 + 2*p30 + p43 + p18 , arbitrary kD216trans_p55*p43*(DISCp55+p30)*1 [reaction_8]
+  3*p43 -> DISC + 2*p43 + p18 , arbitrary kD216trans_p43*p43*p43*1 [reaction_9]
+  2*DISCp55 -> DISCp55 + p43 , arbitrary kD374*DISCp55*1 [reaction_10]
+  3*DISCp55 + 2*p30 -> 2*DISCp55 + 2*p30 + p43 , arbitrary kD374trans_p55*DISCp55*(DISCp55+p30)*1 [reaction_11]
+  2*DISCp55 + 2*p43 -> DISCp55 + 3*p43 , arbitrary kD374trans_p43*DISCp55*p43*1 [reaction_12]
+  2*p30 -> DISC + p30 + p18 , arbitrary kD374*p30*1 [reaction_13]
+  2*DISCp55 + 3*p30 -> DISC + 2*DISCp55 + 2*p30 + p18 , arbitrary kD374trans_p55*p30*(DISCp55+p30)*1 [reaction_14]
+  2*p30 + 2*p43 -> DISC + p30 + 2*p43 + p18 , arbitrary kD374trans_p43*p30*p43*1 [reaction_15]
+  2*p18 -> p18 + p18inactive , arbitrary kdiss_p18*p18*1 [reaction_16]
+  2*Bid + 2*p43 + 2*p18 -> Bid + 2*p43 + 2*p18 + tBid , arbitrary kBid*Bid*(p43+p18)*1 [reaction_17]
+  2*PrNES_mCherry + 2*p43 + 2*p18 -> PrNES_mCherry + 2*p43 + 2*p18 + PrNES + mCherry , arbitrary kD374probe*PrNES_mCherry*(p43+p18)*1 [reaction_18]
+  2*PrER_mGFP + 2*p18 -> PrER_mGFP + 2*p18 + PrER + mGFP , arbitrary kD374probe*PrER_mGFP*p18*1 [reaction_19]
+ end reactions
+
+end model
+
