@@ -18,6 +18,8 @@ def treat_data(data):
             return (">", float(data[1:]))
         if(data == "Error"):
             return ("Error", None)
+        
+        raise TypeError(f"Value {data} not understood")
 
 def special_average(data):
     r'''
@@ -26,7 +28,7 @@ def special_average(data):
     float_data = [el for el in data if isinstance(el, float)]
     other_data = [el for el in data if not el in float_data]
 
-    avg = sum(float_data)/len(float_data)
+    avg = sum(float_data)/len(float_data) if len(float_data) > 0 else "--"
 
     if len(other_data) == 0 or all(el[0] is None for el in other_data): # nothing special
         return avg
