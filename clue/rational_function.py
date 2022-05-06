@@ -485,7 +485,9 @@ class SparsePolynomial(object):
                 True
         '''
         if(not isinstance(other, SparsePolynomial)):
-            if(other in self.domain):
+            if(isinstance(other, RationalFunction)):
+                return self*other.denom == other.num
+            elif(other in self.domain):
                 other = SparsePolynomial.from_const(other, self.gens)
             elif(isinstance(other, str)):
                 other = SparsePolynomial.from_string(other, self.gens)
@@ -1573,4 +1575,10 @@ class RationalFunction:
 
         return evaluate_stack(RationalFunction.__parser_stack)
 
+    @staticmethod
+    def from_sympy(sympy_expr, varnames):
+        num,den = sympy_expr.as_expr().as_numer_denom()
+        num = SparsePolynomial.from_string(str(num), varnames)
+        den = SparsePolynomial.from_string(str(den), varnames)
+        return RationalFunction(num, den)
 #------------------------------------------------------------------------------

@@ -1057,7 +1057,7 @@ class FODESystem:
         '''
         return self.equations[self.variables.index(varname)]
 
-    def check_consistency(self, other, map_variables):
+    def check_consistency(self, other, map_variables, symbolic=False):
         r'''
             Method that check the consistency of the differential systems
 
@@ -1066,22 +1066,7 @@ class FODESystem:
 
             Each variable must be given as a linear :class:`~clue.rational_function.SparsePolynomial`.
         '''
-        ## Evaluating the variables
-        x_eval = [randint(1,100) for _ in other.variables]
-        dic_x_eval = {other.variables[i] : x_eval[i] for i in range(other.size)}
-        y_eval = [poly.eval(**dic_x_eval).ct for poly in map_variables]
-        dic_y_eval = {self.variables[i] : y_eval[i] for i in range(self.size)}
-        
-        ## Evaluation other rhs
-        if(isinstance(other.equations[0], (SparsePolynomial, RationalFunction))):
-            xdot_eval = [eqs.eval(**dic_x_eval) for eqs in other.equations]
-        else: # sympy case
-            xdot_eval = [eq.subs(list((symbols(k), v) for k,v in dic_x_eval.items())) for eq in other.equations]
-
-        ## Evaluation of lhs of self
-        vec_vars = [el.linear_part_as_vec() for el in map_variables]
-        lhs = [sum(vec_vars[i][j]*xdot_eval[j] for j in range(other.size)) for i in range(self.size)]
-        
+        ########################################################
         # Checking the types of equations
         if(isinstance(self.equations[0], PolyElement)):
             logger.debug(":consistency: detected sympy polynomial. Casting to SparsePolynomial")
@@ -1090,11 +1075,61 @@ class FODESystem:
             logger.debug(":consistency: detected sympy polynomial. Casting to SparsePolynomial")
             self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
         
-        ## Evaluation of rhs of self
-        if(isinstance(self.equations[0], (SparsePolynomial, RationalFunction))):
-            rhs = [eq.eval(**dic_y_eval) for eq in self.equations]
+        ########################################################
+        # Obtaining some evaluation data
+        if symbolic:
+            dic_y_eval = {self.variables[i] : map_variables[i] for i in range(self.size)}
+            xdot_eval = other.equations
+        else:
+            ## Evaluating the variables
+            x_eval = [randint(1,100) for _ in other.variables]
+            dic_x_eval = {other.variables[i] : x_eval[i] for i in range(other.size)}
+            y_eval = [poly.eval(**dic_x_eval).ct for poly in map_variables]
+            dic_y_eval = {self.variables[i] : y_eval[i] for i in range(self.size)}
+            
+            ## Evaluation other rhs
+            if(isinstance(other.equations[0], (SparsePolynomial, RationalFunction))):
+                xdot_eval = [eqs.eval(**dic_x_eval) for eqs in other.equations]
+            else: # sympy case
+                xdot_eval = [eq.subs(list((symbols(k), v) for k,v in dic_x_eval.items())) for eq in other.equations]
+
+        ########################################################
+        # COMPUTING LHS OF THE SYSTEM
+        vec_vars = [el.linear_part_as_vec() for el in map_variables]
+        lhs = [sum(vec_vars[i][j]*xdot_eval[j] for j in range(other.size)) for i in range(self.size)]
+        # lhs is a list of elements of type depending on other.equations (symbolic) or number (not symbolic)
+        
+        ########################################################
+        # COMPUTING RHS OF THE SYSTEM
+        equations_to_eval = self.equations
+        if symbolic: # we cast everything into sympy to do evaluation
+            if isinstance(self.equations[0], SparsePolynomial):
+                equations_to_eval = [el.to_sympy().as_expr() for el in equations_to_eval]
+            elif isinstance(self.equations[0], RationalFunction):
+                equations_to_eval = [(el.num.to_sympy()/el.denom.to_sympy()).as_expr() for el in equations_to_eval]
+            else:
+                equations_to_eval = [el.as_expr() for el in equations_to_eval]
+
+        if(isinstance(equations_to_eval[0], (SparsePolynomial, RationalFunction))):
+            # this only happens if symbolic is False, so we evaluate to numbers
+            rhs = [eq.eval(**dic_y_eval) for eq in equations_to_eval]
         else: # sympy case
-            rhs = [eq.subs([(symbols(k), v) for k,v in dic_y_eval.items()]) for eq in self.equations]
+            for k,v in list(dic_y_eval.items()):
+                if isinstance(v, SparsePolynomial):
+                    dic_y_eval[k] = v.to_sympy().as_expr()
+                elif isinstance(v, RationalFunction):
+                    dic_y_eval[k] = (v.num.to_sympy()/v.denom.to_sympy()).as_expr()
+            rhs = [eq.subs([(k, v) for k,v in dic_y_eval.items()]) for eq in equations_to_eval]
+
+            if symbolic:
+                if isinstance(other.equations[0], SparsePolynomial):
+                    rhs = [SparsePolynomial.from_string(str(el), other.variables) for el in rhs]
+                elif isinstance(other.equations[0], RationalFunction):
+                    rhs = [RationalFunction.from_sympy(el, other.variables) for el in rhs]
+                else:
+                    ### TODO: make a comparison with sympy expressions instead of rational functions
+                    lhs = [RationalFunction.from_sympy(el, other.variables) for el in lhs]
+                    rhs = [RationalFunction.from_sympy(el, other.variables) for el in rhs]
 
         return lhs == rhs
 
@@ -2074,7 +2109,7 @@ class LDESystem(FODESystem):
     def old_system(self):
         return self._old_system
 
-    def is_consistent(self):
-        return self.check_consistency(self.old_system, self.old_vars)
+    def is_consistent(self, symbolic=False):
+        return self.check_consistency(self.old_system, self.old_vars, symbolic)
 
 #------------------------------------------------------------------------------
