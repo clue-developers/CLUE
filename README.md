@@ -98,7 +98,7 @@ which is the same as we have seen earlier.
 
 ## Large examples
 
-Examples of reductions obtained over large systems appearing in the literature (including the ones discussed in the paper) are contained in the [examples](examples/) folder. For additional information, see [readme](examples/README.md).
+Examples of reductions obtained over large systems appearing in the literature (including the ones discussed in the paper) are contained in the [examples](models/) folder. For additional information, see [readme](models/README.md).
 
 ## Installing the software
 
