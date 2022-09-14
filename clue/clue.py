@@ -932,6 +932,7 @@ class FODESystem:
         self._name = name
 
         self._lumping_matr = {}
+        self.__normalize_input = False
 
     # Getters of attributes
     @property
@@ -953,13 +954,8 @@ class FODESystem:
             of the rational functions (or polynomials) that are the equations of 
             the differential system (see property :func:`equations`).
         '''
-        ## Checking the data is of the correct types
-        if(isinstance(self.equations[0], PolyElement)):
-            logger.debug(":bounds: detected sympy polynomial. Casting to SparsePolynomial")
-            self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
-        elif(isinstance(self.equations[0], FracElement)):
-            logger.debug(":bounds: detected sympy polynomial. Casting to SparsePolynomial")
-            self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
+        ## Normalizing data if needed
+        self.normalize()
 
         ## Computing the bounds
         if(isinstance(self.equations[0], SparsePolynomial)):
@@ -1025,13 +1021,10 @@ class FODESystem:
             This is different that the property :func:`pars`, since those are the actual variables
             that are constant.
         '''
-        if(isinstance(self.equations[0], PolyElement)):
-            logger.debug(":field: detected sympy polynomial. Casting to SparsePolynomial")
-            self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
-        elif(isinstance(self.equations[0], FracElement)):
-            logger.debug(":field: detected sympy polynomial. Casting to SparsePolynomial")
-            self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
-
+        # Normalizing equations if needed
+        self.normalize()
+        
+        # computing the field
         if(isinstance(self.equations[0], (SparsePolynomial, RationalFunction))):
             return self.equations[0].domain
         else:
@@ -1057,6 +1050,52 @@ class FODESystem:
         '''
         return self.equations[self.variables.index(varname)]
 
+    def normalize(self):
+        if not self.__normalize_input:
+            # checking the type of input
+            if all(isinstance(equ, PolyElement) for equ in self.equations):
+                if all(equ == 0 or min(min(d for d in m) >= 0 for m in equ.monoms()) for equ in self.equations):
+                    # all are polynomials
+                    logger.debug(":normalize: all entries are polynomials. Casting to SparsePolynomial")
+                    self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
+                else:
+                    # all polynomials but with negative exponent
+                    logger.debug(":normalize: all entries are polynomials, but with negative exponents. Casting to expressions")
+                    self._equations = [el.as_expr() for el in self.equations]
+            elif all(isinstance(equ, (PolyElement, FracElement)) for equ in self.equations):
+                # we have a mix of polynomials and rational functions
+                logger.debug(":normalize: all entries are rational functions. Casting to RationalFunction")
+                self._equations = [
+                    RationalFunction.from_string(str(
+                        el.as_expr() if isinstance(el, PolyElement) else el
+                    ), self.variables) for el in self.equations
+                ]
+            elif any(not isinstance(equ, (SparsePolynomial, RationalFunction)) for equ in self.equations):
+                # we have some mix in the input: going to symbolic
+                logger.debug(":normalize: not everything is SparsePolynomial or RationalFunction. Casting to expressions")
+                self._equations = [(equ.to_sympy() if isinstance(equ, (SparsePolynomial, RationalFunction)) else equ).as_expr() for equ in self.equations]
+            elif all(isinstance(equ, RationalFunction) for equ in self.equations):
+                logger.debug(":normalize: Input is in the RationalFunction format")
+            elif any(not isinstance(equ, (SparsePolynomial)) for equ in self.equations):
+                # we have some mix in the input: going to symbolic
+                logger.debug(":normalize: not everything is SparsePolynomial. Casting to RationalFunctions")
+                self._equations = [RationalFunction(equ, SparsePolynomial.from_const(1, self.variables)) if isinstance(equ,SparsePolynomial) else equ for equ in self.equations]
+            elif all(isinstance(equ, SparsePolynomial) for equ in self.equations): 
+                # everything was a SparsePolynomial
+                logger.debug(":normalize: Input is in the SparsePolynomial format")
+            else:
+                logger.debug(":normalize: Input is expected to be in SymPy format, ground field will be adjusted if necessary")
+                new_equs = []
+                for equ in self.equations:
+                    if isinstance(equ, (PolyElement, FracElement)):
+                        new_equs.append(equ.as_expr())
+                    elif isinstance(equ, (RationalFunction, SparsePolynomial)):
+                        new_equs.append(equ.to_sympy().as_expr())
+                    else:
+                        new_equs.append(equ)
+            ## Change the flag to not repeat this process
+            self.__normalize_input = True
+
     def check_consistency(self, other, map_variables, symbolic=False):
         r'''
             Method that check the consistency of the differential systems
@@ -1067,14 +1106,9 @@ class FODESystem:
             Each variable must be given as a linear :class:`~clue.rational_function.SparsePolynomial`.
         '''
         ########################################################
-        # Checking the types of equations
-        if(isinstance(self.equations[0], PolyElement)):
-            logger.debug(":consistency: detected sympy polynomial. Casting to SparsePolynomial")
-            self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
-        elif(isinstance(self.equations[0], FracElement)):
-            logger.debug(":consistency: detected sympy polynomial. Casting to SparsePolynomial")
-            self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
-        
+        # Normalizing equations if needed
+        self.normalize()
+
         ########################################################
         # Obtaining some evaluation data
         if symbolic:
@@ -1924,19 +1958,8 @@ class FODESystem:
         
         logger.debug(":lumping: Starting aggregation")
 
-        ## Logger: printing the type of the input
-        if isinstance(self.equations[0], SparsePolynomial):
-            logger.debug(":lumping: Input is in the SparsePolynomial format")
-        elif isinstance(self.equations[0], RationalFunction):
-            logger.debug(":lumping: Input is in the RationalFunction format")
-        elif isinstance(self.equations[0], PolyElement): # the inputs are polynomial in sympy
-            logger.debug(":lumping: Input were polynomials in sympy, casting to SparsePolynomial")
-            self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
-        elif isinstance(self.equations[0], FracElement): # the inputs are polynomial in sympy
-            logger.debug(":lumping: Input were fractions in sympy, casting to RationalFunction")
-            self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
-        else:
-            logger.debug(":lumping: Input is expected to be in SymPy format, ground field will be adjusted if necessary")
+        ## Normalizing input if needed
+        self.normalize()
 
         if isinstance(observable[0], PolyElement):
             logger.debug(":lumping: observables in PolyElement format. Casting to SparsePolynomial")
