@@ -4,7 +4,6 @@ import copy, logging, math, sys, time
 from random import randint
 
 from functools import cached_property, reduce, lru_cache
-from tkinter import E
 
 import sympy
 from sympy import GF, QQ, gcd, nextprime, lambdify, symbols
