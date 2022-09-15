@@ -726,7 +726,7 @@ class Subspace(object):
             for rf in new_rhs:
 
                 num_filtered_dict = dict()
-                for monom, coef in rf.num.dataiter():
+                for monom, coef in rf.numer.dataiter():
                     new_monom = []
                     skip = False
                     for var, exp in monom:
@@ -963,7 +963,7 @@ class FODESystem:
             Dn = max([equ.degree() for equ in self.equations if equ != 0])
             Dd = 0
         elif(isinstance(self.equations[0], RationalFunction)):
-            Dn = max([equ.num.degree() for equ in self.equations if equ != 0])
+            Dn = max([equ.numer.degree() for equ in self.equations if equ != 0])
             Dd = max(equ.denom.degree() for equ in self.equations)
         else: # sympy expression case
             bounds = [FODESystem.bound_degree_expr(equ, self.variables) for equ in self.equations]
@@ -1228,7 +1228,7 @@ class FODESystem:
             if isinstance(self.equations[0], SparsePolynomial):
                 equations_to_eval = [el.to_sympy().as_expr() for el in equations_to_eval]
             elif isinstance(self.equations[0], RationalFunction):
-                equations_to_eval = [(el.num.to_sympy()/el.denom.to_sympy()).as_expr() for el in equations_to_eval]
+                equations_to_eval = [(el.numer.to_sympy()/el.denom.to_sympy()).as_expr() for el in equations_to_eval]
             else:
                 equations_to_eval = [el.as_expr() for el in equations_to_eval]
 
@@ -1240,7 +1240,7 @@ class FODESystem:
                 if isinstance(v, SparsePolynomial):
                     dic_y_eval[k] = v.to_sympy().as_expr()
                 elif isinstance(v, RationalFunction):
-                    dic_y_eval[k] = (v.num.to_sympy()/v.denom.to_sympy()).as_expr()
+                    dic_y_eval[k] = (v.numer.to_sympy()/v.denom.to_sympy()).as_expr()
             rhs = [eq.subs([(k, v) for k,v in dic_y_eval.items()]) for eq in equations_to_eval]
 
             if symbolic:
@@ -1375,7 +1375,7 @@ class FODESystem:
         for i in range(len(J)):
             poly_J_row = []
             for j in range(len(J[i])):
-                poly_J_row.append(J[i][j].num * p[j])
+                poly_J_row.append(J[i][j].numer * p[j])
             poly_J.append(poly_J_row)
 
         # Work with remaining polynomial matrix as in construct_matrices_from_polys
@@ -2082,7 +2082,7 @@ class FODESystem:
             elif isinstance(result["equations"][0], RationalFunction):
                 out_ring = result["equations"][0].get_sympy_ring()
                 F = sympy.FractionField(sympy.QQ, result["equations"][0].gens)
-                result["equations"] = [F(out_ring(p.num.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict())) for p in result["equations"]]
+                result["equations"] = [F(out_ring(p.numer.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict())) for p in result["equations"]]
         elif out_format == "internal":
             pass
         else:
