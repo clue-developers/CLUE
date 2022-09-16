@@ -486,7 +486,7 @@ class SparsePolynomial(object):
         '''
         if(not isinstance(other, SparsePolynomial)):
             if(isinstance(other, RationalFunction)):
-                return self*other.denom == other.num
+                return self*other.denom == other.numer
             elif(other in self.domain):
                 other = SparsePolynomial.from_const(other, self.gens)
             elif(isinstance(other, str)):
@@ -1147,18 +1147,18 @@ class RationalFunction:
     __parser = None
     __parser_stack = []
 
-    def __init__(self, num, denom):
+    def __init__(self, numer, denom):
         ## Checking the input has the correct format
-        assert isinstance(num, SparsePolynomial)
+        assert isinstance(numer, SparsePolynomial)
         assert isinstance(denom, SparsePolynomial)
-        assert num.domain == denom.domain
-        assert num.gens == denom.gens
+        assert numer.domain == denom.domain
+        assert numer.gens == denom.gens
         assert not denom.is_zero()
 
         ## Assigning the values for the rational function
-        self._domain = num.domain
-        self._varnames = num.gens
-        self.num = num
+        self._domain = numer.domain
+        self._varnames = numer.gens
+        self.numer = numer
         self.denom = denom
 
         ## Simplifying the rational function if the denominator is not 1
@@ -1178,14 +1178,14 @@ class RationalFunction:
 
     def get_poly(self):
         if self.is_polynomial():
-            return self.num * (QQ(1) / QQ(self.denom.ct))
+            return self.numer * (QQ(1) / QQ(self.denom.ct))
         raise ValueError(f"{self} is not a polynomial")
 
     def is_zero(self):
-        return self.num.is_zero()
+        return self.numer.is_zero()
 
     def is_constant(self):
-        return self.num.is_constant() and self.denom.is_constant()
+        return self.numer.is_constant() and self.denom.is_constant()
     #--------------------------------------------------------------------------
     @property
     def domain(self):
@@ -1199,10 +1199,10 @@ class RationalFunction:
     #--------------------------------------------------------------------------
     @property
     def size(self):
-        return self.denom.size + self.num.size
+        return self.denom.size + self.numer.size
 
     def variables(self, as_poly=False):
-        return tuple(set(list(self.num.variables(as_poly)) + list(self.denom.variables(as_poly))))
+        return tuple(set(list(self.numer.variables(as_poly)) + list(self.denom.variables(as_poly))))
 
     #--------------------------------------------------------------------------
     def valuation(self, var_name):
@@ -1227,7 +1227,7 @@ class RationalFunction:
 
             TODO: add examples and tests
         '''
-        return self.num.degree(var_name) - self.denom.degree(var_name)
+        return self.numer.degree(var_name) - self.denom.degree(var_name)
 
     #--------------------------------------------------------------------------
     def derivative(self, var):
@@ -1290,7 +1290,7 @@ class RationalFunction:
                 >>> print(rf_dz)
                 (0)/(1)
         '''
-        d_num = self.denom * self.num.derivative(var) - self.num * self.denom.derivative(var)
+        d_num = self.denom * self.numer.derivative(var) - self.numer * self.denom.derivative(var)
         d_denom = self.denom*self.denom
         return RationalFunction(d_num, d_denom)
 
@@ -1307,30 +1307,30 @@ class RationalFunction:
             instead, the result is stored within the same object.
         '''
         # Removing the gcd of numerator and denominator (whatever Sympy finds)
-        gcd = SparsePolynomial.gcd([self.num, self.denom])
+        gcd = SparsePolynomial.gcd([self.numer, self.denom])
         if(not gcd.is_unitary()):
-            self.num = self.num // gcd
+            self.numer = self.numer // gcd
             self.denom = self.denom // gcd
 
         # Removing the content of the denominator
         c = SparsePolynomial.from_const(self.denom.content, self.gens)
         if(not c.is_unitary()):
-            self.num = self.num // c
+            self.numer = self.numer // c
             self.denom = self.denom // c
 
     #--------------------------------------------------------------------------
     def __str__(self):
-        return f"({self.num})/({self.denom})"
+        return f"({self.numer})/({self.denom})"
 
     def __repr__(self):
-        return f"RationalFunction({self.num}, {self.denom})"
+        return f"RationalFunction({self.numer}, {self.denom})"
 
     #--------------------------------------------------------------------------
     def __mul__(self, other):
         if type(other) == RationalFunction:
-            rf = RationalFunction(self.num * other.num, self.denom * other.denom)
+            rf = RationalFunction(self.numer * other.numer, self.denom * other.denom)
         else:
-            rf = RationalFunction(self.num * other, self.denom)
+            rf = RationalFunction(self.numer * other, self.denom)
         return rf
 
     def __rmul__(self, other):
@@ -1339,9 +1339,9 @@ class RationalFunction:
     def __add__(self, other):
         if type(other) == RationalFunction:
             if self.denom == other.denom:
-                rf = RationalFunction(self.num + other.num, self.denom)
+                rf = RationalFunction(self.numer + other.numer, self.denom)
             else:
-                rf = RationalFunction(self.num*other.denom + other.num*self.denom, self.denom*other.denom)
+                rf = RationalFunction(self.numer*other.denom + other.numer*self.denom, self.denom*other.denom)
             return rf
         elif type(other) == SparsePolynomial:
             return self + RationalFunction(other, SparsePolynomial.from_const(1, self.gens))
@@ -1352,12 +1352,12 @@ class RationalFunction:
         return self.__add__(other)
 
     def __truediv__(self, other):
-        return RationalFunction(self.num * other.denom, self.denom * other.num)
+        return RationalFunction(self.numer * other.denom, self.denom * other.numer)
 
     #--------------------------------------------------------------------------
 
     def __neg__(self):
-        return RationalFunction(-self.num, self.denom)
+        return RationalFunction(-self.numer, self.denom)
 
     def __sub__(self, other):
         return self + (-other)
@@ -1371,7 +1371,7 @@ class RationalFunction:
 
     def __iadd__(self, other):
         if self.denom == other.denom:
-            self.num += other.num
+            self.numer += other.numer
             return self
         self = self + other
         return self
@@ -1410,20 +1410,22 @@ class RationalFunction:
                 ...
                 ZeroDivisionError: A zero from the denominator was found
         '''
-        num = self.num.eval(**values)
+        # we evaluate first the denominator
         denom = self.denom.eval(**values)
 
-        if(denom.is_zero()):
+        if(denom.is_zero()): # if zero: raise an error
             raise ZeroDivisionError("A zero from the denominator was found")
         
-        return num/denom
+        # otherwise we evaluate numerator and compute the quotient
+        numer = self.numer.eval(**values)
+        return numer/denom
 
     def automated_diff(self, **values):
-        return self.num.automated_diff(**values) / self.denom.automated_diff(**values)
+        return self.numer.automated_diff(**values) / self.denom.automated_diff(**values)
 
     #--------------------------------------------------------------------------
     def get_constant(self):
-        return self.num.ct/self.denom.ct
+        return self.numer.ct/self.denom.ct
 
     def get_sympy_ring(self):
         return sympy.polys.rings.ring(self.gens, self.domain)[0]
@@ -1468,7 +1470,7 @@ class RationalFunction:
                     other = RationalFunction.from_string(str(other), self.gens)
                 except (ParseException, TypeError):
                     return NotImplemented
-        return self.num*other.denom == other.num*self.denom
+        return self.numer*other.denom == other.numer*self.denom
 
     #--------------------------------------------------------------------------
     def exp(self, power):

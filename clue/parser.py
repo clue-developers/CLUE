@@ -111,7 +111,7 @@ def _parse(to_parse, varnames, parser):
         if(parser == "polynomial"):
             if(result.denom != 1):
                 raise ValueError("Trying to parse a polynomial but found Rational function.")
-            return result.num
+            return result.numer
         elif(parser == "rational"):
             return result
     raise NotImplementedError(f"Parser {parser} not implemented")

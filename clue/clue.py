@@ -725,7 +725,7 @@ class Subspace(object):
             for rf in new_rhs:
 
                 num_filtered_dict = dict()
-                for monom, coef in rf.num.dataiter():
+                for monom, coef in rf.numer.dataiter():
                     new_monom = []
                     skip = False
                     for var, exp in monom:
@@ -932,6 +932,7 @@ class FODESystem:
         self._name = name
 
         self._lumping_matr = {}
+        self.__normalize_input = False
 
     # Getters of attributes
     @property
@@ -953,20 +954,15 @@ class FODESystem:
             of the rational functions (or polynomials) that are the equations of 
             the differential system (see property :func:`equations`).
         '''
-        ## Checking the data is of the correct types
-        if(isinstance(self.equations[0], PolyElement)):
-            logger.debug(":bounds: detected sympy polynomial. Casting to SparsePolynomial")
-            self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
-        elif(isinstance(self.equations[0], FracElement)):
-            logger.debug(":bounds: detected sympy polynomial. Casting to SparsePolynomial")
-            self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
+        ## Normalizing data if needed
+        self.normalize()
 
         ## Computing the bounds
         if(isinstance(self.equations[0], SparsePolynomial)):
             Dn = max([equ.degree() for equ in self.equations if equ != 0])
             Dd = 0
         elif(isinstance(self.equations[0], RationalFunction)):
-            Dn = max([equ.num.degree() for equ in self.equations if equ != 0])
+            Dn = max([equ.numer.degree() for equ in self.equations if equ != 0])
             Dd = max(equ.denom.degree() for equ in self.equations)
         else: # sympy expression case
             bounds = [FODESystem.bound_degree_expr(equ, self.variables) for equ in self.equations]
@@ -1025,13 +1021,10 @@ class FODESystem:
             This is different that the property :func:`pars`, since those are the actual variables
             that are constant.
         '''
-        if(isinstance(self.equations[0], PolyElement)):
-            logger.debug(":field: detected sympy polynomial. Casting to SparsePolynomial")
-            self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
-        elif(isinstance(self.equations[0], FracElement)):
-            logger.debug(":field: detected sympy polynomial. Casting to SparsePolynomial")
-            self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
-
+        # Normalizing equations if needed
+        self.normalize()
+        
+        # computing the field
         if(isinstance(self.equations[0], (SparsePolynomial, RationalFunction))):
             return self.equations[0].domain
         else:
@@ -1057,6 +1050,139 @@ class FODESystem:
         '''
         return self.equations[self.variables.index(varname)]
 
+    def normalize(self):
+        r'''
+            Method that rewrites the equations of ``self`` to fit into all the methods in the class.
+
+            This method transforms the equations of this :class:`FODESytem` by changing its type to 
+            the best choice among:
+            
+            * :class:`~clue.rational_function.SparsePolynomial`: this is the best but most restrictive class
+              for a system. It requires a polynomial input and exploits the sparseness of it to speed up 
+              computations.
+            * :class:`~clue.rational_function.RationalFunction`: this class is a rational function on the 
+              form `numer/denom`. This is less restrictive than the polynomial input but needs that the 
+              input is given in the specific form.
+            * A SymPy expression: avoiding special classes as :class:`PolyElement` or :class:`FracElement`,
+              we use the basic expression structure in SymPy for all the inputs that do not fit the previous
+              two formats.
+
+            **REMARK**: this method do not return anything and change the equations *in-place*.
+
+            Examples:
+
+            We start by showing what happen when using objects in the class :class:`~sympy.polys.rings.PolyElement`::
+
+                >>> from clue import *
+                >>> from sympy import vring, QQ, symbols
+                >>> R = vring(['x','y'], QQ)
+                >>> ode = FODESystem([x**2*y**2 - x**3*y**2], variables=['x','y'])
+                >>> type(ode.equations[0]) # it is a PolyElement and it is a polynomial
+                <class 'sympy.polys.rings.PolyElement'>
+                >>> ode.normalize() # they change to SparsePolynomial
+                >>> type(ode.equations[0])
+                <class 'clue.rational_function.SparsePolynomial'>
+                >>> ode.equations[0]
+                x**2*y**2 + -x**3*y**2
+                >>> ode = FODESystem([x**2*y**-2 - x**-2*y**2], variables=['x','y'])
+                >>> type(ode.equations[0]) # it is a PolyElement! even with negative exponents!
+                <class 'sympy.polys.rings.PolyElement'>
+                >>> ode.normalize() # they change to expressions
+                >>> type(ode.equations[0])
+                <class 'sympy.core.add.Add'>
+                >>> ode.equations[0]
+                x**2/y**2 - y**2/x**2
+
+            We repeat the examples but now using the class :class:`~sympy.polys.fields.FracElement`::
+
+                >>> x,y = R.to_field().gens
+                >>> ode = FODESystem([x**2*y**-2 - x**-2*y**2], variables=['x','y'])
+                >>> type(ode.equations[0])
+                <class 'sympy.polys.fields.FracElement'>
+                >>> ode.normalize() # they change to RationalFunction
+                >>> type(ode.equations[0])
+                <class 'clue.rational_function.RationalFunction'>
+
+        '''
+        if not self.__normalize_input:
+            target_type = 0 # 0 = SparsePolynomial; 1 = RationalFunction; 2 = Expression
+            # first loop to decide target
+            i = 0
+            while target_type < 2 and i < self.size:
+                equ = self.equations[i]
+                if isinstance(equ, PolyElement):
+                    if equ != 0 and min(min(d for d in m) < 0 for m in equ.monoms()): 
+                        # PolyElement with negative exponents --> sympy
+                        logger.debug(":normalize: found PolyElement with negative epxonents --> sympy")
+                        target_type = 2
+                    # PolyElement with no negative exponents --> polynomial: do not change target_type
+                elif isinstance(equ, FracElement):
+                    numer, denom = equ.numer, equ.denom
+                    if numer == 0: # fraction is zero, nothing is needed
+                        pass
+                    elif denom == 1: # maybe a polynomial is enough
+                        if numer != 0 and min(min(d for d in m) < 0 for m in numer.monoms()): # FracElement with numerator with neg. exponents
+                            logger.debug(":normalize: found FracElement (den=1, num w. neg. exp.) --> RationalFunction")
+                            target_type = 1
+                    else: # we have a proper fraction, we need a RationalFunction
+                        logger.debug(":normalize: found FracElement (den!=1) --> RationalFunction")
+                        target_type = 1
+                elif isinstance(equ, SparsePolynomial):
+                    pass # the type do not change because of a SparsePolynomial
+                elif isinstance(equ, RationalFunction):
+                    # we check the denominator to see if it is not 1
+                    if equ.denom != 1: # we need at least a RationalFunction
+                        logger.debug(":normalize: found RationalFunction (den!=1) --> RationalFunction")
+                        target_type = 1
+                else: # other cases all to sympy
+                    logger.debug(":normalize: found something different --> sympy")
+                    target_type = 2
+                i+=1
+
+            # second loop: we change the input to the target (assuming we always can)
+            for i in range(self.size):
+                equ = self.equations[i]
+                if isinstance(equ, PolyElement):
+                    if target_type == 0:
+                        nequ = SparsePolynomial.from_sympy(equ, self.variables)
+                    elif target_type == 1:
+                        nequ = RationalFunction.from_string(str(equ.as_expr()), self.variables)
+                    elif target_type == 2:
+                        nequ = equ.as_expr()
+                elif isinstance(equ, FracElement):
+                    if target_type == 0:
+                        nequ = SparsePolynomial.from_sympy(equ.numer, self.variables)
+                    elif target_type == 1:
+                        nequ = RationalFunction.from_string(str(equ.as_expr()), self.variables)
+                    elif target_type == 2:
+                        nequ = equ.as_expr()
+                elif isinstance(equ, SparsePolynomial):
+                    if target_type == 0:
+                        nequ = equ
+                    elif target_type == 1:
+                        nequ = RationalFunction(equ, RationalFunction.from_const(1, self.variables))
+                    elif target_type == 2:
+                        nequ = equ.to_sympy().as_expr()
+                elif isinstance(equ, RationalFunction):
+                    if target_type == 0:
+                        nequ = equ.numer
+                    elif target_type == 1:
+                        nequ = equ
+                    elif target_type == 2:
+                        nequ = equ.to_sympy().as_expr()
+                else:
+                    if target_type == 0:
+                        raise TypeError("Reached SparsePolynomial from something weird")
+                    elif target_type == 1:
+                        raise TypeError("Reached RationalFunction from something weird")
+                    elif target_type == 2:
+                        nequ = equ
+
+                # we substitute the new equation for its new value
+                self._equations[i] = nequ
+            ## Change the flag to not repeat this process
+            self.__normalize_input = True
+
     def check_consistency(self, other, map_variables, symbolic=False):
         r'''
             Method that check the consistency of the differential systems
@@ -1067,14 +1193,9 @@ class FODESystem:
             Each variable must be given as a linear :class:`~clue.rational_function.SparsePolynomial`.
         '''
         ########################################################
-        # Checking the types of equations
-        if(isinstance(self.equations[0], PolyElement)):
-            logger.debug(":consistency: detected sympy polynomial. Casting to SparsePolynomial")
-            self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
-        elif(isinstance(self.equations[0], FracElement)):
-            logger.debug(":consistency: detected sympy polynomial. Casting to SparsePolynomial")
-            self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
-        
+        # Normalizing equations if needed
+        self.normalize()
+
         ########################################################
         # Obtaining some evaluation data
         if symbolic:
@@ -1106,7 +1227,7 @@ class FODESystem:
             if isinstance(self.equations[0], SparsePolynomial):
                 equations_to_eval = [el.to_sympy().as_expr() for el in equations_to_eval]
             elif isinstance(self.equations[0], RationalFunction):
-                equations_to_eval = [(el.num.to_sympy()/el.denom.to_sympy()).as_expr() for el in equations_to_eval]
+                equations_to_eval = [(el.numer.to_sympy()/el.denom.to_sympy()).as_expr() for el in equations_to_eval]
             else:
                 equations_to_eval = [el.as_expr() for el in equations_to_eval]
 
@@ -1118,7 +1239,7 @@ class FODESystem:
                 if isinstance(v, SparsePolynomial):
                     dic_y_eval[k] = v.to_sympy().as_expr()
                 elif isinstance(v, RationalFunction):
-                    dic_y_eval[k] = (v.num.to_sympy()/v.denom.to_sympy()).as_expr()
+                    dic_y_eval[k] = (v.numer.to_sympy()/v.denom.to_sympy()).as_expr()
             rhs = [eq.subs([(k, v) for k,v in dic_y_eval.items()]) for eq in equations_to_eval]
 
             if symbolic:
@@ -1253,7 +1374,7 @@ class FODESystem:
         for i in range(len(J)):
             poly_J_row = []
             for j in range(len(J[i])):
-                poly_J_row.append(J[i][j].num * p[j])
+                poly_J_row.append(J[i][j].numer * p[j])
             poly_J.append(poly_J_row)
 
         # Work with remaining polynomial matrix as in construct_matrices_from_polys
@@ -1924,19 +2045,8 @@ class FODESystem:
         
         logger.debug(":lumping: Starting aggregation")
 
-        ## Logger: printing the type of the input
-        if isinstance(self.equations[0], SparsePolynomial):
-            logger.debug(":lumping: Input is in the SparsePolynomial format")
-        elif isinstance(self.equations[0], RationalFunction):
-            logger.debug(":lumping: Input is in the RationalFunction format")
-        elif isinstance(self.equations[0], PolyElement): # the inputs are polynomial in sympy
-            logger.debug(":lumping: Input were polynomials in sympy, casting to SparsePolynomial")
-            self._equations = [SparsePolynomial.from_sympy(el, self.variables) for el in self.equations]
-        elif isinstance(self.equations[0], FracElement): # the inputs are polynomial in sympy
-            logger.debug(":lumping: Input were fractions in sympy, casting to RationalFunction")
-            self._equations = [RationalFunction.from_string(str(el), self.variables) for el in self.equations]
-        else:
-            logger.debug(":lumping: Input is expected to be in SymPy format, ground field will be adjusted if necessary")
+        ## Normalizing input if needed
+        self.normalize()
 
         if isinstance(observable[0], PolyElement):
             logger.debug(":lumping: observables in PolyElement format. Casting to SparsePolynomial")
@@ -1971,7 +2081,7 @@ class FODESystem:
             elif isinstance(result["equations"][0], RationalFunction):
                 out_ring = result["equations"][0].get_sympy_ring()
                 F = sympy.FractionField(sympy.QQ, result["equations"][0].gens)
-                result["equations"] = [F(out_ring(p.num.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict())) for p in result["equations"]]
+                result["equations"] = [F(out_ring(p.numer.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict())) for p in result["equations"]]
         elif out_format == "internal":
             pass
         else:
