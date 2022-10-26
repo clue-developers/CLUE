@@ -1254,6 +1254,105 @@ class FODESystem:
 
         return lhs == rhs
 
+    def evaluate_parameters(self, values):
+        r'''
+            Method that evaluate some of the parameters of the system to specific values
+
+            Input
+                - ``values``: a dictionary with the names of the parameters to evaluate as keys and the 
+                  new values as the values.
+
+            Output
+
+            A new :class:`FODESystem` with the remaining equations of the system after evaluating the parameters
+            with the given values.
+
+            Examples::
+
+                >>> from clue import *
+                >>> from sympy import vring, QQ, symbols
+                >>> R = vring(['x','y','a','b','c'], QQ)
+                >>> ode = FODESystem([a*x**2*y**2 - b*x**3*y**2, -c*y*x,0,0,0], variables=['x','y','a','b','c'])
+                >>> ode.pars
+                ['a', 'b', 'c']
+                >>> ode_eval = ode.evaluate_parameters({'a': 3, 'b': 0, 'c': -1})
+                >>> ode_eval.variables
+                ['x', 'y']
+                >>> ode_eval.pars
+                []
+                >>> ode_eval.equations
+                [3*x**2*y**2, x*y]
+
+            The evaluation of the parameters can be performed partially (i.e., without providing all the parameters at once)::
+
+                >>> ode_eval = ode.evaluate_parameters({'b' : 0})
+                >>> ode_eval.pars
+                ['a', 'c']
+                >>> ode_eval.equations
+                [a*x**2*y**2, -c*x*y, 0, 0]
+
+            We even allow names that are not in the system::
+
+                >>> ode_eval = ode.evaluate_parameters({'aa' : 0})
+                >>> ode_eval.variables == ode.variables
+                True
+                >>> ode_eval.equations == ode.equations
+                True
+
+            But we will raise a :class:`ValueError` if we try to evaluate a variable that is not a parameter::
+
+                >>> ode.species
+                ['x', 'y']
+                >>> ode_eval = ode.evaluate_parameters({'a' : 0, 'x' : 3})
+                Traceback (most recent call last):
+                ...
+                ValueError: Can not evaluate the variable x [it is not a parameter]
+        '''
+        self.normalize()
+
+        # checking we do not have non-parameters in the list
+        for specie in self.species:
+            if specie in values:
+                raise ValueError(f"Can not evaluate the variable {specie} [it is not a parameter]")
+
+        # removing unnecessary values
+        values = {k : v for (k,v) in values.items() if k in self.pars}
+        indices_parameters = [self.variables.index(k) for k in values]
+
+        # computing the new equations
+        if isinstance(self.equations[0], (SparsePolynomial,RationalFunction)):
+            new_equations = [self.equations[i].eval(**values) for i in range(self.size) if (not i in indices_parameters)]
+        else: #sympy expressions
+            evaluation = [(symbols(k), v) for (k,v) in values.items()]
+            new_equations = [
+                self.equations[i].subs(evaluation) if hasattr(self.equations[i], "subs") else self.equations[i] 
+                for i in range(self.size) if (not i in indices_parameters)
+            ]
+
+        # computing the new observables (if any)
+        new_observables = None
+        if self.observables != None:
+            if isinstance(self.observables[0], (SparsePolynomial,RationalFunction)):
+                new_observables = [obs.eval(**values) for obs in self.observables]
+            else: #sympy expressions
+                evaluation = [(symbols(k), v) for (k,v) in values.items()]
+                new_observables = [obs.subs(evaluation) for obs in self.observables]
+
+        # computing the remaining variables
+        new_variables = [self.variables[i] for i in range(self.size) if (not i in indices_parameters)]
+
+        # removing parameters from initial conditions (if any)
+        new_ic = {k : v for (k,v) in self.ic if (not k in values)}
+
+        # returning the resulting system
+        return FODESystem(
+            new_equations,  # the equations has less variables
+            new_observables,# the observables are also evaluated
+            new_variables,  # the remaining variables
+            new_ic,         # the initial values do not have the evaluated parameters
+            self.name       # we keep the name of the system
+            )
+            
     ##############################################################################################################
     ## Methods for preparing to get the lumping
     ##############################################################################################################
