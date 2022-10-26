@@ -1342,7 +1342,8 @@ class FODESystem:
         new_variables = [self.variables[i] for i in range(self.size) if (not i in indices_parameters)]
 
         # removing parameters from initial conditions (if any)
-        new_ic = {k : v for (k,v) in self.ic if (not k in values)}
+        if self.ic is None: new_ic = {}
+        else: new_ic = {k : v for (k,v) in self.ic.items() if (not k in values)}
 
         # returning the resulting system
         return FODESystem(
