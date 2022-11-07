@@ -1043,6 +1043,17 @@ class FODESystem:
     def type(self):
         return type(self.equations[0])
 
+    def symb_variables(self):
+        r'''
+            Return a list with the variables represented as symbolic objects compatible with the type of the equations
+        '''
+        self.normalize()
+        variables = self.variables
+        if isinstance(self.equations[0], (SparsePolynomial, RationalFunction)):
+            return [SparsePolynomial.from_string(v, variables) for v in variables]
+        else:
+            return [symbols(v) for v in variables]
+
     ## more specialized getters
     def equation(self, varname):
         r'''
@@ -1183,6 +1194,48 @@ class FODESystem:
             ## Change the flag to not repeat this process
             self.__normalize_input = True
 
+    def eval_equation(self, index, point):
+        r'''
+            Method to evaluate a equation of the system in a particular value.
+            
+            This method unifies the way of evaluating the equations of a differential system.
+            After normalizing the system, we only have three options for the equations:
+            
+            * :class:`~clue.rational_function.SparsePolynomial`
+            * :class:`~clue.rational_function.RationalFunction`
+            * A Sympy expression.
+
+            The first two can be evaluated with the method ``eval``. However, SymPy expressions
+            are evaluated with the method ``subs`` and a different type of input.
+
+            This mehtod allows to evaluate all type of equations with the same interface and input.
+
+            Input:
+
+            - ``index``: index of the equation to be evaluated.
+            - ``point``: list of values (with the length given by ``self.size``) or a dictionary with the 
+              variables we want to evaluate.
+
+            Output:
+
+            The evaluation of ``self.equations[i]`` with the values given by ``point``.
+        '''
+        if isinstance(point, (list, tuple)):
+            if len(point) != self.size:
+                raise TypeError("Not enough values to evaluate an equation (format list)")
+
+            point = {self.variables[i] : point[i] for i in range(self.size)}
+        elif isinstance(point, dict):
+            if any(not (var in self.variables) for var in point):
+                raise ValueError("A given variable for evaluation does not exist in the system (format dict)")
+
+        self.normalize()
+
+        if isinstance(self.equations[index], (SparsePolynomial, RationalFunction)):
+            return self.equations[index].eval(**point)
+        else:
+            return self.equations[index].subs([(symbols(k),v) for (k,v) in point.items()])
+
     def check_consistency(self, other, map_variables, symbolic=False):
         r'''
             Method that check the consistency of the differential systems
@@ -1209,10 +1262,7 @@ class FODESystem:
             dic_y_eval = {self.variables[i] : y_eval[i] for i in range(self.size)}
             
             ## Evaluation other rhs
-            if(isinstance(other.equations[0], (SparsePolynomial, RationalFunction))):
-                xdot_eval = [eqs.eval(**dic_x_eval) for eqs in other.equations]
-            else: # sympy case
-                xdot_eval = [eq.subs(list((symbols(k), v) for k,v in dic_x_eval.items())) for eq in other.equations]
+            xdot_eval = [other.eval_equation(i, dic_x_eval) for i in range(other.size)]
 
         ########################################################
         # COMPUTING LHS OF THE SYSTEM
@@ -1253,6 +1303,86 @@ class FODESystem:
                     rhs = [RationalFunction.from_sympy(el, other.variables) for el in rhs]
 
         return lhs == rhs
+
+    def evaluate_parameters(self, map_parameters):
+        r'''
+            Method to remove parameters from the system
+
+            This method evaluates a given set of parameters of the system to constants, allowing to 
+            simplify some instances of the system and reduce the size of the system when not 
+            considering parameters as variables.
+
+            Warning: this may eliminate some reductions when the parameters have special configurations.
+
+            Input:
+                - ``map_parameters``: dictionary with the names of the parameters to evaluate and their new value.
+
+            Output:
+
+            A new :class:`FODESystem` with the parameters given in ``map_parameters`` evaluated to their given value.
+        '''
+        if len(map_parameters) == 0: return self
+        self.normalize()
+
+        if any(not par in self.pars for par in map_parameters):
+            raise ValueError("The parameters to evaluate must be in the list of parameters of the system.")
+
+        parameter_indices = [self.variables.index(par) for par in map_parameters]
+        equations = [self.eval_equation(i, map_parameters) for i in range(self.size) if (not i in parameter_indices)]
+        observables = [obs.eval(**map_parameters) for obs in self.observables] if self.observables != None else None
+        variables = [self.variables[i] for i in range(self.size) if (not i in parameter_indices)]
+        ic = {k : v for (k,v) in self.ic.items() if not k in map_parameters} if self.ic != None else None
+        name = f"{self.name}_evalued[{';'.join(f'{k}->{v}' for (k,v) in map_parameters.items())}]" if self.name != None else None
+
+        return FODESystem(equations, observables, variables, ic, name)
+
+    def remove_parameters_ic(self):
+        r'''
+            Method to compute a smaller system removing known parameters.
+
+            This method evaluates the parameters of the systems whose initial conditions are known.
+            This simplifies the system by removing variables from the list when the variables are constants
+            (i.e., they are parameters with a fixed value). When this value was given as initial condition,
+            we can simply remove this variable from the system.
+
+            Output:
+
+            A new :class:`FODESystem` where all the parameters whose initial condition is given has been evaluated.
+        '''
+        if self.ic is None: return self
+
+        return self.evaluate_parameters({par : self.ic[par] for par in self.pars if par in self.ic})
+    
+    def scale_model(self, values):
+        r'''
+            Method to re-scale all variable of the model.
+
+            This method do the substitution `x \mapsto x*c_x` for each variable where the factor `c_x` can be set differently for each variable.
+
+            Since the scaling is only linear, the changes only show up in the right-hand side of the system. Namely, we do the previous substitution
+            in each equation for all variables simultaneously and then for the equation related with `x`, we divide by `c_x`.
+
+            The observables are also adapted with the same change.
+
+            Input:
+                - ``values``: dictionary with the names of the parameters to evaluate and their re-scaling factor. If a variable is not given it remains 
+                  as it is (i.e., it has a factor of 1).
+
+            Output: 
+
+            A new :class:`FODESystem` with the rescaled equations.
+        '''
+        if isinstance(values, dict):
+            sym_variables = self.symb_variables()
+            changes = {self.variables[i] : (1/values.get(self.variables[i], 1))*sym_variables[i] for i in range(len(self.variables))}
+            new_equations = [self.eval_equation(i, changes)*values.get(self.variables[i], 1) for i in range(len(self.variables))]
+            observables = [obs.eval(**changes) for obs in self.observables] if self.observables != None else None
+            new_ic = {self.ic[v]*values.get(v,1) for v in self.ic} if self.ic != None else None
+            name = f"{self.name}_scaled[{list(changes.values())}]" if self.name != None else None
+
+            return FODESystem(new_equations, observables, self.variables, new_ic, name)
+        else:
+            return self.scale_model({v: values for v in self.variables})
 
     ##############################################################################################################
     ## Methods for preparing to get the lumping
