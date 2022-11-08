@@ -1041,20 +1041,48 @@ class FODESystem:
 
     @cached_property
     def type(self):
+        self.normalize()
         return type(self.equations[0])
 
     def symb_variables(self):
         r'''
             Return a list with the variables represented as symbolic objects compatible with the type of the equations
 
-            TODO: Add tests
+            This method is useful when we want to create the variables from scratch and use them algebraically without
+            considering their type anymore (since it will coincide with the general type decide after normalizing).
+
+            Output:
+
+            A tuple with the variables in the same order as in :func:`variables` represented in the class given by 
+            :func:`type`.
+
+            Examples::
+
+                >>> from clue import *
+                >>> from sympy import vring, QQ, symbols
+                >>> R = vring(['x','y'], QQ)
+                >>> ode = FODESystem([x**2*y**2 - x**3*y**2], variables=['x','y'])
+                >>> ode.type
+                <class 'clue.rational_function.SparsePolynomial'>
+                >>> ode.symb_variables()
+                (x, y)
+                >>> all(type(var) == ode.type for var in ode.symb_variables())
+                True
+                >>> R = vring(['x','y','z'], QQ)
+                >>> ode = FODESystem([x**2*y**-2 - z**-2*y**2], variables=['x','y','z'])
+                >>> ode.type
+                <class 'sympy.core.add.Add'>
+                >>> ode.symb_variables()
+                (x, y, z)
+                >>> type(ode.symb_variables()[0])
+                <class 'sympy.core.symbol.Symbol'>
         '''
         self.normalize()
         variables = self.variables
         if isinstance(self.equations[0], (SparsePolynomial, RationalFunction)):
-            return [SparsePolynomial.from_string(v, variables) for v in variables]
+            return tuple([SparsePolynomial.from_string(v, variables) for v in variables])
         else:
-            return [symbols(v) for v in variables]
+            return tuple([symbols(v) for v in variables])
 
     ## more specialized getters
     def equation(self, varname):
@@ -1237,7 +1265,7 @@ class FODESystem:
         sparse_evaluations = point
 
         was_list = True
-        if not isinstance(equation, (list, tuple)): # we allow a list of elements to evaluate
+        if not isinstance(equations, (list, tuple)): # we allow a list of elements to evaluate
             equations = [equations]
             was_list = False
             
@@ -1390,8 +1418,8 @@ class FODESystem:
         values = {k : v for (k,v) in values.items() if k in self.pars}
         indices_parameters = [self.variables.index(k) for k in values]
 
-        # computing the new equations
-        new_equations = self.eval_equation(self.equations, values)
+        # computing the new equations --> we remove the equations from the evaluated parameters
+        new_equations = [self.eval_equation(i, values) for i in range(self.size) if not (i in indices_parameters)]
 
         # computing the new observables (if any)
         new_observables = None if self.observables == None else self.eval_equation(self.observables, values)
@@ -1428,7 +1456,21 @@ class FODESystem:
 
             A new :class:`FODESystem` where all the parameters whose initial condition is given has been evaluated.
 
-            TODO: add tests
+            Examples::
+
+                >>> from clue import *
+                >>> from sympy import vring, QQ, symbols
+                >>> R = vring(['x','y','a','b','c'], QQ)
+                >>> ode = FODESystem([a*x**2*y**2 - b*x**3*y**2, -c*y*x,0,0,0], variables=['x','y','a','b','c'], ic={'a': 3, 'b' : 0})
+                >>> ode.pars
+                ['a', 'b', 'c']
+                >>> ode_eval = ode.remove_parameters_ic()
+                >>> ode_eval.variables
+                ['x', 'y', 'c']
+                >>> ode_eval.pars
+                ['c']
+                >>> ode_eval.equations
+                [3*x**2*y**2, -c*x*y, 0]
         '''
         if self.ic is None: return self
 
@@ -1453,11 +1495,23 @@ class FODESystem:
 
             A new :class:`FODESystem` with the rescaled equations.
 
-            TODO: add tests
+            Examples::
+
+                >>> from clue import *
+                >>> from sympy import vring, QQ, symbols
+                >>> R = vring(['x','y','a','b','c'], QQ)
+                >>> ode = FODESystem([a*x**2*y**2 - b*x**3*y**2, -c*y*x,0,0,0], variables=['x','y','a','b','c'])
+                >>> x,y,a,b,c = ode.symb_variables()
+                >>> scaled_parameters = ode.scale_model({'a' : 3, 'b' : 4, 'c': 7})
+                >>> scaled_parameters.equations
+                [a*x**2*y**2/3 - b*x**3*y**2/4, -c*x*y/7, 0, 0, 0]
+                >>> scaled_variables = ode.scale_model({'x' : 3, 'y' : 4})
+                >>> scaled_variables.equations
+                [a*x**2*y**2/48 - b*x**3*y**2/144, -c*x*y/3, 0, 0, 0]
         '''
         if isinstance(values, dict):
             sym_variables = self.symb_variables()
-            changes = {self.variables[i] : (1/values.get(self.variables[i], 1))*sym_variables[i] for i in range(len(self.variables))}
+            changes = {self.variables[i] : sym_variables[i]/values.get(self.variables[i], 1) for i in range(len(self.variables))}
             new_equations = [self.eval_equation(i, changes)*values.get(self.variables[i], 1) for i in range(len(self.variables))]
             new_observables = self.eval_equation(self.observables, changes) if self.observables != None else None
             new_ic = {self.ic[v]*values.get(v,1) for v in self.ic} if self.ic != None else None
