@@ -75,7 +75,7 @@ class SparseVector(object):
     """
     A class for sparse vectors. Contains the following fields:
       dim - the dimension of the ambient space
-      nonzero - sorted list of the indiced of the nonzero coordinates
+      nonzero - sorted list of the indices of the nonzero coordinates
       data - dictionary containing nonzero coordinates in the form index_of_the_coordinate : value
       field - the field of the entries (of type sympy.polys.domains.domain.Domain)
     """
@@ -348,7 +348,7 @@ class SparseRowMatrix(object):
     A class for sparse matrices. Contains the following fields:
       nrows - number of rows for the matrix
       ncols - number of columns for the matrix
-      _nonzero - sorted list of the indiced of the nonzero rows
+      _nonzero - sorted list of the indices of the nonzero rows
       _data - dictionary containing nonzero rows in the form index_of_the_row : SparseVector
       field - the field of entries (of type sympy.polys.domains.domain.Domain)
     """
@@ -699,7 +699,7 @@ class Subspace(object):
         logger.debug("Plugging zero to nonpivot coordinates")
 
         if isinstance(rhs[0], SparsePolynomial):
-            shrinked_polys = []
+            shrunk_polys = []
             for p in new_rhs:
                 filtered_dict = dict()
                 for monom, coef in p.dataiter():
@@ -715,13 +715,13 @@ class Subspace(object):
                         new_monom = tuple(new_monom)
                         filtered_dict[new_monom] = coef
 
-                shrinked_polys.append(SparsePolynomial(new_vars, domain, filtered_dict))
+                shrunk_polys.append(SparsePolynomial(new_vars, domain, filtered_dict))
 
-            return shrinked_polys
+            return shrunk_polys
 
         elif isinstance(rhs[0], RationalFunction):
             # plugging all nonpivot variables with zeros
-            shrinked_rfs = []
+            shrunk_rfs = []
             for rf in new_rhs:
 
                 num_filtered_dict = dict()
@@ -754,9 +754,9 @@ class Subspace(object):
                         denom_filtered_dict[new_monom] = coef
                 new_denom = SparsePolynomial(new_vars, domain, denom_filtered_dict)
 
-                shrinked_rfs.append(RationalFunction(new_num,new_denom))
+                shrunk_rfs.append(RationalFunction(new_num,new_denom))
 
-            return shrinked_rfs
+            return shrunk_rfs
         else:
             ## here basis is in normal form, meaning that 
             ## for basis[j] the element in lpivots[i] is 1 if i==j, 0 otherwise
@@ -771,9 +771,9 @@ class Subspace(object):
                 else:
                     subs[old_vars[lpivots[j]]] += new_vars[j]/basis[j][lpivots[j]]
 
-            shrinked_expr = [expr.subs(subs) for expr in new_rhs]
+            shrunk_expr = [expr.subs(subs) for expr in new_rhs]
             # Maybe here add for expanding the new expression
-            return shrinked_expr
+            return shrunk_expr
             # raise NotImplementedError("The conversion to new variables in sympy is not yed implemented")
 
     #--------------------------------------------------------------------------
@@ -1095,7 +1095,7 @@ class FODESystem:
         r'''
             Method that rewrites the equations of ``self`` to fit into all the methods in the class.
 
-            This method transforms the equations of this :class:`FODESytem` by changing its type to 
+            This method transforms the equations of this :class:`FODESystem` by changing its type to 
             the best choice among:
             
             * :class:`~clue.rational_function.SparsePolynomial`: this is the best but most restrictive class
@@ -1154,7 +1154,7 @@ class FODESystem:
                 if isinstance(equ, PolyElement):
                     if equ != 0 and min(min(d for d in m) < 0 for m in equ.monoms()): 
                         # PolyElement with negative exponents --> sympy
-                        logger.debug(":normalize: found PolyElement with negative epxonents --> sympy")
+                        logger.debug(":normalize: found PolyElement with negative exponents --> sympy")
                         target_type = 2
                     # PolyElement with no negative exponents --> polynomial: do not change target_type
                 elif isinstance(equ, FracElement):
@@ -1432,7 +1432,7 @@ class FODESystem:
         else: new_ic = {k : v for (k,v) in self.ic.items() if (not k in values)}
 
         # setting the new name
-        new_name = f"{self.name}_evalued[{';'.join(f'{k}->{v}' for (k,v) in values.items())}]" if self.name != None else None
+        new_name = f"{self.name}_evaluated[{';'.join(f'{k}->{v}' for (k,v) in values.items())}]" if self.name != None else None
 
         # returning the resulting system
         return FODESystem(
@@ -1696,7 +1696,7 @@ class FODESystem:
                 finished = True
             else: # we checked (probabilistic) if we have finished
                 logger.debug(f"We compute the maximal bound for the random coefficients to have \
-                    less than {prob_err} probabilites to get an element in the current space.")
+                    less than {prob_err} probability to get an element in the current space.")
                 Dn, Dd = self.bounds
                 # Value for the size of coefficients (see paper ``Exact linear reduction for rational dynamics``)
                 N = int(math.ceil((Dn + 2*m*Dd)/prob_err)) + self.size*Dd
@@ -1814,7 +1814,7 @@ class FODESystem:
                 logger.debug(f":_construct_AD: We found the maximal amount of linearly independent matrices")
                 finished = True
             else: # we checked (probabilistic) if we have finished
-                logger.debug(f":_construct_AD: We compute the maximal bound for the random coefficients to have less than {prob_err} probabilites \
+                logger.debug(f":_construct_AD: We compute the maximal bound for the random coefficients to have less than {prob_err} probability \
                 to get an element in the current space.")
                 Dn, Dd = self.bounds
                 # Value for the size of coefficients (see paper ``Exact linear reduction for rational dynamics``)
@@ -2190,7 +2190,7 @@ class FODESystem:
             Main function, performs a lumping of a polynomial ODE system
             Input
                 - observable - a nonempty list of linear forms in state variables
-                            that must be kept nonlumped
+                            that must be kept non-lumped
                 - new_vars_name (optional) - the name for variables in the lumped polynomials
                 - print_system and print_reduction (optional) - whether to print the original system and the result, respectively on the screen
                 - out_format - "sympy" or "internal", the way the output polynomials should be represented
@@ -2377,7 +2377,7 @@ class FODESystem:
         Performs a lumping of a polynomial ODE system represented by SparsePolynomial
         Input
             - observable - a nonempty list of linear forms in state variables
-                        that must be kept nonlumped, linear forms represented as lists of coefficients
+                        that must be kept non-lumped, linear forms represented as lists of coefficients
             - new_vars_name (optional) - the name for variables in the lumped polynomials
             - print_system and print_reduction (optional) - whether to print the original system and the result, respectively on the screen
             - ic - Initial conditions for some elements on the system to be lumped
