@@ -75,7 +75,7 @@ class SparseVector(object):
     """
     A class for sparse vectors. Contains the following fields:
       dim - the dimension of the ambient space
-      nonzero - sorted list of the indiced of the nonzero coordinates
+      nonzero - sorted list of the indices of the nonzero coordinates
       data - dictionary containing nonzero coordinates in the form index_of_the_coordinate : value
       field - the field of the entries (of type sympy.polys.domains.domain.Domain)
     """
@@ -348,7 +348,7 @@ class SparseRowMatrix(object):
     A class for sparse matrices. Contains the following fields:
       nrows - number of rows for the matrix
       ncols - number of columns for the matrix
-      _nonzero - sorted list of the indiced of the nonzero rows
+      _nonzero - sorted list of the indices of the nonzero rows
       _data - dictionary containing nonzero rows in the form index_of_the_row : SparseVector
       field - the field of entries (of type sympy.polys.domains.domain.Domain)
     """
@@ -699,7 +699,7 @@ class Subspace(object):
         logger.debug("Plugging zero to nonpivot coordinates")
 
         if isinstance(rhs[0], SparsePolynomial):
-            shrinked_polys = []
+            shrunk_polys = []
             for p in new_rhs:
                 filtered_dict = dict()
                 for monom, coef in p.dataiter():
@@ -715,13 +715,13 @@ class Subspace(object):
                         new_monom = tuple(new_monom)
                         filtered_dict[new_monom] = coef
 
-                shrinked_polys.append(SparsePolynomial(new_vars, domain, filtered_dict))
+                shrunk_polys.append(SparsePolynomial(new_vars, domain, filtered_dict))
 
-            return shrinked_polys
+            return shrunk_polys
 
         elif isinstance(rhs[0], RationalFunction):
             # plugging all nonpivot variables with zeros
-            shrinked_rfs = []
+            shrunk_rfs = []
             for rf in new_rhs:
 
                 num_filtered_dict = dict()
@@ -754,9 +754,9 @@ class Subspace(object):
                         denom_filtered_dict[new_monom] = coef
                 new_denom = SparsePolynomial(new_vars, domain, denom_filtered_dict)
 
-                shrinked_rfs.append(RationalFunction(new_num,new_denom))
+                shrunk_rfs.append(RationalFunction(new_num,new_denom))
 
-            return shrinked_rfs
+            return shrunk_rfs
         else:
             ## here basis is in normal form, meaning that 
             ## for basis[j] the element in lpivots[i] is 1 if i==j, 0 otherwise
@@ -771,9 +771,9 @@ class Subspace(object):
                 else:
                     subs[old_vars[lpivots[j]]] += new_vars[j]/basis[j][lpivots[j]]
 
-            shrinked_expr = [expr.subs(subs) for expr in new_rhs]
+            shrunk_expr = [expr.subs(subs) for expr in new_rhs]
             # Maybe here add for expanding the new expression
-            return shrinked_expr
+            return shrunk_expr
             # raise NotImplementedError("The conversion to new variables in sympy is not yed implemented")
 
     #--------------------------------------------------------------------------
@@ -1041,7 +1041,48 @@ class FODESystem:
 
     @cached_property
     def type(self):
+        self.normalize()
         return type(self.equations[0])
+
+    def symb_variables(self):
+        r'''
+            Return a list with the variables represented as symbolic objects compatible with the type of the equations
+
+            This method is useful when we want to create the variables from scratch and use them algebraically without
+            considering their type anymore (since it will coincide with the general type decide after normalizing).
+
+            Output:
+
+            A tuple with the variables in the same order as in :func:`variables` represented in the class given by 
+            :func:`type`.
+
+            Examples::
+
+                >>> from clue import *
+                >>> from sympy import vring, QQ, symbols
+                >>> R = vring(['x','y'], QQ)
+                >>> ode = FODESystem([x**2*y**2 - x**3*y**2], variables=['x','y'])
+                >>> ode.type
+                <class 'clue.rational_function.SparsePolynomial'>
+                >>> ode.symb_variables()
+                (x, y)
+                >>> all(type(var) == ode.type for var in ode.symb_variables())
+                True
+                >>> R = vring(['x','y','z'], QQ)
+                >>> ode = FODESystem([x**2*y**-2 - z**-2*y**2], variables=['x','y','z'])
+                >>> ode.type
+                <class 'sympy.core.add.Add'>
+                >>> ode.symb_variables()
+                (x, y, z)
+                >>> type(ode.symb_variables()[0])
+                <class 'sympy.core.symbol.Symbol'>
+        '''
+        self.normalize()
+        variables = self.variables
+        if isinstance(self.equations[0], (SparsePolynomial, RationalFunction)):
+            return tuple([SparsePolynomial.from_string(v, variables) for v in variables])
+        else:
+            return tuple([symbols(v) for v in variables])
 
     ## more specialized getters
     def equation(self, varname):
@@ -1054,7 +1095,7 @@ class FODESystem:
         r'''
             Method that rewrites the equations of ``self`` to fit into all the methods in the class.
 
-            This method transforms the equations of this :class:`FODESytem` by changing its type to 
+            This method transforms the equations of this :class:`FODESystem` by changing its type to 
             the best choice among:
             
             * :class:`~clue.rational_function.SparsePolynomial`: this is the best but most restrictive class
@@ -1113,7 +1154,7 @@ class FODESystem:
                 if isinstance(equ, PolyElement):
                     if equ != 0 and min(min(d for d in m) < 0 for m in equ.monoms()): 
                         # PolyElement with negative exponents --> sympy
-                        logger.debug(":normalize: found PolyElement with negative epxonents --> sympy")
+                        logger.debug(":normalize: found PolyElement with negative exponents --> sympy")
                         target_type = 2
                     # PolyElement with no negative exponents --> polynomial: do not change target_type
                 elif isinstance(equ, FracElement):
@@ -1183,6 +1224,67 @@ class FODESystem:
             ## Change the flag to not repeat this process
             self.__normalize_input = True
 
+    def eval_equation(self, equations, point):
+        r'''
+            Method to evaluate a equations in a particular value.
+            
+            This method unifies the way of evaluating the equations of a differential system.
+            After normalizing the system, we only have three options for the equations:
+            
+            * :class:`~clue.rational_function.SparsePolynomial`
+            * :class:`~clue.rational_function.RationalFunction`
+            * A Sympy expression.
+
+            The first two can be evaluated with the method ``eval``. However, SymPy expressions
+            are evaluated with the method ``subs`` and a different type of input.
+
+            This method allows to evaluate all type of equations with the same interface and input.
+
+            Input:
+
+            - ``equations``: either an equation or index of the equation to be evaluated, or a list of these two things.
+            - ``point``: list of values (with the length given by ``self.size``) or a dictionary with the 
+              variables we want to evaluate.
+
+            Output:
+
+            The evaluation of the ``equations`` at ``point``. If the input is only one element, we return that element. Otherwise, we 
+            return a list.
+        '''
+        if isinstance(point, (list, tuple)):
+            if len(point) != self.size:
+                raise TypeError("Not enough values to evaluate an equation (format list)")
+
+            point = {self.variables[i] : point[i] for i in range(self.size)}
+        elif isinstance(point, dict):
+            if any(not (var in self.variables) for var in point):
+                raise ValueError("A given variable for evaluation does not exist in the system (format dict)")
+
+        self.normalize()
+        symb_evaluations = [(symbols(k),v) for (k,v) in point.items()]
+        sparse_evaluations = point
+
+        was_list = True
+        if not isinstance(equations, (list, tuple)): # we allow a list of elements to evaluate
+            equations = [equations]
+            was_list = False
+            
+        result = []
+
+        for equation in equations:
+            if isinstance(equation, int): # given an index --> considering the corresponding equation
+                equation = self.equations[equation]
+
+            if isinstance(equation, (SparsePolynomial, RationalFunction)):
+                result.append(equation.eval(**sparse_evaluations))
+            elif hasattr(equation, "subs"):
+                result.append(equation.subs(symb_evaluations))
+            else:
+                result.append(equation)
+        
+        if not was_list: return result[0]
+        return result
+
     def check_consistency(self, other, map_variables, symbolic=False):
         r'''
             Method that check the consistency of the differential systems
@@ -1209,10 +1311,7 @@ class FODESystem:
             dic_y_eval = {self.variables[i] : y_eval[i] for i in range(self.size)}
             
             ## Evaluation other rhs
-            if(isinstance(other.equations[0], (SparsePolynomial, RationalFunction))):
-                xdot_eval = [eqs.eval(**dic_x_eval) for eqs in other.equations]
-            else: # sympy case
-                xdot_eval = [eq.subs(list((symbols(k), v) for k,v in dic_x_eval.items())) for eq in other.equations]
+            xdot_eval = [other.eval_equation(i, dic_x_eval) for i in range(other.size)]
 
         ########################################################
         # COMPUTING LHS OF THE SYSTEM
@@ -1253,6 +1352,180 @@ class FODESystem:
                     rhs = [RationalFunction.from_sympy(el, other.variables) for el in rhs]
 
         return lhs == rhs
+
+    def evaluate_parameters(self, values):
+        r'''
+            Method that evaluate some of the parameters of the system to specific values
+
+            Input
+                - ``values``: a dictionary with the names of the parameters to evaluate as keys and the 
+                  new values as the values.
+
+            Output
+
+            A new :class:`FODESystem` with the remaining equations of the system after evaluating the parameters
+            with the given values.
+
+            Examples::
+
+                >>> from clue import *
+                >>> from sympy import vring, QQ, symbols
+                >>> R = vring(['x','y','a','b','c'], QQ)
+                >>> ode = FODESystem([a*x**2*y**2 - b*x**3*y**2, -c*y*x,0,0,0], variables=['x','y','a','b','c'])
+                >>> ode.pars
+                ['a', 'b', 'c']
+                >>> ode_eval = ode.evaluate_parameters({'a': 3, 'b': 0, 'c': -1})
+                >>> ode_eval.variables
+                ['x', 'y']
+                >>> ode_eval.pars
+                []
+                >>> ode_eval.equations
+                [3*x**2*y**2, x*y]
+
+            The evaluation of the parameters can be performed partially (i.e., without providing all the parameters at once)::
+
+                >>> ode_eval = ode.evaluate_parameters({'b' : 0})
+                >>> ode_eval.pars
+                ['a', 'c']
+                >>> ode_eval.equations
+                [a*x**2*y**2, -c*x*y, 0, 0]
+
+            We even allow names that are not in the system::
+
+                >>> ode_eval = ode.evaluate_parameters({'aa' : 0})
+                >>> ode_eval.variables == ode.variables
+                True
+                >>> ode_eval.equations == ode.equations
+                True
+
+            But we will raise a :class:`ValueError` if we try to evaluate a variable that is not a parameter::
+
+                >>> ode.species
+                ['x', 'y']
+                >>> ode_eval = ode.evaluate_parameters({'a' : 0, 'x' : 3})
+                Traceback (most recent call last):
+                ...
+                ValueError: Can not evaluate the variable x [it is not a parameter]
+        '''
+        self.normalize()
+
+        # checking we do not have non-parameters in the list
+        for specie in self.species:
+            if specie in values:
+                raise ValueError(f"Can not evaluate the variable {specie} [it is not a parameter]")
+
+        # removing unnecessary values
+        values = {k : v for (k,v) in values.items() if k in self.pars}
+        indices_parameters = [self.variables.index(k) for k in values]
+
+        # computing the new equations --> we remove the equations from the evaluated parameters
+        new_equations = [self.eval_equation(i, values) for i in range(self.size) if not (i in indices_parameters)]
+
+        # computing the new observables (if any)
+        new_observables = None if self.observables == None else self.eval_equation(self.observables, values)
+
+        # computing the remaining variables
+        new_variables = [self.variables[i] for i in range(self.size) if (not i in indices_parameters)]
+
+        # removing parameters from initial conditions (if any)
+        if self.ic is None: new_ic = {}
+        else: new_ic = {k : v for (k,v) in self.ic.items() if (not k in values)}
+
+        # setting the new name
+        new_name = f"{self.name}_evaluated[{';'.join(f'{k}->{v}' for (k,v) in values.items())}]" if self.name != None else None
+
+        # returning the resulting system
+        return FODESystem(
+            new_equations,  # the equations has less variables
+            new_observables,# the observables are also evaluated
+            new_variables,  # the remaining variables
+            new_ic,         # the initial values do not have the evaluated parameters
+            new_name       # we keep the name of the system
+            )
+            
+    def remove_parameters_ic(self):
+        r'''
+            Method to compute a smaller system removing known parameters.
+
+            This method evaluates the parameters of the systems whose initial conditions are known.
+            This simplifies the system by removing variables from the list when the variables are constants
+            (i.e., they are parameters with a fixed value). When this value was given as initial condition,
+            we can simply remove this variable from the system.
+
+            Output:
+
+            A new :class:`FODESystem` where all the parameters whose initial condition is given has been evaluated.
+
+            Examples::
+
+                >>> from clue import *
+                >>> from sympy import vring, QQ, symbols
+                >>> R = vring(['x','y','a','b','c'], QQ)
+                >>> ode = FODESystem([a*x**2*y**2 - b*x**3*y**2, -c*y*x,0,0,0], variables=['x','y','a','b','c'], ic={'a': 3, 'b' : 0})
+                >>> ode.pars
+                ['a', 'b', 'c']
+                >>> ode_eval = ode.remove_parameters_ic()
+                >>> ode_eval.variables
+                ['x', 'y', 'c']
+                >>> ode_eval.pars
+                ['c']
+                >>> ode_eval.equations
+                [3*x**2*y**2, -c*x*y, 0]
+        '''
+        if self.ic is None: return self
+
+        return self.evaluate_parameters({par : self.ic[par] for par in self.pars if par in self.ic})
+    
+    def scale_model(self, values):
+        r'''
+            Method to re-scale all variable of the model.
+
+            This method do the substitution `x \mapsto x*c_x` for each variable where the factor `c_x` can be set differently for each variable.
+
+            Since the scaling is only linear, the changes only show up in the right-hand side of the system. Namely, we do the previous substitution
+            in each equation for all variables simultaneously and then for the equation related with `x`, we divide by `c_x`.
+
+            The observables are also adapted with the same change.
+
+            Input:
+                - ``values``: dictionary with the names of the parameters to evaluate and their re-scaling factor. If a variable is not given it remains 
+                  as it is (i.e., it has a factor of 1).
+
+            Output: 
+
+            A new :class:`FODESystem` with the rescaled equations.
+
+            Examples::
+
+                >>> from clue import *
+                >>> from sympy import vring, QQ, symbols
+                >>> R = vring(['x','y','a','b','c'], QQ)
+                >>> ode = FODESystem([a*x**2*y**2 - b*x**3*y**2, -c*y*x,0,0,0], variables=['x','y','a','b','c'])
+                >>> x,y,a,b,c = ode.symb_variables()
+                >>> scaled_parameters = ode.scale_model({'a' : 3, 'b' : 4, 'c': 7})
+                >>> scaled_parameters.equations
+                [a*x**2*y**2/3 - b*x**3*y**2/4, -c*x*y/7, 0, 0, 0]
+                >>> scaled_variables = ode.scale_model({'x' : 3, 'y' : 4})
+                >>> scaled_variables.equations
+                [a*x**2*y**2/48 - b*x**3*y**2/144, -c*x*y/3, 0, 0, 0]
+        '''
+        if isinstance(values, dict):
+            sym_variables = self.symb_variables()
+            changes = {self.variables[i] : sym_variables[i]/values.get(self.variables[i], 1) for i in range(len(self.variables))}
+            new_equations = [self.eval_equation(i, changes)*values.get(self.variables[i], 1) for i in range(len(self.variables))]
+            new_observables = self.eval_equation(self.observables, changes) if self.observables != None else None
+            new_ic = {self.ic[v]*values.get(v,1) for v in self.ic} if self.ic != None else None
+            new_name = f"{self.name}_scaled[{list(changes.values())}]" if self.name != None else None
+
+            return FODESystem(
+                new_equations,  # the equations with the scaled variables
+                new_observables,# the observables are also scaled
+                self.variables, # the variables does not change when scaling
+                new_ic,         # the initial values are adapted accordingly
+                new_name        # we update the name of the system with the scaling
+                )
+        else: # the case when all values are the same -->
+            return self.scale_model({v: values for v in self.variables})
 
     ##############################################################################################################
     ## Methods for preparing to get the lumping
@@ -1423,7 +1696,7 @@ class FODESystem:
                 finished = True
             else: # we checked (probabilistic) if we have finished
                 logger.debug(f"We compute the maximal bound for the random coefficients to have \
-                    less than {prob_err} probabilites to get an element in the current space.")
+                    less than {prob_err} probability to get an element in the current space.")
                 Dn, Dd = self.bounds
                 # Value for the size of coefficients (see paper ``Exact linear reduction for rational dynamics``)
                 N = int(math.ceil((Dn + 2*m*Dd)/prob_err)) + self.size*Dd
@@ -1541,7 +1814,7 @@ class FODESystem:
                 logger.debug(f":_construct_AD: We found the maximal amount of linearly independent matrices")
                 finished = True
             else: # we checked (probabilistic) if we have finished
-                logger.debug(f":_construct_AD: We compute the maximal bound for the random coefficients to have less than {prob_err} probabilites \
+                logger.debug(f":_construct_AD: We compute the maximal bound for the random coefficients to have less than {prob_err} probability \
                 to get an element in the current space.")
                 Dn, Dd = self.bounds
                 # Value for the size of coefficients (see paper ``Exact linear reduction for rational dynamics``)
@@ -1917,7 +2190,7 @@ class FODESystem:
             Main function, performs a lumping of a polynomial ODE system
             Input
                 - observable - a nonempty list of linear forms in state variables
-                            that must be kept nonlumped
+                            that must be kept non-lumped
                 - new_vars_name (optional) - the name for variables in the lumped polynomials
                 - print_system and print_reduction (optional) - whether to print the original system and the result, respectively on the screen
                 - out_format - "sympy" or "internal", the way the output polynomials should be represented
@@ -2104,7 +2377,7 @@ class FODESystem:
         Performs a lumping of a polynomial ODE system represented by SparsePolynomial
         Input
             - observable - a nonempty list of linear forms in state variables
-                        that must be kept nonlumped, linear forms represented as lists of coefficients
+                        that must be kept non-lumped, linear forms represented as lists of coefficients
             - new_vars_name (optional) - the name for variables in the lumped polynomials
             - print_system and print_reduction (optional) - whether to print the original system and the result, respectively on the screen
             - ic - Initial conditions for some elements on the system to be lumped

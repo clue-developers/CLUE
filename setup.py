@@ -9,7 +9,7 @@ def readfile(filename):
     
 setup(
     name = "CLUE",
-    version = "1.5.2", # the VERSION file is shared with the documentation  ## readfile("VERSION").strip(),
+    version = "1.5.3", # the VERSION file is shared with the documentation  ## readfile("VERSION").strip(),
     description='Constrained LUmping for differential Equations',
     # long_description = readfile("README.txt"), # get the long description from the README
     # For a Markdown README replace the above line by the following two lines:
