@@ -6,7 +6,7 @@ from random import randint
 from functools import cached_property, reduce, lru_cache
 
 import sympy
-from sympy import GF, QQ, gcd, nextprime, lambdify, symbols
+from sympy import GF, QQ, gcd, nextprime, lambdify, symbols, oo
 from sympy.ntheory.modular import isprime
 from sympy.polys.fields import FracElement
 from sympy.polys.rings import PolyElement
@@ -907,7 +907,9 @@ class FODESystem:
         * Provide a dictionary with the data (using the argument ``dic``). In this case, at least 
           an entry with key ``'equations'`` must be provided.
     '''
-    def __init__(self, equations=None, observables=None, variables = None, ic={}, name = None, dic=None, file = None, **kwds):
+    def __init__(self, equations=None, observables=None, variables = None, ic={}, name = None, 
+                dic=None, file = None, **kwds
+    ):
         if(equations is None):
             if(dic is None):
                 if(file is None):
@@ -933,6 +935,7 @@ class FODESystem:
 
         self._lumping_matr = {}
         self.__normalize_input = False
+        self._lumped_system_type = LDESystem
 
     # Getters of attributes
     @property
@@ -1025,11 +1028,12 @@ class FODESystem:
         self.normalize()
         
         # computing the field
-        if(isinstance(self.equations[0], (SparsePolynomial, RationalFunction))):
-            return self.equations[0].domain
+        equations = self.all_equations()
+        if(issubclass(self.type, (SparsePolynomial, RationalFunction))):
+            return next(equations).domain
         else:
             allvars = set()
-            for eq in self.equations:
+            for eq in equations:
                 allvars = allvars.union(eq.free_symbols)
             params = list(filter(lambda s: str(s) not in self.variables, allvars))
             if len(params) == 0:
@@ -1043,6 +1047,23 @@ class FODESystem:
     def type(self):
         self.normalize()
         return type(self.equations[0])
+
+    @lru_cache(maxsize=1)
+    def is_linear_system(self):
+        r'''Checker to see if a system is linear or not'''
+        if not issubclass(self.type, SparsePolynomial):
+            return False
+
+        for equation in self.all_equations():
+            if any((not equation.degree(v) in (0,1)) for v in self.variables) or equation.ct != 0:
+                return False
+        return True
+
+    def all_equations(self):
+        r'''
+            Return a generator with all the equations of the system
+        '''
+        yield from self.equations
 
     def symb_variables(self):
         r'''
@@ -1090,6 +1111,90 @@ class FODESystem:
             Returns the equation associated with a variable name.
         '''
         return self.equations[self.variables.index(varname)]
+
+    def __decide_type(self):
+        r'''
+            Method to decide the type for the normalized equations
+        '''
+        target_type = 0 # 0 = SparsePolynomial; 1 = RationalFunction; 2 = Expression
+        # first loop to decide target
+        equations = self.all_equations(); equ = next(equations)
+        while target_type < 2 and not(equ is None):
+            if isinstance(equ, PolyElement):
+                if equ != 0 and min(min(d for d in m) < 0 for m in equ.monoms()): 
+                    # PolyElement with negative exponents --> sympy
+                    logger.debug(":normalize: found PolyElement with negative exponents --> sympy")
+                    target_type = 2
+                # PolyElement with no negative exponents --> polynomial: do not change target_type
+            elif isinstance(equ, FracElement):
+                numer, denom = equ.numer, equ.denom
+                if numer == 0: # fraction is zero, nothing is needed
+                    pass
+                elif denom == 1: # maybe a polynomial is enough
+                    if numer != 0 and min(min(d for d in m) < 0 for m in numer.monoms()): # FracElement with numerator with neg. exponents
+                        logger.debug(":normalize: found FracElement (den=1, num w. neg. exp.) --> RationalFunction")
+                        target_type = 1
+                else: # we have a proper fraction, we need a RationalFunction
+                    logger.debug(":normalize: found FracElement (den!=1) --> RationalFunction")
+                    target_type = 1
+            elif isinstance(equ, SparsePolynomial):
+                pass # the type do not change because of a SparsePolynomial
+            elif isinstance(equ, RationalFunction):
+                # we check the denominator to see if it is not 1
+                if equ.denom != 1: # we need at least a RationalFunction
+                    logger.debug(":normalize: found RationalFunction (den!=1) --> RationalFunction")
+                    target_type = 1
+            else: # other cases all to sympy
+                logger.debug(":normalize: found something different --> sympy")
+                target_type = 2
+            equ = next(equations, None)
+        
+        return target_type
+
+    def __transform_equation(self, equation, type):
+        r'''
+            Method to transform the equations of the system to the normalized setting.
+        '''
+        if isinstance(equation, PolyElement):
+            if type == 0:
+                nequation = SparsePolynomial.from_sympy(equation, self.variables)
+            elif type == 1:
+                nequation = RationalFunction.from_string(str(equation.as_expr()), self.variables)
+            elif type == 2:
+                nequation = equation.as_expr()
+        elif isinstance(equation, FracElement):
+            if type == 0:
+                nequation = SparsePolynomial.from_sympy(equation.numer, self.variables)
+            elif type == 1:
+                nequation = RationalFunction.from_string(str(equation.as_expr()), self.variables)
+            elif type == 2:
+                nequation = equation.as_expr()
+        elif isinstance(equation, SparsePolynomial):
+            if type == 0:
+                nequation = equation
+            elif type == 1:
+                nequation = RationalFunction(equation, RationalFunction.from_const(1, self.variables))
+            elif type == 2:
+                nequation = equation.to_sympy().as_expr()
+        elif isinstance(equation, RationalFunction):
+            if type == 0:
+                nequation = equation.numer
+            elif type == 1:
+                nequation = equation
+            elif type == 2:
+                nequation = equation.to_sympy().as_expr()
+        elif isinstance(equation, list):
+            nequation = [self.__transform_equation(equ, type) for equ in equation]
+        elif isinstance(equation, tuple):
+            nequation = tuple([self.__transform_equation(equ, type) for equ in equation])
+        else:
+            if type == 0:
+                raise TypeError("Reached SparsePolynomial from something weird")
+            elif type == 1:
+                raise TypeError("Reached RationalFunction from something weird")
+            elif type == 2:
+                nequation = equation
+        return nequation
 
     def normalize(self):
         r'''
@@ -1146,82 +1251,10 @@ class FODESystem:
 
         '''
         if not self.__normalize_input:
-            target_type = 0 # 0 = SparsePolynomial; 1 = RationalFunction; 2 = Expression
-            # first loop to decide target
-            i = 0
-            while target_type < 2 and i < self.size:
-                equ = self.equations[i]
-                if isinstance(equ, PolyElement):
-                    if equ != 0 and min(min(d for d in m) < 0 for m in equ.monoms()): 
-                        # PolyElement with negative exponents --> sympy
-                        logger.debug(":normalize: found PolyElement with negative exponents --> sympy")
-                        target_type = 2
-                    # PolyElement with no negative exponents --> polynomial: do not change target_type
-                elif isinstance(equ, FracElement):
-                    numer, denom = equ.numer, equ.denom
-                    if numer == 0: # fraction is zero, nothing is needed
-                        pass
-                    elif denom == 1: # maybe a polynomial is enough
-                        if numer != 0 and min(min(d for d in m) < 0 for m in numer.monoms()): # FracElement with numerator with neg. exponents
-                            logger.debug(":normalize: found FracElement (den=1, num w. neg. exp.) --> RationalFunction")
-                            target_type = 1
-                    else: # we have a proper fraction, we need a RationalFunction
-                        logger.debug(":normalize: found FracElement (den!=1) --> RationalFunction")
-                        target_type = 1
-                elif isinstance(equ, SparsePolynomial):
-                    pass # the type do not change because of a SparsePolynomial
-                elif isinstance(equ, RationalFunction):
-                    # we check the denominator to see if it is not 1
-                    if equ.denom != 1: # we need at least a RationalFunction
-                        logger.debug(":normalize: found RationalFunction (den!=1) --> RationalFunction")
-                        target_type = 1
-                else: # other cases all to sympy
-                    logger.debug(":normalize: found something different --> sympy")
-                    target_type = 2
-                i+=1
-
-            # second loop: we change the input to the target (assuming we always can)
+            type = self.__decide_type()
             for i in range(self.size):
-                equ = self.equations[i]
-                if isinstance(equ, PolyElement):
-                    if target_type == 0:
-                        nequ = SparsePolynomial.from_sympy(equ, self.variables)
-                    elif target_type == 1:
-                        nequ = RationalFunction.from_string(str(equ.as_expr()), self.variables)
-                    elif target_type == 2:
-                        nequ = equ.as_expr()
-                elif isinstance(equ, FracElement):
-                    if target_type == 0:
-                        nequ = SparsePolynomial.from_sympy(equ.numer, self.variables)
-                    elif target_type == 1:
-                        nequ = RationalFunction.from_string(str(equ.as_expr()), self.variables)
-                    elif target_type == 2:
-                        nequ = equ.as_expr()
-                elif isinstance(equ, SparsePolynomial):
-                    if target_type == 0:
-                        nequ = equ
-                    elif target_type == 1:
-                        nequ = RationalFunction(equ, RationalFunction.from_const(1, self.variables))
-                    elif target_type == 2:
-                        nequ = equ.to_sympy().as_expr()
-                elif isinstance(equ, RationalFunction):
-                    if target_type == 0:
-                        nequ = equ.numer
-                    elif target_type == 1:
-                        nequ = equ
-                    elif target_type == 2:
-                        nequ = equ.to_sympy().as_expr()
-                else:
-                    if target_type == 0:
-                        raise TypeError("Reached SparsePolynomial from something weird")
-                    elif target_type == 1:
-                        raise TypeError("Reached RationalFunction from something weird")
-                    elif target_type == 2:
-                        nequ = equ
-
-                # we substitute the new equation for its new value
+                nequ = self.__transform_equation(self.equations[i], type)
                 self._equations[i] = nequ
-            ## Change the flag to not repeat this process
             self.__normalize_input = True
 
     def eval_equation(self, equations, point):
@@ -1275,7 +1308,11 @@ class FODESystem:
             if isinstance(equation, int): # given an index --> considering the corresponding equation
                 equation = self.equations[equation]
 
-            if isinstance(equation, (SparsePolynomial, RationalFunction)):
+            if isinstance(equation, list):
+                result.append(self.eval_equation(equation, point))
+            elif isinstance(equation, tuple):
+                result.append(tuple(self.eval_equation(equation, point)))
+            elif isinstance(equation, (SparsePolynomial, RationalFunction)):
                 result.append(equation.eval(**sparse_evaluations))
             elif hasattr(equation, "subs"):
                 result.append(equation.subs(symb_evaluations))
@@ -1553,13 +1590,13 @@ class FODESystem:
             If a method is selected that is not valid for the type of the system, the next type will be tried too.            
         '''
         # Deciding the valid method for this system
-        if(method == "polynomial" and (not isinstance(self.equations[0], SparsePolynomial))):
+        if(method == "polynomial" and (not issubclass(self.type, SparsePolynomial))):
             logger.warning(f"Method [{method}] selected but input is not SparsePolynomial. Trying random...")
             method = "random"
-        if(method == "rational" and (not isinstance(self.equations[0], RationalFunction))):
+        if(method == "rational" and (not issubclass(self.type, RationalFunction))):
             logger.warning(f"Method [{method}] selected but input is not RationalFunction. Trying auto_diff...")
             method = "auto_diff"
-        if(method == "random" and (not isinstance(self.equations[0], (SparsePolynomial, RationalFunction)))):
+        if(method == "random" and (not issubclass(self.type, (SparsePolynomial, RationalFunction)))):
             logger.warning(f"Method [{method}] selected but input is not RationalFunction. Trying auto_diff...")
             method = "auto_diff"
         if(not method in ("polynomial", "rational", "random", "auto_diff")):
@@ -1607,7 +1644,7 @@ class FODESystem:
                     jacobians[m_der].increment(var, p_ind, entry)
 
         result = jacobians.values()
-        return result
+        return list(result)
 
     def _construct_matrices_from_rational_functions(self):
         """
@@ -1661,7 +1698,7 @@ class FODESystem:
                         jacobians[m] = SparseRowMatrix(len(variables), field)
                     jacobians[m].increment(row_ind, col_ind, coef)
 
-        return jacobians.values()
+        return list(jacobians.values())
 
     def _construct_matrices_evaluation_random(self, prob_err=0.01):
         logger.debug("Starting constructing random matrices (RationalFunction)")
@@ -2348,13 +2385,23 @@ class FODESystem:
                 result["ic"][v] = sum([p[0] * p[1] for p in zip(eval_point, vect)])
 
         if out_format == "sympy":
+            ## Getting the method to transform
             if isinstance(result["equations"][0], SparsePolynomial):
                 out_ring = result["equations"][0].get_sympy_ring()
-                result["equations"] = [out_ring(p.get_sympy_dict()) for p in result["equations"]]
+                transform = lambda p : out_ring(p.get_sympy_dict())
             elif isinstance(result["equations"][0], RationalFunction):
                 out_ring = result["equations"][0].get_sympy_ring()
                 F = sympy.FractionField(sympy.QQ, result["equations"][0].gens)
-                result["equations"] = [F(out_ring(p.numer.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict())) for p in result["equations"]]
+                transform = lambda p : F(out_ring(p.numer.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict()))
+            elif isinstance(result["equations"][0], (list,tuple)):
+                if isinstance(result["equations"][0][0], SparsePolynomial):
+                    out_ring = result["equations"][0][0].get_sympy_ring()
+                    transform = lambda p : [out_ring(q.get_sympy_dict()) for q in p]
+                elif isinstance(result["equations"][0][0], RationalFunction):
+                    out_ring = result["equations"][0][0].get_sympy_ring()
+                    F = sympy.FractionField(sympy.QQ, result["equations"][0].gens)
+                    transform = lambda p : [F(out_ring(q.numer.get_sympy_dict()))/F(out_ring(q.denom.get_sympy_dict())) for q in p]
+            result["equations"] = [transform(p) for p in result["equations"]]
         elif out_format == "internal":
             pass
         else:
@@ -2363,7 +2410,7 @@ class FODESystem:
 
         ## Fixing the level of the logger
         if(loglevel != None): logger.setLevel(old_level)
-        return LDESystem(old_system = self, dic=result)
+        return self._lumped_system_type(old_system = self, dic=result)
 
     def _lumping(self, observable, 
                 new_vars_name='y', 
@@ -2409,7 +2456,7 @@ class FODESystem:
         lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include)
         logger.debug(f":ilumping: -> Found the lumping subspace in {time.time()-start}s")
 
-        lumped_rhs = lumping_subspace.perform_change_of_variables(self.equations, vars_old, field, new_vars_name)
+        lumped_rhs = self._lumped_system(lumping_subspace, vars_old, field, new_vars_name)
 
         new_ic = None
         if ic is not None:
@@ -2456,6 +2503,9 @@ class FODESystem:
                 "old_vars" : map_old_variables,
                 "subspace" : [v.to_list() for v in lumping_subspace.basis()]}
 
+    def _lumped_system(self, lumping_subspace, vars_old, field, new_vars_name):
+        return lumping_subspace.perform_change_of_variables(self.equations, vars_old, field, new_vars_name)
+
 class LDESystem(FODESystem):
     r'''
         Extended class for a :class:`FODESystem` for lumped systems.
@@ -2465,10 +2515,11 @@ class LDESystem(FODESystem):
         to obtain the variables of this new system.
     '''
     def __init__(self, equations=None, observables=None, variables = None, ic= None, name = None, 
-                    old_vars = None, old_system = None,
-                    dic=None, file = None, **kwds):
+                    old_vars = None, old_system = None, subspace=None,
+                    dic=None, file = None, **kwds
+    ):
         # Starting the base class data
-        super().__init__(equations, observables, variables, ic, name, dic, file, **kwds)
+        super().__init__(equations, observables, variables, ic, name, dic=dic, file=file, **kwds)
 
         # Adding the specific information for this extended class
         if(old_vars is None):
@@ -2480,9 +2531,15 @@ class LDESystem(FODESystem):
             if(dic is None or not "old_system" in dic):
                 raise ValueError("Needed a map from the new variables to the old variables.")
             old_system = dic["old_system"]
+
+        if(subspace is None):
+            if (dic is None or not "subspace" in dic):
+                raise ValueError("Needed a lumping subspace to define a Lumped System.")
+            subspace = dic["subspace"]
         
         self._old_vars = old_vars
         self._old_system = old_system
+        self._subspace = subspace
 
     @property
     def old_vars(self):
@@ -2495,4 +2552,218 @@ class LDESystem(FODESystem):
     def is_consistent(self, symbolic=False):
         return self.check_consistency(self.old_system, self.old_vars, symbolic)
 
+class UncertainFODESystem(FODESystem):
+    r'''
+        Class to represent a Linear Uncertain Differential System (LUDS).
+
+        A LUDS is defined by two constant matrices `m` and `M` with the property `m \leq M` (where the 
+        inequality is interpreted entry-wise) and consider all possible Linear Differential Systems of 
+        shape 
+
+        .. MATH::
+
+            x'(t) = A(t)x(t),
+
+        where `A(t)` is a matrix of measurable functions such that:
+
+        * `m \leq A(t) \leq M` for all `t \geq 0`.
+        * If `x(t)` is a solution to the system defined by `A(t)` with `x(0) \leq 0`, then `x(t) \geq 0` for all the domain where `x(t)` is defined.
+
+        This class allows to represent these uncertain systems and provide new methods to check specific properties from these systems.
+
+        INPUT:
+
+        * ``equations``: the set of equations for the uncertain system. This must be a list of pairs of equations: the first is the lower bound and 
+          second is the upper bound for the uncertain system. The length must be the number of variables.
+        * ``observables``: a list of possible observables for the system (see :class:`FODESystem`)
+        * ``variables``: names for the variables of the system (see :class:`FODESystem`)
+        * ``ic``: (optional) dictionary with initial conditions for some variables.
+        * ``name``: (optional) string with a name for this system.
+        * ``matrices``: the pair of matrices `m` and `M` defining the uncertain system.
+        * ``dic``: dictionary with information to define the system.
+        * ``file``: a file to read the system.
+    '''
+    def __init__(self, equations=None, observables=None, variables = None, ic={}, name = None, 
+                matrices = None, 
+                dic=None, file=None, **kwds
+    ):
+        equations = equations if equations != None else (dic.pop("equations", None) if dic != None else None)
+        variables = variables if variables != None else (dic.pop("variables", None) if dic != None else None)
+        if equations != None: # the equations are given as actual equations
+            if len(equations) != len(variables):
+                raise TypeError(f"Wrong number of equations ({len(equations)}) given (expected {len(variables)})")
+            # we need to compute the matrices.
+            lower_equations = [equ[0] for equ in equations]
+            upper_equations = [equ[1] for equ in equations]
+            if any(not isinstance(el, SparsePolynomial) for el in lower_equations + upper_equations):
+                raise TypeError("The equations must be given as Sparse Polynomials")
+            if any(not (all(equation.degree(v) in (1,0) for v in variables) and equation.ct == 0) for equation in lower_equations + upper_equations):
+                raise TypeError("The equations must be homogeneous and linear equations")
+            m = SparseRowMatrix(len(variables), lower_equations[0].domain)
+            M = SparseRowMatrix(len(variables), lower_equations[0].domain)
+            for i in range(len(variables)):
+                for j in range(len(variables)):
+                    m.increment(i,j, lower_equations[i].derivative(variables[j]).ct)
+                    M.increment(i,j, upper_equations[i].derivative(variables[j]).ct)
+        elif matrices != None:
+            m, M = matrices
+            if not isinstance(m, SparseRowMatrix):
+                if not isinstance(m, (list,tuple)) or not all(isinstance(row, (list,tuple)) for row in m):
+                    raise TypeError("The lower matrix must be a matrix")
+                if len(m) != len(variables) or any(len(row) != len(variables) for row in m):
+                    raise TypeError(f"The lower matrix must have {len(variables)} rows and columns")
+                om = m
+                m = SparseRowMatrix(len(m), QQ)
+                for i in range(len(om)):
+                    for j in range(len(om)):
+                        m.increment(i,j, om[i][j])
+            if not isinstance(M, SparseRowMatrix):
+                if not isinstance(M, (list,tuple)) or not all(isinstance(row, (list,tuple)) for row in M):
+                    raise TypeError("The lower matrix must be a matrix")
+                if len(M) != len(variables) or any(len(row) != len(variables) for row in M):
+                    raise TypeError(f"The lower matrix must have {len(variables)} rows and columns")
+                oM = M
+                M = SparseRowMatrix(len(M), QQ)
+                for i in range(len(oM)):
+                    for j in range(len(oM)):
+                        M.increment(i,j, oM[i][j])
+
+            if any(el != len(variables) for el in (*m.dim, *M.dim)):
+                raise ValueError(f"The given matrices must be square and with size exactly {len(variables)}")
+
+            ## Building the equations
+            symb_vars = [SparsePolynomial.from_string(v, variables) for v in variables]
+            lower_equations = [sum(m[i,j]*symb_vars[j] for j in range(len(variables))) for i in range(len(variables))]
+            upper_equations = [sum(M[i,j]*symb_vars[j] for j in range(len(variables))) for i in range(len(variables))]
+
+            equations = [tuple([lower_equations[i], upper_equations[i]]) for i in range(len(variables))]
+
+        super().__init__(equations, observables, variables, ic, name, dic=dic, file=file)
+        self._lumped_system_type = UncertainFODESystem
+        self._lumping_matr["polynomial"] = [m,M]
+
+    @property
+    def lower_equations(self):
+        return tuple([self.equations[i][0] for i in range(self.size)])
+    @property
+    def upper_equations(self):
+        return tuple([self.equations[i][1] for i in range(self.size)])
+
+    @cached_property
+    def bounds(self): 
+        r'''
+            Bounds of the degrees for the right hand side.
+
+            Since the :class:`UncertainFODESystem` only represent linear systems, then the system has always degree 1 in the numerator and 
+            it has no denominator, then the bounds are `(1,0)`.
+        '''
+        return (1,0)
+
+    @cached_property
+    def species(self):
+        r'''
+            Return the names of the species of a system.
+
+            A specie is a variable that is not constant, i.e., its equation is not 0.
+        '''
+        return [self.variables[i] for i in range(self.size) if any(equ != 0 for equ in self.equations[i])]
+
+    @cached_property
+    def pars(self):
+        r'''
+            Return the names of the parameter of a system.
+
+            A parameter is a variable that is constant, i.e., its equation is 0.
+        '''
+        return [self.variables[i] for i in range(self.size) if all(equ == 0 for equ in self.equations[i])]
+
+    @cached_property
+    def type(self):
+        self.normalize()
+        return type(self.equations[0][0])
+
+    def all_equations(self):
+        for equation in self.equations:
+            yield equation[0]
+            yield equation[1]
+
+    def check_consistency(self, *_): ## TODO
+        r'''
+            This method was removed for Uncertain systems
+        '''
+        raise NotImplementedError(f"Method 'check_consistency' not valid for {self.__class__}")
+
+    def evaluate_parameters(self, _):
+        r'''
+            This method was removed for Uncertain systems
+        '''
+        raise NotImplementedError(f"Method 'evaluate_parameters' not valid for {self.__class__}")
+       
+    def scale_model(self, _):
+        r'''
+            This method was removed for Uncertain systems
+        '''
+        raise NotImplementedError(f"Method 'scale_model' not valid for {self.__class__}")
+
+    ##############################################################################################################
+    ### Lumping methods
+    ##############################################################################################################
+    def lumping(self, observable, new_vars_name="y", print_system=False, print_reduction=True, loglevel=None, initial_conditions=None, method="polynomial", file=sys.stdout):
+        r'''
+            Method for lumping a system (see :func:`FODESystem.lumping`).
+
+            In this case we have removes the argument "out_format" because we require objects to be SparsePolynomials always.
+        '''
+        return super().lumping(observable, new_vars_name, print_system, print_reduction, "internal", loglevel, initial_conditions, method, file)
+
+    def _lumped_system(self, lumping_subspace, vars_old, field, new_vars_name):
+        lower_equs = lumping_subspace.perform_change_of_variables(self.lower_equations, vars_old, field, new_vars_name)
+        upper_equs = lumping_subspace.perform_change_of_variables(self.upper_equations, vars_old, field, new_vars_name)
+        return [tuple([lower_equs[i], upper_equs[i]]) for i in range(len(lower_equs))]
+
+    ##############################################################################################################
+    ### Some special creation methods
+    ##############################################################################################################
+    @staticmethod
+    def from_FODESystem(system : FODESystem, delta = 2.5e-4, min_val = -oo, max_val = oo):
+        r'''
+            Method to create an uncertain system from a :class:`FODESystem` by altering all the coefficients with a given value `\delta`.
+
+            Examples::
+
+                >>> from clue import *
+                >>> from sympy import QQ
+                >>> from sympy.polys.rings import vring
+                >>> R = sympy.polys.rings.vring(["x0", "x1", "x2"], QQ)
+                >>> ## Example 1
+                >>> system = FODESystem([2*x0 + 3*x1 + 2*x2, x0+2*x1+x2, 2*x0 + 4*x1 + 2*x2], variables=['x0','x1','x2'])
+                >>> usystem = UncertainFODESystem.from_FODESystem(system, 1)
+        '''
+        from .rational_function import to_rational
+        delta = to_rational(str(delta))
+        min_val = to_rational(str(min_val)) if min_val != -oo else -oo
+        max_val = to_rational(str(max_val)) if max_val != oo else oo
+        if not system.is_linear_system():
+            raise TypeError("We need a linear system to create an Uncertain system")
+
+        if isinstance(system, UncertainFODESystem):
+            m,M = system._lumping_matr
+        else:
+            m = [[equation.derivative(v).ct for v in system.variables] for equation in system.equations]
+            M = [[c for c in row] for row in m]
+
+        m = [[max(c - delta, min_val) for c in row] for row in m]
+        M = [[min(c + delta, max_val) for c in row] for row in M]
+
+        new_name = None if system.name is None else system.name + f"[altered by +-{delta}]"
+        return UncertainFODESystem(None, system.observables, system.variables, system.ic, new_name,(m,M))
+
+class UncertainLDESystem(LDESystem,UncertainFODESystem):
+    r'''
+        Class for lumped Uncertain linear Differential systems.
+    '''
+    def __init__(self, equations=None, observables=None, variables = None, ic= None, name = None, 
+                    matrices = None, old_vars = None, old_system = None,
+                    dic=None, **kwds):
+        super().__init__(equations, observables, variables, ic, name, old_vars = old_vars, old_system = old_system, dic=dic, matrices = matrices, **kwds)
 #------------------------------------------------------------------------------
