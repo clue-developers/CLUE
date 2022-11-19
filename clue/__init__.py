@@ -1,4 +1,5 @@
 from .clue import *
+from .uncertain import *
 from .parser import *
 
 def clue_version():
