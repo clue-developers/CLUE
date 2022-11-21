@@ -911,21 +911,23 @@ class FODESystem:
     def __init__(self, equations=None, observables=None, variables = None, ic={}, name = None, 
                 dic=None, file = None, **kwds
     ):
-        if(equations is None):
-            if(dic is None):
-                if(file is None):
+        # Deciding how the input is given
+        if equations is None:
+            if dic is None:
+                if file is None:
                     raise ValueError("Not enough data provided to build a system.")
-            
+                
                 read_ic = kwds.get("read_ic", False)
                 parser = kwds.get("parser", "polynomial")
                 dic = read_system(file, read_ic, parser)
-            
-            # Now dic is not None and we can use it to read the data
             equations = dic['equations']
-            observables = dic.get('observables', None)
-            variables = dic.get('variables')
-            ic = dic.get('ic', {})
-            name = dic.get('name', None)
+        if variables is None:
+            if dic is None or (not 'variables' in dic):
+                raise ValueError("No name for variables were given.")
+            variables = dic['variables']
+        observables = observables if observables != None else (dic.get('observables', None) if dic != None else None)
+        ic = ic if ic != None else (dic.get('ic', None) if dic != None else None)
+        name = name if name != None else (dic.get('name', None) if dic != None else None)
         
         # Now we have the data in the first arguments
         self._equations = equations
