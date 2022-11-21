@@ -112,6 +112,27 @@
             ["S0", "S1"]
         ]
     },
+    "cyclin1ODE": {
+        "read": "polynomial",
+        "matrix" : "polynomial",
+        "observables" : [
+            ["S1+S129+S36+S54+S41+S10+S11+S78+S0+S48", "S141"]
+        ]
+    },
+    "wgc2": {
+        "read": "polynomial",
+        "matrix" : "polynomial",
+        "observables" : [
+            ["S0"]
+        ]
+    },
+    "wgc3": {
+        "read": "polynomial",
+        "matrix" : "polynomial",
+        "observables" : [
+            ["S0"]
+        ]
+    },
     "BIOMD0000000013": {
         "read": "sympy",
         "matrix": "auto_diff",
