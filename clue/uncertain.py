@@ -56,6 +56,22 @@ class UncertainFODESystem(FODESystem):
             (x0 + 2*x1 + x2, x1, x0 + 3*x1 + x2)
             >>> usystem.upper_equations
             (3*x0 + 4*x1 + 3*x2, 2*x0 + 3*x1 + 2*x2, 3*x0 + 5*x1 + 3*x2)
+
+        We can also create uncertain systems providing the matrix::
+
+            >>> usystem = UncertainFODESystem(
+            ...    variables=['a','b','c','d'], 
+            ...    matrices=(
+            ...        [(8, 20, 18, 14), (10, 8, 5, 16), (30, 24, 15, 48), (16, 40, 36, 28)],
+            ...        [(40, 44, 42, 44), (25, 27, 28, 27), (75, 81, 84, 81), (80, 88, 84, 88)]
+            ...    ))
+            >>> usystem.lower_equations
+            (8*a + 10*b + 30*c + 16*d, 20*a + 8*b + 24*c + 40*d, 18*a + 5*b + 15*c + 36*d, 14*a + 16*b + 48*c + 28*d)
+            >>> usystem.upper_equations
+            (40*a + 25*b + 75*c + 80*d, 44*a + 27*b + 81*c + 88*d, 42*a + 28*b + 84*c + 84*d, 44*a + 27*b + 81*c + 88*d)
+            >>> a,b,c,d = usystem.symb_variables()
+            >>> usystem.lumping([a+2*d])._subspace
+            [[MPQ(1,1), 0, 0, MPQ(2,1)], [0, MPQ(1,1), MPQ(3,1), 0]]
     '''
     def __init__(self, equations=None, observables=None, variables = None, ic={}, name = None, 
                 matrices = None, 
@@ -189,7 +205,7 @@ class UncertainFODESystem(FODESystem):
     ### Some special creation methods
     ##############################################################################################################
     @staticmethod
-    def from_FODESystem(system : FODESystem, delta = 2.5e-4, min_val = -oo, max_val = oo):
+    def from_FODESystem(system : FODESystem, delta = 2.5e-4, min_val = -oo, max_val = oo, only_existing = True):
         r'''
             Method to create an uncertain system from a :class:`FODESystem` by altering all the coefficients with a given value `\delta`.
 
@@ -219,9 +235,10 @@ class UncertainFODESystem(FODESystem):
         else:
             m = [[equation.derivative(v).ct for equation in system.equations] for v in system.variables]
             M = [[c for c in row] for row in m]
+        get_row = lambda m, i : [m[i,j] for j in range(m.dim[1])] if isinstance(m, SparseRowMatrix) else m[i]
 
-        m = [[max(c - delta, min_val) for c in row] for row in m]
-        M = [[min(c + delta, max_val) for c in row] for row in M]
+        m = [[max(c if (only_existing and c == 0) else (c - delta), min_val) for c in get_row(m,i)] for i in range(system.size)]
+        M = [[min(c if (only_existing and c == 0) else (c + delta), max_val) for c in get_row(M,i)] for i in range(system.size)]
 
         new_name = None if system.name is None else system.name + f"[altered by +-{delta}]"
         return UncertainFODESystem(None, system.observables, system.variables, system.ic, new_name,(m,M))
