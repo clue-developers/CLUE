@@ -6,6 +6,7 @@ Below are the references to the original papers for some of the models:
 * Barua: [A bipolar clamp mechanism for activation of Jak-family protein tyrosine kinases](https://doi.org/10.1371/journal.pcbi.1000364)
 * BIOMD0000000101: [Signal processing in the TGF-beta superfamily ligand-receptor network](https://doi.org/10.1371/journal.pcbi.0020003)
 * BIOMD0000000504: [A computer simulation approach to assessing therapeutic intervention points for the prevention of cytokine-induced cartilage breakdown](https://doi.org/10.1002/art.38297)
+* cyclin1ODE: [Lumpability for Uncertain Continuous-Time Markov Chains](https://doi.org/10.1007/978-3-030-85172-9_21)
 * fceri_ji: [Investigation of Early Events in FceRI-Mediated Signaling Using a Detailed Mathematical Model](https://doi.org/10.4049/jimmunol.170.7.3769)
 * MODEL1001150000: [A dynamic model of interactions of Ca2+, calmodulin, and catalytic subunits of Ca2+/calmodulin-dependent protein kinase II](https://doi.org/10.1371/journal.pcbi.1000675)
 * MODEL1504160000: [Modeling of influenza-specific CD8+ T cells during the primary response indicates that the spleen is a major source of effectors](https://doi.org/10.4049/jimmunol.1101443)
@@ -14,4 +15,6 @@ Below are the references to the original papers for some of the models:
 * model_example: model example for the tutorial of the package
 * OrderedPhosphorylation: [Domain-oriented reduction of rule-based network models](https://doi.org/10.1049%2Fiet-syb%3A20070081)
 * ProteinPhosphorylation: [Efficient modeling, simulation and coarse-graining of biological complexity with NFsim](https://doi.org/10.1038/nmeth.1546)
+* wgc2: [Lumpability for Uncertain Continuous-Time Markov Chains](https://doi.org/10.1007/978-3-030-85172-9_21)
+* wgc3: [Lumpability for Uncertain Continuous-Time Markov Chains](https://doi.org/10.1007/978-3-030-85172-9_21)
 
