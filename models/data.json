@@ -19,6 +19,16 @@
         "ref_title": "Lumpability for Uncertain Continuous-Time Markov Chains",
         "ref_doi": "10.1007/978-3-030-85172-9_21"
     },
+    "wgc2": {
+        "type": "polynomial",
+        "ref_title": "Lumpability for Uncertain Continuous-Time Markov Chains",
+        "ref_doi": "10.1007/978-3-030-85172-9_21"
+    },
+    "wgc3": {
+        "type": "polynomial",
+        "ref_title": "Lumpability for Uncertain Continuous-Time Markov Chains",
+        "ref_doi": "10.1007/978-3-030-85172-9_21"
+    },
     "fceri_ji": {
         "type": "polynomial",
         "ref_title": "Investigation of Early Events in FceRI-Mediated Signaling Using a Detailed Mathematical Model",
