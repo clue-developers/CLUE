@@ -103,7 +103,8 @@ class SparseVector(object):
         """
         if not self._nonzero:
             return 0
-        return max(len(str(c)) for c in self._data.values())
+        digits_Q = lambda a : math.ceil(math.log10(abs(a.numerator*a.denominator))) if hasattr(a, "denominator") else max(math.ceil(math.log10(a)))
+        return max(digits_Q(c) for c in self._data.values())
 
     def density(self):
         return len(self._nonzero) / self._dim
