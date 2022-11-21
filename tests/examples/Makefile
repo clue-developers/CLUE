@@ -1,6 +1,7 @@
 ALL=$(shell python3 examples_data.py -l)
 POLY=$(shell python3 examples_data.py -p)
 RATIONAL=$(shell python3 examples_data.py -r)
+UNCERTAIN=cyclin1ODE wgc2 wgc3
 PYTHON=python3
 
 all: $(ALL)
@@ -16,6 +17,11 @@ poly: $(POLY)
 rational: $(RATIONAL)
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	@echo "Finished all rational examples"
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+uncertain: $(UNCERTAIN)
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	@echo "Finished all examples for uncertain systems"
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 %:
 	@echo -n "## Running example $@... "
