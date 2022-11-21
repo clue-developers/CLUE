@@ -1,7 +1,6 @@
 r'''
     Module for structures and code for Uncertain systems
 '''
-from itertools import product
 from functools import cached_property
 
 from sympy import QQ, oo
@@ -30,79 +29,70 @@ class UncertainFODESystem(FODESystem):
 
         This class allows to represent these uncertain systems and provide new methods to check specific properties from these systems.
 
-        INPUT:
+        Input:
 
-        * ``equations``: the set of equations for the uncertain system. This must be a list of pairs of equations: the first is the lower bound and 
+        - ``equations``: the set of equations for the uncertain system. This must be a list of pairs of equations: the first is the lower bound and 
           second is the upper bound for the uncertain system. The length must be the number of variables.
-        * ``observables``: a list of possible observables for the system (see :class:`FODESystem`)
-        * ``variables``: names for the variables of the system (see :class:`FODESystem`)
-        * ``ic``: (optional) dictionary with initial conditions for some variables.
-        * ``name``: (optional) string with a name for this system.
-        * ``matrices``: the pair of matrices `m` and `M` defining the uncertain system.
-        * ``dic``: dictionary with information to define the system.
-        * ``file``: a file to read the system.
+        - ``observables``: a list of possible observables for the system (see :class:`FODESystem`)
+        - ``variables``: names for the variables of the system (see :class:`FODESystem`)
+        - ``ic``: (optional) dictionary with initial conditions for some variables.
+        - ``name``: (optional) string with a name for this system.
+        - ``matrices``: the pair of matrices `m` and `M` defining the uncertain system.
+        - ``dic``: dictionary with information to define the system.
+        - ``file``: a file to read the system.
+
+        Examples::
+
+            >>> from clue import *
+            >>> from sympy import QQ
+            >>> from sympy.polys.rings import vring
+            >>> R = sympy.polys.rings.vring(["x0", "x1", "x2"], QQ)
+            >>> ## Example 1
+            2*x0 + 3*x1 + 2*x2, x0+2*x1+x2, 2*x0 + 4*x1 + 2*x2
+            >>> usystem = UncertainFODESystem([(x0 + 2*x1 + x2, 3*x0+4*x1+3*x2), (x1, 2*x0+3*x1+2*x2), (x0 + 3*x1 + x2, 3*x0 + 5*x1 + 3*x2)], variables=['x0','x1','x2'])
+            >>> usystem.lumping([x0+x2])._subspace
+            [[MPQ(1,1), 0, MPQ(1,1)], [0, MPQ(1,1), 0]]
+            >>> usystem.lower_equations
+            (x0 + 2*x1 + x2, x1, x0 + 3*x1 + x2)
+            >>> usystem.upper_equations
+            (3*x0 + 4*x1 + 3*x2, 2*x0 + 3*x1 + 2*x2, 3*x0 + 5*x1 + 3*x2)
     '''
     def __init__(self, equations=None, observables=None, variables = None, ic={}, name = None, 
                 matrices = None, 
                 dic=None, file=None, **kwds
     ):
+        ## getting equations of the system
         equations = equations if equations != None else (dic.pop("equations", None) if dic != None else None)
-        variables = variables if variables != None else (dic.pop("variables", None) if dic != None else None)
-        if equations != None: # the equations are given as actual equations
-            if len(equations) != len(variables):
-                raise TypeError(f"Wrong number of equations ({len(equations)}) given (expected {len(variables)})")
-            # we need to compute the matrices.
-            lower_equations = [equ[0] for equ in equations]
-            upper_equations = [equ[1] for equ in equations]
-            if any(not isinstance(el, SparsePolynomial) for el in lower_equations + upper_equations):
-                raise TypeError("The equations must be given as Sparse Polynomials")
-            if any(not (all(equation.degree(v) in (1,0) for v in variables) and equation.ct == 0) for equation in lower_equations + upper_equations):
-                raise TypeError("The equations must be homogeneous and linear equations")
-            m = SparseRowMatrix(len(variables), lower_equations[0].domain)
-            M = SparseRowMatrix(len(variables), lower_equations[0].domain)
-            for i in range(len(variables)):
-                for j in range(len(variables)):
-                    m.increment(i,j, lower_equations[i].derivative(variables[j]).ct)
-                    M.increment(i,j, upper_equations[i].derivative(variables[j]).ct)
-        elif matrices != None:
-            m, M = matrices
-            if not isinstance(m, SparseRowMatrix):
-                if not isinstance(m, (list,tuple)) or not all(isinstance(row, (list,tuple)) for row in m):
-                    raise TypeError("The lower matrix must be a matrix")
-                if len(m) != len(variables) or any(len(row) != len(variables) for row in m):
-                    raise TypeError(f"The lower matrix must have {len(variables)} rows and columns")
-                om = m
-                m = SparseRowMatrix(len(m), QQ)
-                for i in range(len(om)):
-                    for j in range(len(om)):
-                        m.increment(i,j, om[i][j])
-            if not isinstance(M, SparseRowMatrix):
-                if not isinstance(M, (list,tuple)) or not all(isinstance(row, (list,tuple)) for row in M):
-                    raise TypeError("The lower matrix must be a matrix")
-                if len(M) != len(variables) or any(len(row) != len(variables) for row in M):
-                    raise TypeError(f"The lower matrix must have {len(variables)} rows and columns")
-                oM = M
-                M = SparseRowMatrix(len(M), QQ)
-                for i in range(len(oM)):
-                    for j in range(len(oM)):
-                        M.increment(i,j, oM[i][j])
-
-            if any(el != len(variables) for el in (*m.dim, *M.dim)):
-                raise ValueError(f"The given matrices must be square and with size exactly {len(variables)}")
-
-            ## Building the equations
+        if equations == None:
+            variables = variables if variables != None else (dic.pop("variables", None) if dic != None else None)
+            matrices = matrices if matrices != None else (dic.pop("matrices", None) if dic != None else None)
+            if variables == None:
+                raise TypeError("Not enough information provided to determine the variables of the system")
+            if matrices == None:
+                raise TypeError("Not enough information provided to determine the equations of a Uncertain System")
+            m,M = matrices
+            get_coeff = lambda m,i,j : m[i,j] if isinstance(m, SparseRowMatrix) else m[i][j]
             symb_vars = [SparsePolynomial.from_string(v, variables) for v in variables]
-            lower_equations = [sum(m[i,j]*symb_vars[j] for j in range(len(variables))) for i in range(len(variables))]
-            upper_equations = [sum(M[i,j]*symb_vars[j] for j in range(len(variables))) for i in range(len(variables))]
+            equations = [(sum(get_coeff(m,j,i)*symb_vars[j] for j in range(len(variables))), sum(get_coeff(M,j,i)*symb_vars[j] for j in range(len(variables))))  
+                        for i in range(len(variables))]
 
-            equations = [tuple([lower_equations[i], upper_equations[i]]) for i in range(len(variables))]
+        super().__init__(equations, observables, variables, ic, name, dic=dic, file=file, **kwds)
+        self._lumped_system_type = UncertainLDESystem
+        if not issubclass(self.type, SparsePolynomial):
+            raise TypeError("The uncertain systems are only implemented for polynomial differential systems.")
+        if not self.is_linear_system():
+            raise TypeError("The uncertain systems are only implemented for linear systems.")
 
-        # At this point, the matrices m and M are fully defined. We require m <= M:
-        if any(m[i,j] > M[i,j] for (i,j) in product([range(a) for a in m.dim])):
-            raise ValueError("The matrices defining an uncertain system must be ordered")
-
-        super().__init__(equations, observables, variables, ic, name, dic=dic, file=file)
-        self._lumped_system_type = UncertainFODESystem
+        ## Creating the lumping matrices as the jacobians of the lower and upper systems
+        lower_equations = self.lower_equations
+        upper_equations = self.upper_equations
+        
+        m = SparseRowMatrix(self.size, self.field)
+        M = SparseRowMatrix(self.size, self.field)
+        for i in range(self.size):
+            for j in range(self.size):
+                m.increment(i,j, lower_equations[j].derivative(self.variables[i]).ct)
+                M.increment(i,j, upper_equations[j].derivative(self.variables[i]).ct)
         self._lumping_matr["polynomial"] = [m,M]
 
     @property
@@ -212,6 +202,10 @@ class UncertainFODESystem(FODESystem):
                 >>> ## Example 1
                 >>> system = FODESystem([2*x0 + 3*x1 + 2*x2, x0+2*x1+x2, 2*x0 + 4*x1 + 2*x2], variables=['x0','x1','x2'])
                 >>> usystem = UncertainFODESystem.from_FODESystem(system, 1)
+                >>> usystem.lower_equations
+                (x0 + 2*x1 + x2, x1, x0 + 3*x1 + x2)
+                >>> usystem.upper_equations
+                (3*x0 + 4*x1 + 3*x2, 2*x0+3*x1+2*x2, 3*x0 + 5*x1 + 3*x2)
         '''
         from .rational_function import to_rational
         delta = to_rational(str(delta))
@@ -223,7 +217,7 @@ class UncertainFODESystem(FODESystem):
         if isinstance(system, UncertainFODESystem):
             m,M = system._lumping_matr
         else:
-            m = [[equation.derivative(v).ct for v in system.variables] for equation in system.equations]
+            m = [[equation.derivative(v).ct for equation in system.equations] for v in system.variables]
             M = [[c for c in row] for row in m]
 
         m = [[max(c - delta, min_val) for c in row] for row in m]
@@ -240,4 +234,58 @@ class UncertainLDESystem(LDESystem,UncertainFODESystem):
                     matrices = None, old_vars = None, old_system = None,
                     dic=None, **kwds):
         super().__init__(equations, observables, variables, ic, name, old_vars = old_vars, old_system = old_system, dic=dic, matrices = matrices, **kwds)
+
+    def has_lumping_plus(self):
+        r'''
+            Method to check whether a lumped system has a lumping+ of same dimension.
+
+            This method checks whether the lumped system built in ``self`` can be rearrange to have a 
+            "lumped+" version of itself. This would mean that there is a lumping of the same dimension preserving the same 
+            invariant space (i.e., preserving the observables) such that:
+
+            * The rows of the new lumping have disjoint support.
+            * The entries of the lumping are non-negative.
+
+            To check this, we use the criteria in ((TODO:add reference)), where we define an equivalence relation on the columns of 
+            the current lumping and then, such lumping+ exists if and only if the number of equivalent classes is the number of rows 
+            of the lumping.
+
+            This method will return the new lumped system.
+        '''
+        L = self._subspace; nrows = len(L); ncols = len(L[0])
+        ## First we check if this lumping was lumping+ already
+        if all([[L[i][j] for i in range(nrows)].count(0) in (nrows,nrows-1) for j in range(ncols)]) and all(all(L[i][j] >= 0 for j in range(ncols)) for i in range(nrows)):
+            return self
+        classes = [] 
+        # classes will be a list of (i, l) where `i` is the column and `l` is the scaling factor for the representative of the class
+        # For `cls` in "classes", cls[0] is always (i,1) and is the representative of the class
+
+        for i in range(ncols):
+            for cls in classes:
+                l = L[0][i]/L[0][cls[0][0]]
+                if all(L[j][cls[0][0]]*l == L[j][i] for j in range(1, nrows)):
+                    # the column i is in the same class as cls --> we add it with the factor `l`
+                    cls.append((i,l))
+                    break
+            else: # we did not find a suitable class for the column `i` --> we create a new class
+                classes.append([(i,1)])
+
+        if len(classes) != nrows: # there is not a lumping+
+            raise ValueError("There is no lumping+ available for this lumped system")
+
+        # We compute the new lumped matrix
+        nL = [[0]*ncols]*nrows
+        for i,cls in enumerate(classes):
+            for (j,l) in cls:
+                if l < 0:
+                    raise ValueError("The new lumping has negative coefficients!!")
+                nL[i][j] = l
+
+        # We return the new lumped system
+        symb_vars = self._old_system.symb_variables()
+        nobs = [sum(L[i][j]*symb_vars[j] for j in range(ncols)) for i in range(nrows)]
+        return self._old_system.lumping(nobs, print_reduction=False)
+
+        
+
 
