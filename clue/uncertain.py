@@ -205,7 +205,7 @@ class UncertainFODESystem(FODESystem):
                 >>> usystem.lower_equations
                 (x0 + 2*x1 + x2, x1, x0 + 3*x1 + x2)
                 >>> usystem.upper_equations
-                (3*x0 + 4*x1 + 3*x2, 2*x0+3*x1+2*x2, 3*x0 + 5*x1 + 3*x2)
+                (3*x0 + 4*x1 + 3*x2, 2*x0 + 3*x1 + 2*x2, 3*x0 + 5*x1 + 3*x2)
         '''
         from .rational_function import to_rational
         delta = to_rational(str(delta))
