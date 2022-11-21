@@ -1,7 +1,7 @@
 ALL=$(shell python3 examples_data.py -l)
 POLY=$(shell python3 examples_data.py -p)
 RATIONAL=$(shell python3 examples_data.py -r)
-UNCERTAIN=cyclin1ODE wgc2 wgc3
+UNCERTAIN=cyclin1ODE cyclin1ODE[uncertain] wgc2 wgc2[uncertain] wgc3 wgc3[uncertain]
 PYTHON=python3
 
 all: $(ALL)

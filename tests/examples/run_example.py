@@ -2,7 +2,7 @@ import signal, sys, time
 
 sys.path.insert(0, "./../../") # clue is here
 
-from clue import FODESystem, SparsePolynomial
+from clue import FODESystem, SparsePolynomial, UncertainFODESystem
 from examples_data import get_example #pylint: disable=import-error
 
 def alarm_handler(sgn, _):
@@ -50,7 +50,13 @@ if __name__ == "__main__":
     old_handler = signal.signal(signal.SIGALRM, alarm_handler)
 
     ## now we can run the model properly
+    is_uncertain = read == "uncertain"
+    read = "polynomial" if is_uncertain else read
     system = FODESystem(file=example.path_model(), parser=read)
+
+    if is_uncertain:
+        delta = example.delta
+        system = UncertainFODESystem.from_FODESystem(system, delta)
 
     for obs_set in observables:
         print("===============================================", file=file)

@@ -5,14 +5,15 @@ sys.path.insert(0, "./../../") # models is here
 import models.models_data
 
 class Example:
-    def __init__(self, name, read, matrix, observables, model=None, range=None):
+    def __init__(self, name, read, matrix, observables, **kwds):
         self.__name = name
         self.__read = read
         self.__matrix = matrix
         self.__observables = observables
 
-        self.__model = model if model != None else name
-        self.__range = range
+        self.__model = kwds.get("model", name)
+        self.__range = kwds.get("range", None)
+        self.__delta = kwds.get("delta", 0)
 
     @property
     def name(self): return self.__name
@@ -26,6 +27,8 @@ class Example:
     def model(self): return self.__model
     @property
     def range(self): return self.__range
+    @property
+    def delta(self): return self.__delta
 
     def get_model(self):
         return models.models_data.models[self.model]
