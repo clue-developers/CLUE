@@ -50,13 +50,13 @@ if __name__ == "__main__":
     old_handler = signal.signal(signal.SIGALRM, alarm_handler)
 
     ## now we can run the model properly
-    is_uncertain = read == "uncertain"
-    read = "polynomial" if is_uncertain else read
-    system = FODESystem(file=example.path_model(), parser=read)
-
-    if is_uncertain:
+    if read == "uncertain":
+        system = FODESystem(file=example.path_model(), parser="polynomial")
         delta = example.delta
-        system = UncertainFODESystem.from_FODESystem(system, delta)
+        uncertain_type = example.unc_type
+        system = UncertainFODESystem.from_FODESystem(system, delta, type=uncertain_type)
+    else:
+        system = FODESystem(file=example.path_model(), parser=read)
 
     for obs_set in observables:
         print("===============================================", file=file)
