@@ -11,9 +11,9 @@ class Example:
         self.__matrix = matrix
         self.__observables = observables
 
-        self.__model = kwds.get("model", name)
-        self.__range = kwds.get("range", None)
-        self.__delta = kwds.get("delta", 0)
+        self.__model = kwds.pop("model", name)
+        self.__range = kwds.pop("range", None)
+        self.__json = kwds
 
     @property
     def name(self): return self.__name
@@ -27,8 +27,11 @@ class Example:
     def model(self): return self.__model
     @property
     def range(self): return self.__range
-    @property
-    def delta(self): return self.__delta
+
+    def __getattr__(self, name):
+        if name in self.__json:
+            return self.__json[name]
+        super().__getattr__(name)
 
     def get_model(self):
         return models.models_data.models[self.model]
