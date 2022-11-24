@@ -205,9 +205,12 @@ class UncertainFODESystem(FODESystem):
     ### Some special creation methods
     ##############################################################################################################
     @staticmethod
-    def from_FODESystem(system : FODESystem, delta = 2.5e-4, min_val = -oo, max_val = oo, only_existing = True):
+    def from_FODESystem(system : FODESystem, delta = 2.5e-4, min_val = -oo, max_val = oo, only_existing = True, type="abs"):
         r'''
             Method to create an uncertain system from a :class:`FODESystem` by altering all the coefficients with a given value `\delta`.
+
+            If ``type`` is "abs" the change is done by adding and substracting `\delta` to the coefficients. If ``type`` is "prop", then
+            the coefficients will be changes proportionally where `\delta` is the percentage.
 
             Examples::
 
@@ -230,6 +233,23 @@ class UncertainFODESystem(FODESystem):
         if not system.is_linear_system():
             raise TypeError("We need a linear system to create an Uncertain system")
 
+        def __low_coeff(c):
+            if only_existing and c != 0:
+                if type == "abs":
+                    nval = c-delta
+                elif type == "prop":
+                    nval = c*(1-delta)
+                return max(min_val, nval)
+            return c
+        def __up_coeff(c):
+            if only_existing and c != 0:
+                if type == "abs":
+                    nval = c+delta
+                elif type == "prop":
+                    nval = c*(1+delta)
+                return min(max_val, nval)
+            return c
+
         if isinstance(system, UncertainFODESystem):
             m,M = system._lumping_matr
         else:
@@ -237,8 +257,8 @@ class UncertainFODESystem(FODESystem):
             M = [[c for c in row] for row in m]
         get_row = lambda m, i : [m[i,j] for j in range(m.dim[1])] if isinstance(m, SparseRowMatrix) else m[i]
 
-        m = [[max(c if (only_existing and c == 0) else (c - delta), min_val) for c in get_row(m,i)] for i in range(system.size)]
-        M = [[min(c if (only_existing and c == 0) else (c + delta), max_val) for c in get_row(M,i)] for i in range(system.size)]
+        m = [[__low_coeff(c) for c in get_row(m,i)] for i in range(system.size)]
+        M = [[__up_coeff(c) for c in get_row(M,i)] for i in range(system.size)]
 
         new_name = None if system.name is None else system.name + f"[altered by +-{delta}]"
         return UncertainFODESystem(None, system.observables, system.variables, system.ic, new_name,(m,M))
