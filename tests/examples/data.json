@@ -119,11 +119,22 @@
             ["S1+S129+S36+S54+S41+S10+S11+S78+S0+S48", "S141"]
         ]
     },
-    "cyclin1ODE[uncertain]": {
+    "cyclin1ODE[uncertain-abs]": {
         "model": "cyclin1ODE",
         "read": "uncertain",
         "matrix" : "polynomial",
+        "unc_type": "abs",
         "delta": 2.5e-4,
+        "observables" : [
+            ["S1+S129+S36+S54+S41+S10+S11+S78+S0+S48", "S141"]
+        ]
+    },
+    "cyclin1ODE[uncertain-prop]": {
+        "model": "cyclin1ODE",
+        "read": "uncertain",
+        "matrix" : "polynomial",
+        "unc_type": "prop",
+        "delta": 0.1,
         "observables" : [
             ["S1+S129+S36+S54+S41+S10+S11+S78+S0+S48", "S141"]
         ]
@@ -135,11 +146,22 @@
             ["S0"]
         ]
     },
-    "wgc2[uncertain]": {
+    "wgc2[uncertain-abs]": {
         "model": "wgc2",
         "read": "uncertain",
         "matrix" : "polynomial",
+        "unc_type": "abs",
         "delta": 2.5e-4,
+        "observables" : [
+            ["S0"]
+        ]
+    },
+    "wgc2[uncertain-prop]": {
+        "model": "wgc2",
+        "read": "uncertain",
+        "matrix" : "polynomial",
+        "unc_type": "prop",
+        "delta": 0.1,
         "observables" : [
             ["S0"]
         ]
@@ -151,11 +173,22 @@
             ["S0"]
         ]
     },
-    "wgc3[uncertain]": {
+    "wgc3[uncertain-abs]": {
         "model": "wgc3",
         "read": "uncertain",
         "matrix" : "polynomial",
+        "unc_type": "abs",
         "delta": 2.5e-4,
+        "observables" : [
+            ["S0"]
+        ]
+    },
+    "wgc3[uncertain-prop]": {
+        "model": "wgc3",
+        "read": "uncertain",
+        "matrix" : "polynomial",
+        "unc_type": "prop",
+        "delta": 0.1,
         "observables" : [
             ["S0"]
         ]
