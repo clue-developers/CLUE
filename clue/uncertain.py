@@ -272,7 +272,31 @@ class UncertainLDESystem(LDESystem,UncertainFODESystem):
                     dic=None, **kwds):
         super().__init__(equations, observables, variables, ic, name, old_vars = old_vars, old_system = old_system, dic=dic, matrices = matrices, **kwds)
 
-    def has_lumping_plus(self):
+    @staticmethod
+    def are_equivalent(v1, v2):
+        r'''
+            Method to check if two vectors are equivalent.
+
+            Two non-zero vectors are equivalent if and only if there is a scaling factor `\lambda` such that `\lambda v_1 = v_2`. 
+            This method returns the value for `\lambda`.
+        '''
+        # checking size are the same
+        if len(v1) != len(v2):
+            raise ValueError("The two given vectors must have the same length")
+        # finding first non-zero entry
+        p = 0
+        while v1[p] == 0: p+=1
+
+        if p == len(v1):
+            raise ValueError("The vector v1 must be non-zero")
+
+        # we compute the candidate for `\lambda`
+        l = v2[p]/v1[p]
+        if all(v2[i] == l*v1[i] for i in range(len(v1))):
+            return l
+        return False
+
+    def has_RWL(self):
         r'''
             Method to check whether a lumped system has a lumping+ of same dimension.
 
@@ -298,14 +322,17 @@ class UncertainLDESystem(LDESystem,UncertainFODESystem):
         # For `cls` in "classes", cls[0] is always (i,1) and is the representative of the class
 
         for i in range(ncols):
-            for cls in classes:
-                l = L[0][i]/L[0][cls[0][0]]
-                if all(L[j][cls[0][0]]*l == L[j][i] for j in range(1, nrows)):
-                    # the column i is in the same class as cls --> we add it with the factor `l`
-                    cls.append((i,l))
-                    break
-            else: # we did not find a suitable class for the column `i` --> we create a new class
-                classes.append([(i,1)])
+            vi = [L[j][i] for j in range(nrows)]
+            if any(e != 0 for e in vi):
+                for cls in classes:
+                    v = [L[j][cls[0][0]] for j in range(nrows)]
+                    l = UncertainLDESystem.are_equivalent(v,vi)
+                    if l:
+                        # the column i is in the same class as cls --> we add it with the factor `l`
+                        cls.append((i,l))
+                        break
+                else: # we did not find a suitable class for the column `i` --> we create a new class
+                    classes.append([(i,1)])
 
         if len(classes) != nrows: # there is not a lumping+
             raise ValueError("There is no lumping+ available for this lumped system")
