@@ -1,0 +1,31 @@
+begin model dom_Jenks_1995b_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+  S7
+  S8
+  S9
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 3.0*S1 + 4.0*S2 + 13.0*S3 + 15.0*S4 + 18.0*S5 + 4.0*S6 + 9.0*S7
+  d(S1) = 2.0*S2 + 3.0*S3 + 4.0*S4 + 14.0*S5 + 13.0*S6 + 11.0*S7 + 1.0*S8
+  d(S2) = 1.0*S1 + 4.0*S3 + 2.0*S4 + 6.0*S5 + 5.0*S6 + 15.0*S7
+  d(S3) = 1.0*S4 + 1.0*S5 + 9.0*S6 + 9.0*S7 + 1.0*S8 + 1.0*S9
+  d(S4) = 1.0*S5 + 13.0*S6 + 18.0*S7
+  d(S5) = 1.0*S1 + 1.0*S4 + 18.0*S6 + 22.0*S7
+  d(S6) = 1.0*S4 + 29.0*S7 + 3.0*S9
+  d(S7) = 1.0*S1 + 1.0*S3 + 2.0*S4 + 3.0*S5
+  d(S8) = 0
+  d(S9) = 0
+ end ODE
+
+end model
+

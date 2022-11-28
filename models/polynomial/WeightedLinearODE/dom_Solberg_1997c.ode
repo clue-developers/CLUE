@@ -1,0 +1,29 @@
+begin model dom_Solberg_1997c_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+  S7
+  S8
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 25.0*S1 + 19.0*S2 + 15.0*S3 + 6.0*S4 + 2.0*S5 + 1.0*S6 + 2.0*S7 + 6.0*S8
+  d(S1) = 5.0*S0 + 21.0*S2 + 7.0*S3 + 2.0*S4 + 3.0*S5 + 1.0*S6 + 3.0*S7 + 3.0*S8
+  d(S2) = 11.0*S0 + 18.0*S1 + 6.0*S3 + 1.0*S4 + 1.0*S5 + 2.0*S6 + 1.0*S7 + 3.0*S8
+  d(S3) = 1.0*S0 + 4.0*S1 + 1.0*S2 + 4.0*S4 + 3.0*S8
+  d(S4) = 1.0*S0 + 1.0*S3 + 1.0*S6 + 1.0*S7 + 1.0*S8
+  d(S5) = 1.0*S4
+  d(S6) = 1.0*S5
+  d(S7) = 0
+  d(S8) = 1.0*S0 + 1.0*S1
+ end ODE
+
+end model
+

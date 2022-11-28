@@ -1,0 +1,27 @@
+begin model dom_Ito_1993a_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+  S7
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 8.0*S1 + 17.0*S2 + 16.0*S3 + 4.0*S4 + 8.0*S5 + 24.0*S6 + 5.0*S7
+  d(S1) = 28.0*S2 + 13.0*S3 + 12.0*S4 + 9.0*S5 + 5.0*S6 + 1.0*S7
+  d(S2) = 48.0*S3 + 15.0*S4 + 15.0*S5 + 7.0*S6 + 3.0*S7
+  d(S3) = 13.0*S4 + 8.0*S5 + 4.0*S6 + 9.0*S7
+  d(S4) = 12.0*S5 + 9.0*S6 + 2.0*S7
+  d(S5) = 8.0*S6
+  d(S6) = 5.0*S7
+  d(S7) = 1.0*S3 + 1.0*S4 + 1.0*S5 + 1.0*S6
+ end ODE
+
+end model
+

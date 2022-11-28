@@ -1,0 +1,23 @@
+begin model dom_Monnin_1999_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 43.0*S1 + 14.0*S2
+  d(S1) = 3.0*S2 + 3.0*S3 + 4.0*S4 + 1.0*S5
+  d(S2) = 1.0*S0 + 3.0*S1 + 3.0*S3 + 3.0*S4 + 2.0*S5
+  d(S3) = 25.0*S2 + 5.0*S4 + 4.0*S5
+  d(S4) = 12.0*S2 + 3.0*S5
+  d(S5) = 6.0*S2
+ end ODE
+
+end model
+

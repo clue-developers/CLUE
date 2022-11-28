@@ -1,0 +1,25 @@
+begin model dom_Appleby_1983_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 6.0*S1 + 1.0*S2 + 4.0*S3 + 6.0*S4 + 8.0*S5 + 5.0*S6
+  d(S1) = 5.0*S0 + 5.0*S2 + 2.0*S5 + 1.0*S6
+  d(S2) = 0
+  d(S3) = 0
+  d(S4) = 2.0*S0 + 2.0*S3 + 1.0*S5
+  d(S5) = 1.0*S0 + 15.0*S1 + 1.0*S2 + 11.0*S4 + 1.0*S6
+  d(S6) = 4.0*S0 + 2.0*S1
+ end ODE
+
+end model
+

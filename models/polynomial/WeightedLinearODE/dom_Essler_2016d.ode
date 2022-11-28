@@ -1,0 +1,23 @@
+begin model dom_Essler_2016d_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 3.0*S1 + 7.0*S2 + 2.0*S3 + 5.0*S4 + 8.0*S5
+  d(S1) = 2.0*S2 + 13.0*S3 + 2.0*S4 + 3.0*S5
+  d(S2) = 7.0*S0 + 2.0*S3 + 3.0*S4 + 3.0*S5
+  d(S3) = 6.0*S0 + 2.0*S1 + 1.0*S2 + 4.0*S4 + 2.0*S5
+  d(S4) = 5.0*S5
+  d(S5) = 1.0*S4
+ end ODE
+
+end model
+
