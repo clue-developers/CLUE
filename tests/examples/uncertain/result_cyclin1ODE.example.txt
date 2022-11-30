@@ -147,4 +147,4 @@ y70' = 9/1000*y68 + -33/1000*y70 + y71
 y71' = -y71
 The size of the original model is 142
 The size of the reduced model is 72
-Computation took 4.848338842391968 seconds
+Computation took 7.52752685546875 seconds
