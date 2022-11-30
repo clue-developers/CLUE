@@ -145,7 +145,7 @@ if __name__ == "__main__":
                             # Deciding the extra arguments for the example
                             kwds = {}
                             if final_name != name: kwds["model"] = name
-                            if o != None: kwds["out_fodler"] = o
+                            if o != None: kwds["out_folder"] = o
                             if X != None: kwds["range"] = X
                             if r == "uncertain-abs": kwds["delta"] = 2.5e-4; kwds["unc_type"] = "abs"
                             if r == "uncertain-prop": kwds["delta"] = 0.1; kwds["unc_type"] = "prop"
@@ -175,7 +175,7 @@ if __name__ == "__main__":
             "  * -m : indicates the algorithm for computing the matrices. It can be 'polynomial', 'rational' or 'auto_diff. Several can be given.'\n"
             "  * -o : indicates the folder where the output of the example will be stored\n"
             "  * -s : indicates whether already existing examples should be overriden\n"
-            "  * <<folder>>: one or several fodlers that will be added to the examples using the previous arguments.\n"
+            "  * <<folder>>: one or several folders that will be added to the examples using the previous arguments.\n"
             "--------------------------------------------------------------------------------------------------------------------------\n"
             "\tpython3 examples_data list [-r|-p|-u] [-a]\n"
             "will list all the available examples, where the options mean:\n"
