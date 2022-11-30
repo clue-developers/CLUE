@@ -1059,8 +1059,9 @@ class FODESystem:
             return False
 
         for equation in self.all_equations():
-            if any((not equation.degree(v) in (0,1)) for v in self.variables) or equation.ct != 0:
-                return False
+            if equation != 0:
+                if any((not equation.degree(v) in (0,1)) for v in self.variables):
+                    return False
         return True
 
     def all_equations(self):
