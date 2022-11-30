@@ -117,7 +117,8 @@
         "matrix" : "polynomial",
         "observables" : [
             ["S1+S129+S36+S54+S41+S10+S11+S78+S0+S48", "S141"]
-        ]
+        ],
+        "out_folder" : "uncertain"
     },
     "cyclin1ODE[uncertain-abs]": {
         "model": "cyclin1ODE",
@@ -127,7 +128,8 @@
         "delta": 2.5e-4,
         "observables" : [
             ["S1+S129+S36+S54+S41+S10+S11+S78+S0+S48", "S141"]
-        ]
+        ],
+        "out_folder" : "uncertain"
     },
     "cyclin1ODE[uncertain-prop]": {
         "model": "cyclin1ODE",
@@ -137,7 +139,8 @@
         "delta": 0.1,
         "observables" : [
             ["S1+S129+S36+S54+S41+S10+S11+S78+S0+S48", "S141"]
-        ]
+        ],
+        "out_folder" : "uncertain"
     },
     "wgc2": {
         "read": "polynomial",
@@ -154,7 +157,8 @@
         "delta": 2.5e-4,
         "observables" : [
             ["S0"]
-        ]
+        ],
+        "out_folder" : "uncertain"
     },
     "wgc2[uncertain-prop]": {
         "model": "wgc2",
@@ -164,14 +168,16 @@
         "delta": 0.1,
         "observables" : [
             ["S0"]
-        ]
+        ],
+        "out_folder" : "uncertain"
     },
     "wgc3": {
         "read": "polynomial",
         "matrix" : "polynomial",
         "observables" : [
             ["S0"]
-        ]
+        ],
+        "out_folder" : "uncertain"
     },
     "wgc3[uncertain-abs]": {
         "model": "wgc3",
@@ -181,7 +187,8 @@
         "delta": 2.5e-4,
         "observables" : [
             ["S0"]
-        ]
+        ],
+        "out_folder" : "uncertain"
     },
     "wgc3[uncertain-prop]": {
         "model": "wgc3",
@@ -191,7 +198,8 @@
         "delta": 0.1,
         "observables" : [
             ["S0"]
-        ]
+        ],
+        "out_folder" : "uncertain"
     },
     "BIOMD0000000013": {
         "read": "sympy",
