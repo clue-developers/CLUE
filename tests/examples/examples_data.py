@@ -66,25 +66,36 @@ if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "list":
         full = False
         type = ("polynomial", "uncertain", "rational", "sympy")
-        for arg in sys.argv[2:]:
-            if arg in ("-r", "-p", "-u") and len(type) < 4:
+        allowed_folders = []; allowed_names = []
+        i = 2
+        while i < len(sys.argv): 
+            if sys.argv[i] in ("-r", "-p", "-u") and len(type) < 4:
                 raise TypeError("The type for listing was already given. Check 'help' command for further information")
-            if arg == "-r":
-                type = ("rational", "sympy")
-            elif arg == "-p":
-                type = ("polynomial",)
-            elif arg == "-u":
-                type = ("uncertain",)
-            elif arg == "-a":
-                full = True
+            if sys.argv[i] == "-r":
+                type = ("rational", "sympy"); i+= 1
+            elif sys.argv[i] == "-p":
+                type = ("polynomial",); i+= 1
+            elif sys.argv[i] == "-u":
+                type = ("uncertain",); i+= 1
+            elif sys.argv[i] == "-of":
+                allowed_folders.append(sys.argv[i+1]); i += 2
+            elif sys.argv[i] == "-n":
+                allowed_names.append(sys.argv[i+1]); i += 2
+            elif sys.argv[i] == "-a":
+                full = True; i+= 1
             else:
-                raise TypeError(f"Option {arg} not recognized. Check 'help' command for further information")
+                raise TypeError(f"Option {sys.argv[i]} not recognized. Check 'help' command for further information")
+
+        filter = lambda example: (examples[example].read in type and 
+                                    (len(allowed_folders) == 0 or examples[example].out_folder in allowed_folders) and
+                                    (len(allowed_names) == 0 or any(example.startswith(name) for name in allowed_names))
+                                 )
 
         if full:
             lines = [["Example name", "Read", "Out folder"]]
             get_str = lambda example : (example.name, example.read, example.out_folder)
 
-            lines += [get_str(examples[name]) for name in examples if examples[name].read in type]
+            lines += [get_str(examples[name]) for name in examples if filter(name)]
             n_elem = len(lines[0])
             max_length = [max(len(line[i]) if line[i] != None else 4 for line in lines) for i in range(n_elem)]
 
@@ -93,7 +104,7 @@ if __name__ == "__main__":
             for line in lines:
                 print(" | ".join([(line[i] if line[i] != None else "None").ljust(max_length[i]) for i in range(n_elem)]))
         else:
-            print(" ".join([name for name in examples if examples[name].read in type]))
+            print(" ".join([name for name in examples if filter(name)]))
     elif len(sys.argv) > 1 and sys.argv[1] == "add":
         read = []; matrix = []; o = None; folders = []; subs=False
         i = 2
@@ -147,8 +158,8 @@ if __name__ == "__main__":
                             if final_name != name: kwds["model"] = name
                             if o != None: kwds["out_folder"] = o
                             if X != None: kwds["range"] = X
-                            if r == "uncertain-abs": kwds["delta"] = 2.5e-4; kwds["unc_type"] = "abs"
-                            if r == "uncertain-prop": kwds["delta"] = 0.1; kwds["unc_type"] = "prop"
+                            if r == "uncertain-abs": kwds["delta"] = 2.5e-4; kwds["unc_type"] = "abs"; r = "uncertain"
+                            if r == "uncertain-prop": kwds["delta"] = 0.1; kwds["unc_type"] = "prop"; r = "uncertain"
                             
                             if not final_name in examples or subs:
                                 examples[final_name] = Example(name, r, m, obs, **kwds)
@@ -177,11 +188,12 @@ if __name__ == "__main__":
             "  * -s : indicates whether already existing examples should be overriden\n"
             "  * <<folder>>: one or several folders that will be added to the examples using the previous arguments.\n"
             "--------------------------------------------------------------------------------------------------------------------------\n"
-            "\tpython3 examples_data list [-r|-p|-u] [-a]\n"
+            "\tpython3 examples_data list [-r|-p|-u] [-of ()]* [-a]\n"
             "will list all the available examples, where the options mean:\n"
             "  * -r : only rational examples will be shown (i.e., have 'read' either 'rational' or 'sympy').\n"
             "  * -p : only polynomial examples will be shown (i.e., have 'read' as 'polynomial')\n"
             "  * -u : only uncertain examples will be shown (i.e., have 'read' as 'uncertain')\n"
+            "  * -of : only examples with given out_folder will be shown. Several of these are allowed\n"
             "  * -a : a detailed description of the examples will be shown\n"
             "If no option is provided, all examples will be shown.\n"
             "--------------------------------------------------------------------------------------------------------------------------\n"
