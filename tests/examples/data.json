@@ -222,7 +222,8 @@
             [
                 "S0"
             ]
-        ]
+        ],
+        "out_folder": "uncertain"
     },
     "wgc2[uncertain-abs]": {
         "read": "uncertain",
