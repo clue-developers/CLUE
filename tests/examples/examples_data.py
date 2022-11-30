@@ -162,7 +162,7 @@ if __name__ == "__main__":
                             if r == "uncertain-prop": kwds["delta"] = 0.1; kwds["unc_type"] = "prop"; r = "uncertain"
                             
                             if not final_name in examples or subs:
-                                examples[final_name] = Example(name, r, m, obs, **kwds)
+                                examples[final_name] = Example(final_name, r, m, obs, **kwds)
                                 print(f" ### Added the example {final_name}")
                                 changed = True
                 
