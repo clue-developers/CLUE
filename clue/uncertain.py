@@ -298,6 +298,16 @@ class UncertainLDESystem(LDESystem,UncertainFODESystem):
 
     def has_RWL(self):
         r'''
+            Checks whether a lumped system has a Robust Weighted Lumping.
+        '''
+        try:
+            self.get_RWL()
+            return True
+        except ValueError:
+            return False
+
+    def get_RWL(self):
+        r'''
             Method to check whether a lumped system has a lumping+ of same dimension.
 
             This method checks whether the lumped system built in ``self`` can be rearrange to have a 

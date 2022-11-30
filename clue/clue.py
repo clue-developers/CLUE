@@ -2556,6 +2556,28 @@ class LDESystem(FODESystem):
     def old_system(self):
         return self._old_system
 
+    @lru_cache(maxsize=2)
     def is_consistent(self, symbolic=False):
         return self.check_consistency(self.old_system, self.old_vars, symbolic)
+
+    @lru_cache(maxsize=1)
+    def is_FL(self):
+        r'''
+            Method to check whther a lumping is a Forward Lumping or not.
+
+            A Forward Lumping ((add reference)) is a special type of lumping where the lumping matrix has a 
+            very specific shape: all the entries are 0 or 1 and the rows has a disjoint support. This 
+            concept is directly related with the concept of Forward Equivalence ((add reference)) where 
+            in those cases the support of all rows is the complete set.
+        '''
+        L = self._subspace; nrows = len(L); ncols = len(L[0])
+        if any(any(not L[i][j] in (0,1) for j in range(ncols)) for i in range(nrows)):
+            return False
+
+        supports = [{j for j in range(ncols) if L[i][j] != 0} for i in range(nrows)]
+        for i in range(len(supports)):
+            for j in range(i+1, len(supports)):
+                if len(supports[i].intersection(supports[j])) > 0:
+                    return False
+        return True
 #------------------------------------------------------------------------------
