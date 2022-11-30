@@ -147,4 +147,6 @@ y70' = (81/10000*y68 + -297/10000*y70 + 9/10*y71, 99/10000*y68 + -363/10000*y70 
 y71' = (-9/10*y71, -11/10*y71)
 The size of the original model is 142
 The size of the reduced model is 72
-Computation took 6.788291931152344 seconds
+Computation took 6.9063801765441895 seconds
+Is the lumping a Forward Lumping (FL)?: False
+Has the lumping a Robust Weighted Lumping (RWL)?: False

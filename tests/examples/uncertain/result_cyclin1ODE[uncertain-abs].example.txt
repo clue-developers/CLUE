@@ -223,4 +223,6 @@ y108' = (7/800*y106 + -133/4000*y108 + 3999/4000*y109, 37/4000*y106 + -131/4000*
 y109' = (-4001/4000*y109, -3999/4000*y109)
 The size of the original model is 142
 The size of the reduced model is 110
-Computation took 19.685617923736572 seconds
+Computation took 19.104514360427856 seconds
+Is the lumping a Forward Lumping (FL)?: True
+Has the lumping a Robust Weighted Lumping (RWL)?: True
