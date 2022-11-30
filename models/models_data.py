@@ -58,6 +58,10 @@ class Model:
 
         return os.path.join(*full_path)
 
+    def folder(self):
+        if "path" in self.__json: return self.__json["path"]
+        else: return ""
+
     def range_as_str(self):
         result = []; open_range = []; rng = self.range
         for i in range(len(rng)):
@@ -192,6 +196,7 @@ if __name__ == "__main__":
                             f"______________________________________________________________________________________\n"))
             logfile.close()
     elif len(sys.argv) > 1 and sys.argv[1] == "readme" or len(sys.argv) == 1:
+        print("Generating README for every subclass of models")
         ## Reading and sorting the models
         by_types = {}
         for key in models:
