@@ -24,7 +24,7 @@ if __name__ == "__main__":
     read = example.read; matrix = example.matrix
     observables = example.observables
     timeout = 0
-    output = f"{'' if example.out_folder is None else f'./{example.out_folder}'}result_{example.name}.example.txt"
+    output = f"{'' if example.out_folder is None else f'./{example.out_folder}/'}result_{example.name}.example.txt"
 
     ## Checking the rest of the arguments
     n = 2
