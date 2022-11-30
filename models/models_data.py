@@ -72,13 +72,14 @@ class Model:
                     open_range = [rng[i]]
         return ",".join(result)
 
-    def as_dict(self):
-        return (self.name, 
-        {"type": self.type,
-        "range": self.range_as_str(),
-        "title": self.title,
-        "doi": self.doi,
-        **self.__json})
+    def as_json(self):
+        json = {"type": self.type, **self.__json}
+
+        if len(self.range) > 0: json["range"] = self.range_as_str()
+        if self.title != '': json["ref_title"] = self.title
+        if self.doi != '': json["ref_doi"] = self.doi
+
+        return self.name, json
 
 script_dir = os.path.dirname(__file__) if __name__ != "__main__" else "./"
 with open(os.path.join(script_dir,'data.json')) as f:
@@ -121,7 +122,7 @@ def add_folder(folder, type, title_gen = None, doi_gen = None, subs=False):
                 print(f"  #### Found a new entry for {name}")
                 json_entries[name] = Model(
                     name, 
-                    type, 
+                    type,
                     "" if title_gen is None else title_gen(name), 
                     "" if doi_gen is None else doi_gen(name),
                     "" if index is None else [index],
@@ -134,25 +135,62 @@ def add_folder(folder, type, title_gen = None, doi_gen = None, subs=False):
     print("Done")
 
     print(" ## Adding files to the variable ``models``...")
+    changed = False
     for (name, model) in json_entries.items():
         if not name in models or subs:
             models[name] = model
+            changed = True
         elif not subs and name in models:
             print(f"  #### Model {name} already in the json file -- no substitution required")
-    print(" ## Finished the addition of models to ``models``")
+    print(f" ## Finished the addition of models to ``models`` (with changes = {changed})")
     
-    print(" ## Dumping data...", end=" ")
-    with open(os.path.join(script_dir,'data.json'), "w") as f: 
-        json.dump({name : model.as_dict()[1] for (name, model) in models.items()}, f, indent=4)
-    print("Done")
+    if changed:
+        print(" ## Dumping data...", end=" ")
+        with open(os.path.join(script_dir,'data.json'), "w") as f: 
+            json.dump({name : model.as_json()[1] for (name, model) in models.items()}, f, indent=4)
+        print("Done")
 
 ## Script area
 if __name__ == "__main__":
     import sys
+    from contextlib import redirect_stdout, nullcontext
+    from datetime import datetime
 
     if len(sys.argv) > 1 and sys.argv[1] == "add":
-        for i in range(2, len(sys.argv)):
-            add_folder(sys.argv[i], "polynomial")
+        subs = False; folders = []; type="polynomial"; logfile = None
+        args = sys.argv[2:]
+        i = 0
+        while i < len(args):
+            if args[i] in ("-s", "--s", "-subs", "--subs"):
+                subs = True
+                i += 1
+            elif args[i] in ("-t", "--t", "-type", "--type"):
+                type = args[i+1]
+                i += 2
+            elif args[i] in ("-l", "--l", "-logfile", "--logfile"):
+                logfile = args[i+1]
+                i += 2
+            else:
+                folders.append(args[i])
+                i += 1
+
+        print(f"Running 'adding folder' with arguments:\n\t- {folders=}\n\t- {type=}\n\t- {subs=}")
+        if logfile != None:
+            print(f"## Requested output in logfile {logfile}")
+            logfile = open(os.path.join(script_dir, logfile+".log"), "a")
+            logfile.write((f"______________________________________________________________________________________\n"
+                            f"--- New execution {datetime.now()}\n"
+                            f"______________________________________________________________________________________\n"))
+
+        with redirect_stdout(logfile) if logfile != None else nullcontext():
+            for folder in folders:
+                add_folder(folder, type, subs=subs)
+        
+        if logfile != None:
+            logfile.write((f"______________________________________________________________________________________\n"
+                            f"--- Ending execution {datetime.now()}\n"
+                            f"______________________________________________________________________________________\n"))
+            logfile.close()
     elif len(sys.argv) > 1 and sys.argv[1] == "readme" or len(sys.argv) == 1:
         ## Reading and sorting the models
         by_types = {}
