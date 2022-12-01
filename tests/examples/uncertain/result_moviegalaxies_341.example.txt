@@ -1,0 +1,41 @@
+===============================================
+New variables:
+y0 = S0
+y1 = S1 + S2 + 4*S16 + S24
+y2 = S3 + -3*S12 + 6*S16 + -3*S21 + -S22
+y3 = S4
+y4 = S5 + S20
+y5 = S6
+y6 = S7
+y7 = S8
+y8 = S9 + S16
+y9 = S10 + 3*S12 + -6*S16 + S17 + S18 + 3*S21 + 2*S22 + S23
+y10 = S11 + S12 + -3*S16 + S21
+y11 = S13
+y12 = S14 + S16
+y13 = S15
+y14 = S19
+y15 = S25
+y16 = S26
+Lumped system:
+y0' = 2*y3
+y1' = 11*y3 + 4*y4
+y2' = 8*y3 + -6*y8 + -6*y10 + -6*y12 + 6*y4 + -y2
+y3' = 2*y0 + y1 + 2*y2 + 4*y5 + 2*y6 + y9 + y13 + y14 + 2*y15 + 2*y16 + 2*y4 + 6*y7 + 3*y8 + 4*y10 + 4*y11 + y12
+y4' = 4*y3 + 2*y7 + 2*y8 + 3*y4
+y5' = 4*y3 + y16 + y6 + y11
+y6' = 2*y3 + y5 + 2*y11
+y7' = 6*y3 + y4 + y14 + y11 + y15
+y8' = 5*y3 + 2*y4 + y10 + 3*y12
+y9' = -2*y3 + 6*y8 + 6*y10 + 6*y12 + -6*y4 + 3*y2 + 2*y9
+y10' = 3*y8 + 3*y12 + 2*y10 + -3*y4
+y11' = 4*y3 + y5 + 2*y6 + y7 + y13 + y15
+y12' = 3*y3 + 3*y8 + y10 + y4
+y13' = y3 + y11 + y15
+y14' = y3 + y7
+y15' = 2*y3 + y7 + y11 + y13
+y16' = 2*y3 + y5
+The size of the original model is 27
+The size of the reduced model is 17
+Computation took 0.01918315887451172 seconds
+Is the lumping a Forward Lumping (FL)?: False

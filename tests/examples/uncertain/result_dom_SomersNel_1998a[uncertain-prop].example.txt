@@ -1,0 +1,20 @@
+===============================================
+New variables:
+y0 = S0
+y1 = S1
+y2 = S2
+y3 = S3
+y4 = S4
+y5 = S5
+Lumped system:
+y0' = (72/5*y1 + 36/5*y2 + 63/5*y3 + 9/10*y4 + 9/10*y5, 88/5*y1 + 44/5*y2 + 77/5*y3 + 11/10*y4 + 11/10*y5)
+y1' = (9/10*y0 + 27/5*y2 + 153/10*y3 + 9/10*y4, 11/10*y0 + 33/5*y2 + 187/10*y3 + 11/10*y4)
+y2' = (9/5*y3 + 9/10*y4, 11/5*y3 + 11/10*y4)
+y3' = (9/10*y4 + 9/10*y5, 11/10*y4 + 11/10*y5)
+y4' = (9/10*y5, 11/10*y5)
+y5' = (0, 0)
+The size of the original model is 6
+The size of the reduced model is 6
+Computation took 0.002460956573486328 seconds
+Is the lumping a Forward Lumping (FL)?: True
+Has the lumping a Robust Weighted Lumping (RWL)?: True

@@ -73,6 +73,6 @@ y33' = (983654095329/100000000000000*y29 + 983654095329/50000000000000*y32 + -63
 y34' = (983654095329/100000000000000*y33 + -636600271617/3125000000000*y34, 1202243894291/100000000000000*y33 + -778066998643/3125000000000*y34)
 The size of the original model is 512
 The size of the reduced model is 35
-Computation took 18.121315002441406 seconds
+Computation took 9.614711284637451 seconds
 Is the lumping a Forward Lumping (FL)?: True
 Has the lumping a Robust Weighted Lumping (RWL)?: True
