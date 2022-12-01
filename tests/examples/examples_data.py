@@ -224,6 +224,7 @@ if __name__ == "__main__":
         with open(os.path.join(script_dir, "compilation.csv"), "w") as file:
             headers= ["Name", "Or. size", "Lmp. size", "Time (s)", "Is FL?", "Is RWL?"]
             writer = csv.writer(file, delimiter=";")
+            writer.writerow(headers)
             for (name,data) in compiled_data.items():
                 writer.writerow([name, data["size"], data["lumped"], data["time"], data["FL"], data["RWL"]])
     else:
