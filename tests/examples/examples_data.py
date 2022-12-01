@@ -1,4 +1,4 @@
-import json, os, sys
+import json, os, sys, csv
 
 sys.path.insert(0, "./../../") # models and clue is here
 
@@ -29,6 +29,11 @@ class Example:
     @property
     def range(self): return self.__range
 
+    def results_path(self):
+        if self.out_folder != None:
+            return os.path.join(script_dir, self.out_folder , f"result_{self.name}.example.txt")
+        return os.path.join(script_dir, f"result_{self.name}.example.txt")
+
     def __getattr__(self, name):
         if name in self.__json:
             return self.__json[name]
@@ -57,6 +62,8 @@ examples = {}
 with open(os.path.join(script_dir,'data.json')) as f:
     data = json.load(f)
     examples = {key : Example(key, **data[key]) for key in data}
+
+executed_examples = [name for name in examples if os.path.exists(examples[name].results_path())]
     
 def get_example(name):
     return examples[name]
@@ -66,7 +73,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "list":
         full = False
         type = ("polynomial", "uncertain", "rational", "sympy")
-        allowed_folders = []; allowed_names = []
+        allowed_folders = []; allowed_names = []; forbidden_names = []; executed = None
         i = 2
         while i < len(sys.argv): 
             if sys.argv[i] in ("-r", "-p", "-u") and len(type) < 4:
@@ -81,6 +88,14 @@ if __name__ == "__main__":
                 allowed_folders.append(sys.argv[i+1]); i += 2
             elif sys.argv[i] == "-n":
                 allowed_names.append(sys.argv[i+1]); i += 2
+            elif sys.argv[i] == "-wn":
+                forbidden_names.append(sys.argv[i+1]); i += 2
+            elif sys.argv[i] == "-e":
+                if executed != None and executed != True: raise TypeError("The command for executed tests were already given.")
+                executed = True; i+= 1
+            elif sys.argv[i] == "-ne":
+                if executed != None and executed != False: raise TypeError("The command for executed tests were already given.")
+                executed = False; i+= 1
             elif sys.argv[i] == "-a":
                 full = True; i+= 1
             else:
@@ -88,7 +103,9 @@ if __name__ == "__main__":
 
         filter = lambda example: (examples[example].read in type and 
                                     (len(allowed_folders) == 0 or examples[example].out_folder in allowed_folders) and
-                                    (len(allowed_names) == 0 or any(example.startswith(name) for name in allowed_names))
+                                    (len(allowed_names) == 0 or any(example.startswith(name) for name in allowed_names)) and 
+                                    (len(forbidden_names) == 0 or all(not example.startswith(name) for name in forbidden_names)) and
+                                    (executed == None or (example in executed_examples) == executed)
                                  )
 
         if full:
@@ -173,6 +190,42 @@ if __name__ == "__main__":
             with open(os.path.join(script_dir,'data.json'), "w") as f:
                 json.dump({example : examples[example].as_json() for example in examples}, f, indent = 4)
             print("Done")
+    elif len(sys.argv) > 1 and sys.argv[1] == "compile":
+        if len(sys.argv) > 2: raise TypeError("No optional arguments for command 'compile'. See ''help'' for further information")
+
+        ## Compiling the data for executed examples
+        compiled_data = {}
+        for name in executed_examples:
+            data = {}
+            with open(examples[name].results_path()) as file:
+                line = file.readline()
+                while line != "":
+                    line = line.strip()
+                    if line.startswith("The size of the original model is"):
+                        data["size"] = int(line.removeprefix("The size of the original model is"))
+                    elif line.startswith("The size of the reduced model is"):
+                        data["lumped"] = int(line.removeprefix("The size of the reduced model is"))
+                    elif line.startswith("Computation took"):
+                        data["time"] = float(line.removeprefix("Computation took").removesuffix("seconds"))
+                    elif line.startswith("Is the lumping a Forward Lumping (FL)?:"):
+                        data["FL"] = "Yes" if "True" in line else "No"
+                    elif line.startswith("Has the lumping a Robust Weighted Lumping (RWL)?:"):
+                        data["RWL"] = "Yes" if "True" in line else "No"
+                    line = file.readline()
+            
+            if  not "size" in data: data["size"] = "oo"
+            if  not "lumped" in data: data["lumped"] = "oo"
+            if  not "time" in data: data["time"] = "oo"
+            if  not "FL" in data: data["FL"] = "No computed"
+            if  not "RWL" in data: data["RWL"] = "No computed"
+            compiled_data[name] = data
+
+        ## Writing the csv file
+        with open(os.path.join(script_dir, "compilation.csv"), "w") as file:
+            headers= ["Name", "Or. size", "Lmp. size", "Time (s)", "Is FL?", "Is RWL?"]
+            writer = csv.writer(file, delimiter=";")
+            for (name,data) in compiled_data.items():
+                writer.writerow([name, data["size"], data["lumped"], data["time"], data["FL"], data["RWL"]])
     else:
         print(
             "--------------------------------------------------------------------------------------------------------------------------\n"
@@ -188,14 +241,21 @@ if __name__ == "__main__":
             "  * -s : indicates whether already existing examples should be overriden\n"
             "  * <<folder>>: one or several folders that will be added to the examples using the previous arguments.\n"
             "--------------------------------------------------------------------------------------------------------------------------\n"
-            "\tpython3 examples_data list [-r|-p|-u] [-of ()]* [-a]\n"
+            "\tpython3 examples_data list [-r|-p|-u] [-of ()]* [-n ()]* [-wn ()]* [-e|-ne] [-a]\n"
             "will list all the available examples, where the options mean:\n"
             "  * -r : only rational examples will be shown (i.e., have 'read' either 'rational' or 'sympy').\n"
             "  * -p : only polynomial examples will be shown (i.e., have 'read' as 'polynomial')\n"
             "  * -u : only uncertain examples will be shown (i.e., have 'read' as 'uncertain')\n"
             "  * -of : only examples with given out_folder will be shown. Several of these are allowed\n"
+            "  * -n : only examples starting with given names are shown. Several of these are allowed\n"
+            "  * -wn : only examples that do not start with given names are shown. Several of these are allowed\n"
+            "  * -ne : only not executed models will be returned\n"
+            "  * -e : only executed models will be returned\n"
             "  * -a : a detailed description of the examples will be shown\n"
             "If no option is provided, all examples will be shown.\n"
+            "--------------------------------------------------------------------------------------------------------------------------\n"
+            "\tpython3 examples_data compile\n"
+            "will compile the results in the given folders into a csv with the basic data for the examples. No options are allowed.\n"
             "--------------------------------------------------------------------------------------------------------------------------\n"
             "--------------------------------------------------------------------------------------------------------------------------\n"
         )
