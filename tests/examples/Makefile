@@ -19,5 +19,5 @@ rational: $(RATIONAL)
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 %:
 	@echo -n "## Running example $@... "
-	@$(PYTHON) run_example.py $@
+	@$(PYTHON) run_example.py $@ -p
 	@echo "Finished"

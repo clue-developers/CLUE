@@ -34,15 +34,15 @@ if __name__ == "__main__":
     n = 2
     while(n < nargs and args[n].startswith("-")):
         if(args[n] in ("-r", "-read", "--r", "--read")):
-            read = args[n+1]
+            read = args[n+1]; n += 2
         elif(args[n] in ("-m", "-matrix", "--m", "--matrix")):
-            matrix = args[n+1]
+            matrix = args[n+1]; n += 2
         elif(args[n] in ("-t", "-time", "--t", "--time")):
-            timeout = int(args[n+1])
+            timeout = int(args[n+1]); n += 2
         elif(args[n] in ("-o", "-output", "--o", "--output")):
-            output = int(args[n+1])
+            output = int(args[n+1]); n += 2
         elif(args[n] in ("-p", "-profile", "--profile", "--p")):
-            profile = f"./profiles/result_{example.name}.profile.txt"
+            profile = f"./profiles/result_{example.name}.profile.txt"; n += 1
 
     ## Creating the file in case it is needed
     if(output == "stdout"):
