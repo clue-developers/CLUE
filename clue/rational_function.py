@@ -1596,3 +1596,5 @@ class RationalFunction:
         den = SparsePolynomial.from_string(str(den), varnames)
         return RationalFunction(num, den)
 #------------------------------------------------------------------------------
+
+__all__ = ["SparsePolynomial", "RationalFunction"]

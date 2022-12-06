@@ -170,10 +170,10 @@ def extract_observables(lines, varnames):
 
 #------------------------------------------------------------------------------
 
-def separate_reation_rate(line):
+def separate_reaction_rate(line):
     """
     Input: reaction line of the form: "reactants -> products, rate [name]"
-    Output: strings "reactanats -> products" and "rate"
+    Output: strings "reactants -> products" and "rate"
     """
     openpar = 0
     closedpar = 0
@@ -206,7 +206,7 @@ def parse_reactions(lines, varnames, parser = "sympy"):
     for l in lines:
         if "," not in l:
             continue
-        reaction, rate = separate_reation_rate(l)
+        reaction, rate = separate_reaction_rate(l)
         lhs, rhs = reaction.split("->")
         raw_reactions.append((lhs.strip(), rhs.strip(), rate.strip()))
 
@@ -296,7 +296,7 @@ def parse_initial_conditions(lines):
 def read_system(filename, read_ic=False, parser="polynomial"):
     """
     Takes a name of an *.ode file, and read the ODE system together with the observables
-    subs_params flag corresponds to whether use the paramereter values from the parameters section 
+    subs_params flag corresponds to whether use the parameter values from the parameters section 
     or treat these parameters symbolically
     """
     model = readfile(filename)
