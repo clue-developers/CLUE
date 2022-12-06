@@ -1392,7 +1392,7 @@ class FODESystem:
                 >>> from clue import *
                 >>> from sympy import QQ
                 >>> from sympy.polys.rings import vring
-                >>> R = sympy.polys.rings.vring(["x0", "x1", "x2"], QQ)
+                >>> R = vring(["x0", "x1", "x2"], QQ)
                 >>> ## Example 1
                 >>> system = FODESystem([x0**2 + x1 + x2, x2, x1], variables=['x0','x1','x2'])
                 >>> lumping = system.lumping([x0], print_reduction=False,initial_conditions={'x0': 1, 'x1': 2, 'x2': 5})
