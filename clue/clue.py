@@ -1125,7 +1125,7 @@ class FODESystem:
                 >>> type(ode.equations[0])
                 <class 'clue.rational_function.SparsePolynomial'>
                 >>> ode.equations[0]
-                x**2*y**2 + -x**3*y**2
+                x**2*y**2 - x**3*y**2
                 >>> ode = FODESystem([x**2*y**-2 - x**-2*y**2], variables=['x','y'])
                 >>> type(ode.equations[0]) # it is a PolyElement! even with negative exponents!
                 <class 'sympy.polys.rings.PolyElement'>
@@ -2270,7 +2270,7 @@ class FODESystem:
                 >>> lumping.ic
                 {'y0': MPQ(-1,1)}
                 >>> lumping.old_vars
-                [x + -y]
+                [x - y]
                 >>> lumping.is_consistent()
                 True
 

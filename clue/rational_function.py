@@ -576,7 +576,7 @@ class SparsePolynomial(object):
                 >>> sp1 = SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x','y'])
                 >>> sp2 = SparsePolynomial.from_string("x+y", ['x','y'])
                 >>> sp1//sp2
-                4 + x**2 + y**2 + -3*y + 3*x + -x*y
+                4 + x**2 + y**2 - 3*y + 3*x - x*y
                 >>> sp3 =  SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x'])
                 >>> sp3 == sp1
                 True
@@ -633,7 +633,7 @@ class SparsePolynomial(object):
                 >>> sp1 = SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x','y'])
                 >>> sp2 = SparsePolynomial.from_string("x+y", ['x','y'])
                 >>> sp1%sp2
-                5 + -y**3 + -4*y + 3*y**2
+                5 - y**3 - 4*y + 3*y**2
                 >>> sp3 =  SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x'])
                 >>> sp3 == sp1
                 True
@@ -921,23 +921,35 @@ class SparsePolynomial(object):
 
     def _monom_to_str(self, m, c):
         if c == 0:
-            return "0"
+            return "+", "0"
+        
+        prefix = "+"
+        try:
+            if c < 0:
+                c *= -1
+                prefix = '-'
+        except:
+            pass
+
         if not m:
-            return self._scalar_to_str(c)
-        prefix = ""
-        if c != self.domain.convert(1):
-            if c == self.domain.convert(-1):
-                prefix = "-"
-            else:
-                prefix = self._scalar_to_str(c) + "*"
-        return prefix + "*".join(map(lambda p: self._pair_to_str(p), m))
+            return prefix, self._scalar_to_str(c)
+
+        # at this moment the coefficient is positive (or not comparable to 0)
+        return prefix, ('' if c == self.domain.convert(1) else self._scalar_to_str(c) + "*") + "*".join(map(lambda p: self._pair_to_str(p), m))
 
     #--------------------------------------------------------------------------
 
     def __repr__(self):
         if not self._data:
             return "0"
-        return " + ".join([self._monom_to_str(m, c) for m, c in self._data.items()])
+        # at least one term is included in the polynomial
+        terms = [self._monom_to_str(m, c) for m, c in self._data.items()]
+
+        return ((terms[0][0] if terms[0][0] == '-' else '') + 
+                terms[0][1] + 
+                (" " if len(terms) > 1 else "") + 
+                " ".join(" ".join(term) for term in terms[1:])
+        )
 
     #--------------------------------------------------------------------------
 
