@@ -11,6 +11,7 @@ logger.addHandler(fh); logger.addHandler(ch)
 logger.propagate = False
 
 # importing the main module of CLUE
+from .linalg import *
 from .rational_function import *
 from .clue import *
 
