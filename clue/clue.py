@@ -1,3 +1,13 @@
+r'''
+    Main module of CLUE
+
+    This module includes the main classes and algorithms for the project CLUE (Constrained LUmpings). In this file
+    we provide an implementation on the differential systems and the methods to perform the corresponding 
+    constrained lumpings.
+
+    TODO: add more documentation
+'''
+
 import logging, math, sys, time
 
 from random import randint
