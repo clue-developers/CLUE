@@ -57,10 +57,13 @@ if __name__ == "__main__":
     ## Setting up the handler for the signal
         old_handler = signal.signal(signal.SIGALRM, alarm_handler)
 
+        print(f"[run_example] Running example {example.name} ({len(observables)} cases)...", flush=True)
+
         ## now we can run the model properly
         system = FODESystem(file=example.path_model(), parser=read)
 
         for obs_set in observables:
+            print(f"[run_example]     ++ {example.name} (({observables.index(obs_set)+1}/{len(observables)}))", flush=True)
             print("===============================================", file=file)
             obs_polys = [SparsePolynomial.from_string(s, system.variables) for s in obs_set]
 
@@ -80,6 +83,9 @@ if __name__ == "__main__":
                 print(f"Computation took {end - start} seconds", file=file)
             else:
                 print(f"The example could not finish in the given timeout ({timeout}", file=file)
+            print(f"[run_example]     -- {example.name} (({observables.index(obs_set)+1}/{len(observables)})) (Done)", flush=True)
+
+        print(f"[run_example] ## Finished example {example.name} ##", flush=True)
         
         ## Reverting changes
         signal.signal(signal.SIGALRM, old_handler)
