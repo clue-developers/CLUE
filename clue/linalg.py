@@ -16,7 +16,7 @@ import copy, logging, math, sympy
 
 from collections import deque
 
-from itertools import combinations_with_replacement
+from itertools import combinations
 
 from sympy import GF, QQ, gcd, nextprime, symbols
 from sympy.ntheory.modular import isprime
@@ -649,7 +649,7 @@ class SparseRowMatrix(object):
         r'''
             Static method to create a matrix from a list of vectors.
         '''
-        result = cls((len(rows), rows[0].dim), rows[0].domain)
+        result = cls((len(rows), rows[0].dim), rows[0].field)
         result.nonzero = {i for i in range(len(rows)) if (not rows[i].is_zero())}
         result.__data = {i : rows[i] for i in result.nonzero}
 
@@ -820,10 +820,11 @@ class Subspace(object):
         '''
         to_process = deque()
         to_process.extendleft(list(self.echelon_form.values()))
+        i = 1
         while to_process and self.ambient_dimension() > self.dim():
             vector = to_process.pop()
 
-            logger.debug(f"  Multiplying vector by {len(matrices)} matrices...")
+            logger.debug(f"  Multiplying vector {i}th by {len(matrices)} matrices...")
             for matrix in matrices:
                 prod = vector.apply_matrix(matrix)
                 if not prod.is_zero():
@@ -834,6 +835,7 @@ class Subspace(object):
                             raise ExpressionSwell
             
             logger.debug(f"  Done")
+            i += 1
 
     def check_invariance(self, matrices : list[SparseRowMatrix]):
         r'''
@@ -1104,19 +1106,8 @@ class OrthogonalSubspace(Subspace):
             Hence, the `n \times n` matrix that is `L^T L` is composed by the scalar product of all the 
             columns of `L`.
         '''
-        if self.__projector is None:
-            L = self.matrix().copy()
-            Lt = L.transpose()
-            for i in L.nonzero:
-                L[i].scale(self.field.one / L[i].inner_product(L[i]))
-            Lt2 = L.transpose()
-            n = self.ambient_dimension()
-            result = SparseRowMatrix(n, self.field)
-            for (i,j) in combinations_with_replacement(Lt.nonzero, 2):
-                sc_prod = Lt.row(i).inner_product(Lt2.row(j))
-                result.increment(i,j,sc_prod)
-                result.increment(j,i,sc_prod)
-            self.__projector = result
+        if self.__projector is None and self.ambient_dimension() < math.inf:
+            self.__projector = SparseRowMatrix(self.ambient_dimension(), self.field)
         return self.__projector
 
     def reduce_vector(self, vector: SparseVector):
@@ -1159,7 +1150,7 @@ class OrthogonalSubspace(Subspace):
 
             TODO: add examples
         '''
-        if not vector.is_zero() and self.dim > 0:
+        if not vector.is_zero() and self.dim() > 0:
             # first we compute the projection of the vector 
             pi_v = vector.apply_matrix(self.projector)
             # we then compute the difference
@@ -1174,18 +1165,27 @@ class OrthogonalSubspace(Subspace):
         if new_vector.is_zero():
             return -1
 
+        # we simplify the gcd of the numerators
+        if self.field == QQ:
+            new_vector.scale(self.field.one / math.gcd(*[new_vector[i].numerator for i in new_vector.nonzero]))
+
         # Now new_vector ir orthogonal to ``self``. We can simply add it to the Subspace
         self.echelon_form[self.dim()] = new_vector
         # we update the orthogonal projector
         norm2 = new_vector.inner_product(new_vector)
-        for (i,j) in combinations_with_replacement(new_vector.nonzero, 2):
+        # updating outisde the diagonal
+        for (i,j) in combinations(new_vector.nonzero, 2):
             to_add = (new_vector._SparseVector__data[i] * new_vector._SparseVector__data[j]) / norm2
             self.projector.increment(i,j,to_add)
             self.projector.increment(j,i,to_add)
+        # updating the diagonal
+        for i in new_vector.nonzero:
+            to_add = (new_vector._SparseVector__data[i] * new_vector._SparseVector__data[i]) / norm2
+            self.projector.increment(i,i,to_add)
 
         return self.dim() - 1
 
-    def apply_matrices_inplace(self, matrices: list[SparseRowMatrix], _: bool = False):
+    def apply_matrices_inplace(self, matrices: list[SparseRowMatrix], monitor_length: bool = False):
         return super().apply_matrices_inplace(matrices, False)
 
     def reduce_mod(self, _):

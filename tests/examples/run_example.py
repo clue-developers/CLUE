@@ -45,7 +45,7 @@ if __name__ == "__main__":
         elif(args[n] in ("-p", "-profile", "--profile", "--p")):
             profile = f"./profiles/result_{example.name}.profile.txt"; n += 1
         elif(args[n] in ("--ortho", "--orthogonal", "-ortho", "-orthogonal")):
-            subs_class = OrthogonalSubspace
+            subs_class = OrthogonalSubspace; n+=1
 
 
     ## Creating the file in case it is needed
