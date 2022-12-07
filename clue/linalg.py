@@ -776,7 +776,7 @@ class Subspace(object):
         new_vector = self.reduce_vector(new_vector)
 
         # We check if ``new_vector`` was in ``self``
-        if new_vector.is_zero():
+        if not self._should_absorb(new_vector):
             return -1
 
         # We compute the pivot position
@@ -792,6 +792,8 @@ class Subspace(object):
         self.echelon_form[pivot] = new_vector
         return pivot
 
+    def _should_absorb(self, vector : SparseVector):
+        return vector.nonzero
     #--------------------------------------------------------------------------
 
     def apply_matrices_inplace(self, matrices : list[SparseRowMatrix], monitor_length : bool = False):
@@ -1162,7 +1164,7 @@ class OrthogonalSubspace(Subspace):
         new_vector = self.reduce_vector(new_vector)
 
         # We check if ``new_vector`` was in ``self``
-        if new_vector.is_zero():
+        if not self._should_absorb(new_vector):
             return -1
 
         # we simplify the gcd of the numerators
@@ -1222,7 +1224,15 @@ class OrthogonalSubspace(Subspace):
 
     def rational_reconstruction(self):
         raise NotImplementedError("Modular approach is NOT valid for Orthogonal basis")
-        
+
+class NumericalSubspace(OrthogonalSubspace):
+    def __init__(self, field: Domain, delta : float = 1e-4):
+        super().__init__(field)
+        self.__delta = delta
+
+    def _should_absorb(self, vector : SparseVector):
+        return math.sqrt(vector.inner_product(vector)) > self.__delta
+  
 #------------------------------------------------------------------------------
 
 def find_smallest_common_subspace(matrices, vectors_to_include, subspace_class = Subspace):
@@ -1273,4 +1283,4 @@ def find_smallest_common_subspace(matrices, vectors_to_include, subspace_class =
             modulus = nextprime(modulus**2)
             primes_used += 1
 
-__all__ = ["SparseVector", "SparseRowMatrix", "Subspace", "OrthogonalSubspace", "find_smallest_common_subspace"]
+__all__ = ["SparseVector", "SparseRowMatrix", "Subspace", "OrthogonalSubspace", "NumericalSubspace", "find_smallest_common_subspace"]
