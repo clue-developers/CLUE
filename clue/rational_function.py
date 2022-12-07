@@ -772,6 +772,35 @@ class SparsePolynomial(object):
         ## Returning the resulting polynomial
         return SparsePolynomial(self.gens, self.domain, new_data, cast=False)
 
+    def subs(self, to_subs = None, **values):
+        r'''
+            More generic method that allows to substitute in a SparsePolynomial all the appearing variables.
+
+            Examples::
+
+                >>> from clue.rational_function import *
+                >>> p = SparsePolynomial.from_string("x**2 + y", ["x", "z", "y"])
+                >>> q1 = SparsePolynomial.from_string("x**2 + z", ["x", "z"])
+                >>> q2 = SparsePolynomial.from_string("z-x", ["x", "z"])
+                >>> p.subs([("x", q1), ("y", q2)])
+                x**4 + 2*x**2*z + z**2 + z - x
+                >>> p.subs(x=q1, y=q2)
+                x**4 + 2*x**2*z + z**2 + z - x
+        '''
+        if isinstance(to_subs, (list, tuple)):
+            if len(values) > 0:
+                raise TypeError("The method subs works either with a list of substitutions or with a dictionary, not mixed")
+            values = {str(var) : val for (var,val) in to_subs}
+        
+        if any(not v in values for v in self.variables()):
+            raise TypeError(f"Not enough variables were given for substitution. Required {self.variables()}, given {list(values.keys())}")
+
+        # we assume the user has provided everything of the same type
+        gens = self.gens
+        to_sub = {gens.index(k): v for (k,v) in values.items()}
+
+        return sum((c*sum(to_sub[v]**e for (v,e) in m)) for (m,c) in self._data.items())
+        
     def automated_diff(self, **values):
         r'''
             Method to compute automated differentiation of a Sparse polynomial
@@ -1430,6 +1459,20 @@ class RationalFunction:
         
         # otherwise we evaluate numerator and compute the quotient
         numer = self.numer.eval(**values)
+        return numer/denom
+
+    def subs(self, to_subs = None, **values):
+        r'''
+            Method to substitute variables in a rational function (not only with points)
+
+            See method :func:`clue.rational_functions.SparsePolynomial.subs` for further information.
+        '''
+        denom = self.denom.subs(to_subs, **values)
+        
+        if denom == 0:
+            raise ZeroDivisionError("A zero from the denominator was found while substituting")
+        
+        numer = self.numer.subs(to_subs, **values)
         return numer/denom
 
     def automated_diff(self, **values):

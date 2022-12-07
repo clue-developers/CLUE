@@ -5,7 +5,7 @@ sys.path.insert(0, "./../../") # clue is here
 from contextlib import nullcontext
 from cProfile import Profile
 
-from clue import FODESystem, SparsePolynomial
+from clue import FODESystem, SparsePolynomial, Subspace, OrthogonalSubspace
 from examples_data import get_example #pylint: disable=import-error
 
 def alarm_handler(sgn, _):
@@ -29,6 +29,7 @@ if __name__ == "__main__":
     timeout = 0
     output = f"result_{example.name}.example.txt"
     profile = None
+    subs_class = Subspace
 
     ## Checking the rest of the arguments
     n = 2
@@ -43,6 +44,9 @@ if __name__ == "__main__":
             output = int(args[n+1]); n += 2
         elif(args[n] in ("-p", "-profile", "--profile", "--p")):
             profile = f"./profiles/result_{example.name}.profile.txt"; n += 1
+        elif(args[n] in ("--ortho", "--orthogonal", "-ortho", "-orthogonal")):
+            subs_class = OrthogonalSubspace
+
 
     ## Creating the file in case it is needed
     if(output == "stdout"):
@@ -60,7 +64,7 @@ if __name__ == "__main__":
         print(f"[run_example] Running example {example.name} ({len(observables)} cases)...", flush=True)
 
         ## now we can run the model properly
-        system = FODESystem(file=example.path_model(), parser=read)
+        system = FODESystem(file=example.path_model(), parser=read, lumping_subspace=subs_class)
 
         for obs_set in observables:
             print(f"[run_example]     ++ {example.name} (({observables.index(obs_set)+1}/{len(observables)}))", flush=True)

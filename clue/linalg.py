@@ -16,6 +16,8 @@ import copy, logging, math, sympy
 
 from collections import deque
 
+from itertools import combinations_with_replacement
+
 from sympy import GF, QQ, gcd, nextprime, symbols
 from sympy.ntheory.modular import isprime
 from sympy.polys.domains.domain import Domain
@@ -503,6 +505,16 @@ class SparseRowMatrix(object):
         res.__data = {i : self.row(i).copy() for i in self.__data}
         return res
 
+    def transpose(self):
+        r'''Method that returns the transposed matrix of ``self``'''
+        result = SparseRowMatrix((self.ncols, self.nrows), self.field)
+        for j in range(self.ncols):
+            jth_col = self.column(j)
+            if not jth_col.is_zero():
+                result.__data[j] = jth_col
+                result.nonzero.add(j)
+        return result
+            
     #--------------------------------------------------------------------------
     def nonzero_count(self):
         r'''Method to compute the number of non-zero entries of a matrix'''
@@ -1054,7 +1066,166 @@ class Subspace(object):
 
 #------------------------------------------------------------------------------
 
-def find_smallest_common_subspace(matrices, vectors_to_include):
+
+class OrthogonalSubspace(Subspace):
+    r'''
+        Class to represent a linear subspace where the basis stores is orthonormal.
+
+        This class reuses the attributes from the class :class:`Subspace` matching:
+
+        * :attr:`echelon_form` will now be a dictionary where the key are simply an index value
+          and the value are the elements of an orthonormal basis. The meaning of a pivot is lost
+          for this kind of Subspaces.
+
+        TODO: add more documentation and examples
+
+        Methods that are overriden:
+
+        * :func:`reduce_vector`
+        * :func:`absorb_new_vector`
+        * :func:`apply_matrices_inplace` --> just forcing the ``monitor_length`` to be ``False``
+        * :func:`reduce_mod` --> we disable this method for this class (no modular approach implemented)
+        * :func:`parametrizing_coordinates` --> we speed-up this methdo because we know the keys of the dictionary
+        * :func:`perform_change_of_variables`
+        * :func:`rational_reconstruction` --> we disable this method for this class (no modular approach implemented)
+    '''
+    def __init__(self, field: Domain):
+        super().__init__(field)
+        self.__projector = None
+
+    @property
+    def projector(self):
+        r'''
+            Method that returns a matrix that computes the orthogonal projection over ``self`` for any vector.
+
+            Since the basis of ``self`` is orthonormal, then this matrix can be computed as `L^T L` where
+            `L` is the matrix whose rows are the basis elements of ``self``.
+
+            Hence, the `n \times n` matrix that is `L^T L` is composed by the scalar product of all the 
+            columns of `L`.
+        '''
+        if self.__projector is None:
+            L = self.matrix().copy()
+            Lt = L.transpose()
+            for i in L.nonzero:
+                L[i].scale(self.field.one / L[i].inner_product(L[i]))
+            Lt2 = L.transpose()
+            n = self.ambient_dimension()
+            result = SparseRowMatrix(n, self.field)
+            for (i,j) in combinations_with_replacement(Lt.nonzero, 2):
+                sc_prod = Lt.row(i).inner_product(Lt2.row(j))
+                result.increment(i,j,sc_prod)
+                result.increment(j,i,sc_prod)
+            self.__projector = result
+        return self.__projector
+
+    def reduce_vector(self, vector: SparseVector):
+        r'''
+            Method to reduce a vector with respect to a subspace
+
+            In a orthogonal subspace, the reduced version of a vector is the difference between the 
+            vector and its orthogonal projection, implying the reduced vector is orthogonal to
+            the subspace if and only if the vector is not in it.
+
+            Let `L` be a `m\times n` matrix where `n` is the ambient space of the subspace and 
+            the rows of `L` are the orthonormal basis of ``self``. Then, for any given vector `v`, 
+            its orthogonal projection can be computed by
+
+            .. MATH::
+
+                \pi_L(v) = L^T L v
+
+            Hence, the reduced version of the vector if simply `v - \pi_L(v)`.
+
+            **Remark 1**: since the basis of ``self`` is orthonormal, then `L L^T` is the `m\times m` 
+            identity matrix.
+
+            **Remark 2**: the matrix `L^T L` is of size `n \times n`. 
+
+            Hence, if a reduced vector is not zero, we can add its normalized version to self to obtain a new
+            orthonormal basis for the space containing ``self`` and the original vector.
+
+            This method computes the reduced vector in-place. This means the input ``vector`` is 
+            changed in the execution of this method.
+
+            Input: 
+            
+            * ``vector``: a :class:`SparseVector` that will be reduced w.r.t. ``self``.
+
+            Output:
+
+            The reduced vector. It is the same object as the input ``vector`` since the method
+            modifies the input inplace.
+
+            TODO: add examples
+        '''
+        if not vector.is_zero() and self.dim > 0:
+            # first we compute the projection of the vector 
+            pi_v = vector.apply_matrix(self.projector)
+            # we then compute the difference
+            vector.reduce(-self.field.one, pi_v)
+
+        return vector
+
+    def absorb_new_vector(self, new_vector: SparseVector):
+        new_vector = self.reduce_vector(new_vector)
+
+        # We check if ``new_vector`` was in ``self``
+        if new_vector.is_zero():
+            return -1
+
+        # Now new_vector ir orthogonal to ``self``. We can simply add it to the Subspace
+        self.echelon_form[self.dim()] = new_vector
+        # we update the orthogonal projector
+        norm2 = new_vector.inner_product(new_vector)
+        for (i,j) in combinations_with_replacement(new_vector.nonzero, 2):
+            to_add = (new_vector._SparseVector__data[i] * new_vector._SparseVector__data[j]) / norm2
+            self.projector.increment(i,j,to_add)
+            self.projector.increment(j,i,to_add)
+
+        return self.dim() - 1
+
+    def apply_matrices_inplace(self, matrices: list[SparseRowMatrix], _: bool = False):
+        return super().apply_matrices_inplace(matrices, False)
+
+    def reduce_mod(self, _):
+        raise NotImplementedError("Modular approach is NOT valid for Orthogonal basis")
+
+    def parametrizing_coordinates(self):
+        return list(range(len(self.echelon_form)))
+
+    def perform_change_of_variables(self, rhs, old_vars, domain, new_vars_name='y'):
+        n = self.ambient_dimension(); m = self.dim()
+        new_vars = [new_vars_name + str(i) for i in range(m)]
+        # we build the matrix of the space and its pseudoinverse
+        L = self.matrix()
+        L2 = L.copy()
+        for i in L2.nonzero:
+            L2.row(i).scale(self.field.one / L2.row(i).inner_product(L2.row(i)))
+        psi_L = L2.transpose()
+
+        logger.debug("Constructing new rhs")
+        if isinstance(rhs[0], (SparsePolynomial, RationalFunction)):
+            y = [SparsePolynomial.from_string(var, new_vars) for var in new_vars]
+            x = [SparsePolynomial.from_string(var, old_vars) for var in old_vars]
+        else:
+            y = symbols(new_vars)
+            x = symbols(old_vars)
+
+        # we apply the pseudoinverse to the new variables
+        psi_L_y = [(x[i], sum(psi_L[i][j] * y[j] for j in range(m))) for i in range(n)]
+        # we apply the functions given in rhs
+        new_rhs = [old_equ.subs(psi_L_y) for old_equ in rhs]
+        # we apply the basis to the obtained result
+        new_rhs = [sum(L[j,i]*new_rhs[i] for i in range(n)) for j in range(m)]
+        return new_rhs
+
+    def rational_reconstruction(self):
+        raise NotImplementedError("Modular approach is NOT valid for Orthogonal basis")
+        
+#------------------------------------------------------------------------------
+
+def find_smallest_common_subspace(matrices, vectors_to_include, subspace_class = Subspace):
     """
       Input
         - matrices - an iterator for matrices (SparseMatrix)
@@ -1063,7 +1234,7 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
         a smallest invariant subspace for the matrices containing the vectors
     """
     field = vectors_to_include[0].field
-    original_subspace = Subspace(field)
+    original_subspace = subspace_class(field)
     for vec in vectors_to_include:
         original_subspace.absorb_new_vector(vec)
 
@@ -1102,4 +1273,4 @@ def find_smallest_common_subspace(matrices, vectors_to_include):
             modulus = nextprime(modulus**2)
             primes_used += 1
 
-__all__ = ["SparseVector", "SparseRowMatrix", "Subspace", "find_smallest_common_subspace"]
+__all__ = ["SparseVector", "SparseRowMatrix", "Subspace", "OrthogonalSubspace", "find_smallest_common_subspace"]

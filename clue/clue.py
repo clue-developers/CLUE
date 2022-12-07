@@ -113,6 +113,8 @@ class FODESystem:
         self._variables = variables
         self._ic = ic
         self._name = name
+        self.__matrices_subspace_class = kwds.get("matrices_subspace", Subspace)
+        self.__lumping_subspace_class = kwds.get("lumping_subspace", Subspace)
 
         self._lumping_matr = {}
         self.__normalize_input = False
@@ -128,6 +130,10 @@ class FODESystem:
     def ic(self): return self._ic
     @property
     def name(self): return self._name
+    @property
+    def matrices_subspace_class(self): return self.__matrices_subspace_class
+    @property
+    def lumping_subspace_class(self): return self.__lumping_subspace_class
     @cached_property
     def bounds(self): 
         r'''
@@ -857,7 +863,7 @@ class FODESystem:
         J = [[rf.derivative(v) for rf in rational_functions] for v in variables]
 
         # we create the matrices by evaluating the jacobian
-        subspace = Subspace(field)
+        subspace = self.matrices_subspace_class(field)
         pivot_index = subspace.absorb_new_vector(FODESystem.build_random_evaluation_matrix(J).to_vector())
         n = sum(sum(1 for el in row if el != 0) for row in J) # number of non-zero entries 
         m = 1 # number of random generated matrices
@@ -918,7 +924,7 @@ class FODESystem:
         varnames = self.variables
         field = self.field
 
-        subspace = Subspace(field)
+        subspace = self.matrices_subspace_class(field)
 
         # computing number of non-zero entries in the jacobian
         if(isinstance(funcs[0], (SparsePolynomial, RationalFunction))):
@@ -1589,7 +1595,7 @@ class FODESystem:
             vectors_to_include.append(vec)
         logger.debug(":ilumping: Computing the lumping subspace...")
         start = time.time()
-        lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include)
+        lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include, subspace_class=self.lumping_subspace_class)
         logger.debug(f":ilumping: -> Found the lumping subspace in {time.time()-start}s")
 
         lumped_rhs = lumping_subspace.perform_change_of_variables(self.equations, vars_old, field, new_vars_name)
