@@ -142,7 +142,7 @@ class SparseVector(object):
 
     def density(self):
         r'''Method to measure the sparseness density of a vector'''
-        return len(self._nonzero) / self._dim
+        return len(self.nonzero) / self.dim
 
     #--------------------------------------------------------------------------
 
@@ -205,7 +205,7 @@ class SparseVector(object):
             TODO: add examples
         '''
         if not coef: # the result is zero
-            self.__nonzero = set()
+            self.nonzero = set()
             self.__data = dict()
         else:
             # we access the __data directly to avoid the checking in __setitem__ and __getitem__
@@ -235,7 +235,7 @@ class SparseVector(object):
         '''
         copied = SparseVector(self.dim, self.field)
         # using copy is faster that going one by one
-        copied.__nonzero = self.nonzero.copy()
+        copied.nonzero = self.nonzero.copy()
         copied.__data = self.__data.copy()
         return copied
 
@@ -499,7 +499,7 @@ class SparseRowMatrix(object):
             Returns a copy of the matrix.
         '''
         res = SparseRowMatrix(self.dim, self.field)
-        res.__nonzero = self.__nonzero.copy()
+        res.nonzero = self.nonzero.copy()
         res.__data = {i : self.row(i).copy() for i in self.__data}
         return res
 
@@ -631,6 +631,17 @@ class SparseRowMatrix(object):
             ["[ " +  " ".join([(max_sizes[j] - sizes[i][j])*" " + entries[i][j] for j in range(self.ncols)]) + " ]"
             for i in range(self.nrows)]
         )
+
+    @classmethod
+    def from_vectors(cls, rows : list[SparseVector] | tuple[SparseVector]):
+        r'''
+            Static method to create a matrix from a list of vectors.
+        '''
+        result = cls((len(rows), rows[0].dim), rows[0].domain)
+        result.nonzero = {i for i in range(len(rows)) if (not rows[i].is_zero())}
+        result.__data = {i : rows[i] for i in result.nonzero}
+
+        return result
 #------------------------------------------------------------------------------
 
 class Subspace(object):
@@ -717,6 +728,7 @@ class Subspace(object):
         for piv, vect in self.echelon_form.items():
             if vector[piv]:
                 vector.reduce(-vector[piv], vect)
+            if vector.is_zero(): break
         return vector
 
     def contains(self, vector : SparseVector):
@@ -799,9 +811,8 @@ class Subspace(object):
         while to_process and self.ambient_dimension() > self.dim():
             vector = to_process.pop()
 
-            for m_index, matrix in enumerate(matrices):
-                if m_index % 100 == 0:
-                    logger.debug(f"  Multiply by matrix {m_index}")
+            logger.debug(f"  Multiplying vector by {len(matrices)} matrices...")
+            for matrix in matrices:
                 prod = vector.apply_matrix(matrix)
                 if not prod.is_zero():
                     new_pivot = self.absorb_new_vector(prod)
@@ -809,6 +820,8 @@ class Subspace(object):
                         to_process.appendleft(prod)
                         if monitor_length and self.digits() > TOO_BIG_LENGTH:
                             raise ExpressionSwell
+            
+            logger.debug(f"  Done")
 
     def check_invariance(self, matrices : list[SparseRowMatrix]):
         r'''
@@ -886,6 +899,12 @@ class Subspace(object):
             Method to obtain a basis of ``self`` sorted by the pivot index in the echelon form.
         '''
         return [self.echelon_form[piv] for piv in self.parametrizing_coordinates()]
+
+    def matrix(self):
+        r'''
+            Method to compute a matrix representing the basis of the subspace
+        '''
+        return SparseRowMatrix.from_vectors(self.basis())
 
     #--------------------------------------------------------------------------
 

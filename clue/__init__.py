@@ -9,6 +9,7 @@ ch = logging.StreamHandler(sys.stderr)
 fh.setFormatter(formatter); ch.setFormatter(formatter)
 logger.addHandler(fh); logger.addHandler(ch)
 logger.propagate = False
+# logger.setLevel(logging.DEBUG) # setting up a level for logging
 
 # importing the main module of CLUE
 from .linalg import *
