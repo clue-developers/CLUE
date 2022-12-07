@@ -1210,8 +1210,8 @@ class OrthogonalSubspace(Subspace):
 
         logger.debug("Constructing new rhs")
         if isinstance(rhs[0], (SparsePolynomial, RationalFunction)):
-            y = [SparsePolynomial.var_from_string(var, new_vars, self.domain) for var in new_vars]
-            x = [SparsePolynomial.var_from_string(var, old_vars, self.domain) for var in old_vars]
+            y = [SparsePolynomial.var_from_string(var, new_vars, self.field) for var in new_vars]
+            x = [SparsePolynomial.var_from_string(var, old_vars, self.field) for var in old_vars]
         else:
             y = symbols(new_vars)
             x = symbols(old_vars)

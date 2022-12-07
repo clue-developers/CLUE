@@ -92,7 +92,7 @@ def _var_dict(varnames, parser):
         return {v : i for i, v in enumerate(varnames)}
     raise NotImplementedError(f"Parser {parser} not implemented")
 
-def _parse(to_parse, varnames, parser):
+def _parse(to_parse, varnames, parser, domain = QQ):
     r'''
         Method that decides with the argument ``parser`` how to parse an expression.
 
@@ -107,7 +107,7 @@ def _parse(to_parse, varnames, parser):
         to_parse = to_parse.replace("^", "**") # changing pow syntax to python
         return parse_expr(to_parse, var_dict, transformations=__transformations_parser)
     else:
-        result = RationalFunction.from_string(to_parse, varnames, var_to_ind = var_dict)
+        result = RationalFunction.from_string(to_parse, varnames, domain, var_dict)
         if(parser == "polynomial"):
             if(result.denom != 1):
                 raise ValueError("Trying to parse a polynomial but found Rational function.")
@@ -116,7 +116,7 @@ def _parse(to_parse, varnames, parser):
             return result
     raise NotImplementedError(f"Parser {parser} not implemented")
 
-def parse_ode(lines, varnames, parser="sympy"):
+def parse_ode(lines, varnames, parser="sympy", domain = QQ):
     """
     Input: 
     Output: list of SparsePolynomial representing this ODE system
@@ -140,7 +140,7 @@ def parse_ode(lines, varnames, parser="sympy"):
         try:
             # RationalFunction.from_string(rhs, varnames, var_to_ind = var_to_ind)
             #parse_expr(rhs, var_to_sym, transformations=__transformations_parser) 
-            eqs[lhs] = _parse(rhs, varnames, parser)
+            eqs[lhs] = _parse(rhs, varnames, parser, domain)
         except TypeError as e:
             print(rhs)
             print(e)
@@ -149,12 +149,12 @@ def parse_ode(lines, varnames, parser="sympy"):
         if v not in eqs:
             # SparsePolynomial(varnames, QQ)
             # eqs[v] = parse_expr("0", var_to_sym) 
-            eqs[v] = _parse("0", varnames, parser) 
+            eqs[v] = _parse("0", varnames, parser, domain) 
     return [eqs[v] for v in varnames]
 
 #------------------------------------------------------------------------------
 
-def extract_observables(lines, varnames):
+def extract_observables(lines, varnames, domain = QQ):
     """
     Input: lines of the partitions section
     Output: list of SparsePolynomial representing the observables
@@ -164,7 +164,7 @@ def extract_observables(lines, varnames):
     observables = []
     for s in sets:
         obs_as_str = "+".join(re.split(r"\s*,\s*", s))
-        obs_poly = SparsePolynomial.from_string(obs_as_str, varnames)
+        obs_poly = SparsePolynomial.from_string(obs_as_str, varnames, domain)
         observables.append(obs_poly)
     return observables
 
@@ -194,7 +194,7 @@ def separate_reaction_rate(line):
 
 #------------------------------------------------------------------------------
 
-def parse_reactions(lines, varnames, parser = "sympy"):
+def parse_reactions(lines, varnames, parser = "sympy", domain = QQ):
     """
     Input: lines with reactions, each reaction of the form "reactants -> products, rate" and varnames
     Output: the list of corresponding equations
@@ -213,7 +213,7 @@ def parse_reactions(lines, varnames, parser = "sympy"):
     # eqs = {v : SparsePolynomial(varnames, QQ) for v in varnames}
     # eqs = {v : RationalFunction(SparsePolynomial(varnames, QQ), SparsePolynomial.from_const(1, varnames)) for v in varnames}
     # eqs = {v : parse_expr("0", var_to_sym) for v in varnames}
-    eqs = {v : _parse("0", varnames, parser) for v in varnames}
+    eqs = {v : _parse("0", varnames, parser, domain) for v in varnames}
     i = 0
     for lhs, rhs, rate in raw_reactions:
         logging.debug(f"Next reaction {i} out of {len(raw_reactions)}")
@@ -221,7 +221,7 @@ def parse_reactions(lines, varnames, parser = "sympy"):
         # rate_poly = SparsePolynomial.from_string(rate, varnames, var_to_ind)
         # rate_poly = RationalFunction.from_string(rate, varnames, var_to_ind = var_to_ind)
         # rate_poly = parse_expr(rate.replace("^", "**"), var_to_sym, transformations=__transformations_parser)
-        rate_poly = _parse(rate, varnames, parser)
+        rate_poly = _parse(rate, varnames, parser, domain)
         ldict = species_to_multiset(lhs)
         rdict = species_to_multiset(rhs)
         # monomial = tuple((var_to_ind[v], mult) for v, mult in ldict.items())
@@ -283,17 +283,17 @@ def get_varnames(strings):
 
 #------------------------------------------------------------------------------
 
-def parse_initial_conditions(lines):
+def parse_initial_conditions(lines, domain = QQ):
     result = dict()
     for l in lines:
         if "=" in l:
             rhs, lhs = l.split("=")
-            result[rhs.strip()] = to_rational(lhs.strip())
+            result[rhs.strip()] = to_rational(lhs.strip()) if domain == QQ else domain(lhs.strip())
     return result
 
 #------------------------------------------------------------------------------
 
-def read_system(filename, read_ic=False, parser="polynomial"):
+def read_system(filename, read_ic=False, parser="polynomial", domain = QQ):
     """
     Takes a name of an *.ode file, and read the ODE system together with the observables
     subs_params flag corresponds to whether use the parameter values from the parameters section 
@@ -312,20 +312,20 @@ def read_system(filename, read_ic=False, parser="polynomial"):
     equations = None
     logging.debug("Parsing equations")
     if 'ODE' in sections_raw:
-        equations = parse_ode(sections_raw['ODE'], varnames, parser)
+        equations = parse_ode(sections_raw['ODE'], varnames, parser, domain)
     else:
-        equations = parse_reactions(sections_raw['reactions'], varnames, parser)
+        equations = parse_reactions(sections_raw['reactions'], varnames, parser, domain)
 
     # specializing to polynomials if possible
     #if polynomial:
     #    equations = [SparsePolynomial.from_string(str(f), varnames) for f in equations]
     # Now, the parameter ``parser`` guarantees that equations are of the correct type
 
-    obs = extract_observables(sections_raw['partition'], varnames) if 'partition' in sections_raw else None
+    obs = extract_observables(sections_raw['partition'], varnames, domain) if 'partition' in sections_raw else None
 
     ic = None
     if read_ic:
-        ic = parse_initial_conditions(sections_raw.get('init', []) + sections_raw.get('parameters', []))
+        ic = parse_initial_conditions(sections_raw.get('init', []) + sections_raw.get('parameters', []), domain)
     return {'name' : name, 'equations' : equations, 'observables' : obs, 'variables' : varnames, 'ic' : ic}
 
 #------------------------------------------------------------------------------

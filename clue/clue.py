@@ -96,9 +96,10 @@ class FODESystem:
                 if(file is None):
                     raise ValueError("Not enough data provided to build a system.")
             
-                read_ic = kwds.get("read_ic", False)
-                parser = kwds.get("parser", "polynomial")
-                dic = read_system(file, read_ic, parser)
+                read_ic = kwds.pop("read_ic", False)
+                parser = kwds.pop("parser", "polynomial")
+                field = kwds.pop("field", QQ)
+                dic = read_system(file, read_ic, parser, field)
             
             # Now dic is not None and we can use it to read the data
             equations = dic['equations']
