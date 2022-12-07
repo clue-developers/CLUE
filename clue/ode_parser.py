@@ -107,7 +107,7 @@ def _parse(to_parse, varnames, parser):
         to_parse = to_parse.replace("^", "**") # changing pow syntax to python
         return parse_expr(to_parse, var_dict, transformations=__transformations_parser)
     else:
-        result = RationalFunction.from_string(to_parse, varnames, var_dict)
+        result = RationalFunction.from_string(to_parse, varnames, var_to_ind = var_dict)
         if(parser == "polynomial"):
             if(result.denom != 1):
                 raise ValueError("Trying to parse a polynomial but found Rational function.")
@@ -138,7 +138,7 @@ def parse_ode(lines, varnames, parser="sympy"):
         if lhs not in varnames:
             raise ValueError(f"Variable {lhs} is not in the list of variables")
         try:
-            # RationalFunction.from_string(rhs, varnames, var_to_ind)
+            # RationalFunction.from_string(rhs, varnames, var_to_ind = var_to_ind)
             #parse_expr(rhs, var_to_sym, transformations=__transformations_parser) 
             eqs[lhs] = _parse(rhs, varnames, parser)
         except TypeError as e:
@@ -219,7 +219,7 @@ def parse_reactions(lines, varnames, parser = "sympy"):
         logging.debug(f"Next reaction {i} out of {len(raw_reactions)}")
         i += 1
         # rate_poly = SparsePolynomial.from_string(rate, varnames, var_to_ind)
-        # rate_poly = RationalFunction.from_string(rate, varnames, var_to_ind)
+        # rate_poly = RationalFunction.from_string(rate, varnames, var_to_ind = var_to_ind)
         # rate_poly = parse_expr(rate.replace("^", "**"), var_to_sym, transformations=__transformations_parser)
         rate_poly = _parse(rate, varnames, parser)
         ldict = species_to_multiset(lhs)

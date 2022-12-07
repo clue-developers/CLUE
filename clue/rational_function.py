@@ -390,9 +390,9 @@ class SparsePolynomial(object):
     def __add__(self, other):
         if(not isinstance(other, SparsePolynomial)):
             if(other in self.domain):
-                other = SparsePolynomial.from_const(other, self.gens)
+                other = SparsePolynomial.from_const(other, self.gens, self.domain)
             elif(isinstance(other, str)):
-                other = SparsePolynomial.from_string(other, self.gens)
+                other = SparsePolynomial.from_string(other, self.gens, self.domain)
             else:
                 return NotImplemented
                 
@@ -417,9 +417,9 @@ class SparsePolynomial(object):
     def __iadd__(self, other):
         if(not isinstance(other, SparsePolynomial)):
             if(other in self.domain):
-                other = SparsePolynomial.from_const(other, self.gens)
+                other = SparsePolynomial.from_const(other, self.gens, self.domain)
             elif(isinstance(other, str)):
-                other = SparsePolynomial.from_string(other, self.gens)
+                other = SparsePolynomial.from_string(other, self.gens, self.domain)
             else:
                 return NotImplemented
 
@@ -488,9 +488,9 @@ class SparsePolynomial(object):
             if(isinstance(other, RationalFunction)):
                 return self*other.denom == other.numer
             elif(other in self.domain):
-                other = SparsePolynomial.from_const(other, self.gens)
+                other = SparsePolynomial.from_const(other, self.gens, self.domain)
             elif(isinstance(other, str)):
-                other = SparsePolynomial.from_string(other, self.gens)
+                other = SparsePolynomial.from_string(other, self.gens, self.domain)
             else:
                 return False
         if self._data != other._data:
@@ -584,11 +584,11 @@ class SparsePolynomial(object):
                 2 + x**2 + 2*x
         '''
         if(self.is_zero()):
-            return SparsePolynomial.from_const(0 , self.gens)
+            return SparsePolynomial.from_const(0 , self.gens, self.domain)
         elif(self == other):
-            return SparsePolynomial.from_const(1 , self.gens)
+            return SparsePolynomial.from_const(1 , self.gens, self.domain)
         elif(self.is_constant() and other.is_constant()):
-            return SparsePolynomial.from_const(self.ct/other.ct, self.gens)
+            return SparsePolynomial.from_const(self.ct/other.ct, self.gens, self.domain)
         
         ## General case (self != other and 0)
         R = self.get_sympy_ring()
@@ -644,9 +644,9 @@ class SparsePolynomial(object):
         num = R(self.get_sympy_dict()).as_expr()
         denom = R(other.get_sympy_dict()).as_expr()
         if num.is_zero:
-            return SparsePolynomial.from_string('0', self.gens)
+            return SparsePolynomial.from_string('0', self.gens, self.domain)
         elif num == denom:
-            return SparsePolynomial.from_const(1, self.gens)
+            return SparsePolynomial.from_const(1, self.gens, self.domain)
         elif denom == 1:
             return self
         quo = R(sympy.polys.polytools.rem(num, denom))
@@ -689,9 +689,9 @@ class SparsePolynomial(object):
         '''
         if(not isinstance(other, SparsePolynomial)):
             if(other in self.domain):
-                other = SparsePolynomial.from_const(other, self.gens)
+                other = SparsePolynomial.from_const(other, self.gens, self.domain)
             elif(isinstance(other, str)):
-                other = SparsePolynomial.from_string(other, self.gens)
+                other = SparsePolynomial.from_string(other, self.gens, self.domain)
             else:
                 return NotImplemented
         
@@ -705,9 +705,9 @@ class SparsePolynomial(object):
     def __rtruediv__(self, other):
         if(not isinstance(other, SparsePolynomial)):
             if(other in self.domain):
-                other = SparsePolynomial.from_const(other, self.gens)
+                other = SparsePolynomial.from_const(other, self.gens, self.domain)
             elif(isinstance(other, str)):
-                other = SparsePolynomial.from_string(other, self.gens)
+                other = SparsePolynomial.from_string(other, self.gens, self.domain)
             else:
                 return NotImplemented
         
@@ -850,7 +850,7 @@ class SparsePolynomial(object):
         if power < 0:
             raise ValueError(f"Cannot raise to power {power}, {str(self)}")
         if power == 0:
-            return SparsePolynomial.from_const(1, self.gens)
+            return SparsePolynomial.from_const(1, self.gens, self.domain)
         if power == 1:
             return self
         if power % 2 == 0:
@@ -1121,27 +1121,27 @@ class SparsePolynomial(object):
     #--------------------------------------------------------------------------
 
     @staticmethod
-    def monomial(monomial, varnames):
+    def monomial(monomial, varnames, domain):
         each_var = []
         for pair in monomial:
-            each_var += [SparsePolynomial.var_from_string(varnames[pair[0]], varnames) ** pair[1]]
-        result = SparsePolynomial.from_const(1, varnames)
+            each_var += [SparsePolynomial.var_from_string(varnames[pair[0]], varnames, domain) ** pair[1]]
+        result = SparsePolynomial.from_const(1, varnames, domain)
         for el in each_var:
             result *= el
         return result
 
     @staticmethod
-    def var_from_string(vname, varnames):
+    def var_from_string(vname, varnames, domain = QQ):
         i = varnames.index(vname)
-        return SparsePolynomial(varnames, QQ, {((i, 1), ) : QQ.convert(1)})
+        return SparsePolynomial(varnames, domain, {((i, 1), ) : domain.one})
 
     @staticmethod
-    def from_const(c, varnames):
-        return SparsePolynomial(varnames, QQ, {tuple() : QQ.convert(c)})
+    def from_const(c, varnames, domain = QQ):
+        return SparsePolynomial(varnames, domain, {tuple() : domain.convert(c)})
 
     @staticmethod
-    def from_string(s, varnames):
-        return RationalFunction.from_string(s, varnames).get_poly()
+    def from_string(s, varnames, domain = QQ):
+        return RationalFunction.from_string(s, varnames, domain).get_poly()
 
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
@@ -1203,14 +1203,14 @@ class RationalFunction:
         self.denom = denom
 
         ## Simplifying the rational function if the denominator is not 1
-        if denom != SparsePolynomial.from_const(1, self.gens):
+        if denom != SparsePolynomial.from_const(1, self.gens, self.domain()):
             self.simplify()
 
     @staticmethod
-    def from_const(val, varnames):
+    def from_const(val, varnames, domain = QQ):
         return RationalFunction(
-            SparsePolynomial.from_const(val, varnames),
-            SparsePolynomial.from_const(1, varnames)
+            SparsePolynomial.from_const(val, varnames, domain),
+            SparsePolynomial.from_const(1, varnames, domain)
         )
 
     #--------------------------------------------------------------------------
@@ -1354,7 +1354,7 @@ class RationalFunction:
             self.denom = self.denom // gcd
 
         # Removing the content of the denominator
-        c = SparsePolynomial.from_const(self.denom.content, self.gens)
+        c = SparsePolynomial.from_const(self.denom.content, self.gens, self.domain)
         if(not c.is_unitary()):
             self.numer = self.numer // c
             self.denom = self.denom // c
@@ -1385,9 +1385,9 @@ class RationalFunction:
                 rf = RationalFunction(self.numer*other.denom + other.numer*self.denom, self.denom*other.denom)
             return rf
         elif type(other) == SparsePolynomial:
-            return self + RationalFunction(other, SparsePolynomial.from_const(1, self.gens))
+            return self + RationalFunction(other, SparsePolynomial.from_const(1, self.gens, self.domain))
         else:
-            return self + RationalFunction.from_const(1, self.gens)
+            return self + RationalFunction.from_const(other, self.gens, self.domain)
 
     def __radd__(self, other):
         return self.__add__(other)
@@ -1522,7 +1522,7 @@ class RationalFunction:
         if not isinstance(other, type(self)): 
             if(not isinstance(other, RationalFunction)):
                 try:
-                    other = RationalFunction.from_string(str(other), self.gens)
+                    other = RationalFunction.from_string(str(other), self.gens, self.domain)
                 except (ParseException, TypeError):
                     return NotImplemented
         return self.numer*other.denom == other.numer*self.denom
@@ -1542,7 +1542,7 @@ class RationalFunction:
 
     #--------------------------------------------------------------------------
     @staticmethod
-    def from_string(s, varnames, var_to_ind = None):
+    def from_string(s, varnames, domain = QQ, var_to_ind = None):
         """
         Parsing a string to a polynomial, string is allowed to include floating-point numbers
         in the standard and scientific notation, they will be converted to rationals
@@ -1624,19 +1624,19 @@ class RationalFunction:
                 base = evaluate_stack(s)
                 return base.exp(exp)
             if re.match(r"^[+-]?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?$", op):
-                return RationalFunction.from_const(to_rational(op), varnames)
+                return RationalFunction.from_const(to_rational(op), varnames, domain)
             return RationalFunction(
-                SparsePolynomial(varnames, QQ, {((var_ind_map[op], 1),): QQ(1)}), 
-                SparsePolynomial.from_const(1, varnames)
+                SparsePolynomial(varnames, domain, {((var_ind_map[op], 1),): domain.one}), 
+                SparsePolynomial.from_const(1, varnames, domain)
             )
 
         return evaluate_stack(RationalFunction.__parser_stack)
 
     @staticmethod
-    def from_sympy(sympy_expr, varnames):
+    def from_sympy(sympy_expr, varnames, domain = QQ):
         num,den = sympy_expr.as_expr().as_numer_denom()
-        num = SparsePolynomial.from_string(str(num), varnames)
-        den = SparsePolynomial.from_string(str(den), varnames)
+        num = SparsePolynomial.from_string(str(num), varnames, domain)
+        den = SparsePolynomial.from_string(str(den), varnames, domain)
         return RationalFunction(num, den)
 #------------------------------------------------------------------------------
 

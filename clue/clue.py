@@ -269,7 +269,7 @@ class FODESystem:
         self.normalize()
         variables = self.variables
         if isinstance(self.equations[0], (SparsePolynomial, RationalFunction)):
-            return tuple([SparsePolynomial.from_string(v, variables) for v in variables])
+            return tuple([SparsePolynomial.var_from_string(v, variables, self.field) for v in variables])
         else:
             return tuple([symbols(v) for v in variables])
 
@@ -376,21 +376,21 @@ class FODESystem:
                     if target_type == 0:
                         nequ = SparsePolynomial.from_sympy(equ, self.variables)
                     elif target_type == 1:
-                        nequ = RationalFunction.from_string(str(equ.as_expr()), self.variables)
+                        nequ = RationalFunction.from_string(str(equ.as_expr()), self.variables, self.field)
                     elif target_type == 2:
                         nequ = equ.as_expr()
                 elif isinstance(equ, FracElement):
                     if target_type == 0:
                         nequ = SparsePolynomial.from_sympy(equ.numer, self.variables)
                     elif target_type == 1:
-                        nequ = RationalFunction.from_string(str(equ.as_expr()), self.variables)
+                        nequ = RationalFunction.from_string(str(equ.as_expr()), self.variables, self.field)
                     elif target_type == 2:
                         nequ = equ.as_expr()
                 elif isinstance(equ, SparsePolynomial):
                     if target_type == 0:
                         nequ = equ
                     elif target_type == 1:
-                        nequ = RationalFunction(equ, RationalFunction.from_const(1, self.variables))
+                        nequ = RationalFunction(equ, RationalFunction.from_const(1, self.variables, self.field))
                     elif target_type == 2:
                         nequ = equ.to_sympy().as_expr()
                 elif isinstance(equ, RationalFunction):
@@ -532,7 +532,7 @@ class FODESystem:
 
             if symbolic:
                 if isinstance(other.equations[0], SparsePolynomial):
-                    rhs = [SparsePolynomial.from_string(str(el), other.variables) for el in rhs]
+                    rhs = [SparsePolynomial.from_string(str(el), other.variables, other.field) for el in rhs]
                 elif isinstance(other.equations[0], RationalFunction):
                     rhs = [RationalFunction.from_sympy(el, other.variables) for el in rhs]
                 else:
@@ -825,7 +825,7 @@ class FODESystem:
             return res
 
         denoms = [rf.denom for rf in rational_functions]
-        d = list(filter((lambda x: x != SparsePolynomial.from_string("1",[])),denoms))
+        d = list(filter((lambda x: x != SparsePolynomial.from_const(1,[],self.field)),denoms))
         lcm = lcm_rec(d, 0, len(d))
         lcm = lcm*lcm
 

@@ -948,7 +948,7 @@ class Subspace(object):
         if isinstance(rhs[0], SparsePolynomial):
             new_rhs = [SparsePolynomial(old_vars, domain) for _ in range(self.dim())]
         elif isinstance(rhs[0], RationalFunction):
-            new_rhs = [RationalFunction.from_const(0, old_vars) for _ in range(self.dim())]
+            new_rhs = [RationalFunction.from_const(0, old_vars, self.field) for _ in range(self.dim())]
         else:
             new_rhs = [0 for _ in range(self.dim())]
         for i, vec in enumerate(basis):
@@ -1167,9 +1167,11 @@ class OrthogonalSubspace(Subspace):
         if not self._should_absorb(new_vector):
             return -1
 
-        # we simplify the gcd of the numerators
+        # we scale the new vector depending on the ground field
         if self.field == QQ:
             new_vector.scale(self.field.one / math.gcd(*[new_vector[i].numerator for i in new_vector.nonzero]))
+        if self.field == sympy.RR:
+            new_vector.scale(self.field.one / math.sqrt(new_vector.inner_product(new_vector)))
 
         # Now new_vector ir orthogonal to ``self``. We can simply add it to the Subspace
         self.echelon_form[self.dim()] = new_vector
@@ -1208,8 +1210,8 @@ class OrthogonalSubspace(Subspace):
 
         logger.debug("Constructing new rhs")
         if isinstance(rhs[0], (SparsePolynomial, RationalFunction)):
-            y = [SparsePolynomial.from_string(var, new_vars) for var in new_vars]
-            x = [SparsePolynomial.from_string(var, old_vars) for var in old_vars]
+            y = [SparsePolynomial.var_from_string(var, new_vars, self.domain) for var in new_vars]
+            x = [SparsePolynomial.var_from_string(var, old_vars, self.domain) for var in old_vars]
         else:
             y = symbols(new_vars)
             x = symbols(old_vars)
@@ -1235,7 +1237,7 @@ class NumericalSubspace(OrthogonalSubspace):
   
 #------------------------------------------------------------------------------
 
-def find_smallest_common_subspace(matrices, vectors_to_include, subspace_class = Subspace):
+def find_smallest_common_subspace(matrices, vectors_to_include, subspace_class = Subspace) -> Subspace:
     """
       Input
         - matrices - an iterator for matrices (SparseMatrix)

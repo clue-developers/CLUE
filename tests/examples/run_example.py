@@ -69,7 +69,7 @@ if __name__ == "__main__":
         for obs_set in observables:
             print(f"[run_example]     ++ {example.name} (({observables.index(obs_set)+1}/{len(observables)}))", flush=True)
             print("===============================================", file=file)
-            obs_polys = [SparsePolynomial.from_string(s, system.variables) for s in obs_set]
+            obs_polys = [SparsePolynomial.from_string(s, system.variables, system.field) for s in obs_set]
 
             lumped = None
             signal.alarm(timeout)
