@@ -19,7 +19,7 @@ y6' = 0
 y7' = 0
 The size of the original model is 374
 The size of the reduced model is 8
-Computation took 0.9733462333679199 seconds
+Computation took 0.9048664569854736 seconds
 ===============================================
 New variables:
 y0 = S0
@@ -701,7 +701,7 @@ y336' = 0
 y337' = 0
 The size of the original model is 374
 The size of the reduced model is 338
-Computation took 46.44182014465332 seconds
+Computation took 65.96089315414429 seconds
 ===============================================
 New variables:
 y0 = S0
@@ -875,7 +875,7 @@ y82' = 0
 y83' = 0
 The size of the original model is 374
 The size of the reduced model is 84
-Computation took 3.7939155101776123 seconds
+Computation took 5.127216815948486 seconds
 ===============================================
 New variables:
 y0 = S0
@@ -1121,7 +1121,7 @@ y118' = 0
 y119' = 0
 The size of the original model is 374
 The size of the reduced model is 120
-Computation took 29.374040365219116 seconds
+Computation took 43.02754187583923 seconds
 ===============================================
 New variables:
 y0 = S0
@@ -1189,4 +1189,4 @@ y29' = 0
 y30' = 0
 The size of the original model is 374
 The size of the reduced model is 31
-Computation took 1.2132923603057861 seconds
+Computation took 1.7697639465332031 seconds

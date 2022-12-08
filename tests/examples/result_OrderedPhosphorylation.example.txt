@@ -15,4 +15,4 @@ y4' = 2*y0*y2*y5 - y0*y4*y5 - y1*y4 + 2*y1*y3
 y5' = -2*y0*y2*y5 - y0*y4*y5 + y1*y4 + 2*y1*y3
 The size of the original model is 227
 The size of the reduced model is 6
-Computation took 0.34165024757385254 seconds
+Computation took 0.49387645721435547 seconds
