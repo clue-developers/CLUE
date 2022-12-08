@@ -1203,7 +1203,7 @@ class RationalFunction:
         self.denom = denom
 
         ## Simplifying the rational function if the denominator is not 1
-        if denom != SparsePolynomial.from_const(1, self.gens, self.domain()):
+        if denom != SparsePolynomial.from_const(1, self.gens, self.domain):
             self.simplify()
 
     @staticmethod
