@@ -118,7 +118,7 @@ if __name__ == "__main__":
                                     (len(allowed_folders) == 0 or examples[example].out_folder in allowed_folders) and
                                     (len(allowed_names) == 0 or any(example.startswith(name) for name in allowed_names)) and 
                                     (len(forbidden_names) == 0 or all(not example.startswith(name) for name in forbidden_names)) and
-                                    (executed == None or (example in executed_examples) == executed)
+                                    (executed == None or any(el[0] == example for el in executed_examples) == executed)
                                  )
 
         if full:
