@@ -211,6 +211,7 @@ if __name__ == "__main__":
         ## Compiling the data for executed examples
         compiled_data = {}
         for name, read, matrix in executed_examples:
+            print(f"[example_data - compile] Compiling data from {name} ({read=} -- {matrix})")
             data = {} 
             data["observables"] = {}
             with open(examples[name].results_path()) as file:
@@ -227,7 +228,7 @@ if __name__ == "__main__":
                             line = file.readline()
                             while(not line.startswith("###############################################")):
                                 if line == "": raise ValueError("The result file if not well formatted") # unexpected end of file
-                                line.strip()
+                                line = line.strip()
                                 if line.startswith("The size of the original model is"):
                                     data["observables"][obs_set]["size"] = int(line.removeprefix("The size of the original model is"))
                                 elif line.startswith("The size of the reduced model is"):
@@ -239,16 +240,17 @@ if __name__ == "__main__":
                                 elif line.startswith("Has the lumping a Robust Weighted Lumping (RWL)?:"):
                                     data["observables"][obs_set]["RWL"] = "Yes" if "True" in line else "No"
                                 elif line.startswith("Overflow error detected"): # an error of size in execution
-                                    data[obs_set]["time"] = "Overflow error"
+                                    data["observables"][obs_set]["time"] = "Overflow error"
                                 elif line.startswith("Timeout error detected: "): # an error of size in execution
-                                    data[obs_set]["time"] = f">{line.removeprefix('The size of the reduced model is')}"
+                                    data["observables"][obs_set]["time"] = f">{line.removeprefix('The size of the reduced model is')}"
                                 line = file.readline()
                             ## Filling fields if not given
-                            if  not "size" in data[obs_set]: data[obs_set]["size"] = "oo"
-                            if  not "lumped" in data[obs_set]: data[obs_set]["lumped"] = "oo"
-                            if  not "time" in data[obs_set]: data[obs_set]["time"] = "oo"
-                            if  not "FL" in data[obs_set]: data[obs_set]["FL"] = "Not computed"
-                            if  not "RWL" in data[obs_set]: data[obs_set]["RWL"] = "Not computed"
+                            if  not "size" in data["observables"][obs_set]: data["observables"][obs_set]["size"] = "oo"
+                            if  not "lumped" in data["observables"][obs_set]: data["observables"][obs_set]["lumped"] = "oo"
+                            if  not "time" in data["observables"][obs_set]: data["observables"][obs_set]["time"] = "oo"
+                            if  not "FL" in data["observables"][obs_set]: data["observables"][obs_set]["FL"] = "Not computed"
+                            if  not "RWL" in data["observables"][obs_set]: data["observables"][obs_set]["RWL"] = "Not computed"
+                            line = file.readline()
                         elif line.startswith("== END OF EXAMPLES"): # last section of the file with general information
                             line = file.readline()
                             while line != "":
@@ -259,6 +261,7 @@ if __name__ == "__main__":
                                     data["matrix_time"] = float(line.removeprefix("Time for building matrices: "))
                                 elif line.startswith("Total time in execution: "):
                                     data["total_time"] = float(line.removeprefix("Total time in execution: "))
+                                line = file.readline()
                             if not "read_time" in data: data["read_time"] = "oo"
                             if not "matrix_time" in data: data["read_time"] = "oo"
                             if not "total_time" in data: data["read_time"] = "oo"
@@ -266,6 +269,7 @@ if __name__ == "__main__":
             compiled_data[(name, read, matrix)] = data
 
         ## Writing the csv file
+        print(f"[example_data - compile] Putting data into CSV file...")
         with open(os.path.join(script_dir, "compilation.csv"), "w") as file:
             headers= [
                 "Name", 
@@ -297,6 +301,7 @@ if __name__ == "__main__":
                         values["RWL"],
                         obs_set
                     ])
+            print(f"[example_data - compile] Compilation complete")
     else:
         print(
             "--------------------------------------------------------------------------------------------------------------------------\n"
