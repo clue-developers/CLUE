@@ -1,4 +1,5 @@
 ===============================================
+== Observables: ['S0', 'S1']
 New variables:
 y0 = S0
 y1 = S1
@@ -27,4 +28,11 @@ y10' = 0
 y11' = 0
 The size of the original model is 16392
 The size of the reduced model is 12
-Computation took 74.70538449287415 seconds
+Computation took 30.467098474502563 seconds
+Is the lumping a Forward Lumping (FL)?: False
+###############################################
+===============================================
+== END OF EXAMPLES
+Time for reading the model: 274.22327518463135
+Time for building matrices: 5.693862676620483
+Total time in execution: 310.3941750526428

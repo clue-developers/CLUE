@@ -1,4 +1,5 @@
 ===============================================
+== Observables: ['S0']
 New variables:
 y0 = S0
 y1 = S3 + S5 + S13 + S15 + S26 + S28 + S30 + S32 + S60 + S62 + S64 + S66 + S110 + S112 + S114 + S133 + S174 + S208 + S211 + S213 + S214 + S217 + S249 + S337
@@ -19,8 +20,11 @@ y6' = 0
 y7' = 0
 The size of the original model is 374
 The size of the reduced model is 8
-Computation took 0.9048664569854736 seconds
+Computation took 0.2692694664001465 seconds
+Is the lumping a Forward Lumping (FL)?: True
+###############################################
 ===============================================
+== Observables: ['S2', 'S178', 'S267', 'S77']
 New variables:
 y0 = S0
 y1 = S1
@@ -701,8 +705,11 @@ y336' = 0
 y337' = 0
 The size of the original model is 374
 The size of the reduced model is 338
-Computation took 65.96089315414429 seconds
+Computation took 35.987900733947754 seconds
+Is the lumping a Forward Lumping (FL)?: False
+###############################################
 ===============================================
+== Observables: ['S2 + S178 + S267 + S77']
 New variables:
 y0 = S0
 y1 = S1
@@ -875,8 +882,11 @@ y82' = 0
 y83' = 0
 The size of the original model is 374
 The size of the reduced model is 84
-Computation took 5.127216815948486 seconds
+Computation took 2.218491554260254 seconds
+Is the lumping a Forward Lumping (FL)?: False
+###############################################
 ===============================================
+== Observables: ['S7']
 New variables:
 y0 = S0
 y1 = S1
@@ -1121,8 +1131,11 @@ y118' = 0
 y119' = 0
 The size of the original model is 374
 The size of the reduced model is 120
-Computation took 43.02754187583923 seconds
+Computation took 34.867640018463135 seconds
+Is the lumping a Forward Lumping (FL)?: True
+###############################################
 ===============================================
+== Observables: ['S1']
 New variables:
 y0 = S0
 y1 = S1
@@ -1189,4 +1202,11 @@ y29' = 0
 y30' = 0
 The size of the original model is 374
 The size of the reduced model is 31
-Computation took 1.7697639465332031 seconds
+Computation took 0.8195395469665527 seconds
+Is the lumping a Forward Lumping (FL)?: True
+###############################################
+===============================================
+== END OF EXAMPLES
+Time for reading the model: 1.3875105381011963
+Time for building matrices: 0.1439216136932373
+Total time in execution: 75.72191548347473

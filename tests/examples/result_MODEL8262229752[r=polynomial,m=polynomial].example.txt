@@ -1,4 +1,5 @@
 ===============================================
+== Observables: ['Pfs_mRNA', 'LuxS_mRNA', 'AI2_intra']
 New variables:
 y0 = AI2_excret_r
 y1 = AI2_extra
@@ -73,4 +74,11 @@ y33' = 0
 y34' = 0
 The size of the original model is 47
 The size of the reduced model is 35
-Computation took 0.045744895935058594 seconds
+Computation took 0.021994590759277344 seconds
+Is the lumping a Forward Lumping (FL)?: True
+###############################################
+===============================================
+== END OF EXAMPLES
+Time for reading the model: 0.02208232879638672
+Time for building matrices: 0.0017344951629638672
+Total time in execution: 0.047683000564575195

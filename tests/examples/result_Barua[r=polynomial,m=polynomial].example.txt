@@ -1,4 +1,5 @@
 ===============================================
+== Observables: ['aS000']
 New variables:
 y0 = aS000
 y1 = aS001
@@ -701,8 +702,11 @@ y347' = 0
 y348' = 0
 The size of the original model is 497
 The size of the reduced model is 349
-Computation took 71.00905656814575 seconds
+Computation took 34.05203580856323 seconds
+Is the lumping a Forward Lumping (FL)?: False
+###############################################
 ===============================================
+== Observables: ['aS027']
 New variables:
 y0 = aS000
 y1 = aS001
@@ -1503,4 +1507,11 @@ y396' = 0
 y397' = 0
 The size of the original model is 497
 The size of the reduced model is 398
-Computation took 70.08164024353027 seconds
+Computation took 38.95524334907532 seconds
+Is the lumping a Forward Lumping (FL)?: False
+###############################################
+===============================================
+== END OF EXAMPLES
+Time for reading the model: 1.8425168991088867
+Time for building matrices: 0.1545577049255371
+Total time in execution: 75.01745986938477

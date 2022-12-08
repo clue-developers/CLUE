@@ -1,4 +1,5 @@
 ===============================================
+== Observables: ['CaM_0_0 + CaM_1_0 + CaM_0_1 + CaM_1_1 + CaM_2_2 + CaM_2_0 + CaM_0_2 + CaM_2_1 + CaM_1_2']
 New variables:
 y0 = Ca
 y1 = CaM_0_0
@@ -243,4 +244,11 @@ y118' = -y69*y118 - y108*y118 + y12*y70*y110
 y119' = -y69*y119 - y102*y119 + y13*y70*y110
 The size of the original model is 200
 The size of the reduced model is 120
-Computation took 1.4120628833770752 seconds
+Computation took 0.6979274749755859 seconds
+Is the lumping a Forward Lumping (FL)?: True
+###############################################
+===============================================
+== END OF EXAMPLES
+Time for reading the model: 0.22536420822143555
+Time for building matrices: 0.015764236450195312
+Total time in execution: 0.9456801414489746

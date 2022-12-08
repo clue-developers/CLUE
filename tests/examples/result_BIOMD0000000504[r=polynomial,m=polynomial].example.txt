@@ -1,4 +1,5 @@
 ===============================================
+== Observables: ['cFos_P', 'cJun_P']
 New variables:
 y0 = DUSP16
 y1 = IL1
@@ -229,8 +230,11 @@ y111' = 0
 y112' = 0
 The size of the original model is 205
 The size of the reduced model is 113
-Computation took 0.7046322822570801 seconds
+Computation took 0.44490575790405273 seconds
+Is the lumping a Forward Lumping (FL)?: True
+###############################################
 ===============================================
+== Observables: ['MMP1_mRNA', 'MMP13_mRNA', 'TIMP1_mRNA']
 New variables:
 y0 = DUSP16
 y1 = IL1
@@ -501,8 +505,11 @@ y131' = 0
 y132' = 0
 The size of the original model is 205
 The size of the reduced model is 133
-Computation took 0.898552656173706 seconds
+Computation took 0.6457381248474121 seconds
+Is the lumping a Forward Lumping (FL)?: True
+###############################################
 ===============================================
+== Observables: ['MMP1', 'MMP13', 'ColFrag']
 New variables:
 y0 = ADAMTS4
 y1 = ADAMTS4_TIMP1
@@ -915,8 +922,11 @@ y202' = y29**2*y173 - y34**2*y73*y202**2
 y203' = y33**2*y176 - y26**2*y74*y203**2
 The size of the original model is 205
 The size of the reduced model is 204
-Computation took 1.8083674907684326 seconds
+Computation took 1.3039867877960205 seconds
+Is the lumping a Forward Lumping (FL)?: True
+###############################################
 ===============================================
+== Observables: ['JAK1_P', 'JNK_P', 'cJun_P', 'cJun_dimer', 'STAT3_P_nuc', 'STAT3_P_cyt']
 New variables:
 y0 = DUSP16
 y1 = IL1
@@ -1147,4 +1157,11 @@ y111' = 0
 y112' = 0
 The size of the original model is 205
 The size of the reduced model is 113
-Computation took 0.6845512390136719 seconds
+Computation took 0.44904565811157227 seconds
+Is the lumping a Forward Lumping (FL)?: True
+###############################################
+===============================================
+== END OF EXAMPLES
+Time for reading the model: 0.08893918991088867
+Time for building matrices: 0.021317243576049805
+Total time in execution: 2.9866974353790283
