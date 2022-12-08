@@ -96,7 +96,7 @@ if __name__ == "__main__":
                 lumped = system.lumping(obs_polys, method=matrix, file=file)
                 end = time.time()
             except TimeoutError:
-                pass
+                print(f"Timeout error detected: {timeout}", file=file)
             except OverflowError:
                 print("Overflow error detected", file=file)
                 break

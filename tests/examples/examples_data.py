@@ -240,6 +240,8 @@ if __name__ == "__main__":
                                     data["observables"][obs_set]["RWL"] = "Yes" if "True" in line else "No"
                                 elif line.startswith("Overflow error detected"): # an error of size in execution
                                     data[obs_set]["time"] = "Overflow error"
+                                elif line.startswith("Timeout error detected: "): # an error of size in execution
+                                    data[obs_set]["time"] = f">{line.removeprefix('The size of the reduced model is')}"
                                 line = file.readline()
                             ## Filling fields if not given
                             if  not "size" in data[obs_set]: data[obs_set]["size"] = "oo"
