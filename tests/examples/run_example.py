@@ -27,7 +27,7 @@ if __name__ == "__main__":
     read = example.read; matrix = example.matrix
     observables = example.observables
     timeout = 0
-    output = f"{'' if example.out_folder is None else f'./{example.out_folder}/'}result_{example.name}.example.txt"
+    output = None
     profile = None
     subs_class = Subspace
 
@@ -46,7 +46,8 @@ if __name__ == "__main__":
             profile = f"./profiles/result_{example.name}.profile.txt"; n += 1
         elif(args[n] in ("--ortho", "--orthogonal", "-ortho", "-orthogonal")):
             subs_class = OrthogonalSubspace; n+=1
-
+    
+    output = example.results_path(read, matrix) if output is None else output
 
     ## Creating the file in case it is needed
     if(output == "stdout"):
@@ -59,10 +60,12 @@ if __name__ == "__main__":
     ## Starting profiler if there is any
     with Profile() if profile else nullcontext() as pr:
     ## Setting up the handler for the signal
+        first_time = time.time()
         old_handler = signal.signal(signal.SIGALRM, alarm_handler)
 
-        print(f"[run_example] Running example {example.name} ({len(observables)} cases)...", flush=True)
+        print(f"[run_example] Reading example {example.name} ({read=})...", flush=True)
 
+        read_time = time.time()
         ## now we can run the model properly
         if read == "uncertain":
             system = FODESystem(file=example.path_model(), parser="polynomial", lumping_subspace=subs_class)
@@ -71,10 +74,19 @@ if __name__ == "__main__":
             system = UncertainFODESystem.from_FODESystem(system, delta, type=uncertain_type)
         else:
             system = FODESystem(file=example.path_model(), parser=read, lumping_subspace=subs_class)
+        read_time = time.time() - read_time
 
+        
+        print(f"[run_example] Building matrices for {example.name} ({matrix=})...", flush=True)
+        matrices_time = time.time()
+        system.construct_matrices(matrix)
+        matrices_time = time.time() - matrices_time
+
+        print(f"[run_example] Running example {example.name} ({len(observables)} cases)...", flush=True)
         for obs_set in observables:
             print(f"[run_example]     ++ {example.name} (({observables.index(obs_set)+1}/{len(observables)}))", flush=True)
             print("===============================================", file=file)
+            print(f"== Observables: {obs_set}")
             obs_polys = [SparsePolynomial.from_string(s, system.variables, system.field) for s in obs_set]
 
             lumped = None
@@ -96,12 +108,20 @@ if __name__ == "__main__":
                     print(f"Has the lumping a Robust Weighted Lumping (RWL)?: {lumped.has_RWL()}", file=file)
             else:
                 print(f"The example could not finish in the given timeout ({timeout}", file=file)
+            print("###############################################", file=file)
             print(f"[run_example]     -- {example.name} (({observables.index(obs_set)+1}/{len(observables)})) (Done)", flush=True)
 
         print(f"[run_example] ## Finished example {example.name} ##", flush=True)
         
         ## Reverting changes
         signal.signal(signal.SIGALRM, old_handler)
+        final_time = time.time()
+        print("===============================================", file=file)
+        print("== END OF EXAMPLES")
+        print(f"Time for reading the model: {read_time}", file=file)
+        print(f"Time for building matrices: {matrices_time}", file=file)
+        print(f"Total time in execution: {final_time - first_time}", file=file)
+
     
     # Closing the output file (if opened)
     if(not output in ("stdout", "stderr")):

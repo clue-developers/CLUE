@@ -1,12 +1,18 @@
 import json, os, sys, csv
 
+from itertools import product
+
 sys.path.insert(0, "./../../") # models and clue is here
 
 import models.models_data
 from clue import FODESystem
 
+VALID_READ = ["polynomial", "rational", "sympy", "uncertain"]
+VALID_MATRIX = ["polynomial", "rational", "auto_diff"]
+
 class Example:
     def __init__(self, name, read, matrix, observables, **kwds):
+        assert read in VALID_READ and matrix in VALID_MATRIX
         self.__name = name
         self.__read = read
         self.__matrix = matrix
@@ -29,10 +35,13 @@ class Example:
     @property
     def range(self): return self.__range
 
-    def results_path(self):
+    def results_path(self, read = None, matrix = None):
+        read = self.read if read is None else read
+        matrix = self.matrix if matrix is None else matrix
+        file_name = f"result_{self.name}[r={read},m={matrix}].example.txt"
         if self.out_folder != None:
-            return os.path.join(script_dir, self.out_folder , f"result_{self.name}.example.txt")
-        return os.path.join(script_dir, f"result_{self.name}.example.txt")
+            return os.path.join(script_dir, self.out_folder , file_name)
+        return os.path.join(script_dir, file_name)
 
     def __getattr__(self, name):
         if name in self.__json:
@@ -63,7 +72,11 @@ with open(os.path.join(script_dir,'data.json')) as f:
     data = json.load(f)
     examples = {key : Example(key, **data[key]) for key in data}
 
-executed_examples = [name for name in examples if os.path.exists(examples[name].results_path())]
+executed_examples = [
+    (name,read,matrix) 
+    for (name, read, matrix) in product(examples.keys(), VALID_READ, VALID_MATRIX) 
+    if os.path.exists(examples[name].results_path(read, matrix))
+]
     
 def get_example(name):
     return examples[name]
@@ -195,38 +208,89 @@ if __name__ == "__main__":
 
         ## Compiling the data for executed examples
         compiled_data = {}
-        for name in executed_examples:
-            data = {}
+        for name, read, matrix in executed_examples:
+            data = {} 
+            data["observables"] = {}
             with open(examples[name].results_path()) as file:
                 line = file.readline()
                 while line != "":
                     line = line.strip()
-                    if line.startswith("The size of the original model is"):
-                        data["size"] = int(line.removeprefix("The size of the original model is"))
-                    elif line.startswith("The size of the reduced model is"):
-                        data["lumped"] = int(line.removeprefix("The size of the reduced model is"))
-                    elif line.startswith("Computation took"):
-                        data["time"] = float(line.removeprefix("Computation took").removesuffix("seconds"))
-                    elif line.startswith("Is the lumping a Forward Lumping (FL)?:"):
-                        data["FL"] = "Yes" if "True" in line else "No"
-                    elif line.startswith("Has the lumping a Robust Weighted Lumping (RWL)?:"):
-                        data["RWL"] = "Yes" if "True" in line else "No"
-                    line = file.readline()
-            
-            if  not "size" in data: data["size"] = "oo"
-            if  not "lumped" in data: data["lumped"] = "oo"
-            if  not "time" in data: data["time"] = "oo"
-            if  not "FL" in data: data["FL"] = "No computed"
-            if  not "RWL" in data: data["RWL"] = "No computed"
-            compiled_data[name] = data
+                    if line.startswith("==============================================="): # starting example
+                        line = file.readline()
+                        if line == "": raise ValueError("The result file if not well formatted") # unexpected end of file
+                        line = line.strip()
+                        if line.startswith("== Observables: "): # one example
+                            obs_set = line.removeprefix("== Observables: ")
+                            data["observables"][obs_set] = {}
+                            line = file.readline()
+                            while(not line.startswith("###############################################")):
+                                if line == "": raise ValueError("The result file if not well formatted") # unexpected end of file
+                                line.strip()
+                                if line.startswith("The size of the original model is"):
+                                    data["observables"][obs_set]["size"] = int(line.removeprefix("The size of the original model is"))
+                                elif line.startswith("The size of the reduced model is"):
+                                    data["observables"][obs_set]["lumped"] = int(line.removeprefix("The size of the reduced model is"))
+                                elif line.startswith("Computation took"):
+                                    data["observables"][obs_set]["time"] = float(line.removeprefix("Computation took").removesuffix("seconds"))
+                                elif line.startswith("Is the lumping a Forward Lumping (FL)?:"):
+                                    data["observables"][obs_set]["FL"] = "Yes" if "True" in line else "No"
+                                elif line.startswith("Has the lumping a Robust Weighted Lumping (RWL)?:"):
+                                    data["observables"][obs_set]["RWL"] = "Yes" if "True" in line else "No"
+                                line = file.readline()
+                            ## Filling fields if not given
+                            if  not "size" in data[obs_set]: data[obs_set]["size"] = "oo"
+                            if  not "lumped" in data[obs_set]: data[obs_set]["lumped"] = "oo"
+                            if  not "time" in data[obs_set]: data[obs_set]["time"] = "oo"
+                            if  not "FL" in data[obs_set]: data[obs_set]["FL"] = "Not computed"
+                            if  not "RWL" in data[obs_set]: data[obs_set]["RWL"] = "Not computed"
+                        elif line.startswith("== END OF EXAMPLES"): # last section of the file with general information
+                            line = file.readline()
+                            while line != "":
+                                line = line.strip()
+                                if line.startswith("Time for reading the model: "):
+                                    data["read_time"] = float(line.removeprefix("Time for reading the model: "))
+                                elif line.startswith("Time for building matrices: "):
+                                    data["matrix_time"] = float(line.removeprefix("Time for building matrices: "))
+                                elif line.startswith("Total time in execution: "):
+                                    data["total_time"] = float(line.removeprefix("Total time in execution: "))
+                            if not "read_time" in data: data["read_time"] = "oo"
+                            if not "matrix_time" in data: data["read_time"] = "oo"
+                            if not "total_time" in data: data["read_time"] = "oo"
+
+            compiled_data[(name, read, matrix)] = data
 
         ## Writing the csv file
         with open(os.path.join(script_dir, "compilation.csv"), "w") as file:
-            headers= ["Name", "Or. size", "Lmp. size", "Time (s)", "Is FL?", "Is RWL?"]
+            headers= [
+                "Name", 
+                "Read Alg.", 
+                "Time reading", 
+                "Matrix Alg.", 
+                "Time w/ matrices", 
+                "Or. size", 
+                "Lmp. size", 
+                "Time (s)", 
+                "Is FL?", 
+                "Is RWL?", 
+                "Observables"
+            ]
             writer = csv.writer(file, delimiter=";")
             writer.writerow(headers)
-            for (name,data) in compiled_data.items():
-                writer.writerow([name, data["size"], data["lumped"], data["time"], data["FL"], data["RWL"]])
+            for ((name,read,matrix),data) in compiled_data.items():
+                for (obs_set, values) in data["observables"].items():
+                    writer.writerow([
+                        name, 
+                        read, 
+                        data["read_time"], 
+                        matrix, 
+                        data["matrix_time"],
+                        values["size"], 
+                        values["lumped"], 
+                        values["time"], 
+                        values["FL"], 
+                        values["RWL"],
+                        obs_set
+                    ])
     else:
         print(
             "--------------------------------------------------------------------------------------------------------------------------\n"
@@ -239,7 +303,7 @@ if __name__ == "__main__":
             "  * -r : indicates the reading algorithm. It can be 'polynomial', 'rational', 'sympy' or 'uncertain'. Several can be given.\n"
             "  * -m : indicates the algorithm for computing the matrices. It can be 'polynomial', 'rational' or 'auto_diff. Several can be given.'\n"
             "  * -o : indicates the folder where the output of the example will be stored\n"
-            "  * -s : indicates whether already existing examples should be overriden\n"
+            "  * -s : indicates whether already existing examples should be overridden\n"
             "  * <<folder>>: one or several folders that will be added to the examples using the previous arguments.\n"
             "--------------------------------------------------------------------------------------------------------------------------\n"
             "\tpython3 examples_data list [-r|-p|-u] [-of ()]* [-n ()]* [-wn ()]* [-e|-ne] [-a]\n"
