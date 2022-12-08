@@ -125,11 +125,13 @@ if __name__ == "__main__":
             lines = [["Example name", "Read", "Out folder"]]
             get_str = lambda example : (example.name, example.read, example.out_folder)
 
-            lines += [get_str(examples[name]) for name in examples if filter(name)]
+            lines.extend([get_str(examples[name]) for name in examples if filter(name)])
+            lines.append(["N.models", f"{len(lines)-1}", ""])
             n_elem = len(lines[0])
             max_length = [max(len(line[i]) if line[i] != None else 4 for line in lines) for i in range(n_elem)]
 
             lines.insert(1, [max_length[i]*"-" for i in range(n_elem)])
+            lines.insert(len(lines)-1, [max_length[i]*"-" for i in range(n_elem)])
 
             for line in lines:
                 print(" | ".join([(line[i] if line[i] != None else "None").ljust(max_length[i]) for i in range(n_elem)]))

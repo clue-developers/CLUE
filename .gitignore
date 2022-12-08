@@ -99,3 +99,4 @@ docs/_sources
 
 # Time testing
 *.results.txt
+*.example.txt
