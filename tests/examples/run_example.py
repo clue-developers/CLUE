@@ -86,7 +86,7 @@ if __name__ == "__main__":
         for obs_set in observables:
             print(f"[run_example]     ++ {example.name} (({observables.index(obs_set)+1}/{len(observables)}))", flush=True)
             print("===============================================", file=file)
-            print(f"== Observables: {obs_set}")
+            print(f"== Observables: {obs_set}", file=file)
             obs_polys = [SparsePolynomial.from_string(s, system.variables, system.field) for s in obs_set]
 
             lumped = None
@@ -117,7 +117,7 @@ if __name__ == "__main__":
         signal.signal(signal.SIGALRM, old_handler)
         final_time = time.time()
         print("===============================================", file=file)
-        print("== END OF EXAMPLES")
+        print("== END OF EXAMPLES", file=file)
         print(f"Time for reading the model: {read_time}", file=file)
         print(f"Time for building matrices: {matrices_time}", file=file)
         print(f"Total time in execution: {final_time - first_time}", file=file)
