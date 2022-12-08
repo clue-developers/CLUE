@@ -21,7 +21,7 @@ def run_test(model, observables, read_algorithm = "sympy", mat_algorithm="auto_d
     try:
         start = time.time()
         system = FODESystem(file=model.path(), parser=read_algorithm)
-        obs = [SparsePolynomial.from_string(el, system.variables) for el in observables]
+        obs = [SparsePolynomial.from_string(el, system.variables, system.field) for el in observables]
         read_time = time.time()-start
     except TimeoutError:
         signal.signal(signal.SIGALRM, old_handler)

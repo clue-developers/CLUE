@@ -3,6 +3,7 @@ POLY=$(shell python3 examples_data.py list -p)
 RATIONAL=$(shell python3 examples_data.py list -r)
 UNCERTAIN=$(shell python3 examples_data.py list -u)
 PYTHON=python3
+FLAGS=-p
 
 all: $(ALL)
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -24,6 +25,4 @@ uncertain: $(UNCERTAIN)
 	@echo "Finished all examples for uncertain systems"
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 %:
-	@echo -n "## Running example $@... "
-	@$(PYTHON) run_example.py $@
-	@echo "Finished"
+	@$(PYTHON) run_example.py $@ $(FLAGS)

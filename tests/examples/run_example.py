@@ -1,8 +1,11 @@
-import signal, sys, time
+import signal, sys, time, pstats
 
 sys.path.insert(0, "./../../") # clue is here
 
-from clue import FODESystem, SparsePolynomial, UncertainFODESystem, UncertainLDESystem
+from contextlib import nullcontext
+from cProfile import Profile
+
+from clue import FODESystem, SparsePolynomial, Subspace, OrthogonalSubspace, UncertainFODESystem, UncertainLDESystem
 from examples_data import get_example #pylint: disable=import-error
 
 def alarm_handler(sgn, _):
@@ -25,18 +28,25 @@ if __name__ == "__main__":
     observables = example.observables
     timeout = 0
     output = f"{'' if example.out_folder is None else f'./{example.out_folder}/'}result_{example.name}.example.txt"
+    profile = None
+    subs_class = Subspace
 
     ## Checking the rest of the arguments
     n = 2
     while(n < nargs and args[n].startswith("-")):
         if(args[n] in ("-r", "-read", "--r", "--read")):
-            read = args[n+1]
+            read = args[n+1]; n += 2
         elif(args[n] in ("-m", "-matrix", "--m", "--matrix")):
-            matrix = args[n+1]
+            matrix = args[n+1]; n += 2
         elif(args[n] in ("-t", "-time", "--t", "--time")):
-            timeout = int(args[n+1])
+            timeout = int(args[n+1]); n += 2
         elif(args[n] in ("-o", "-output", "--o", "--output")):
-            output = int(args[n+1])
+            output = int(args[n+1]); n += 2
+        elif(args[n] in ("-p", "-profile", "--profile", "--p")):
+            profile = f"./profiles/result_{example.name}.profile.txt"; n += 1
+        elif(args[n] in ("--ortho", "--orthogonal", "-ortho", "-orthogonal")):
+            subs_class = OrthogonalSubspace; n+=1
+
 
     ## Creating the file in case it is needed
     if(output == "stdout"):
@@ -46,43 +56,58 @@ if __name__ == "__main__":
     else:
         file = open(output, "w")
 
+    ## Starting profiler if there is any
+    with Profile() if profile else nullcontext() as pr:
     ## Setting up the handler for the signal
-    old_handler = signal.signal(signal.SIGALRM, alarm_handler)
+        old_handler = signal.signal(signal.SIGALRM, alarm_handler)
 
-    ## now we can run the model properly
-    if read == "uncertain":
-        system = FODESystem(file=example.path_model(), parser="polynomial")
-        delta = example.delta
-        uncertain_type = example.unc_type
-        system = UncertainFODESystem.from_FODESystem(system, delta, type=uncertain_type)
-    else:
-        system = FODESystem(file=example.path_model(), parser=read)
+        print(f"[run_example] Running example {example.name} ({len(observables)} cases)...", flush=True)
 
-    for obs_set in observables:
-        print("===============================================", file=file)
-        obs_polys = [SparsePolynomial.from_string(s, system.variables) for s in obs_set]
-
-        lumped = None
-        signal.alarm(timeout)
-        try:
-            start = time.time()
-            lumped = system.lumping(obs_polys, method=matrix, file=file)
-            end = time.time()
-        except TimeoutError:
-            pass
-        signal.alarm(0)
-        
-        if(not lumped == None):
-            print(f"The size of the original model is {system.size}", file=file)
-            print(f"The size of the reduced model is {lumped.size}", file=file)
-            print(f"Computation took {end - start} seconds", file=file)
-            print(f"Is the lumping a Forward Lumping (FL)?: {lumped.is_FL()}", file=file)
-            if isinstance(lumped, UncertainLDESystem):
-                print(f"Has the lumping a Robust Weighted Lumping (RWL)?: {lumped.has_RWL()}", file=file)
+        ## now we can run the model properly
+        if read == "uncertain":
+            system = FODESystem(file=example.path_model(), parser="polynomial", lumping_subspace=subs_class)
+            delta = example.delta
+            uncertain_type = example.unc_type
+            system = UncertainFODESystem.from_FODESystem(system, delta, type=uncertain_type)
         else:
-            print(f"The example could not finish in the given timeout ({timeout}", file=file)
+            system = FODESystem(file=example.path_model(), parser=read, lumping_subspace=subs_class)
+
+        for obs_set in observables:
+            print(f"[run_example]     ++ {example.name} (({observables.index(obs_set)+1}/{len(observables)}))", flush=True)
+            print("===============================================", file=file)
+            obs_polys = [SparsePolynomial.from_string(s, system.variables, system.field) for s in obs_set]
+
+            lumped = None
+            signal.alarm(timeout)
+            try:
+                start = time.time()
+                lumped = system.lumping(obs_polys, method=matrix, file=file)
+                end = time.time()
+            except TimeoutError:
+                pass
+            signal.alarm(0)
+            
+            if(not lumped == None):
+                print(f"The size of the original model is {system.size}", file=file)
+                print(f"The size of the reduced model is {lumped.size}", file=file)
+                print(f"Computation took {end - start} seconds", file=file)
+                print(f"Is the lumping a Forward Lumping (FL)?: {lumped.is_FL()}", file=file)
+                if isinstance(lumped, UncertainLDESystem):
+                    print(f"Has the lumping a Robust Weighted Lumping (RWL)?: {lumped.has_RWL()}", file=file)
+            else:
+                print(f"The example could not finish in the given timeout ({timeout}", file=file)
+            print(f"[run_example]     -- {example.name} (({observables.index(obs_set)+1}/{len(observables)})) (Done)", flush=True)
+
+        print(f"[run_example] ## Finished example {example.name} ##", flush=True)
+        
+        ## Reverting changes
+        signal.signal(signal.SIGALRM, old_handler)
     
-    ## Reverting changes
-    signal.signal(signal.SIGALRM, old_handler)
+    # Closing the output file (if opened)
     if(not output in ("stdout", "stderr")):
         file.close()
+    # Saving the profile (if set)
+    if profile:
+        stats = pstats.Stats(pr)
+        stats.sort_stats(pstats.SortKey.TIME)
+        stats.dump_stats(filename=profile)
