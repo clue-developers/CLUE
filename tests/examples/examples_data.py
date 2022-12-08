@@ -238,6 +238,8 @@ if __name__ == "__main__":
                                     data["observables"][obs_set]["FL"] = "Yes" if "True" in line else "No"
                                 elif line.startswith("Has the lumping a Robust Weighted Lumping (RWL)?:"):
                                     data["observables"][obs_set]["RWL"] = "Yes" if "True" in line else "No"
+                                elif line.startswith("Overflow error detected"): # an error of size in execution
+                                    data[obs_set]["time"] = "Overflow error"
                                 line = file.readline()
                             ## Filling fields if not given
                             if  not "size" in data[obs_set]: data[obs_set]["size"] = "oo"

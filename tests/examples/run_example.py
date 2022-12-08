@@ -97,6 +97,9 @@ if __name__ == "__main__":
                 end = time.time()
             except TimeoutError:
                 pass
+            except OverflowError:
+                print("Overflow error detected", file=file)
+                break
             signal.alarm(0)
             
             if(not lumped == None):
