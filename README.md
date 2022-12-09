@@ -109,3 +109,8 @@ pip install .
 ```
 
 in the folder where the repository is downloaded.
+
+### Maintainers
+
+* [Gleb Pogudin](http://www.lix.polytechnique.fr/Labo/Gleb.POGUDIN/publications/)
+* [Antonio Jiménez-Pastor](https://homes.cs.aau.dk/~ajpa/)
