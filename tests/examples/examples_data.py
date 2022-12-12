@@ -235,6 +235,8 @@ if __name__ == "__main__":
                                     data["observables"][obs_set]["lumped"] = int(line.removeprefix("The size of the reduced model is"))
                                 elif line.startswith("Computation took"):
                                     data["observables"][obs_set]["time"] = float(line.removeprefix("Computation took").removesuffix("seconds"))
+                                elif line.startswith("Is the lumping a Forward Equivalence (FE)?:"):
+                                    data["observables"][obs_set]["FE"] = "Yes" if "True" in line else "No"
                                 elif line.startswith("Is the lumping a Forward Lumping (FL)?:"):
                                     data["observables"][obs_set]["FL"] = "Yes" if "True" in line else "No"
                                 elif line.startswith("Has the lumping a Robust Weighted Lumping (RWL)?:"):
@@ -248,6 +250,7 @@ if __name__ == "__main__":
                             if  not "size" in data["observables"][obs_set]: data["observables"][obs_set]["size"] = "oo"
                             if  not "lumped" in data["observables"][obs_set]: data["observables"][obs_set]["lumped"] = "oo"
                             if  not "time" in data["observables"][obs_set]: data["observables"][obs_set]["time"] = "oo"
+                            if  not "FE" in data["observables"][obs_set]: data["observables"][obs_set]["FE"] = "Not computed"
                             if  not "FL" in data["observables"][obs_set]: data["observables"][obs_set]["FL"] = "Not computed"
                             if  not "RWL" in data["observables"][obs_set]: data["observables"][obs_set]["RWL"] = "Not computed"
                             line = file.readline()
@@ -280,6 +283,7 @@ if __name__ == "__main__":
                 "Or. size", 
                 "Lmp. size", 
                 "Time (s)", 
+                "Is FE?",
                 "Is FL?", 
                 "Is RWL?", 
                 "Observables"
@@ -297,6 +301,7 @@ if __name__ == "__main__":
                         values["size"], 
                         values["lumped"], 
                         values["time"], 
+                        values["FE"],
                         values["FL"], 
                         values["RWL"],
                         obs_set

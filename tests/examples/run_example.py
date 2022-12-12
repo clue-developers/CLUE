@@ -109,6 +109,7 @@ if __name__ == "__main__":
                 print(f"The size of the original model is {system.size}", file=file)
                 print(f"The size of the reduced model is {lumped.size}", file=file)
                 print(f"Computation took {end - start} seconds", file=file)
+                print(f"Is the lumping a Forward Equivalence (FE)?: {lumped.is_FE()}", file=file)
                 print(f"Is the lumping a Forward Lumping (FL)?: {lumped.is_FL()}", file=file)
                 if isinstance(lumped, UncertainLDESystem):
                     print(f"Has the lumping a Robust Weighted Lumping (RWL)?: {lumped.has_RWL()}", file=file)
