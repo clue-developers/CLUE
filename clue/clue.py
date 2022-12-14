@@ -1771,6 +1771,18 @@ class LDESystem(FODESystem):
                 if len(supports[i].intersection(supports[j])) > 0:
                     return False
         return True
+
+    @lru_cache(maxsize=1)
+    def is_FE(self):
+        r'''
+            Method to check whether a lumping is a Forward Equivalence or not.
+        '''
+        L = self._subspace; nrows = len(L); ncols = len(L[0])
+        if any(any(not L[i][j] in (0,1) for j in range(ncols)) for i in range(nrows)):
+            return False
+
+        supports = reduce(lambda p, q : p.union(q), [{j for j in range(ncols) if L[i][j] != 0} for i in range(nrows)])
+        return len(supports) == len(self.old_system.variables)
 #------------------------------------------------------------------------------
 
 __all__ = ["FODESystem", "LDESystem"]
