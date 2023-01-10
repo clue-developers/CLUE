@@ -11,6 +11,7 @@ r'''
 import logging, math, sys, time
 from collections.abc import Iterable
 from functools import cached_property, reduce, lru_cache
+from numpy import array, ndarray
 from random import randint
 from scipy.integrate import solve_ivp
 
@@ -480,7 +481,7 @@ class FODESystem:
             The evaluation of the ``equations`` at ``point``. If the input is only one element, we return that element. Otherwise, we 
             return a list.
         '''
-        if isinstance(point, (list, tuple)):
+        if isinstance(point, (list, tuple, ndarray)):
             if len(point) != self.size:
                 raise TypeError("Not enough values to evaluate an equation (format list)")
 
@@ -1425,7 +1426,20 @@ class FODESystem:
 
             A list with the evaluation of the equations of ``self`` at the given point.
 
-            TODO: add examples and tests
+            EXAMPLES::
+
+                >>> from clue import *
+                >>> from sympy import QQ
+                >>> from sympy.polys.rings import vring
+                >>> R = vring(["x0", "x1", "x2"], QQ)
+                >>> ## Example 1
+                >>> system = FODESystem([x0**2 + x1 + x2, x2, x1], variables=['x0','x1','x2'])
+                >>> system.derivative(_, 0,0,0)
+                [MPQ(0,1), MPQ(0,1), MPQ(0,1)]
+                >>> system.derivative(_, 0,1,1)
+                [2, 1, 1]
+                >>> system.derivative(_, 2,0,1)
+                [5, 1, MPQ(0,1)]
         ''' 
         if len(x) == 1 and isinstance(x[0], Iterable):
             x = x[0]
@@ -1433,7 +1447,11 @@ class FODESystem:
         if len(x) != self.size:
             raise ValueError(f"The size of the input ({len(x)} does not coincide with the variables in the system ({self.size}")
 
-        return [self.eval_equation(equ, x) for equ in self.equations]
+        self.normalize() # we normalize the system (if not yet normalized)
+        output = [self.eval_equation(equ, x) for equ in self.equations]
+        if self.type in (SparsePolynomial, RationalFunction):
+            output = [el.ct for el in output]
+        return output
 
     def simulate(self, t0, t1, x0, tstep=0.01):
         r'''
@@ -1473,7 +1491,7 @@ class FODESystem:
                 tpoints.append(tpoints[-1] + tstep)
         tpoints.append(t1)
 
-        return Simulation(ode_result=solve_ivp(self.derivative, (t0,t1), x0, t_eval=tpoints))
+        return solve_ivp(self.derivative, (t0,t1), x0, t_eval=tpoints) ## TODO: implement properly the simulation with extra functionalities
 
     ##############################################################################################################
     ##############################################################################################################

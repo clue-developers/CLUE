@@ -15,7 +15,7 @@ from pyparsing import (
 )
 
 import sympy
-from sympy import QQ, oo
+from sympy import QQ, oo, sympify
 
 from clue.nual import NualNumber
 
@@ -123,7 +123,7 @@ class SparsePolynomial(object):
                 >>> p == sum([p.coefficients[i]*p.monomials[i] for i in range(n)], SparsePolynomial(p.gens, p.domain))
                 True
         '''
-        return tuple([SparsePolynomial.monomial(term[0], self.gens) for term in self.dataiter()])
+        return tuple([SparsePolynomial.monomial(term[0], self.gens, self.domain) for term in self.dataiter()])
 
     @property
     def coefficients(self):
@@ -747,13 +747,15 @@ class SparsePolynomial(object):
                 >>> sp.eval(x=0, y=0)
                 0
         '''
+
         # analyzing the values given
         rem_variables = [el for el in self.gens]
         for el in values:
             if(el in rem_variables):
                 rem_variables.remove(el)
+            
         rem_variables = [self.gens.index(el) for el in rem_variables]
-        values = {self.gens.index(el) : values[el] for el in values if el in self.gens}
+        values = {self.gens.index(el) : sympify(values[el]) for el in values if el in self.gens}
         ## Here `rem_variables` contains the indices of the variables remaining in the evaluation
         ## and values `values` contains a dictionary index -> value (instead of the name of the variable)
         

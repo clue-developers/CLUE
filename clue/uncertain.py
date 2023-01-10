@@ -46,7 +46,7 @@ class UncertainFODESystem(FODESystem):
             >>> from clue import *
             >>> from sympy import QQ
             >>> from sympy.polys.rings import vring
-            >>> R = sympy.polys.rings.vring(["x0", "x1", "x2"], QQ)
+            >>> R = vring(["x0", "x1", "x2"], QQ)
             >>> ## Example 1
             2*x0 + 3*x1 + 2*x2, x0+2*x1+x2, 2*x0 + 4*x1 + 2*x2
             >>> usystem = UncertainFODESystem([(x0 + 2*x1 + x2, 3*x0+4*x1+3*x2), (x1, 2*x0+3*x1+2*x2), (x0 + 3*x1 + x2, 3*x0 + 5*x1 + 3*x2)], variables=['x0','x1','x2'])
@@ -217,7 +217,7 @@ class UncertainFODESystem(FODESystem):
                 >>> from clue import *
                 >>> from sympy import QQ
                 >>> from sympy.polys.rings import vring
-                >>> R = sympy.polys.rings.vring(["x0", "x1", "x2"], QQ)
+                >>> R = vring(["x0", "x1", "x2"], QQ)
                 >>> ## Example 1
                 >>> system = FODESystem([2*x0 + 3*x1 + 2*x2, x0+2*x1+x2, 2*x0 + 4*x1 + 2*x2], variables=['x0','x1','x2'])
                 >>> usystem = UncertainFODESystem.from_FODESystem(system, 1)
