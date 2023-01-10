@@ -24,6 +24,7 @@ from .linalg import SparseRowMatrix, Subspace, SparseVector, find_smallest_commo
 from .nual import NualNumber
 from .ode_parser import read_system
 from .rational_function import SparsePolynomial, RationalFunction
+from .simulations import Simulation
 
 ## Configuring logger for this module
 logger = logging.getLogger(__name__)
@@ -1472,7 +1473,7 @@ class FODESystem:
                 tpoints.append(tpoints[-1] + tstep)
         tpoints.append(t1)
 
-        return solve_ivp(self.derivative, (t0,t1), x0, t_eval=tpoints)
+        return Simulation(ode_result=solve_ivp(self.derivative, (t0,t1), x0, t_eval=tpoints))
 
     ##############################################################################################################
     ##############################################################################################################
