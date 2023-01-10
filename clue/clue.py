@@ -9,10 +9,10 @@ r'''
 '''
 
 import logging, math, sys, time
-
-from random import randint
-
+from collections.abc import Iterable
 from functools import cached_property, reduce, lru_cache
+from random import randint
+from scipy.integrate import solve_ivp
 
 import sympy
 from sympy import QQ, lambdify, symbols
@@ -1404,6 +1404,75 @@ class FODESystem:
             raise NotImplementedError
 
         return [list(el) for el in set(tuple([tuple(el) for el in result]))]
+
+    ##############################################################################################################
+    ### Simulation methods
+    def derivative(self, _, *x):
+        r'''
+            Method to compute the right hand side of the system at a specific point and time.
+
+            Since the systems we are considering are always autonomous, the first input (which represents the 
+            time input) is discarded. We can always create an autonomous system by adding one equation for the 
+            time with the equation `t' = 1`.
+
+            INPUT:
+
+            * ``_``: value for the time of the derivative. This argument is irrelevant in autonomous systems
+            * ``x``: list of values (of length ``len(self)``) to represent the point where the derivative will be computed.
+
+            OUTPUT:
+
+            A list with the evaluation of the equations of ``self`` at the given point.
+
+            TODO: add examples and tests
+        ''' 
+        if len(x) == 1 and isinstance(x[0], Iterable):
+            x = x[0]
+        
+        if len(x) != self.size:
+            raise ValueError(f"The size of the input ({len(x)} does not coincide with the variables in the system ({self.size}")
+
+        return [self.eval_equation(equ, x) for equ in self.equations]
+
+    def simulate(self, t0, t1, x0, tstep=0.01):
+        r'''
+            Method to simulate the dynamical system
+
+            This method simulates (see :func:`scipy.integrate.solve_ivp`) a solution for the dynamical system 
+            on the time interval defined with `(t_0, t_1)` for a fixed starting point `x0`. The output will 
+            be given with data for every `tstep`.
+
+            INPUT:
+
+            * ``t0``: starting point of the time interval.
+            * ``t1``: ending point of the time interval (can be smaller than ``t0``).
+            * ``x0``: starting data (must have length ``len(self)``)
+            * ``tstep``: time steps where the output data will be displayed (must be positive).
+
+            OUTPUT:
+
+            A :class:`scipy.integrate._ivp.ivp.OdeResult` with the result of the simulation of ``self`` with the given data.
+        '''
+        # Checking the input ``x``
+        if not isinstance(x0, Iterable):
+            raise ValueError(f"The size of the input ({len(x0)} does not coincide with the variables in the system ({self.size}")
+        x0 = list(x0) # we cast it to a list
+        
+        # Checking the input tstep
+        if tstep <= 0:
+            raise ValueError("The time-step must be strictly positive")
+
+        # Computing the time points for evaluation (all equally distributed)
+        tpoints = [t0]
+        if t1 < t0: # negative direction
+            while tpoints[-1] - tstep > t1:
+                tpoints.append(tpoints[-1] - tstep)
+        else: # usual direction
+            while tpoints[-1] + tstep < t1:
+                tpoints.append(tpoints[-1] + tstep)
+        tpoints.append(t1)
+
+        return solve_ivp(self.derivative, (t0,t1), x0, t_eval=tpoints)
 
     ##############################################################################################################
     ##############################################################################################################
