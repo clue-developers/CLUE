@@ -1089,7 +1089,7 @@ class OrthogonalSubspace(Subspace):
         * :func:`absorb_new_vector`
         * :func:`apply_matrices_inplace` --> just forcing the ``monitor_length`` to be ``False``
         * :func:`reduce_mod` --> we disable this method for this class (no modular approach implemented)
-        * :func:`parametrizing_coordinates` --> we speed-up this methdo because we know the keys of the dictionary
+        * :func:`parametrizing_coordinates` --> we speed-up this method because we know the keys of the dictionary
         * :func:`perform_change_of_variables`
         * :func:`rational_reconstruction` --> we disable this method for this class (no modular approach implemented)
     '''
@@ -1228,6 +1228,19 @@ class OrthogonalSubspace(Subspace):
         raise NotImplementedError("Modular approach is NOT valid for Orthogonal basis")
 
 class NumericalSubspace(OrthogonalSubspace):
+    r'''
+        Class to represent subspaces where containment is not exactly defined.
+
+        This is a subclass of :class:`OrthogonalSubspace` where now we assume that small orthogonal 
+        remainings (i.e., the vectors that remain after substracting the orthogonal projection onto ``self``)
+        are inside the space if the `l_2`-norm is smaller than a threshold.
+
+        TODO: add more documentation and examples
+
+        Methods that are overriden:
+
+        * :func:`_should_absorb`
+    '''
     def __init__(self, field: Domain, delta : float = 1e-4):
         super().__init__(field)
         self.__delta = delta
