@@ -1,80 +1,91 @@
 r'''
     Module to extend the functionality of simulations to the CLUE differential systems.
 '''
-from numpy.random import normal
+from matplotlib.pyplot import subplots
+from numpy import array, concatenate, matmul, ndarray
 from scipy.integrate._ivp.ivp import OdeResult
+from typing import Collection
 
-class Simulation(OdeResult):
+def apply_matrix(simulation : OdeResult, matrix : ndarray):
+    ##############################################################################################
+    ## Checking the matrix argument
+    if not isinstance(matrix, ndarray):
+        matrix = array(matrix)
+    if len(matrix.shape) != 2:
+        raise TypeError("The 'matrix' argument is not valid: it does not have a matrix shape")
+    elif matrix.shape[1] != len(simulation.y):
+        raise TypeError(f"The 'matrix' argument is not valid: wrong number of columns [got {matrix.shape[1]}, expected {len(simulation.y)}]")
+
+    ##############################################################################################
+    ## Building the new simulation
+    kwds = {key : simulation.__getattr__(key) for key in dir(simulation)}
+    kwds["y"] = matmul(matrix, simulation.y)
+
+    ## Building the new names
+    if hasattr(simulation, "names"):
+        names = simulation.names
+        new_names = []
+        for row in matrix: ## TODO: Fix this
+            if all(el == 0 for el in row):
+                new_names.append("0")
+            else:
+                parts = []
+                for i in range(len(row)):
+                    c = row[i]; v = names[i]
+                    if c != 0 and len(parts) == 0:
+                        parts.append(f"{'-' if c < 0 else ''}{'' if c in (1, -1) else f'{abs(c)}*'}{v}")
+                    elif c != 0:
+                        parts.append(f"{'+ ' if c > 0 else '- '}{'' if c in (1,-1) else f'{abs(c)}*'}{v}")
+                new_names.append(" ".join(parts))
+        kwds["names"] = new_names
+        
+    return OdeResult(**kwds)
+
+def merge_simulations(sim1 : OdeResult, sim2 : OdeResult):
+    if (sim1.t == sim2.t).all():
+        kwds = {
+            "message" : "merged simulation",
+            "success" : sim1.success and sim2.success,
+            "t" : sim1.t,
+            "y" : concatenate((sim1.y, sim2.y))
+        }
+        if all(hasattr(sim, "names") for sim in (sim1,sim2)): kwds["names"] = list(sim1.names) + list(sim2.names)
+        return OdeResult(**kwds)
+    raise TypeError("Incompatible simulations to be merged")
+
+def create_figure(simulation : OdeResult, names : str | Collection[str] = "x", format : str = "o-"):
     r'''
-        Class that extends the functionality of a :class:`~scipy.integrate._ivp.ivp.OdeResult`.
+        Method to create a matplotlib figure from a simulation.
+
+        Given some data from a simulation using :func:`scipy.integrate.solve_ivp` it is very common to
+        display it result on a graphical view. This method automatizes this procedure so it is simpler to
+        see the simulation on a new window.
+
+        INPUT:
+
+        * ``simulation``: a :class:`scipy.integrate._ivp.ivp.OdeResult` with a simulation.
+        * ``name``: name for the functions we are simulation. It is an optional argument (by default "x").
+
+        OUTPUT:
+
+        A figure that can be display using method ``show``.
     '''
-    def __init__(self, *args, ode_result = None, **kwds):
-        if ode_result != None:
-            self.__ode_result = ode_result
-        super().__init__(*args, **kwds)
+    n = len(simulation["y"]) # number of output functions
+    m = len(simulation["t"]) # number of time steps
 
-    def __getattr__(self, name):
-        try:
-            return self.__ode_result.__getattr__(name)
-        except KeyError:
-            return super().__getattr__(name)
+    names = simulation.names if hasattr(simulation, "names") else names if isinstance(names, (list,tuple)) else [f"{names}{i+1}" for i in range(n)]
 
-    def perturb(self, distribution = lambda val, size : normal(0, val, size), is_relative : bool = False, perturbation_val : float = 1e-4):
-        r'''
-            Method that perturb a simulation and creates a new simulation with different values.
+    # Computing the interval for time
+    xinterval = (simulation["t"][0], simulation["t"][-1])
+    
+    # Computing the interval for values
+    ymin = (min(min(simulation["y"][i][j] for j in range(m)) for i in range(n))) - 0.1
+    ymax = (max(max(simulation["y"][i][j] for j in range(m)) for i in range(n))) + 0.1
+    yinterval = (ymin, ymax)
 
-            The method adds noise to a simulation using a given noise ``distribution``. We can decide
-            whether to add an absolute noise or relative to the values of the simulation (by using the 
-            argument ``is_relative``) and the amount of noise is then fixed by the ``pertturbation_val``.
+    fig, ax = subplots(1,1, figsize=(8,4))
+    for i in range(n):
+        ax.plot(simulation['t'], simulation['y'][i], format, label=names[i])
 
-            INPUT:
-
-            * ``distribution``: a method or function that takes two arguments ``val`` and ``size``. The method must return a list of 
-              ``size`` values using some random distribution set up by ``val``.
-            * ``is_relative``: if set to ``True`` the noise will be added in proportion to the maximal difference between the values in 
-              the simulation.
-            * ``perturbation_val``: value for the noise to be add. If ``is_relative``, this means the proportion of the maximal difference 
-              of a function. Otherwise, it is an absolute parameter.
-        '''
-        from numpy import max, min
-        t = self.t
-        m = len(t) # number of time steps
-
-        diffs = [max(y) - min(y) for y in self.y] if is_relative else [1 for _ in self.y]
-
-        noise = [distribution(perturbation_val*diff / 2, m) for diff in diffs]
-
-        new_sym = Simulation(ode_result=self.__ode_result.copy())
-        new_sym.y = new_sym.y + noise
-
-        return new_sym
-
-    def uncertain_perturbation(self, is_relative : bool = False, perturbation_val : float = 1e-4):
-        r'''
-            Method to create a uncertain interval from a simulation.
-        '''
-        from numpy import array
-        return self.perturb(lambda val, size : array(size*[val]), is_relative, perturbation_val), self.perturb(lambda val, size : array(size*[val]), is_relative, -perturbation_val)
-
-    def apply_matrix(self, matrix):
-        r'''
-            Method that apply a matrix to a simulation. 
-            
-            This means that we combine the functions simulated in ``self`` using a linear combination given by a matrix. We return a new simulation.
-        '''
-        from numpy import array, ndarray
-        if not isinstance(matrix, ndarray):
-            matrix = array(matrix)
-        if len(matrix.shape) != 2: # it is not a matrix
-            raise TypeError("The input 'matrix' must be a matrix (i.e., have two indices for its shape)")
-
-        ts = self.t
-        ys = self.y
-        if len(ys) != matrix.shape[1]:
-            raise ValueError(f"The given matrix must have {len(ys)} columns but it has {matrix.shape[1]}")
-
-        ys = matrix*ys
-        return Simulation(t=ts, y=ys, sol=self.sol, t_events=self.t_events, y_events=self.y_events,
-                     nfev=self.nfev, njev=self.njev, nlu=self.nlu,
-                     status=self.status, message=self.message, success=self.status >= 0)
-
+    ax.legend(); ax.set_xlim(*xinterval); ax.set_ylim(*yinterval)
+    return fig
