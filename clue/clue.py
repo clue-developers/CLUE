@@ -7,18 +7,20 @@ r'''
 
     TODO: add more documentation
 '''
+from __future__ import annotations
 
-import logging, math, sys, time
+import logging, math, sympy, sys, time
 from collections.abc import Iterable
 from functools import cached_property, reduce, lru_cache
-from numpy import array, ndarray
+from itertools import product
+from numpy import ndarray
+from numpy.random import normal, uniform
 from random import randint
 from scipy.integrate import solve_ivp
-
-import sympy
-from sympy import QQ, lambdify, symbols
+from sympy import QQ, lambdify, symbols, oo
 from sympy.polys.fields import FracElement
 from sympy.polys.rings import PolyElement
+from typing import Callable, Any
 
 
 from .linalg import SparseRowMatrix, Subspace, SparseVector, find_smallest_common_subspace
@@ -128,6 +130,87 @@ class FODESystem:
         self._lumping_matr = {}
         self.__normalize_input = False
         self._lumped_system_type = LDESystem
+
+    @staticmethod
+    def PerturbedFromSystem(system : FODESystem, noise : str | Callable[[Any], Any] = "normal", amplitude : float = 0.005, zeros = False):
+        r'''
+            Builder for a new :class:`FODESystem` by perturbing the coefficients that appear in the equations.
+
+            This static builder creates a new :class:`FODESystem` from a pre-existing system by changing slighly
+            the numerical coefficients that appear. If the flag ``zeros`` is set to ``True`` we can also 
+            add noise to non-exixting monomials in the system (not yet implemented).
+
+            The adding of noise is done with a function given by ``noise``. This argument can also be a string
+            with the values "normal" or "uniform". Then we create here the corresponding function to that specific 
+            type of noise.
+
+            INPUT:
+
+            * ``system``: the original system to be perturbed.
+            * ``noise``: a function `f(x) = y` where `y` is the (randomly-generated) noised value from `x`.
+            * ``amplitude``: (only when ``noise`` is str) allows to adjust the scale of the noise generated from a `str`.
+            * ``zeros``: if ``True`` we may also modify non-existing monomials (**NOT IMPLEMENTED**).
+
+            OUTPUT:
+
+            A new :class:`FODESystem` with the perturbed system.
+        '''
+        #######################################################################
+        ## Creating the noise function if given by str
+        if isinstance(noise, str):
+            if noise == "normal":
+                noise = lambda v : normal(v, amplitude)
+            elif noise == "uniform":
+                noise = lambda v : uniform(v-amplitude/2, v+amplitude/2)
+            else:
+                raise ValueError(f"The noise given by '{noise}' is not valid. Only 'normal' and 'uniform' are allowed.")
+
+        #######################################################################
+        ## Defining auxiliary functions for creating the new system
+        ## Polynomials
+        def __perturb_SparsePolynomial(poly : SparsePolynomial, zeros : bool = False):
+            n = len(poly.gens)
+            if poly.degree() == oo: return SparsePolynomial.from_const(noise(0), poly.gens, poly.domain)
+            elif not zeros:
+                new_data = {mon : noise(val) for mon, val in poly.dataiter()}
+            else:
+                new_data = {}
+                for mon in product(*[range(poly.degree(v)+1) for v in poly.gens]):
+                    mon = tuple((i,mon[i]) for i in range(n) if mon[i] != 0) # creating the monomial structure
+                    new_data[mon] = noise(poly._data.get(mon,0)) # adding the noise to the monomial
+
+            return SparsePolynomial(poly.gens, poly.domain, new_data)
+        ## Rational functions
+        def __perturb_RationalFunction(func : RationalFunction, zeros : bool = False):
+            numer = __perturb_SparsePolynomial(func.numer, zeros)
+            denom = 0
+            while denom == 0: denom = __perturb_SparsePolynomial(func.denom, zeros)
+
+            return RationalFunction(numer, denom)
+        ## Sympy expressions
+        def __perturb_SympyExpr(expr):
+            ## TODO This need to be implemented
+            raise NotImplementedError("Perturbation of Sympy expressions not yet implemented")
+
+        #######################################################################
+        ## Creating the new system
+        ## Equations
+        if system.type is SparsePolynomial:
+            new_eqs = [__perturb_SparsePolynomial(poly, zeros) for poly in system.equations]
+        elif system.type is RationalFunction:
+            new_eqs = [__perturb_RationalFunction(func, zeros) for func in system.equations]
+        else:
+            new_eqs = [__perturb_SympyExpr(expr) for expr in system.equations]
+        ## Observables
+        new_obs = [__perturb_SparsePolynomial(poly, zeros) for poly in system.observables] if system.observables != None else None
+        ## Initial conditions
+        new_ic = {key : noise(val) for (key,val) in system.ic.items()} if system.ic != None else None
+        ## Name
+        new_name = f"Pertubed system{f' [{system.name}]' if system.name != None else ''}"
+
+        return FODESystem(new_eqs, new_obs, system.variables, new_ic, new_name)
+
+
 
     # Getters of attributes
     @property
