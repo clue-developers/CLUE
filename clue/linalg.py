@@ -751,7 +751,7 @@ class Subspace(object):
         r'''Magic implementation for the "in" syntax in Python'''
         return self.contains(vector)
 
-    def absorb_new_vector(self, new_vector : SparseVector):
+    def absorb_new_vector(self, new_vector : SparseVector, force : bool = False):
         r'''
             Method to extend the subspace using a new vector.
 
@@ -766,6 +766,7 @@ class Subspace(object):
             Input:
 
             * ``new_vector``: a :class:`SparseVector` that will be absorbed by ``self``.
+            * ``force``: command to guarantee the absorbtion of the vector.
 
             Output:
 
@@ -776,7 +777,7 @@ class Subspace(object):
         new_vector = self.reduce_vector(new_vector)
 
         # We check if ``new_vector`` was in ``self``
-        if not self._should_absorb(new_vector):
+        if not ((force and new_vector.nonzero) or self._should_absorb(new_vector)):
             return -1
 
         # We compute the pivot position
@@ -1160,11 +1161,11 @@ class OrthogonalSubspace(Subspace):
 
         return vector
 
-    def absorb_new_vector(self, new_vector: SparseVector):
+    def absorb_new_vector(self, new_vector : SparseVector, force : bool =False):
         new_vector = self.reduce_vector(new_vector)
 
         # We check if ``new_vector`` was in ``self``
-        if not self._should_absorb(new_vector):
+        if not ((force and new_vector.nonzero) or self._should_absorb(new_vector)):
             return -1
 
         # we scale the new vector depending on the ground field
@@ -1250,18 +1251,20 @@ class NumericalSubspace(OrthogonalSubspace):
   
 #------------------------------------------------------------------------------
 
-def find_smallest_common_subspace(matrices, vectors_to_include, subspace_class = Subspace) -> Subspace:
+def find_smallest_common_subspace(matrices, vectors_to_include, subspace_class = Subspace, **kwds) -> Subspace:
     """
       Input
         - matrices - an iterator for matrices (SparseMatrix)
         - vectors_to_include - a list of vectors (SparseVector)
+        - subspace_class - a class for the computation of subspaces
+        - kwds - another optional arguments used to create the subspace object
       Output
         a smallest invariant subspace for the matrices containing the vectors
     """
     field = vectors_to_include[0].field
-    original_subspace = subspace_class(field)
+    original_subspace = subspace_class(field, **kwds)
     for vec in vectors_to_include:
-        original_subspace.absorb_new_vector(vec)
+        original_subspace.absorb_new_vector(vec, force=True)
 
     if field != QQ:
         original_subspace.apply_matrices_inplace(matrices)

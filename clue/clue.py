@@ -114,7 +114,7 @@ class FODESystem:
                 raise ValueError("No name for variables were given.")
             variables = dic['variables']
         observables = observables if observables != None else (dic.get('observables', None) if dic != None else None)
-        ic = ic if ic != None else (dic.get('ic', None) if dic != None else None)
+        ic = ic if ic != {} else (dic.get('ic', None) if dic != None else None)
         name = name if name != None else (dic.get('name', None) if dic != None else None)
         
         # Now we have the data in the first arguments
@@ -124,7 +124,9 @@ class FODESystem:
         self._ic = ic
         self._name = name
         self.__matrices_subspace_class = kwds.get("matrices_subspace", Subspace)
+        self.__matrices_subspace_kwds = kwds.get("matrices_subspace_kwds", {})
         self.__lumping_subspace_class = kwds.get("lumping_subspace", Subspace)
+        self.__lumping_subspace_kwds = kwds.get("lumping_subspace_kwds", {})
 
         self._lumping_matr = {}
         self.__normalize_input = False
@@ -223,7 +225,18 @@ class FODESystem:
     @property
     def matrices_subspace_class(self): return self.__matrices_subspace_class
     @property
+    def matrices_subspace_kwds(self): return self.__matrices_subspace_kwds
+    @property
     def lumping_subspace_class(self): return self.__lumping_subspace_class
+    @property
+    def lumping_subspace_kwds(self): return self.__lumping_subspace_kwds
+    @lumping_subspace_class.setter
+    def lumping_subspace_class(self, new_val):
+        new_class, kwds = new_val
+        if not issubclass(new_class, Subspace):
+            raise TypeError("The subspace class must inherit from Subpace")
+        self.__lumping_subspace_class = new_class
+        self.__lumping_subspace_kwds = kwds
     @cached_property
     def bounds(self): 
         r'''
@@ -988,7 +1001,7 @@ class FODESystem:
         J = [[rf.derivative(v) for rf in rational_functions] for v in variables]
 
         # we create the matrices by evaluating the jacobian
-        subspace = self.matrices_subspace_class(field)
+        subspace = self.matrices_subspace_class(field, **self.matrices_subspace_kwds)
         pivot_index = subspace.absorb_new_vector(FODESystem.build_random_evaluation_matrix(J).to_vector())
         n = sum(sum(1 for el in row if el != 0) for row in J) # number of non-zero entries 
         m = 1 # number of random generated matrices
@@ -1049,7 +1062,7 @@ class FODESystem:
         varnames = self.variables
         field = self.field
 
-        subspace = self.matrices_subspace_class(field)
+        subspace = self.matrices_subspace_class(field, self.matrices_subspace_kwds)
 
         # computing number of non-zero entries in the jacobian
         if(isinstance(funcs[0], (SparsePolynomial, RationalFunction))):
@@ -1819,7 +1832,7 @@ class FODESystem:
             vectors_to_include.append(vec)
         logger.debug(":ilumping: Computing the lumping subspace...")
         start = time.time()
-        lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include, subspace_class=self.lumping_subspace_class)
+        lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include, subspace_class=self.lumping_subspace_class, **self.lumping_subspace_kwds)
         logger.debug(f":ilumping: -> Found the lumping subspace in {time.time()-start}s")
 
         lumped_rhs = self._lumped_system(lumping_subspace, vars_old, field, new_vars_name)

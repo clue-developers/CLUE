@@ -53,7 +53,7 @@ def merge_simulations(sim1 : OdeResult, sim2 : OdeResult):
         return OdeResult(**kwds)
     raise TypeError("Incompatible simulations to be merged")
 
-def create_figure(simulation : OdeResult, names : str | Collection[str] = "x", format : str = "o-"):
+def create_figure(simulation : OdeResult, names : str | Collection[str] = "x", **kwds):
     r'''
         Method to create a matplotlib figure from a simulation.
 
@@ -65,27 +65,78 @@ def create_figure(simulation : OdeResult, names : str | Collection[str] = "x", f
 
         * ``simulation``: a :class:`scipy.integrate._ivp.ivp.OdeResult` with a simulation.
         * ``name``: name for the functions we are simulation. It is an optional argument (by default "x").
+        * ``kwds``: optional arguments that will be use for improving or changing the figure. The valid options are:
+            - ``format``: provides the format for the lines in the figure
+            - ``force_unsuccess``: boolean to force the creation of a figure even when the simulation was not successful
 
         OUTPUT:
 
         A figure that can be display using method ``show``.
     '''
-    n = len(simulation["y"]) # number of output functions
-    m = len(simulation["t"]) # number of time steps
+    ## Processing optional arguments
+    format = kwds.get("format", "o-")
+    force_unsuccess = kwds.get("force_unsuccess", False)
+
+    if not simulation.success and not force_unsuccess:
+        raise ValueError("The simulation was not successful. Impossible to create figure")
+
+    n = len(simulation.y) # number of output functions
 
     names = simulation.names if hasattr(simulation, "names") else names if isinstance(names, (list,tuple)) else [f"{names}{i+1}" for i in range(n)]
 
     # Computing the interval for time
-    xinterval = (simulation["t"][0], simulation["t"][-1])
+    xinterval = (simulation.t[0], simulation.t[-1])
     
     # Computing the interval for values
-    ymin = (min(min(simulation["y"][i][j] for j in range(m)) for i in range(n))) - 0.1
-    ymax = (max(max(simulation["y"][i][j] for j in range(m)) for i in range(n))) + 0.1
+    ymin, ymax = simulation.y.min(), simulation.y.max()
+    padding = 0.01*(ymax-ymin)
+    ymin, ymax = ymin - padding, ymax + padding
     yinterval = (ymin, ymax)
 
+    # Creating the figure
     fig, ax = subplots(1,1, figsize=(8,4))
     for i in range(n):
-        ax.plot(simulation['t'], simulation['y'][i], format, label=names[i])
+        ax.plot(simulation.t, simulation.y[i], format, label=names[i])
 
     ax.legend(); ax.set_xlim(*xinterval); ax.set_ylim(*yinterval)
     return fig
+
+def sim_to_IO_format(simulation : OdeResult, tstep : float = .0, what : str = "derivative"):
+    r'''
+        Method to transform a simulation into a input-output table
+
+        A simulation provide plenty of data for training something starting from a 
+        first order differential system. The input are the values at a point and the output are
+        the values after the time step.
+
+        Hence, we need to link every vector on the simulation with the next one. 
+
+        INPUT: 
+        
+        * ``simulation``: a :class:`scipy.integrate._ivp.ivp.OdeResult` with a simulation.
+        * ``tstep``: we will take only the data from a simulation that has a distance at least ``tstep``. If set
+          to 0, then all steps in the simulation are included.
+        * ``what``: the type of data we will extract from the simulation. It can be either ``"value"`` 
+          for extracting the value for the next time step, or it can be ``"derivative"`` to extract the 
+          approximate derivative at a point.
+
+        OUTPUT:
+
+        A list containing 2-tuples with format (input, output).
+    '''
+    if not simulation.success:
+        return []
+    
+    t = simulation.t
+    m = len(t) # number of time steps
+    y = simulation.y.transpose() # each row is the value of each function at a time from `t`
+
+    if what == "value": # the data is the next position in time
+        output = [(y[i], y[i+1]) for i in range(m-1) if t[i+1] - t[i] > 0.9*tstep]
+    elif what == "derivative": # the data is the derivative of the point
+        output = [(y[i], (y[i+1] - y[i])/(t[i+1]- t[i])) for i in range(m-1) if t[i+1] - t[i] > 0.9*tstep]
+    else:
+        raise ValueError("The requested data (see argument ``what``) is not recognized.")
+    return output
+
+__all__ = ["apply_matrix", "merge_simulations", "create_figure", "sim_to_IO_format"]

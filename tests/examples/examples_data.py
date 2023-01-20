@@ -64,8 +64,6 @@ class Example:
 
         return json
 
-
-
 script_dir = os.path.dirname(__file__) if __name__ != "__main__" else "./"
 examples = {}
 with open(os.path.join(script_dir,'data.json')) as f:
