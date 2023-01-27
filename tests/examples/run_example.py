@@ -1,6 +1,7 @@
-import signal, sys, time, pstats
+import os, pickle, pstats, signal, sys, time
 
-sys.path.insert(0, "./../../") # clue is here
+SCRIPT_DIR = os.path.dirname(__file__) if __name__ != "__main__" else "./"
+sys.path.insert(0, os.path.join(SCRIPT_DIR, "..", "..")) # models and clue is here
 
 from contextlib import nullcontext
 from cProfile import Profile
@@ -43,10 +44,11 @@ if __name__ == "__main__":
         elif(args[n] in ("-o", "-output", "--o", "--output")):
             output = int(args[n+1]); n += 2
         elif(args[n] in ("-p", "-profile", "--profile", "--p")):
-            profile = f"./profiles/result_{example.name}.profile.txt"; n += 1
+            profile = True; n += 1
         elif(args[n] in ("--ortho", "--orthogonal", "-ortho", "-orthogonal")):
             subs_class = OrthogonalSubspace; n+=1
     
+    profile = example.profile_path(read, matrix) if profile else None
     output = example.results_path(read, matrix) if output is None else output
 
     ## Creating the file in case it is needed
@@ -106,13 +108,14 @@ if __name__ == "__main__":
             signal.alarm(0)
             
             if(not lumped == None):
+                with open(example.out_path(read, matrix, tuple(observables)), "w") as file_for_lumped:
+                    pickle.dump(lumped, file_for_lumped)
                 print(f"The size of the original model is {system.size}", file=file)
                 print(f"The size of the reduced model is {lumped.size}", file=file)
                 print(f"Computation took {end - start} seconds", file=file)
                 print(f"Is the lumping a Forward Equivalence (FE)?: {lumped.is_FE()}", file=file)
                 print(f"Is the lumping a Forward Lumping (FL)?: {lumped.is_FL()}", file=file)
-                if isinstance(lumped, UncertainLDESystem):
-                    print(f"Has the lumping a Robust Weighted Lumping (RWL)?: {lumped.has_RWL()}", file=file)
+                print(f"Has the lumping a Robust Weighted Lumping (RWL)?: {lumped.has_RWL()}", file=file)
             else:
                 print(f"The example could not finish in the given timeout ({timeout}", file=file)
             print("###############################################", file=file)

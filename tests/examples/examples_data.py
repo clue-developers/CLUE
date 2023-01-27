@@ -52,7 +52,7 @@ class Example:
     @cached_property
     def base_path(self):
         if self.out_folder != None:
-            return os.path.join(SCRIPT_DIR, self.out_order)
+            return os.path.join(SCRIPT_DIR, self.out_folder)
         else:
             return SCRIPT_DIR
 
