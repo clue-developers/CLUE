@@ -137,9 +137,9 @@ class FODESystem:
         r'''
             Builder for a new :class:`FODESystem` by perturbing the coefficients that appear in the equations.
 
-            This static builder creates a new :class:`FODESystem` from a pre-existing system by changing slighly
+            This static builder creates a new :class:`FODESystem` from a pre-existing system by changing slightly
             the numerical coefficients that appear. If the flag ``zeros`` is set to ``True`` we can also 
-            add noise to non-exixting monomials in the system (not yet implemented).
+            add noise to non-existing monomials in the system (not yet implemented).
 
             The adding of noise is done with a function given by ``noise``. This argument can also be a string
             with the values "normal" or "uniform". Then we create here the corresponding function to that specific 
@@ -1967,6 +1967,87 @@ class LDESystem(FODESystem):
 
         supports = reduce(lambda p, q : p.union(q), [{j for j in range(ncols) if L[i][j] != 0} for i in range(nrows)])
         return len(supports) == len(self.old_system.variables)
+
+    def has_RWL(self):
+        r'''
+            Checks whether a lumped system has a Robust Weighted Lumping.
+        '''
+        try:
+            self.get_RWL()
+            return True
+        except ValueError:
+            return False
+
+    def get_RWL(self):
+        r'''
+            Method to check whether a lumped system has a lumping+ of same dimension.
+
+            This method checks whether the lumped system built in ``self`` can be rearrange to have a 
+            "lumped+" version of itself. This would mean that there is a lumping of the same dimension preserving the same 
+            invariant space (i.e., preserving the observables) such that:
+
+            * The rows of the new lumping have disjoint support.
+            * The entries of the lumping are non-negative.
+
+            To check this, we use the criteria in ((TODO:add reference)), where we define an equivalence relation on the columns of 
+            the current lumping and then, such lumping+ exists if and only if the number of equivalent classes is the number of rows 
+            of the lumping.
+
+            This method will return the new lumped system.
+        '''
+        L = self._subspace; nrows = len(L); ncols = len(L[0])
+        ## First we check if this lumping was lumping+ already
+        if all([[L[i][j] for i in range(nrows)].count(0) in (nrows,nrows-1) for j in range(ncols)]) and all(all(L[i][j] >= 0 for j in range(ncols)) for i in range(nrows)):
+            return self
+        classes = [] 
+        # classes will be a list of (i, l) where `i` is the column and `l` is the scaling factor for the representative of the class
+        # For `cls` in "classes", cls[0] is always (i,1) and is the representative of the class
+
+        def are_equivalent(v1,v2):
+            # checking size are the same
+            if len(v1) != len(v2):
+                raise ValueError("The two given vectors must have the same length")
+            # finding first non-zero entry
+            p = 0
+            while v1[p] == 0: p+=1
+
+            if p == len(v1):
+                raise ValueError("The vector v1 must be non-zero")
+
+            # we compute the candidate for `\lambda`
+            l = v2[p]/v1[p]
+            if all(v2[i] == l*v1[i] for i in range(len(v1))):
+                return l
+            return False
+
+        for i in range(ncols):
+            vi = [L[j][i] for j in range(nrows)]
+            if any(e != 0 for e in vi):
+                for cls in classes:
+                    v = [L[j][cls[0][0]] for j in range(nrows)]
+                    l = are_equivalent(v,vi)
+                    if l:
+                        # the column i is in the same class as cls --> we add it with the factor `l`
+                        cls.append((i,l))
+                        break
+                else: # we did not find a suitable class for the column `i` --> we create a new class
+                    classes.append([(i,1)])
+
+        if len(classes) != nrows: # there is not a lumping+
+            raise ValueError("There is no lumping+ available for this lumped system")
+
+        # We compute the new lumped matrix
+        nL = [[0]*ncols]*nrows
+        for i,cls in enumerate(classes):
+            for (j,l) in cls:
+                if l < 0:
+                    raise ValueError("The new lumping has negative coefficients!!")
+                nL[i][j] = l
+
+        # We return the new lumped system
+        symb_vars = self._old_system.symb_variables()
+        nobs = [sum(L[i][j]*symb_vars[j] for j in range(ncols)) for i in range(nrows)]
+        return self._old_system.lumping(nobs, print_reduction=False)
 #------------------------------------------------------------------------------
 
 __all__ = ["FODESystem", "LDESystem"]
