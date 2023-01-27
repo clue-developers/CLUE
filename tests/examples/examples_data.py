@@ -1,8 +1,10 @@
 import json, os, sys, csv
 
 from itertools import product
+from functools import lru_cache, cached_property
 
-sys.path.insert(0, "./../../") # models and clue is here
+SCRIPT_DIR = os.path.dirname(__file__) if __name__ != "__main__" else "./"
+sys.path.insert(0, os.path.join(SCRIPT_DIR, "..", "..")) # models and clue is here
 
 import models.models_data
 from clue import FODESystem
@@ -11,6 +13,14 @@ VALID_READ = ["polynomial", "rational", "sympy", "uncertain"]
 VALID_MATRIX = ["polynomial", "rational", "auto_diff"]
 
 class Example:
+    #########################################################
+    ### CLASS VARIABLES
+    ResultExtension = ".example.txt"
+    OutSystemExtension = ".lsys"
+    ProfileExtension = ".prf"
+
+    #########################################################
+    ### INIT METHOD
     def __init__(self, name, read, matrix, observables, **kwds):
         assert read in VALID_READ and matrix in VALID_MATRIX
         self.__name = name
@@ -22,6 +32,8 @@ class Example:
         self.__range = kwds.pop("range", None)
         self.__json = kwds
 
+    #########################################################
+    ### PROPERTIES
     @property
     def name(self): return self.__name
     @property
@@ -35,14 +47,49 @@ class Example:
     @property
     def range(self): return self.__range
 
-    def results_path(self, read = None, matrix = None):
+    #########################################################
+    ### PATH METHODS
+    @cached_property
+    def base_path(self):
+        if self.out_folder != None:
+            return os.path.join(SCRIPT_DIR, self.out_order)
+        else:
+            return SCRIPT_DIR
+
+    def base_file_name(self, read = None, matrix = None, observables = None):
         read = self.read if read is None else read
         matrix = self.matrix if matrix is None else matrix
-        file_name = f"result_{self.name}[r={read},m={matrix}].example.txt"
-        if self.out_folder != None:
-            return os.path.join(script_dir, self.out_folder , file_name)
-        return os.path.join(script_dir, file_name)
+        obs_str = "" if observables == None else f"_[obs={observables}]"
+        return f"{self.name}[r={read},m={matrix}{obs_str}"
 
+    @lru_cache(maxsize=None)
+    def out_path(self, read = None, matrix = None, observables = None):
+        return os.path.join(
+            self.base_path, 
+            "systems", 
+            f"{self.base_file_name(read,matrix,observables)}{Example.OutSystemExtension}"
+        )
+
+    @lru_cache(maxsize=None)
+    def results_path(self, read = None, matrix = None):
+        return os.path.join(
+            self.base_path, 
+            f"{self.base_file_name(read, matrix)}{Example.ResultExtension}"
+        )
+
+    @lru_cache(maxsize=None)
+    def profile_path(self, read = None, matrix = None):
+        return os.path.join(
+            self.base_path, 
+            "profiles",
+            f"{self.base_file_name(read, matrix)}{Example.ProfileExtension}"
+        )
+
+    def is_executed(self, read = None, matrix = None):
+        return os.path.exists(self.results_path(read,matrix))
+
+    #########################################################
+    ### OTHER METHODS
     def __getattr__(self, name):
         if name in self.__json:
             return self.__json[name]
@@ -64,16 +111,16 @@ class Example:
 
         return json
 
-script_dir = os.path.dirname(__file__) if __name__ != "__main__" else "./"
+
 examples = {}
-with open(os.path.join(script_dir,'data.json')) as f:
+with open(os.path.join(SCRIPT_DIR,'data.json')) as f:
     data = json.load(f)
     examples = {key : Example(key, **data[key]) for key in data}
 
 executed_examples = [
     (name,read,matrix) 
     for (name, read, matrix) in product(examples.keys(), VALID_READ, VALID_MATRIX) 
-    if os.path.exists(examples[name].results_path(read, matrix))
+    if examples[name].is_executed(read, matrix)
 ]
     
 def get_example(name):
@@ -84,7 +131,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "list":
         full = False
         type = ("polynomial", "uncertain", "rational", "sympy")
-        allowed_folders = []; allowed_names = []; forbidden_names = []; executed = None
+        allowed_folders = []; forbidden_folders = []; allowed_names = []; forbidden_names = []; executed = None
         i = 2
         while i < len(sys.argv): 
             if sys.argv[i] in ("-r", "-p", "-u") and len(type) < 4:
@@ -97,6 +144,8 @@ if __name__ == "__main__":
                 type = ("uncertain",); i+= 1
             elif sys.argv[i] == "-of":
                 allowed_folders.append(sys.argv[i+1]); i += 2
+            elif sys.argv[i] == "-wf":
+                forbidden_folders.append(sys.argv[i+1]); i += 2
             elif sys.argv[i] == "-n":
                 allowed_names.append(sys.argv[i+1]); i += 2
             elif sys.argv[i] == "-wn":
@@ -114,6 +163,7 @@ if __name__ == "__main__":
 
         filter = lambda example: (examples[example].read in type and 
                                     (len(allowed_folders) == 0 or examples[example].out_folder in allowed_folders) and
+                                    (len(forbidden_folders) == 0 or examples[example].out_folder not in forbidden_folders) and
                                     (len(allowed_names) == 0 or any(example.startswith(name) for name in allowed_names)) and 
                                     (len(forbidden_names) == 0 or all(not example.startswith(name) for name in forbidden_names)) and
                                     (executed == None or any(el[0] == example for el in executed_examples) == executed)
@@ -200,7 +250,7 @@ if __name__ == "__main__":
         
         if changed:
             print(" ## Dumping data...", end=" ")
-            with open(os.path.join(script_dir,'data.json'), "w") as f:
+            with open(os.path.join(SCRIPT_DIR,'data.json'), "w") as f:
                 json.dump({example : examples[example].as_json() for example in examples}, f, indent = 4)
             print("Done")
     elif len(sys.argv) > 1 and sys.argv[1] == "compile":
@@ -271,7 +321,7 @@ if __name__ == "__main__":
 
         ## Writing the csv file
         print(f"[example_data - compile] Putting data into CSV file...")
-        with open(os.path.join(script_dir, "compilation.csv"), "w") as file:
+        with open(os.path.join(SCRIPT_DIR, "compilation.csv"), "w") as file:
             headers= [
                 "Name", 
                 "Read Alg.", 
@@ -320,12 +370,13 @@ if __name__ == "__main__":
             "  * -s : indicates whether already existing examples should be overridden\n"
             "  * <<folder>>: one or several folders that will be added to the examples using the previous arguments.\n"
             "--------------------------------------------------------------------------------------------------------------------------\n"
-            "\tpython3 examples_data list [-r|-p|-u] [-of ()]* [-n ()]* [-wn ()]* [-e|-ne] [-a]\n"
+            "\tpython3 examples_data list [-r|-p|-u] [-of ()]* [-wf ()]* [-n ()]* [-wn ()]* [-e|-ne] [-a]\n"
             "will list all the available examples, where the options mean:\n"
             "  * -r : only rational examples will be shown (i.e., have 'read' either 'rational' or 'sympy').\n"
             "  * -p : only polynomial examples will be shown (i.e., have 'read' as 'polynomial')\n"
             "  * -u : only uncertain examples will be shown (i.e., have 'read' as 'uncertain')\n"
             "  * -of : only examples with given out_folder will be shown. Several of these are allowed\n"
+            "  * -wf : only examples without given out_folder will be shown. Several of these are allowed\n"
             "  * -n : only examples starting with given names are shown. Several of these are allowed\n"
             "  * -wn : only examples that do not start with given names are shown. Several of these are allowed\n"
             "  * -ne : only not executed models will be returned\n"
