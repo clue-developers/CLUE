@@ -902,7 +902,7 @@ class SparsePolynomial(object):
 
     def _pair_to_str(self, pair):
         if pair[1] == 1:
-            return self.gens[pair[0]]
+            return f"{self.gens[pair[0]]}"
         else:
             return f"{self.gens[pair[0]]}**{pair[1]}"
 
