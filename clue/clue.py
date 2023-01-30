@@ -2002,15 +2002,15 @@ class LDESystem(FODESystem):
             A lumping is called ``unweighted`` if all the entries of the lumping matrix are in `{0, 1}`.
         '''
         L = self.lumping_matrix
-        return all(L[i][j] in (0,1) for i,j in product([range(el) for el in L.shape]))
+        return all(L[i][j] in (0,1) for i,j in product(*[range(el) for el in L.shape]))
 
     @lru_cache(maxsize=1)
     def is_disjoint(self) -> bool:
         r'''Checks whether a lumping has dijoint row support'''
         L = self.lumping_matrix; m,n = L.shape
         supports = [{j for j in range(n) if L[i][j] != 0} for i in range(m)]
-        for i in range(n):
-            for j in range(i+1,n):
+        for i in range(m):
+            for j in range(i+1,m):
                 if len(supports[i].intersection(supports[j])) > 0:
                     return False
         return True
@@ -2018,7 +2018,7 @@ class LDESystem(FODESystem):
     @lru_cache(maxsize=1)
     def is_positive(self) -> bool:
         r'''Checks whether a lumping has dijoint row support'''
-        return (self.lumpin_matrix >= 0).all()
+        return (self.lumping_matrix >= 0).all()
 
     @lru_cache(maxsize=1)
     def is_reducing(self) -> bool:
