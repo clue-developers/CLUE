@@ -114,7 +114,8 @@ if __name__ == "__main__":
                 print(f"Computation took {end - start} seconds", file=file)
                 print(f"Is the lumping a Forward Equivalence (FE)?: {lumped.is_FE()}", file=file)
                 print(f"Is the lumping a Forward Lumping (FL)?: {lumped.is_FL()}", file=file)
-                print(f"Has the lumping a Robust Weighted Lumping (RWL)?: {lumped.has_RWL()}", file=file)
+                print(f"Is the lumping reducing variables?: {lumped.is_reducing()}", file=file)
+                print(f"Has the lumping a Robust Weighted Lumping (RWE)?: {lumped.has_RWL()}", file=file)
             else:
                 print(f"The example could not finish in the given timeout ({timeout}", file=file)
             print("###############################################", file=file)

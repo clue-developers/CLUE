@@ -292,8 +292,10 @@ def compile_results(*argv):
                                 data["observables"][obs_set]["FE"] = "Yes" if "True" in line else "No"
                             elif line.startswith("Is the lumping a Forward Lumping (FL)?:"):
                                 data["observables"][obs_set]["FL"] = "Yes" if "True" in line else "No"
-                            elif line.startswith("Has the lumping a Robust Weighted Lumping (RWL)?:"):
-                                data["observables"][obs_set]["RWL"] = "Yes" if "True" in line else "No"
+                            elif line.startswith("Is the lumping reducing variables?:"):
+                                data["observables"][obs_set]["red"] = "Yes" if "True" in line else "No"
+                            elif line.startswith("Has the lumping a Robust Weighted Lumping (RWE)?:"):
+                                data["observables"][obs_set]["RWE"] = "Yes" if "True" in line else "No"
                             elif line.startswith("Overflow error detected"): # an error of size in execution
                                 data["observables"][obs_set]["time"] = "Overflow error"
                             elif line.startswith("Timeout error detected: "): # an error of size in execution
@@ -305,7 +307,8 @@ def compile_results(*argv):
                         if  not "time" in data["observables"][obs_set]: data["observables"][obs_set]["time"] = "oo"
                         if  not "FE" in data["observables"][obs_set]: data["observables"][obs_set]["FE"] = "Not computed"
                         if  not "FL" in data["observables"][obs_set]: data["observables"][obs_set]["FL"] = "Not computed"
-                        if  not "RWL" in data["observables"][obs_set]: data["observables"][obs_set]["RWL"] = "Not computed"
+                        if  not "red" in data["observables"][obs_set]: data["observables"][obs_set]["red"] = "Not computed"
+                        if  not "RWE" in data["observables"][obs_set]: data["observables"][obs_set]["RWE"] = "Not computed"
                         line = file.readline()
                     elif line.startswith("== END OF EXAMPLES"): # last section of the file with general information
                         line = file.readline()
@@ -338,7 +341,8 @@ def compile_results(*argv):
             "Time (s)", 
             "Is FE?",
             "Is FL?", 
-            "Is RWL?", 
+            "Is reducing?"
+            "Is RWE?", 
             "Observables"
         ]
         writer = csv.writer(file, delimiter=";")
@@ -356,7 +360,8 @@ def compile_results(*argv):
                     values["time"], 
                     values["FE"],
                     values["FL"], 
-                    values["RWL"],
+                    values["red"], 
+                    values["RWE"],
                     obs_set
                 ])
         print(f"[example_data - compile] Compilation complete")

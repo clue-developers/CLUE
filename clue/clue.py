@@ -1983,6 +1983,12 @@ class LDESystem(FODESystem):
     def lumping_matrix(self) -> ndarray:
         return array(self._subspace)
 
+    @cached_property
+    def used_old_vars(self) -> tuple[str]:
+        used_variables = self.lumping_matrix.any(0)
+        return tuple([var for i,var in enumerate(self.old_system.variables) if used_variables[i]])
+
+    #------------------------------------------------------------------------------
     @lru_cache(maxsize=2)
     def is_consistent(self, symbolic: bool = False) -> bool:
         return self.check_consistency(self.old_system, self.old_vars, symbolic)
@@ -2009,6 +2015,23 @@ class LDESystem(FODESystem):
         return True
 
     @lru_cache(maxsize=1)
+    def is_reducing(self):
+        r'''
+            Method that checks whether the lumping is reducing or not.
+
+            This method checks that the lumping of a system contains fewer variables
+            than dimension ahs the new system.
+
+            It can happen when computing a lumping that only a connected component has been detected. In this
+            case, the number of used variables from the old system coincides with the dimension of the lumping and 
+            is not actually a complete reduction.
+
+            This method allows to check whether this happens or the lumping is actually reducing
+            some quantities together.
+        '''
+        return len(self.used_old_vars) == self.size
+
+    @lru_cache(maxsize=1)
     def is_FE(self) -> bool:
         r'''
             Method to check whether a lumping is a Forward Equivalence or not.
@@ -2020,22 +2043,24 @@ class LDESystem(FODESystem):
         supports = reduce(lambda p, q : p.union(q), [{j for j in range(ncols) if L[i][j] != 0} for i in range(nrows)])
         return len(supports) == len(self.old_system.variables)
 
-    def has_RWL(self) -> bool:
+    @lru_cache(maxsize=1)
+    def has_RWE(self) -> bool:
         r'''
             Checks whether a lumped system has a Robust Weighted Lumping.
         '''
         try:
-            self.get_RWL()
+            self.get_RWE()
             return True
         except ValueError:
             return False
 
-    def get_RWL(self) -> LDESystem:
+    @lru_cache(maxsize=1)
+    def get_RWE(self) -> LDESystem:
         r'''
-            Method to check whether a lumped system has a lumping+ of same dimension.
+            Method to check whether a lumped system has a RWE of same dimension.
 
             This method checks whether the lumped system built in ``self`` can be rearrange to have a 
-            "lumped+" version of itself. This would mean that there is a lumping of the same dimension preserving the same 
+            "Robust Weighted Equivalence" version of itself. This would mean that there is a lumping of the same dimension preserving the same 
             invariant space (i.e., preserving the observables) such that:
 
             * The rows of the new lumping have disjoint support.
@@ -2085,8 +2110,8 @@ class LDESystem(FODESystem):
                 else: # we did not find a suitable class for the column `i` --> we create a new class
                     classes.append([(i,1)])
 
-        if len(classes) != nrows: # there is not a lumping+
-            raise ValueError("There is no lumping+ available for this lumped system")
+        if len(classes) != nrows: # there is not a RWE
+            raise ValueError("There is no RWE available for this lumped system")
 
         # We compute the new lumped matrix
         nL = [[0]*ncols]*nrows
