@@ -60,7 +60,7 @@ class Example:
         read = self.read if read is None else read
         matrix = self.matrix if matrix is None else matrix
         obs_str = "" if observables == None else f"_[obs={observables}]"
-        return f"{self.name}[r={read},m={matrix}{obs_str}"
+        return f"{self.name}[r={read},m={matrix}]{obs_str}"
 
     @lru_cache(maxsize=None)
     def out_path(self, read = None, matrix = None, observables = None):
@@ -74,7 +74,7 @@ class Example:
     def results_path(self, read = None, matrix = None):
         return os.path.join(
             self.base_path, 
-            f"{self.base_file_name(read, matrix)}{Example.ResultExtension}"
+            f"[result]{self.base_file_name(read, matrix)}{Example.ResultExtension}"
         )
 
     @lru_cache(maxsize=None)

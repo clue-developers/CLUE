@@ -3,7 +3,7 @@ POLY=$(shell python3 examples_data.py list -p)
 RATIONAL=$(shell python3 examples_data.py list -r)
 UNCERTAIN=$(shell python3 examples_data.py list -u)
 PYTHON=python3
-FLAGS=-t 180
+FLAGS=-t 180 -p
 
 all: $(ALL)
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"

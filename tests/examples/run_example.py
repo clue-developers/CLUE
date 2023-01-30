@@ -108,7 +108,7 @@ if __name__ == "__main__":
             signal.alarm(0)
             
             if(not lumped == None):
-                lumped.save(example.out_path(read, matrix, tuple(observables)), format="clue")
+                lumped.save(example.out_path(read, matrix, tuple(obs_polys)), format="clue")
                 print(f"The size of the original model is {system.size}", file=file)
                 print(f"The size of the reduced model is {lumped.size}", file=file)
                 print(f"Computation took {end - start} seconds", file=file)

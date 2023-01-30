@@ -498,6 +498,10 @@ class SparsePolynomial(object):
         else:
             return True
 
+    def __hash__(self) -> int:
+        r'''Method to get the hash of a SparsePolynomial'''
+        return hash(tuple(self._data)) * hash(tuple(SparsePolynomial.from_const(1, self.variables(), self.domain)._data))
+
     #--------------------------------------------------------------------------
 
     def __mul__(self, other):
@@ -1528,6 +1532,9 @@ class RationalFunction:
                 except (ParseException, TypeError):
                     return NotImplemented
         return self.numer*other.denom == other.numer*self.denom
+
+    def __hash__(self):
+        return hash(self.numer) * hash(self.denom)
 
     #--------------------------------------------------------------------------
     def exp(self, power):

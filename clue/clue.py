@@ -411,7 +411,7 @@ class FODESystem:
         equations = self.all_equations(); equ = next(equations)
         while target_type < 2 and not(equ is None):
             if isinstance(equ, PolyElement):
-                if equ != 0 and min(min(d for d in m) < 0 for m in equ.monoms()): 
+                if equ != 0 and any(min(d for d in m) < 0 for m in equ.monoms()): 
                     # PolyElement with negative exponents --> sympy
                     logger.debug(":normalize: found PolyElement with negative exponents --> sympy")
                     target_type = 2
@@ -879,6 +879,7 @@ class FODESystem:
 
             This method has no output.
         '''
+        self.normalize()
         if not format in ("ode", "clue"): raise ValueError("The format only allow the ERODE format ('ode') and binary ('clue')")
 
         if not file.endswith(f".{format}"):
