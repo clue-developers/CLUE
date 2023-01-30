@@ -12,8 +12,9 @@ from __future__ import annotations
 import logging, math, sympy, sys, time
 from collections.abc import Iterable
 from functools import cached_property, reduce, lru_cache
+from io import IOBase
 from itertools import product
-from numpy import ndarray
+from numpy import array, ndarray
 from numpy.random import normal, uniform
 from random import randint
 from scipy.integrate import solve_ivp
@@ -853,6 +854,60 @@ class FODESystem:
                 )
         else: # the case when all values are the same -->
             return self.scale_model({v: values for v in self.variables})
+
+    ##############################################################################################################
+    ### I/O METHODS
+    def save(self, file: str, format: str ="clue"):
+        r'''
+            Method to save the current system into a file
+
+            This method will store on the hard disk the current system. We allow to have
+            two file formats available: "ode" or "clue". 
+
+            * "ode" format will write an ERODE compatible file with the current system trying
+              to preserve as many information as possible.
+            * "clue" format will simply dump the whole object using the ``pickle`` module.
+
+            The extension ".ode" or ".clue" will be added to the file name.
+
+            INPUT:
+
+            * ``file``: path where the system will be stored.
+            * ``format``: format of the output system. The "ode" format is readable, "clue" is 
+              in binary format. 
+
+            OUTPUT:
+
+            This method has no output.
+        '''
+        if not format in ("ode", "clue"): raise ValueError("The format only allow the ERODE format ('ode') and binary ('clue')")
+
+        if not file.endswith(f".{format}"):
+            file += f".{format}"
+
+        with open(file, f"w{'b' if format == 'clue' else ''}") as f:
+            if format == "clue":
+                import pickle
+                pickle.dump(self, f)
+            elif format == "ode":
+                self.__to_erode(f)
+
+    def __to_erode(self, file: IOBase):
+        raise NotImplementedError("[clue.FODESystem] Saving into ERODE file not yet implemented")
+
+    @staticmethod
+    def load(file: str) -> FODESystem:
+        r'''
+            Static method to load a :class:`FODESystem`. It is the opposite of the method :func:`save`.
+        '''
+        format = "clue" if file.endswith(".clue") else "ode"
+
+        if format == "clue":
+            with open(file, f"rb") as f:
+                import pickle
+                return pickle.load(f)
+        else:
+            return FODESystem(file=file)
 
     ##############################################################################################################
     ## Methods for preparing to get the lumping
@@ -1878,7 +1933,7 @@ class FODESystem:
         return {"equations" : lumped_rhs, 
                 "variables" : vars_new,
                 "ic" : new_ic,
-                "name": f"Lumped system [{observable}] ({self.name})",
+                "name": f"Lumped system [{self.size} -> {len(lumped_rhs)}] ({self.name})",
                 "old_vars" : map_old_variables,
                 "subspace" : [v.to_list() for v in lumping_subspace.basis()]}
 
@@ -1930,6 +1985,10 @@ class LDESystem(FODESystem):
     @property
     def old_system(self):
         return self._old_system
+
+    @cached_property
+    def lumping_matrix(self) -> ndarray:
+        return array(self._subspace)
 
     @lru_cache(maxsize=2)
     def is_consistent(self, symbolic=False):

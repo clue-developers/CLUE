@@ -108,8 +108,7 @@ if __name__ == "__main__":
             signal.alarm(0)
             
             if(not lumped == None):
-                with open(example.out_path(read, matrix, tuple(observables)), "w") as file_for_lumped:
-                    pickle.dump(lumped, file_for_lumped)
+                lumped.save(example.out_path(read, matrix, tuple(observables)), format="clue")
                 print(f"The size of the original model is {system.size}", file=file)
                 print(f"The size of the reduced model is {lumped.size}", file=file)
                 print(f"Computation took {end - start} seconds", file=file)

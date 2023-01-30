@@ -16,7 +16,7 @@ class Example:
     #########################################################
     ### CLASS VARIABLES
     ResultExtension = ".example.txt"
-    OutSystemExtension = ".lsys"
+    OutSystemExtension = ".clue"
     ProfileExtension = ".prf"
 
     #########################################################
