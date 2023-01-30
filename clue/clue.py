@@ -1989,33 +1989,39 @@ class LDESystem(FODESystem):
         return tuple([var for i,var in enumerate(self.old_system.variables) if used_variables[i]])
 
     #------------------------------------------------------------------------------
+    # PROPERTIES OF A LUMPING
     @lru_cache(maxsize=2)
     def is_consistent(self, symbolic: bool = False) -> bool:
         return self.check_consistency(self.old_system, self.old_vars, symbolic)
 
     @lru_cache(maxsize=1)
-    def is_FL(self) -> bool:
+    def is_unweighted(self) -> bool:
         r'''
-            Method to check whether a lumping is a Forward Lumping or not.
+            Method to check whether a lumping is unweighted or not.
 
-            A Forward Lumping ((add reference)) is a special type of lumping where the lumping matrix has a 
-            very specific shape: all the entries are 0 or 1 and the rows has a disjoint support. This 
-            concept is directly related with the concept of Forward Equivalence ((add reference)) where 
-            in those cases the support of all rows is the complete set.
+            A lumping is called ``unweighted`` if all the entries of the lumping matrix are in `{0, 1}`.
         '''
-        L = self._subspace; nrows = len(L); ncols = len(L[0])
-        if any(any(not L[i][j] in (0,1) for j in range(ncols)) for i in range(nrows)):
-            return False
+        L = self.lumping_matrix
+        return all(L[i][j] in (0,1) for i,j in product([range(el) for el in L.shape]))
 
-        supports = [{j for j in range(ncols) if L[i][j] != 0} for i in range(nrows)]
-        for i in range(len(supports)):
-            for j in range(i+1, len(supports)):
+    @lru_cache(maxsize=1)
+    def is_disjoint(self) -> bool:
+        r'''Checks whether a lumping has dijoint row support'''
+        L = self.lumping_matrix; m,n = L.shape
+        supports = [{j for j in range(n) if L[i][j] != 0} for i in range(m)]
+        for i in range(n):
+            for j in range(i+1,n):
                 if len(supports[i].intersection(supports[j])) > 0:
                     return False
         return True
 
     @lru_cache(maxsize=1)
-    def is_reducing(self):
+    def is_positive(self) -> bool:
+        r'''Checks whether a lumping has dijoint row support'''
+        return (self.lumpin_matrix >= 0).all()
+
+    @lru_cache(maxsize=1)
+    def is_reducing(self) -> bool:
         r'''
             Method that checks whether the lumping is reducing or not.
 
@@ -2029,24 +2035,59 @@ class LDESystem(FODESystem):
             This method allows to check whether this happens or the lumping is actually reducing
             some quantities together.
         '''
-        return len(self.used_old_vars) == self.size
+        return len(self.used_old_vars) != self.size
+
+    # TYPES OF LUMPING
+    @lru_cache(maxsize=1)
+    def is_FL(self) -> bool:
+        r'''
+            Method to check whether a lumping is a Forward Lumping or not.
+
+            A Forward Lumping ((add reference)) is a special type of lumping where the lumping matrix has:
+            
+            * all entries as zero or one,
+            * the support of each row is disjoint.
+            
+            This concept is directly related with the concept of Forward Equivalence (see :func:`is_FE`). 
+            The difference is here we do not need to have all original variables in the support.
+        '''
+        return self.is_unweighted() and self.is_disjoint()
 
     @lru_cache(maxsize=1)
     def is_FE(self) -> bool:
         r'''
             Method to check whether a lumping is a Forward Equivalence or not.
-        '''
-        L = self._subspace; nrows = len(L); ncols = len(L[0])
-        if any(any(not L[i][j] in (0,1) for j in range(ncols)) for i in range(nrows)):
-            return False
 
-        supports = reduce(lambda p, q : p.union(q), [{j for j in range(ncols) if L[i][j] != 0} for i in range(nrows)])
-        return len(supports) == len(self.old_system.variables)
+            A Forward Equivalence ((add reference)) is a special type of lumping where the lumping matrix has:
+            
+            * all entries as zero or one,
+            * the support of each pair of rows is disjoint.
+            * all previous variables appear in the lumping
+            
+            This concept is directly related with the concept of Forward Lumping (see :func:`is_FL`). 
+            The difference is here we require to have all original variables in the support.
+        '''
+        return (
+            self.is_FL() and
+            self.old_system.size == len(self.used_old_vars)
+        )
+
+    @lru_cache(maxsize=1)
+    def is_RWE(self) -> bool:
+        r'''
+            Method to check whether a lumping is a Robust Weighted Equivalence or not.
+
+            A Robust Weighted Equivalence ((add reference)) is a special type of lumping where the lumping matrix has:
+            
+            * all entries are non-negative,
+            * the support of each pair of rows is disjoint
+        '''
+        return self.is_positive() and self.is_disjoint()
 
     @lru_cache(maxsize=1)
     def has_RWE(self) -> bool:
         r'''
-            Checks whether a lumped system has a Robust Weighted Lumping.
+            Checks whether a lumped system has a Robust Weighted Lumping (see :func:`get_RWE`)
         '''
         try:
             self.get_RWE()
@@ -2125,6 +2166,7 @@ class LDESystem(FODESystem):
         symb_vars = self._old_system.symb_variables()
         nobs = [sum(L[i][j]*symb_vars[j] for j in range(ncols)) for i in range(nrows)]
         return self._old_system.lumping(nobs, print_reduction=False)
+
 #------------------------------------------------------------------------------
 
 __all__ = ["FODESystem", "LDESystem"]
