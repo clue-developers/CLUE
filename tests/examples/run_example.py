@@ -109,13 +109,19 @@ if __name__ == "__main__":
             
             if(not lumped == None):
                 lumped.save(example.out_path(read, matrix, tuple(obs_polys)), format="clue")
-                print(f"The size of the original model is {system.size}", file=file)
+                print(f"The size of the original model is {lumped.old_system.size}", file=file)
                 print(f"The size of the reduced model is {lumped.size}", file=file)
                 print(f"Computation took {end - start} seconds", file=file)
-                print(f"Is the lumping a Forward Equivalence (FE)?: {lumped.is_FE()}", file=file)
+                print(f"PROPERTIES OF THE LUMPING:::", file=file)
+                print(f"Is the lumping unweighted?: {lumped.is_unweighted()}", file=file)
+                print(f"Is the lumping positive?: {lumped.is_positive()}", file=file)
+                print(f"Is the lumping disjoint?: {lumped.is_disjoint()}", file=file)
+                print(f"Is the lumping reducing?: {lumped.is_reducing()}", file=file)
+                print(f"TYPE OF THE LUMPING:::", file=file)
                 print(f"Is the lumping a Forward Lumping (FL)?: {lumped.is_FL()}", file=file)
-                print(f"Is the lumping reducing variables?: {lumped.is_reducing()}", file=file)
-                print(f"Has the lumping a Robust Weighted Lumping (RWE)?: {lumped.has_RWL()}", file=file)
+                print(f"Is the lumping a Forward Equivalence (FE)?: {lumped.is_FE()}", file=file)
+                print(f"Is the lumping a Robust Weighted Equivalence (RWE)?: {lumped.is_RWE()}", file=file)
+                print(f"Has the lumping a Robust Weighted Lumping (RWE)?: {lumped.has_RWE()}", file=file)
             else:
                 print(f"The example could not finish in the given timeout ({timeout}", file=file)
             print("###############################################", file=file)

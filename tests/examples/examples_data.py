@@ -264,7 +264,7 @@ def compile_results(*argv):
     ## Compiling the data for executed examples
     compiled_data = {}
     for name, read, matrix in executed_examples:
-        print(f"[example_data - compile] Compiling data from {name} ({read=} -- {matrix})")
+        print(f"[example_data - compile] Compiling data from {name} ({read=} -- {matrix=})")
         data = {} 
         data["observables"] = {}
         with open(examples[name].results_path()) as file:
@@ -282,33 +282,52 @@ def compile_results(*argv):
                         while(not line.startswith("###############################################")):
                             if line == "": raise ValueError("The result file if not well formatted") # unexpected end of file
                             line = line.strip()
+                            ### READING EXECUTION AND LUMPING DATA
                             if line.startswith("The size of the original model is"):
                                 data["observables"][obs_set]["size"] = int(line.removeprefix("The size of the original model is"))
                             elif line.startswith("The size of the reduced model is"):
                                 data["observables"][obs_set]["lumped"] = int(line.removeprefix("The size of the reduced model is"))
                             elif line.startswith("Computation took"):
                                 data["observables"][obs_set]["time"] = float(line.removeprefix("Computation took").removesuffix("seconds"))
-                            elif line.startswith("Is the lumping a Forward Equivalence (FE)?:"):
-                                data["observables"][obs_set]["FE"] = "Yes" if "True" in line else "No"
-                            elif line.startswith("Is the lumping a Forward Lumping (FL)?:"):
+                            ### READING LUMPING PROPERTIES
+                            elif line.startswith("Is the lumping unweighted?"):
+                                data["observables"][obs_set]["unweighted"] = "Yes" if "True" in line else "No"
+                            elif line.startswith("Is the lumping positive?"):
+                                data["observables"][obs_set]["positive"] = "Yes" if "True" in line else "No"
+                            elif line.startswith("Is the lumping disjoint?"):
+                                data["observables"][obs_set]["disjoint"] = "Yes" if "True" in line else "No"
+                            elif line.startswith("Is the lumping reducing?"):
+                                data["observables"][obs_set]["reducing"] = "Yes" if "True" in line else "No"
+                            ### READING LUMPING TYPES
+                            elif line.startswith("Is the lumping a Forward Lumping (FL)?"):
                                 data["observables"][obs_set]["FL"] = "Yes" if "True" in line else "No"
-                            elif line.startswith("Is the lumping reducing variables?:"):
-                                data["observables"][obs_set]["red"] = "Yes" if "True" in line else "No"
-                            elif line.startswith("Has the lumping a Robust Weighted Lumping (RWE)?:"):
+                            elif line.startswith("Is the lumping a Forward Equivalence (FE)?"):
+                                data["observables"][obs_set]["FE"] = "Yes" if "True" in line else "No"
+                            elif line.startswith("Is the lumping a Robust Weighted Equivalence (RWE)?"):
                                 data["observables"][obs_set]["RWE"] = "Yes" if "True" in line else "No"
+                            elif line.startswith("Has the lumping a Robust Weighted Lumping (RWE)?"):
+                                data["observables"][obs_set]["RWE_has"] = "Yes" if "True" in line else "No"
+                            ### READING POSSIBLE ERRORS
                             elif line.startswith("Overflow error detected"): # an error of size in execution
                                 data["observables"][obs_set]["time"] = "Overflow error"
                             elif line.startswith("Timeout error detected: "): # an error of size in execution
                                 data["observables"][obs_set]["time"] = f">{line.removeprefix('The size of the reduced model is')}"
                             line = file.readline()
-                        ## Filling fields if not given
+                        ### Filling fields if not given
+                        # LUMPING AND EXECUTION DATA
                         if  not "size" in data["observables"][obs_set]: data["observables"][obs_set]["size"] = "oo"
                         if  not "lumped" in data["observables"][obs_set]: data["observables"][obs_set]["lumped"] = "oo"
                         if  not "time" in data["observables"][obs_set]: data["observables"][obs_set]["time"] = "oo"
-                        if  not "FE" in data["observables"][obs_set]: data["observables"][obs_set]["FE"] = "Not computed"
+                        # LUMPING PROPERTIES
+                        if  not "unweighted" in data["observables"][obs_set]: data["observables"][obs_set]["unweighted"] = "Not computed"
+                        if  not "positive" in data["observables"][obs_set]: data["observables"][obs_set]["positive"] = "Not computed"
+                        if  not "disjoint" in data["observables"][obs_set]: data["observables"][obs_set]["disjoint"] = "Not computed"
+                        if  not "reducing" in data["observables"][obs_set]: data["observables"][obs_set]["reducing"] = "Not computed"
+                        # LUMPING TYPES
                         if  not "FL" in data["observables"][obs_set]: data["observables"][obs_set]["FL"] = "Not computed"
-                        if  not "red" in data["observables"][obs_set]: data["observables"][obs_set]["red"] = "Not computed"
+                        if  not "FE" in data["observables"][obs_set]: data["observables"][obs_set]["FE"] = "Not computed"
                         if  not "RWE" in data["observables"][obs_set]: data["observables"][obs_set]["RWE"] = "Not computed"
+                        if  not "RWE_has" in data["observables"][obs_set]: data["observables"][obs_set]["RWE_has"] = "Not computed"
                         line = file.readline()
                     elif line.startswith("== END OF EXAMPLES"): # last section of the file with general information
                         line = file.readline()
@@ -331,37 +350,21 @@ def compile_results(*argv):
     print(f"[example_data - compile] Putting data into CSV file...")
     with open(os.path.join(SCRIPT_DIR, "compilation.csv"), "w") as file:
         headers= [
-            "Name", 
-            "Read Alg.", 
-            "Time reading", 
-            "Matrix Alg.", 
-            "Time w/ matrices", 
-            "Or. size", 
-            "Lmp. size", 
-            "Time (s)", 
-            "Is FE?",
-            "Is FL?", 
-            "Is reducing?"
-            "Is RWE?", 
-            "Observables"
+            "Name", "Read Alg.", "Time reading", "Matrix Alg.", "Time w/ matrices", # execution data
+            "Or. size", "Lmp. size", "Time (s)", # lumping execution
+            "Unweighted", "Positive", "Disjoint", "Reducing", # lumping properties
+            "Is FL?", "Is FE?", "Is RWE?", "Has RWE?", # lumping types
+            "Observables" # observables used
         ]
         writer = csv.writer(file, delimiter=";")
         writer.writerow(headers)
         for ((name,read,matrix),data) in compiled_data.items():
             for (obs_set, values) in data["observables"].items():
                 writer.writerow([
-                    name, 
-                    read, 
-                    data["read_time"], 
-                    matrix, 
-                    data["matrix_time"],
-                    values["size"], 
-                    values["lumped"], 
-                    values["time"], 
-                    values["FE"],
-                    values["FL"], 
-                    values["red"], 
-                    values["RWE"],
+                    name, read, data["read_time"], matrix, data["matrix_time"],
+                    values["size"], values["lumped"], values["time"], 
+                    values["unweighted"], values["positive"], values["disjoint"], values["reducing"],
+                    values["FL"], values["FE"], values["RWE"], values["RWE_has"],
                     obs_set
                 ])
         print(f"[example_data - compile] Compilation complete")
