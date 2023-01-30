@@ -115,7 +115,7 @@ class FODESystem:
                 raise ValueError("No name for variables were given.")
             variables = dic['variables']
         observables = observables if observables != None else (dic.get('observables', None) if dic != None else None)
-        ic = ic if ic != {} else (dic.get('ic', None) if dic != None else None)
+        ic = ic if ic != {} else (dic.get('ic', {}) if dic != None else {})
         name = name if name != None else (dic.get('name', None) if dic != None else None)
         
         # Now we have the data in the first arguments
@@ -1810,14 +1810,6 @@ class FODESystem:
                     file
                 )
 
-        if initial_conditions is not None:
-            eval_point = [self.ic.get(v, initial_conditions.get(v, 0)) for v in self.variables]
-            result["ic"] = {}
-            for i in range(len(result["variables"])):
-                vect = result["subspace"][i]
-                v = result["variables"][i]
-                result["ic"][v] = sum([p[0] * p[1] for p in zip(eval_point, vect)])
-
         if out_format == "sympy":
             ## Getting the method to transform
             if isinstance(result["equations"][0], SparsePolynomial):
@@ -1891,17 +1883,10 @@ class FODESystem:
         logger.debug(f":ilumping: -> Found the lumping subspace in {time.time()-start}s")
 
         lumped_rhs = self._lumped_system(lumping_subspace, vars_old, field, new_vars_name)
-
-        new_ic = None
-        if ic is not None:
-            eval_point = [ic.get(v, 0) for v in vars_old]
-            #eval_point = [ic.get(v, 0) for v in rhs[0].gens]
-            new_ic = []
-            for vect in lumping_subspace.basis():
-                new_ic.append(sum([p[0] * p[1] for p in zip(eval_point, vect.to_list())]))
+        subspace = [v.to_list() for v in lumping_subspace.basis()]
 
         ## Computing the new variables and their expression in term of old variables
-        vars_new = ["%s%d" %(new_vars_name, i) for i in range(lumping_subspace.dim())]
+        vars_new = [f"{new_vars_name}{i}" for i in range(lumping_subspace.dim())]
         map_old_variables = []
         for i in range(lumping_subspace.dim()):
             new_var = SparsePolynomial(vars_old, field)
@@ -1909,6 +1894,14 @@ class FODESystem:
                 if lumping_subspace.basis()[i][j] != 0:
                     new_var += SparsePolynomial(vars_old, field, {((j, 1),) : lumping_subspace.basis()[i][j]})
             map_old_variables.append(new_var)
+
+        # Computing the new initial conditions for the new variables when possible
+        ic = self.ic if ic is None else {v : ic.get(v, self.ic.get(v,None)) for v in set(ic).union(self.ic)} # we merge the initial condition dictionaries
+        new_ic = {
+            new_var : sum(subspace[i][j] * ic[old_var] for j,old_var in enumerate(self.variables) if subspace[i][j] != 0)
+            for (i,new_var) in enumerate(vars_new) 
+            if all(old_var in ic for j,old_var in enumerate(self.variables) if subspace[i][j] != 0)
+        }
 
         ## Nice printing
         if print_system:
@@ -1935,12 +1928,12 @@ class FODESystem:
                 "ic" : new_ic,
                 "name": f"Lumped system [{self.size} -> {len(lumped_rhs)}] ({self.name})",
                 "old_vars" : map_old_variables,
-                "subspace" : [v.to_list() for v in lumping_subspace.basis()]}
+                "subspace" : subspace}
 
     def _lumped_system(self, lumping_subspace, vars_old, field, new_vars_name):
         return lumping_subspace.perform_change_of_variables(self.equations, vars_old, field, new_vars_name)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.name if self.name != None else 'Differential system'} [{self.__class__.__name__} -- {self.size} -- {self.type.__name__}]"
         
 class LDESystem(FODESystem):
@@ -1951,7 +1944,7 @@ class LDESystem(FODESystem):
         system (see class :class:`FODESystem`) where we keep some information on the lumping used
         to obtain the variables of this new system.
     '''
-    def __init__(self, equations=None, observables=None, variables = None, ic= None, name = None, 
+    def __init__(self, equations=None, observables=None, variables = None, ic={}, name = None, 
                     old_vars = None, old_system = None, subspace=None,
                     dic=None, file = None, **kwds
     ):
@@ -1991,11 +1984,11 @@ class LDESystem(FODESystem):
         return array(self._subspace)
 
     @lru_cache(maxsize=2)
-    def is_consistent(self, symbolic=False):
+    def is_consistent(self, symbolic: bool = False) -> bool:
         return self.check_consistency(self.old_system, self.old_vars, symbolic)
 
     @lru_cache(maxsize=1)
-    def is_FL(self):
+    def is_FL(self) -> bool:
         r'''
             Method to check whether a lumping is a Forward Lumping or not.
 
@@ -2016,7 +2009,7 @@ class LDESystem(FODESystem):
         return True
 
     @lru_cache(maxsize=1)
-    def is_FE(self):
+    def is_FE(self) -> bool:
         r'''
             Method to check whether a lumping is a Forward Equivalence or not.
         '''
@@ -2027,7 +2020,7 @@ class LDESystem(FODESystem):
         supports = reduce(lambda p, q : p.union(q), [{j for j in range(ncols) if L[i][j] != 0} for i in range(nrows)])
         return len(supports) == len(self.old_system.variables)
 
-    def has_RWL(self):
+    def has_RWL(self) -> bool:
         r'''
             Checks whether a lumped system has a Robust Weighted Lumping.
         '''
@@ -2037,7 +2030,7 @@ class LDESystem(FODESystem):
         except ValueError:
             return False
 
-    def get_RWL(self):
+    def get_RWL(self) -> LDESystem:
         r'''
             Method to check whether a lumped system has a lumping+ of same dimension.
 

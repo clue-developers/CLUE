@@ -323,7 +323,7 @@ def read_system(filename, read_ic=False, parser="polynomial", domain = QQ):
 
     obs = extract_observables(sections_raw['partition'], varnames, domain) if 'partition' in sections_raw else None
 
-    ic = None
+    ic = {}
     if read_ic:
         ic = parse_initial_conditions(sections_raw.get('init', []) + sections_raw.get('parameters', []), domain)
     return {'name' : name, 'equations' : equations, 'observables' : obs, 'variables' : varnames, 'ic' : ic}
