@@ -23,7 +23,6 @@ from sympy.polys.fields import FracElement
 from sympy.polys.rings import PolyElement
 from typing import Callable, Any
 
-
 from .linalg import SparseRowMatrix, Subspace, SparseVector, find_smallest_common_subspace
 from .nual import NualNumber
 from .ode_parser import read_system
@@ -33,7 +32,7 @@ from .rational_function import SparsePolynomial, RationalFunction
 logger = logging.getLogger(__name__)
 
 ### Generic methods to manipulate expressions
-@lru_cache
+@lru_cache(maxsize=None)
 def _func_for_expr(expr, varnames, domain):
     if(isinstance(expr, sympy.core.add.Add)):
         def __func(*args):
