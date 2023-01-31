@@ -191,7 +191,7 @@ def list_examples(*argv):
         print(" ".join([name for name in examples if filter(name)]))
 
 def add_examples_in_folder(*argv):
-    read = []; matrix = []; o = None; folders = []; subs=False
+    read = []; matrix = []; o = None; O = None; folders = []; subs=False
     i = 0
     while i < len(argv):
         if argv[i] == "-r":
@@ -206,6 +206,12 @@ def add_examples_in_folder(*argv):
             if o != None:
                 raise ValueError("Too many 'out_folder' provided. See 'help' command for further information")
             o = argv[i+1]; i += 2
+        elif argv[i] == "-O":
+            if O != None:
+                raise ValueError("Too many formats for observables given. See 'help' command for further information")
+            if not argv[i+1] in ("first", "sum", "alone", "all"):
+                raise ValueError("The observables to set by default must be one of 'first', 'sum', 'alone', 'all'")
+            O = argv[i+1]; i += 2
         elif argv[i] == "-s":
             subs=True; i += 1
         else:
@@ -225,10 +231,26 @@ def add_examples_in_folder(*argv):
             if ("uncertain-abs" in read or "uncertain-prop" in read) and model.type == "rational":
                 raise TypeError("Found a 'rational' model and required an 'uncertain'")
 
-            print(f"## Processing examples for model {name}..............................................")
+            print(f"## Processing examples for model {name}".ljust(100, "."))
             system = FODESystem(file = model.path(), parser = "polynomial" if model.type == "polynomial" else "sympy")
-            obs = [[str(system.symb_variables()[0])]]
+            ## Deciding observables
+            print(f"### Deciding observables (criteria {O=})")
+            obs = []
+            if O in ("first", "all") :
+                print(f"#### Adding the first variable as observable")
+                obs.append([str(system.symb_variables()[0])])
+            if O in ("sum", "all"):
+                print(f"#### Adding the sum of everything as observable")
+                obs.append([" + ".join(system.variables)])
+            if O in ("alone", "all"):
+                print(f"#### Adding all variables alone as observables")
+                obs.extend([[str(system.symb_variables()[i])] for i in range(0 if O == "alone" else 1, system.size)])
+
+            print(f"### Found {len(obs)} set of observables")
+
+            ## Deciding the range of the model (if exist)
             rng = model.range; rng = [None] if len(rng) == 0 else rng
+            print(f"### {rng=} ; {read=} ; {matrix=}")
             for X in rng:
                 for r in read:
                     for m in matrix:
@@ -246,15 +268,15 @@ def add_examples_in_folder(*argv):
                         if r == "uncertain-abs": kwds["delta"] = 2.5e-4; kwds["unc_type"] = "abs"; r = "uncertain"
                         if r == "uncertain-prop": kwds["delta"] = 0.1; kwds["unc_type"] = "prop"; r = "uncertain"
                         
-                        if not final_name in examples or subs:
+                        if (not final_name in examples) or subs:
                             examples[final_name] = Example(final_name, r, m, obs, **kwds)
-                            print(f" ### Added the example {final_name}")
+                            print(f"### Added the example {final_name}")
                             changed = True
             
-            print(f"## Finished examples for model {name} ..............................................")
+            print(f"## Finished examples for model {name}".ljust(100, "."))
     
     if changed:
-        print(" ## Dumping data...", end=" ")
+        print("## Dumping data...", end=" ")
         with open(os.path.join(SCRIPT_DIR,'data.json'), "w") as f:
             json.dump({example : examples[example].as_json() for example in examples}, f, indent = 4)
         print("Done")
@@ -384,12 +406,13 @@ if __name__ == "__main__":
             "HELP FOR examples_data SCRIPT\n\n"
             "The following commands are available in this script:\n"
             "--------------------------------------------------------------------------------------------------------------------------\n"
-            "\tpython3 examples_data add [-r ()]* [-m ()]* [-o ()] [-s] <<folder>>*\n"
+            "\tpython3 examples_data add [-r ()]* [-m ()]* [-o ()] [-O ()] [-s] <<folder>>*\n"
             "where the options mean:\n"
             "  * -r : indicates the reading algorithm. It can be 'polynomial', 'rational', 'sympy' or 'uncertain'. Several can be given.\n"
             "  * -m : indicates the algorithm for computing the matrices. It can be 'polynomial', 'rational' or 'auto_diff. Several can be given.'\n"
             "  * -o : indicates the folder where the output of the example will be stored\n"
             "  * -s : indicates whether already existing examples should be overridden\n"
+            "  * -O: indicates what observables set up for the new examples by default. It allow 'first', 'sum', 'alone' or 'all'."
             "  * <<folder>>: one or several folders that will be added to the examples using the previous arguments.\n"
             "--------------------------------------------------------------------------------------------------------------------------\n"
             "\tpython3 examples_data list [-r|-p|-u] [-of ()]* [-wf ()]* [-n ()]* [-wn ()]* [-e|-ne] [-a]\n"
