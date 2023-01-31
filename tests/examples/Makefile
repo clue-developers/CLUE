@@ -24,5 +24,9 @@ uncertain: $(UNCERTAIN)
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	@echo "Finished all examples for uncertain systems"
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+compile:
+	@python3 examples_data.py compile
+
 %:
 	@$(PYTHON) run_example.py $@ $(FLAGS)
