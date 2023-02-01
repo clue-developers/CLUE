@@ -385,13 +385,16 @@ def compile_results(*argv):
         writer.writerow(headers)
         for ((name,read,matrix),data) in compiled_data.items():
             for (obs_set, values) in data["observables"].items():
-                writer.writerow([
-                    name, read, data["read_time"], matrix, data["matrix_time"],
-                    values["size"], values["lumped"], values["time"], 
-                    values["unweighted"], values["positive"], values["disjoint"], values["reducing"],
-                    values["FL"], values["FE"], values["RWE"], values["RWE_has"],
-                    obs_set
-                ])
+                try:
+                    writer.writerow([
+                        name, read, data["read_time"], matrix, data["matrix_time"],
+                        values["size"], values["lumped"], values["time"], 
+                        values["unweighted"], values["positive"], values["disjoint"], values["reducing"],
+                        values["FL"], values["FE"], values["RWE"], values["RWE_has"],
+                        obs_set
+                    ])
+                except KeyError:
+                    print(f"[example_data - compile] ERROR - an error with a key ({name} -- {read} -- {matrix})")
         print(f"[example_data - compile] Compilation complete")
 
 ## Script area
