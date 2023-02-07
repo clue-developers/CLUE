@@ -1,8 +1,10 @@
 r'''
     Module to extend the functionality of simulations to the CLUE differential systems.
 '''
+from math import ceil
 from matplotlib.pyplot import subplots
-from numpy import array, concatenate, matmul, ndarray
+from numpy import array, concatenate, diff, inf, matmul, ndarray, nditer
+from numpy.linalg import norm
 from scipy.integrate._ivp.ivp import OdeResult
 from typing import Collection
 
@@ -53,7 +55,65 @@ def merge_simulations(sim1 : OdeResult, sim2 : OdeResult):
         return OdeResult(**kwds)
     raise TypeError("Incompatible simulations to be merged")
 
-def create_figure(simulation : OdeResult, names : str | Collection[str] = "x", **kwds):
+def compare_simulations(sim1 : OdeResult, sim2 : OdeResult, measures=[]):
+    r'''
+        Method to generate a new simulation with the difference between two simulations.
+
+        This method also computes the different measures of differences between the two 
+        simulations. The available measures are:
+        
+        * A list of valid measures
+        * Any function that will work with the corresponding tensors.
+        * ``"l2avg"`` (default): a normalized L2 norm will be computed normalized by the size of the simulation interval.
+        * ``"l1avg"``: a normalized L1 norm will be computed normalized by the size of the simulation interval.
+        * ``"loo"``: a L-`\infty` norm will be used to compare the two simulations.
+        * ``"l2"``: a normalized L2 norm will be computed to compare the two simulations.
+        * ``"l1"``: a normalized L1 norm will be computed to compare the two simulations.
+    '''
+    if sim1.y.shape != sim2.y.shape:
+        raise ValueError("The two simulations are not comparable")
+
+    # Basic values for the new simulation
+    new_t = sim1.t
+    new_y = sim1.y - sim2.y
+    new_status = sim1.status
+    new_message = "difference between two simulations"
+    success = sim1.success and sim2.success
+    names = sim1.names if hasattr(sim1, "names") else sim2.names if hasattr(sim2, "names") else None
+
+    # Creating object for comparison
+    sim = OdeResult(t=new_t, y=new_y, 
+                     status=new_status, message=new_message, success=success)
+
+    # Computing the measures (if required)
+    if not isinstance(measures, (tuple, list)):
+            measures = [measures]
+    array_to_measure = None
+    if len(measures) > 0:
+        array_to_measure = ((sim.y[...,:-1] + sim.y[...,1:])/2 * diff(sim.t))
+        lt = sim.t.max() - sim.t.min()
+    for i in range(len(measures)):
+        measure = measures[i] # getting the i-th element
+        if isinstance(measure, str):
+            if measure == "l2avg":
+                measure = lambda arr : norm(arr, 2, -1)/lt
+            elif measure == "l1avg":
+                measure = lambda arr : norm(arr, 1, -1)/lt
+            elif measure == "loo":
+                measure = lambda arr : norm(arr, inf, -1)
+            elif measure == "l2":
+                measure = lambda arr : norm(arr, 2, -1)
+            elif measure == "l1":
+                measure = lambda arr : norm(arr, 1, -1)
+            measures[i] = measure
+
+    if names != None: sim.names = names
+
+    measuring = [measure(array_to_measure) for measure in measures]
+    
+    return sim, measuring
+ 
+def create_figure(simulation : OdeResult | Collection[OdeResult], names : str | Collection[str] = "x", **kwds):
     r'''
         Method to create a matplotlib figure from a simulation.
 
@@ -63,42 +123,70 @@ def create_figure(simulation : OdeResult, names : str | Collection[str] = "x", *
 
         INPUT:
 
-        * ``simulation``: a :class:`scipy.integrate._ivp.ivp.OdeResult` with a simulation.
-        * ``name``: name for the functions we are simulation. It is an optional argument (by default "x").
+        * ``simulation``: a :class:`scipy.integrate._ivp.ivp.OdeResult` with a simulation (or a collection of those)
+        * ``names``: name for the functions we are simulation. It is an optional argument (by default "x").
         * ``kwds``: optional arguments that will be use for improving or changing the figure. The valid options are:
-            - ``format``: provides the format for the lines in the figure
+            - ``title``: provides title(s) for the plot(s) in the figure
+            - ``format``: provides the format(s) for the lines in the figure
             - ``force_unsuccess``: boolean to force the creation of a figure even when the simulation was not successful
+            - Any other argument that will passed to subplots
 
         OUTPUT:
 
         A figure that can be display using method ``show``.
     '''
-    ## Processing optional arguments
-    format = kwds.get("format", "o-")
-    force_unsuccess = kwds.get("force_unsuccess", False)
+    ## Processing all the arguments
+    if not isinstance(simulation, (list,tuple)):
+        simulation = [simulation]
+        format = [kwds.pop("format", "o-")]
+        title = [kwds.pop("title", "Plot")]
+    else:
+        simulation = list(simulation)
+        format = kwds.pop("format", len(simulation)*["o-"])
+        title = kwds.pop("title", len(simulation)*["Plot"])
+    force_unsuccess = kwds.pop("force_unsuccess", True)
 
-    if not simulation.success and not force_unsuccess:
+    if any(not sim.success for sim in simulation) and not force_unsuccess:
         raise ValueError("The simulation was not successful. Impossible to create figure")
 
-    n = len(simulation.y) # number of output functions
+    names = [sim.names if hasattr(sim, "names") else names if isinstance(names, (list, tuple)) else [f"{names}{i+1}" for i in range(len(sim.y))] for sim in simulation]
 
-    names = simulation.names if hasattr(simulation, "names") else names if isinstance(names, (list,tuple)) else [f"{names}{i+1}" for i in range(n)]
-
+    ##########################################################################################
+    ### TREATMENT OF ARGUMENTS FOR PLOTTING
+    ##########################################################################################
     # Computing the interval for time
-    xinterval = (simulation.t[0], simulation.t[-1])
+    if kwds.get("sharex", False):
+        xinterval = len(simulation)*[(min(sim.t.min() for sim in simulation), max(sim.t.max() for sim in simulation))]
+    else:
+        xinterval = [(sim.t.min(), sim.t.max()) for sim in simulation]    
     
     # Computing the interval for values
-    ymin, ymax = simulation.y.min(), simulation.y.max()
-    padding = 0.01*(ymax-ymin)
-    ymin, ymax = ymin - padding, ymax + padding
-    yinterval = (ymin, ymax)
+    yinterval = []
+    for sim in simulation:
+        ymin, ymax = sim.y.min(), sim.y.max()
+        padding = 0.01*(ymax-ymin)
+        ymin, ymax = ymin - padding, ymax + padding
+        yinterval.append((ymin, ymax))
 
-    # Creating the figure
-    fig, ax = subplots(1,1, figsize=(8,4))
-    for i in range(n):
-        ax.plot(simulation.t, simulation.y[i], format, label=names[i])
+    # Computing the grid dimension
+    nrows = ceil(len(simulation)/3)
+    ncols = min(len(simulation), 3)
 
-    ax.legend(); ax.set_xlim(*xinterval); ax.set_ylim(*yinterval)
+    figsize = (8*ncols, 4*nrows)
+
+    ###########################################################################################
+    ### CREATING THE FIGURE
+    ###########################################################################################
+    fig, ax = subplots(nrows, ncols, figsize = figsize, **kwds)
+    for i,a in enumerate(nditer(ax, ("refs_ok",))): # iterating by rows through all subplots
+        if i >= len(simulation): break # we do not fill all the plots if there are not enough
+        a = a.item() # removing the numpy.ndarray class
+        for j in range(len(simulation[i].y)):
+            a.plot(simulation[i].t, simulation[i].y[j], format[i], label=names[i][j])
+        if i == 0:
+            a.legend()
+        a.title.set_text(title[i]); a.set_xlim(*xinterval[i]); a.set_ylim(*yinterval[i])
+        
     return fig
 
 def sim_to_IO_format(simulation : OdeResult, tstep : float = .0, what : str = "derivative"):
@@ -139,4 +227,4 @@ def sim_to_IO_format(simulation : OdeResult, tstep : float = .0, what : str = "d
         raise ValueError("The requested data (see argument ``what``) is not recognized.")
     return output
 
-__all__ = ["apply_matrix", "merge_simulations", "create_figure", "sim_to_IO_format"]
+__all__ = ["apply_matrix", "merge_simulations", "compare_simulations", "create_figure", "sim_to_IO_format"]
