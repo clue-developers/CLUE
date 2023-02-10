@@ -341,6 +341,10 @@ def compile_results(*argv):
                             if  not "size" in data["observables"][obs_set]: data["observables"][obs_set]["size"] = "oo"
                             if  not "lumped" in data["observables"][obs_set]: data["observables"][obs_set]["lumped"] = "oo"
                             if  not "time" in data["observables"][obs_set]: data["observables"][obs_set]["time"] = "oo"
+                            if isinstance(data["observables"][obs_set]["size"], str) or isinstance(data["observables"][obs_set]["lumped"], str):
+                                data["observables"][obs_set]["ratio"] = "NaN"
+                            else:
+                                data["observables"][obs_set]["ratio"] = data["observables"][obs_set]["lumped"]/data["observables"][obs_set]["size"]
                             # LUMPING PROPERTIES
                             if  not "unweighted" in data["observables"][obs_set]: data["observables"][obs_set]["unweighted"] = "Not computed"
                             if  not "positive" in data["observables"][obs_set]: data["observables"][obs_set]["positive"] = "Not computed"
@@ -376,7 +380,7 @@ def compile_results(*argv):
     with open(os.path.join(SCRIPT_DIR, "compilation.csv"), "w") as file:
         headers= [
             "Name", "Read Alg.", "Time reading", "Matrix Alg.", "Time w/ matrices", # execution data
-            "Or. size", "Lmp. size", "Time (s)", # lumping execution
+            "Or. size", "Lmp. size", "Red. ratio", "Time (s)", # lumping execution
             "Unweighted", "Positive", "Disjoint", "Reducing", # lumping properties
             "Is FL?", "Is FE?", "Is RWE?", "Has RWE?", # lumping types
             "Observables" # observables used
@@ -388,7 +392,7 @@ def compile_results(*argv):
                 try:
                     writer.writerow([
                         name, read, data["read_time"], matrix, data["matrix_time"],
-                        values["size"], values["lumped"], values["time"], 
+                        values["size"], values["lumped"], values["ratio"], values["time"], 
                         values["unweighted"], values["positive"], values["disjoint"], values["reducing"],
                         values["FL"], values["FE"], values["RWE"], values["RWE_has"],
                         obs_set
