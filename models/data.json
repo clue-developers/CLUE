@@ -36,8 +36,7 @@
     },
     "model_example": {
         "type": "polynomial",
-        "ref_title": "model example for the tutorial of the package",
-        "ref_doi": ""
+        "ref_title": "model example for the tutorial of the package"
     },
     "MODEL1001150000": {
         "type": "polynomial",
@@ -66,7 +65,7 @@
     },
     "ProteinPhosphorylation": {
         "type": "polynomial",
-        "range": "2..8",
+        "range": "",
         "ref_title": "Efficient modeling, simulation and coarse-graining of biological complexity with NFsim",
         "ref_doi": "10.1038/nmeth.1546"
     },
@@ -5077,6 +5076,1342 @@
         "path": "WeightedLinearODE"
     },
     "moviegalaxies_637": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_newmexico": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "celegans_2019_male_gap_junction": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_massachusetts": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_georgia": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "arxiv_collab_cond_mat_1999": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "bag_of_words_nips": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "unicodelang": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "bitcoin_alpha": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "fly_hemibrain": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_newyork": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "webkb_webkb_wisconsin_cocite": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "openflights": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "escorts": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_indiana": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_utah": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "celegans_2019_hermaphrodite_gap_junction_corrected": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_pennsylvania": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_westvirginia": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "celegans_2019_male_chemical": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_alaska": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "bag_of_words_kos": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "sp_high_school_diaries": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "webkb_webkb_texas_cocite": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "arxiv_collab_cond_mat_2005": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "celegans_2019_hermaphrodite_chemical": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "physics_collab_arXiv": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "netscience": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_idaho": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_illinois": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_northcarolina": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_ohio": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "bible_nouns": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "bitcoin_trust": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "webkb_webkb_washington_cocite": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_alabama": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "arxiv_collab_astro_ph_1999": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_michigan": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_louisiana": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_connecticut": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "celegans_2019_male_gap_junction_corrected": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "webkb_webkb_cornell_link1": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_newhampshire": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_oklahoma": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "physics_collab_pierreAuger": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_arizona": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "sp_baboons_observational": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "twitter_higgs_reply": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_missouri": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "webkb_webkb_cornell_cocite": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_vermont": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_all_200k": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_newjersey": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_male_20k": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_southcarolina": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_wyoming": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "new_zealand_collab": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_oregon": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "celegans_2019_hermaphrodite_chemical_corrected": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_texas": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "celegans_2019_hermaphrodite_gap_junction": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_male_200k": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_minnesota": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_female_1m": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "celegans_2019_male_chemical_corrected": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_colorado": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_all_20k": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_northdakota": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_kentucky": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_delaware": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "arxiv_collab_hep_th_1999": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "foldoc": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_virginia": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_tennessee": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_maryland": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_male_1m": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_mississippi": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_all_1m": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "arxiv_collab_cond_mat_2003": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "webkb_webkb_washington_link1": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_arkansas": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "jester": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_kansas": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "sp_baboons_sensor": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_nebraska": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "advogato": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_washington": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_female_20k": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "packet_delays": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_southdakota": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "bag_of_words_enron": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_florida": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_maine": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_california": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_female_200k": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_wisconsin": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_iowa": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "sp_office": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "london_transport": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_nevada": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_aggregate": {
         "type": "polynomial",
         "path": "WeightedLinearODE"
     }
