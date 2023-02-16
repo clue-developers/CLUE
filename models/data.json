@@ -5191,10 +5191,6 @@
         "type": "polynomial",
         "path": "WeightedLinearODE"
     },
-    "fly_hemibrain": {
-        "type": "polynomial",
-        "path": "WeightedLinearODE"
-    },
     "eu_procurements_alt_IE_2011": {
         "type": "polynomial",
         "path": "WeightedLinearODE"
@@ -6127,10 +6123,6 @@
         "type": "polynomial",
         "path": "WeightedLinearODE"
     },
-    "jester": {
-        "type": "polynomial",
-        "path": "WeightedLinearODE"
-    },
     "eu_procurements_alt_EE_2009": {
         "type": "polynomial",
         "path": "WeightedLinearODE"
@@ -6268,10 +6260,6 @@
         "path": "WeightedLinearODE"
     },
     "eu_procurements_alt_AT_2016": {
-        "type": "polynomial",
-        "path": "WeightedLinearODE"
-    },
-    "bag_of_words_enron": {
         "type": "polynomial",
         "path": "WeightedLinearODE"
     },
