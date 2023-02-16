@@ -286,7 +286,7 @@ def add_examples_in_folder(*argv):
                     for m in matrix:
                         # Deciding the final name of the example
                         extra = []
-                        if name in examples: extra.append(r)
+                        if name in examples and examples[name].read != r: extra.append(r)
                         if X != None: extra.append(X)
                         extra = f"[{'#'.join(extra)}]" if len(extra) > 0 else ''
                         final_name = f"{name}{extra}"
