@@ -893,7 +893,23 @@ class FODESystem:
                 self.__to_erode(f)
 
     def __to_erode(self, file: IOBase):
-        raise NotImplementedError("[clue.FODESystem] Saving into ERODE file not yet implemented")
+        file.write(f"begin model {self.name if self.name != None else 'FODESystem'}\n")
+        # we write the parameters
+        file.write(f" begin parameters\n")
+        for var in self.pars:
+            file.write('  ' + var + (f' = {self.ic[var]}' if var in self.ic else '') + '\n')
+        file.write(" end parameters\n")
+        # we write the variables
+        file.write(f" begin inits\n")
+        for var in self.species:
+            file.write('  ' + var + (f' = {self.ic[var]}' if var in self.ic else '') + '\n')
+        file.write(" end inits\n")
+        # we write the equations
+        file.write(" begin ODE\n")
+        for var in self.species:
+            file.write('  ' + f'd({var}) = ' + str(self.equation(var)) + '\n')
+        file.write(" end ODE\n")
+        file.write("end model\n")
 
     @staticmethod
     def load(file: str) -> FODESystem:
