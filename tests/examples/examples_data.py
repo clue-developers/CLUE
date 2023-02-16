@@ -131,7 +131,7 @@ def __read_parameters(file: TextIO):
     parameters = []
     while line != "end parameters":
         if line == "": raise IOError("End of file detected within block of parameters")
-        parameters.append(line.split("="[0].strip()))
+        parameters.append(line.split("=")[0].strip())
         line = file.readline().strip()
     
     return parameters
@@ -141,7 +141,7 @@ def __read_init(file: TextIO):
     variables = []
     while line != "end init":
         if line == "": raise IOError("End of file detected within block of init")
-        variables.append(line.split("="[0].strip()))
+        variables.append(line.split("=")[0].strip())
         line = file.readline().strip()
     
     return variables
