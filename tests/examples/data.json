@@ -187,21 +187,7 @@
         ],
         "out_folder": "uncertain"
     },
-    "cyclin1ODE[uncertain-abs]": {
-        "read": "uncertain",
-        "matrix": "polynomial",
-        "observables": [
-            [
-                "S1+S129+S36+S54+S41+S10+S11+S78+S0+S48",
-                "S141"
-            ]
-        ],
-        "unc_type": "abs",
-        "delta": 0.00025,
-        "out_folder": "uncertain",
-        "model": "cyclin1ODE"
-    },
-    "cyclin1ODE[uncertain-prop]": {
+    "cyclin1ODE[uncertain]": {
         "read": "uncertain",
         "matrix": "polynomial",
         "observables": [
@@ -225,20 +211,7 @@
         ],
         "out_folder": "uncertain"
     },
-    "wgc2[uncertain-abs]": {
-        "read": "uncertain",
-        "matrix": "polynomial",
-        "observables": [
-            [
-                "S0"
-            ]
-        ],
-        "unc_type": "abs",
-        "delta": 0.00025,
-        "out_folder": "uncertain",
-        "model": "wgc2"
-    },
-    "wgc2[uncertain-prop]": {
+    "wgc2[uncertain]": {
         "read": "uncertain",
         "matrix": "polynomial",
         "observables": [
@@ -261,20 +234,7 @@
         ],
         "out_folder": "uncertain"
     },
-    "wgc3[uncertain-abs]": {
-        "read": "uncertain",
-        "matrix": "polynomial",
-        "observables": [
-            [
-                "S0"
-            ]
-        ],
-        "unc_type": "abs",
-        "delta": 0.00025,
-        "out_folder": "uncertain",
-        "model": "wgc3"
-    },
-    "wgc3[uncertain-prop]": {
+    "wgc3[uncertain]": {
         "read": "uncertain",
         "matrix": "polynomial",
         "observables": [
@@ -314,7 +274,7 @@
             ]
         ]
     },
-    "BIOMD0000000033_sympy": {
+    "BIOMD0000000033[sympy]": {
         "read": "sympy",
         "matrix": "auto_diff",
         "observables": [
@@ -333,7 +293,7 @@
             ]
         ]
     },
-    "MODEL1502270000_sympy": {
+    "MODEL1502270000[sympy]": {
         "read": "sympy",
         "matrix": "auto_diff",
         "observables": [
