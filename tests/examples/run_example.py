@@ -71,9 +71,7 @@ if __name__ == "__main__":
         ## now we can run the model properly
         if read == "uncertain":
             system = FODESystem(file=example.path_model(), parser="polynomial", lumping_subspace=subs_class)
-            delta = example.delta
-            uncertain_type = example.unc_type
-            system = UncertainFODESystem.from_FODESystem(system, delta, type=uncertain_type)
+            system = UncertainFODESystem.from_FODESystem(system, example.delta, type=example.unc_type)
         else:
             system = FODESystem(file=example.path_model(), parser=read, lumping_subspace=subs_class)
         read_time = time.time() - read_time
