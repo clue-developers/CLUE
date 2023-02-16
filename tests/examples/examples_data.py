@@ -7,7 +7,7 @@ SCRIPT_DIR = os.path.dirname(__file__) if __name__ != "__main__" else "./"
 sys.path.insert(0, os.path.join(SCRIPT_DIR, "..", "..")) # models and clue is here
 
 import models.models_data
-from clue import FODESystem
+from typing import TextIO
 
 VALID_READ = ["polynomial", "rational", "sympy", "uncertain"]
 VALID_MATRIX = ["polynomial", "rational", "auto_diff"]
@@ -126,6 +126,40 @@ executed_examples = [
 def get_example(name):
     return examples[name]
 
+def __read_parameters(file: TextIO):
+    line = file.readline().strip()
+    parameters = []
+    while line != "end parameters":
+        if line == "": raise IOError("End of file detected within block of parameters")
+        parameters.append(line.split("="[0].strip()))
+        line = file.readline().strip()
+    
+    return parameters
+
+def __read_init(file: TextIO):
+    line = file.readline().strip()
+    variables = []
+    while line != "end init":
+        if line == "": raise IOError("End of file detected within block of init")
+        variables.append(line.split("="[0].strip()))
+        line = file.readline().strip()
+    
+    return variables
+
+def read_variables_from_system(path:str) -> list[str]:
+    with open(path, "r") as file:
+        line = file.readline().strip()
+        parameters = []; variables = []; not_params = True; not_init = True
+        while line != "" and (not_params or not_init):
+            if line.startswith("begin parameters"):
+                parameters = __read_parameters(file)
+                not_params = False
+            if line.startswith("begin init"):
+                variables = __read_init(file)
+                not_init = False
+            line = file.readline().strip()
+    return variables + parameters
+        
 ############################################################
 ### SCRIPT METHODS
 ############################################################
@@ -232,19 +266,19 @@ def add_examples_in_folder(*argv):
                 raise TypeError("Found a 'rational' model and required an 'uncertain'")
 
             print(f"## Processing examples for model {name}".ljust(100, "."))
-            system = FODESystem(file = model.path(), parser = "polynomial" if model.type == "polynomial" else "sympy")
+            system_variables = read_variables_from_system(model.path())
             ## Deciding observables
             print(f"### Deciding observables (criteria {O=})")
             obs = []
             if O in ("first", "all") :
                 print(f"#### Adding the first variable as observable")
-                obs.append([str(system.symb_variables()[0])])
+                obs.append([system_variables[0]])
             if O in ("sum", "all"):
                 print(f"#### Adding the sum of everything as observable")
-                obs.append([" + ".join(system.variables)])
+                obs.append([" + ".join(system_variables)])
             if O in ("alone", "all"):
                 print(f"#### Adding all variables alone as observables")
-                obs.extend([[str(system.symb_variables()[i])] for i in range(0 if O == "alone" else 1, system.size)])
+                obs.extend([[system_variables[i]] for i in range(0 if O == "alone" else 1, len(system_variables))])
 
             print(f"### Found {len(obs)} set of observables")
 
