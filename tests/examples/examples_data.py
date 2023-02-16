@@ -253,16 +253,12 @@ def add_examples_in_folder(*argv):
 
     if "uncertain" in read and any(m != "polynomial" for m in matrix):
         raise TypeError("Found an 'uncertain' approach with a method for matrices different than 'polynomial'")
-    if "uncertain" in read:
-        read.pop(read.index("uncertain"))
-        read.append("uncertain-abs")
-        read.append("uncertain-prop")
 
     changed = False
     for (name, model) in models.models_data.models.items():
         if model.folder() in folders: # this model must be added
             # checking we can do everything
-            if ("uncertain-abs" in read or "uncertain-prop" in read) and model.type == "rational":
+            if "uncertain" in read and model.type == "rational":
                 raise TypeError("Found a 'rational' model and required an 'uncertain'")
 
             print(f"## Processing examples for model {name}".ljust(100, "."))
@@ -299,8 +295,7 @@ def add_examples_in_folder(*argv):
                         if final_name != name: kwds["model"] = name
                         if o != None: kwds["out_folder"] = o
                         if X != None: kwds["range"] = X
-                        if r == "uncertain-abs": kwds["delta"] = 2.5e-4; kwds["unc_type"] = "abs"; r = "uncertain"
-                        if r == "uncertain-prop": kwds["delta"] = 0.1; kwds["unc_type"] = "prop"; r = "uncertain"
+                        if r == "uncertain": kwds["delta"] = 0.1; kwds["unc_type"] = "prop"
                         
                         if (not final_name in examples) or subs:
                             examples[final_name] = Example(final_name, r, m, obs, **kwds)
