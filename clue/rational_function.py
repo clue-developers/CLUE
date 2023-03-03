@@ -17,7 +17,8 @@ from pyparsing import (
 import sympy
 from sympy import QQ, oo, sympify
 
-from clue.nual import NualNumber
+from .linalg import SparseVector
+from .nual import NualNumber
 
 #------------------------------------------------------------------------------
 
@@ -63,7 +64,6 @@ class SparsePolynomial(object):
             >>> simplify(parse_expr(str(sp)) - parsed) == 0
             True
     '''
-
     def __init__(self, varnames, domain=QQ, data=None, cast=True):
         self._varnames = varnames
         self._domain = domain
@@ -123,7 +123,7 @@ class SparsePolynomial(object):
                 >>> p == sum([p.coefficients[i]*p.monomials[i] for i in range(n)], SparsePolynomial(p.gens, p.domain))
                 True
         '''
-        return tuple([SparsePolynomial.monomial(term[0], self.gens, self.domain) for term in self.dataiter()])
+        return tuple([SparsePolynomial.monomial(term[0], self._varnames, self.domain) for term in self.dataiter()])
 
     @property
     def coefficients(self):
@@ -325,11 +325,11 @@ class SparsePolynomial(object):
         ''' 
         if(var_name is None):
             degree_fun = lambda monomial : sum(el[1] for el in monomial)
-        elif(var_name not in self.gens):
+        elif(var_name not in self._varnames):
             raise ValueError("the variable %s is not valid for this polynomial" %var_name)
         else:
             def degree_fun(monomial):
-                var_index = self.gens.index(var_name)
+                var_index = self._varnames.index(var_name)
                 red = [el for el in monomial if el[0] == var_index]
                 if(len(red) == 0):
                     return 0
@@ -381,8 +381,8 @@ class SparsePolynomial(object):
         '''
         var_index = list(set(sum([[var[0] for var in term[0]] for term in self.dataiter()], [])))
 
-        result = [self.gens[var_index[i]] for i in range(len(var_index))]
-        if(as_poly): result = [SparsePolynomial.var_from_string(name, self.gens) for name in result]
+        result = [self._varnames[var_index[i]] for i in range(len(var_index))]
+        if(as_poly): result = [SparsePolynomial.var_from_string(name, self._varnames) for name in result]
 
         return tuple(result)
     #--------------------------------------------------------------------------
@@ -390,13 +390,13 @@ class SparsePolynomial(object):
     def __add__(self, other):
         if(not isinstance(other, SparsePolynomial)):
             if(other in self.domain):
-                other = SparsePolynomial.from_const(other, self.gens, self.domain)
+                other = SparsePolynomial.from_const(other, self._varnames, self.domain)
             elif(isinstance(other, str)):
-                other = SparsePolynomial.from_string(other, self.gens, self.domain)
+                other = SparsePolynomial.from_string(other, self._varnames, self.domain)
             else:
                 return NotImplemented
                 
-        result = SparsePolynomial(self.gens, self.domain)
+        result = SparsePolynomial(self._varnames, self.domain)
         resdata = dict()
         for m, c in self._data.items():
             sum_coef = c + other._data.get(m, self.domain(0))
@@ -417,9 +417,9 @@ class SparsePolynomial(object):
     def __iadd__(self, other):
         if(not isinstance(other, SparsePolynomial)):
             if(other in self.domain):
-                other = SparsePolynomial.from_const(other, self.gens, self.domain)
+                other = SparsePolynomial.from_const(other, self._varnames, self.domain)
             elif(isinstance(other, str)):
-                other = SparsePolynomial.from_string(other, self.gens, self.domain)
+                other = SparsePolynomial.from_string(other, self._varnames, self.domain)
             else:
                 return NotImplemented
 
@@ -435,7 +435,7 @@ class SparsePolynomial(object):
     #--------------------------------------------------------------------------
 
     def __neg__(self):
-        return SparsePolynomial(self.gens, self.domain, {m: -c for m, c in self._data.items()})
+        return SparsePolynomial(self._varnames, self.domain, {m: -c for m, c in self._data.items()})
 
     def __sub__(self, other):
         return self + (-other)
@@ -488,9 +488,9 @@ class SparsePolynomial(object):
             if(isinstance(other, RationalFunction)):
                 return self*other.denom == other.numer
             elif(other in self.domain):
-                other = SparsePolynomial.from_const(other, self.gens, self.domain)
+                other = SparsePolynomial.from_const(other, self._varnames, self.domain)
             elif(isinstance(other, str)):
-                other = SparsePolynomial.from_string(other, self.gens, self.domain)
+                other = SparsePolynomial.from_string(other, self._varnames, self.domain)
             else:
                 return False
         if self._data != other._data:
@@ -510,7 +510,7 @@ class SparsePolynomial(object):
         For polynomials we use slow quadratic multiplication as needed only for parsing
         """
         if type(other) == SparsePolynomial:
-            result = SparsePolynomial(self.gens, self.domain)
+            result = SparsePolynomial(self._varnames, self.domain)
             for ml, cl in self._data.items():
                 for mr, cr in other._data.items():
                     dictl = dict(ml)
@@ -529,7 +529,7 @@ class SparsePolynomial(object):
                         result._data[m] = cl * cr
             return result
         else:
-            result = SparsePolynomial(self.gens, self.domain)
+            result = SparsePolynomial(self._varnames, self.domain)
             if other != 0:
                 other = self.domain.convert(other)
                 for m, c in self._data.items():
@@ -588,11 +588,11 @@ class SparsePolynomial(object):
                 2 + x**2 + 2*x
         '''
         if(self.is_zero()):
-            return SparsePolynomial.from_const(0 , self.gens, self.domain)
+            return SparsePolynomial.from_const(0 , self._varnames, self.domain)
         elif(self == other):
-            return SparsePolynomial.from_const(1 , self.gens, self.domain)
+            return SparsePolynomial.from_const(1 , self._varnames, self.domain)
         elif(self.is_constant() and other.is_constant()):
-            return SparsePolynomial.from_const(self.ct/other.ct, self.gens, self.domain)
+            return SparsePolynomial.from_const(self.ct/other.ct, self._varnames, self.domain)
         
         ## General case (self != other and 0)
         R = self.get_sympy_ring()
@@ -648,9 +648,9 @@ class SparsePolynomial(object):
         num = R(self.get_sympy_dict()).as_expr()
         denom = R(other.get_sympy_dict()).as_expr()
         if num.is_zero:
-            return SparsePolynomial.from_string('0', self.gens, self.domain)
+            return SparsePolynomial.from_string('0', self._varnames, self.domain)
         elif num == denom:
-            return SparsePolynomial.from_const(1, self.gens, self.domain)
+            return SparsePolynomial.from_const(1, self._varnames, self.domain)
         elif denom == 1:
             return self
         quo = R(sympy.polys.polytools.rem(num, denom))
@@ -693,14 +693,14 @@ class SparsePolynomial(object):
         '''
         if(not isinstance(other, SparsePolynomial)):
             if(other in self.domain):
-                other = SparsePolynomial.from_const(other, self.gens, self.domain)
+                other = SparsePolynomial.from_const(other, self._varnames, self.domain)
             elif(isinstance(other, str)):
-                other = SparsePolynomial.from_string(other, self.gens, self.domain)
+                other = SparsePolynomial.from_string(other, self._varnames, self.domain)
             else:
                 return NotImplemented
         
         if(other.is_constant()):
-            return SparsePolynomial(self.gens, self.domain, {k: self._data[k]/other.ct for k in self._data})
+            return SparsePolynomial(self._varnames, self.domain, {k: self._data[k]/other.ct for k in self._data})
         else:
             if((self%other).is_zero()): ## Keeping SparsePolynomial if the division is exact
                 return self//other
@@ -709,9 +709,9 @@ class SparsePolynomial(object):
     def __rtruediv__(self, other):
         if(not isinstance(other, SparsePolynomial)):
             if(other in self.domain):
-                other = SparsePolynomial.from_const(other, self.gens, self.domain)
+                other = SparsePolynomial.from_const(other, self._varnames, self.domain)
             elif(isinstance(other, str)):
-                other = SparsePolynomial.from_string(other, self.gens, self.domain)
+                other = SparsePolynomial.from_string(other, self._varnames, self.domain)
             else:
                 return NotImplemented
         
@@ -758,8 +758,8 @@ class SparsePolynomial(object):
             if(el in rem_variables):
                 rem_variables.remove(el)
             
-        rem_variables = [self.gens.index(el) for el in rem_variables]
-        values = {self.gens.index(el) : sympify(values[el]) for el in values if el in self.gens}
+        rem_variables = [self._varnames.index(el) for el in rem_variables]
+        values = {self._varnames.index(el) : sympify(values[el]) for el in values if el in self._varnames}
         ## Here `rem_variables` contains the indices of the variables remaining in the evaluation
         ## and values `values` contains a dictionary index -> value (instead of the name of the variable)
         
@@ -776,7 +776,7 @@ class SparsePolynomial(object):
             else:
                 new_data[new_monomial] = value
         ## Returning the resulting polynomial
-        return SparsePolynomial(self.gens, self.domain, new_data, cast=False)
+        return SparsePolynomial(self._varnames, self.domain, new_data, cast=False)
 
     def subs(self, to_subs = None, **values):
         r'''
@@ -802,8 +802,7 @@ class SparsePolynomial(object):
             raise TypeError(f"Not enough variables were given for substitution. Required {self.variables()}, given {list(values.keys())}")
 
         # we assume the user has provided everything of the same type
-        gens = self.gens
-        to_sub = {gens.index(k): v for (k,v) in values.items()}
+        to_sub = {self._varnames.index(k): v for (k,v) in values.items()}
 
         return sum((c*sum(to_sub[v]**e for (v,e) in m)) for (m,c) in self._data.items())
         
@@ -835,7 +834,7 @@ class SparsePolynomial(object):
         if(any(v not in values for v in self.variables())):
             raise ValueError("Not enough information provided for automatic differentiation")
 
-        gens = self.gens
+        gens = self._varnames
         n = len(gens)
 
         if(self.is_constant()):
@@ -856,7 +855,7 @@ class SparsePolynomial(object):
         if power < 0:
             raise ValueError(f"Cannot raise to power {power}, {str(self)}")
         if power == 0:
-            return SparsePolynomial.from_const(1, self.gens, self.domain)
+            return SparsePolynomial.from_const(1, self._varnames, self.domain)
         if power == 1:
             return self
         if power % 2 == 0:
@@ -933,13 +932,16 @@ class SparsePolynomial(object):
                 TODO: add examples
         '''
         return self.is_zero() or (len(self._data) == 1 and () in self._data)
+
+    def is_linear(self):
+        return all((monomial == () or (len(monomial) == 1 and monomial[0][1] == 1)) for monomial in self._data)
     #--------------------------------------------------------------------------
 
     def _pair_to_str(self, pair):
         if pair[1] == 1:
-            return self.gens[pair[0]]
+            return self._varnames[pair[0]]
         else:
-            return f"{self.gens[pair[0]]}**{pair[1]}"
+            return f"{self._varnames[pair[0]]}**{pair[1]}"
 
     #--------------------------------------------------------------------------
 
@@ -988,15 +990,19 @@ class SparsePolynomial(object):
 
     #--------------------------------------------------------------------------
 
-    def linear_part_as_vec(self):
-        return [self._data.get(((i, 1), ), self.domain(0)) for i in range(len(self.gens))]
+    def linear_part_as_vec(self) -> SparseVector:
+        out = SparseVector(len(self._varnames),self.domain)
+        for i in range(len(self._varnames)):
+            if ((i,1),) in self._data:
+                out[i] = self._data[((i,1),)]
+        return out
 
     #--------------------------------------------------------------------------
 
     def get_sympy_dict(self):
         result = dict()
         for monom, coef in self._data.items():
-            new_monom = [0] * len(self.gens)
+            new_monom = [0] * len(self._varnames)
             for var, exp in monom:
                 new_monom[var] = exp
             result[tuple(new_monom)] = coef
@@ -1008,7 +1014,7 @@ class SparsePolynomial(object):
         return self.constant_term
 
     def get_sympy_ring(self):
-        return sympy.polys.rings.ring(self.gens, self.domain)[0]
+        return sympy.polys.rings.ring(self._varnames, self.domain)[0]
 
     def to_sympy(self):
         r'''
@@ -1042,8 +1048,8 @@ class SparsePolynomial(object):
         """
         Returns derivative of polynomial with respect to var_name
         """
-        if var_name in self.gens:
-            var = self.gens.index(var_name)
+        if var_name in self._varnames:
+            var = self._varnames.index(var_name)
         else:
             return 0
 
@@ -1058,7 +1064,7 @@ class SparsePolynomial(object):
                         m_der = tuple(list(monom[:i]) + [(var, exp - 1)] + list(monom[(i + 1):]))
                     data[m_der] = coeff * exp
 
-        return SparsePolynomial(self.gens, domain=self._domain, data=data)
+        return SparsePolynomial(self._varnames, domain=self._domain, data=data)
 
     #--------------------------------------------------------------------------
 
@@ -1110,6 +1116,7 @@ class SparsePolynomial(object):
 
     @staticmethod
     def from_sympy(sympy_poly, varnames=None):
+        r'''Static method inverse to :func:`to_sympy`'''
         domain = sympy_poly.ring.domain
         # lambda used to handle the case of the algebraic field of coefficients
         if(varnames is None):
@@ -1122,6 +1129,20 @@ class SparsePolynomial(object):
                 if monom[i]:
                     new_monom.append((i, monom[i]))
             data[tuple(new_monom)] = coef
+        return SparsePolynomial(varnames, domain, data)
+
+    @staticmethod
+    def from_vector(vector, varnames=None, domain=QQ):
+        r'''Static method inverse to :func:`linear_part_as_vec`'''
+        from .linalg import SparseVector
+
+        if isinstance(vector, SparseVector):
+            if len(varnames) != vector.dim: raise TypeError(f"The list must have as many elements ({len(vector)}) as variables ({len(varnames)})")
+            domain = vector.field
+            data = {((i,1),) : vector[i] for i in vector.nonzero}
+        else:
+            if len(vector) != len(varnames): raise TypeError(f"The list must have as many elements ({len(vector)}) as variables ({len(varnames)})")
+            data = {((i,1),) : el for i,el in enumerate(list) if el != 0}
         return SparsePolynomial(varnames, domain, data)
 
     #--------------------------------------------------------------------------
@@ -1488,6 +1509,12 @@ class RationalFunction:
     def get_constant(self):
         return self.numer.ct/self.denom.ct
 
+    def linear_part_as_vec(self) -> SparseVector:
+        constant_parts = self.automated_diff(**{v:0 for v in self.gens})
+        out = SparseVector(len(self.gens), self.domain)
+        for i in range(len(self.gens)): out[i] = constant_parts[i+1]
+        return out
+
     def get_sympy_ring(self):
         return sympy.polys.rings.ring(self.gens, self.domain)[0]
 
@@ -1572,7 +1599,7 @@ class RationalFunction:
         # Creating a parser instance if necessary
         if RationalFunction.__parser is None:
             fnumber = Regex(r"[+-]?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?")
-            ident = Word(alphas, alphanums + "_$")
+            ident = Regex(f"(\\d[{alphanums+'_$'}]*[{alphas}]+[{alphanums+'_$'}]*)|([{alphas}]+[{alphanums+'_$'}]*)") # Word(alphanums, alphanums + "_$") # ident = Word(alphas, alphanums + "_$")
             plus, minus, mult, div = map(Literal, "+-*/")
             lpar, rpar = map(Suppress, "()")
             addop = plus | minus
@@ -1583,7 +1610,7 @@ class RationalFunction:
             atom = (
                 addop[...]
                 + (
-                    (fnumber | ident).setParseAction(push_first)
+                    (ident | fnumber).setParseAction(push_first) # (fnumber | ident).setParseAction(push_first)
                     | Group(lpar + expr + rpar)
                 )
             ).setParseAction(push_unary_minus)
