@@ -5,7 +5,7 @@ from functools import cached_property
 
 from sympy import QQ, oo
 
-import sys
+import random, sys
 
 from .clue import FODESystem, LDESystem, SparseRowMatrix
 from .rational_function import SparsePolynomial
@@ -47,10 +47,10 @@ class UncertainFODESystem(FODESystem):
             >>> from sympy import QQ
             >>> from sympy.polys.rings import vring
             >>> R = vring(["x0", "x1", "x2"], QQ)
-            >>> ## Example 1
-            2*x0 + 3*x1 + 2*x2, x0+2*x1+x2, 2*x0 + 4*x1 + 2*x2
+            >>> ## Example 1 
+            >>> ## 2*x0 + 3*x1 + 2*x2, x0+2*x1+x2, 2*x0 + 4*x1 + 2*x2
             >>> usystem = UncertainFODESystem([(x0 + 2*x1 + x2, 3*x0+4*x1+3*x2), (x1, 2*x0+3*x1+2*x2), (x0 + 3*x1 + x2, 3*x0 + 5*x1 + 3*x2)], variables=['x0','x1','x2'])
-            >>> usystem.lumping([x0+x2])._subspace
+            >>> usystem.lumping([x0+x2])._subspace.matrix().to_list()
             [[MPQ(1,1), 0, MPQ(1,1)], [0, MPQ(1,1), 0]]
             >>> usystem.lower_equations
             (x0 + 2*x1 + x2, x1, x0 + 3*x1 + x2)
@@ -70,7 +70,7 @@ class UncertainFODESystem(FODESystem):
             >>> usystem.upper_equations
             (40*a + 25*b + 75*c + 80*d, 44*a + 27*b + 81*c + 88*d, 42*a + 28*b + 84*c + 84*d, 44*a + 27*b + 81*c + 88*d)
             >>> a,b,c,d = usystem.symb_variables()
-            >>> usystem.lumping([a+2*d])._subspace
+            >>> usystem.lumping([a+2*d])._subspace.matrix().to_list()
             [[MPQ(1,1), 0, 0, MPQ(2,1)], [0, MPQ(1,1), MPQ(3,1), 0]]
     '''
     def __init__(self, equations=None, observables=None, variables = None, ic={}, name = None, 
@@ -79,6 +79,7 @@ class UncertainFODESystem(FODESystem):
     ):
         ## getting equations of the system
         equations = equations if equations != None else (dic.pop("equations", None) if dic != None else None)
+        by_matrix = False
         if equations == None:
             variables = variables if variables != None else (dic.pop("variables", None) if dic != None else None)
             matrices = matrices if matrices != None else (dic.pop("matrices", None) if dic != None else None)
@@ -87,10 +88,13 @@ class UncertainFODESystem(FODESystem):
             if matrices == None:
                 raise TypeError("Not enough information provided to determine the equations of a Uncertain System")
             m,M = matrices
-            get_coeff = lambda m,i,j : m[i,j] if isinstance(m, SparseRowMatrix) else m[i][j]
-            symb_vars = [SparsePolynomial.from_string(v, variables) for v in variables]
-            equations = [(sum(get_coeff(m,j,i)*symb_vars[j] for j in range(len(variables))), sum(get_coeff(M,j,i)*symb_vars[j] for j in range(len(variables))))  
-                        for i in range(len(variables))]
+            by_matrix = True
+            if isinstance(m, SparseRowMatrix) and isinstance(M, SparseRowMatrix):
+                equations = [(SparsePolynomial.from_vector(m.column(i), variables), SparsePolynomial.from_vector(M.column(i), variables)) for i in range(len(variables))]
+            else:
+                symb_vars = [SparsePolynomial.from_string(v, variables) for v in variables]
+                equations = [(sum(m[j][i]*symb_vars[j] for j in range(len(variables))), sum(M[j][i]*symb_vars[j] for j in range(len(variables))))  
+                            for i in range(len(variables))]
 
         super().__init__(equations, observables, variables, ic, name, dic=dic, file=file, **kwds)
         self._lumped_system_type = UncertainLDESystem
@@ -103,12 +107,17 @@ class UncertainFODESystem(FODESystem):
         lower_equations = self.lower_equations
         upper_equations = self.upper_equations
         
-        m = SparseRowMatrix(self.size, self.field)
-        M = SparseRowMatrix(self.size, self.field)
-        for i in range(self.size):
-            for j in range(self.size):
-                m.increment(i,j, lower_equations[j].derivative(self.variables[i]).ct)
-                M.increment(i,j, upper_equations[j].derivative(self.variables[i]).ct)
+        if not by_matrix:
+            m = SparseRowMatrix(self.size, self.field)
+            M = SparseRowMatrix(self.size, self.field)
+            for i in range(self.size):
+                if lower_equations[i] != 0:
+                    m.set_col(i, lower_equations[i].linear_part_as_vec())
+                if upper_equations[i] != 0:
+                    M.set_col(i, upper_equations[i].linear_part_as_vec())
+        elif not isinstance(m, SparseRowMatrix):
+            m = SparseRowMatrix.from_list(m, self.field)
+            M = SparseRowMatrix.from_list(M, self.field)
         self._lumping_matr["polynomial"] = [m,M]
 
     @property
@@ -167,6 +176,10 @@ class UncertainFODESystem(FODESystem):
             yield equation[0]
             yield equation[1]
 
+    def is_weighted_system(self):
+        r'''Override from FODESystem'''
+        return True
+
     def check_consistency(self, *_): ## TODO
         r'''
             This method was removed for Uncertain systems
@@ -205,7 +218,7 @@ class UncertainFODESystem(FODESystem):
     ### Some special creation methods
     ##############################################################################################################
     @staticmethod
-    def from_FODESystem(system : FODESystem, delta = 2.5e-4, min_val = -oo, max_val = oo, only_existing = True, type="abs"):
+    def from_FODESystem(system : FODESystem, delta = 2.5e-4, min_val = -oo, max_val = oo, change_prob = 1.0, only_existing = True, type="abs"):
         r'''
             Method to create an uncertain system from a :class:`FODESystem` by altering all the coefficients with a given value `\delta`.
 
@@ -234,33 +247,40 @@ class UncertainFODESystem(FODESystem):
             raise TypeError("We need a linear system to create an Uncertain system")
 
         def __low_coeff(c):
-            if only_existing and c != 0:
+            if (not only_existing) or c != 0:
                 if type == "abs":
                     nval = c-delta
                 elif type == "prop":
-                    nval = c*(1-delta)
+                    if c > 0:
+                        nval = c*(1-delta)
+                    else:
+                        nval = c*(1+delta)
                 return max(min_val, nval)
             return c
         def __up_coeff(c):
-            if only_existing and c != 0:
+            if (not only_existing) or c != 0:
                 if type == "abs":
                     nval = c+delta
                 elif type == "prop":
-                    nval = c*(1+delta)
+                    if c > 0:
+                        nval = c*(1+delta)
+                    else:
+                        nval = c*(1-delta)
                 return min(max_val, nval)
             return c
 
         if isinstance(system, UncertainFODESystem):
-            m,M = system._lumping_matr
+            m,M = [matr.copy() for matr in system._lumping_matr]
         else:
-            m = [[equation.derivative(v).ct for equation in system.equations] for v in system.variables]
-            M = [[c for c in row] for row in m]
-        get_row = lambda m, i : [m[i,j] for j in range(m.dim[1])] if isinstance(m, SparseRowMatrix) else m[i]
-
-        m = [[__low_coeff(c) for c in get_row(m,i)] for i in range(system.size)]
-        M = [[__up_coeff(c) for c in get_row(M,i)] for i in range(system.size)]
-
-        new_name = None if system.name is None else system.name + f"[altered by +-{delta}]"
+            m = system.linear_part().copy()
+            M = m.copy()
+            
+        for i in (range(system.size) if (type=="abs" and not only_existing) else m.nonzero.union(M.nonzero)):
+            for j in (range(system.size) if (type=="abs" and not only_existing) else m[i].nonzero.union(M[i].nonzero)):
+                if random.random() < change_prob:
+                    m[i,j] = __low_coeff(m[i,j]); M[i,j] = __up_coeff(M[i,j])
+        
+        new_name = None if system.name is None else system.name + f"[altered by {f'+-{delta}' if type=='abs' else f'{100*delta}%'}]"
         return UncertainFODESystem(None, system.observables, system.variables, system.ic, new_name,(m,M))
 
 class UncertainLDESystem(LDESystem,UncertainFODESystem):
