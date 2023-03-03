@@ -118,7 +118,7 @@ class FODESystem:
         name = name if name != None else (dic.get('name', None) if dic != None else None)
         
         # Now we have the data in the first arguments
-        self._equations = equations
+        self._equations = list(equations)
         self._observables = observables
         self._variables = variables
         self._ic = ic
@@ -127,6 +127,7 @@ class FODESystem:
         self.__matrices_subspace_kwds = kwds.get("matrices_subspace_kwds", {})
         self.__lumping_subspace_class = kwds.get("lumping_subspace", Subspace)
         self.__lumping_subspace_kwds = kwds.get("lumping_subspace_kwds", {})
+        self.__linear_part = kwds.get("linear_part", None)
 
         self._lumping_matr = {}
         self.__normalize_input = False
@@ -207,9 +208,25 @@ class FODESystem:
         ## Initial conditions
         new_ic = {key : noise(val) for (key,val) in system.ic.items()} if system.ic != None else None
         ## Name
-        new_name = f"Pertubed system{f' [{system.name}]' if system.name != None else ''}"
+        new_name = f"Perturbed system{f' [{system.name}]' if system.name != None else ''}"
 
         return FODESystem(new_eqs, new_obs, system.variables, new_ic, new_name)
+
+    @staticmethod
+    def LinearSystem(matrix : SparseRowMatrix, observables=None, variables = None, ic={}, name = None, **kwds):
+        if not isinstance(matrix, SparseRowMatrix):
+            raise TypeError("The matrix must be given in SparseRowMatrix format")
+
+        if matrix.nrows != matrix.ncols:
+            raise TypeError("The given matrix is not a square matrix and can not define a differential system")
+        variables = [f"x{i}" for i in range(matrix.nrows)] if variables is None else variables
+        if len(variables) != matrix.nrows:
+            raise ValueError("The number of variables must match the size of the matrix")
+
+        equations = [SparsePolynomial.from_vector(matrix.row(i), variables) for i in range(len(variables))]
+        system = FODESystem(equations, observables, variables, ic, name, linear_part=matrix, **kwds)
+        system._lumping_matr["polynomial"] = [matrix] # the matrix for lumping is just the defining matrix
+        return system
 
     # Getters of attributes
     @property
@@ -337,17 +354,28 @@ class FODESystem:
         self.normalize()
         return type(self.equations[0])
 
+    def linear_part(self) -> SparseRowMatrix:
+        r'''Build a matrix with the linear part of the equations'''
+        if self.__linear_part == None:
+            self.normalize()
+            self.__linear_part = FODESystem.evaluate_jacobian(self.equations, self.variables, self.field, [0 for _ in range(self.size)])
+        return self.__linear_part
+
     @lru_cache(maxsize=1)
     def is_linear_system(self):
         r'''Checker to see if a system is linear or not'''
         if not issubclass(self.type, SparsePolynomial):
             return False
 
-        for equation in self.all_equations():
-            if equation != 0:
-                if any((not equation.degree(v) in (0,1)) for v in self.variables):
-                    return False
-        return True
+        return all(equation.is_linear() for equation in self.all_equations())
+
+    @lru_cache(maxsize=1)
+    def is_weighted_system(self):
+        r'''Checks if any coefficient is not 0 or 1'''
+        self.normalize()
+        if issubclass(self.type, SparsePolynomial):
+            return any(any((not c in (0,1)) for c in equ.coefficients) for equ in self.equations)
+        return True # if not sparse polynomials, then we considered weighted by default
 
     def all_equations(self):
         r'''
@@ -1891,7 +1919,7 @@ class FODESystem:
         field = self.field
         vectors_to_include = []
         for linear_form in observable:
-            vec = SparseVector.from_list(linear_form, field)
+            vec = linear_form if isinstance(linear_form, SparseVector) else SparseVector.from_list(linear_form, field)
             vectors_to_include.append(vec)
         logger.debug(":ilumping: Computing the lumping subspace...")
         start = time.time()
@@ -1899,24 +1927,20 @@ class FODESystem:
         logger.debug(f":ilumping: -> Found the lumping subspace in {time.time()-start}s")
 
         lumped_rhs = self._lumped_system(lumping_subspace, vars_old, field, new_vars_name)
-        subspace = [v.to_list() for v in lumping_subspace.basis()]
 
         ## Computing the new variables and their expression in term of old variables
         vars_new = [f"{new_vars_name}{i}" for i in range(lumping_subspace.dim())]
-        map_old_variables = []
-        for i in range(lumping_subspace.dim()):
-            new_var = SparsePolynomial(vars_old, field)
-            for j in range(len(vars_old)):
-                if lumping_subspace.basis()[i][j] != 0:
-                    new_var += SparsePolynomial(vars_old, field, {((j, 1),) : lumping_subspace.basis()[i][j]})
-            map_old_variables.append(new_var)
+        map_old_variables = [
+            SparsePolynomial(vars_old, field, {((j,1),) : v[j] for j in v.nonzero})
+            for v in lumping_subspace.basis()
+        ]
 
         # Computing the new initial conditions for the new variables when possible
         ic = self.ic if ic is None else {v : ic.get(v, self.ic.get(v,None)) for v in set(ic).union(self.ic)} # we merge the initial condition dictionaries
         new_ic = {
-            new_var : sum(subspace[i][j] * ic[old_var] for j,old_var in enumerate(self.variables) if subspace[i][j] != 0)
-            for (i,new_var) in enumerate(vars_new) 
-            if all(old_var in ic for j,old_var in enumerate(self.variables) if subspace[i][j] != 0)
+            new_var : sum(vector[j] * ic[self.variables[j]] for j in vector.nonzero)
+            for new_var, vector in zip(vars_new, lumping_subspace.basis()) # we use that all elements in the basis are non-zero
+            if all(self.variables[j] in ic for j in vector.nonzero)
         }
 
         ## Nice printing
@@ -1944,7 +1968,7 @@ class FODESystem:
                 "ic" : new_ic,
                 "name": f"Lumped system [{self.size} -> {len(lumped_rhs)}] ({self.name})",
                 "old_vars" : map_old_variables,
-                "subspace" : subspace}
+                "subspace" : lumping_subspace}
 
     def _lumped_system(self, lumping_subspace, vars_old, field, new_vars_name):
         return lumping_subspace.perform_change_of_variables(self.equations, vars_old, field, new_vars_name)
@@ -1983,9 +2007,9 @@ class LDESystem(FODESystem):
                 raise ValueError("Needed a lumping subspace to define a Lumped System.")
             subspace = dic["subspace"]
         
-        self._old_vars = old_vars
-        self._old_system = old_system
-        self._subspace = subspace
+        self._old_vars : list[SparsePolynomial] = old_vars
+        self._old_system : FODESystem = old_system
+        self._subspace : Subspace = subspace
 
     @property
     def old_vars(self):
@@ -1996,13 +2020,14 @@ class LDESystem(FODESystem):
         return self._old_system
 
     @cached_property
-    def lumping_matrix(self) -> ndarray:
-        return array(self._subspace)
+    def lumping_matrix(self) -> SparseRowMatrix:
+        return self._subspace.matrix()
 
     @cached_property
     def used_old_vars(self) -> tuple[str]:
-        used_variables = self.lumping_matrix.any(0)
-        return tuple([var for i,var in enumerate(self.old_system.variables) if used_variables[i]])
+        L = self.lumping_matrix
+        used_variables = reduce(lambda p,q: p.union(q), [L[i].nonzero for i in L.nonzero])
+        return tuple([var for i,var in enumerate(self.old_system.variables) if i in used_variables])
 
     #------------------------------------------------------------------------------
     # PROPERTIES OF A LUMPING
@@ -2018,15 +2043,15 @@ class LDESystem(FODESystem):
             A lumping is called ``unweighted`` if all the entries of the lumping matrix are in `{0, 1}`.
         '''
         L = self.lumping_matrix
-        return all(L[i][j] in (0,1) for i,j in product(*[range(el) for el in L.shape]))
+        return all(L.row(i)[j] == 1 for i in L.nonzero for j in L.row(i).nonzero)
 
     @lru_cache(maxsize=1)
     def is_disjoint(self) -> bool:
         r'''Checks whether a lumping has dijoint row support'''
-        L = self.lumping_matrix; m,n = L.shape
-        supports = [{j for j in range(n) if L[i][j] != 0} for i in range(m)]
-        for i in range(m):
-            for j in range(i+1,m):
+        L = self.lumping_matrix
+        supports = [L.row(i).nonzero for i in L.nonzero]
+        for i in range(len(supports)):
+            for j in range(i+1,len(supports)):
                 if len(supports[i].intersection(supports[j])) > 0:
                     return False
         return True
@@ -2034,7 +2059,8 @@ class LDESystem(FODESystem):
     @lru_cache(maxsize=1)
     def is_positive(self) -> bool:
         r'''Checks whether a lumping has dijoint row support'''
-        return (self.lumping_matrix >= 0).all()
+        L = self.lumping_matrix
+        return all(L.row(i)[j] > 0 for i in L.nonzero for j in L.row(i).nonzero)
 
     @lru_cache(maxsize=1)
     def is_reducing(self) -> bool:
@@ -2129,36 +2155,32 @@ class LDESystem(FODESystem):
 
             This method will return the new lumped system.
         '''
-        L = self._subspace; nrows = len(L); ncols = len(L[0])
+        L = self._subspace.matrix(); nrows, ncols = L.dim
         ## First we check if this lumping was lumping+ already
-        if all([[L[i][j] for i in range(nrows)].count(0) in (nrows,nrows-1) for j in range(ncols)]) and all(all(L[i][j] >= 0 for j in range(ncols)) for i in range(nrows)):
+        if all(L.column(j).nonzero_count in (0,1) for j in range(ncols)) and all(all(L[i][j] >= 0 for j in L.row(i).nonzero) for i in L.nonzero):
             return self
         classes = [] 
         # classes will be a list of (i, l) where `i` is the column and `l` is the scaling factor for the representative of the class
         # For `cls` in "classes", cls[0] is always (i,1) and is the representative of the class
 
-        def are_equivalent(v1,v2):
+        def are_equivalent(v1:SparseVector, v2:SparseVector) -> bool:
             # checking size are the same
-            if len(v1) != len(v2):
+            if v1.dim != v2.dim:
                 raise ValueError("The two given vectors must have the same length")
-            # finding first non-zero entry
-            p = 0
-            while v1[p] == 0: p+=1
-
-            if p == len(v1):
-                raise ValueError("The vector v1 must be non-zero")
-
-            # we compute the candidate for `\lambda`
-            l = v2[p]/v1[p]
-            if all(v2[i] == l*v1[i] for i in range(len(v1))):
+            if v1.nonzero != v2.nonzero:
+                raise ValueError("The two vectors do not coincide in the non-zero entries")
+            first_nz = v1.first_nonzero()
+            l = v2[first_nz]/v1[first_nz]
+            if all(v2[i] == l*v1[i] for i in v1.nonzero):
                 return l
             return False
 
+        ## Building the equivalent classes for the columns
         for i in range(ncols):
-            vi = [L[j][i] for j in range(nrows)]
-            if any(e != 0 for e in vi):
+            vi = L.column(i)
+            if not vi.is_zero():
                 for cls in classes:
-                    v = [L[j][cls[0][0]] for j in range(nrows)]
+                    v = L.column(cls[0][0])
                     l = are_equivalent(v,vi)
                     if l:
                         # the column i is in the same class as cls --> we add it with the factor `l`
@@ -2171,16 +2193,15 @@ class LDESystem(FODESystem):
             raise ValueError("There is no RWE available for this lumped system")
 
         # We compute the new lumped matrix
-        nL = [[0]*ncols]*nrows
+        nL = SparseRowMatrix((nrows,ncols),L.field)
         for i,cls in enumerate(classes):
             for (j,l) in cls:
                 if l < 0:
                     raise ValueError("The new lumping has negative coefficients!!")
-                nL[i][j] = l
+                nL.increment(i,j, l)
 
         # We return the new lumped system
-        symb_vars = self._old_system.symb_variables()
-        nobs = [sum(L[i][j]*symb_vars[j] for j in range(ncols)) for i in range(nrows)]
+        nobs = [SparsePolynomial.from_vector(nL.row(i),self._old_system.variables,L.field) for i in range(nrows)]
         return self._old_system.lumping(nobs, print_reduction=False)
 
 #------------------------------------------------------------------------------
