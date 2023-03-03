@@ -8,15 +8,20 @@ from numpy.linalg import norm
 from scipy.integrate._ivp.ivp import OdeResult
 from typing import Collection
 
-def apply_matrix(simulation : OdeResult, matrix : ndarray):
+from .linalg import SparseRowMatrix
+
+def apply_matrix(simulation : OdeResult, matrix : ndarray | SparseRowMatrix):
     ##############################################################################################
     ## Checking the matrix argument
-    if not isinstance(matrix, ndarray):
+    if isinstance(matrix, SparseRowMatrix):
+        matrix = array(matrix.to_list())
+    elif not isinstance(matrix, ndarray):
         matrix = array(matrix)
     if len(matrix.shape) != 2:
         raise TypeError("The 'matrix' argument is not valid: it does not have a matrix shape")
     elif matrix.shape[1] != len(simulation.y):
         raise TypeError(f"The 'matrix' argument is not valid: wrong number of columns [got {matrix.shape[1]}, expected {len(simulation.y)}]")
+    matrix = matrix.astype(simulation.y.dtype)
 
     ##############################################################################################
     ## Building the new simulation
