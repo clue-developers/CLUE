@@ -223,7 +223,7 @@ class FODESystem:
         if len(variables) != matrix.nrows:
             raise ValueError("The number of variables must match the size of the matrix")
 
-        equations = [SparsePolynomial.from_vector(matrix.row(i), variables) for i in range(len(variables))]
+        equations = [SparsePolynomial.from_vector(matrix.column(i), variables) for i in range(len(variables))]
         system = FODESystem(equations, observables, variables, ic, name, linear_part=matrix, **kwds)
         system._lumping_matr["polynomial"] = [matrix] # the matrix for lumping is just the defining matrix
         return system
@@ -2155,7 +2155,7 @@ class LDESystem(FODESystem):
 
             This method will return the new lumped system.
         '''
-        L = self._subspace.matrix(); nrows, ncols = L.dim
+        L = self.lumping_matrix; nrows, ncols = L.dim
         ## First we check if this lumping was lumping+ already
         if all(L.column(j).nonzero_count in (0,1) for j in range(ncols)) and all(all(L[i][j] >= 0 for j in L.row(i).nonzero) for i in L.nonzero):
             return self
