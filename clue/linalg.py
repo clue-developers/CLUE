@@ -16,14 +16,12 @@ import copy, logging, math, sympy
 
 from collections import deque
 
-from itertools import combinations
+from itertools import combinations, product
 
 from sympy import GF, QQ, gcd, nextprime, symbols
 from sympy.ntheory.modular import isprime
 from sympy.polys.domains.domain import Domain
 from sympy.polys.fields import FracElement
-
-from .rational_function import RationalFunction, SparsePolynomial
 
 logger = logging.getLogger(__name__)
 
@@ -493,6 +491,14 @@ class SparseRowMatrix(object):
         self.nonzero : set[int] = set()
         self.field : Domain = field
 
+    @classmethod
+    def from_list(cls, entries_list : list | tuple, field : Domain = QQ):
+        r'''Method to build a new :class:`SparseRowMatrix` from a dense representation (i.e., a list or tuple)'''
+        result = cls(len(entries_list), field)
+        for i, j in product(range(len(entries_list)), repeat=2):
+            result.increment(i,j, field.convert(entries_list[i][j]))
+        return result
+
     @property
     def dim(self): return self.nrows, self.ncols
 
@@ -528,9 +534,9 @@ class SparseRowMatrix(object):
 
     def __setitem__(self, cell : tuple[int,int] | list[int], value):
         i, j = cell
-        if(i < 0 and i >= self.nrows):
+        if(i < 0 or i >= self.nrows):
             raise IndexError(f"Row {i} out of dimension")
-        if(j < 0 and j >= self.ncols):
+        if(j < 0 or j >= self.ncols):
             raise IndexError(f"Column {j} out of dimension")
         
         if i in self.nonzero:
@@ -542,6 +548,27 @@ class SparseRowMatrix(object):
             self.nonzero.add(i)
             self.__data[i] = SparseVector(self.ncols, self.field)
             self.__data[i][j] = value
+
+    def set_row(self, i, new_row):
+        if not isinstance(new_row, SparseVector) or new_row.dim != self.ncols:
+            raise TypeError(f"The given row is not of valid format. A SparseVector is required of dimension {self.ncols}")
+        if(i < 0 or i >= self.nrows):
+            raise IndexError(f"Row {i} out of dimension")
+
+        if new_row.is_zero() and i in self.nonzero:
+            del self.__data[i]
+            self.nonzero.remove(i)
+        elif not new_row.is_zero():
+            self.nonzero.add(i)
+            self.__data[i] = new_row
+
+    def set_col(self, j, new_col):
+        if not isinstance(new_col, SparseVector) or new_col.dim != self.nrows:
+            raise TypeError(f"The given column is not of valid format. A SparseVector is required of dimension {self.nrows}")
+        if(j < 0 or j >= self.ncols):
+            raise IndexError(f"Column {j} out of dimension")
+        for i in range(self.nrows):
+            self[i,j] = new_col[i]
          
     #--------------------------------------------------------------------------
 
@@ -633,6 +660,11 @@ class SparseRowMatrix(object):
     def to_list(self):
         r'''Return the Sparse matrix as a list of lists (dense representation)'''
         return [[self[i,j] for j in range(self.ncols)] for i in range(self.nrows)]
+    
+    def to_numpy(self):
+        r'''Return the Sparse matrix as a numpy ndarray (dense representation)'''
+        from numpy import array
+        return array(self.to_list())
 
     def pretty_print(self):
         r'''Method to generate a pretty printing of the Sparse matrix'''
@@ -938,6 +970,7 @@ class Subspace(object):
           rhs (SparsePolynomial or RationalFunction) to the subspace
           new_vars_name (optional) - the name for variables in the lumped polynomials
         """
+        from .rational_function import RationalFunction, SparsePolynomial
         #old_vars = rhs[0].gens
         #domain = rhs[0].domain
         new_vars = [new_vars_name + str(i) for i in range(self.dim())]
@@ -1200,6 +1233,7 @@ class OrthogonalSubspace(Subspace):
         return list(range(len(self.echelon_form)))
 
     def perform_change_of_variables(self, rhs, old_vars, domain, new_vars_name='y'):
+        from .rational_function import SparsePolynomial, RationalFunction
         n = self.ambient_dimension(); m = self.dim()
         new_vars = [new_vars_name + str(i) for i in range(m)]
         # we build the matrix of the space and its pseudoinverse
