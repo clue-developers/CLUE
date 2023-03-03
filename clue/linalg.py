@@ -1132,7 +1132,7 @@ class OrthogonalSubspace(Subspace):
         self.__projector = None
 
     @property
-    def projector(self):
+    def projector(self) -> SparseRowMatrix:
         r'''
             Method that returns a matrix that computes the orthogonal projection over ``self`` for any vector.
 
@@ -1242,21 +1242,16 @@ class OrthogonalSubspace(Subspace):
         for i in L2.nonzero:
             L2.row(i).scale(self.field.one / L2.row(i).inner_product(L2.row(i)))
         psi_L = L2.transpose()
-
+        
         logger.debug("Constructing new rhs")
-        if isinstance(rhs[0], (SparsePolynomial, RationalFunction)):
-            y = [SparsePolynomial.var_from_string(var, new_vars, self.field) for var in new_vars]
-            x = [SparsePolynomial.var_from_string(var, old_vars, self.field) for var in old_vars]
-        else:
-            y = symbols(new_vars)
-            x = symbols(old_vars)
+        x = [SparsePolynomial.var_from_string(var, old_vars, self.field) for var in old_vars] if isinstance(rhs[0], (SparsePolynomial, RationalFunction)) else symbols(old_vars)
 
         # we apply the pseudoinverse to the new variables
-        psi_L_y = [(x[i], sum(psi_L[i][j] * y[j] for j in range(m))) for i in range(n)]
+        psi_L_y = [(x[i], SparsePolynomial.from_vector(psi_L.row(i), new_vars, L.field)) for i in range(n)]
         # we apply the functions given in rhs
         new_rhs = [old_equ.subs(psi_L_y) for old_equ in rhs]
         # we apply the basis to the obtained result
-        new_rhs = [sum(L[j,i]*new_rhs[i] for i in range(n)) for j in range(m)]
+        new_rhs = [sum(L.row(j)[i]*new_rhs[i] for i in L.row(j).nonzero) for j in range(m)]
         return new_rhs
 
     def rational_reconstruction(self):
