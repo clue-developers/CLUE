@@ -615,6 +615,18 @@ class SparseRowMatrix(object):
         
     #--------------------------------------------------------------------------
 
+    def matmul(self, other : SparseRowMatrix) -> SparseRowMatrix:
+        r'''Computes the product of two sparse matrices (``self``*``other``)'''
+        srows, scols = self.dim; orows, ocols = other.dim
+        if scols != orows:
+            raise TypeError(f"The dimension of the matrices do not match for multiplication: ({srows}x{scols}) - ({orows}x{ocols})")
+        result = SparseRowMatrix((srows,ocols), self.field); other = other.transpose()
+        for i in self.nonzero:
+            result.set_row(i, self.row(i).apply_matrix(other))
+        return result
+
+    #--------------------------------------------------------------------------
+
     def reduce_mod(self, modulus : int):
         r'''
             Method to compute a reduction of ``self`` using a modulus.
@@ -1231,6 +1243,31 @@ class OrthogonalSubspace(Subspace):
 
     def parametrizing_coordinates(self):
         return list(range(len(self.echelon_form)))
+    
+    def pinv(self) -> SparseRowMatrix:
+        r'''
+            Return the pseudoinverse of the current basis of ``self``.
+
+            Since the basis of ``self`` is orthogonal, the pseudo-inverse can be computed as:
+
+            .. MATH::
+
+                L^+ = ((L*L^T)^{-1} * L)^T
+
+            The orthogonality of the basis implies the `LL^T` matrix is diagonal with non-zero entries and, hence, 
+            invertible. In fact, the diagonal is simply the squared norm of the vectors. Moreover, we can see that:
+
+            .. MATH::
+
+                LL^+ = LL^T ((LL^T)^{-1})^T = LL^T (LL^T)^{-1} = Id
+
+            This method returns the matrix `L^+`.
+        '''
+        L = self.matrix().copy()
+        for i in L.nonzero:
+            v = L.row(i)
+            v.scale(self.field.one / v.inner_product(v))
+        return L.transpose()
 
     def perform_change_of_variables(self, rhs, old_vars, domain, new_vars_name='y'):
         from .rational_function import SparsePolynomial, RationalFunction
@@ -1238,11 +1275,7 @@ class OrthogonalSubspace(Subspace):
         new_vars = [new_vars_name + str(i) for i in range(m)]
         # we build the matrix of the space and its pseudoinverse
         L = self.matrix()
-        L2 = L.copy()
-        for i in L2.nonzero:
-            L2.row(i).scale(self.field.one / L2.row(i).inner_product(L2.row(i)))
-        psi_L = L2.transpose()
-        
+        psi_L = self.pinv()
         logger.debug("Constructing new rhs")
         x = [SparsePolynomial.var_from_string(var, old_vars, self.field) for var in old_vars] if isinstance(rhs[0], (SparsePolynomial, RationalFunction)) else symbols(old_vars)
 
