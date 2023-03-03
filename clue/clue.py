@@ -1855,22 +1855,32 @@ class FODESystem:
                 )
 
         if out_format == "sympy":
-            ## Getting the method to transform
+            ## deciding out ring
             if isinstance(result["equations"][0], SparsePolynomial):
                 out_ring = result["equations"][0].get_sympy_ring()
-                transform = lambda p : out_ring(p.get_sympy_dict())
+                F = out_ring
             elif isinstance(result["equations"][0], RationalFunction):
                 out_ring = result["equations"][0].get_sympy_ring()
                 F = sympy.FractionField(sympy.QQ, result["equations"][0].gens)
-                transform = lambda p : F(out_ring(p.numer.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict()))
             elif isinstance(result["equations"][0], (list,tuple)):
                 if isinstance(result["equations"][0][0], SparsePolynomial):
                     out_ring = result["equations"][0][0].get_sympy_ring()
-                    transform = lambda p : [out_ring(q.get_sympy_dict()) for q in p]
+                    F = out_ring
                 elif isinstance(result["equations"][0][0], RationalFunction):
                     out_ring = result["equations"][0][0].get_sympy_ring()
                     F = sympy.FractionField(sympy.QQ, result["equations"][0].gens)
-                    transform = lambda p : [F(out_ring(q.numer.get_sympy_dict()))/F(out_ring(q.denom.get_sympy_dict())) for q in p]
+            def transform(p):
+                if isinstance(p, (list,tuple)):
+                    return [transform(q) for q in p]
+                elif isinstance(p, SparsePolynomial):
+                    return out_ring(p.get_sympy_dict())
+                elif isinstance(p, RationalFunction):
+                    return F(out_ring(p.numer.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict()))
+                else:
+                    try:
+                        return out_ring(p)
+                    except:
+                        return F(p)
             result["equations"] = [transform(p) for p in result["equations"]]
         elif out_format == "internal":
             pass
