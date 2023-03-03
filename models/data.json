@@ -65,7 +65,7 @@
     },
     "ProteinPhosphorylation": {
         "type": "polynomial",
-        "range": "",
+        "range": "2..8",
         "ref_title": "Efficient modeling, simulation and coarse-graining of biological complexity with NFsim",
         "ref_doi": "10.1038/nmeth.1546"
     },
