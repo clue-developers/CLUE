@@ -172,7 +172,7 @@ class FODESystem:
         ## Polynomials
         def __perturb_SparsePolynomial(poly : SparsePolynomial, zeros : bool = False):
             n = len(poly.gens)
-            if poly.degree() == oo: return SparsePolynomial.from_const(noise(0), poly.gens, poly.domain)
+            if poly.degree() == oo and zeros: return SparsePolynomial.from_const(noise(0), poly.gens, poly.domain)
             elif not zeros:
                 new_data = {mon : noise(val) for mon, val in poly.dataiter()}
             else:
@@ -190,10 +190,10 @@ class FODESystem:
 
             return RationalFunction(numer, denom)
         ## Sympy expressions
-        def __perturb_SympyExpr(expr):
+        def __perturb_SympyExpr(expr, zeros : bool = False):
             ## TODO This need to be implemented
             raise NotImplementedError("Perturbation of Sympy expressions not yet implemented")
-
+        
         #######################################################################
         ## Creating the new system
         ## Equations
@@ -251,7 +251,7 @@ class FODESystem:
     def lumping_subspace_class(self, new_val):
         new_class, kwds = new_val
         if not issubclass(new_class, Subspace):
-            raise TypeError("The subspace class must inherit from Subpace")
+            raise TypeError("The subspace class must inherit from Subspace")
         self.__lumping_subspace_class = new_class
         self.__lumping_subspace_kwds = kwds
     @cached_property
@@ -1161,7 +1161,7 @@ class FODESystem:
         varnames = self.variables
         field = self.field
 
-        subspace = self.matrices_subspace_class(field, self.matrices_subspace_kwds)
+        subspace = self.matrices_subspace_class(field, **self.matrices_subspace_kwds)
 
         # computing number of non-zero entries in the jacobian
         if(isinstance(funcs[0], (SparsePolynomial, RationalFunction))):
@@ -1877,10 +1877,7 @@ class FODESystem:
                 elif isinstance(p, RationalFunction):
                     return F(out_ring(p.numer.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict()))
                 else:
-                    try:
-                        return out_ring(p)
-                    except:
-                        return F(p)
+                    return p # already in sympy
             result["equations"] = [transform(p) for p in result["equations"]]
         elif out_format == "internal":
             pass
@@ -2057,7 +2054,7 @@ class LDESystem(FODESystem):
 
     @lru_cache(maxsize=1)
     def is_disjoint(self) -> bool:
-        r'''Checks whether a lumping has dijoint row support'''
+        r'''Checks whether a lumping has disjoint row support'''
         L = self.lumping_matrix
         supports = [L.row(i).nonzero for i in L.nonzero]
         for i in range(len(supports)):
@@ -2068,7 +2065,7 @@ class LDESystem(FODESystem):
 
     @lru_cache(maxsize=1)
     def is_positive(self) -> bool:
-        r'''Checks whether a lumping has dijoint row support'''
+        r'''Checks whether a lumping has disjoint row support'''
         L = self.lumping_matrix
         return all(L.row(i)[j] > 0 for i in L.nonzero for j in L.row(i).nonzero)
 
