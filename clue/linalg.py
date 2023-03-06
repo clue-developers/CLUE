@@ -1280,7 +1280,12 @@ class OrthogonalSubspace(Subspace):
         x = [SparsePolynomial.var_from_string(var, old_vars, self.field) for var in old_vars] if isinstance(rhs[0], (SparsePolynomial, RationalFunction)) else symbols(old_vars)
 
         # we apply the pseudoinverse to the new variables
-        psi_L_y = [(x[i], SparsePolynomial.from_vector(psi_L.row(i), new_vars, L.field)) for i in range(n)]
+        if isinstance(rhs[0], (SparsePolynomial, RationalFunction)):
+            psi_L_y = [(x[i], SparsePolynomial.from_vector(psi_L.row(i), new_vars, L.field)) for i in range(n)]
+        else:
+            ys = symbols(new_vars)
+            psi_L_y = [(x[i], sum(psi_L.row(i)[j]*ys[j] for j in psi_L.row(i).nonzero)) for i in range(psi_L.nrows)]
+        
         # we apply the functions given in rhs
         new_rhs = [old_equ.subs(psi_L_y) for old_equ in rhs]
         # we apply the basis to the obtained result
