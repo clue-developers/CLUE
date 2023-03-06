@@ -284,6 +284,101 @@
         ],
         "model": "BIOMD0000000033"
     },
+    "BIOMD0000000113": {
+        "read": "rational",
+        "matrix": "auto_diff",
+        "observables": [
+            [
+                "Y"
+            ]
+        ]
+    },
+    "BIOMD0000000113[sympy]": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "observables": [
+            [
+                "Y"
+            ]
+        ],
+        "model": "BIOMD0000000113"
+    },
+    "BIOMD0000000182": {
+        "read": "rational",
+        "matrix": "auto_diff",
+        "observables": [
+            [
+                "AC_cyto_mem"
+            ]
+        ]
+    },
+    "BIOMD0000000182[sympy]": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "observables": [
+            [
+                "AC_cyto_mem"
+            ]
+        ],
+        "model": "BIOMD0000000182"
+    },
+    "BIOMD0000000313": {
+        "read": "rational",
+        "matrix": "auto_diff",
+        "observables": [
+            [
+                "IL13_DecoyR"
+            ]
+        ]
+    },
+    "BIOMD0000000313[sympy]": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "observables": [
+            [
+                "IL13_DecoyR"
+            ]
+        ],
+        "model": "BIOMD0000000313"
+    },
+    "BIOMD0000000448": {
+        "read": "rational",
+        "matrix": "auto_diff",
+        "observables": [
+            [
+                "mTORC1a"
+            ]
+        ]
+    },
+    "BIOMD0000000448[sympy]": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "observables": [
+            [
+                "mTORC1a"
+            ]
+        ],
+        "model": "BIOMD0000000448"
+    },
+    "BIOMD0000000526": {
+        "read": "rational",
+        "matrix": "auto_diff",
+        "observables": [
+            [
+                "DISC"
+            ]
+        ]
+    },
+    "BIOMD0000000526[sympy]": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "observables": [
+            [
+                "DISC"
+            ]
+        ],
+        "model": "BIOMD0000000526"
+    },
     "MODEL1502270000": {
         "read": "rational",
         "matrix": "auto_diff",
