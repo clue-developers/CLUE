@@ -14,16 +14,16 @@ from collections.abc import Iterable
 from functools import cached_property, reduce, lru_cache
 from io import IOBase
 from itertools import product
-from numpy import array, ndarray
+from numpy import ndarray, mean
 from numpy.random import normal, uniform
 from random import randint
 from scipy.integrate import solve_ivp
-from sympy import QQ, lambdify, symbols, oo
+from sympy import QQ, lambdify, symbols, oo, sympify
 from sympy.polys.fields import FracElement
 from sympy.polys.rings import PolyElement
 from typing import Callable, Any
 
-from .linalg import SparseRowMatrix, Subspace, SparseVector, find_smallest_common_subspace
+from .linalg import SparseRowMatrix, Subspace, OrthogonalSubspace, NumericalSubspace, SparseVector, find_smallest_common_subspace
 from .nual import NualNumber
 from .ode_parser import read_system
 from .rational_function import SparsePolynomial, RationalFunction
@@ -151,7 +151,7 @@ class FODESystem:
             * ``system``: the original system to be perturbed.
             * ``noise``: a function `f(x) = y` where `y` is the (randomly-generated) noised value from `x`.
             * ``amplitude``: (only when ``noise`` is str) allows to adjust the scale of the noise generated from a `str`.
-            * ``zeros``: if ``True`` we may also modify non-existing monomials (**NOT IMPLEMENTED**).
+            * ``zeros``: if ``True`` we may also modify non-existing monomials.
 
             OUTPUT:
 
@@ -206,7 +206,7 @@ class FODESystem:
         ## Observables
         new_obs = [__perturb_SparsePolynomial(poly, zeros) for poly in system.observables] if system.observables != None else None
         ## Initial conditions
-        new_ic = {key : noise(val) for (key,val) in system.ic.items()} if system.ic != None else None
+        new_ic = {key : system.field.convert(noise(val)) for (key,val) in system.ic.items()} if system.ic != None else None
         ## Name
         new_name = f"Perturbed system{f' [{system.name}]' if system.name != None else ''}"
 
@@ -1600,7 +1600,7 @@ class FODESystem:
         return [list(el) for el in set(tuple([tuple(el) for el in result]))]
 
     ##############################################################################################################
-    ### Simulation methods
+    ### Simulation/Numerical methods
     def derivative(self, _, *x):
         r'''
             Method to compute the right hand side of the system at a specific point and time.
@@ -1687,6 +1687,110 @@ class FODESystem:
         # adding the names to the simulation
         simulation.names = self.variables
         return simulation
+
+    def _deviation(self, subspace: Subspace, bound: float, num_points: int) -> tuple[float,float]:
+        r'''
+            Method to compute the deviation for a given subspace by sampling.
+
+            The deviation of a subspace for a given subsystem is a measure on how much a subspace is **not**
+            a lumping for the system. Let `L` be the matrix defining the subspace and `L^+` its 
+            pseudoinverse. Then, if `L` is a lumping of ``self`` we have:
+
+            .. MATH::
+
+                Lf(L^+Lx) = Lf(x)
+
+            This identity does not hold when `L` is not a lumping. Hence, if we evaluate the difference
+            `Lf(L^+Lx) - Lf(x)` we will obtain non-zero vectors, hence if we evaluate this at some 
+            random points we can measure how not `L` is a lumping.
+
+            Input:
+            
+            * ``subspace``: a subspace defining a candidate for lumping.
+            * ``bound``: value for bounding the sampling points. Points will be sample uniformly in ``[0,bound]^n``.
+            * ``num_points``: number of samples to measure the deviation
+
+            Output: 
+
+            A pair with:
+                - average deviation of the subspace with respect to ``self``.
+                - maximal deviation of the subspace with respect to ``self`` for the points sampled
+        '''
+        if not isinstance(subspace, OrthogonalSubspace): 
+            raise NotImplementedError("Only implemented pseudoinverse for Orthogonal subspaces")
+        
+        L = subspace.matrix()
+        pi_L = subspace.projector # This is (L^+ L)
+
+        logger.info("[_deviation] Computing random points...")
+        rhs_point = uniform(0, bound, (num_points,self.size)) # evaluation points
+        logger.info("[_deviation] Getting the L^+Lx values...")
+        lhs_point = [[sum(pi_L.row(i)[j]*sympify(p[j]) for j in pi_L.row(i).nonzero) for i in range(pi_L.nrows)] for p in rhs_point]
+
+        deviations = []
+        
+        logger.info("[_deviation] Computing deviation for each point")
+        for (lhs, rhs) in zip(lhs_point, rhs_point):
+            elhs, erhs = self.eval_equation(self.equations, lhs), self.eval_equation(self.equations, rhs)
+            if issubclass(self.type, (SparsePolynomial, RationalFunction)):
+                elhs = [el.get_constant() for el in elhs]; erhs = [el.get_constant() for el in erhs]
+            diff = [sum(L.row(i)[j]*(elhs[j]-erhs[j]) for j in L.row(i).nonzero) for i in range(L.nrows)]
+            deviations.append(math.sqrt(sum(el**2 for el in diff)))
+
+        logger.info("[_deviation] Returning the average and maximal deviation")
+        return mean(deviations), max(deviations)
+
+    def find_acceptable_threshold(self, observable, dev_max: float, increment: float, bound: float, num_points: int, threshold: float) -> float:
+        r'''
+            Method to compute an optimal threshold for numerical lumping
+
+            This method computes an optimal threshold for the current system so the numerical lumping have a deviation close
+            to a given value. The deviation of the system, given some observables, is the 
+        '''
+        logger.info("[find_acceptable_threshold] Converting the observable into a valid input")
+        if isinstance(observable[0], PolyElement):
+            logger.debug("[find_acceptable_threshold] observables in PolyElement format. Casting to SparsePolynomial")
+            observable = [SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable]
+        elif isinstance(observable[0], SparsePolynomial):
+            observable = [p.linear_part_as_vec() for p in observable]
+        else:
+            logger.debug("[find_acceptable_threshold] observables seem to be in SymPy expression format, converting")
+            observable = [[self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables] for p in observable]
+
+        logger.info("[find_acceptable_threshold] Storing the default subspace class for lumping and its arguments")
+        old_subspace = self.lumping_subspace_class
+        old_kargs = self.lumping_subspace_kwds
+
+        epsilon = 0
+        current_dev = 0
+        logger.info("[find_acceptable_threshold] Starting the main loop looking for optimal threshold")
+        while abs(dev_max - current_dev) >= threshold:
+            self.lumping_subspace_class = (NumericalSubspace, {"delta": epsilon})
+            logger.info(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing approximate lumping)")
+            subspace = self._lumping(observable, 
+                new_vars_name='y', 
+                print_system=False, 
+                print_reduction=False, 
+                ic=None, 
+                method = "polynomial"
+            )["subspace"]
+            logger.info(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing deviation)")
+            current_dev = self._deviation(subspace, bound, num_points)[0] # taking the average
+
+            logger.info(f"[find_acceptable_threshold] Current deviation for {epsilon = }: {current_dev}")
+            if current_dev < dev_max - threshold:
+                logger.info(f"[find_acceptable_threshold] Increasing epsilon")
+                epsilon += increment
+            elif current_dev > dev_max + threshold:
+                logger.info(f"[find_acceptable_threshold] Reducing epsilon")
+                increment /= 2
+                epsilon -= increment
+        
+        logger.info(f"[find_acceptable_threshold] Found optimal threshold --> {epsilon}")
+        logger.info("[find_acceptable_threshold] Restoring the default subspace class for lumping and its arguments")
+        self.lumping_subspace_class = (old_subspace, old_kargs)
+        
+        return epsilon
 
     ##############################################################################################################
     ##############################################################################################################
