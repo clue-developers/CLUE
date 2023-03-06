@@ -24,7 +24,7 @@ begin model BIOMD0000000113
  begin init
   Z = 0.15
   Y = 1.6
-  Wt = 1.0 ( "Total Protein" ) 
+  Wt = 1.0 // ( "Total Protein" ) 
   SINK
   source = 1
   W_star

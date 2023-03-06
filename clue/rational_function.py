@@ -803,7 +803,7 @@ class SparsePolynomial(object):
 
         # we assume the user has provided everything of the same type
         to_sub = {self._varnames.index(k): v for (k,v) in values.items()}
-        prod = lambda g : reduce(lambda p,q : p*q, g)
+        prod = lambda g : reduce(lambda p,q : p*q, g, 1)
         return sum((c*prod(to_sub[v]**e for (v,e) in m)) for (m,c) in self._data.items())
         
     def automated_diff(self, **values):
