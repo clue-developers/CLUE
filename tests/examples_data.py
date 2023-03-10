@@ -3,9 +3,6 @@ import json, os, sys, csv
 from itertools import product
 from functools import lru_cache, cached_property
 
-SCRIPT_DIR = os.path.dirname(__file__) if __name__ != "__main__" else "./"
-sys.path.insert(0, os.path.join(SCRIPT_DIR, "..", "..")) # models and clue is here
-
 import models.models_data
 from typing import TextIO
 
@@ -49,12 +46,11 @@ class Example:
 
     #########################################################
     ### PATH METHODS
-    @cached_property
-    def base_path(self):
+    def base_path(self, basedir):
         if self.out_folder != None:
-            return os.path.join(SCRIPT_DIR, self.out_folder)
+            return os.path.join(basedir, self.out_folder)
         else:
-            return SCRIPT_DIR
+            return basedir
 
     def base_file_name(self, read = None, matrix = None, observables = None):
         read = self.read if read is None else read
@@ -63,30 +59,30 @@ class Example:
         return f"{self.name}[r={read},m={matrix}]{obs_str}"
 
     @lru_cache(maxsize=None)
-    def out_path(self, read = None, matrix = None, observables = None):
+    def out_path(self, basedir, read = None, matrix = None, observables = None):
         return os.path.join(
-            self.base_path, 
+            self.base_path(basedir), 
             "systems", 
             f"{self.base_file_name(read,matrix,observables)}{Example.OutSystemExtension}"
         )
 
     @lru_cache(maxsize=None)
-    def results_path(self, read = None, matrix = None):
+    def results_path(self, basedir, read = None, matrix = None):
         return os.path.join(
-            self.base_path, 
+            self.base_path(basedir), 
             f"[result]{self.base_file_name(read, matrix)}{Example.ResultExtension}"
         )
 
     @lru_cache(maxsize=None)
-    def profile_path(self, read = None, matrix = None):
+    def profile_path(self, basedir, read = None, matrix = None):
         return os.path.join(
-            self.base_path, 
+            self.base_path(basedir), 
             "profiles",
             f"{self.base_file_name(read, matrix)}{Example.ProfileExtension}"
         )
 
-    def is_executed(self, read = None, matrix = None):
-        return os.path.exists(self.results_path(read,matrix))
+    def is_executed(self, basedir, read = None, matrix = None):
+        return os.path.exists(self.results_path(basedir,read,matrix))
 
     #########################################################
     ### OTHER METHODS
@@ -122,7 +118,7 @@ def Load_Examples_Folder(dir: str, valid_read: list[str] = None, valid_matrix: l
     executed_examples = [
         (name,read,matrix) 
         for (name, read, matrix) in product(examples.keys(), valid_read, valid_matrix) 
-        if examples[name].is_executed(read, matrix)
+        if examples[name].is_executed(dir, read, matrix)
     ]
 
     return examples, executed_examples

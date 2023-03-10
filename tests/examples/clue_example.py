@@ -198,7 +198,7 @@ def compile_results(*argv):
         data = {} 
         data["observables"] = {}
         try:
-            with open(examples[name].results_path()) as file:
+            with open(examples[name].results_path(SCRIPT_DIR)) as file:
                 line = file.readline()
                 while line != "":
                     line = line.strip()
@@ -325,6 +325,7 @@ def run_example(*argv):
     output = None
     profile = None
     subs_class = Subspace
+    save_systems = False
 
     ## Checking the rest of the arguments
     n = 1
@@ -346,12 +347,14 @@ def run_example(*argv):
                 profile = True; n += 1
             elif argv[n] == "-ortho":
                 subs_class = OrthogonalSubspace; n+=1
+            elif argv[n] =="-s":
+                save_systems = True; n+=1
     except IndexError:
         print("ERROR: Invalid format of arguments. Check 'run' command in the help")
         return
     
-    profile = example.profile_path(read, matrix) if profile else None
-    output = example.results_path(read, matrix) if output is None else output
+    profile = example.profile_path(SCRIPT_DIR,read, matrix) if profile else None
+    output = example.results_path(SCRIPT_DIR,read, matrix) if output is None else output
 
     ## Creating the file in case it is needed
     if(output == "stdout"):
@@ -434,8 +437,9 @@ def run_example(*argv):
                 continue
             
             if(not lumped == None):
-                obs_str = str(tuple(obs_polys))
-                lumped.save(example.out_path(read, matrix, "too long" if len(obs_str) > 100 else tuple(obs_polys)), format="clue")
+                if save_systems:
+                    obs_str = str(tuple(obs_polys))
+                    lumped.save(example.out_path(SCRIPT_DIR, read, matrix, "too long" if len(obs_str) > 100 else tuple(obs_polys)), format="clue")
                 print(f"The size of the original model is {lumped.old_system.size}", file=file)
                 print(f"The size of the reduced model is {lumped.size}", file=file)
                 print(f"Computation took {lumping_time} seconds", file=file)
@@ -516,6 +520,7 @@ def print_help():
         "  * -o : allows to fix the output file for the results. If not given, the default output for the example is taken.\n"
         "  * -p : if given, a profiling file with the execution will be saved.\n"
         "  * -ortho : if given, Orthogonal projection instead of Gaussian elimination will be used while lumping.\n"
+        "  * -s : if given, the lumped systems will be stored as Python objects.\n"
         "--------------------------------------------------------------------------------------------------------------------------\n"
         "--------------------------------------------------------------------------------------------------------------------------\n"
         )
