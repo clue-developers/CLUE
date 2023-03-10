@@ -1,3 +1,4 @@
 sympy
 pyparsing
 natsort
+numpy
