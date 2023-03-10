@@ -1688,11 +1688,11 @@ class FODESystem:
         simulation.names = self.variables
         return simulation
 
-    def _deviation(self, subspace: Subspace, bound: float, num_points: int) -> tuple[float,float]:
+    def _deviation(self, subspace: Subspace, bound: float, num_points: int) -> float:
         r'''
             Method to compute the deviation for a given subspace by sampling.
 
-            The deviation of a subspace for a given subsystem is a measure on how much a subspace is **not**
+            The deviation of a subspace for a given system is a measure on how much a subspace is **not**
             a lumping for the system. Let `L` be the matrix defining the subspace and `L^+` its 
             pseudoinverse. Then, if `L` is a lumping of ``self`` we have:
 
@@ -1701,20 +1701,33 @@ class FODESystem:
                 Lf(L^+Lx) = Lf(x)
 
             This identity does not hold when `L` is not a lumping. Hence, if we evaluate the difference
-            `Lf(L^+Lx) - Lf(x)` we will obtain non-zero vectors, hence if we evaluate this at some 
-            random points we can measure how not `L` is a lumping.
+            `Lf(L^+Lx) - Lf(x)` we will obtain non-zero vectors. The value 
+
+            .. MATH::
+
+                ||Lf(L^+Lx_0) - Lf(x_0)||_2
+
+            is called *deviation* of `L` at the point `x_0`. We can then compute the average deviation of `L` 
+            when we are given a bounded domain `\Omega`:
+
+            .. MATH::
+
+                \text{dev}(L; f, \Omega) = \frac{1}{|\Omega|}\int_{\Omega} ||Lf(L^+Lx) - Lf(x)||_2 dx.
+
+            This method computes the average deviation of the subspace `L` given by ``subspace`` in a domain
+            of the form `[0,C]^n` where the value of `C` is given by ``bound``. Since computing the integral exactly
+            is too costly, we use a Monte-Carlo approach to do so. We sample points from the domain uniformly
+            as many times as ``num_points`` and we then compute the average deviation along all these points.
 
             Input:
             
-            * ``subspace``: a subspace defining a candidate for lumping.
-            * ``bound``: value for bounding the sampling points. Points will be sample uniformly in ``[0,bound]^n``.
-            * ``num_points``: number of samples to measure the deviation
+            * ``subspace``: a subspace defining the candidate for lumping `L`.
+            * ``bound``: value for bounding the sampling points. This is the value for `C`.
+            * ``num_points``: number of samples to measure the deviation on the Monte-Carlo approach.
 
             Output: 
 
-            A pair with:
-                - average deviation of the subspace with respect to ``self``.
-                - maximal deviation of the subspace with respect to ``self`` for the points sampled
+            An approximate value for the average deviation of the subspace with respect to ``self`` on the domain `[0,C]^N`.
         '''
         if not isinstance(subspace, OrthogonalSubspace): 
             raise NotImplementedError("Only implemented pseudoinverse for Orthogonal subspaces")
