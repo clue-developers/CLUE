@@ -1,169 +1,46 @@
-import json, os, sys, csv
-
-from itertools import product
-from functools import lru_cache, cached_property
+import os, pstats, signal, sys, time
 
 SCRIPT_DIR = os.path.dirname(__file__) if __name__ != "__main__" else "./"
 sys.path.insert(0, os.path.join(SCRIPT_DIR, "..", "..")) # models and clue is here
+sys.path.insert(0, os.path.join(SCRIPT_DIR, "..")) # examples_data is here
 
-import models.models_data
-from typing import TextIO
+import json, csv
+from contextlib import nullcontext
+from cProfile import Profile
 
-VALID_READ = ["polynomial", "rational", "sympy", "uncertain"]
-VALID_MATRIX = ["polynomial", "rational", "auto_diff"]
+import models
+from clue import FODESystem, SparsePolynomial, Subspace, OrthogonalSubspace, UncertainFODESystem, UncertainLDESystem
+from examples_data import Example, Load_Examples_Folder, read_variables_from_system
 
-class Example:
-    #########################################################
-    ### CLASS VARIABLES
-    ResultExtension = ".example.txt"
-    OutSystemExtension = ".clue"
-    ProfileExtension = ".prf"
+examples, executed_examples = Load_Examples_Folder(SCRIPT_DIR)
 
-    #########################################################
-    ### INIT METHOD
-    def __init__(self, name, read, matrix, observables, **kwds):
-        assert read in VALID_READ and matrix in VALID_MATRIX
-        self.__name = name
-        self.__read = read
-        self.__matrix = matrix
-        self.__observables = observables
-
-        self.__model = kwds.pop("model", name)
-        self.__range = kwds.pop("range", None)
-        self.__json = kwds
-
-    #########################################################
-    ### PROPERTIES
-    @property
-    def name(self): return self.__name
-    @property
-    def read(self): return self.__read
-    @property
-    def matrix(self): return self.__matrix
-    @property
-    def observables(self): return self.__observables
-    @property
-    def model(self): return self.__model
-    @property
-    def range(self): return self.__range
-
-    #########################################################
-    ### PATH METHODS
-    @cached_property
-    def base_path(self):
-        if self.out_folder != None:
-            return os.path.join(SCRIPT_DIR, self.out_folder)
-        else:
-            return SCRIPT_DIR
-
-    def base_file_name(self, read = None, matrix = None, observables = None):
-        read = self.read if read is None else read
-        matrix = self.matrix if matrix is None else matrix
-        obs_str = "" if observables == None else f"_[obs={observables}]"
-        return f"{self.name}[r={read},m={matrix}]{obs_str}"
-
-    @lru_cache(maxsize=None)
-    def out_path(self, read = None, matrix = None, observables = None):
-        return os.path.join(
-            self.base_path, 
-            "systems", 
-            f"{self.base_file_name(read,matrix,observables)}{Example.OutSystemExtension}"
-        )
-
-    @lru_cache(maxsize=None)
-    def results_path(self, read = None, matrix = None):
-        return os.path.join(
-            self.base_path, 
-            f"[result]{self.base_file_name(read, matrix)}{Example.ResultExtension}"
-        )
-
-    @lru_cache(maxsize=None)
-    def profile_path(self, read = None, matrix = None):
-        return os.path.join(
-            self.base_path, 
-            "profiles",
-            f"{self.base_file_name(read, matrix)}{Example.ProfileExtension}"
-        )
-
-    def is_executed(self, read = None, matrix = None):
-        return os.path.exists(self.results_path(read,matrix))
-
-    #########################################################
-    ### OTHER METHODS
-    def __getattr__(self, name):
-        if name in self.__json:
-            return self.__json[name]
-
-    def get_model(self):
-        return models.models_data.models[self.model]
-    def path_model(self):
-        return self.get_model().path(self.range)
-
-    def as_json(self):
-        json = {
-            "read" : self.read,
-            "matrix" : self.matrix,
-            "observables" : self.observables,
-            **self.__json
-        }
-        if self.model != self.name: json["model"] = self.model
-        if self.range != None: json["range"] = self.range
-
-        return json
-
-
-examples = {}
-with open(os.path.join(SCRIPT_DIR,'data.json')) as f:
-    data = json.load(f)
-    examples = {key : Example(key, **data[key]) for key in data}
-
-executed_examples = [
-    (name,read,matrix) 
-    for (name, read, matrix) in product(examples.keys(), VALID_READ, VALID_MATRIX) 
-    if examples[name].is_executed(read, matrix)
-]
-    
-def get_example(name):
+def get_example(name) -> Example:
     return examples[name]
 
-def __read_parameters(file: TextIO):
-    line = file.readline().strip()
-    parameters = []
-    while line != "end parameters":
-        if line == "": raise IOError("End of file detected within block of parameters")
-        parameters.append(line.split("=")[0].strip())
-        line = file.readline().strip()
-    
-    return parameters
+class Timeout(object):
+    def __init__(self, seconds):
+        self.seconds = seconds
+        self.old = None
+    def __enter__(self):
+        self.old = signal.signal(signal.SIGALRM, Timeout.alarm_handler)
+        signal.alarm(self.seconds)
+        return self
+    def __exit__(self, type, value, traceback):
+        signal.alarm(0)
+        signal.signal(signal.SIGALRM, self.old)
 
-def __read_init(file: TextIO):
-    line = file.readline().strip()
-    variables = []
-    while line != "end init":
-        if line == "": raise IOError("End of file detected within block of init")
-        variables.append(line.split("=")[0].strip())
-        line = file.readline().strip()
-    
-    return variables
+    @staticmethod
+    def alarm_handler(sgn, _):
+        if(sgn == signal.SIGALRM):
+            raise TimeoutError
+        else:
+            raise RuntimeError
 
-def read_variables_from_system(path:str) -> list[str]:
-    with open(path, "r") as file:
-        line = file.readline().strip()
-        parameters = []; variables = []; not_params = True; not_init = True
-        while line != "" and (not_params or not_init):
-            if line.startswith("begin parameters"):
-                parameters = __read_parameters(file)
-                not_params = False
-            if line.startswith("begin init"):
-                variables = __read_init(file)
-                not_init = False
-            line = file.readline().strip()
-    return variables + parameters
-        
 ############################################################
 ### SCRIPT METHODS
 ############################################################
 def list_examples(*argv):
+    r'''List examples in the folder. It allows several arguments.'''
     full = False
     type = ("polynomial", "uncertain", "rational", "sympy")
     allowed_folders = []; forbidden_folders = []; allowed_names = []; forbidden_names = []; executed = None
@@ -225,6 +102,7 @@ def list_examples(*argv):
         print(" ".join([name for name in examples if filter(name)]))
 
 def add_examples_in_folder(*argv):
+    r'''Add bunch of examples to be executed. It allows several arguments'''
     read = []; matrix = []; o = None; O = None; folders = []; subs=False
     i = 0
     while i < len(argv):
@@ -311,6 +189,7 @@ def add_examples_in_folder(*argv):
         print("Done")
 
 def compile_results(*argv):
+    r'''Method to compile the results on the examples.'''
     if len(argv) > 0: raise TypeError("No optional arguments for command 'compile'. See ''help'' for further information")
     ## Compiling the data for executed examples
     compiled_data = {}
@@ -430,7 +309,217 @@ def compile_results(*argv):
                     print(f"[example_data - compile] ERROR - an error with a key ({name} -- {read} -- {matrix})")
         print(f"[example_data - compile] Compilation complete")
 
-## Script area
+def run_example(*argv):
+    r'''Method that run a particular example'''
+    nargv = len(argv)
+    if(nargv == 0):
+        print("ERROR: this script must be run with at least one argument for the name of the model")
+        print_help()
+        return
+    
+    ## Getting the arguments for running the example
+    example = get_example(argv[0])
+    read = example.read; matrix = example.matrix
+    observables = example.observables
+    timeout = 0
+    output = None
+    profile = None
+    subs_class = Subspace
+
+    ## Checking the rest of the arguments
+    n = 1
+    try:
+        while(n < nargv  and argv[n].startswith("-")):
+            if argv[n] == "-r":
+                read = argv[n+1]; n += 2
+            elif argv[n]  == "-m":
+                matrix = argv[n+1]; n += 2
+            elif argv[n] == "-t":
+                try:
+                    timeout = int(argv[n+1]); n += 2
+                except ValueError:
+                    print(f"ERROR: the timeout argument must be an integer, but found {argv[n+1]}")
+                    return
+            elif argv[n] == "-o":
+                output = argv[n+1]; n += 2
+            elif argv[n] == "-p":
+                profile = True; n += 1
+            elif argv[n] == "-ortho":
+                subs_class = OrthogonalSubspace; n+=1
+    except IndexError:
+        print("ERROR: Invalid format of arguments. Check 'run' command in the help")
+        return
+    
+    profile = example.profile_path(read, matrix) if profile else None
+    output = example.results_path(read, matrix) if output is None else output
+
+    ## Creating the file in case it is needed
+    if(output == "stdout"):
+        file = sys.stdout
+    elif(output == "stderr"):
+        file = sys.stderr
+    else:
+        file = open(output, "w")
+
+    ## Starting profiler if there is any
+    with Profile() if profile else nullcontext() as pr:
+    ## Setting up the handler for the signal
+        total_time = time.time()
+
+        print(f"[run_example] Reading example {example.name} ({read=})...", flush=True)
+
+        try: #Reading the file
+            with Timeout(timeout):
+                read_time = time.time()
+                ## now we can run the model properly
+                if read == "uncertain":
+                    system = FODESystem(file=example.path_model(), parser="polynomial", lumping_subspace=subs_class)
+                    system = UncertainFODESystem.from_FODESystem(system, example.delta, type=example.unc_type)
+                else:
+                    system = FODESystem(file=example.path_model(), parser=read, lumping_subspace=subs_class)
+                read_time = time.time() - read_time
+        except TimeoutError:
+            print(f"[run_example] Timeout ({timeout}) on {example.name} ({read=})", flush=True)
+            print(f"Timeout error detected: {timeout}", file=file)
+            print(f"Timeout while reading the .ode file", file=file)
+            # Closing the output file (if opened)
+            if(not output in ("stdout", "stderr")):
+                file.close()
+            # Saving the profile (if set)
+            if profile:
+                stats = pstats.Stats(pr)
+                stats.sort_stats(pstats.SortKey.TIME)
+                stats.dump_stats(filename=profile)
+            return
+        
+        print(f"[run_example] Building matrices for {example.name} ({matrix=})...", flush=True)
+        try: #Building the matrices for lumping
+            with Timeout(timeout):
+                matrices_time = time.time()
+                system.construct_matrices(matrix)
+                matrices_time = time.time() - matrices_time
+        except TimeoutError:
+            print(f"[run_example] Timeout ({timeout}) on {example.name} ({matrix=})", flush=True)
+            print(f"Timeout error detected: {timeout}", file=file)
+            print(f"Timeout while building the matrices", file=file)
+            # Closing the output file (if opened)
+            if(not output in ("stdout", "stderr")):
+                file.close()
+            # Saving the profile (if set)
+            if profile:
+                stats = pstats.Stats(pr)
+                stats.sort_stats(pstats.SortKey.TIME)
+                stats.dump_stats(filename=profile)
+            return
+        print(f"[run_example] Running example {example.name} ({len(observables)} cases)...", flush=True)
+        for obs_set in observables:
+            print(f"[run_example]     ++ {example.name} (({observables.index(obs_set)+1}/{len(observables)}))", flush=True)
+            print("===============================================", file=file)
+            print(f"== Observables: {obs_set}", file=file)
+            obs_polys = [SparsePolynomial.from_string(s, system.variables, system.field) for s in obs_set]
+
+            lumped = None
+            try:
+                with Timeout(timeout):
+                    lumping_time = time.time()
+                    lumped = system.lumping(obs_polys, method=matrix, file=file)
+                    lumping_time = time.time() - lumping_time
+            except TimeoutError:
+                print(f"Timeout error detected: {timeout}", file=file)
+                print("###############################################", file=file)
+                continue
+            except OverflowError:
+                print("Overflow error detected", file=file)
+                print("###############################################", file=file)
+                continue
+            
+            if(not lumped == None):
+                obs_str = str(tuple(obs_polys))
+                lumped.save(example.out_path(read, matrix, "too long" if len(obs_str) > 100 else tuple(obs_polys)), format="clue")
+                print(f"The size of the original model is {lumped.old_system.size}", file=file)
+                print(f"The size of the reduced model is {lumped.size}", file=file)
+                print(f"Computation took {lumping_time} seconds", file=file)
+                print(f"PROPERTIES OF THE LUMPING:::", file=file)
+                print(f"Is the lumping unweighted?: {lumped.is_unweighted()}", file=file)
+                print(f"Is the lumping positive?: {lumped.is_positive()}", file=file)
+                print(f"Is the lumping disjoint?: {lumped.is_disjoint()}", file=file)
+                print(f"Is the lumping reducing?: {lumped.is_reducing()}", file=file)
+                print(f"TYPE OF THE LUMPING:::", file=file)
+                print(f"Is the lumping a Forward Lumping (FL)?: {lumped.is_FL()}", file=file)
+                print(f"Is the lumping a Forward Equivalence (FE)?: {lumped.is_FE()}", file=file)
+                print(f"Is the lumping a Robust Weighted Equivalence (RWE)?: {lumped.is_RWE()}", file=file)
+                print(f"Has the lumping a Robust Weighted Lumping (RWE)?: {lumped.has_RWE()}", file=file)
+            else:
+                print(f"The example could not finish in the given timeout ({timeout}", file=file)
+            print("###############################################", file=file)
+            print(f"[run_example]     -- {example.name} (({observables.index(obs_set)+1}/{len(observables)})) (Done)", flush=True)
+
+        print(f"[run_example] ## Finished example {example.name} ##", flush=True)
+        
+        ## Reverting changes
+        total_time = time.time() - total_time
+        print("===============================================", file=file)
+        print("== END OF EXAMPLES", file=file)
+        print(f"Time for reading the model: {read_time}", file=file)
+        print(f"Time for building matrices: {matrices_time}", file=file)
+        print(f"Total time in execution: {total_time}", file=file)
+
+    
+    # Closing the output file (if opened)
+    if(not output in ("stdout", "stderr")):
+        file.close()
+    # Saving the profile (if set)
+    if profile:
+        stats = pstats.Stats(pr)
+        stats.sort_stats(pstats.SortKey.TIME)
+        stats.dump_stats(filename=profile)
+    return
+
+def print_help():
+    print(
+        "--------------------------------------------------------------------------------------------------------------------------\n"
+        "--------------------------------------------------------------------------------------------------------------------------\n"
+        "HELP FOR clue_example SCRIPT\n\n"
+        "The following commands are available in this script:\n"
+        "--------------------------------------------------------------------------------------------------------------------------\n"
+        "\tpython3 clue_example add [-r ()]* [-m ()]* [-o ()] [-O ()] [-s] <<folder>>*\n"
+        "where the options mean:\n"
+        "  * -r : indicates the reading algorithm. It can be 'polynomial', 'rational', 'sympy' or 'uncertain'. Several can be given.\n"
+        "  * -m : indicates the algorithm for computing the matrices. It can be 'polynomial', 'rational' or 'auto_diff. Several can be given.'\n"
+        "  * -o : indicates the folder where the output of the example will be stored\n"
+        "  * -s : indicates whether already existing examples should be overridden\n"
+        "  * -O: indicates what observables set up for the new examples by default. It allow 'first', 'sum', 'alone' or 'all'."
+        "  * <<folder>>: one or several folders that will be added to the examples using the previous arguments.\n"
+        "--------------------------------------------------------------------------------------------------------------------------\n"
+        "\tpython3 clue_example list [-r|-p|-u] [-of ()]* [-wf ()]* [-n ()]* [-wn ()]* [-e|-ne] [-a]\n"
+        "will list all the available examples, where the options mean:\n"
+        "  * -r : only rational examples will be shown (i.e., have 'read' either 'rational' or 'sympy').\n"
+        "  * -p : only polynomial examples will be shown (i.e., have 'read' as 'polynomial')\n"
+        "  * -u : only uncertain examples will be shown (i.e., have 'read' as 'uncertain')\n"
+        "  * -of : only examples with given out_folder will be shown. Several of these are allowed\n"
+        "  * -wf : only examples without given out_folder will be shown. Several of these are allowed\n"
+        "  * -n : only examples starting with given names are shown. Several of these are allowed\n"
+        "  * -wn : only examples that do not start with given names are shown. Several of these are allowed\n"
+        "  * -ne : only not executed models will be returned\n"
+        "  * -e : only executed models will be returned\n"
+        "  * -a : a detailed description of the examples will be shown\n"
+        "If no option is provided, all examples will be shown.\n"
+        "--------------------------------------------------------------------------------------------------------------------------\n"
+        "\tpython3 clue_example compile\n"
+        "will compile the results in the given folders into a csv with the basic data for the examples. No options are allowed.\n"
+        "--------------------------------------------------------------------------------------------------------------------------\n"
+        "\tpython3 clue_example run <<example>> [-r ()] [-m ()] [-t ()] [-o ()] [-p] [-ortho]\n"
+        "will execute the example given by the name in <<example>>, where the options mean:\n"
+        "  * -r : this method for reading the model will be used. Only 'polynomial', 'rational', 'sympy' and 'uncertain' are valid.\n"
+        "  * -m : this method will be used for computing the matrices for lumping. Only 'polynomial', 'rational', 'random', 'auto_diff' are valid.\n"
+        "  * -t : allows to fix a timeout for the execution.\n"
+        "  * -o : allows to fix the output file for the results. If not given, the default output for the example is taken.\n"
+        "  * -p : if given, a profiling file with the execution will be saved.\n"
+        "  * -ortho : if given, Orthogonal projection instead of Gaussian elimination will be used while lumping.\n"
+        "--------------------------------------------------------------------------------------------------------------------------\n"
+        "--------------------------------------------------------------------------------------------------------------------------\n"
+        )
+
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "list":
         list_examples(*sys.argv[2:])
@@ -438,38 +527,8 @@ if __name__ == "__main__":
         add_examples_in_folder(*sys.argv[2:])
     elif len(sys.argv) > 1 and sys.argv[1] == "compile":
         compile_results(*sys.argv[2:])
+    elif len(sys.argv) > 1 and sys.argv[1] == "run":
+        run_example(*sys.argv[1:])
     else:
-        print(
-            "--------------------------------------------------------------------------------------------------------------------------\n"
-            "--------------------------------------------------------------------------------------------------------------------------\n"
-            "HELP FOR examples_data SCRIPT\n\n"
-            "The following commands are available in this script:\n"
-            "--------------------------------------------------------------------------------------------------------------------------\n"
-            "\tpython3 examples_data add [-r ()]* [-m ()]* [-o ()] [-O ()] [-s] <<folder>>*\n"
-            "where the options mean:\n"
-            "  * -r : indicates the reading algorithm. It can be 'polynomial', 'rational', 'sympy' or 'uncertain'. Several can be given.\n"
-            "  * -m : indicates the algorithm for computing the matrices. It can be 'polynomial', 'rational' or 'auto_diff. Several can be given.'\n"
-            "  * -o : indicates the folder where the output of the example will be stored\n"
-            "  * -s : indicates whether already existing examples should be overridden\n"
-            "  * -O: indicates what observables set up for the new examples by default. It allow 'first', 'sum', 'alone' or 'all'."
-            "  * <<folder>>: one or several folders that will be added to the examples using the previous arguments.\n"
-            "--------------------------------------------------------------------------------------------------------------------------\n"
-            "\tpython3 examples_data list [-r|-p|-u] [-of ()]* [-wf ()]* [-n ()]* [-wn ()]* [-e|-ne] [-a]\n"
-            "will list all the available examples, where the options mean:\n"
-            "  * -r : only rational examples will be shown (i.e., have 'read' either 'rational' or 'sympy').\n"
-            "  * -p : only polynomial examples will be shown (i.e., have 'read' as 'polynomial')\n"
-            "  * -u : only uncertain examples will be shown (i.e., have 'read' as 'uncertain')\n"
-            "  * -of : only examples with given out_folder will be shown. Several of these are allowed\n"
-            "  * -wf : only examples without given out_folder will be shown. Several of these are allowed\n"
-            "  * -n : only examples starting with given names are shown. Several of these are allowed\n"
-            "  * -wn : only examples that do not start with given names are shown. Several of these are allowed\n"
-            "  * -ne : only not executed models will be returned\n"
-            "  * -e : only executed models will be returned\n"
-            "  * -a : a detailed description of the examples will be shown\n"
-            "If no option is provided, all examples will be shown.\n"
-            "--------------------------------------------------------------------------------------------------------------------------\n"
-            "\tpython3 examples_data compile\n"
-            "will compile the results in the given folders into a csv with the basic data for the examples. No options are allowed.\n"
-            "--------------------------------------------------------------------------------------------------------------------------\n"
-            "--------------------------------------------------------------------------------------------------------------------------\n"
-        )
+        print_help()
+    sys.exit(0)
