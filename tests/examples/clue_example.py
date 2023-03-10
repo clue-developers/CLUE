@@ -9,7 +9,7 @@ from contextlib import nullcontext
 from cProfile import Profile
 
 import models
-from clue import FODESystem, SparsePolynomial, Subspace, OrthogonalSubspace, UncertainFODESystem, UncertainLDESystem
+from clue import FODESystem, SparsePolynomial, Subspace, OrthogonalSubspace, UncertainFODESystem
 from examples_data import Example, Load_Examples_Folder, read_variables_from_system
 
 examples, executed_examples = Load_Examples_Folder(SCRIPT_DIR)
