@@ -528,7 +528,7 @@ if __name__ == "__main__":
     elif len(sys.argv) > 1 and sys.argv[1] == "compile":
         compile_results(*sys.argv[2:])
     elif len(sys.argv) > 1 and sys.argv[1] == "run":
-        run_example(*sys.argv[1:])
+        run_example(*sys.argv[2:])
     else:
         print_help()
     sys.exit(0)
