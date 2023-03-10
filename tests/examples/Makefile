@@ -3,7 +3,7 @@ POLY=$(shell python3 clue_example.py list -p)
 RATIONAL=$(shell python3 clue_example.py list -r)
 UNCERTAIN=$(shell python3 clue_example.py list -u)
 PYTHON=python3
-FLAGS=-t 180 -p
+FLAGS=-t 600 
 
 all: $(ALL)
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
