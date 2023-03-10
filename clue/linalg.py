@@ -452,6 +452,16 @@ class SparseVector(object):
                 logger.debug("Rational reconstruction problems: %d, %d", self[ind], self.field.characteristic())
         return result
 
+    #--------------------------------------------------------------------------
+    # Equality methods
+    def __hash__(self) -> int:
+        return sum(hash(self[i]) for i in self.nonzero)
+    def __eq__(self, other) -> bool:
+        return (isinstance(other, SparseVector) and 
+                self.field == other.field and
+                self.dim == other.dim and
+                self.nonzero == other.nonzero and
+                all(self[i] == other[i] for i in self.nonzero))
 #------------------------------------------------------------------------------
 
 class SparseRowMatrix(object):
@@ -673,10 +683,10 @@ class SparseRowMatrix(object):
         r'''Return the Sparse matrix as a list of lists (dense representation)'''
         return [[self[i,j] for j in range(self.ncols)] for i in range(self.nrows)]
     
-    def to_numpy(self):
+    def to_numpy(self, dtype=None):
         r'''Return the Sparse matrix as a numpy ndarray (dense representation)'''
         from numpy import array
-        return array(self.to_list())
+        return array(self.to_list(), dtype=dtype)
 
     def pretty_print(self):
         r'''Method to generate a pretty printing of the Sparse matrix'''
@@ -698,6 +708,18 @@ class SparseRowMatrix(object):
         result.__data = {i : rows[i] for i in result.nonzero}
 
         return result
+
+    #--------------------------------------------------------------------------
+    # Equality methods
+    def __hash__(self) -> int:
+        return sum(hash(self[i]) for i in self.nonzero)
+    def __eq__(self, other) -> bool:
+        return (isinstance(other, SparseRowMatrix) and 
+                self.field == other.field and
+                self.dim == other.dim and
+                self.nonzero == other.nonzero and
+                all(self[i] == other[i] for i in self.nonzero))
+
 #------------------------------------------------------------------------------
 
 class Subspace(object):
@@ -1300,25 +1322,37 @@ class NumericalSubspace(OrthogonalSubspace):
         Class to represent subspaces where containment is not exactly defined.
 
         This is a subclass of :class:`OrthogonalSubspace` where now we assume that small orthogonal 
-        remainings (i.e., the vectors that remain after substracting the orthogonal projection onto ``self``)
+        remaining (i.e., the vectors that remain after subtracting the orthogonal projection onto ``self``)
         are inside the space if the `l_2`-norm is smaller than a threshold.
 
         TODO: add more documentation and examples
 
-        Methods that are overriden:
+        Methods that are overridden:
 
         * :func:`_should_absorb`
     '''
     def __init__(self, field: Domain, delta : float = 1e-4):
         super().__init__(field)
         self.__delta = delta
+        self.__delta2 = self.__delta**2
 
     def _should_absorb(self, vector : SparseVector):
-        return math.sqrt(vector.inner_product(vector)) > self.__delta
+        return float(vector.inner_product(vector)) > float(self.__delta2)
   
 #------------------------------------------------------------------------------
+def __fscs_key(matrices, vectors_to_include,subspace_class,**kwds):
+    list_kwds = list(kwds.items())
+    list_kwds.sort(key=lambda el : el[0])
+    proc_kwds = tuple((k,round(v,40) if isinstance(v,float) else v) for k,v in list_kwds)
+    return (matrices,vectors_to_include,subspace_class,proc_kwds)
 
-def find_smallest_common_subspace(matrices, vectors_to_include, subspace_class = Subspace, **kwds) -> Subspace:
+__CACHE_FSCS = {}
+def find_smallest_common_subspace(
+        matrices: tuple[SparseRowMatrix], 
+        vectors_to_include: tuple[SparseRowMatrix], 
+        subspace_class = Subspace, 
+        **kwds
+) -> Subspace:
     """
       Input
         - matrices - an iterator for matrices (SparseMatrix)
@@ -1328,44 +1362,48 @@ def find_smallest_common_subspace(matrices, vectors_to_include, subspace_class =
       Output
         a smallest invariant subspace for the matrices containing the vectors
     """
-    field = vectors_to_include[0].field
-    original_subspace = subspace_class(field, **kwds)
-    for vec in vectors_to_include:
-        original_subspace.absorb_new_vector(vec, force=True)
+    cache_key = __fscs_key(matrices,vectors_to_include,subspace_class,**kwds)
+    if not cache_key in __CACHE_FSCS:
+        field = vectors_to_include[0].field
+        original_subspace = subspace_class(field, **kwds)
+        for vec in vectors_to_include:
+            original_subspace.absorb_new_vector(vec, force=True)
 
-    if field != QQ:
-        original_subspace.apply_matrices_inplace(matrices)
-        return original_subspace
-
-    space_copy = copy.deepcopy(original_subspace)
-    try:
-        original_subspace.apply_matrices_inplace(matrices, monitor_length=True)
-        return original_subspace
-    except ExpressionSwell:
-        original_subspace = space_copy
-        logger.debug("Rationals are getting too long, switching to the modular algorithm")
-        modulus = 2**31 - 1
-        primes_used = 1
-        while True:
-            logger.debug("Working modulo: %d", modulus)
+        if field != QQ:
+            original_subspace.apply_matrices_inplace(matrices)
+            __CACHE_FSCS[cache_key] = original_subspace
+        else:
+            space_copy = copy.deepcopy(original_subspace)
             try:
-                matrices_reduced = [matr.reduce_mod(modulus) for matr in matrices]
-                subspace_reduced = original_subspace.reduce_mod(modulus)
-                subspace_reduced.apply_matrices_inplace(matrices_reduced)
-                reconstruction = subspace_reduced.rational_reconstruction()
-                if reconstruction.check_invariance(matrices):
-                    if reconstruction.check_inclusion(original_subspace):
-                        logger.debug("We used %d primes", primes_used)
-                        return reconstruction
-                    else:
-                        logger.debug("Didn't pass the inclusion check")
-                else:
-                    logger.debug("Didn't pass the invariance check")
-            except ValueError:
-                pass
-            except ZeroDivisionError:
-                logger.debug(f"{modulus} was a bad prime for reduction, going for the next one")
-            modulus = nextprime(modulus**2)
-            primes_used += 1
+                original_subspace.apply_matrices_inplace(matrices, monitor_length=True)
+                __CACHE_FSCS[cache_key] = original_subspace
+            except ExpressionSwell:
+                original_subspace = space_copy
+                logger.debug("Rationals are getting too long, switching to the modular algorithm")
+                modulus = 2**31 - 1
+                primes_used = 1
+                while True:
+                    logger.debug("Working modulo: %d", modulus)
+                    try:
+                        matrices_reduced = [matr.reduce_mod(modulus) for matr in matrices]
+                        subspace_reduced = original_subspace.reduce_mod(modulus)
+                        subspace_reduced.apply_matrices_inplace(matrices_reduced)
+                        reconstruction = subspace_reduced.rational_reconstruction()
+                        if reconstruction.check_invariance(matrices):
+                            if reconstruction.check_inclusion(original_subspace):
+                                logger.debug("We used %d primes", primes_used)
+                                __CACHE_FSCS[cache_key] = reconstruction
+                                break
+                            else:
+                                logger.debug("Didn't pass the inclusion check")
+                        else:
+                            logger.debug("Didn't pass the invariance check")
+                    except ValueError:
+                        pass
+                    except ZeroDivisionError:
+                        logger.debug(f"{modulus} was a bad prime for reduction, going for the next one")
+                    modulus = nextprime(modulus**2)
+                    primes_used += 1
+    return __CACHE_FSCS[cache_key]
 
 __all__ = ["SparseVector", "SparseRowMatrix", "Subspace", "OrthogonalSubspace", "NumericalSubspace", "find_smallest_common_subspace"]
