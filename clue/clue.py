@@ -132,6 +132,7 @@ class FODESystem:
         self._lumping_matr = {}
         self.__normalize_input = False
         self._lumped_system_type = LDESystem
+        self.__cache_deviations = {}
 
     @staticmethod
     def PerturbedFromSystem(system : FODESystem, noise : str | Callable[[Any], Any] = "normal", amplitude : float = 0.005, zeros = False):
@@ -956,7 +957,7 @@ class FODESystem:
     ##############################################################################################################
     ## Methods for preparing to get the lumping
     ##############################################################################################################
-    def construct_matrices(self, method):
+    def construct_matrices(self, method) -> tuple[SparseRowMatrix]:
         r'''
             Method to build the matrices necessary for lumping purposes using 
             different methods.
@@ -994,13 +995,13 @@ class FODESystem:
         # Building the matrices with the selected algorithm
         if(not method in self._lumping_matr):
             if(method == "polynomial"):
-                self._lumping_matr[method] = self._construct_matrices_from_polys()
+                self._lumping_matr[method] = tuple(self._construct_matrices_from_polys())
             elif(method == "rational"):
-                self._lumping_matr[method] = self._construct_matrices_from_rational_functions()
+                self._lumping_matr[method] = tuple(self._construct_matrices_from_rational_functions())
             elif(method == "random"):
-                self._lumping_matr[method] = self._construct_matrices_evaluation_random()
+                self._lumping_matr[method] = tuple(self._construct_matrices_evaluation_random())
             else: # case of "auto_diff"
-                self._lumping_matr[method] = self._construct_matrices_AD_random()
+                self._lumping_matr[method] = tuple(self._construct_matrices_AD_random())
         return self._lumping_matr[method]
 
     def _construct_matrices_from_polys(self):
@@ -1732,26 +1733,30 @@ class FODESystem:
         if not isinstance(subspace, OrthogonalSubspace): 
             raise NotImplementedError("Only implemented pseudoinverse for Orthogonal subspaces")
         
-        L = subspace.matrix()
-        pi_L = subspace.projector # This is (L^+ L)
+        key = subspace.matrix(), bound
 
-        logger.info("[_deviation] Computing random points...")
-        rhs_point = uniform(0, bound, (num_points,self.size)) # evaluation points
-        logger.info("[_deviation] Getting the L^+Lx values...")
-        lhs_point = [[sum(pi_L.row(i)[j]*sympify(p[j]) for j in pi_L.row(i).nonzero) for i in range(pi_L.nrows)] for p in rhs_point]
+        if not key in self.__cache_deviations:
+            L = subspace.matrix()
+            pi_L = subspace.projector # This is (L^+ L)
 
-        deviations = []
-        
-        logger.info("[_deviation] Computing deviation for each point")
-        for (lhs, rhs) in zip(lhs_point, rhs_point):
-            elhs, erhs = self.eval_equation(self.equations, lhs), self.eval_equation(self.equations, rhs)
-            if issubclass(self.type, (SparsePolynomial, RationalFunction)):
-                elhs = [el.get_constant() for el in elhs]; erhs = [el.get_constant() for el in erhs]
-            diff = [sum(L.row(i)[j]*(elhs[j]-erhs[j]) for j in L.row(i).nonzero) for i in range(L.nrows)]
-            deviations.append(math.sqrt(sum(el**2 for el in diff)))
+            logger.debug("[_deviation] Computing random points...")
+            rhs_point = uniform(0, bound, (num_points,self.size)) # evaluation points
+            logger.debug("[_deviation] Getting the L^+Lx values...")
+            lhs_point = [[sum(pi_L.row(i)[j]*sympify(p[j]) for j in pi_L.row(i).nonzero) for i in range(pi_L.nrows)] for p in rhs_point]
 
-        logger.info("[_deviation] Returning the average and maximal deviation")
-        return mean(deviations), max(deviations)
+            deviations = []
+            
+            logger.debug("[_deviation] Computing deviation for each point")
+            for (lhs, rhs) in zip(lhs_point, rhs_point):
+                elhs, erhs = self.eval_equation(self.equations, lhs), self.eval_equation(self.equations, rhs)
+                if issubclass(self.type, (SparsePolynomial, RationalFunction)):
+                    elhs = [el.get_constant() for el in elhs]; erhs = [el.get_constant() for el in erhs]
+                diff = [sum(L.row(i)[j]*(elhs[j]-erhs[j]) for j in L.row(i).nonzero) for i in range(L.nrows)]
+                deviations.append(math.sqrt(sum(el**2 for el in diff)))
+
+            logger.debug("[_deviation] Returning the average deviation")
+            self.__cache_deviations[key] = mean(deviations)
+        return self.__cache_deviations[key]
 
     def find_acceptable_threshold(self, observable, dev_max: float, increment: float, bound: float, num_points: int, threshold: float) -> float:
         r'''
@@ -1760,48 +1765,44 @@ class FODESystem:
             This method computes an optimal threshold for the current system so the numerical lumping have a deviation close
             to a given value. The deviation of the system, given some observables, is the 
         '''
-        logger.info("[find_acceptable_threshold] Converting the observable into a valid input")
+        logger.debug("[find_acceptable_threshold] Converting the observable into a valid input")
         if isinstance(observable[0], PolyElement):
             logger.debug("[find_acceptable_threshold] observables in PolyElement format. Casting to SparsePolynomial")
-            observable = [SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable]
+            observable = tuple([SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable])
         elif isinstance(observable[0], SparsePolynomial):
-            observable = [p.linear_part_as_vec() for p in observable]
+            observable = tuple([p.linear_part_as_vec() for p in observable])
         else:
             logger.debug("[find_acceptable_threshold] observables seem to be in SymPy expression format, converting")
-            observable = [[self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables] for p in observable]
+            observable = tuple([SparseVector.from_list([self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables], self.field) for p in observable])
 
-        logger.info("[find_acceptable_threshold] Storing the default subspace class for lumping and its arguments")
-        old_subspace = self.lumping_subspace_class
-        old_kargs = self.lumping_subspace_kwds
+        logger.debug("[find_acceptable_threshold] building matrices for lumping")
+        matrices = self.construct_matrices("polynomial")
 
         epsilon = 0
         current_dev = 0
-        logger.info("[find_acceptable_threshold] Starting the main loop looking for optimal threshold")
-        while abs(dev_max - current_dev) >= threshold:
-            self.lumping_subspace_class = (NumericalSubspace, {"delta": epsilon})
-            logger.info(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing approximate lumping)")
-            subspace = self._lumping(observable, 
-                new_vars_name='y', 
-                print_system=False, 
-                print_reduction=False, 
-                ic=None, 
-                method = "polynomial"
-            )["subspace"]
-            logger.info(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing deviation)")
-            current_dev = self._deviation(subspace, bound, num_points)[0] # taking the average
+        logger.debug("[find_acceptable_threshold] Starting the main loop looking for optimal threshold")
+        found_max = False
+        sign = 1
+        while abs(dev_max - current_dev) >= threshold and increment >= threshold:
+            logger.debug(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing subspace)")
+            subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=epsilon)
+            logger.debug(f"[find_acceptable_threshold] Computed subspace for {epsilon = } ({subspace.dim()})")
+            logger.debug(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing deviation)")
+            current_dev = self._deviation(subspace, bound, num_points)
 
-            logger.info(f"[find_acceptable_threshold] Current deviation for {epsilon = }: {current_dev}")
+            logger.debug(f"[find_acceptable_threshold] Current deviation for {epsilon = }: {current_dev}")
             if current_dev < dev_max - threshold:
-                logger.info(f"[find_acceptable_threshold] Increasing epsilon")
-                epsilon += increment
+                logger.debug(f"[find_acceptable_threshold] Increasing epsilon")
+                sign = 1
             elif current_dev > dev_max + threshold:
-                logger.info(f"[find_acceptable_threshold] Reducing epsilon")
-                increment /= 2
-                epsilon -= increment
+                logger.debug(f"[find_acceptable_threshold] Reducing epsilon")
+                found_max = True
+                sign = -1
+            if found_max: increment /= 2
+            epsilon += sign*increment
         
-        logger.info(f"[find_acceptable_threshold] Found optimal threshold --> {epsilon}")
-        logger.info("[find_acceptable_threshold] Restoring the default subspace class for lumping and its arguments")
-        self.lumping_subspace_class = (old_subspace, old_kargs)
+        logger.debug(f"[find_acceptable_threshold] Found optimal threshold --> {epsilon}")
+        logger.debug("[find_acceptable_threshold] Restoring the default subspace class for lumping and its arguments")
         
         return epsilon
 
@@ -2045,6 +2046,7 @@ class FODESystem:
         for linear_form in observable:
             vec = linear_form if isinstance(linear_form, SparseVector) else SparseVector.from_list(linear_form, field)
             vectors_to_include.append(vec)
+        vectors_to_include = tuple(vectors_to_include)
         logger.debug(":ilumping: Computing the lumping subspace...")
         start = time.time()
         lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include, subspace_class=self.lumping_subspace_class, **self.lumping_subspace_kwds)
@@ -2081,7 +2083,7 @@ class FODESystem:
                 print(f"{vars_new[i]} = {map_old_variables[i]}", file=file)
             if new_ic is not None:
                 print("New initial conditions:", file=file)
-                for v, val in zip(vars_new, new_ic):
+                for v, val in new_ic.items():
                     print(f"{v}(0) = {float(val)}", file=file)
             print("Lumped system:", file=file)
             for i in range(lumping_subspace.dim()):
@@ -2093,7 +2095,7 @@ class FODESystem:
                 "name": f"Lumped system [{self.size} -> {len(lumped_rhs)}] ({self.name})",
                 "old_vars" : map_old_variables,
                 "subspace" : lumping_subspace}
-
+    
     def _lumped_system(self, lumping_subspace, vars_old, field, new_vars_name):
         return lumping_subspace.perform_change_of_variables(self.equations, vars_old, field, new_vars_name)
 
