@@ -1,7 +1,7 @@
-ALL=$(shell python3 examples_data.py list)
-POLY=$(shell python3 examples_data.py list -p)
-RATIONAL=$(shell python3 examples_data.py list -r)
-UNCERTAIN=$(shell python3 examples_data.py list -u)
+ALL=$(shell python3 clue_example.py list)
+POLY=$(shell python3 clue_example.py list -p)
+RATIONAL=$(shell python3 clue_example.py list -r)
+UNCERTAIN=$(shell python3 clue_example.py list -u)
 PYTHON=python3
 FLAGS=-t 180 -p
 
@@ -26,7 +26,7 @@ uncertain: $(UNCERTAIN)
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 compile:
-	@python3 examples_data.py compile
+	@python3 clue_example.py compile
 
 %:
-	@$(PYTHON) run_example.py $@ $(FLAGS)
+	@$(PYTHON) clue_example.py run $@ $(FLAGS)
