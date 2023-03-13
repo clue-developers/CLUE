@@ -16,7 +16,7 @@ from io import IOBase
 from itertools import product
 from numpy import ndarray, mean
 from numpy.random import normal, uniform
-from random import randint
+from random import random, randint
 from scipy.integrate import solve_ivp
 from sympy import QQ, lambdify, symbols, oo, sympify
 from sympy.polys.fields import FracElement
@@ -1689,7 +1689,7 @@ class FODESystem:
         simulation.names = self.variables
         return simulation
 
-    def _deviation(self, subspace: Subspace, bound: float, num_points: int) -> float:
+    def _deviation(self, subspace: Subspace, bound: tuple[tuple[float,float]], num_points: int) -> float:
         r'''
             Method to compute the deviation for a given subspace by sampling.
 
@@ -1723,7 +1723,7 @@ class FODESystem:
             Input:
             
             * ``subspace``: a subspace defining the candidate for lumping `L`.
-            * ``bound``: value for bounding the sampling points. This is the value for `C`.
+            * ``bound``: values for bounding the sampling points. They define the interval `[a,b)` for sampling for each entry.
             * ``num_points``: number of samples to measure the deviation on the Monte-Carlo approach.
 
             Output: 
@@ -1740,7 +1740,8 @@ class FODESystem:
             pi_L = subspace.projector # This is (L^+ L)
 
             logger.debug("[_deviation] Computing random points...")
-            rhs_point = uniform(0, bound, (num_points,self.size)) # evaluation points
+            diff_bound = [b[1]-b[0] for b in bound]
+            rhs_point = [[random()*diff_bound[i] + bound[i][0] for i in range(self.size)] for _ in range(num_points)] # evaluation points
             logger.debug("[_deviation] Getting the L^+Lx values...")
             lhs_point = [[sum(pi_L.row(i)[j]*sympify(p[j]) for j in pi_L.row(i).nonzero) for i in range(pi_L.nrows)] for p in rhs_point]
 
@@ -1758,13 +1759,30 @@ class FODESystem:
             self.__cache_deviations[key] = mean(deviations)
         return self.__cache_deviations[key]
 
-    def find_acceptable_threshold(self, observable, dev_max: float, increment: float, bound: float, num_points: int, threshold: float) -> float:
+    def find_acceptable_threshold(self, observable, dev_max: float, increment: float, bound: float | list[float] | list[tuple[float,float]], num_points: int, threshold: float) -> float:
         r'''
             Method to compute an optimal threshold for numerical lumping
 
             This method computes an optimal threshold for the current system so the numerical lumping have a deviation close
             to a given value. The deviation of the system, given some observables, is the 
         '''
+        logger.debug("[find_acceptable_threshold] Checking the argument ''bound''")
+        if not isinstance(bound, (list, tuple)):
+            bound = self.size*[bound]
+        if not len(bound) == self.size:
+            raise ValueError(f"The bound for deviation must be a list of as many elements as the size of the system ({self.size})")
+        bound = list(bound)
+        for i in range(self.size):
+            if not isinstance(bound[i], (list, tuple)):
+                bound[i] = tuple([0,bound[i]] if bound[i] > 0 else [bound[i],0])
+            elif not len(bound[i]) == 2:
+                raise TypeError("Each bound must be a pair of numbers")
+            elif bound[i][0] > bound[i][1]:
+                bound[i] = tuple([bound[i][1], bound[i][0]])
+            else:
+                bound [i] = tuple(bound[i])
+        bound = tuple([(a-threshold, b+threshold) for a,b in bound])
+        
         logger.debug("[find_acceptable_threshold] Converting the observable into a valid input")
         if isinstance(observable[0], PolyElement):
             logger.debug("[find_acceptable_threshold] observables in PolyElement format. Casting to SparsePolynomial")
@@ -1775,7 +1793,7 @@ class FODESystem:
             logger.debug("[find_acceptable_threshold] observables seem to be in SymPy expression format, converting")
             observable = tuple([SparseVector.from_list([self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables], self.field) for p in observable])
 
-        logger.debug("[find_acceptable_threshold] building matrices for lumping")
+        logger.debug("[find_acceptable_threshold] Building matrices for lumping")
         matrices = self.construct_matrices("polynomial")
 
         epsilon = 0
@@ -1783,14 +1801,15 @@ class FODESystem:
         logger.debug("[find_acceptable_threshold] Starting the main loop looking for optimal threshold")
         found_max = False
         sign = 1
-        while abs(dev_max - current_dev) >= threshold and increment >= threshold:
+        while abs(dev_max - current_dev) >= threshold  and increment >= threshold:
+            epsilon += sign*increment
             logger.debug(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing subspace)")
             subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=epsilon)
             logger.debug(f"[find_acceptable_threshold] Computed subspace for {epsilon = } ({subspace.dim()})")
             logger.debug(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing deviation)")
             current_dev = self._deviation(subspace, bound, num_points)
 
-            logger.debug(f"[find_acceptable_threshold] Current deviation for {epsilon = }: {current_dev}")
+            logger.info(f"[find_acceptable_threshold] Current deviation for {epsilon = } ({subspace.dim()}): {current_dev}")
             if current_dev < dev_max - threshold:
                 logger.debug(f"[find_acceptable_threshold] Increasing epsilon")
                 sign = 1
@@ -1799,7 +1818,6 @@ class FODESystem:
                 found_max = True
                 sign = -1
             if found_max: increment /= 2
-            epsilon += sign*increment
         
         logger.debug(f"[find_acceptable_threshold] Found optimal threshold --> {epsilon}")
         logger.debug("[find_acceptable_threshold] Restoring the default subspace class for lumping and its arguments")
