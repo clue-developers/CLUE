@@ -1,12 +1,18 @@
-import os, pstats, signal, sys, time
+import os, pstats, signal, sys, time, logging
 
 SCRIPT_DIR = os.path.dirname(__file__) if __name__ != "__main__" else "./"
 sys.path.insert(0, os.path.join(SCRIPT_DIR, "..", "..")) # models and clue is here
 sys.path.insert(0, os.path.join(SCRIPT_DIR, "..")) # examples_data is here
 
+from clue import FODESystem, SparsePolynomial, SparseRowMatrix, NumericalSubspace
+from clue.simulations import apply_matrix, create_figure, merge_simulations
 from examples_data import Example, Load_Examples_Folder
+from numpy import array, matmul
+from numpy.linalg import norm
+from scipy.integrate._ivp.ivp import OdeResult
 
 examples, executed_examples = Load_Examples_Folder(SCRIPT_DIR)
+logger = logging.getLogger("clue")
 
 def get_example(name) -> Example:
     return examples[name]
@@ -112,6 +118,86 @@ def run_exact(*argv):
         print("ERROR: this script must be run with at least one argument for the name of the model")
         print_help()
         return
+    
+    ## Getting the arguments for running the example
+    example = get_example(argv[0])
+    read = example.read; matrix = example.matrix
+    observables = example.observables
+    timeout: int = 0
+    output = None
+    profile: bool = None
+    percentage_slope: float | list[float] = example.get("slopes", None)
+    num_points: int = 50
+    threshold: float = 1e-6
+    type_input = example.get("type_input", "slope-brute")
+    t0: float = example.get("t0", 0.0); t1: float = example.get("t1", 1.0); x0 = None; tstep: float = None
+
+    ## Checking the rest of the arguments
+    n = 1
+    try:
+        while(n < nargv  and argv[n].startswith("-")):
+            if argv[n] == "-r":
+                read = argv[n+1]; n += 2
+            elif argv[n]  == "-m":
+                matrix = argv[n+1]; n += 2
+            elif argv[n] == "-t":
+                try:
+                    timeout = int(argv[n+1]); n += 2
+                except ValueError:
+                    print(f"ERROR: the timeout argument must be an integer, but found {argv[n+1]}")
+                    return
+            elif argv[n] == "-o":
+                output = argv[n+1]; n += 2
+            elif argv[n] == "-p":
+                profile = True; n += 1
+            elif argv[n] == "-s": # percentage slope
+                try:
+                    new_s = float(argv[n+1])
+                except ValueError:
+                    print(f"ERROR: the slope argument must be a float, but found {argv[n+1]}")
+                    return
+                if percentage_slope == None:
+                    percentage_slope = []
+                percentage_slope.append(new_s); n+=2
+            elif argv[n] == "-sample":
+                try:
+                    num_points = int(argv[n+1]); n+=2
+                except ValueError:
+                    print(f"ERROR: the number of samples argument must be an integer, but found {argv[n+1]}")
+                    return
+            elif argv[n] == "-th":
+                try:
+                    threshold = float(argv[n+1]); n+=2
+                except ValueError:
+                    print(f"ERROR: the threshold argument must be a float, but found {argv[n+1]}")
+                    return
+            elif argv[n] == "-i":
+                if not argv[n+1] in ("slope-brute", "slope-precise", "epsilon"):
+                    print(f"ERROR: the type of input argument must be one of ['slope-brute','slope-precise','epsilon'], but found {argv[n+1]}")
+                    return
+                type_input = argv[n+1]; n+=2
+            elif argv[n] == "-t0":
+                try:
+                    t0 = float(argv[n+1]); n+=2
+                except ValueError:
+                    print(f"ERROR: the initial time argument must be a float, but found {argv[n+1]}")
+                    return
+            elif argv[n] == "-t1":
+                try:
+                    t1 = float(argv[n+1]); n+=2
+                except ValueError:
+                    print(f"ERROR: the ending time argument must be a float, but found {argv[n+1]}")
+                    return
+            elif argv[n] == "-tstep":
+                try:
+                    tstep = float(argv[n+1]); n+=2
+                except ValueError:
+                    print(f"ERROR: the time-step argument must be a float, but found {argv[n+1]}")
+                    return
+    except IndexError:
+        print("ERROR: Invalid format of arguments. Check 'run' command in the help")
+        return
+    
     return
 
 def run_perturbed(*argv):
