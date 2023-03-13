@@ -239,6 +239,13 @@ class SparseVector(object):
         copied.__data = self.__data.copy()
         return copied
 
+    def change_base(self, new_field):
+        r'''Change the base domain for the sparse vector'''
+        new_vector = SparseVector(self.dim, new_field)
+        for i in self.nonzero: 
+            new_vector[i] = new_field.convert(self[i])
+        return new_vector
+
     def as_matrix(self, nrows : int):
         r'''
             Return a copy of this vector as a matrix with ``nrows`` rows.
@@ -520,6 +527,13 @@ class SparseRowMatrix(object):
         res.nonzero = self.nonzero.copy()
         res.__data = {i : self.row(i).copy() for i in self.__data}
         return res
+    
+    def change_base(self, new_field):
+        r'''Change the base domain for the sparse vector'''
+        new_matrix = SparseRowMatrix(self.dim, new_field)
+        for i in self.nonzero: 
+            new_matrix.set_row(self[i].change_base(new_field))
+        return new_matrix
 
     def transpose(self):
         r'''Method that returns the transposed matrix of ``self``'''
