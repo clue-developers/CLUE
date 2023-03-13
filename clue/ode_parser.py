@@ -288,7 +288,7 @@ def parse_initial_conditions(lines, domain = QQ):
     for l in lines:
         if "=" in l:
             rhs, lhs = l.split("=")
-            result[rhs.strip()] = to_rational(lhs.strip()) if domain == QQ else domain(lhs.strip())
+            result[rhs.strip()] = to_rational(lhs.strip().split(" ")[0]) if domain == QQ else domain(lhs.strip().split(" ")[0]) # added the split(" ") to avoid some cases with comments on style '( ... )'
     return result
 
 #------------------------------------------------------------------------------
