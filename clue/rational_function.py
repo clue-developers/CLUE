@@ -1246,7 +1246,7 @@ class RationalFunction:
 
     def get_poly(self):
         if self.is_polynomial():
-            return self.numer * (QQ(1) / QQ(self.denom.ct))
+            return self.numer * (self.domain.convert(1) / self.domain.convert(self.denom.ct))
         raise ValueError(f"{self} is not a polynomial")
 
     def is_zero(self):
