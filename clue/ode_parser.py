@@ -228,7 +228,7 @@ def parse_reactions(lines, varnames, parser = "sympy", domain = QQ):
         if(parser == "sympy"):
             monomial = reduce(lambda p,q : p*q, [var_dict[v]**mult for v, mult in ldict.items()])
         elif(parser in ("polynomial", "rational")):
-            monomial = SparsePolynomial(varnames, QQ, {tuple((var_dict[v], mult) for v, mult in ldict.items()) : QQ(1)})
+            monomial = SparsePolynomial(varnames, domain, {tuple((var_dict[v], mult) for v, mult in ldict.items()) : domain(1)})
         else:
             raise NotImplementedError(f"Parser {parser} not implemented")
         
