@@ -1,0 +1,25 @@
+{
+    "ProteinPhosphorylation[2]": {
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "observables": [
+            [
+                "S0",
+                "S1"
+            ]
+        ],
+        "model": "ProteinPhosphorylation",
+        "range": 2
+    },
+    "BioNetGen_CCP": {
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "observables": [
+            ["s18+s40"],
+            ["s0+s34"],
+            ["s1+s66+s67+s68"],
+            ["s2+s36"],
+            ["s3+s43"]
+        ]
+    }
+}

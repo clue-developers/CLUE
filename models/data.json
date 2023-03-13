@@ -119,6 +119,10 @@
         "ref_title": "Mechanistic links between cellular trade-offs, gene expression, and growth",
         "ref_doi": "10.1073/pnas.1416533112"
     },
+    "BioNetGen_CCP": {
+        "type": "polynomial",
+        "path": "numerical"
+    },
     "moviegalaxies_553": {
         "type": "polynomial",
         "path": "WeightedLinearODE"
