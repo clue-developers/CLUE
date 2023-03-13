@@ -14,6 +14,7 @@ class Example:
     ### CLASS VARIABLES
     ResultExtension = ".example.txt"
     OutSystemExtension = ".clue"
+    ImageExtension = ".png"
     ProfileExtension = ".prf"
 
     #########################################################
@@ -67,10 +68,17 @@ class Example:
         )
 
     @lru_cache(maxsize=None)
-    def results_path(self, basedir, read = None, matrix = None):
+    def image_path(self, basedir, read = None, matrix = None, extra=None):
         return os.path.join(
             self.base_path(basedir), 
-            f"[result]{self.base_file_name(read, matrix)}{Example.ResultExtension}"
+            f"{self.base_file_name(read, matrix)}{'f[{extra}]' if extra != None else ''}{Example.ImageExtension}"
+        )
+    
+    @lru_cache(maxsize=None)
+    def results_path(self, basedir, read = None, matrix = None, extra=None):
+        return os.path.join(
+            self.base_path(basedir), 
+            f"[result]{self.base_file_name(read, matrix)}{'f[{extra}]' if extra != None else ''}{Example.ResultExtension}"
         )
 
     @lru_cache(maxsize=None)
