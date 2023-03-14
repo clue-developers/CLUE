@@ -1803,15 +1803,19 @@ class FODESystem:
         logger.debug("[find_acceptable_threshold] Starting the main loop looking for optimal threshold")
         found_max = False
         sign = 1
-        while abs(dev_max - current_dev) >= threshold  and increment >= threshold:
+        current_dimension = self.size
+        last_success = 0
+        while abs(dev_max - current_dev) >= threshold  and increment >= threshold and (sign == -1 or current_dimension > len(observable)):
             epsilon += sign*increment
             logger.debug(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing subspace)")
             subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=epsilon)
+            current_dimension = subspace.dim()
             logger.debug(f"[find_acceptable_threshold] Computed subspace for {epsilon = } ({subspace.dim()})")
             logger.debug(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing deviation)")
             current_dev = self._deviation(subspace, bound, num_points)
 
             logger.info(f"[find_acceptable_threshold] Current deviation for {epsilon = } ({subspace.dim()}): {current_dev}")
+            if current_dev <= dev_max: last_success = epsilon
             if current_dev < dev_max - threshold:
                 logger.debug(f"[find_acceptable_threshold] Increasing epsilon")
                 sign = 1
@@ -1821,10 +1825,8 @@ class FODESystem:
                 sign = -1
             if found_max: increment /= 2
         
-        logger.debug(f"[find_acceptable_threshold] Found optimal threshold --> {epsilon}")
-        logger.debug("[find_acceptable_threshold] Restoring the default subspace class for lumping and its arguments")
-        
-        return epsilon
+        logger.debug(f"[find_acceptable_threshold] Found optimal threshold --> {last_success}")        
+        return last_success
 
     ##############################################################################################################
     ##############################################################################################################
