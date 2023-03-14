@@ -70,15 +70,15 @@ class Example:
     @lru_cache(maxsize=None)
     def image_path(self, basedir, read = None, matrix = None, extra=None):
         return os.path.join(
-            self.base_path(basedir), 
-            f"{self.base_file_name(read, matrix)}{'f[{extra}]' if extra != None else ''}{Example.ImageExtension}"
+            self.base_path(basedir), "images",
+            f"{self.base_file_name(read, matrix)}{f'[{extra}]' if extra != None else ''}{Example.ImageExtension}"
         )
     
     @lru_cache(maxsize=None)
     def results_path(self, basedir, read = None, matrix = None, extra=None):
         return os.path.join(
             self.base_path(basedir), 
-            f"[result]{self.base_file_name(read, matrix)}{'f[{extra}]' if extra != None else ''}{Example.ResultExtension}"
+            f"[result]{self.base_file_name(read, matrix)}{f'[{extra}]' if extra != None else ''}{Example.ResultExtension}"
         )
 
     @lru_cache(maxsize=None)
