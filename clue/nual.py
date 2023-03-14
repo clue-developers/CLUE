@@ -110,9 +110,10 @@ class NualNumber:
         the Python type ``int`` lead to the use of ``float`` type output, which is not an exact domain
         of computations.
     '''
-    def __init__(self, coeffs):
+    def __init__(self, coeffs, field=None):
         self.__size = len(coeffs)
         self.__coeffs = [coeffs[i] for i in range(self.__size)]
+        self.__field = field
 
     @property
     def size(self):
@@ -174,6 +175,12 @@ class NualNumber:
             return other
         else:
             raise TypeError("The input %s has incorrect length" %other)
+
+    def change_base(self, new_field):
+        r'''It changes the type of the elements forcing it to be a fixed domain'''
+        if new_field == self.__field:
+            return self
+        return NualNumber([new_field.convert(el) for el in self.__coeffs], new_field)
 
     # Sequence methods
     def __len__(self):
@@ -326,7 +333,7 @@ class NualNumber:
         r'''
             Method that computes the value ``e**self``.
 
-            This method comptues the exponential of ``self`` using the transcendental
+            This method computes the exponential of ``self`` using the transcendental
             element `e` from the Sympy library. This method works for any type of entries
             that are valid for the __pow__ method in Sympy.
 
@@ -337,7 +344,7 @@ class NualNumber:
                 (a_1,\ldots, a_n) = (a_1, 0, \ldots, 0) + (0, a_2, \ldots, a_n) = a + b,
 
             in such a way that the second summand has the property `b^2 = 0`. Now, using the 
-            multiplicatively property of the exponential:
+            multiplicative property of the exponential:
 
             .. MATH::
 
