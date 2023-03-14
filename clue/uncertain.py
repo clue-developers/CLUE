@@ -118,7 +118,7 @@ class UncertainFODESystem(FODESystem):
         elif not isinstance(m, SparseRowMatrix):
             m = SparseRowMatrix.from_list(m, self.field)
             M = SparseRowMatrix.from_list(M, self.field)
-        self._lumping_matr["polynomial"] = [m,M]
+        self._lumping_matr["polynomial"] = tuple([m,M])
 
     @property
     def lower_equations(self):
