@@ -751,32 +751,36 @@ class SparsePolynomial(object):
                 >>> sp.eval(x=0, y=0)
                 0
         '''
-
         # analyzing the values given
         rem_variables = [el for el in self.gens]
         for el in values:
             if(el in rem_variables):
                 rem_variables.remove(el)
             
-        rem_variables = [self._varnames.index(el) for el in rem_variables]
-        values = {self._varnames.index(el) : sympify(values[el]) for el in values if el in self._varnames}
-        ## Here `rem_variables` contains the indices of the variables remaining in the evaluation
+        rem_variables_indices = [self._varnames.index(el) for el in rem_variables]
+        values = {
+            self._varnames.index(el) : 
+            values[el].change_base(self.domain) 
+            if isinstance(values[el], NualNumber) 
+            else self.domain.convert(values[el]) for el in values if el in self._varnames
+        }
+        ## Here `rem_variables_indices` contains the indices of the variables remaining in the evaluation
         ## and values `values` contains a dictionary index -> value (instead of the name of the variable)
         
         new_data = {}
-        for monomial in self._data:
+        for monomial, coefficient in self._data.items():
             ## cleaning from monomial the variables evaluated
-            new_monomial = tuple([var for var in monomial if var[0] in rem_variables])
+            new_monomial = tuple([(rem_variables_indices.index(v),e) for (v,e) in monomial if v in rem_variables_indices])
             ## computing the new coefficient for the new monomial
-            value = reduce(lambda p, q : p*q, [self._data[monomial]] + [values[var[0]]**var[1] for var in monomial if not var[0] in rem_variables])
+            value = reduce(lambda p, q : p*q, [coefficient] + [values[v]**e for v,e in monomial if not v in rem_variables_indices])
 
             ## adding the new monomial
-            if(new_monomial in new_data):
-                new_data[new_monomial] += value
-            else:
-                new_data[new_monomial] = value
-        ## Returning the resulting polynomial
-        return SparsePolynomial(self._varnames, self.domain, new_data, cast=False)
+            if not new_monomial in new_data:
+                new_data[new_monomial] = self.domain.zero
+            new_data[new_monomial] += value
+            
+        ## Returning the resulting polynomial (only remaining variables appear in the polynomial)
+        return SparsePolynomial(rem_variables, self.domain, new_data, cast=False)
 
     def subs(self, to_subs = None, **values):
         r'''
@@ -1043,6 +1047,10 @@ class SparsePolynomial(object):
         '''
         return self.get_sympy_ring()(self.get_sympy_dict())
 
+    def change_base(self, new_domain):
+        r'''Change the domain of the SparsePolynomial and creates a copy for it'''
+        return SparsePolynomial(self._varnames, new_domain, self._data, True)
+    
     #--------------------------------------------------------------------------
     def derivative(self, var_name):
         """
@@ -1517,6 +1525,10 @@ class RationalFunction:
 
     def get_sympy_ring(self):
         return sympy.polys.rings.ring(self.gens, self.domain)[0]
+
+    def change_base(self, new_domain):
+        r'''Change the domain of the RationalFunction'''
+        return RationalFunction(self.numer.change_base(new_domain), self.denom.change_base(new_domain))
 
     #--------------------------------------------------------------------------
     def __eq__(self, other):
