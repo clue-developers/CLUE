@@ -1761,7 +1761,10 @@ class FODESystem:
             self.__cache_deviations[key] = mean(deviations)
         return self.__cache_deviations[key]
 
-    def find_acceptable_threshold(self, observable, dev_max: float, increment: float, bound: float | list[float] | list[tuple[float,float]], num_points: int, threshold: float) -> float:
+    def find_acceptable_threshold(self, observable, 
+        dev_max: float, increment: float, bound: float | list[float] | list[tuple[float,float]], num_points: int, threshold: float,
+        with_tries=False
+    ) -> float:
         r'''
             Method to compute an optimal threshold for numerical lumping
 
@@ -1805,8 +1808,9 @@ class FODESystem:
         sign = 1
         current_dimension = self.size
         last_success = 0
+        tries = 0
         while abs(dev_max - current_dev) >= threshold  and increment >= threshold and (sign == -1 or current_dimension > len(observable)):
-            epsilon += sign*increment
+            epsilon += sign*increment; tries += 1
             logger.debug(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing subspace)")
             subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=epsilon)
             current_dimension = subspace.dim()
@@ -1826,6 +1830,8 @@ class FODESystem:
             if found_max: increment /= 2
         
         logger.debug(f"[find_acceptable_threshold] Found optimal threshold --> {last_success}")        
+        if with_tries:
+            return last_success, tries
         return last_success
 
     ##############################################################################################################
