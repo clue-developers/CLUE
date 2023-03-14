@@ -532,7 +532,7 @@ class SparseRowMatrix(object):
         r'''Change the base domain for the sparse vector'''
         new_matrix = SparseRowMatrix(self.dim, new_field)
         for i in self.nonzero: 
-            new_matrix.set_row(self[i].change_base(new_field))
+            new_matrix.set_row(i, self[i].change_base(new_field))
         return new_matrix
 
     def transpose(self):
