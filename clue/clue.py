@@ -93,7 +93,7 @@ class FODESystem:
         * Provide a dictionary with the data (using the argument ``dic``). In this case, at least 
           an entry with key ``'equations'`` must be provided.
     '''
-    def __init__(self, equations=None, observables=None, variables = None, ic={}, name = None, 
+    def __init__(self, equations=None, observables=None, variables = None, ic={}, pars=None, name = None, 
                 dic=None, file = None, **kwds
     ):
         # Deciding how the input is given
@@ -116,13 +116,15 @@ class FODESystem:
         observables = observables if observables != None else (dic.get('observables', None) if dic != None else None)
         ic = ic if ic != {} else (dic.get('ic', {}) if dic != None else {})
         name = name if name != None else (dic.get('name', None) if dic != None else None)
-        
+        pars = pars if pars != None else (dic.get('pars', None) if dic != None else None)
+       
         # Now we have the data in the first arguments
         self._equations = list(equations)
         self._observables = observables
         self._variables = variables
         self._ic = ic
         self._name = name
+        self._pars = pars
         self.__matrices_subspace_class = kwds.get("matrices_subspace", Subspace)
         self.__matrices_subspace_kwds = kwds.get("matrices_subspace_kwds", {})
         self.__lumping_subspace_class = kwds.get("lumping_subspace", Subspace)
@@ -299,7 +301,7 @@ class FODESystem:
 
             A specie is a variable that is not constant, i.e., its equation is not 0.
         '''
-        return [self.variables[i] for i in range(self.size) if self.equations[i] != 0]
+        return [v for v in self.variables if (v not in self.pars)]
 
     @cached_property
     def npars(self):
@@ -317,7 +319,7 @@ class FODESystem:
 
             A parameter is a variable that is constant, i.e., its equation is 0.
         '''
-        return [self.variables[i] for i in range(self.size) if self.equations[i] == 0]
+        return self._pars if self._pars != None else [self.variables[i] for i in range(self.size) if self.equations[i] == 0]
 
     @cached_property
     def field(self):
@@ -1630,9 +1632,9 @@ class FODESystem:
                 >>> system.derivative(_, 0,0,0)
                 [MPQ(0,1), MPQ(0,1), MPQ(0,1)]
                 >>> system.derivative(_, 0,1,1)
-                [2, 1, 1]
+                [MPQ(2,1), MPQ(1,1), MPQ(1,1)]
                 >>> system.derivative(_, 2,0,1)
-                [5, 1, MPQ(0,1)]
+                [MPQ(5,1), MPQ(1,1), MPQ(0,1)]
         ''' 
         if len(x) == 1 and isinstance(x[0], Iterable):
             x = x[0]
