@@ -84,8 +84,8 @@ class ResultNumericalExample:
             if self.percentage is None:
                 raise ValueError("Impossible to get the epsilon for this example")
             ctime = time.time()
-            self._epsilon, self._considered_epsilon = self.system.find_acceptable_threshold(
-                self.observable, self.dev_max(), 1, self.compact_bound(), 
+            self._epsilon, self._considered_epsilon = self.num_system.find_acceptable_threshold(
+                [obs.change_base(RR) for obs in self.observable], self.dev_max(), 1, self.compact_bound(), 
                 self.sample_points, self.threshold, with_tries=True)
             self._time_epsilon = time.time()-ctime
         return self._epsilon
@@ -308,6 +308,7 @@ class ResultNumericalExample:
             f"Time used on computation: {self.time_total}\n",
             "###############################################\n",
         ])
+        file.flush()
 
     @staticmethod
     def from_file(path_to_result: str) -> tuple[ResultNumericalExample]:
@@ -321,9 +322,7 @@ class ResultNumericalExample:
                         ## Reading the observable
                         line = file.readline().strip()
                         if not line.startswith("== Observables: "): raise ValueError("Incorrect format in result file: observable must be specified first")
-                        observable = eval(line.removeprefix("== Observables: ")) ## This will be a list of str
-                        if not isinstance(observable, list): raise ValueError("Incorrect format in result file: observable must be a list")
-                        if any(not isinstance(obs, str) for obs in observable): raise ValueError("Incorrect format in result file: observable must be a list of strings")
+                        observable = [el.strip() for el in line.removeprefix("== Observables: [").removesuffix("]").split(",")] ## This will be a list of str
                         #########################################################
                         ## Reading other information
                         line = file.readline().strip()
@@ -374,7 +373,8 @@ class ResultNumericalExample:
                             elif line.startswith("Time used on computation: "):
                                 time_total = line.removeprefix("Time used on computation: ")
                             else:
-                                logger.info(f"[from_file] Ommiting line: {line}")
+                                logger.debug(f"[from_file] Ommiting line: {line}")
+                            line = file.readline().strip()
                         ## Casting the result to their types
                         example = get_example(example)
                         def _casting(value, ttype, name):
@@ -407,6 +407,9 @@ class ResultNumericalExample:
                             et=et, Mxt_2 = Mxt_2, epsilon=epsilon, norm_x0=norm_x0, norm_fx0=norm_fx0,percentage=percentage,
                             avg_err=avg_err, max_err=max_err, considered_epsilon=considered_epsilons,threshold=threshold,t0=t0,t1=t1,
                             time_epsilon=time_epsilon, time_total=time_total))
+                    else:
+                        logger.debug(f"[from_file] Ommiting line: {line}")
+                    line = file.readline().strip()
         except ValueError as e:
             logger.error(f"[from_file] Error while reading a file: {e}")
         return results
@@ -443,6 +446,9 @@ class ResultNumericalExample:
             t0, t1, secThisEpsilon,secTotal
         ]
 
+    def __repr__(self) -> str:
+        return f"{self.example.name} (r={self.example.read},m={self.example.matrix}) (C={self.compact_bound()}; {100*self.percentage}% slope = {self.dev_max()}) [{self.observable}]"
+
 def get_example(name) -> Example:
     return examples[name]
 
@@ -476,14 +482,12 @@ def list_examples(*argv):
     i = 0
     ## Reading the arguments
     while i < len(argv): 
-        if argv[i] in ("-r", "-p", "-u") and len(type) < 4:
+        if argv[i] in ("-r", "-p") and len(type) < 4:
             raise TypeError("The type for listing was already given. Check 'help' command for further information")
         if argv[i] == "-r":
             type = ("rational", "sympy"); i+= 1
         elif argv[i] == "-p":
             type = ("polynomial",); i+= 1
-        elif argv[i] == "-u":
-            type = ("uncertain",); i+= 1
         elif argv[i] == "-of":
             allowed_folders.append(argv[i+1]); i += 2
         elif argv[i] == "-wf":
@@ -541,7 +545,7 @@ def compile_results(*argv):
     
     results: list[ResultNumericalExample] = []
     for example, read, matrix in executed_examples:
-        logger.log(0, f"[compile_results] Compiling results for {example} with {read=}  and {matrix=}...")
+        logger.log(60, f"[compile_results] Compiling results for {example} with {read=} and {matrix=}...")
         results.extend(ResultNumericalExample.from_file(examples[example].results_path(SCRIPT_DIR, read, matrix)))
 
     with open(os.path.join(SCRIPT_DIR, "compilation.csv"), "w") as file:
@@ -549,7 +553,7 @@ def compile_results(*argv):
         writer.writerow(ResultNumericalExample.CSVRows())
         for result in results:
             writer.writerow(result.to_csv())
-        logger.log(0, f"[compile_results] Compilation complete")
+        logger.log(60, f"[compile_results] Compilation complete")
 
     return 
 
@@ -566,11 +570,11 @@ def run_exact(*argv):
     read = example.read; matrix = example.matrix
     observables = example.observables
     timeout: int = example.get("timeout", 0)
-    output = example.out_path(SCRIPT_DIR)
+    output = example.results_path(SCRIPT_DIR)
     profile: bool = None
     percentage_slope: float | list[float] = None
     sample_points: int = example.get("sample_points", 50)
-    threshold: float = example.threshold("threshold", 1e-6)
+    threshold: float = example.get("threshold", 1e-6)
     type_input: str = example.get("type_input", "slope-brute")
     t0: float = example.get("t0", 0.0); t1: float = example.get("t1", 1.0); tstep: float = example.get("tstep", None)
 
@@ -646,39 +650,40 @@ def run_exact(*argv):
         with Profile() if profile else nullcontext() as pr:
             ##############################################################################
             ### Reading the system
-            logger.debug("[run_exact] Reading the system both exactly and numerical")
+            logger.log(60, "[run_exact] Reading the system both exactly and numerical")
             system = FODESystem(file=example.path_model(), read_ic = True, parser=read)
             RRsystem = FODESystem(file=example.path_model(), read_ic = True, parser=example.read, field=RR)
-            logger.debug("[run_exact] Removing the parameters of the system")
+            logger.log(60, "[run_exact] Removing the parameters of the system")
             system = system.remove_parameters_ic()
             RRsystem = RRsystem.remove_parameters_ic()
-            logger.debug("[run_exact] Computing numerical simulation for the exact system")
-            original_simulation = system.simulate(t0,t1,x0,tstep)
         
             ##############################################################################
             ### Obtaining the initial condition
-            logger.debug("[run_exact] Obtaining the initial condition from the system")
-            x0 = [float(system.ic.get(v, 0)) for v in system.variables] if x0 is None else x0; x0 = array(x0)
+            logger.log(60, "[run_exact] Obtaining the initial condition from the system")
+            x0 = array([float(system.ic.get(v, 0)) for v in system.variables])
             norm_x0 = norm(x0, ord=2)
-            fx0 = RRsystem.derivative(..., *x0)
+            fx0 = array(RRsystem.derivative(..., *x0), dtype=x0.dtype)
             norm_fx0 = norm(fx0, ord=2)
-            logger.debug(f"[run_exact] Initial state of the problem: ||x_0|| = {norm_x0} -- ||f(x_0)|| = {norm_fx0}")
+            logger.log(60, f"[run_exact] Initial state of the problem: ||x_0|| = {norm_x0} -- ||f(x_0)|| = {norm_fx0}")
             
+            logger.log(60, f"[run_exact] Computing numerical simulation for the exact system ({t0=},{t1=},{tstep=})")
+            original_simulation = system.simulate(t0,t1,x0,tstep)
+
             ##############################################################################
             ### Building the observables from the example
-            logger.debug("[run_exact] Building observables")
+            logger.log(60, "[run_exact] Building observables")
             observables = [[SparsePolynomial.from_string(s, system.variables, system.field) for s in obs_set] for obs_set in example.observables]
-            observable_matrices = [SparseRowMatrix.from_list([obs.linear_part_as_vec() for obs in observable]) for observable in observables]
+            observable_matrices = [SparseRowMatrix.from_vectors([obs.linear_part_as_vec() for obs in observable]) for observable in observables]
 
             ##############################################################################
             ### Computing the exact lumping for the observables -- reusing the matrix computation
-            logger.debug("[run_exact] Computing the exact lumping for each observable")
+            logger.log(60, "[run_exact] Computing the exact lumping for each observable")
             exact_lumpings = [system.lumping(observable, method=matrix, print_system=False,print_reduction=False) for observable in observables]
             RRsystem._lumping_matr[example.matrix] = tuple(M.change_base(RR) for M in system._lumping_matr[matrix])
 
             ##############################################################################
             ### Creating the Results structures
-            logger.debug("[run_exact] Creating the result structures")
+            logger.log(60, "[run_exact] Creating the result structures")
             results : list[ResultNumericalExample] = []
             for observable, O, exact_lumping in zip(observables, observable_matrices, exact_lumpings):
                 for percentage in percentage_slope:
@@ -694,29 +699,28 @@ def run_exact(*argv):
             
             ##############################################################################
             ### Creating the Results structures
-            logger.debug("[run_exact] Computed (if needed) optimal epsilons")
+            logger.log(60, "[run_exact] Running each of the cases")
             for result in results:
+                logger.log(60, f"[run_exact] Computing (if needed) epsilon for {repr(result)}")
                 try:
                     with Timeout(timeout):
                         result.epsilon
                 except TimeoutError:
                     logger.error(f"[run_exact] Timeout of {timeout} reached while computing optimal epsilon for {repr(result)}. Trying next.")
-
-            ##############################################################################
-            ### Creating the numerical lumping for the given epsilon
-            logger.debug("[run_exact] Computed (if needed) optimal epsilons")
-            for result in results:
+                    continue
+                logger.log(60, f"[run_exact] Computing numerical lumping for {repr(result)}")
                 try:
                     with Timeout(timeout):
                         result.numerical_lumping
                 except TimeoutError:
                     logger.error(f"[run_exact] Timeout of {timeout} reached while computing numerical lumping for {repr(result)}. Trying next.")
+                    continue
 
-            ##############################################################################
-            ### Generating the outputs
-            for result in results:
+                logger.log(60, f"[run_exact] Generating output for {repr(result)}")
                 result.write_result(output)
+                logger.log(60, f"[run_exact] Generating images for {repr(result)}")
                 result.generate_image()
+                logger.log(60, f"[run_exact] Finished execution for {repr(result)}")
 
     if profile:
         stats = pstats.Stats(pr)
