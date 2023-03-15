@@ -9,7 +9,9 @@
             ]
         ],
         "model": "ProteinPhosphorylation",
-        "range": 2
+        "range": 2,
+        "slopes": [1.0, 10.0, 100.0],
+        "t1": 0.00125
     },
     "BioNetGen_CCP": {
         "read": "polynomial",
@@ -20,6 +22,8 @@
             ["s1+s66+s67+s68"],
             ["s2+s36"],
             ["s3+s43"]
-        ]
+        ],
+        "slopes": [0.1,0.2,0.3,0.4,0.5],
+        "t1": 5
     }
 }
