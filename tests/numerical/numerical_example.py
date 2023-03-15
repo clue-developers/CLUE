@@ -1,14 +1,17 @@
 from __future__ import annotations
 
-import os, pstats, signal, sys, time, logging
+import csv, os, pstats, signal, sys, time, logging
 
 SCRIPT_DIR = os.path.dirname(__file__) if __name__ != "__main__" else "./"
 sys.path.insert(0, os.path.join(SCRIPT_DIR, "..", "..")) # models and clue is here
 sys.path.insert(0, os.path.join(SCRIPT_DIR, "..")) # examples_data is here
 
-from clue import FODESystem, LDESystem, SparseRowMatrix, NumericalSubspace
+from contextlib import nullcontext
+from clue import FODESystem, LDESystem, SparsePolynomial, SparseRowMatrix, NumericalSubspace
 from clue.simulations import apply_matrix, create_figure, merge_simulations
+from cProfile import Profile
 from examples_data import Example, Load_Examples_Folder
+from io import TextIOBase
 from matplotlib import pyplot as plt
 from numpy import array, matmul, mean
 from numpy.linalg import norm
@@ -40,59 +43,11 @@ class ResultNumericalExample:
         self._merged_simulation = merged_simulation; self._diff_simulation = diff_simulation
         self._time_epsilon = time_epsilon; self._time_total = time_total
         self._Mxt_2 = Mxt_2; self._et = et; self._avg_err = avg_err; self._max_err = max_err
-        
-    @staticmethod
-    def from_file(path_to_result: str) -> ResultNumericalExample:
-        with open(path_to_result, "r") as file:
-            line = None
-            while line != "":
-                line = file.readline()
-                if line.startswith("Name of example: "):
-                    example = line.removeprefix("Name of example: ")
-                elif line.startswith("Observable: "):
-                    observable = line.removeprefix("Observable: ")
-                elif line.startswith("Max. perturbation: "):
-                    max_perturbation = line.removeprefix("Max. perturbation: ")
-                elif line.startswith("Size of original model: "):
-                    original_size = line.removeprefix("Size of original model: ")
-                elif line.startswith("Size of lumping: "):
-                    exact_size = line.removeprefix("Size of lumping: ")
-                elif line.startswith("Size of numerical lumping: "):
-                    lumped_size = line.removeprefix("Size of numerical lumping: ")
-                elif line.startswith("Error at final time: "):
-                    et = line.removeprefix("Error at final time: ")
-                elif line.startswith("Size of observable at final time: "):
-                    Mxt_2 = line.removeprefix("Size of observable at final time: ")
-                elif line.startswith("Value for epsilon for numerical lumping: "):
-                    epsilon = line.removeprefix("Value for epsilon for numerical lumping: ")
-                elif line.startswith("Size of initial value: "):
-                    norm_x0 = line.removeprefix("Size of initial value: ")
-                elif line.startswith("Size of initial drift: "):
-                    norm_fx0 = line.removeprefix("Size of initial drift: ")
-                elif line.startswith("Proportion of slope allowed: "):
-                    percentage = line.removeprefix("Proportion of slope allowed: ")
-                elif line.startswith("Average error on simulation: "):
-                    avg_err = line.removeprefix("Average error on simulation: ")
-                elif line.startswith("Maximal error on simulation: "):
-                    max_err = line.removeprefix("Maximal error on simulation: ")
-                elif line.startswith("Number of epsilons considered: "):
-                    considered_epsilons = line.removeprefix("Number of epsilons considered: ")
-                elif line.startswith("Tolerance used for computations: "):
-                    threshold = line.removeprefix("Tolerance used for computations: ")
-                elif line.startswith("Initial time of simulations: "):
-                    t0 = line.removeprefix("Initial time of simulations: ")
-                elif line.startswith("Time horizon of simulations: "):
-                    t1 = line.removeprefix("Time horizon of simulations: ")
-                elif line.startswith("Time used computing optimal epsilon: "):
-                    time_epsilon = line.removeprefix("Time used computing optimal epsilon: ")
-                elif line.startswith("Time used on computation: "):
-                    time_total = line.removeprefix("Time used on computation: ")
 
-        return ResultNumericalExample(get_example(example), observable,
-                max_perturbation=max_perturbation, size=original_size, exact_size=exact_size, lumped_size=lumped_size,
-                et=et, Mxt_2 = Mxt_2, epsilon=epsilon, norm_x0=norm_x0, norm_fx0=norm_fx0,percentage=percentage,
-                avg_err=avg_err, max_err=max_err, considered_epsilon=considered_epsilons,threshold=threshold,t0=t0,t1=t1,
-                time_epsilon=time_epsilon, time_total=time_total)
+        ## Casting observables to SparsePolynomials
+        for i in range(len(self.observable)):
+            if isinstance(self.observable[i], str):
+                self.observable[i] = SparsePolynomial.from_string(self.observable[i], self.system.variables, domain=self.system.field)
             
     ## GENERATING ATTRIBUTES IF NOT GIVEN
     @property
@@ -128,9 +83,11 @@ class ResultNumericalExample:
         if self._epsilon is None:
             if self.percentage is None:
                 raise ValueError("Impossible to get the epsilon for this example")
+            ctime = time.time()
             self._epsilon, self._considered_epsilon = self.system.find_acceptable_threshold(
                 self.observable, self.dev_max(), 1, self.compact_bound(), 
                 self.sample_points, self.threshold, with_tries=True)
+            self._time_epsilon = time.time()-ctime
         return self._epsilon
     @property
     def considered_epsilon(self):
@@ -147,7 +104,7 @@ class ResultNumericalExample:
     def num_system(self):
         if self._num_system is None:
             example = self.example
-            self._num_system = FODESystem(file = example.path_model(), read_ic = True, parser=example.read).remove_parameters_ic()
+            self._num_system = FODESystem(file = example.path_model(), read_ic = True, parser=example.read, field = RR).remove_parameters_ic()
 
         return self._num_system
     @property
@@ -158,8 +115,17 @@ class ResultNumericalExample:
     @property
     def numerical_lumping(self):
         if self._numerical_lumping is None:
+            ## Getting current values for computing lumping
+            old_subclass, old_subclass_args = self.num_system.lumping_subspace_class, self.num_system.lumping_subspace_kwds
             self.num_system.lumping_subspace_class = NumericalSubspace, {"delta" : self.epsilon}
-            self._numerical_lumping = self.num_system.lumping(self.observable, method=self.example.matrix, print_system=False, print_reduction=False)
+            ## Getting numerical observable
+            num_observable = [obs.change_base(RR) for obs in self.observable]
+            ## Computing the lumping
+            ctime = time.time()
+            self._numerical_lumping = self.num_system.lumping(num_observable, method=self.example.matrix, print_system=False, print_reduction=False)
+            self._time_total = (time.time()-ctime) + self.time_epsilon
+            ## Restoring old values for computing lumping
+            self.num_system.lumping_subspace_class = old_subclass, old_subclass_args
         return self._numerical_lumping
     @property
     def size(self):
@@ -226,9 +192,11 @@ class ResultNumericalExample:
         return self._diff_simulation
     @property
     def time_epsilon(self):
+        self.epsilon # guaranteeing the time is computed
         return self._time_epsilon
     @property
     def time_total(self):
+        self.numerical_lumping # guaranteeing the time is computed
         return self._time_total
     @property
     def Mxt_2(self):
@@ -309,48 +277,141 @@ class ResultNumericalExample:
         )
         plt.close()
     
-    def generate_result(self):
+    def write_result(self, file: TextIOBase):
         r'''Method that generates a results file with the information of this '''
-        with open(
-            self.example.results_path(
-                SCRIPT_DIR, self.example.read, self.example.matrix,
-                f"{self.percentage}#{self.epsilon}#{self.observable}"
-            ), "w"
-        ) as file:
-            et = self.et
-            Mxt_2 = self.Mxt_2
-            file.writelines([
-                "#############################################################\n",
-                "### Result for numerical lumping\n",
-                "#############################################################\n",
-                f"Name of example: {self.example.name}\n",
-                f"Observable: {self.observable}\n",
-                f"Max. perturbation: {self.max_perturbation}\n",
-                f"Size of original model: {self.size}\n",
-                f"Size of lumping: {self.exact_size}\n",
-                f"Size of numerical lumping: {self.lumped_size}\n",
-                f"Relative error at final time: {et/Mxt_2}\n",
-                f"Error at final time: {et}\n",
-                f"Size of observable at final time: {Mxt_2}\n",
-                f"Value for epsilon for numerical lumping: {self.epsilon}\n",
-                f"Value for maximal deviation: {self.dev_max()}\n",
-                f"Size of initial value: {self.norm_x0}\n",
-                f"Size of compactum used for sampling the deviation: {self.compact_bound()}\n",
-                f"Size of initial drift: {self.norm_fx0}\n",
-                f"Proportion of slope allowed: {self.percentage}\n",
-                f"Average error on simulation: {self.avg_err}\n",
-                f"Maximal error on simulation: {self.max_err}\n",
-                f"Number of epsilons considered: {self.considered_epsilon}\n",
-                f"Tolerance used for computations: {self.threshold}\n",
-                f"Initial time of simulations: {self.t0}\n",
-                f"Time horizon of simulations: {self.t1}\n",
-                f"Time used computing optimal epsilon: {self.time_epsilon}\n",
-                f"Time used on computation: {self.time_total}\n",
-                "#############################################################\n",
-                "#############################################################\n",
-            ])
-            
-    def to_csv(self):
+        et = self.et
+        Mxt_2 = self.Mxt_2
+        file.writelines([
+            "===============================================\n",
+            f"== Observables: {self.observable}\n",
+            f"Name of example: {self.example.name}\n",
+            f"Max. perturbation: {self.max_perturbation}\n",
+            f"Size of original model: {self.size}\n",
+            f"Size of lumping: {self.exact_size}\n",
+            f"Size of numerical lumping: {self.lumped_size}\n",
+            f"Relative error at final time: {et/Mxt_2}\n",
+            f"Error at final time: {et}\n",
+            f"Size of observable at final time: {Mxt_2}\n",
+            f"Value for epsilon for numerical lumping: {self.epsilon}\n",
+            f"Value for maximal deviation: {self.dev_max()}\n",
+            f"Size of initial value: {self.norm_x0}\n",
+            f"Size of compactum used for sampling the deviation: {self.compact_bound()}\n",
+            f"Size of initial drift: {self.norm_fx0}\n",
+            f"Proportion of slope allowed: {self.percentage}\n",
+            f"Average error on simulation: {self.avg_err}\n",
+            f"Maximal error on simulation: {self.max_err}\n",
+            f"Number of epsilons considered: {self.considered_epsilon}\n",
+            f"Tolerance used for computations: {self.threshold}\n",
+            f"Initial time of simulations: {self.t0}\n",
+            f"Time horizon of simulations: {self.t1}\n",
+            f"Time used computing optimal epsilon: {self.time_epsilon}\n",
+            f"Time used on computation: {self.time_total}\n",
+            "###############################################\n",
+        ])
+
+    @staticmethod
+    def from_file(path_to_result: str) -> tuple[ResultNumericalExample]:
+        results = []
+        try:
+            with open(path_to_result, "r") as file:
+                line = file.readline().strip()
+                while line != "":
+                    if line.startswith("==============================================="): # New example
+                        #########################################################
+                        ## Reading the observable
+                        line = file.readline().strip()
+                        if not line.startswith("== Observables: "): raise ValueError("Incorrect format in result file: observable must be specified first")
+                        observable = eval(line.removeprefix("== Observables: ")) ## This will be a list of str
+                        if not isinstance(observable, list): raise ValueError("Incorrect format in result file: observable must be a list")
+                        if any(not isinstance(obs, str) for obs in observable): raise ValueError("Incorrect format in result file: observable must be a list of strings")
+                        #########################################################
+                        ## Reading other information
+                        line = file.readline().strip()
+                        example, max_perturbation, original_size, exact_size, lumped_size = 5*[None]
+                        et, Mxt_2, epsilon, norm_x0, norm_fx0, percentage = 6*[None]
+                        avg_err, max_err, considered_epsilons, threshold, t0, t1, time_epsilon, time_total = 8*[None]
+                        while not line.startswith("###############################################"): # Until the end of example is found
+                            if line == "": ## Unexpected end of file
+                                raise ValueError(f"Unexpected end of file while reading {observable}")
+                            elif line.startswith("Name of example: "):
+                                example = line.removeprefix("Name of example: ")
+                            elif line.startswith("Observable: "):
+                                observable = line.removeprefix("Observable: ")
+                            elif line.startswith("Max. perturbation: "):
+                                max_perturbation = line.removeprefix("Max. perturbation: ")
+                            elif line.startswith("Size of original model: "):
+                                original_size = line.removeprefix("Size of original model: ")
+                            elif line.startswith("Size of lumping: "):
+                                exact_size = line.removeprefix("Size of lumping: ")
+                            elif line.startswith("Size of numerical lumping: "):
+                                lumped_size = line.removeprefix("Size of numerical lumping: ")
+                            elif line.startswith("Error at final time: "):
+                                et = line.removeprefix("Error at final time: ")
+                            elif line.startswith("Size of observable at final time: "):
+                                Mxt_2 = line.removeprefix("Size of observable at final time: ")
+                            elif line.startswith("Value for epsilon for numerical lumping: "):
+                                epsilon = line.removeprefix("Value for epsilon for numerical lumping: ")
+                            elif line.startswith("Size of initial value: "):
+                                norm_x0 = line.removeprefix("Size of initial value: ")
+                            elif line.startswith("Size of initial drift: "):
+                                norm_fx0 = line.removeprefix("Size of initial drift: ")
+                            elif line.startswith("Proportion of slope allowed: "):
+                                percentage = line.removeprefix("Proportion of slope allowed: ")
+                            elif line.startswith("Average error on simulation: "):
+                                avg_err = line.removeprefix("Average error on simulation: ")
+                            elif line.startswith("Maximal error on simulation: "):
+                                max_err = line.removeprefix("Maximal error on simulation: ")
+                            elif line.startswith("Number of epsilons considered: "):
+                                considered_epsilons = line.removeprefix("Number of epsilons considered: ")
+                            elif line.startswith("Tolerance used for computations: "):
+                                threshold = line.removeprefix("Tolerance used for computations: ")
+                            elif line.startswith("Initial time of simulations: "):
+                                t0 = line.removeprefix("Initial time of simulations: ")
+                            elif line.startswith("Time horizon of simulations: "):
+                                t1 = line.removeprefix("Time horizon of simulations: ")
+                            elif line.startswith("Time used computing optimal epsilon: "):
+                                time_epsilon = line.removeprefix("Time used computing optimal epsilon: ")
+                            elif line.startswith("Time used on computation: "):
+                                time_total = line.removeprefix("Time used on computation: ")
+                            else:
+                                logger.info(f"[from_file] Ommiting line: {line}")
+                        ## Casting the result to their types
+                        example = get_example(example)
+                        def _casting(value, ttype, name):
+                            try:
+                                return ttype(value)
+                            except Exception as e:
+                                raise ValueError(f"Expected {ttype} for {name}: {e}")
+                        max_perturbation = _casting(max_perturbation, float, "max_perturbation")
+                        original_size = _casting(original_size, int, "original_size")
+                        exact_size = _casting(exact_size, int, "exact_size")
+                        lumped_size = _casting(lumped_size, int, "lumped_size")
+                        et = _casting(et, float, "et")
+                        Mxt_2 = _casting(Mxt_2, float, "Mxt_2")
+                        epsilon = _casting(epsilon, float, "epsilon")
+                        norm_x0 = _casting(norm_x0, float, "norm_x0")
+                        norm_fx0 = _casting(norm_fx0, float, "norm_fx0")
+                        percentage = _casting(lumped_size, float, "percentage")
+                        avg_err = _casting(avg_err, float, "avg_err")
+                        max_err = _casting(max_err, float, "max_err")
+                        considered_epsilons = _casting(considered_epsilons, int, "considered_epsilons")
+                        threshold = _casting(threshold, float, "threshold")
+                        t0 = _casting(t0, float, "t0")
+                        t1 = _casting(t1, float, "t1")
+                        time_epsilon = _casting(time_epsilon, float, "time_epsilon")
+                        time_total = _casting(time_total, float, "time_total")
+
+                        ## Creating the result object
+                        results.append(ResultNumericalExample(example, observable,
+                            max_perturbation=max_perturbation, size=original_size, exact_size=exact_size, lumped_size=lumped_size,
+                            et=et, Mxt_2 = Mxt_2, epsilon=epsilon, norm_x0=norm_x0, norm_fx0=norm_fx0,percentage=percentage,
+                            avg_err=avg_err, max_err=max_err, considered_epsilon=considered_epsilons,threshold=threshold,t0=t0,t1=t1,
+                            time_epsilon=time_epsilon, time_total=time_total))
+        except ValueError as e:
+            logger.error(f"[from_file] Error while reading a file: {e}")
+        return results
+
+    def to_csv(self) -> list:
         r'''
             Method to create a csv row for this example.
             
@@ -477,13 +538,26 @@ def add_examples_in_folder(*argv):
 def compile_results(*argv):
     r'''Method to compile the results on the examples.'''
     if len(argv) > 0: raise TypeError("No optional arguments for command 'compile'. See ''help'' for further information")
-    return
+    
+    results: list[ResultNumericalExample] = []
+    for example, read, matrix in executed_examples:
+        logger.log(0, f"[compile_results] Compiling results for {example} with {read=}  and {matrix=}...")
+        results.extend(ResultNumericalExample.from_file(examples[example].results_path(SCRIPT_DIR, read, matrix)))
+
+    with open(os.path.join(SCRIPT_DIR, "compilation.csv"), "w") as file:
+        writer = csv.writer(file, delimiter=";")
+        writer.writerow(ResultNumericalExample.CSVRows())
+        for result in results:
+            writer.writerow(result.to_csv())
+        logger.log(0, f"[compile_results] Compilation complete")
+
+    return 
 
 def run_exact(*argv):
     r'''Method that run the exact experiment over an example'''
     nargv = len(argv)
     if(nargv == 0):
-        print("ERROR: this script must be run with at least one argument for the name of the model")
+        logger.error("[run_exact] This script must be run with at least one argument for the name of the model")
         print_help()
         return
     
@@ -491,14 +565,14 @@ def run_exact(*argv):
     example = get_example(argv[0])
     read = example.read; matrix = example.matrix
     observables = example.observables
-    timeout: int = 0
-    output = None
+    timeout: int = example.get("timeout", 0)
+    output = example.out_path(SCRIPT_DIR)
     profile: bool = None
-    percentage_slope: float | list[float] = example.get("slopes", None)
-    num_points: int = 50
-    threshold: float = 1e-6
-    type_input = example.get("type_input", "slope-brute")
-    t0: float = example.get("t0", 0.0); t1: float = example.get("t1", 1.0); x0 = None; tstep: float = None
+    percentage_slope: float | list[float] = None
+    sample_points: int = example.get("sample_points", 50)
+    threshold: float = example.threshold("threshold", 1e-6)
+    type_input: str = example.get("type_input", "slope-brute")
+    t0: float = example.get("t0", 0.0); t1: float = example.get("t1", 1.0); tstep: float = example.get("tstep", None)
 
     ## Checking the rest of the arguments
     n = 1
@@ -512,8 +586,7 @@ def run_exact(*argv):
                 try:
                     timeout = int(argv[n+1]); n += 2
                 except ValueError:
-                    print(f"ERROR: the timeout argument must be an integer, but found {argv[n+1]}")
-                    return
+                    logger.error(f"[run_exact] The timeout argument must be an integer, but found {argv[n+1]}")
             elif argv[n] == "-o":
                 output = argv[n+1]; n += 2
             elif argv[n] == "-p":
@@ -521,51 +594,134 @@ def run_exact(*argv):
             elif argv[n] == "-s": # percentage slope
                 try:
                     new_s = float(argv[n+1])
+                    if percentage_slope is None:
+                        percentage_slope = []
+                    percentage_slope.append(new_s); n+=2
                 except ValueError:
-                    print(f"ERROR: the slope argument must be a float, but found {argv[n+1]}")
-                    return
-                if percentage_slope is None:
-                    percentage_slope = []
-                percentage_slope.append(new_s); n+=2
+                    logger.error(f"[run_exact] The slope argument must be a float, but found {argv[n+1]}")
             elif argv[n] == "-sample":
                 try:
-                    num_points = int(argv[n+1]); n+=2
+                    sample_points = int(argv[n+1]); n+=2
                 except ValueError:
-                    print(f"ERROR: the number of samples argument must be an integer, but found {argv[n+1]}")
-                    return
+                    logger.error(f"[run_exact] The number of samples argument must be an integer, but found {argv[n+1]}")
             elif argv[n] == "-th":
                 try:
                     threshold = float(argv[n+1]); n+=2
                 except ValueError:
-                    print(f"ERROR: the threshold argument must be a float, but found {argv[n+1]}")
-                    return
+                    logger.error(f"[run_exact] The threshold argument must be a float, but found {argv[n+1]}")
             elif argv[n] == "-i":
                 if not argv[n+1] in ("slope-brute", "slope-precise", "epsilon"):
-                    print(f"ERROR: the type of input argument must be one of ['slope-brute','slope-precise','epsilon'], but found {argv[n+1]}")
-                    return
-                type_input = argv[n+1]; n+=2
+                    logger.error(f"[run_exact] The type of input argument must be one of ['slope-brute','slope-precise','epsilon'], but found {argv[n+1]}")
+                else:
+                    type_input = argv[n+1]; n+=2
             elif argv[n] == "-t0":
                 try:
                     t0 = float(argv[n+1]); n+=2
                 except ValueError:
-                    print(f"ERROR: the initial time argument must be a float, but found {argv[n+1]}")
-                    return
+                    logger.error(f"[run_exact] The initial time argument must be a float, but found {argv[n+1]}")
             elif argv[n] == "-t1":
                 try:
                     t1 = float(argv[n+1]); n+=2
                 except ValueError:
-                    print(f"ERROR: the ending time argument must be a float, but found {argv[n+1]}")
-                    return
+                    logger.error(f"[run_exact] The ending time argument must be a float, but found {argv[n+1]}")
             elif argv[n] == "-tstep":
                 try:
                     tstep = float(argv[n+1]); n+=2
                 except ValueError:
-                    print(f"ERROR: the time-step argument must be a float, but found {argv[n+1]}")
-                    return
+                    logger.error(f"[run_exact] The time-step argument must be a float, but found {argv[n+1]}")
     except IndexError:
         print("ERROR: Invalid format of arguments. Check 'run' command in the help")
         return
     
+    ## Checking arguments
+    profile = example.profile_path(SCRIPT_DIR) if profile else profile
+    percentage_slope = example.get("slopes", [1.0]) if percentage_slope is None else [percentage_slope] if not isinstance(percentage_slope, (list, tuple)) else percentage_slope
+    if t1 < t0: t0,t1 = t1,t0
+    tstep = (t1-t0)/200 if tstep is None else tstep
+    if type_input != "slope-brute": raise NotImplementedError(f"Input type {type_input} not yet implemented")
+    
+    ## Running the requested example
+    output = sys.stdout if output == "stdout" else sys.stderr if output == "stderr" else output
+    with (open(output, "w") if output not in (sys.stdout, sys.stderr) else nullcontext()) as output:
+        with Profile() if profile else nullcontext() as pr:
+            ##############################################################################
+            ### Reading the system
+            logger.debug("[run_exact] Reading the system both exactly and numerical")
+            system = FODESystem(file=example.path_model(), read_ic = True, parser=read)
+            RRsystem = FODESystem(file=example.path_model(), read_ic = True, parser=example.read, field=RR)
+            logger.debug("[run_exact] Removing the parameters of the system")
+            system = system.remove_parameters_ic()
+            RRsystem = RRsystem.remove_parameters_ic()
+            logger.debug("[run_exact] Computing numerical simulation for the exact system")
+            original_simulation = system.simulate(t0,t1,x0,tstep)
+        
+            ##############################################################################
+            ### Obtaining the initial condition
+            logger.debug("[run_exact] Obtaining the initial condition from the system")
+            x0 = [float(system.ic.get(v, 0)) for v in system.variables] if x0 is None else x0; x0 = array(x0)
+            norm_x0 = norm(x0, ord=2)
+            fx0 = RRsystem.derivative(..., *x0)
+            norm_fx0 = norm(fx0, ord=2)
+            logger.debug(f"[run_exact] Initial state of the problem: ||x_0|| = {norm_x0} -- ||f(x_0)|| = {norm_fx0}")
+            
+            ##############################################################################
+            ### Building the observables from the example
+            logger.debug("[run_exact] Building observables")
+            observables = [[SparsePolynomial.from_string(s, system.variables, system.field) for s in obs_set] for obs_set in example.observables]
+            observable_matrices = [SparseRowMatrix.from_list([obs.linear_part_as_vec() for obs in observable]) for observable in observables]
+
+            ##############################################################################
+            ### Computing the exact lumping for the observables -- reusing the matrix computation
+            logger.debug("[run_exact] Computing the exact lumping for each observable")
+            exact_lumpings = [system.lumping(observable, method=matrix, print_system=False,print_reduction=False) for observable in observables]
+            RRsystem._lumping_matr[example.matrix] = tuple(M.change_base(RR) for M in system._lumping_matr[matrix])
+
+            ##############################################################################
+            ### Creating the Results structures
+            logger.debug("[run_exact] Creating the result structures")
+            results : list[ResultNumericalExample] = []
+            for observable, O, exact_lumping in zip(observables, observable_matrices, exact_lumpings):
+                for percentage in percentage_slope:
+                    kwds = {"observable_matrix": O, "x0": x0, "norm_x0": norm_x0, "norm_fx0": norm_fx0,
+                        "system": system, "num_system": RRsystem, "exact_lumping": exact_lumping,
+                        "t0": t0, "t1": t1, "tstep": tstep, "threshold": threshold, "sample_points": sample_points,
+                        "original_simulation": apply_matrix(original_simulation, O)}
+                    if type_input.startswith("slope"):
+                        kwds["percentage"] = percentage
+                    elif type_input.startswith("epsilon"):
+                        kwds["epsilon"] = percentage; kwds["considered_epsilon"] = 1; kwds["time_epsilon"] = 0.0
+                    results.append(ResultNumericalExample(example, observable, **kwds))
+            
+            ##############################################################################
+            ### Creating the Results structures
+            logger.debug("[run_exact] Computed (if needed) optimal epsilons")
+            for result in results:
+                try:
+                    with Timeout(timeout):
+                        result.epsilon
+                except TimeoutError:
+                    logger.error(f"[run_exact] Timeout of {timeout} reached while computing optimal epsilon for {repr(result)}. Trying next.")
+
+            ##############################################################################
+            ### Creating the numerical lumping for the given epsilon
+            logger.debug("[run_exact] Computed (if needed) optimal epsilons")
+            for result in results:
+                try:
+                    with Timeout(timeout):
+                        result.numerical_lumping
+                except TimeoutError:
+                    logger.error(f"[run_exact] Timeout of {timeout} reached while computing numerical lumping for {repr(result)}. Trying next.")
+
+            ##############################################################################
+            ### Generating the outputs
+            for result in results:
+                result.write_result(output)
+                result.generate_image()
+
+    if profile:
+        stats = pstats.Stats(pr)
+        stats.sort_stats(pstats.SortKey.TIME)
+        stats.dump_stats(filename=profile)
     return
 
 def run_perturbed(*argv):
@@ -614,16 +770,19 @@ def print_help():
         )
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "list":
-        list_examples(*sys.argv[2:])
-    elif len(sys.argv) > 1 and sys.argv[1] == "add":
-        add_examples_in_folder(*sys.argv[2:])
-    elif len(sys.argv) > 1 and sys.argv[1] == "compile":
-        compile_results(*sys.argv[2:])
-    elif len(sys.argv) > 1 and sys.argv[1] == "exact":
-        run_exact(*sys.argv[2:])
-    elif len(sys.argv) > 1 and sys.argv[1] == "perturbed":
-        run_perturbed(*sys.argv[2:])
-    else:
-        print_help()
+    try:
+        if len(sys.argv) > 1 and sys.argv[1] == "list":
+            list_examples(*sys.argv[2:])
+        elif len(sys.argv) > 1 and sys.argv[1] == "add":
+            add_examples_in_folder(*sys.argv[2:])
+        elif len(sys.argv) > 1 and sys.argv[1] == "compile":
+            compile_results(*sys.argv[2:])
+        elif len(sys.argv) > 1 and sys.argv[1] == "exact":
+            run_exact(*sys.argv[2:])
+        elif len(sys.argv) > 1 and sys.argv[1] == "perturbed":
+            run_perturbed(*sys.argv[2:])
+        else:
+            print_help()
+    except KeyboardInterrupt:
+        logger.error(f"[numerical_example] Process interrupt by user.")
     sys.exit(0)
