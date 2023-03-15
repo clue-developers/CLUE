@@ -75,10 +75,10 @@ class Example:
         )
     
     @lru_cache(maxsize=None)
-    def results_path(self, basedir, read = None, matrix = None, extra=None):
+    def results_path(self, basedir, read = None, matrix = None):
         return os.path.join(
             self.base_path(basedir), 
-            f"[result]{self.base_file_name(read, matrix)}{f'[{extra}]' if extra != None else ''}{Example.ResultExtension}"
+            f"[result]{self.base_file_name(read, matrix)}{Example.ResultExtension}"
         )
 
     @lru_cache(maxsize=None)
@@ -115,7 +115,7 @@ class Example:
 
         return json
 
-def Load_Examples_Folder(dir: str, valid_read: list[str] = None, valid_matrix: list[str] = None) -> dict[str,Example]:
+def Load_Examples_Folder(dir: str, valid_read: list[str] = None, valid_matrix: list[str] = None) -> tuple[dict[str,Example], list[tuple[str,str,str]]]:
     valid_read = VALID_READ if valid_read is None else valid_read
     valid_matrix = VALID_READ if valid_matrix is None else valid_matrix
     examples = {}
