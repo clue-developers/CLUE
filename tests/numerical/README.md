@@ -13,10 +13,10 @@ The numerical examples are compiled in the file `data.json` and allow the follow
   given, a default value of 50 is used.
 * `threshold`: numerical tolerance when checking numerical equalities. If not given, a 
   default value of "1e-6" is used.
-* `type_input`: indicates the meaning of the `slope` argument. If it starts with 
-  "slope", then the epsilon will be computed using a heuristic. If it is "epsilon", the 
-  values will be used directly as epsilons. If not given, `slope-brute` is used as
-  default.
+* `type_input`: indicates the meaning of the `slope` argument. 
+    - If it starts with "slope", then the epsilon will be computed using a heuristic. 
+    - If it is "epsilon", the values will be used directly as epsilons. 
+    - If not given, `slope-brute` is used as default.
 * `slopes`: see `type_input` for further information. It can be a float or a list of 
   floats. If nothing is given, the value "1.0" is used as default. We always recommend 
   fixing this value.
