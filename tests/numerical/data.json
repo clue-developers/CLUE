@@ -25,5 +25,85 @@
         ],
         "slopes": [0.1,0.2,0.3,0.4,0.5],
         "t1": 5
+    },
+    "BIOMD0000000013": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "observables" : [
+            ["x_CO2"]
+        ],
+        "slopes": [0.1,1,10],
+        "t1": 1.645293088015709e-08,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000023": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "observables" : [
+            ["Fru"]
+        ],
+        "slopes": [0.1,1,10],
+        "t1": 20.0,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000113": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "observables" : [
+            ["Y"]
+        ],
+        "slopes": [0.1,1,10],
+        "t1": 1,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000182": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "observables" : [
+            ["AC_cyto_mem"]
+        ],
+        "slopes": [0.1,1,10],
+        "t1": 1.5737886123142284e-08,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000313": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "observables" : [
+            ["IL13_DecoyR"]
+        ],
+        "slopes": [0.1,1,10],
+        "t1": 10.0,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000448": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "observables" : [
+            ["mTORC1a"]
+        ],
+        "slopes": [0.1,1,10],
+        "t1": 1.645293088015709e-08,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000526": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "observables" : [
+            ["DISC"]
+        ],
+        "slopes": [0.1,1,10],
+        "t1": 0.03,
+        "out_folder": "rational"
+    },
+    "MODEL1502270000": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "observables" : [
+            ["rmr"]
+        ],
+        "slopes": [0.1,1,10],
+        "t1": 1,
+        "out_folder": "rational"
     }
 }
