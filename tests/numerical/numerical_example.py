@@ -192,11 +192,13 @@ class ResultNumericalExample:
         return self._diff_simulation
     @property
     def time_epsilon(self):
-        self.epsilon # guaranteeing the time is computed
+        if self._time_epsilon is None:
+            self.epsilon # guaranteeing the time is computed
         return self._time_epsilon
     @property
     def time_total(self):
-        self.numerical_lumping # guaranteeing the time is computed
+        if self._time_total is None:
+            self.numerical_lumping # guaranteeing the time is computed
         return self._time_total
     @property
     def Mxt_2(self):
@@ -257,7 +259,7 @@ class ResultNumericalExample:
             * ``secTotal``: time spent in the whole example.
         '''
         return [
-            "modelName","maxPerturbation",
+            "modelName","type","maxPerturbation",
             "size","clum_size","nlum_size",
             "et_rel","et","|M*xt|_2",
             "epsilon","max_deviation","norm_x0","compactum_bound","norm_fx0","max_allowed_slope",
@@ -440,7 +442,7 @@ class ResultNumericalExample:
         secThisEpsilon = self.time_epsilon; secTotal = self.time_total
 
         return [
-            modelName,maxPerturbation,
+            modelName,self.example.get("out_folder", "polynomial"),maxPerturbation,
             size,clum_size,nlum_size,
             et_rel,et,Mxt_2,
             epsilon,max_deviation,norm_x0,compact_bound,norm_fx0,max_allowed_slope,
