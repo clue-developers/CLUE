@@ -1818,7 +1818,7 @@ class FODESystem:
             logger.debug(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing deviation)")
             current_dev = self._deviation(subspace, bound, num_points)
 
-            logger.info(f"[find_acceptable_threshold] Current deviation for {epsilon = } ({subspace.dim()}): {current_dev}")
+            logger.debug(f"[find_acceptable_threshold] Current deviation for {epsilon = } ({subspace.dim()}): {current_dev}")
             if current_dev <= dev_max: last_success = epsilon
             if current_dev < dev_max - threshold:
                 logger.debug(f"[find_acceptable_threshold] Increasing epsilon")
