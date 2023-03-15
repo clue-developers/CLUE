@@ -326,7 +326,9 @@ def read_system(filename, read_ic=False, parser="polynomial", domain = QQ):
     ic = {}; pars = []
     if read_ic:
         ic = parse_initial_conditions(sections_raw.get('init', []),domain)
+        ic = {k:v for (k,v) in ic.items() if k in varnames}
         pars_ic = parse_initial_conditions(sections_raw.get('parameters', []), domain)
+        pars_ic = {k:v for (k,v) in pars_ic.items() if k in varnames}
         pars = list(pars_ic.keys()); ic.update(pars_ic)
 
     return {'name' : name, 'equations' : equations, 'observables' : obs, 'variables' : varnames, 'ic' : ic, 'pars': pars}
