@@ -118,7 +118,7 @@ def compare_simulations(sim1 : OdeResult, sim2 : OdeResult, measures=[]):
     
     return sim, measuring
  
-def create_figure(simulation : OdeResult | Collection[OdeResult], names : str | Collection[str] = "x", **kwds):
+def create_figure(simulation : OdeResult | Collection[OdeResult], names : str | Collection[str] = "x", legend=True, **kwds):
     r'''
         Method to create a matplotlib figure from a simulation.
 
@@ -188,7 +188,7 @@ def create_figure(simulation : OdeResult | Collection[OdeResult], names : str | 
         a = a.item() # removing the numpy.ndarray class
         for j in range(len(simulation[i].y)):
             a.plot(simulation[i].t, simulation[i].y[j], format[i], label=names[i][j])
-        if i == 0:
+        if i == 0 and legend:
             a.legend()
         a.title.set_text(title[i]); a.set_xlim(*xinterval[i]); a.set_ylim(*yinterval[i])
         
