@@ -121,7 +121,7 @@ class Example:
 
 def Load_Examples_Folder(dir: str, valid_read: list[str] = None, valid_matrix: list[str] = None) -> tuple[dict[str,Example], list[tuple[str,str,str]]]:
     valid_read = VALID_READ if valid_read is None else valid_read
-    valid_matrix = VALID_READ if valid_matrix is None else valid_matrix
+    valid_matrix = VALID_MATRIX if valid_matrix is None else valid_matrix
     examples = {}
     with open(os.path.join(dir,'data.json')) as f:
         data = json.load(f)
