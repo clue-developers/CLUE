@@ -45,10 +45,13 @@ class Example:
     @property
     def range(self): return self.__range
 
+    def get(self, attribute: str, default):
+        return default if not hasattr(self, attribute) else self.__getattr__(attribute)
+
     #########################################################
     ### PATH METHODS
     def base_path(self, basedir):
-        if self.out_folder != None:
+        if hasattr(self, "out_folder"):
             return os.path.join(basedir, self.out_folder)
         else:
             return basedir
@@ -97,6 +100,7 @@ class Example:
     def __getattr__(self, name):
         if name in self.__json:
             return self.__json[name]
+        raise AttributeError(f"attribute {name} not found in the JSON")
 
     def get_model(self):
         return models.models_data.models[self.model]
