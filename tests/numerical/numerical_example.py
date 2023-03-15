@@ -281,6 +281,7 @@ class ResultNumericalExample:
         r'''Method that generates a results file with the information of this '''
         et = self.et
         Mxt_2 = self.Mxt_2
+        et_rel = et/Mxt_2 if Mxt_2 > 0 else float("inf") if et > 0 else 0.0
         file.writelines([
             "===============================================\n",
             f"== Observables: {self.observable}\n",
@@ -289,7 +290,7 @@ class ResultNumericalExample:
             f"Size of original model: {self.size}\n",
             f"Size of lumping: {self.exact_size}\n",
             f"Size of numerical lumping: {self.lumped_size}\n",
-            f"Relative error at final time: {et/Mxt_2}\n",
+            f"Relative error at final time: {et_rel}\n",
             f"Error at final time: {et}\n",
             f"Size of observable at final time: {Mxt_2}\n",
             f"Value for epsilon for numerical lumping: {self.epsilon}\n",
@@ -391,7 +392,7 @@ class ResultNumericalExample:
                         epsilon = _casting(epsilon, float, "epsilon")
                         norm_x0 = _casting(norm_x0, float, "norm_x0")
                         norm_fx0 = _casting(norm_fx0, float, "norm_fx0")
-                        percentage = _casting(lumped_size, float, "percentage")
+                        percentage = _casting(percentage, float, "percentage")
                         avg_err = _casting(avg_err, float, "avg_err")
                         max_err = _casting(max_err, float, "max_err")
                         considered_epsilons = _casting(considered_epsilons, int, "considered_epsilons")
@@ -402,11 +403,13 @@ class ResultNumericalExample:
                         time_total = _casting(time_total, float, "time_total")
 
                         ## Creating the result object
-                        results.append(ResultNumericalExample(example, observable,
+                        result = ResultNumericalExample(example, observable,
                             max_perturbation=max_perturbation, size=original_size, exact_size=exact_size, lumped_size=lumped_size,
                             et=et, Mxt_2 = Mxt_2, epsilon=epsilon, norm_x0=norm_x0, norm_fx0=norm_fx0,percentage=percentage,
                             avg_err=avg_err, max_err=max_err, considered_epsilon=considered_epsilons,threshold=threshold,t0=t0,t1=t1,
-                            time_epsilon=time_epsilon, time_total=time_total))
+                            time_epsilon=time_epsilon, time_total=time_total)
+                        logger.info(f"[from_file] Read case {repr(result)}")
+                        results.append(result)
                     else:
                         logger.debug(f"[from_file] Ommiting line: {line}")
                     line = file.readline().strip()
@@ -427,7 +430,7 @@ class ResultNumericalExample:
         nlum_size = self.lumped_size
         Mxt_2 = self.Mxt_2
         et = self.et
-        et_rel = et/Mxt_2
+        et_rel = et/Mxt_2 if Mxt_2 > 0 else float("inf") if et > 0 else 0.0
         epsilon = self.epsilon; max_deviation = self.dev_max(); norm_x0 = self.norm_x0; 
         compact_bound = self.compact_bound(); norm_fx0 = self.norm_fx0; max_allowed_slope = self.percentage
         avg_err = self.avg_err
@@ -447,7 +450,7 @@ class ResultNumericalExample:
         ]
 
     def __repr__(self) -> str:
-        return f"{self.example.name} (r={self.example.read},m={self.example.matrix}) (C={self.compact_bound()}; {100*self.percentage}% slope = {self.dev_max()}) [{self.observable}]"
+        return f"{self.example.name} (r={self.example.read},m={self.example.matrix}) (C={self.compact_bound()}; {100*self.percentage}% slope = {self.dev_max()}) {self.observable}"
 
 def get_example(name) -> Example:
     return examples[name]
@@ -552,7 +555,11 @@ def compile_results(*argv):
         writer = csv.writer(file, delimiter=";")
         writer.writerow(ResultNumericalExample.CSVRows())
         for result in results:
-            writer.writerow(result.to_csv())
+            try:
+                writer.writerow(result.to_csv())
+            except Exception as e:
+                logger.error(f"[compile_result] Error processing {repr(result)}:\n\t- {e}")
+    
         logger.log(60, f"[compile_results] Compilation complete")
 
     return 
