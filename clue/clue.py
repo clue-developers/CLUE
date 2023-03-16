@@ -1761,6 +1761,37 @@ class FODESystem:
             self.__cache_deviations[key] = mean(deviations)
         return self.__cache_deviations[key]
 
+    def find_maximal_threshold(self, observable):
+        r'''
+            Method that gets the maximal threshold for numerical lumping for a given observable.
+
+            Numerical lumping creates a reduction of the system (similar to exact lumping) where the distance of a point to the 
+            linear space decides whether to add or not a vector to such linear subspace.
+
+            This method computes a value for the allowed distance for a given observable such that the numerical lumping
+            of the observable is itself.
+        '''
+        logger.debug("[find_acceptable_threshold] Converting the observable into a valid input")
+        if isinstance(observable[0], PolyElement):
+            logger.debug("[find_acceptable_threshold] observables in PolyElement format. Casting to SparsePolynomial")
+            observable = tuple([SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable])
+        elif isinstance(observable[0], SparsePolynomial):
+            observable = tuple([p.linear_part_as_vec() for p in observable])
+        else:
+            logger.debug("[find_acceptable_threshold] observables seem to be in SymPy expression format, converting")
+            observable = tuple([SparseVector.from_list([self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables], self.field) for p in observable])
+
+        logger.debug("[find_acceptable_threshold] Building matrices for lumping")
+        matrices = self.construct_matrices("polynomial")
+        subspace = OrthogonalSubspace(self.field)
+        for obs in observable: subspace.absorb_new_vector(obs)
+        L = subspace.matrix()
+        ## vectors to check
+        LM = [L.matmul(M) for M in matrices]
+        rows = [M.row(i).copy() for M in LM for i in M.nonzero]
+        for row in rows: row.reduce(-self.field.one, row.apply_matrix(subspace.projector))
+        return math.sqrt(max(el.inner_product(el) for el in rows))
+
     def find_acceptable_threshold(self, observable, 
         dev_max: float, increment: float, bound: float | list[float] | list[tuple[float,float]], num_points: int, threshold: float,
         with_tries=False

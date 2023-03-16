@@ -31,7 +31,7 @@ class ResultNumericalExample:
                  original_simulation: OdeResult = None, numerical_simulation: OdeResult = None,
                  merged_simulation: OdeResult = None, diff_simulation: OdeResult = None,
                  time_epsilon: float = None, time_total: float = None,
-                 Mxt_2: float = None, et: float = None, avg_err: float = None, max_err: float = None
+                 Mxt_2: float = None, et: float = None, avg_err: float = None, max_err: float = None, max_epsilon: float = None
         ):
         self.example = example
         self.observable = observable; self._observable_matrix = observable_matrix; self._max_perturbation = max_perturbation
@@ -42,7 +42,7 @@ class ResultNumericalExample:
         self._original_simulation = original_simulation; self._numerical_simulation = numerical_simulation
         self._merged_simulation = merged_simulation; self._diff_simulation = diff_simulation
         self._time_epsilon = time_epsilon; self._time_total = time_total
-        self._Mxt_2 = Mxt_2; self._et = et; self._avg_err = avg_err; self._max_err = max_err
+        self._Mxt_2 = Mxt_2; self._et = et; self._avg_err = avg_err; self._max_err = max_err; self._max_epsilon = max_epsilon
 
         ## Casting observables to SparsePolynomials
         for i in range(len(self.observable)):
@@ -220,6 +220,11 @@ class ResultNumericalExample:
         if self._max_err is None:
             self._max_err = self.diff_simulation.y.max()
         return self._max_err
+    @property
+    def max_epsilon(self):
+        if self._max_epsilon is None:
+            self._max_epsilon = self.system.find_maximal_threshold(self.observable)
+        return self._max_epsilon
 
     ## DERIVATIVE VALUES
     def dev_max(self):
@@ -234,36 +239,38 @@ class ResultNumericalExample:
         r'''
             The data in a CSV row is:
             
-            * ``modelName``: an identifier of the test, including the name of the example and any other information on the 
+            1. ``modelName``: an identifier of the test, including the name of the example and any other information on the 
               observable and perturbation to make it unique.
-            * ``maxPerturbation``: a number indicating the percentage of perturbation done in the model.
-            * ``size``: original size of the model
-            * ``clum_size``: size of the exact lumped system.
-            * ``nlum_size``: size of the numerical lumping.
-            * ``et_rel``: relative error at the time horizon.
-            * ``et``: error on the observables at the time horizon.
-            * ``|M*xt|_2``: size of the observables at the time horizon.
-            * ``epsilon``: epsilon used for the numerical lumping.
-            * ``max_deviation``: maximal deviation allowed for getting the optimal epsilon.
-            * ``norm_x0``: size of the initial condition at initial time.
-            * ``compactum_bound``: size of the compactum used for computing samples for the deviation.
-            * ``norm_fx0``: size of the drift at the initial time
-            * ``max_allowed_slope``: proportion of the initial slope to be used for maximal deviation.
-            * ``avg_err``: average error on the observables during the simulation.
-            * ``max_err``: maximal error on the observables during the simulation.
-            * ``consideredEpsilons``: number of epsilons computed for getting the optimal threshold.
-            * ``tolerance``: tolerance used for equality of floats.
-            * ``t0``: initial time for the simulations.
-            * ``t1``: time horizon for the simulations.
-            * ``secThisEpsilon``: time spent in computing the optimal epsilon.
-            * ``secTotal``: time spent in the whole example.
+            2. ``type``: indicates if the system is polynomial or rational (or a different type)
+            3. ``maxPerturbation``: a number indicating the percentage of perturbation done in the model.
+            4. ``size``: original size of the model
+            5. ``clum_size``: size of the exact lumped system.
+            6. ``nlum_size``: size of the numerical lumping.
+            7. ``et_rel``: relative error at the time horizon.
+            8. ``et``: error on the observables at the time horizon.
+            9. ``|M*xt|_2``: size of the observables at the time horizon.
+            10. ``epsilon``: epsilon used for the numerical lumping.
+            11. ``max_deviation``: maximal deviation allowed for getting the optimal epsilon.
+            12. ``norm_x0``: size of the initial condition at initial time.
+            13. ``compactum_bound``: size of the compactum used for computing samples for the deviation.
+            14. ``norm_fx0``: size of the drift at the initial time
+            15. ``max_allowed_slope``: proportion of the initial slope to be used for maximal deviation.
+            16. ``avg_err``: average error on the observables during the simulation.
+            17. ``max_err``: maximal error on the observables during the simulation.
+            18. ``max_epsilon``: maximal error valid for the observable.
+            19. ``consideredEpsilons``: number of epsilons computed for getting the optimal threshold.
+            20. ``tolerance``: tolerance used for equality of floats.
+            21. ``t0``: initial time for the simulations.
+            22. ``t1``: time horizon for the simulations.
+            23. ``secThisEpsilon``: time spent in computing the optimal epsilon.
+            24. ``secTotal``: time spent in the whole example.
         '''
         return [
             "modelName","type","maxPerturbation",
             "size","clum_size","nlum_size",
             "et_rel","et","|M*xt|_2",
             "epsilon","max_deviation","norm_x0","compactum_bound","norm_fx0","max_allowed_slope",
-            "avg_err","max_err",
+            "avg_err","max_err","max_epsilon",
             "consideredEpsilons","tolerance",
             "t0", "t1", "secThisEpsilon","secTotal"
         ]
@@ -303,6 +310,7 @@ class ResultNumericalExample:
             f"Proportion of slope allowed: {self.percentage}\n",
             f"Average error on simulation: {self.avg_err}\n",
             f"Maximal error on simulation: {self.max_err}\n",
+            f"Maximal epsilon for full lumping: {self.max_epsilon}\n",
             f"Number of epsilons considered: {self.considered_epsilon}\n",
             f"Tolerance used for computations: {self.threshold}\n",
             f"Initial time of simulations: {self.t0}\n",
@@ -363,6 +371,8 @@ class ResultNumericalExample:
                                 avg_err = line.removeprefix("Average error on simulation: ")
                             elif line.startswith("Maximal error on simulation: "):
                                 max_err = line.removeprefix("Maximal error on simulation: ")
+                            elif line.startswith("Maximal epsilon for full lumping: "):
+                                max_epsilon = line.removeprefix("Maximal epsilon for full lumping: ")
                             elif line.startswith("Number of epsilons considered: "):
                                 considered_epsilons = line.removeprefix("Number of epsilons considered: ")
                             elif line.startswith("Tolerance used for computations: "):
@@ -397,6 +407,7 @@ class ResultNumericalExample:
                         percentage = _casting(percentage, float, "percentage")
                         avg_err = _casting(avg_err, float, "avg_err")
                         max_err = _casting(max_err, float, "max_err")
+                        max_epsilon = _casting(max_epsilon, float, "max_epsilon")
                         considered_epsilons = _casting(considered_epsilons, int, "considered_epsilons")
                         threshold = _casting(threshold, float, "threshold")
                         t0 = _casting(t0, float, "t0")
@@ -408,7 +419,7 @@ class ResultNumericalExample:
                         result = ResultNumericalExample(example, observable,
                             max_perturbation=max_perturbation, size=original_size, exact_size=exact_size, lumped_size=lumped_size,
                             et=et, Mxt_2 = Mxt_2, epsilon=epsilon, norm_x0=norm_x0, norm_fx0=norm_fx0,percentage=percentage,
-                            avg_err=avg_err, max_err=max_err, considered_epsilon=considered_epsilons,threshold=threshold,t0=t0,t1=t1,
+                            avg_err=avg_err, max_err=max_err, max_epsilon=max_epsilon, considered_epsilon=considered_epsilons,threshold=threshold,t0=t0,t1=t1,
                             time_epsilon=time_epsilon, time_total=time_total)
                         logger.info(f"[from_file] Read case {repr(result)}")
                         results.append(result)
@@ -437,6 +448,7 @@ class ResultNumericalExample:
         compact_bound = self.compact_bound(); norm_fx0 = self.norm_fx0; max_allowed_slope = self.percentage
         avg_err = self.avg_err
         max_err = self.max_err
+        max_epsilon = self.max_epsilon
         consideredEpsilons = self.considered_epsilon; tolerance = self.threshold
         t0 = self.t0; t1 = self.t1
         secThisEpsilon = self.time_epsilon; secTotal = self.time_total
@@ -446,7 +458,7 @@ class ResultNumericalExample:
             size,clum_size,nlum_size,
             et_rel,et,Mxt_2,
             epsilon,max_deviation,norm_x0,compact_bound,norm_fx0,max_allowed_slope,
-            avg_err,max_err,
+            avg_err,max_err,max_epsilon,
             consideredEpsilons,tolerance,
             t0, t1, secThisEpsilon,secTotal
         ]
@@ -599,7 +611,7 @@ def run_exact(*argv):
                 try:
                     timeout = int(argv[n+1]); n += 2
                 except ValueError:
-                    logger.error(f"[run_exact] The timeout argument must be an integer, but found {argv[n+1]}")
+                    logger.error(f"[run_exact # {example.name}] The timeout argument must be an integer, but found {argv[n+1]}")
             elif argv[n] == "-o":
                 output = argv[n+1]; n += 2
             elif argv[n] == "-p":
@@ -611,37 +623,37 @@ def run_exact(*argv):
                         percentage_slope = []
                     percentage_slope.append(new_s); n+=2
                 except ValueError:
-                    logger.error(f"[run_exact] The slope argument must be a float, but found {argv[n+1]}")
+                    logger.error(f"[run_exact # {example.name}] The slope argument must be a float, but found {argv[n+1]}")
             elif argv[n] == "-sample":
                 try:
                     sample_points = int(argv[n+1]); n+=2
                 except ValueError:
-                    logger.error(f"[run_exact] The number of samples argument must be an integer, but found {argv[n+1]}")
+                    logger.error(f"[run_exact # {example.name}] The number of samples argument must be an integer, but found {argv[n+1]}")
             elif argv[n] == "-th":
                 try:
                     threshold = float(argv[n+1]); n+=2
                 except ValueError:
-                    logger.error(f"[run_exact] The threshold argument must be a float, but found {argv[n+1]}")
+                    logger.error(f"[run_exact # {example.name}] The threshold argument must be a float, but found {argv[n+1]}")
             elif argv[n] == "-i":
                 if not argv[n+1] in ("slope-brute", "slope-precise", "epsilon"):
-                    logger.error(f"[run_exact] The type of input argument must be one of ['slope-brute','slope-precise','epsilon'], but found {argv[n+1]}")
+                    logger.error(f"[run_exact # {example.name}] The type of input argument must be one of ['slope-brute','slope-precise','epsilon'], but found {argv[n+1]}")
                 else:
                     type_input = argv[n+1]; n+=2
             elif argv[n] == "-t0":
                 try:
                     t0 = float(argv[n+1]); n+=2
                 except ValueError:
-                    logger.error(f"[run_exact] The initial time argument must be a float, but found {argv[n+1]}")
+                    logger.error(f"[run_exact # {example.name}] The initial time argument must be a float, but found {argv[n+1]}")
             elif argv[n] == "-t1":
                 try:
                     t1 = float(argv[n+1]); n+=2
                 except ValueError:
-                    logger.error(f"[run_exact] The ending time argument must be a float, but found {argv[n+1]}")
+                    logger.error(f"[run_exact # {example.name}] The ending time argument must be a float, but found {argv[n+1]}")
             elif argv[n] == "-tstep":
                 try:
                     tstep = float(argv[n+1]); n+=2
                 except ValueError:
-                    logger.error(f"[run_exact] The time-step argument must be a float, but found {argv[n+1]}")
+                    logger.error(f"[run_exact # {example.name}] The time-step argument must be a float, but found {argv[n+1]}")
     except IndexError:
         print("ERROR: Invalid format of arguments. Check 'run' command in the help")
         return
@@ -659,47 +671,51 @@ def run_exact(*argv):
         with Profile() if profile else nullcontext() as pr:
             ##############################################################################
             ### Reading the system
-            logger.log(60, "[run_exact] Reading the system both exactly and numerical")
+            logger.log(60, f"[run_exact # {example.name}] Reading the system both exactly and numerical")
             system = FODESystem(file=example.path_model(), read_ic = True, parser=read)
             RRsystem = FODESystem(file=example.path_model(), read_ic = True, parser=example.read, field=RR)
-            logger.log(60, "[run_exact] Removing the parameters of the system")
+            logger.log(60, f"[run_exact # {example.name}] Removing the parameters of the system")
             system = system.remove_parameters_ic()
             RRsystem = RRsystem.remove_parameters_ic()
         
             ##############################################################################
             ### Obtaining the initial condition
-            logger.log(60, "[run_exact] Obtaining the initial condition from the system")
+            logger.log(60, f"[run_exact # {example.name}] Obtaining the initial condition from the system")
             x0 = array([float(system.ic.get(v, 0)) for v in system.variables])
             norm_x0 = norm(x0, ord=2)
             fx0 = array(RRsystem.derivative(..., *x0), dtype=x0.dtype)
             norm_fx0 = norm(fx0, ord=2)
-            logger.log(60, f"[run_exact] Initial state of the problem: ||x_0|| = {norm_x0} -- ||f(x_0)|| = {norm_fx0}")
+            logger.log(60, f"[run_exact # {example.name}] Initial state of the problem: ||x_0|| = {norm_x0} -- ||f(x_0)|| = {norm_fx0}")
             
-            logger.log(60, f"[run_exact] Computing numerical simulation for the exact system ({t0=},{t1=},{tstep=})")
+            logger.log(60, f"[run_exact # {example.name}] Computing numerical simulation for the exact system ({t0=},{t1=},{tstep=})")
             original_simulation = system.simulate(t0,t1,x0,tstep)
 
             ##############################################################################
             ### Building the observables from the example
-            logger.log(60, "[run_exact] Building observables")
+            logger.log(60, f"[run_exact # {example.name}] Building observables")
             observables = [[SparsePolynomial.from_string(s, system.variables, system.field) for s in obs_set] for obs_set in example.observables]
             observable_matrices = [SparseRowMatrix.from_vectors([obs.linear_part_as_vec() for obs in observable]) for observable in observables]
 
+            logger.log(60, f"[run_exact # {example.name}] Computing maximal epsilons for each observables")
+            max_epsilons = [system.find_maximal_threshold(observable) for observable in observables]
+
+
             ##############################################################################
             ### Computing the exact lumping for the observables -- reusing the matrix computation
-            logger.log(60, "[run_exact] Computing the exact lumping for each observable")
+            logger.log(60, f"[run_exact # {example.name}] Computing the exact lumping for each observable")
             exact_lumpings = [system.lumping(observable, method=matrix, print_system=False,print_reduction=False) for observable in observables]
             RRsystem._lumping_matr[example.matrix] = tuple(M.change_base(RR) for M in system._lumping_matr[matrix])
 
             ##############################################################################
             ### Creating the Results structures
-            logger.log(60, "[run_exact] Creating the result structures")
+            logger.log(60, f"[run_exact # {example.name}] Creating the result structures")
             results : list[ResultNumericalExample] = []
-            for observable, O, exact_lumping in zip(observables, observable_matrices, exact_lumpings):
+            for observable, O, max_epsilon, exact_lumping in zip(observables, observable_matrices, max_epsilons, exact_lumpings):
                 for percentage in percentage_slope:
                     kwds = {"observable_matrix": O, "x0": x0, "norm_x0": norm_x0, "norm_fx0": norm_fx0,
                         "system": system, "num_system": RRsystem, "exact_lumping": exact_lumping,
                         "t0": t0, "t1": t1, "tstep": tstep, "threshold": threshold, "sample_points": sample_points,
-                        "original_simulation": apply_matrix(original_simulation, O)}
+                        "original_simulation": apply_matrix(original_simulation, O), "max_epsilon": max_epsilon}
                     if type_input.startswith("slope"):
                         kwds["percentage"] = percentage
                     elif type_input.startswith("epsilon"):
@@ -708,28 +724,28 @@ def run_exact(*argv):
             
             ##############################################################################
             ### Creating the Results structures
-            logger.log(60, "[run_exact] Running each of the cases")
+            logger.log(60, f"[run_exact # {example.name}] Running each of the cases")
             for result in results:
-                logger.log(60, f"[run_exact] Computing (if needed) epsilon for {repr(result)}")
+                logger.log(60, f"[run_exact # {example.name}] Computing (if needed) epsilon for {repr(result)}")
                 try:
                     with Timeout(timeout):
                         result.epsilon
                 except TimeoutError:
-                    logger.error(f"[run_exact] Timeout of {timeout} reached while computing optimal epsilon for {repr(result)}. Trying next.")
+                    logger.error(f"[run_exact # {example.name}] Timeout of {timeout} reached while computing optimal epsilon for {repr(result)}. Trying next.")
                     continue
-                logger.log(60, f"[run_exact] Computing numerical lumping for {repr(result)}")
+                logger.log(60, f"[run_exact # {example.name}] Computing numerical lumping for {repr(result)}")
                 try:
                     with Timeout(timeout):
                         result.numerical_lumping
                 except TimeoutError:
-                    logger.error(f"[run_exact] Timeout of {timeout} reached while computing numerical lumping for {repr(result)}. Trying next.")
+                    logger.error(f"[run_exact # {example.name}] Timeout of {timeout} reached while computing numerical lumping for {repr(result)}. Trying next.")
                     continue
 
-                logger.log(60, f"[run_exact] Generating output for {repr(result)}")
+                logger.log(60, f"[run_exact # {example.name}] Generating output for {repr(result)}")
                 result.write_result(output)
-                logger.log(60, f"[run_exact] Generating images for {repr(result)}")
+                logger.log(60, f"[run_exact # {example.name}] Generating images for {repr(result)}")
                 result.generate_image()
-                logger.log(60, f"[run_exact] Finished execution for {repr(result)}")
+                logger.log(60, f"[run_exact # {example.name}] Finished execution for {repr(result)}")
 
     if profile:
         stats = pstats.Stats(pr)
