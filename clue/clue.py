@@ -1762,7 +1762,38 @@ class FODESystem:
             self.__cache_deviations[key] = mean(deviations)
         return self.__cache_deviations[key]
 
-    def find_maximal_threshold(self, observable, bound: float | list[float] | list[tuple[float,float]], num_points: int):
+    def __process_arguments(self, observable, bound, threshold):
+        r'''Processing observable and bound for dinf_accetable/maximal_threshold'''
+        logger.debug("[__process_arguments] Checking the argument ''bound''")
+        if not isinstance(bound, (list, tuple)):
+            bound = self.size*[bound]
+        if not len(bound) == self.size:
+            raise ValueError(f"The bound for deviation must be a list of as many elements as the size of the system ({self.size})")
+        bound = list(bound)
+        for i in range(self.size):
+            if not isinstance(bound[i], (list, tuple)):
+                bound[i] = tuple([0,bound[i]] if bound[i] > 0 else [bound[i],0])
+            elif not len(bound[i]) == 2:
+                raise TypeError("Each bound must be a pair of numbers")
+            elif bound[i][0] > bound[i][1]:
+                bound[i] = tuple([bound[i][1], bound[i][0]])
+            else:
+                bound [i] = tuple(bound[i])
+        bound = tuple([(a-threshold, b+threshold) for a,b in bound])
+        
+        logger.debug("[__process_arguments] Converting the observable into a valid input")
+        if isinstance(observable[0], PolyElement):
+            logger.debug("[__process_arguments] observables in PolyElement format. Casting to SparsePolynomial")
+            observable = tuple([SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable])
+        elif isinstance(observable[0], SparsePolynomial):
+            observable = tuple([p.linear_part_as_vec() for p in observable])
+        elif not isinstance(observable[0], SparseVector):
+            logger.debug("[__process_arguments] observables seem to be in SymPy expression format, converting")
+            observable = tuple([SparseVector.from_list([self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables], self.field) for p in observable])
+
+        return observable, bound
+
+    def find_maximal_threshold(self, observable, bound: float | list[float] | list[tuple[float,float]], num_points: int, threshold: float):
         r'''
             Method that gets the maximal threshold for numerical lumping for a given observable.
 
@@ -1772,15 +1803,7 @@ class FODESystem:
             This method computes a value for the allowed distance for a given observable such that the numerical lumping
             of the observable is itself.
         '''
-        logger.debug("[find_maximal_threshold] Converting the observable into a valid input")
-        if isinstance(observable[0], PolyElement):
-            logger.debug("[find_maximal_threshold] observables in PolyElement format. Casting to SparsePolynomial")
-            observable = tuple([SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable])
-        elif isinstance(observable[0], SparsePolynomial):
-            observable = tuple([p.linear_part_as_vec() for p in observable])
-        elif not isinstance(observable[0], SparseVector):
-            logger.debug("[find_maximal_threshold] observables seem to be in SymPy expression format, converting")
-            observable = tuple([SparseVector.from_list([self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables], self.field) for p in observable])
+        observable, bound = self.__process_arguments(observable, bound, threshold)
 
         key = observable, bound
 
@@ -1812,38 +1835,13 @@ class FODESystem:
             This method computes an optimal threshold for the current system so the numerical lumping have a deviation close
             to a given value. The deviation of the system, given some observables, is the 
         '''
-        logger.debug("[find_acceptable_threshold] Checking the argument ''bound''")
-        if not isinstance(bound, (list, tuple)):
-            bound = self.size*[bound]
-        if not len(bound) == self.size:
-            raise ValueError(f"The bound for deviation must be a list of as many elements as the size of the system ({self.size})")
-        bound = list(bound)
-        for i in range(self.size):
-            if not isinstance(bound[i], (list, tuple)):
-                bound[i] = tuple([0,bound[i]] if bound[i] > 0 else [bound[i],0])
-            elif not len(bound[i]) == 2:
-                raise TypeError("Each bound must be a pair of numbers")
-            elif bound[i][0] > bound[i][1]:
-                bound[i] = tuple([bound[i][1], bound[i][0]])
-            else:
-                bound [i] = tuple(bound[i])
-        bound = tuple([(a-threshold, b+threshold) for a,b in bound])
-        
-        logger.debug("[find_acceptable_threshold] Converting the observable into a valid input")
-        if isinstance(observable[0], PolyElement):
-            logger.debug("[find_acceptable_threshold] observables in PolyElement format. Casting to SparsePolynomial")
-            observable = tuple([SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable])
-        elif isinstance(observable[0], SparsePolynomial):
-            observable = tuple([p.linear_part_as_vec() for p in observable])
-        else:
-            logger.debug("[find_acceptable_threshold] observables seem to be in SymPy expression format, converting")
-            observable = tuple([SparseVector.from_list([self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables], self.field) for p in observable])
+        observable, bound = self.__process_arguments(observable, bound, threshold)
 
         logger.debug("[find_acceptable_threshold] Building matrices for lumping")
         matrices = self.construct_matrices("polynomial")
 
         logger.debug("[find_acceptable_threshold] Computing maximal epsilon and its deviation")
-        max_epsilon, last_deviation = self.find_maximal_threshold(observable)
+        max_epsilon, last_deviation = self.find_maximal_threshold(observable, bound, num_points, threshold)
         ls, rs = 0, max_epsilon
         last_success = max_epsilon if last_deviation < dev_max else 0
         current_dev = last_deviation if last_deviation < dev_max else 0
