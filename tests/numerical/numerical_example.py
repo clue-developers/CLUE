@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import csv, os, pstats, signal, sys, time, logging
+import csv, inspect, os, pstats, signal, sys, time, logging
 
 SCRIPT_DIR = os.path.dirname(__file__) if __name__ != "__main__" else "./"
 sys.path.insert(0, os.path.join(SCRIPT_DIR, "..", "..")) # models and clue is here
@@ -20,7 +20,7 @@ from sympy import RR
 
 examples, executed_examples = Load_Examples_Folder(SCRIPT_DIR)
 logger = logging.getLogger("clue")
-
+logger.setLevel(logging.INFO)
 class ResultNumericalExample:
     def __init__(self, 
                  example: Example, observable, observable_matrix: SparseRowMatrix = None, max_perturbation : float = None,
@@ -53,26 +53,31 @@ class ResultNumericalExample:
     @property
     def observable_matrix(self):
         if self._observable_matrix is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._observable_matrix = SparseRowMatrix.from_vectors([poly.linear_part_as_vec() for poly in self.observable])
         return self._observable_matrix
     @property
     def max_perturbation(self):
         if self._max_perturbation is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._max_perturbation = 0.0
         return self._max_perturbation
     @property
     def x0(self):
         if self._x0 is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._x0 = array([self.system.ic.get(v,0) for v in self.system.variables])
         return self._x0
     @property
     def norm_x0(self):
         if self._norm_x0 is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._norm_x0 = norm(self.x0)
         return self._norm_x0
     @property
     def norm_fx0(self):
         if self._norm_fx0 is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._norm_fx0 = norm(self.system.derivative(...,*self.x0))
         return self._norm_fx0
     @property
@@ -81,21 +86,25 @@ class ResultNumericalExample:
     @property
     def epsilon(self):
         if self._epsilon is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             if self.percentage is None:
                 raise ValueError("Impossible to get the epsilon for this example")
             ctime = time.time()
             self._epsilon, self._considered_epsilon = self.num_system.find_acceptable_threshold(
-                [obs.change_base(RR) for obs in self.observable], self.dev_max(), 1, self.compact_bound(), 
+                [obs.change_base(RR) for obs in self.observable], self.dev_max(), self.compact_bound(), 
                 self.sample_points, self.threshold, with_tries=True)
             self._time_epsilon = time.time()-ctime
         return self._epsilon
     @property
     def considered_epsilon(self):
-        self.epsilon
+        if self._considered_epsilon is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self.epsilon
         return self._considered_epsilon
     @property
     def system(self):
         if self._system is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             example = self.example
             self._system = FODESystem(file = example.path_model(), read_ic = True, parser=example.read).remove_parameters_ic()
 
@@ -103,6 +112,7 @@ class ResultNumericalExample:
     @property
     def num_system(self):
         if self._num_system is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             example = self.example
             self._num_system = FODESystem(file = example.path_model(), read_ic = True, parser=example.read, field = RR).remove_parameters_ic()
 
@@ -110,11 +120,13 @@ class ResultNumericalExample:
     @property
     def exact_lumping(self):
         if self._exact_lumping is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._exact_lumping = self.system.lumping(self.observable, method=self.example.matrix, print_system=False, print_reduction=False)
         return self._exact_lumping
     @property
     def numerical_lumping(self):
         if self._numerical_lumping is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             ## Getting current values for computing lumping
             old_subclass, old_subclass_args = self.num_system.lumping_subspace_class, self.num_system.lumping_subspace_kwds
             self.num_system.lumping_subspace_class = NumericalSubspace, {"delta" : self.epsilon}
@@ -130,16 +142,19 @@ class ResultNumericalExample:
     @property
     def size(self):
         if self._size is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._size = self.system.size
         return self._size
     @property
     def exact_size(self):
         if self._exact_size is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._exact_size = self.exact_lumping.size
         return self._exact_size
     @property
     def lumped_size(self):
         if self._lumped_size is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._lumped_size = self.numerical_lumping.size
         return self._lumped_size
     @property
@@ -151,30 +166,37 @@ class ResultNumericalExample:
     @property
     def tstep(self):
         if self._tstep is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._tstep = (self.t1-self.t0)/200
         return self._tstep
     @property
     def threshold(self):
         if self._threshold is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._threshold = 1e-6
         return self._threshold
     @property
     def sample_points(self):
         if self._sample_points is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._sample_points = 50
         return self._sample_points
     @property
     def original_simulation(self):
         if self._original_simulation is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._original_simulation = apply_matrix(self.system.simulate(self.t0,self.t1,self.x0,self.tstep), self.observable_matrix)
         return self._original_simulation
     @property
     def numerical_simulation(self):
         if self._numerical_simulation is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             x0 = self.x0
             Lx0 = matmul(self.numerical_lumping.lumping_matrix.to_numpy(dtype=x0.dtype), x0)
             O = self.observable_matrix.change_base(RR).matmul(self.numerical_lumping._subspace.pinv())
+            logger.info(f"[RNE # {self.example.name}] {inspect.stack()[0][3]} -- Starting simulation (t0={self.t0},t1={self.t1},tstep={self.tstep})")
             self._numerical_simulation = apply_matrix(self.numerical_lumping.simulate(self.t0,self.t1,Lx0,self.tstep), O)
+            logger.info(f"[RNE # {self.example.name}] {inspect.stack()[0][3]} -- Finished simulation")
             self._numerical_simulation.names = [
                 f"{name}[{self.epsilon}{f'--{self.percentage}' if self.percentage != None else ''}" for name in self.original_simulation.names
             ]
@@ -182,48 +204,62 @@ class ResultNumericalExample:
     @property
     def merged_simulation(self):
         if self._merged_simulation is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._merged_simulation = merge_simulations(self.original_simulation, self.numerical_simulation)
         return self._merged_simulation
     @property
     def diff_simulation(self):
         if self._diff_simulation is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._diff_simulation = OdeResult(**self.original_simulation) 
             self.diff_simulation.y = abs(self.original_simulation.y - self.numerical_simulation.y)
         return self._diff_simulation
     @property
     def time_epsilon(self):
         if self._time_epsilon is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self.epsilon # guaranteeing the time is computed
         return self._time_epsilon
     @property
     def time_total(self):
         if self._time_total is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self.numerical_lumping # guaranteeing the time is computed
         return self._time_total
     @property
     def Mxt_2(self):
         if self._Mxt_2 is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._Mxt_2 = norm(self.original_simulation.y[:,-1])
         return self._Mxt_2
     @property
     def et(self):
         if self._et is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._et = norm(self.diff_simulation.y[:,-1])
         return self._et
     @property
     def avg_err(self):
         if self._avg_err is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._avg_err = mean(self.diff_simulation.y)
         return self._avg_err
     @property
     def max_err(self):
         if self._max_err is None:
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._max_err = self.diff_simulation.y.max()
         return self._max_err
     @property
     def max_epsilon(self):
         if self._max_epsilon is None:
-            self._max_epsilon = self.system.find_maximal_threshold(self.observable, self.compact_bound(), self.sample_points)[0]
+            logger.info(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self._max_epsilon = self.num_system.find_maximal_threshold(
+                [obs.change_base(RR) for obs in self.observable],
+                self.compact_bound(), 
+                self.sample_points,
+                self.threshold
+            )[0]
         return self._max_epsilon
 
     ## DERIVATIVE VALUES
@@ -288,37 +324,39 @@ class ResultNumericalExample:
     
     def write_result(self, file: TextIOBase):
         r'''Method that generates a results file with the information of this '''
+        logger.log(60, f"[write_result # {self.example.name}] Computing et")
         et = self.et
+        logger.log(60, f"[write_result # {self.example.name}] Computed Mxt_2")
         Mxt_2 = self.Mxt_2
         et_rel = et/Mxt_2 if Mxt_2 > 0 else float("inf") if et > 0 else 0.0
-        file.writelines([
-            "===============================================\n",
-            f"== Observables: {self.observable}\n",
-            f"Name of example: {self.example.name}\n",
-            f"Max. perturbation: {self.max_perturbation}\n",
-            f"Size of original model: {self.size}\n",
-            f"Size of lumping: {self.exact_size}\n",
-            f"Size of numerical lumping: {self.lumped_size}\n",
-            f"Relative error at final time: {et_rel}\n",
-            f"Error at final time: {et}\n",
-            f"Size of observable at final time: {Mxt_2}\n",
-            f"Value for epsilon for numerical lumping: {self.epsilon}\n",
-            f"Value for maximal deviation: {self.dev_max()}\n",
-            f"Size of initial value: {self.norm_x0}\n",
-            f"Size of compactum used for sampling the deviation: {self.compact_bound()}\n",
-            f"Size of initial drift: {self.norm_fx0}\n",
-            f"Proportion of slope allowed: {self.percentage}\n",
-            f"Average error on simulation: {self.avg_err}\n",
-            f"Maximal error on simulation: {self.max_err}\n",
-            f"Maximal epsilon for full lumping: {self.max_epsilon}\n",
-            f"Number of epsilons considered: {self.considered_epsilon}\n",
-            f"Tolerance used for computations: {self.threshold}\n",
-            f"Initial time of simulations: {self.t0}\n",
-            f"Time horizon of simulations: {self.t1}\n",
-            f"Time used computing optimal epsilon: {self.time_epsilon}\n",
-            f"Time used on computation: {self.time_total}\n",
-            "###############################################\n",
-        ])
+        
+        file.write("===============================================\n")
+        file.write(f"== Observables: {self.observable}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed observable")
+        file.write(f"Name of example: {self.example.name}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed name")
+        file.write(f"Max. perturbation: {self.max_perturbation}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed max.perturbation")
+        file.write(f"Size of original model: {self.size}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed original size")
+        file.write(f"Size of lumping: {self.exact_size}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed lumped size")
+        file.write(f"Size of numerical lumping: {self.lumped_size}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed num-lump size")
+        file.write(f"Relative error at final time: {et_rel}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed final error (relative)")
+        file.write(f"Error at final time: {et}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed final error")
+        file.write(f"Size of observable at final time: {Mxt_2}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed |Mxt|_2")
+        file.write(f"Value for epsilon for numerical lumping: {self.epsilon}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed epsilon")
+        file.write(f"Value for maximal deviation: {self.dev_max()}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed maximal deviation")
+        file.write(f"Size of initial value: {self.norm_x0}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed |x0|")
+        file.write(f"Size of compactum used for sampling the deviation: {self.compact_bound()}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed C")
+        file.write(f"Size of initial drift: {self.norm_fx0}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed |f(x0)|")
+        file.write(f"Proportion of slope allowed: {self.percentage}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed percentage")
+        file.write(f"Average error on simulation: {self.avg_err}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed avg. error")
+        file.write(f"Maximal error on simulation: {self.max_err}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed max. error")
+        file.write(f"Maximal epsilon for full lumping: {self.max_epsilon}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed max. epsilon")
+        file.write(f"Number of epsilons considered: {self.considered_epsilon}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed num. epsilons")
+        file.write(f"Tolerance used for computations: {self.threshold}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed tolerance")
+        file.write(f"Initial time of simulations: {self.t0}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed t0")
+        file.write(f"Time horizon of simulations: {self.t1}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed t1")
+        file.write(f"Time used computing optimal epsilon: {self.time_epsilon}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed time_epsilon")
+        file.write(f"Time used on computation: {self.time_total}\n"); logger.log(60, f"[write_result # {self.example.name}] Computed time_computation")
+        file.write("###############################################\n")
+                     
         file.flush()
 
     @staticmethod
