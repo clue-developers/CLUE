@@ -223,7 +223,7 @@ class ResultNumericalExample:
     @property
     def max_epsilon(self):
         if self._max_epsilon is None:
-            self._max_epsilon = self.system.find_maximal_threshold(self.observable)
+            self._max_epsilon = self.system.find_maximal_threshold(self.observable, self.compact_bound(), self.sample_points)[0]
         return self._max_epsilon
 
     ## DERIVATIVE VALUES
@@ -696,10 +696,6 @@ def run_exact(*argv):
             observables = [[SparsePolynomial.from_string(s, system.variables, system.field) for s in obs_set] for obs_set in example.observables]
             observable_matrices = [SparseRowMatrix.from_vectors([obs.linear_part_as_vec() for obs in observable]) for observable in observables]
 
-            logger.log(60, f"[run_exact # {example.name}] Computing maximal epsilons for each observables")
-            max_epsilons = [system.find_maximal_threshold(observable) for observable in observables]
-
-
             ##############################################################################
             ### Computing the exact lumping for the observables -- reusing the matrix computation
             logger.log(60, f"[run_exact # {example.name}] Computing the exact lumping for each observable")
@@ -710,12 +706,12 @@ def run_exact(*argv):
             ### Creating the Results structures
             logger.log(60, f"[run_exact # {example.name}] Creating the result structures")
             results : list[ResultNumericalExample] = []
-            for observable, O, max_epsilon, exact_lumping in zip(observables, observable_matrices, max_epsilons, exact_lumpings):
+            for observable, O, exact_lumping in zip(observables, observable_matrices, exact_lumpings):
                 for percentage in percentage_slope:
                     kwds = {"observable_matrix": O, "x0": x0, "norm_x0": norm_x0, "norm_fx0": norm_fx0,
                         "system": system, "num_system": RRsystem, "exact_lumping": exact_lumping,
                         "t0": t0, "t1": t1, "tstep": tstep, "threshold": threshold, "sample_points": sample_points,
-                        "original_simulation": apply_matrix(original_simulation, O), "max_epsilon": max_epsilon}
+                        "original_simulation": apply_matrix(original_simulation, O)}
                     if type_input.startswith("slope"):
                         kwds["percentage"] = percentage
                     elif type_input.startswith("epsilon"):

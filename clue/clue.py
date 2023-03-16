@@ -135,6 +135,7 @@ class FODESystem:
         self.__normalize_input = False
         self._lumped_system_type = LDESystem
         self.__cache_deviations = {}
+        self.__cache_thresholds = {}
 
     @staticmethod
     def PerturbedFromSystem(system : FODESystem, noise : str | Callable[[Any], Any] = "normal", amplitude : float = 0.005, zeros = False):
@@ -1761,7 +1762,7 @@ class FODESystem:
             self.__cache_deviations[key] = mean(deviations)
         return self.__cache_deviations[key]
 
-    def find_maximal_threshold(self, observable):
+    def find_maximal_threshold(self, observable, bound: float | list[float] | list[tuple[float,float]], num_points: int):
         r'''
             Method that gets the maximal threshold for numerical lumping for a given observable.
 
@@ -1771,29 +1772,38 @@ class FODESystem:
             This method computes a value for the allowed distance for a given observable such that the numerical lumping
             of the observable is itself.
         '''
-        logger.debug("[find_acceptable_threshold] Converting the observable into a valid input")
+        logger.debug("[find_maximal_threshold] Converting the observable into a valid input")
         if isinstance(observable[0], PolyElement):
-            logger.debug("[find_acceptable_threshold] observables in PolyElement format. Casting to SparsePolynomial")
+            logger.debug("[find_maximal_threshold] observables in PolyElement format. Casting to SparsePolynomial")
             observable = tuple([SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable])
         elif isinstance(observable[0], SparsePolynomial):
             observable = tuple([p.linear_part_as_vec() for p in observable])
-        else:
-            logger.debug("[find_acceptable_threshold] observables seem to be in SymPy expression format, converting")
+        elif not isinstance(observable[0], SparseVector):
+            logger.debug("[find_maximal_threshold] observables seem to be in SymPy expression format, converting")
             observable = tuple([SparseVector.from_list([self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables], self.field) for p in observable])
 
-        logger.debug("[find_acceptable_threshold] Building matrices for lumping")
-        matrices = self.construct_matrices("polynomial")
-        subspace = OrthogonalSubspace(self.field)
-        for obs in observable: subspace.absorb_new_vector(obs)
-        L = subspace.matrix()
-        ## vectors to check
-        LM = [L.matmul(M) for M in matrices]
-        rows = [M.row(i).copy() for M in LM for i in M.nonzero]
-        for row in rows: row.reduce(-self.field.one, row.apply_matrix(subspace.projector))
-        return math.sqrt(max(el.inner_product(el) for el in rows))
+        key = observable, bound
+
+        if not key in self.__cache_thresholds:
+            logger.debug("[find_maximal_threshold] Building matrices for lumping")
+            matrices = self.construct_matrices("polynomial")
+            subspace = OrthogonalSubspace(self.field)
+            for obs in observable: subspace.absorb_new_vector(obs)
+            L = subspace.matrix()
+            ## vectors to check
+            logger.debug("[find_maximal_threshold] Computing the vectors that would be added")
+            LM = [L.matmul(M) for M in matrices]
+            rows = [M.row(i).copy() for M in LM for i in M.nonzero]
+            for row in rows: row.reduce(-self.field.one, row.apply_matrix(subspace.projector))
+            logger.debug("[find_maximal_threshold] Computing maximal norm")
+            epsilon = math.sqrt(max(el.inner_product(el) for el in rows))
+            deviation = self._deviation(subspace, bound, num_points)
+            self.__cache_thresholds[key] = epsilon, deviation
+        
+        return self.__cache_thresholds[key]
 
     def find_acceptable_threshold(self, observable, 
-        dev_max: float, increment: float, bound: float | list[float] | list[tuple[float,float]], num_points: int, threshold: float,
+        dev_max: float, bound: float | list[float] | list[tuple[float,float]], num_points: int, threshold: float,
         with_tries=False
     ) -> float:
         r'''
@@ -1832,33 +1842,30 @@ class FODESystem:
         logger.debug("[find_acceptable_threshold] Building matrices for lumping")
         matrices = self.construct_matrices("polynomial")
 
-        epsilon = 0
-        current_dev = 0
-        logger.debug("[find_acceptable_threshold] Starting the main loop looking for optimal threshold")
-        found_max = False
-        sign = 1
-        current_dimension = self.size
-        last_success = 0
-        tries = 0
-        while abs(dev_max - current_dev) >= threshold  and increment >= threshold and (sign == -1 or current_dimension > len(observable)):
-            epsilon += sign*increment; tries += 1
-            logger.debug(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing subspace)")
-            subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=epsilon)
-            current_dimension = subspace.dim()
-            logger.debug(f"[find_acceptable_threshold] Computed subspace for {epsilon = } ({subspace.dim()})")
-            logger.debug(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing deviation)")
-            current_dev = self._deviation(subspace, bound, num_points)
-
-            logger.debug(f"[find_acceptable_threshold] Current deviation for {epsilon = } ({subspace.dim()}): {current_dev}")
-            if current_dev <= dev_max: last_success = epsilon
-            if current_dev < dev_max - threshold:
-                logger.debug(f"[find_acceptable_threshold] Increasing epsilon")
-                sign = 1
-            elif current_dev > dev_max + threshold:
-                logger.debug(f"[find_acceptable_threshold] Reducing epsilon")
-                found_max = True
-                sign = -1
-            if found_max: increment /= 2
+        logger.debug("[find_acceptable_threshold] Computing maximal epsilon and its deviation")
+        max_epsilon, last_deviation = self.find_maximal_threshold(observable)
+        ls, rs = 0, max_epsilon
+        last_success = max_epsilon if last_deviation < dev_max else 0
+        current_dev = last_deviation if last_deviation < dev_max else 0
+        tries = 1
+        if last_success >= dev_max:
+            # If the maximal reduction is above the maximal devaition, we do a binary search from 0 to max_epsilon
+            while abs(dev_max - current_dev) >= threshold and (rs-ls) > threshold: 
+                epsilon = (rs-ls)/2
+                logger.debug(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing subspace)")
+                subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=epsilon)
+                logger.debug(f"[find_acceptable_threshold] Computed subspace for {epsilon = } ({subspace.dim()})")
+                logger.debug(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing deviation)")
+                current_dev = self._deviation(subspace, bound, num_points)
+                logger.debug(f"[find_acceptable_threshold] Current deviation for {epsilon = } ({subspace.dim()}): {current_dev}")
+                if current_dev < dev_max - threshold:
+                    ls, rs = epsilon, rs
+                    last_success = epsilon
+                elif current_dev > dev_max + threshold:
+                    ls, rs = ls, epsilon
+                else:
+                    ls, rs = epsilon, epsilon
+                tries += 1
         
         logger.debug(f"[find_acceptable_threshold] Found optimal threshold --> {last_success}")        
         if with_tries:
