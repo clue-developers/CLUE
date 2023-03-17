@@ -426,7 +426,7 @@ class ResultNumericalExample:
                             elif line.startswith("Time used on computation: "):
                                 time_total = line.removeprefix("Time used on computation: ")
                             else:
-                                logger.debug(f"[from_file] Ommiting line: {line}")
+                                logger.debug(f"[from_file] Omitting line: {line}")
                             line = file.readline().strip()
                         ## Casting the result to their types
                         example = get_example(example)
@@ -576,7 +576,7 @@ def list_examples(*argv):
     ## Creating the string to be printed
     if full:
         lines = [["Example name", "Read", "Out folder"]]
-        get_str = lambda example : (example.name, example.read, example.out_folder)
+        get_str = lambda example : (example.name, example.read, example.get("out_folder", ""))
 
         lines.extend([get_str(examples[name]) for name in examples if filter(name)])
         lines.append(["N.models", f"{len(lines)-1}", ""])
