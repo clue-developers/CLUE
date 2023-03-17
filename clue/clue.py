@@ -1748,14 +1748,14 @@ class FODESystem:
 
     def __process_observable(self, observable) -> tuple[SparseVector]:
         r'''Processing observable arguments in lumping/deviation methods'''
-        logger.debug("[__process_arguments] Converting the observable into a valid input")
+        logger.debug("[__process_observable] Converting the observable into a valid input")
         if isinstance(observable[0], PolyElement):
-            logger.debug("[__process_arguments] observables in PolyElement format. Casting to SparsePolynomial")
+            logger.debug("[__process_observable] observables in PolyElement format. Casting to SparsePolynomial")
             observable = tuple([SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable])
         elif isinstance(observable[0], SparsePolynomial):
             observable = tuple([p.linear_part_as_vec() for p in observable])
         elif not isinstance(observable[0], SparseVector):
-            logger.debug("[__process_arguments] observables seem to be in SymPy expression format, converting")
+            logger.debug("[__process_observable] observables seem to be in SymPy expression format, converting")
             observable = tuple([
                     SparseVector.from_list([self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables], self.field) 
                     for p in observable
@@ -1765,7 +1765,7 @@ class FODESystem:
 
     def __process_bound(self, bound, threshold):
         r'''Processing observable and bound for find_acceptable/maximal_threshold'''
-        logger.debug("[__process_bound] Checking the argument ''bound''")
+        logger.debug("[__process_bound] Converting the bound into a valid input")
         if not isinstance(bound, (list, tuple)):
             bound = self.size*[bound]
         if not len(bound) == self.size:
@@ -1837,14 +1837,15 @@ class FODESystem:
         last_success = max_epsilon if last_deviation < dev_max else 0
         current_dev = last_deviation if last_deviation < dev_max else 0
         tries = 1
-        if last_success >= dev_max:
-            # If the maximal reduction is above the maximal devaition, we do a binary search from 0 to max_epsilon
+        if last_deviation >= dev_max:
+            # If the maximal reduction is above the maximal deviation, we do a binary search from 0 to max_epsilon
             while abs(dev_max - current_dev) >= threshold and (rs-ls) > threshold: 
-                epsilon = (rs-ls)/2
-                logger.debug(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing subspace)")
+                epsilon = (rs+ls)/2
+                logger.debug(f"[find_acceptable_threshold] New value for {epsilon = }")
+                logger.log(5,f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing subspace)")
                 subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=epsilon)
-                logger.debug(f"[find_acceptable_threshold] Computed subspace for {epsilon = } ({subspace.dim()})")
-                logger.debug(f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing deviation)")
+                logger.log(5,f"[find_acceptable_threshold] Computed subspace for {epsilon = } ({subspace.dim()})")
+                logger.log(5,f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing deviation)")
                 current_dev = self._deviation(subspace, bound, num_points)
                 logger.debug(f"[find_acceptable_threshold] Current deviation for {epsilon = } ({subspace.dim()}): {current_dev}")
                 if current_dev < dev_max - threshold:
@@ -1854,6 +1855,7 @@ class FODESystem:
                     ls, rs = ls, epsilon
                 else:
                     ls, rs = epsilon, epsilon
+                logger.debug(f"[find_acceptable_threshold] New interval search: [{ls},{rs}]")
                 tries += 1
         
         logger.debug(f"[find_acceptable_threshold] Found optimal threshold --> {last_success}")        
