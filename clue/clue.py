@@ -347,10 +347,10 @@ class FODESystem:
                 allvars = allvars.union(eq.free_symbols)
             params = list(filter(lambda s: str(s) not in self.variables, allvars))
             if len(params) == 0:
-                logger.debug(":field: no parameters, the ground field is QQ then")
+                logger.debug("[field] no parameters, the ground field is QQ then")
                 return QQ
             else:
-                logger.debug(":field: some parameters found, extending Q as needed")
+                logger.debug("[field] some parameters found, extending QQ as needed")
                 return sympy.FractionField(QQ, [str(p) for p in params])
 
     @cached_property
@@ -445,7 +445,7 @@ class FODESystem:
             if isinstance(equ, PolyElement):
                 if equ != 0 and any(min(d for d in m) < 0 for m in equ.monoms()): 
                     # PolyElement with negative exponents --> sympy
-                    logger.debug(":normalize: found PolyElement with negative exponents --> sympy")
+                    logger.debug("[normalize] found PolyElement with negative exponents --> sympy")
                     target_type = 2
                 # PolyElement with no negative exponents --> polynomial: do not change target_type
             elif isinstance(equ, FracElement):
@@ -454,20 +454,20 @@ class FODESystem:
                     pass
                 elif denom == 1: # maybe a polynomial is enough
                     if numer != 0 and min(min(d for d in m) < 0 for m in numer.monoms()): # FracElement with numerator with neg. exponents
-                        logger.debug(":normalize: found FracElement (den=1, num w. neg. exp.) --> RationalFunction")
+                        logger.debug("[normalize] found FracElement (den=1, num w. neg. exp.) --> RationalFunction")
                         target_type = 1
                 else: # we have a proper fraction, we need a RationalFunction
-                    logger.debug(":normalize: found FracElement (den!=1) --> RationalFunction")
+                    logger.debug("[normalize] found FracElement (den!=1) --> RationalFunction")
                     target_type = 1
             elif isinstance(equ, SparsePolynomial):
                 pass # the type do not change because of a SparsePolynomial
             elif isinstance(equ, RationalFunction):
                 # we check the denominator to see if it is not 1
                 if equ.denom != 1: # we need at least a RationalFunction
-                    logger.debug(":normalize: found RationalFunction (den!=1) --> RationalFunction")
+                    logger.debug("[normalize] found RationalFunction (den!=1) --> RationalFunction")
                     target_type = 1
             else: # other cases all to sympy
-                logger.debug(":normalize: found something different --> sympy")
+                logger.debug("[normalize] found something different --> sympy")
                 target_type = 2
             equ = next(equations, None)
         
@@ -984,13 +984,13 @@ class FODESystem:
         '''
         # Deciding the valid method for this system
         if(method == "polynomial" and (not issubclass(self.type, SparsePolynomial))):
-            logger.warning(f"Method [{method}] selected but input is not SparsePolynomial. Trying random...")
+            logger.warning(f"[construct_matrices] Method [{method}] selected but input is not SparsePolynomial. Trying random...")
             method = "random"
         if(method == "rational" and (not issubclass(self.type, RationalFunction))):
-            logger.warning(f"Method [{method}] selected but input is not RationalFunction. Trying auto_diff...")
+            logger.warning(f"[construct_matrices] Method [{method}] selected but input is not RationalFunction. Trying auto_diff...")
             method = "auto_diff"
         if(method == "random" and (not issubclass(self.type, (SparsePolynomial, RationalFunction)))):
-            logger.warning(f"Method [{method}] selected but input is not RationalFunction. Trying auto_diff...")
+            logger.warning(f"[construct_matrices] Method [{method}] selected but input is not RationalFunction. Trying auto_diff...")
             method = "auto_diff"
         if(not method in ("polynomial", "rational", "random", "auto_diff")):
             raise NotImplementedError(f"The method selected [{method}] is not valid.")
@@ -1016,14 +1016,14 @@ class FODESystem:
         Output
             a list of matrices (SparseMatrix) J_1^T, ..., J_N^T
         """
-        logger.debug("Starting constructing matrices (SparsePolynomial)")
+        logger.debug("[_construct_matrices_from_polys] Starting constructing matrices (SparsePolynomial)")
         polys = self.equations
         variables = self.variables
         field = self.field
 
         jacobians = dict()
         for p_ind, poly in enumerate(polys):
-            logger.debug("Processing polynomial number %d", p_ind)
+            logger.debug("[_construct_matrices_from_polys] Processing polynomial number %d", p_ind)
             for monom, coef in poly.dataiter():
                 for i in range(len(monom)):
                     var, exp = monom[i]
@@ -1049,7 +1049,7 @@ class FODESystem:
         Output
             a list of matrices (SparseMatrix) J_1^T, ..., J_N^T
         """
-        logger.debug("Starting constructing matrices (RationalFunction)")
+        logger.debug("[_construct_matrices_from_rational_functions] Starting constructing matrices (RationalFunction)")
 
         rational_functions = self.equations
         variables = self.variables
@@ -1085,7 +1085,7 @@ class FODESystem:
         for row_ind, poly_row in enumerate(poly_J):
             for col_ind, poly in enumerate(poly_row):
                 p_ind = row_ind * len(poly_row) + col_ind
-                logger.debug("Processing numerator polynomial number %d", p_ind)
+                logger.debug("[_construct_matrices_from_rational_functions] Processing numerator polynomial number %d", p_ind)
                 for m, coef in poly.dataiter():
                     if m not in jacobians:
                         jacobians[m] = SparseRowMatrix(len(variables), field)
@@ -1094,7 +1094,7 @@ class FODESystem:
         return list(jacobians.values())
 
     def _construct_matrices_evaluation_random(self, prob_err=0.01):
-        logger.debug("Starting constructing random matrices (RationalFunction)")
+        logger.debug("[_construct_matrices_evaluation_random] Starting constructing random matrices (RationalFunction)")
 
         rational_functions = self.equations
         variables = self.variables
@@ -1118,31 +1118,31 @@ class FODESystem:
                 if(pivot_index >= 0):
                     m += 1
                 if(m % 10 == 0):
-                    logger.debug(f"Generated {m} random matrices...")
+                    logger.debug(f"[_construct_matrices_evaluation_random] Generated {m} random matrices...")
             ## We had a linearly dependant matrix: we check the probability of this being complete
-            logger.debug(f"Found a linearly dependant matrix after {m} attempts.")
+            logger.debug(f"[_construct_matrices_evaluation_random] Found a linearly dependant matrix after {m} attempts.")
             if(m >= n): # we grew too much, reached the maximal
-                logger.debug(f"We found the maximal amount of linearly independent matrices")
+                logger.debug(f"[_construct_matrices_evaluation_random] We found the maximal amount of linearly independent matrices")
                 finished = True
             else: # we checked (probabilistic) if we have finished
-                logger.debug(f"We compute the maximal bound for the random coefficients to have \
+                logger.debug(f"[_construct_matrices_evaluation_random] We compute the maximal bound for the random coefficients to have \
                     less than {prob_err} probability to get an element in the current space.")
                 Dn, Dd = self.bounds
                 # Value for the size of coefficients (see paper ``Exact linear reduction for rational dynamics``)
                 N = int(math.ceil((Dn + 2*m*Dd)/prob_err)) + self.size*Dd
 
-                logger.debug(f"Bound for the coefficients: {N}")
+                logger.debug(f"[_construct_matrices_evaluation_random] Bound for the coefficients: {N}")
 
                 pivot_index = subspace.absorb_new_vector(
                     FODESystem.build_random_evaluation_matrix(J, max=N).to_vector()
                 )
                 if(pivot_index < 0): # we are finished
-                    logger.debug("The new matrix is in the vector space: we are done")
+                    logger.debug("[_construct_matrices_evaluation_random] The new matrix is in the vector space: we are done")
                     finished = True
                 else: # we add the matrix to the list
                     logger.debug("The new matrix is NOT in the vector space: we continue")
                 
-        logger.debug(f"-> I created {m} linearly independent matrices in {time.time()-start}s")
+        logger.debug(f"[_construct_matrices_evaluation_random] -> I created {m} linearly independent matrices in {time.time()-start}s")
         # We return the basis obtained
         return [el.as_matrix(self.size) for el in subspace.basis()]
     
@@ -1160,7 +1160,7 @@ class FODESystem:
 
             The computation of the actual error bound depends on the type of input in ``funcs``.
         '''
-        logger.debug("Starting constructing random matrices (AD -- RationalFunction)")
+        logger.debug("[_construct_matrices_AD_random] Starting constructing random matrices (AD -- RationalFunction)")
         funcs = self.equations
         varnames = self.variables
         field = self.field
@@ -1172,7 +1172,7 @@ class FODESystem:
             n = sum(len(func.variables()) for func in funcs)
         else:
             n = sum(len([el for el in func.free_symbols if str(el) in self.variables]) for func in funcs)
-        logger.debug(":_construct_AD: bound for dimension: %d" %n)
+        logger.debug("[_construct_matrices_AD_random] bound for dimension: %d" %n)
         m = 0 # number of generated matrices
 
         start_global = time.time()
@@ -1182,45 +1182,29 @@ class FODESystem:
         start = time.time()
         sparse_eval_points = self._sparse_evaluation_points()
         end = time.time()
-        logger.debug(f":_construct_AD: Created {len(sparse_eval_points)} sparse evaluation points in {end-start}s")
+        logger.debug(f"[_construct_matrices_AD_random] Created {len(sparse_eval_points)} sparse evaluation points in {end-start}s")
         pivot_index = None
         for point in sparse_eval_points:
             start = time.time()
             new_matr = FODESystem.evaluate_jacobian(funcs, varnames, field, point)
             pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
-            logger.debug(f":_construct_AD: Densities for now {subspace.densities()}")
+            logger.debug(f"[_construct_matrices_AD_random] Densities for now {subspace.densities()}")
             if(pivot_index >= 0): # new matrix added
-                logger.debug(f":_construct_AD: New matrix added with density: {new_matr.density()}")
+                logger.debug(f"[_construct_matrices_AD_random] New matrix added with density: {new_matr.density()}")
                 m += 1
             if(m % 10 == 0):
-                logger.debug(f":_construct_AD: Generated {m} random matrices...")
+                logger.debug(f"[_construct_matrices_AD_random] Generated {m} random matrices...")
             end = time.time()
-            logger.debug(f":_construct_AD: Matrix created and checked in {end - start}")
-        ## Getting some sparse evaluations
-        # for i in range(len(varnames)):
-        #     start = time.time()
-        #     new_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field, index=i)
-        #     if new_matr is None:
-        #         logger.debug(f"None matrix for coordinate {varnames[i]}")
-        #         continue
-        #     pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
-        #     logger.debug(f"Densities for now {subspace.densities()}")
-        #     if(pivot_index >= 0):
-        #         logger.debug(f"New matrix density: {new_matr.density()}")
-        #         m += 1
-        #     if(m % 10 == 0):
-        #         logger.debug(f"Generated {m} random matrices...")
-        #     end = time.time()
-        #     logger.debug(f"Matrix for {self.variables[i]} in {end - start}")
-        
+            logger.debug(f"[_construct_matrices_AD_random] Matrix created and checked in {end - start}")
+
         if(m == 0): 
-            logger.debug(f":_construct_AD: No sparse evaluation was done. Creating one starting evaluation...")
+            logger.debug(f"[_construct_matrices_AD_random] No sparse evaluation was done. Creating one starting evaluation...")
             start = time.time()
             pivot_index = subspace.absorb_new_vector(
                 FODESystem.build_random_evaluation_jacobian(funcs, varnames, field).to_vector()
             )
             end = time.time()
-            logger.debug(f":_construct_AD: Matrix created and checked in {end - start}")
+            logger.debug(f"[_construct_matrices_AD_random] Matrix created and checked in {end - start}")
             m = 1
 
         finished = (m >= n)
@@ -1230,38 +1214,38 @@ class FODESystem:
                 start = time.time()
                 new_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field)
                 pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
-                logger.debug(f":_construct_AD: Densities for now {subspace.densities()}")
+                logger.debug(f"[_construct_matrices_AD_random] Densities for now {subspace.densities()}")
                 if(pivot_index >= 0):
-                    logger.debug(f":_construct_AD: New matrix density: {new_matr.density()}")
+                    logger.debug(f"[_construct_matrices_AD_random] New matrix density: {new_matr.density()}")
                     m += 1
                 if(m % 10 == 0):
-                    logger.debug(f":_construct_AD: Generated {m} random matrices...")
+                    logger.debug(f"[_construct_matrices_AD_random] Generated {m} random matrices...")
                 end = time.time()
-                logger.debug(f":_construct_AD: Matrix in {end - start}")
+                logger.debug(f"[_construct_matrices_AD_random] Matrix in {end - start}")
             ## We had a linearly dependant matrix: we check the probability of this being complete
-            logger.debug(f":_construct_AD: Found a linearly dependant matrix after {m} attempts.")
+            logger.debug(f"[_construct_matrices_AD_random] Found a linearly dependant matrix after {m} attempts.")
             if(m >= n): # we grew too much, reached the maximal
-                logger.debug(f":_construct_AD: We found the maximal amount of linearly independent matrices")
+                logger.debug(f"[_construct_matrices_AD_random] We found the maximal amount of linearly independent matrices")
                 finished = True
             else: # we checked (probabilistic) if we have finished
-                logger.debug(f":_construct_AD: We compute the maximal bound for the random coefficients to have less than {prob_err} probability \
+                logger.debug(f"[_construct_matrices_AD_random] We compute the maximal bound for the random coefficients to have less than {prob_err} probability \
                 to get an element in the current space.")
                 Dn, Dd = self.bounds
                 # Value for the size of coefficients (see paper ``Exact linear reduction for rational dynamics``)
                 N = int(math.ceil((Dn + 2*m*Dd)/prob_err)) + self.size*Dd
 
-                logger.debug(f":_construct_AD: Bound for the (prob.) coefficients: {N}")
+                logger.debug(f"[_construct_matrices_AD_random] Bound for the (prob.) coefficients: {N}")
 
                 pivot_index = subspace.absorb_new_vector(
                     FODESystem.build_random_evaluation_jacobian(funcs, varnames, field, max=N).to_vector()
                 )
                 if(pivot_index < 0): # we are finished
-                    logger.debug(":_construct_AD: The new matrix is in the vector space: we are done")
+                    logger.debug("[_construct_matrices_AD_random] The new matrix is in the vector space: we are done")
                     finished = True
                 else: # we add the matrix to the list
-                    logger.debug(":_construct_AD: The new matrix is NOT in the vector space: we continue")
+                    logger.debug("[_construct_matrices_AD_random] The new matrix is NOT in the vector space: we continue")
                 
-        logger.debug(f":_construct_AD: -> I created {m} linearly independent matrices in {time.time()-start_global}s")
+        logger.debug(f"[_construct_matrices_AD_random] -> I created {m} linearly independent matrices in {time.time()-start_global}s")
         # We return the basis obtained
         return [el.as_matrix(self.size) for el in subspace.basis()]
     
@@ -2023,7 +2007,7 @@ class FODESystem:
             elif(loglevel == "ERROR"):
                 logger.setLevel(logging.ERROR)
         
-        logger.debug(":lumping: Starting aggregation")
+        logger.debug("[lumping] Starting aggregation")
 
         ## Normalizing input if needed
         self.normalize()
@@ -2102,15 +2086,15 @@ class FODESystem:
             a dictionary with all the information so the method :func:`lumping`can build the Lumped 
             system (see class :class`LDESystem`)
         """
-        logger.debug(":ilumping: Starting aggregation")
+        logger.debug("[_lumping] Starting aggregation")
 
         vars_old = self.variables
         
         # Building the matrices for lumping
         start = time.time()
-        logger.debug(":ilumping: Computing matrices for perform lumping...")
+        logger.debug("[_lumping] Computing matrices for perform lumping...")
         matrices = self.construct_matrices(method)
-        logger.debug(f"ilumping: -> Computed {len(matrices)} in {time.time()-start}s")
+        logger.debug(f"[_lumping] -> Computed {len(matrices)} in {time.time()-start}s")
 
         # Find a lumping
         field = self.field
@@ -2119,10 +2103,10 @@ class FODESystem:
             vec = linear_form if isinstance(linear_form, SparseVector) else SparseVector.from_list(linear_form, field)
             vectors_to_include.append(vec)
         vectors_to_include = tuple(vectors_to_include)
-        logger.debug(":ilumping: Computing the lumping subspace...")
+        logger.debug(f"[_lumping] Computing the lumping subspace [class={self.lumping_subspace_class}, args={self.lumping_subspace_kwds}]")
         start = time.time()
         lumping_subspace = find_smallest_common_subspace(matrices, vectors_to_include, subspace_class=self.lumping_subspace_class, **self.lumping_subspace_kwds)
-        logger.debug(f":ilumping: -> Found the lumping subspace in {time.time()-start}s")
+        logger.debug(f"[_lumping] -> Found the lumping subspace in {time.time()-start}s")
 
         lumped_rhs = self._lumped_system(lumping_subspace, vars_old, field, new_vars_name)
 
