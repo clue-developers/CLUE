@@ -316,7 +316,7 @@ class ResultNumericalExample:
         fig = create_figure(
             [self.merged_simulation, self.diff_simulation], 
             format=["-", "-"], 
-            title=[f"True simulation vs Appr. simulation (Max.slope={100*self.percentage}%)", "Abs. Difference"]
+            title=[f"True vs Appr. [{100*self.percentage}%] ({self.size} -> {self.exact_size} -> {self.lumped_size})", "Abs. Difference"]
         )
         fig.savefig(
             self.example.image_path(
@@ -328,9 +328,7 @@ class ResultNumericalExample:
     
     def write_result(self, file: TextIOBase):
         r'''Method that generates a results file with the information of this '''
-        logger.log(60, f"[write_result # {self.example.name}] Computing et")
         et = self.et
-        logger.log(60, f"[write_result # {self.example.name}] Computed Mxt_2")
         Mxt_2 = self.Mxt_2
         et_rel = et/Mxt_2 if Mxt_2 > 0 else float("inf") if et > 0 else 0.0
         
@@ -466,7 +464,7 @@ class ResultNumericalExample:
                         logger.info(f"[from_file] Read case {repr(result)}")
                         results.append(result)
                     else:
-                        logger.debug(f"[from_file] Ommiting line: {line}")
+                        logger.debug(f"[from_file] Omitting line: {line}")
                     line = file.readline().strip()
         except ValueError as e:
             logger.error(f"[from_file] Error while reading a file: {e}")
@@ -596,6 +594,8 @@ def list_examples(*argv):
 def add_examples_in_folder(*argv):
     r'''Add bunch of examples to be executed. It allows several arguments'''
     if len(argv) > 0: raise TypeError("No optional arguments for command 'compile'. See ''help'' for further information")
+    logger.error("[add_examples_in_folder] Method not yet implemented")
+    print_help()
     return
 
 def compile_results(*argv):
@@ -783,7 +783,7 @@ def run_exact(*argv):
                 result.write_result(output)
                 logger.log(60, f"[run_exact # {example.name}] Generating images for \n\t{repr(result)}")
                 result.generate_image()
-                logger.log(60, f"[run_exact # {example.name}] Finished execution for {repr(result)}")
+                logger.log(60, f"[run_exact # {example.name}] Finished execution for \n\t{repr(result)}")
 
     if profile:
         stats = pstats.Stats(pr)
