@@ -18,7 +18,7 @@ from numpy import ndarray, mean
 from numpy.random import normal, uniform
 from random import random, randint
 from scipy.integrate import solve_ivp
-from sympy import QQ, lambdify, symbols, oo, sympify
+from sympy import QQ, RR, lambdify, symbols, oo, sympify
 from sympy.polys.fields import FracElement
 from sympy.polys.rings import PolyElement
 from typing import Callable, Any
@@ -342,16 +342,19 @@ class FODESystem:
         if(issubclass(self.type, (SparsePolynomial, RationalFunction))):
             return next(equations).domain
         else:
+            ## Deciding between reals or rationals
+            domain = QQ if any(eq.evalf() != eq for eq in equations) else RR
+            ## Computing the parameters on the expressions
             allvars = set()
             for eq in equations:
                 allvars = allvars.union(eq.free_symbols)
             params = list(filter(lambda s: str(s) not in self.variables, allvars))
             if len(params) == 0:
-                logger.debug("[field] no parameters, the ground field is QQ then")
-                return QQ
+                logger.debug(f"[field] no parameters, the ground field is {domain} then")
+                return domain
             else:
-                logger.debug("[field] some parameters found, extending QQ as needed")
-                return sympy.FractionField(QQ, [str(p) for p in params])
+                logger.debug(f"[field] some parameters found, extending {domain} as needed")
+                return sympy.FractionField(domain, [str(p) for p in params])
 
     @cached_property
     def type(self):
