@@ -1023,7 +1023,7 @@ class FODESystem:
 
         jacobians = dict()
         for p_ind, poly in enumerate(polys):
-            logger.debug("[_construct_matrices_from_polys] Processing polynomial number %d", p_ind)
+            logger.log(5,"[_construct_matrices_from_polys] Processing polynomial number %d", p_ind)
             for monom, coef in poly.dataiter():
                 for i in range(len(monom)):
                     var, exp = monom[i]
@@ -1085,7 +1085,7 @@ class FODESystem:
         for row_ind, poly_row in enumerate(poly_J):
             for col_ind, poly in enumerate(poly_row):
                 p_ind = row_ind * len(poly_row) + col_ind
-                logger.debug("[_construct_matrices_from_rational_functions] Processing numerator polynomial number %d", p_ind)
+                logger.log(5, "[_construct_matrices_from_rational_functions] Processing numerator polynomial number %d", p_ind)
                 for m, coef in poly.dataiter():
                     if m not in jacobians:
                         jacobians[m] = SparseRowMatrix(len(variables), field)
@@ -1118,29 +1118,29 @@ class FODESystem:
                 if(pivot_index >= 0):
                     m += 1
                 if(m % 10 == 0):
-                    logger.debug(f"[_construct_matrices_evaluation_random] Generated {m} random matrices...")
+                    logger.log(5,f"[_construct_matrices_evaluation_random] Generated {m} random matrices...")
             ## We had a linearly dependant matrix: we check the probability of this being complete
-            logger.debug(f"[_construct_matrices_evaluation_random] Found a linearly dependant matrix after {m} attempts.")
+            logger.log(5,f"[_construct_matrices_evaluation_random] Found a linearly dependant matrix after {m} attempts.")
             if(m >= n): # we grew too much, reached the maximal
-                logger.debug(f"[_construct_matrices_evaluation_random] We found the maximal amount of linearly independent matrices")
+                logger.log(5,f"[_construct_matrices_evaluation_random] We found the maximal amount of linearly independent matrices")
                 finished = True
             else: # we checked (probabilistic) if we have finished
-                logger.debug(f"[_construct_matrices_evaluation_random] We compute the maximal bound for the random coefficients to have \
+                logger.log(5,f"[_construct_matrices_evaluation_random] We compute the maximal bound for the random coefficients to have \
                     less than {prob_err} probability to get an element in the current space.")
                 Dn, Dd = self.bounds
                 # Value for the size of coefficients (see paper ``Exact linear reduction for rational dynamics``)
                 N = int(math.ceil((Dn + 2*m*Dd)/prob_err)) + self.size*Dd
 
-                logger.debug(f"[_construct_matrices_evaluation_random] Bound for the coefficients: {N}")
+                logger.log(5,f"[_construct_matrices_evaluation_random] Bound for the coefficients: {N}")
 
                 pivot_index = subspace.absorb_new_vector(
                     FODESystem.build_random_evaluation_matrix(J, max=N).to_vector()
                 )
                 if(pivot_index < 0): # we are finished
-                    logger.debug("[_construct_matrices_evaluation_random] The new matrix is in the vector space: we are done")
+                    logger.log(5,"[_construct_matrices_evaluation_random] The new matrix is in the vector space: we are done")
                     finished = True
                 else: # we add the matrix to the list
-                    logger.debug("The new matrix is NOT in the vector space: we continue")
+                    logger.log(5,"The new matrix is NOT in the vector space: we continue")
                 
         logger.debug(f"[_construct_matrices_evaluation_random] -> I created {m} linearly independent matrices in {time.time()-start}s")
         # We return the basis obtained
@@ -1172,7 +1172,7 @@ class FODESystem:
             n = sum(len(func.variables()) for func in funcs)
         else:
             n = sum(len([el for el in func.free_symbols if str(el) in self.variables]) for func in funcs)
-        logger.debug("[_construct_matrices_AD_random] bound for dimension: %d" %n)
+        logger.log(5,"[_construct_matrices_AD_random] bound for dimension: %d" %n)
         m = 0 # number of generated matrices
 
         start_global = time.time()
@@ -1182,29 +1182,29 @@ class FODESystem:
         start = time.time()
         sparse_eval_points = self._sparse_evaluation_points()
         end = time.time()
-        logger.debug(f"[_construct_matrices_AD_random] Created {len(sparse_eval_points)} sparse evaluation points in {end-start}s")
+        logger.log(5,f"[_construct_matrices_AD_random] Created {len(sparse_eval_points)} sparse evaluation points in {end-start}s")
         pivot_index = None
         for point in sparse_eval_points:
             start = time.time()
             new_matr = FODESystem.evaluate_jacobian(funcs, varnames, field, point)
             pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
-            logger.debug(f"[_construct_matrices_AD_random] Densities for now {subspace.densities()}")
+            logger.log(5,f"[_construct_matrices_AD_random] Densities for now {subspace.densities()}")
             if(pivot_index >= 0): # new matrix added
-                logger.debug(f"[_construct_matrices_AD_random] New matrix added with density: {new_matr.density()}")
+                logger.log(5,f"[_construct_matrices_AD_random] New matrix added with density: {new_matr.density()}")
                 m += 1
             if(m % 10 == 0):
-                logger.debug(f"[_construct_matrices_AD_random] Generated {m} random matrices...")
+                logger.log(5,f"[_construct_matrices_AD_random] Generated {m} random matrices...")
             end = time.time()
-            logger.debug(f"[_construct_matrices_AD_random] Matrix created and checked in {end - start}")
+            logger.log(5,f"[_construct_matrices_AD_random] Matrix created and checked in {end - start}")
 
         if(m == 0): 
-            logger.debug(f"[_construct_matrices_AD_random] No sparse evaluation was done. Creating one starting evaluation...")
+            logger.log(5,f"[_construct_matrices_AD_random] No sparse evaluation was done. Creating one starting evaluation...")
             start = time.time()
             pivot_index = subspace.absorb_new_vector(
                 FODESystem.build_random_evaluation_jacobian(funcs, varnames, field).to_vector()
             )
             end = time.time()
-            logger.debug(f"[_construct_matrices_AD_random] Matrix created and checked in {end - start}")
+            logger.log(5,f"[_construct_matrices_AD_random] Matrix created and checked in {end - start}")
             m = 1
 
         finished = (m >= n)
@@ -1214,36 +1214,36 @@ class FODESystem:
                 start = time.time()
                 new_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field)
                 pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
-                logger.debug(f"[_construct_matrices_AD_random] Densities for now {subspace.densities()}")
+                logger.log(5,f"[_construct_matrices_AD_random] Densities for now {subspace.densities()}")
                 if(pivot_index >= 0):
-                    logger.debug(f"[_construct_matrices_AD_random] New matrix density: {new_matr.density()}")
+                    logger.log(5,f"[_construct_matrices_AD_random] New matrix density: {new_matr.density()}")
                     m += 1
                 if(m % 10 == 0):
-                    logger.debug(f"[_construct_matrices_AD_random] Generated {m} random matrices...")
+                    logger.log(5,f"[_construct_matrices_AD_random] Generated {m} random matrices...")
                 end = time.time()
-                logger.debug(f"[_construct_matrices_AD_random] Matrix in {end - start}")
+                logger.log(5,f"[_construct_matrices_AD_random] Matrix in {end - start}")
             ## We had a linearly dependant matrix: we check the probability of this being complete
-            logger.debug(f"[_construct_matrices_AD_random] Found a linearly dependant matrix after {m} attempts.")
+            logger.log(5,f"[_construct_matrices_AD_random] Found a linearly dependant matrix after {m} attempts.")
             if(m >= n): # we grew too much, reached the maximal
-                logger.debug(f"[_construct_matrices_AD_random] We found the maximal amount of linearly independent matrices")
+                logger.log(5,f"[_construct_matrices_AD_random] We found the maximal amount of linearly independent matrices")
                 finished = True
             else: # we checked (probabilistic) if we have finished
-                logger.debug(f"[_construct_matrices_AD_random] We compute the maximal bound for the random coefficients to have less than {prob_err} probability \
+                logger.log(5,f"[_construct_matrices_AD_random] We compute the maximal bound for the random coefficients to have less than {prob_err} probability \
                 to get an element in the current space.")
                 Dn, Dd = self.bounds
                 # Value for the size of coefficients (see paper ``Exact linear reduction for rational dynamics``)
                 N = int(math.ceil((Dn + 2*m*Dd)/prob_err)) + self.size*Dd
 
-                logger.debug(f"[_construct_matrices_AD_random] Bound for the (prob.) coefficients: {N}")
+                logger.log(5,f"[_construct_matrices_AD_random] Bound for the (prob.) coefficients: {N}")
 
                 pivot_index = subspace.absorb_new_vector(
                     FODESystem.build_random_evaluation_jacobian(funcs, varnames, field, max=N).to_vector()
                 )
                 if(pivot_index < 0): # we are finished
-                    logger.debug("[_construct_matrices_AD_random] The new matrix is in the vector space: we are done")
+                    logger.log(5,"[_construct_matrices_AD_random] The new matrix is in the vector space: we are done")
                     finished = True
                 else: # we add the matrix to the list
-                    logger.debug("[_construct_matrices_AD_random] The new matrix is NOT in the vector space: we continue")
+                    logger.log(5,"[_construct_matrices_AD_random] The new matrix is NOT in the vector space: we continue")
                 
         logger.debug(f"[_construct_matrices_AD_random] -> I created {m} linearly independent matrices in {time.time()-start_global}s")
         # We return the basis obtained
@@ -1671,7 +1671,11 @@ class FODESystem:
                 tpoints.append(tpoints[-1] + tstep)
         tpoints.append(t1)
 
-        simulation = solve_ivp(self.derivative, (t0,t1), x0, t_eval=tpoints) ## TODO: implement properly the simulation with extra functionalities
+        norm_fx0 = math.sqrt(sum(float(el)**2 for el in self.derivative(...,*x0)))
+        method = "LSODA" if norm_fx0 > 100 else "RK45"
+
+
+        simulation = solve_ivp(self.derivative, (t0,t1), x0, t_eval=tpoints, method=method) ## TODO: implement properly the simulation with extra functionalities
         # adding the names to the simulation
         simulation.names = self.variables
         return simulation
