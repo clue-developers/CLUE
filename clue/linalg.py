@@ -18,7 +18,7 @@ from collections import deque
 
 from itertools import combinations, product
 
-from sympy import GF, QQ, gcd, nextprime, symbols
+from sympy import GF, QQ, RR, gcd, nextprime, symbols
 from sympy.ntheory.modular import isprime
 from sympy.polys.domains.domain import Domain
 from sympy.polys.fields import FracElement
@@ -1252,14 +1252,14 @@ class OrthogonalSubspace(Subspace):
         # we scale the new vector depending on the ground field
         if self.field == QQ:
             new_vector.scale(self.field.one / math.gcd(*[new_vector[i].numerator for i in new_vector.nonzero]))
-        if self.field == sympy.RR:
+        if self.field == RR:
             new_vector.scale(self.field.one / math.sqrt(new_vector.inner_product(new_vector)))
 
         # Now new_vector ir orthogonal to ``self``. We can simply add it to the Subspace
         self.echelon_form[self.dim()] = new_vector
         # we update the orthogonal projector
         norm2 = new_vector.inner_product(new_vector)
-        # updating outisde the diagonal
+        # updating outside the diagonal
         for (i,j) in combinations(new_vector.nonzero, 2):
             to_add = (new_vector._SparseVector__data[i] * new_vector._SparseVector__data[j]) / norm2
             self.projector.increment(i,j,to_add)
@@ -1351,7 +1351,9 @@ class NumericalSubspace(OrthogonalSubspace):
         self.__delta2 = self.__delta**2
 
     def _should_absorb(self, vector : SparseVector):
-        return float(vector.inner_product(vector)) > float(self.__delta2)
+        norm_squared = float(vector.inner_product(vector))
+        logger.debug(f"[_should_absorb - Numerical] {norm_squared}) >? {self.__delta2}")
+        return norm_squared > float(self.__delta2)
   
 #------------------------------------------------------------------------------
 def __fscs_key(matrices, vectors_to_include,subspace_class,**kwds):
