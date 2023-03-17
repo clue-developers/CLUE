@@ -1762,9 +1762,26 @@ class FODESystem:
             self.__cache_deviations[key] = mean(deviations)
         return self.__cache_deviations[key]
 
-    def __process_arguments(self, observable, bound, threshold):
-        r'''Processing observable and bound for dinf_accetable/maximal_threshold'''
-        logger.debug("[__process_arguments] Checking the argument ''bound''")
+    def __process_observable(self, observable) -> tuple[SparseVector]:
+        r'''Processing observable arguments in lumping/deviation methods'''
+        logger.debug("[__process_arguments] Converting the observable into a valid input")
+        if isinstance(observable[0], PolyElement):
+            logger.debug("[__process_arguments] observables in PolyElement format. Casting to SparsePolynomial")
+            observable = tuple([SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable])
+        elif isinstance(observable[0], SparsePolynomial):
+            observable = tuple([p.linear_part_as_vec() for p in observable])
+        elif not isinstance(observable[0], SparseVector):
+            logger.debug("[__process_arguments] observables seem to be in SymPy expression format, converting")
+            observable = tuple([
+                    SparseVector.from_list([self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables], self.field) 
+                    for p in observable
+            ])
+
+        return tuple(vector.change_base(self.field) for vector in observable)
+
+    def __process_bound(self, bound, threshold):
+        r'''Processing observable and bound for find_acceptable/maximal_threshold'''
+        logger.debug("[__process_bound] Checking the argument ''bound''")
         if not isinstance(bound, (list, tuple)):
             bound = self.size*[bound]
         if not len(bound) == self.size:
@@ -1781,17 +1798,7 @@ class FODESystem:
                 bound [i] = tuple(bound[i])
         bound = tuple([(a-threshold, b+threshold) for a,b in bound])
         
-        logger.debug("[__process_arguments] Converting the observable into a valid input")
-        if isinstance(observable[0], PolyElement):
-            logger.debug("[__process_arguments] observables in PolyElement format. Casting to SparsePolynomial")
-            observable = tuple([SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable])
-        elif isinstance(observable[0], SparsePolynomial):
-            observable = tuple([p.linear_part_as_vec() for p in observable])
-        elif not isinstance(observable[0], SparseVector):
-            logger.debug("[__process_arguments] observables seem to be in SymPy expression format, converting")
-            observable = tuple([SparseVector.from_list([self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables], self.field) for p in observable])
-
-        return observable, bound
+        return bound
 
     def find_maximal_threshold(self, observable, bound: float | list[float] | list[tuple[float,float]], num_points: int, threshold: float):
         r'''
@@ -1803,7 +1810,7 @@ class FODESystem:
             This method computes a value for the allowed distance for a given observable such that the numerical lumping
             of the observable is itself.
         '''
-        observable, bound = self.__process_arguments(observable, bound, threshold)
+        observable, bound = self.__process_observable(observable), self.__process_bound(bound, threshold)
 
         key = observable, bound
 
@@ -1835,7 +1842,7 @@ class FODESystem:
             This method computes an optimal threshold for the current system so the numerical lumping have a deviation close
             to a given value. The deviation of the system, given some observables, is the 
         '''
-        observable, bound = self.__process_arguments(observable, bound, threshold)
+        observable, bound = self.__process_observable(observable), self.__process_bound(bound, threshold)
 
         logger.debug("[find_acceptable_threshold] Building matrices for lumping")
         matrices = self.construct_matrices("polynomial")
@@ -2001,6 +2008,9 @@ class FODESystem:
                 >>> assert lumping.is_consistent(), "Error in model MODEL9085850385: consistency"
                 >>> assert lumping.size == 54, "Error in model MODEL9085850385: size"
         '''
+        #######################################################################################
+        ### PREPROCESSING
+        #######################################################################################
         ## Putting the logger level active
         if(loglevel != None):
             old_level = logger.getEffectiveLevel()
@@ -2018,15 +2028,11 @@ class FODESystem:
         ## Normalizing input if needed
         self.normalize()
 
-        if isinstance(observable[0], PolyElement):
-            logger.debug(":lumping: observables in PolyElement format. Casting to SparsePolynomial")
-            observable = [SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable]
-        elif isinstance(observable[0], SparsePolynomial):
-            observable = [p.linear_part_as_vec() for p in observable]
-        else:
-            logger.debug(":lumping: observables seem to be in SymPy expression format, converting")
-            observable = [[self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables] for p in observable]
+        observable = self.__process_observable(observable)
 
+        #######################################################################################
+        ### MAIN COMPUTATION
+        #######################################################################################
         result = self._lumping(observable,
                     new_vars_name,
                     print_system, 
@@ -2035,7 +2041,9 @@ class FODESystem:
                     method,
                     file
                 )
-
+        #######################################################################################
+        ### POSTPROCESSING
+        #######################################################################################
         if out_format == "sympy":
             ## deciding out ring
             if isinstance(result["equations"][0], SparsePolynomial):
