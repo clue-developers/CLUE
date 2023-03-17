@@ -6,7 +6,7 @@ sys.setrecursionlimit(10000000)
 
 from natsort import natsorted
 
-from sympy import QQ, parse_expr, symbols
+from sympy import QQ, RR, parse_expr, symbols
 from sympy.parsing.sympy_parser import standard_transformations, rationalize
 
 from .rational_function import SparsePolynomial, RationalFunction, to_rational
@@ -105,7 +105,10 @@ def _parse(to_parse, varnames, parser, domain = QQ):
     if(parser == "sympy"):
         ## doing a small pre-parse to eliminate incoherent things in the string
         to_parse = to_parse.replace("^", "**") # changing pow syntax to python
-        return parse_expr(to_parse, var_dict, transformations=__transformations_parser)
+        expr = parse_expr(to_parse, var_dict, transformations=__transformations_parser)
+        if domain == RR:
+            expr = expr.evalf()
+        return expr
     else:
         result = RationalFunction.from_string(to_parse, varnames, domain, var_dict)
         if(parser == "polynomial"):
