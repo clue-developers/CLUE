@@ -566,8 +566,8 @@ def list_examples(*argv):
 
     ## Creating the filtering function
     filter = lambda example: (examples[example].read in type and 
-                                (len(allowed_folders) == 0 or examples[example].out_folder in allowed_folders) and
-                                (len(forbidden_folders) == 0 or examples[example].out_folder not in forbidden_folders) and
+                                (len(allowed_folders) == 0 or examples[example].get("out_folder",None) in allowed_folders) and
+                                (len(forbidden_folders) == 0 or examples[example].get("out_folder",None) not in forbidden_folders) and
                                 (len(allowed_names) == 0 or any(example.startswith(name) for name in allowed_names)) and 
                                 (len(forbidden_names) == 0 or all(not example.startswith(name) for name in forbidden_names)) and
                                 (executed == None or any(el[0] == example for el in executed_examples) == executed)

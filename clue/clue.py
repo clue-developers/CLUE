@@ -343,7 +343,7 @@ class FODESystem:
             return next(equations).domain
         else:
             ## Deciding between reals or rationals
-            domain = QQ if any(eq.evalf() != eq for eq in equations) else RR
+            domain = RR if any(eq.evalf() == eq for eq in equations if eq != 0) else QQ
             ## Computing the parameters on the expressions
             allvars = set()
             for eq in equations:
@@ -1810,11 +1810,14 @@ class FODESystem:
             matrices = self.construct_matrices("polynomial")
             subspace = OrthogonalSubspace(self.field)
             for obs in observable: subspace.absorb_new_vector(obs)
-            L = subspace.matrix()
-            ## vectors to check
             logger.debug("[find_maximal_threshold] Computing the vectors that would be added")
-            LM = [L.matmul(M) for M in matrices]
-            rows = [M.row(i).copy() for M in LM for i in M.nonzero]
+            rows = []
+            for i in subspace.matrix().nonzero:
+                vector = subspace.matrix().row(i)
+                for M in matrices:
+                    row = vector.apply_matrix(M)
+                    if row.nonzero_count: rows.append(row)
+            ## vectors to check
             for row in rows: row.reduce(-self.field.one, row.apply_matrix(subspace.projector))
             logger.debug("[find_maximal_threshold] Computing maximal norm")
             epsilon = math.sqrt(max(el.inner_product(el) for el in rows))
