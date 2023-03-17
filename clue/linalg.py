@@ -456,7 +456,7 @@ class SparseVector(object):
             try:
                 result[ind] = rational_reconstruction_sage(self[ind].to_int(), self.field.characteristic())
             except ValueError:
-                logger.debug("Rational reconstruction problems: %d, %d", self[ind], self.field.characteristic())
+                logger.debug("[rational_reconstruction] Rational reconstruction problems: %d, %d", self[ind], self.field.characteristic())
         return result
 
     #--------------------------------------------------------------------------
@@ -846,7 +846,7 @@ class Subspace(object):
             Input:
 
             * ``new_vector``: a :class:`SparseVector` that will be absorbed by ``self``.
-            * ``force``: command to guarantee the absorbtion of the vector.
+            * ``force``: command to guarantee the absorption of the vector.
 
             Output:
 
@@ -907,7 +907,7 @@ class Subspace(object):
         while to_process and self.ambient_dimension() > self.dim():
             vector = to_process.pop()
 
-            logger.debug(f"  Multiplying vector {i}th by {len(matrices)} matrices...")
+            logger.log(5, f"[apply_matrices_inplace]  Multiplying vector {i}th by {len(matrices)} matrices...")
             for matrix in matrices:
                 prod = vector.apply_matrix(matrix)
                 if not prod.is_zero():
@@ -917,7 +917,7 @@ class Subspace(object):
                         if monitor_length and self.digits() > TOO_BIG_LENGTH:
                             raise ExpressionSwell
             
-            logger.debug(f"  Done")
+            logger.log(5, f"[apply_matrices_inplace]  Done")
             i += 1
 
     def check_invariance(self, matrices : list[SparseRowMatrix]):
@@ -1026,7 +1026,7 @@ class Subspace(object):
         lpivots = sorted(pivots)
         basis = self.basis()
 
-        logger.debug("Constructing new rhs")
+        logger.debug("[perform_change_of_variables] Constructing new rhs")
         if isinstance(rhs[0], SparsePolynomial):
             new_rhs = [SparsePolynomial(old_vars, domain) for _ in range(self.dim())]
         elif isinstance(rhs[0], RationalFunction):
@@ -1034,7 +1034,7 @@ class Subspace(object):
         else:
             new_rhs = [0 for _ in range(self.dim())]
         for i, vec in enumerate(basis):
-            logger.debug(f"    Equation number {i}")
+            logger.debug(f"[perform_change_of_variables]    Equation number {i}")
             for j in vec.nonzero:
                 # ordering is important due to the implementation of
                 # multiplication for SparsePolynomial
@@ -1043,7 +1043,7 @@ class Subspace(object):
                 else:
                     new_rhs[i] += rhs[j] * vec[j].as_expr()
 
-        logger.debug("Plugging zero to nonpivot coordinates")
+        logger.debug("[perform_change_of_variables] Plugging zero to nonpivot coordinates")
 
         if isinstance(rhs[0], SparsePolynomial):
             shrunk_polys = []
@@ -1165,7 +1165,7 @@ class OrthogonalSubspace(Subspace):
 
         TODO: add more documentation and examples
 
-        Methods that are overriden:
+        Methods that are overridden:
 
         * :func:`reduce_vector`
         * :func:`absorb_new_vector`
@@ -1312,7 +1312,7 @@ class OrthogonalSubspace(Subspace):
         # we build the matrix of the space and its pseudoinverse
         L = self.matrix()
         psi_L = self.pinv()
-        logger.debug("Constructing new rhs")
+        logger.debug("[perform_change_of_variables] Constructing new rhs")
         x = [SparsePolynomial.var_from_string(var, old_vars, self.field) for var in old_vars] if isinstance(rhs[0], (SparsePolynomial, RationalFunction)) else symbols(old_vars)
 
         # we apply the pseudoinverse to the new variables
@@ -1347,12 +1347,13 @@ class NumericalSubspace(OrthogonalSubspace):
     '''
     def __init__(self, field: Domain, delta : float = 1e-4):
         super().__init__(field)
-        self.__delta = delta
+
+        self.__delta = max(abs(delta), 1e-10) # minimal threshold to be like zero
         self.__delta2 = self.__delta**2
 
     def _should_absorb(self, vector : SparseVector):
         norm_squared = float(vector.inner_product(vector))
-        logger.debug(f"[_should_absorb - Numerical] {norm_squared}) >? {self.__delta2}")
+        logger.log(5,f"[_should_absorb - Numerical] {norm_squared}) >? {self.__delta2}")
         return norm_squared > float(self.__delta2)
   
 #------------------------------------------------------------------------------
