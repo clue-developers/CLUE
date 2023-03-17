@@ -1034,7 +1034,7 @@ class Subspace(object):
         else:
             new_rhs = [0 for _ in range(self.dim())]
         for i, vec in enumerate(basis):
-            logger.debug(f"[perform_change_of_variables]    Equation number {i}")
+            logger.log(5,f"[perform_change_of_variables]    Equation number {i}")
             for j in vec.nonzero:
                 # ordering is important due to the implementation of
                 # multiplication for SparsePolynomial
