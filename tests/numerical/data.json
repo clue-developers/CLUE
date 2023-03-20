@@ -11,7 +11,7 @@
         "model": "ProteinPhosphorylation",
         "range": 2,
         "slopes": [1.0, 10.0, 100.0],
-        "t1": 0.00125
+        "t1": 10
     },
     "BioNetGen_CCP": {
         "read": "polynomial",
@@ -24,7 +24,7 @@
             ["s3+s43"]
         ],
         "slopes": [0.1,0.2,0.3,0.4,0.5],
-        "t1": 5
+        "t1": 100
     },
     "BIOMD0000000013": {
         "read": "sympy",
@@ -33,7 +33,7 @@
             ["x_CO2"]
         ],
         "slopes": [0.1,1,10],
-        "t1": 1.645293088015709e-08,
+        "t1": 0.4,
         "out_folder": "rational"
     },
     "BIOMD0000000023": {
@@ -63,7 +63,7 @@
             ["AC_cyto_mem"]
         ],
         "slopes": [0.1,1,10],
-        "t1": 1.5737886123142284e-08,
+        "t1": 0.01,
         "out_folder": "rational"
     },
     "BIOMD0000000313": {
@@ -73,7 +73,7 @@
             ["IL13_DecoyR"]
         ],
         "slopes": [0.1,1,10],
-        "t1": 10.0,
+        "t1": 2.0,
         "out_folder": "rational"
     },
     "BIOMD0000000448": {
@@ -83,7 +83,7 @@
             ["mTORC1a"]
         ],
         "slopes": [0.1,1,10],
-        "t1": 1.645293088015709e-08,
+        "t1": 0.0001,
         "out_folder": "rational"
     },
     "BIOMD0000000526": {
@@ -93,7 +93,7 @@
             ["DISC"]
         ],
         "slopes": [0.1,1,10],
-        "t1": 0.03,
+        "t1": 0.1,
         "out_folder": "rational"
     },
     "MODEL1502270000": {
@@ -103,7 +103,7 @@
             ["rmr"]
         ],
         "slopes": [0.1,1,10],
-        "t1": 1,
+        "t1": 1.0739818173451459e-07,
         "out_folder": "rational"
     }
 }

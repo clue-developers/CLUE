@@ -823,6 +823,29 @@ class Subspace(object):
             if vector.is_zero(): break
         return vector
 
+    def find_in(self, vector: SparseVector) -> SparseVector:
+        r'''
+            Method that computed the expression of a vector in terms of the subspace.
+
+            Input:
+
+            * ``vector``: the vector that will be expressed in terms of the subspace basis.
+
+            Output:
+
+            A :class:`SparseVector` with a vector `w` such that `wL = v` for `L` the matrix of the basis of ``self`` and
+            `v` the orivinal vector given by ``vector``.
+        '''
+        in_vector = vector.copy()
+        result = SparseVector(self.dim, self.field)
+        for i,(piv, vect) in enumerate(self.echelon_form.items()):
+            if in_vector[piv]:
+                result[i] = in_vector[piv]
+                in_vector.reduce(-in_vector[piv], vect)
+            if in_vector.is_zero(): break
+        if not in_vector.is_zero(): raise ValueError("The vector is not in the subspace.")
+        return result
+
     def contains(self, vector : SparseVector):
         r'''Checks whether a vector is in ``self`` or not.'''
         return self.reduce_vector(vector.copy()).is_zero()
@@ -1168,6 +1191,7 @@ class OrthogonalSubspace(Subspace):
         Methods that are overridden:
 
         * :func:`reduce_vector`
+        * :func:`find_in`
         * :func:`absorb_new_vector`
         * :func:`apply_matrices_inplace` --> just forcing the ``monitor_length`` to be ``False``
         * :func:`reduce_mod` --> we disable this method for this class (no modular approach implemented)
@@ -1241,6 +1265,17 @@ class OrthogonalSubspace(Subspace):
             vector.reduce(-self.field.one, pi_v)
 
         return vector
+
+    def find_in(self, vector: SparseVector) -> SparseVector:
+        r'''
+            Method that computed the expression of a vector in terms of the subspace.
+
+            In an orthogonal subspace, this can be done by multiplying by the pseudoinverse. We check that 
+            the vector is in the subspace by applying the projector.
+        '''
+        if vector.apply_matrix(self.projector) != vector:
+            raise ValueError("The given vector is not in the current subspace")
+        return vector.apply_matrix(self.pinv())
 
     def absorb_new_vector(self, new_vector : SparseVector, force : bool =False):
         new_vector = self.reduce_vector(new_vector)

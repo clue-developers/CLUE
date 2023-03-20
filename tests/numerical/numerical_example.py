@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.join(SCRIPT_DIR, "..", "..")) # models and clue is he
 sys.path.insert(0, os.path.join(SCRIPT_DIR, "..")) # examples_data is here
 
 from contextlib import nullcontext
-from clue import FODESystem, LDESystem, SparsePolynomial, SparseRowMatrix, NumericalSubspace
+from clue import FODESystem, LDESystem, SparsePolynomial, SparseVector, SparseRowMatrix, NumericalSubspace
 from clue.simulations import apply_matrix, create_figure, merge_simulations
 from cProfile import Profile
 from examples_data import Example, Load_Examples_Folder
@@ -185,7 +185,10 @@ class ResultNumericalExample:
     def original_simulation(self):
         if self._original_simulation is None:
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._original_simulation = apply_matrix(self.system.simulate(self.t0,self.t1,self.x0,self.tstep), self.observable_matrix)
+            x0 = self.x0
+            Lx0 = matmul(self.exact_lumping.lumping_matrix.to_numpy(dtype=x0.dtype), x0)
+            O = SparseRowMatrix.from_vectors([self.exact_lumping._subspace.find_in(row) for row in self.observable_matrix])
+            self._original_simulation = apply_matrix(self.exact_lumping.simulate(self.t0,self.t1,Lx0,self.tstep), O)
         return self._original_simulation
     @property
     def numerical_simulation(self):
@@ -193,7 +196,7 @@ class ResultNumericalExample:
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             x0 = self.x0
             Lx0 = matmul(self.numerical_lumping.lumping_matrix.to_numpy(dtype=x0.dtype), x0)
-            O = self.observable_matrix.change_base(RR).matmul(self.numerical_lumping._subspace.pinv())
+            O = SparseRowMatrix.from_vectors([self.numerical_lumping._subspace.find_in(row) for row in self.observable_matrix.change_base(RR)])
             logger.debug(f"[RNE # {self.example.name}] {inspect.stack()[0][3]} -- Starting simulation (t0={self.t0},t1={self.t1},tstep={self.tstep})")
             self._numerical_simulation = apply_matrix(self.numerical_lumping.simulate(self.t0,self.t1,Lx0,self.tstep), O)
             logger.debug(f"[RNE # {self.example.name}] {inspect.stack()[0][3]} -- Finished simulation")
