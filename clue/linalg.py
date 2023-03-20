@@ -1202,6 +1202,7 @@ class OrthogonalSubspace(Subspace):
     def __init__(self, field: Domain):
         super().__init__(field)
         self.__projector = None
+        self.__pinv = None
 
     @property
     def projector(self) -> SparseRowMatrix:
@@ -1275,7 +1276,7 @@ class OrthogonalSubspace(Subspace):
         '''
         if vector.apply_matrix(self.projector) != vector:
             raise ValueError("The given vector is not in the current subspace")
-        return vector.apply_matrix(self.pinv())
+        return vector.apply_matrix(self.pinv(True))
 
     def absorb_new_vector(self, new_vector : SparseVector, force : bool =False):
         new_vector = self.reduce_vector(new_vector)
@@ -1315,7 +1316,7 @@ class OrthogonalSubspace(Subspace):
     def parametrizing_coordinates(self):
         return list(range(len(self.echelon_form)))
     
-    def pinv(self) -> SparseRowMatrix:
+    def pinv(self, transposed=False) -> SparseRowMatrix:
         r'''
             Return the pseudoinverse of the current basis of ``self``.
 
@@ -1334,11 +1335,13 @@ class OrthogonalSubspace(Subspace):
 
             This method returns the matrix `L^+`.
         '''
-        L = self.matrix().copy()
-        for i in L.nonzero:
-            v = L.row(i)
-            v.scale(self.field.one / v.inner_product(v))
-        return L.transpose()
+        if self.__pinv is None:
+            L = self.matrix().copy()
+            for i in L.nonzero:
+                v = L.row(i)
+                v.scale(self.field.one / v.inner_product(v))
+            self.__pinv = L.transpose(), L
+        return self.__pinv[1] if transposed else self.__pinv[0]
 
     def perform_change_of_variables(self, rhs, old_vars, domain, new_vars_name='y'):
         from .rational_function import SparsePolynomial, RationalFunction
