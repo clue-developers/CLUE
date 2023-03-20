@@ -14,7 +14,7 @@ from collections.abc import Iterable
 from functools import cached_property, reduce, lru_cache
 from io import IOBase
 from itertools import product
-from numpy import ndarray, mean
+from numpy import array, ndarray, mean
 from numpy.random import normal, uniform
 from random import random, randint
 from scipy.integrate import solve_ivp
@@ -136,6 +136,7 @@ class FODESystem:
         self._lumped_system_type = LDESystem
         self.__cache_deviations = {}
         self.__cache_thresholds = {}
+        self.__cache_numerical_evaluator = {}
 
     @staticmethod
     def PerturbedFromSystem(system : FODESystem, noise : str | Callable[[Any], Any] = "normal", amplitude : float = 0.005, zeros = False):
@@ -646,6 +647,24 @@ class FODESystem:
         
         if not was_list: return result[0]
         return result
+
+    def numerical_evaluator(self, equation):
+        if isinstance(equation, str):
+            equation = self.variables.index(equation)
+        elif not isinstance(equation, int):
+            equation = self.equations.index(equation)
+        
+        if equation < 0 or equation >= self.size:
+            raise IndexError("The given equation is out of bounds.")
+        
+        if not equation in self.__cache_numerical_evaluator:
+            exact_equation = self.equations[equation]
+            if isinstance(exact_equation, (SparsePolynomial, RationalFunction)):
+                func = exact_equation.numerical_evaluator
+            else: # sympy case
+                func = eval(f"lambda {','.join(self.variables)}: {str(exact_equation.evalf())}")
+            self.__cache_numerical_evaluator[equation] = func
+        return self.__cache_numerical_evaluator[equation]
 
     def check_consistency(self, other, map_variables, symbolic=False):
         r'''
@@ -1617,26 +1636,29 @@ class FODESystem:
                 >>> R = vring(["x0", "x1", "x2"], QQ)
                 >>> ## Example 1
                 >>> system = FODESystem([x0**2 + x1 + x2, x2, x1], variables=['x0','x1','x2'])
-                >>> system.derivative(_, 0,0,0)
-                [MPQ(0,1), MPQ(0,1), MPQ(0,1)]
-                >>> system.derivative(_, 0,1,1)
-                [MPQ(2,1), MPQ(1,1), MPQ(1,1)]
-                >>> system.derivative(_, 2,0,1)
-                [MPQ(5,1), MPQ(1,1), MPQ(0,1)]
+                >>> system.derivative(..., 0,0,0)
+                [0, 0, 0]
+                >>> system.derivative(..., 0,1,1)
+                [2, 1, 1]
+                >>> system.derivative(..., 2,0,1)
+                [5, 1, 0]
         ''' 
         if len(x) == 1 and isinstance(x[0], Iterable):
             x = x[0]
         
         if len(x) != self.size:
             raise ValueError(f"The size of the input ({len(x)} does not coincide with the variables in the system ({self.size}")
-
+        
         self.normalize() # we normalize the system (if not yet normalized)
-        output = [self.eval_equation(equ, x) for equ in self.equations]
-        if self.type in (SparsePolynomial, RationalFunction):
-            output = [el.ct for el in output]
+        output = [self.numerical_evaluator(i)(*x) for i in range(self.size)]
+        if isinstance(x, ndarray):
+            output = array(x, dtype=x.dtype)
+        # output = [self.eval_equation(equ, x) for equ in self.equations]
+        # if self.type in (SparsePolynomial, RationalFunction):
+        #     output = [el.ct for el in output]
         return output
 
-    def simulate(self, t0, t1, x0, tstep=0.01):
+    def simulate(self, t0, t1, x0, tstep=0.01, **kwds):
         r'''
             Method to simulate the dynamical system
 
@@ -1650,6 +1672,7 @@ class FODESystem:
             * ``t1``: ending point of the time interval (can be smaller than ``t0``).
             * ``x0``: starting data (must have length ``len(self)``)
             * ``tstep``: time steps where the output data will be displayed (must be positive).
+            * ``kwds``: other arguments to be passed to the ivp solver. See :func:`scipy.integrate.solve_ivp` for further information
 
             OUTPUT:
 
@@ -1674,11 +1697,7 @@ class FODESystem:
                 tpoints.append(tpoints[-1] + tstep)
         tpoints.append(t1)
 
-        norm_fx0 = math.sqrt(sum(float(el)**2 for el in self.derivative(...,*x0)))
-        method = "LSODA" if norm_fx0 > 100 else "RK45"
-
-
-        simulation = solve_ivp(self.derivative, (t0,t1), x0, t_eval=tpoints, method=method) ## TODO: implement properly the simulation with extra functionalities
+        simulation = solve_ivp(self.derivative, (t0,t1), x0, t_eval=tpoints, **kwds)
         # adding the names to the simulation
         simulation.names = self.variables
         return simulation
@@ -1761,6 +1780,8 @@ class FODESystem:
             observable = tuple([SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable])
         elif isinstance(observable[0], SparsePolynomial):
             observable = tuple([p.linear_part_as_vec() for p in observable])
+        elif isinstance(observable[0], (list,tuple,ndarray)):
+            observable = tuple([SparseVector.from_list(v, self.field) for v in observable])
         elif not isinstance(observable[0], SparseVector):
             logger.debug("[__process_observable] observables seem to be in SymPy expression format, converting")
             observable = tuple([

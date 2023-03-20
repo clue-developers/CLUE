@@ -1,6 +1,6 @@
 import re
 
-from functools import reduce
+from functools import cached_property, reduce
 
 from pyparsing import (
     Literal,
@@ -810,6 +810,10 @@ class SparsePolynomial(object):
         prod = lambda g : reduce(lambda p,q : p*q, g, 1)
         return sum((c*prod(to_sub[v]**e for (v,e) in m)) for (m,c) in self._data.items())
         
+    @cached_property
+    def numerical_evaluator(self):
+        return eval(f"lambda {','.join(self._varnames)}: {str(self)}")
+
     def automated_diff(self, **values):
         r'''
             Method to compute automated differentiation of a Sparse polynomial
@@ -1509,6 +1513,10 @@ class RationalFunction:
         
         numer = self.numer.subs(to_subs, **values)
         return numer/denom
+    
+    @cached_property
+    def numerical_evaluator(self):
+        return eval(f"lambda {','.join(self._varnames)}: ({str(self.numer)})/({str(self.denom)})")
 
     def automated_diff(self, **values):
         return self.numer.automated_diff(**values) / self.denom.automated_diff(**values)
