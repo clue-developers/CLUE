@@ -662,7 +662,7 @@ class FODESystem:
             if isinstance(exact_equation, (SparsePolynomial, RationalFunction)):
                 func = exact_equation.numerical_evaluator
             else: # sympy case
-                func = eval(f"lambda {','.join(self.variables)}: {str(exact_equation.evalf())}")
+                func = eval(f"lambda {','.join(self.variables)}: {str(exact_equation if not hasattr(exact_equation, 'evalf') else exact_equation.evalf())}")
             self.__cache_numerical_evaluator[equation] = func
         return self.__cache_numerical_evaluator[equation]
 
@@ -1652,7 +1652,7 @@ class FODESystem:
         self.normalize() # we normalize the system (if not yet normalized)
         output = [self.numerical_evaluator(i)(*x) for i in range(self.size)]
         if isinstance(x, ndarray):
-            output = array(x, dtype=x.dtype)
+            output = array(output, dtype=x.dtype)
         # output = [self.eval_equation(equ, x) for equ in self.equations]
         # if self.type in (SparsePolynomial, RationalFunction):
         #     output = [el.ct for el in output]
