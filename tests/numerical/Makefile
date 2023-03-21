@@ -2,7 +2,7 @@ ALL=$(shell python3 numerical_example.py list)
 POLY=$(shell python3 numerical_example.py list -p)
 RATIONAL=$(shell python3 numerical_example.py list -r)
 PYTHON=python3
-FLAGS=-t 600 
+FLAGS=-p -t 600 
 
 all: $(ALL)
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -28,4 +28,4 @@ compile:
 	@python3 numerical_example.py compile
 
 %:
-	$(PYTHON) numerical_example.py exact $@ $(FLAGS)
+	$(PYTHON) numerical_example.py run $@ $(FLAGS)

@@ -1654,9 +1654,6 @@ class FODESystem:
         output = [self.numerical_evaluator(i)(*x) for i in range(self.size)]
         if isinstance(x, ndarray):
             output = array(output, dtype=x.dtype)
-        # output = [self.eval_equation(equ, x) for equ in self.equations]
-        # if self.type in (SparsePolynomial, RationalFunction):
-        #     output = [el.ct for el in output]
         return output
 
     def simulate(self, t0, t1, x0, tstep=0.01, **kwds):

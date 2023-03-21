@@ -78,10 +78,10 @@ class Example:
         )
     
     @lru_cache(maxsize=None)
-    def results_path(self, basedir, read = None, matrix = None):
+    def results_path(self, basedir, read = None, matrix = None,extra=None):
         return os.path.join(
             self.base_path(basedir), 
-            f"[result]{self.base_file_name(read, matrix)}{Example.ResultExtension}"
+            f"[result{f'#{extra}' if extra != None else ''}]{self.base_file_name(read, matrix)}{Example.ResultExtension}"
         )
 
     @lru_cache(maxsize=None)
