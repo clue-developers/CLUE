@@ -13,12 +13,9 @@ The numerical examples are compiled in the file `data.json` and allow the follow
   given, a default value of 50 is used.
 * `threshold`: numerical tolerance when checking numerical equalities. If not given, a 
   default value of "1e-6" is used.
-* `type_input`: indicates the meaning of the `slope` argument. 
-    - If it starts with "slope", then the epsilon will be computed using a heuristic. 
-    - If it is "epsilon", the values will be used directly as epsilons. 
-    - If not given, `slope-brute` is used as default.
-* `slopes`: see `type_input` for further information. It can be a float or a list of 
-  floats. If nothing is given, the value "1.0" is used as default. We always recommend 
-  fixing this value.
+* `type`: indicates the type of example it will execute. It may be the following: 
+    - `slope`: then the epsilon will be computed using a heuristic. 
+    - `epsilon`: an analysis of progressive epsilons will be generated.
+* `slopes`: only used if `type` is defined as `slope`.
 * `t0`, `t1`, `tstep`: arguments for the time span in the simulations. If not given, we 
   use "0.0", "1.0" and "None" will be used as default.

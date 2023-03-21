@@ -20,7 +20,7 @@ from sympy import RR
 
 examples, executed_examples = Load_Examples_Folder(SCRIPT_DIR)
 logger = logging.getLogger("clue")
-logger.setLevel(logging.INFO)
+# logger.setLevel(logging.DEBUG)
 class ResultNumericalExample:
     def __init__(self, 
                  example: Example, observable, observable_matrix: SparseRowMatrix = None, max_perturbation : float = None,
@@ -623,11 +623,11 @@ def compile_results(*argv):
 
     return 
 
-def run_exact(*argv):
+def run_example(*argv):
     r'''Method that run the exact experiment over an example'''
     nargv = len(argv)
     if(nargv == 0):
-        logger.error("[run_exact] This script must be run with at least one argument for the name of the model")
+        logger.error("[run_example] This script must be run with at least one argument for the name of the model")
         print_help()
         return
     
@@ -641,7 +641,7 @@ def run_exact(*argv):
     percentage_slope: float | list[float] = None
     sample_points: int = example.get("sample_points", 50)
     threshold: float = example.get("threshold", 1e-6)
-    type_input: str = example.get("type_input", "slope-brute")
+    type_example: str = example.get("type", "slope")
     t0: float = example.get("t0", 0.0); t1: float = example.get("t1", 1.0); tstep: float = example.get("tstep", None)
 
     ## Checking the rest of the arguments
@@ -656,7 +656,7 @@ def run_exact(*argv):
                 try:
                     timeout = int(argv[n+1]); n += 2
                 except ValueError:
-                    logger.error(f"[run_exact # {example.name}] The timeout argument must be an integer, but found {argv[n+1]}")
+                    logger.error(f"[run_example # {example.name}] The timeout argument must be an integer, but found {argv[n+1]}")
             elif argv[n] == "-o":
                 output = argv[n+1]; n += 2
             elif argv[n] == "-p":
@@ -668,39 +668,39 @@ def run_exact(*argv):
                         percentage_slope = []
                     percentage_slope.append(new_s); n+=2
                 except ValueError:
-                    logger.error(f"[run_exact # {example.name}] The slope argument must be a float, but found {argv[n+1]}")
+                    logger.error(f"[run_example # {example.name}] The slope argument must be a float, but found {argv[n+1]}")
             elif argv[n] == "-sample":
                 try:
                     sample_points = int(argv[n+1]); n+=2
                 except ValueError:
-                    logger.error(f"[run_exact # {example.name}] The number of samples argument must be an integer, but found {argv[n+1]}")
+                    logger.error(f"[run_example # {example.name}] The number of samples argument must be an integer, but found {argv[n+1]}")
             elif argv[n] == "-th":
                 try:
                     threshold = float(argv[n+1]); n+=2
                 except ValueError:
-                    logger.error(f"[run_exact # {example.name}] The threshold argument must be a float, but found {argv[n+1]}")
+                    logger.error(f"[run_example # {example.name}] The threshold argument must be a float, but found {argv[n+1]}")
             elif argv[n] == "-i":
-                if not argv[n+1] in ("slope-brute", "slope-precise", "epsilon"):
-                    logger.error(f"[run_exact # {example.name}] The type of input argument must be one of ['slope-brute','slope-precise','epsilon'], but found {argv[n+1]}")
+                if not argv[n+1] in ("slope", "epsilon"):
+                    logger.error(f"[run_example # {example.name}] The type of input argument must be one of ['slope','epsilon'], but found {argv[n+1]}")
                 else:
-                    type_input = argv[n+1]; n+=2
+                    type_example = argv[n+1]; n+=2
             elif argv[n] == "-t0":
                 try:
                     t0 = float(argv[n+1]); n+=2
                 except ValueError:
-                    logger.error(f"[run_exact # {example.name}] The initial time argument must be a float, but found {argv[n+1]}")
+                    logger.error(f"[run_example # {example.name}] The initial time argument must be a float, but found {argv[n+1]}")
             elif argv[n] == "-t1":
                 try:
                     t1 = float(argv[n+1]); n+=2
                 except ValueError:
-                    logger.error(f"[run_exact # {example.name}] The ending time argument must be a float, but found {argv[n+1]}")
+                    logger.error(f"[run_example # {example.name}] The ending time argument must be a float, but found {argv[n+1]}")
             elif argv[n] == "-tstep":
                 try:
                     tstep = float(argv[n+1]); n+=2
                 except ValueError:
-                    logger.error(f"[run_exact # {example.name}] The time-step argument must be a float, but found {argv[n+1]}")
+                    logger.error(f"[run_example # {example.name}] The time-step argument must be a float, but found {argv[n+1]}")
     except IndexError:
-        print("ERROR: Invalid format of arguments. Check 'run' command in the help")
+        logger.error("Invalid format of arguments. Check 'run' command in the help")
         return
     
     ## Checking arguments
@@ -708,99 +708,108 @@ def run_exact(*argv):
     percentage_slope = example.get("slopes", [1.0]) if percentage_slope is None else [percentage_slope] if not isinstance(percentage_slope, (list, tuple)) else percentage_slope
     if t1 < t0: t0,t1 = t1,t0
     tstep = (t1-t0)/200 if tstep is None else tstep
-    if type_input != "slope-brute": raise NotImplementedError(f"Input type {type_input} not yet implemented")
+    if type_example != "slope": raise NotImplementedError(f"Input type {type_example} not yet implemented")
+    output = sys.stdout if output == "stdout" else sys.stderr if output == "stderr" else output
     
     ## Running the requested example
-    output = sys.stdout if output == "stdout" else sys.stderr if output == "stderr" else output
     with (open(output, "w") if output not in (sys.stdout, sys.stderr) else nullcontext()) as output:
         with Profile() if profile else nullcontext() as pr:
-            ##############################################################################
-            ### Reading the system
-            logger.log(60, f"[run_exact # {example.name}] Reading the system both exactly and numerical")
-            system = FODESystem(file=example.path_model(), read_ic = True, parser=read)
-            RRsystem = FODESystem(file=example.path_model(), read_ic = True, parser=example.read, field=RR)
-            logger.log(60, f"[run_exact # {example.name}] Removing the parameters of the system")
-            system = system.remove_parameters_ic()
-            RRsystem = RRsystem.remove_parameters_ic()
-        
-            ##############################################################################
-            ### Obtaining the initial condition
-            logger.log(60, f"[run_exact # {example.name}] Obtaining the initial condition from the system")
-            x0 = array([float(system.ic.get(v, 0)) for v in system.variables])
-            norm_x0 = norm(x0, ord=2)
-            fx0 = array(RRsystem.derivative(..., *x0), dtype=x0.dtype)
-            norm_fx0 = norm(fx0, ord=2)
-            logger.log(60, f"[run_exact # {example.name}] Initial state of the problem: ||x_0|| = {norm_x0} -- ||f(x_0)|| = {norm_fx0}")
+            if type_example == "slope":
+                __run_slope(example, read, matrix, observables, timeout, output, percentage_slope,
+                            sample_points, threshold, t0, t1, tstep)
+            elif type_example == "epsilon":
+                __run_epsilon(example, read, matrix, observables, timeout, output,
+                            sample_points, threshold, t0, t1, tstep)
+            elif type_example == "perturbed":
+                __run_perturbed()
+
+        ## Saving the profile (if requested)
+        if profile:
+            stats = pstats.Stats(pr)
+            stats.sort_stats(pstats.SortKey.TIME)
+            stats.dump_stats(filename=profile)
             
-            logger.log(60, f"[run_exact # {example.name}] Computing numerical simulation for the exact system ({t0=},{t1=},{tstep=})")
-            original_simulation = system.simulate(t0,t1,x0,tstep)
-
-            ##############################################################################
-            ### Building the observables from the example
-            logger.log(60, f"[run_exact # {example.name}] Building observables")
-            observables = [[SparsePolynomial.from_string(s, system.variables, system.field) for s in obs_set] for obs_set in example.observables]
-            observable_matrices = [SparseRowMatrix.from_vectors([obs.linear_part_as_vec() for obs in observable]) for observable in observables]
-
-            ##############################################################################
-            ### Computing the exact lumping for the observables -- reusing the matrix computation
-            logger.log(60, f"[run_exact # {example.name}] Computing the exact lumping for each observable")
-            exact_lumpings = [system.lumping(observable, method=matrix, print_system=False,print_reduction=False) for observable in observables]
-            RRsystem._lumping_matr[example.matrix] = tuple(M.change_base(RR) for M in system._lumping_matr[matrix])
-
-            ##############################################################################
-            ### Creating the Results structures
-            logger.log(60, f"[run_exact # {example.name}] Creating the result structures")
-            results : list[ResultNumericalExample] = []
-            for observable, O, exact_lumping in zip(observables, observable_matrices, exact_lumpings):
-                for percentage in percentage_slope:
-                    kwds = {"observable_matrix": O, "x0": x0, "norm_x0": norm_x0, "norm_fx0": norm_fx0,
-                        "system": system, "num_system": RRsystem, "exact_lumping": exact_lumping,
-                        "t0": t0, "t1": t1, "tstep": tstep, "threshold": threshold, "sample_points": sample_points,
-                        "original_simulation": apply_matrix(original_simulation, O)}
-                    if type_input.startswith("slope"):
-                        kwds["percentage"] = percentage
-                    elif type_input.startswith("epsilon"):
-                        kwds["epsilon"] = percentage; kwds["considered_epsilon"] = 1; kwds["time_epsilon"] = 0.0
-                    results.append(ResultNumericalExample(example, observable, **kwds))
-            
-            ##############################################################################
-            ### Creating the Results structures
-            logger.log(60, f"[run_exact # {example.name}] Running each of the cases")
-            for result in results:
-                logger.log(60, f"[run_exact # {example.name}] Computing (if needed) epsilon for \n\t{repr(result)}")
-                try:
-                    with Timeout(timeout):
-                        result.epsilon
-                except TimeoutError:
-                    logger.error(f"[run_exact # {example.name}] Timeout of {timeout} reached while computing optimal epsilon for \n\t{repr(result)}. Trying next.")
-                    continue
-                logger.log(60, f"[run_exact # {example.name}] Computing numerical lumping for \n\t{repr(result)}")
-                try:
-                    with Timeout(timeout):
-                        result.numerical_lumping
-                except TimeoutError:
-                    logger.error(f"[run_exact # {example.name}] Timeout of {timeout} reached while computing numerical lumping for \n\t{repr(result)}. Trying next.")
-                    continue
-
-                logger.log(60, f"[run_exact # {example.name}] Generating output for \n\t{repr(result)}")
-                result.write_result(output)
-                logger.log(60, f"[run_exact # {example.name}] Generating images for \n\t{repr(result)}")
-                result.generate_image()
-                logger.log(60, f"[run_exact # {example.name}] Finished execution for \n\t{repr(result)}")
-
-    if profile:
-        stats = pstats.Stats(pr)
-        stats.sort_stats(pstats.SortKey.TIME)
-        stats.dump_stats(filename=profile)
     return
 
-def run_perturbed(*argv):
-    r'''Method to run the perturbation experiment over an example.'''
-    nargv = len(argv)
-    if(nargv == 0):
-        print("ERROR: this script must be run with at least one argument for the name of the model")
-        print_help()
-        return
+def __run_slope(
+        example: Example, read: str, matrix: str, observables: list[str], timeout: int, output: TextIOBase, 
+        percentage_slope: float|list[float], sample_points: int, threshold: float, t0: float, t1: float, tstep: float,
+):
+    ##############################################################################
+    ### Reading the system
+    logger.log(60, f"[run_slope # {example.name}] Reading the system both exactly and numerical")
+    system = FODESystem(file=example.path_model(), read_ic = True, parser=read)
+    RRsystem = FODESystem(file=example.path_model(), read_ic = True, parser=example.read, field=RR)
+    logger.log(60, f"[run_slope # {example.name}] Removing the parameters of the system")
+    system = system.remove_parameters_ic()
+    RRsystem = RRsystem.remove_parameters_ic()
+
+    ##############################################################################
+    ### Obtaining the initial condition
+    logger.log(60, f"[run_slope # {example.name}] Obtaining the initial condition from the system")
+    x0 = array([float(system.ic.get(v, 0)) for v in system.variables])
+    norm_x0 = norm(x0, ord=2)
+    fx0 = array(RRsystem.derivative(..., *x0), dtype=x0.dtype)
+    norm_fx0 = norm(fx0, ord=2)
+    logger.log(60, f"[run_slope # {example.name}] Initial state of the problem: ||x_0|| = {norm_x0} -- ||f(x_0)|| = {norm_fx0}")
+    
+    ##############################################################################
+    ### Building the observables from the example
+    logger.log(60, f"[run_slope # {example.name}] Building observables")
+    observables = [[SparsePolynomial.from_string(s, system.variables, system.field) for s in obs_set] for obs_set in example.observables]
+    observable_matrices = [SparseRowMatrix.from_vectors([obs.linear_part_as_vec() for obs in observable]) for observable in observables]
+
+    ##############################################################################
+    ### Computing the exact lumping for the observables -- reusing the matrix computation
+    logger.log(60, f"[run_slope # {example.name}] Computing the exact lumping for each observable")
+    exact_lumpings = [system.lumping(observable, method=matrix, print_system=False,print_reduction=False) for observable in observables]
+    RRsystem._lumping_matr[example.matrix] = tuple(M.change_base(RR) for M in system._lumping_matr[matrix])
+
+    ##############################################################################
+    ### Creating the Results structures
+    logger.log(60, f"[run_slope # {example.name}] Creating the result structures")
+    results : list[ResultNumericalExample] = []
+    for observable, O, exact_lumping in zip(observables, observable_matrices, exact_lumpings):
+        for percentage in percentage_slope:
+            kwds = {"observable_matrix": O, "x0": x0, "norm_x0": norm_x0, "norm_fx0": norm_fx0,
+                "system": system, "num_system": RRsystem, "exact_lumping": exact_lumping,
+                "t0": t0, "t1": t1, "tstep": tstep, "threshold": threshold, "sample_points": sample_points}
+            kwds["percentage"] = percentage
+            
+            results.append(ResultNumericalExample(example, observable, **kwds))
+    
+    ##############################################################################
+    ### Creating the Results structures
+    logger.log(60, f"[run_slope # {example.name}] Running each of the cases")
+    for result in results:
+        logger.log(60, f"[run_slope # {example.name}] Computing (if needed) epsilon for \n\t{repr(result)}")
+        try:
+            with Timeout(timeout):
+                result.epsilon
+        except TimeoutError:
+            logger.error(f"[run_slope # {example.name}] Timeout of {timeout} reached while computing optimal epsilon for \n\t{repr(result)}. Trying next.")
+            continue
+        logger.log(60, f"[run_slope # {example.name}] Computing numerical lumping for \n\t{repr(result)}")
+        try:
+            with Timeout(timeout):
+                result.numerical_lumping
+        except TimeoutError:
+            logger.error(f"[run_slope # {example.name}] Timeout of {timeout} reached while computing numerical lumping for \n\t{repr(result)}. Trying next.")
+            continue
+
+        logger.log(60, f"[run_slope # {example.name}] Generating output for \n\t{repr(result)}")
+        result.write_result(output)
+        logger.log(60, f"[run_slope # {example.name}] Generating images for \n\t{repr(result)}")
+        result.generate_image()
+        logger.log(60, f"[run_slope # {example.name}] Finished execution for \n\t{repr(result)}")
+
+def __run_epsilon(example: Example, read: str, matrix: str, observables: list[str], timeout: float, output: TextIOBase,
+                            sample_points: int, threshold: float, t0: float, t1: float, tstep: float):
+    logger.error("NotImplementedError: The study of different epsilons is not implemented")
+    return
+
+def __run_perturbed():
+    logger.error("NotImplementedError: The example of perturbed models is not implemented")
     return
 
 def print_help():
@@ -828,13 +837,23 @@ def print_help():
         "NOT YET IMPLEMENTED --> nothing is done\n"
         "--------------------------------------------------------------------------------------------------------------------------\n"
         "\tpython3 numerical_example.py compile\n"
-        "NOT YET IMPLEMENTED --> nothing is done\n"
+        "will compile all the results from the defined examples in 'data.json' to a CSV. No arguments are allowed.\n"
         "--------------------------------------------------------------------------------------------------------------------------\n"
-        "\tpython3 clue_example.py exact <<example>> ????\n"
-        "NOT YET IMPLEMENTED --> nothing is done\n"
-        "--------------------------------------------------------------------------------------------------------------------------\n"
-        "\tpython3 clue_example.py perturbed <<example>> ????\n"
-        "NOT YET IMPLEMENTED --> nothing is done\n"
+        "\tpython3 clue_example.py run <<example>> [-r ()] [-m ()] [-t ()] [-o ()] [-p ()] [-i ()] [-s ()]* [-sample ()] \n"
+        "\t                                        [-th ()] [-t0 ()] [-t1 ()] [-tstep ()]\n"
+        "executes the given example with the given arguments, where the options mean:\n"
+        "  * -r     : defines the reading algorithm for the given example. Only 'polynomial', 'rational' and 'sympy' are allowed.\n"
+        "  * -m     : defines the algorithm to compute matrices for lumping. Only 'polynomial', 'rational' and 'auto_diff' are allowed.\n\n"
+        "  * -t     : defines a timeout for parts of the execution. Must be a float.\n"
+        "  * -o     : defines an output file for saving the result of the example. It must be a valid PATH or 'stdout' or 'stderr'.\n"
+        "  * -p     : defines whether a profile will be saved for this execution.\n"
+        "  * -i     : defines the type of example to be executed. It can be 'slope', 'epsilon' or 'perturbed'.\n"
+        "  * -s     : defines the argument of slopes (for examples of type 'slope'). Several can be given and must be always floats.\n"
+        "  * -sample: defines number of samples used to compute deviation of systems.\n"
+        "  * -th    : defines a threshold to compare floats to be equal. Must be a float.\n"
+        "  * -t0    : defines the initial time for simulations. Must be a float\n"
+        "  * -t1    : defines the time horizon for simulations. Must be a float.\n"
+        "  * -tstep : defines time steps for simulations. Must be a float.\n"
         "--------------------------------------------------------------------------------------------------------------------------\n"
         "--------------------------------------------------------------------------------------------------------------------------\n"
         )
@@ -847,10 +866,8 @@ if __name__ == "__main__":
             add_examples_in_folder(*sys.argv[2:])
         elif len(sys.argv) > 1 and sys.argv[1] == "compile":
             compile_results(*sys.argv[2:])
-        elif len(sys.argv) > 1 and sys.argv[1] == "exact":
-            run_exact(*sys.argv[2:])
-        elif len(sys.argv) > 1 and sys.argv[1] == "perturbed":
-            run_perturbed(*sys.argv[2:])
+        elif len(sys.argv) > 1 and sys.argv[1] == "run":
+            run_example(*sys.argv[2:])
         else:
             print_help()
     except KeyboardInterrupt:
