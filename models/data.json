@@ -84,6 +84,11 @@
         "ref_title": "The statistical mechanics of complex signaling networks: nerve growth factor signaling",
         "ref_doi": "10.1088/1478-3967/1/3/006"
     },
+    "BIOMD0000000088": {
+        "type": "rational",
+        "ref_title": "Ca^{2+}-independent phospholipase A2-dependent sustained Rho-kinase activation exhibits all-or-none response",
+        "ref_doi": "10.1111/j.1365-2443.2006.01001.x"
+    },
     "BIOMD0000000113": {
         "type": "rational",
         "ref_title": "Protein phosphorylation driven by intracellular calcium oscillations: A kinetic analysis",
@@ -103,6 +108,15 @@
         "type": "rational",
         "ref_title": "Insulin signaling in type 2 diabetes",
         "ref_doi": "10.1074/jbc.m112.432062"
+    },
+    "BIOMD0000000488": {
+        "type": "rational",
+        "ref_title": "Investigating interventions in Alzheimer's disease with computer simulation models",
+        "ref_doi": "10.1371/journal.pone.0073631"
+    },
+    "BIOMD0000000503": {
+        "type": "rational",
+        "ref_title": "Enzyme characterisation and kinetic modelling of the pentose phosphate pathway in yeast"
     },
     "BIOMD0000000526": {
         "type": "rational",
