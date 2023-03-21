@@ -837,7 +837,7 @@ class Subspace(object):
             `v` the orivinal vector given by ``vector``.
         '''
         in_vector = vector.copy()
-        result = SparseVector(self.dim, self.field)
+        result = SparseVector(self.dim(), self.field)
         for i,(piv, vect) in enumerate(self.echelon_form.items()):
             if in_vector[piv]:
                 result[i] = in_vector[piv]
