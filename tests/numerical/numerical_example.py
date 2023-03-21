@@ -92,7 +92,7 @@ class ResultNumericalExample:
             ctime = time.time()
             self._epsilon, self._considered_epsilon = self.num_system.find_acceptable_threshold(
                 [obs.change_base(RR) for obs in self.observable], self.dev_max(), self.compact_bound(), 
-                self.sample_points, self.threshold, with_tries=True)
+                self.sample_points, self.threshold, with_tries=True, matrix_algorithm=self.example.matrix)
             self._time_epsilon = time.time()-ctime
         return self._epsilon
     @property
@@ -261,7 +261,8 @@ class ResultNumericalExample:
                 [obs.change_base(RR) for obs in self.observable],
                 self.compact_bound(), 
                 self.sample_points,
-                self.threshold
+                self.threshold,
+                matrix_algorithm=self.example.matrix
             )[0]
         return self._max_epsilon
 

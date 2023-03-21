@@ -46,6 +46,29 @@
         "t1": 20.0,
         "out_folder": "rational"
     },
+    "BIOMD0000000033": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "observables" : [
+            ["freeEGFReceptor"]
+        ],
+        "slopes": [0.1,1,10],
+        "t1": 20.0,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000088": {
+        "read": "rational",
+        "matrix": "rational",
+        "observables" : [
+            ["s360 + s359 + s358"],
+            ["s135"],
+            ["s124"],
+            ["s467 + s470 + s477 + s480"]
+        ],
+        "slopes": [0.1,1,10],
+        "t1": 60,
+        "out_folder": "rational"
+    },
     "BIOMD0000000113": {
         "read": "sympy",
         "matrix": "auto_diff",
@@ -84,6 +107,31 @@
         ],
         "slopes": [0.1,1,10],
         "t1": 0.0001,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000488": {
+        "read": "rational",
+        "matrix": "rational",
+        "observables" : [
+            ["GSK3b"],
+            ["ROS"],
+            ["Tau"],
+            ["GSK3b","ROS","Tau"]
+        ],
+        "slopes": [0.1,1,10],
+        "t1": 0.1,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000503": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "observables" : [
+            ["G6P"],
+            ["NADPH"],
+            ["P6G"]            
+        ],
+        "slopes": [0.1,1,10],
+        "t1": 0.025,
         "out_folder": "rational"
     },
     "BIOMD0000000526": {
