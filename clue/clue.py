@@ -15,6 +15,7 @@ from functools import cached_property, reduce, lru_cache
 from io import IOBase
 from itertools import product
 from numpy import array, ndarray, mean
+from numpy.linalg import norm
 from numpy.random import normal, uniform
 from random import random, randint
 from scipy.integrate import solve_ivp
@@ -1754,19 +1755,17 @@ class FODESystem:
 
             logger.debug("[_deviation] Computing random points...")
             diff_bound = [b[1]-b[0] for b in bound]
-            rhs_point = [[random()*diff_bound[i] + bound[i][0] for i in range(self.size)] for _ in range(num_points)] # evaluation points
+            rhs_point = [array([random()*diff_bound[i] + bound[i][0] for i in range(self.size)]) for _ in range(num_points)] # evaluation points
             logger.debug("[_deviation] Getting the L^+Lx values...")
-            lhs_point = [[sum(pi_L.row(i)[j]*sympify(p[j]) for j in pi_L.row(i).nonzero) for i in range(pi_L.nrows)] for p in rhs_point]
+            lhs_point = [array([sum(float(pi_L.row(i)[j])*p[j] for j in pi_L.row(i).nonzero) for i in range(pi_L.nrows)]) for p in rhs_point]
 
             deviations = []
             
             logger.debug("[_deviation] Computing deviation for each point")
             for (lhs, rhs) in zip(lhs_point, rhs_point):
-                elhs, erhs = self.eval_equation(self.equations, lhs), self.eval_equation(self.equations, rhs)
-                if issubclass(self.type, (SparsePolynomial, RationalFunction)):
-                    elhs = [el.get_constant() for el in elhs]; erhs = [el.get_constant() for el in erhs]
-                diff = [sum(L.row(i)[j]*(elhs[j]-erhs[j]) for j in L.row(i).nonzero) for i in range(L.nrows)]
-                deviations.append(math.sqrt(sum(el**2 for el in diff)))
+                diff_evals = self.derivative(..., lhs) - self.derivative(..., rhs)
+                diff = array([sum(float(L.row(i)[j])*(diff_evals[j]) for j in L.row(i).nonzero) for i in range(L.nrows)])
+                deviations.append(norm(diff, ord=2))
 
             logger.debug("[_deviation] Returning the average deviation")
             self.__cache_deviations[key] = mean(deviations)
