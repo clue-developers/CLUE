@@ -702,7 +702,7 @@ class SparsePolynomial(object):
         if(other.is_constant()):
             return SparsePolynomial(self._varnames, self.domain, {k: self._data[k]/other.ct for k in self._data})
         else:
-            if((self%other).is_zero()): ## Keeping SparsePolynomial if the division is exact
+            if self.domain.is_Exact and (self%other).is_zero(): ## Keeping SparsePolynomial if the division is exact
                 return self//other
             return RationalFunction(self, other)
 
@@ -1242,7 +1242,7 @@ class RationalFunction:
         self.denom = denom
 
         ## Simplifying the rational function if the denominator is not 1
-        if denom != SparsePolynomial.from_const(1, self.gens, self.domain):
+        if self._domain.is_Exact and denom != SparsePolynomial.from_const(1, self.gens, self.domain):
             self.simplify()
 
     @staticmethod
