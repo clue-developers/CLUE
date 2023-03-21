@@ -19,7 +19,7 @@ from numpy.linalg import norm
 from numpy.random import normal, uniform
 from random import random, randint
 from scipy.integrate import solve_ivp
-from sympy import QQ, RR, lambdify, symbols, oo, sympify
+from sympy import QQ, RR, lambdify, symbols, oo
 from sympy.polys.fields import FracElement
 from sympy.polys.rings import PolyElement
 from typing import Callable, Any
