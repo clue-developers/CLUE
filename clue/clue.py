@@ -450,7 +450,7 @@ class FODESystem:
             if isinstance(equ, PolyElement):
                 if equ != 0 and any(min(d for d in m) < 0 for m in equ.monoms()): 
                     # PolyElement with negative exponents --> sympy
-                    logger.debug("[normalize] found PolyElement with negative exponents --> sympy")
+                    logger.log(5, "[normalize] found PolyElement with negative exponents --> sympy")
                     target_type = 2
                 # PolyElement with no negative exponents --> polynomial: do not change target_type
             elif isinstance(equ, FracElement):
@@ -459,20 +459,20 @@ class FODESystem:
                     pass
                 elif denom == 1: # maybe a polynomial is enough
                     if numer != 0 and min(min(d for d in m) < 0 for m in numer.monoms()): # FracElement with numerator with neg. exponents
-                        logger.debug("[normalize] found FracElement (den=1, num w. neg. exp.) --> RationalFunction")
+                        logger.log(5, "[normalize] found FracElement (den=1, num w. neg. exp.) --> RationalFunction")
                         target_type = 1
                 else: # we have a proper fraction, we need a RationalFunction
-                    logger.debug("[normalize] found FracElement (den!=1) --> RationalFunction")
+                    logger.log(5, "[normalize] found FracElement (den!=1) --> RationalFunction")
                     target_type = 1
             elif isinstance(equ, SparsePolynomial):
                 pass # the type do not change because of a SparsePolynomial
             elif isinstance(equ, RationalFunction):
                 # we check the denominator to see if it is not 1
                 if equ.denom != 1: # we need at least a RationalFunction
-                    logger.debug("[normalize] found RationalFunction (den!=1) --> RationalFunction")
+                    logger.log(5, "[normalize] found RationalFunction (den!=1) --> RationalFunction")
                     target_type = 1
             else: # other cases all to sympy
-                logger.debug("[normalize] found something different --> sympy")
+                logger.log(5, "[normalize] found something different --> sympy")
                 target_type = 2
             equ = next(equations, None)
         
@@ -500,7 +500,7 @@ class FODESystem:
             if type == 0:
                 nequation = equation
             elif type == 1:
-                nequation = RationalFunction(equation, RationalFunction.from_const(1, self.variables))
+                nequation = RationalFunction(equation, SparsePolynomial.from_const(1, self.variables, equation.domain))
             elif type == 2:
                 nequation = equation.to_sympy().as_expr()
         elif isinstance(equation, RationalFunction):
@@ -1196,7 +1196,6 @@ class FODESystem:
         else:
             n = sum(len([el for el in func.free_symbols if str(el) in self.variables]) for func in funcs)
         logger.log(5,"[_construct_matrices_AD_random] bound for dimension: %d" %n)
-        m = 0 # number of generated matrices
 
         start_global = time.time()
 
@@ -1207,20 +1206,14 @@ class FODESystem:
         end = time.time()
         logger.log(5,f"[_construct_matrices_AD_random] Created {len(sparse_eval_points)} sparse evaluation points in {end-start}s")
         pivot_index = None
-        for point in sparse_eval_points:
+        for i, point in enumerate(sparse_eval_points):
             start = time.time()
             new_matr = FODESystem.evaluate_jacobian(funcs, varnames, field, point)
             pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
-            logger.log(5,f"[_construct_matrices_AD_random] Densities for now {subspace.densities()}")
-            if(pivot_index >= 0): # new matrix added
-                logger.log(5,f"[_construct_matrices_AD_random] New matrix added with density: {new_matr.density()}")
-                m += 1
-            if(m % 10 == 0):
-                logger.log(5,f"[_construct_matrices_AD_random] Generated {m} random matrices...")
             end = time.time()
-            logger.log(5,f"[_construct_matrices_AD_random] Matrix created and checked in {end - start}")
+            logger.log(5,f"[_construct_matrices_AD_random] Processed {i+1}/{len(sparse_eval_points)} sparse points. Current dimension: {subspace.dim()}. Last in {end- start}")
 
-        if(m == 0): 
+        if(subspace.dim() == 0): 
             logger.log(5,f"[_construct_matrices_AD_random] No sparse evaluation was done. Creating one starting evaluation...")
             start = time.time()
             pivot_index = subspace.absorb_new_vector(
@@ -1228,26 +1221,26 @@ class FODESystem:
             )
             end = time.time()
             logger.log(5,f"[_construct_matrices_AD_random] Matrix created and checked in {end - start}")
-            m = 1
 
-        finished = (m >= n)
+        finished = (subspace.dim() >= n)
+        logger.debug(f"[_construct_matrices_AD_random] Created {subspace.dim()} matrices from sparse points.")
 
         while(not finished):
             while(pivot_index >= 0):
                 start = time.time()
                 new_matr = FODESystem.build_random_evaluation_jacobian(funcs, varnames, field)
-                pivot_index = subspace.absorb_new_vector(new_matr.to_vector())
-                logger.log(5,f"[_construct_matrices_AD_random] Densities for now {subspace.densities()}")
+                new_matr_vect = new_matr.to_vector()
+                pivot_index = subspace.absorb_new_vector(new_matr_vect)
                 if(pivot_index >= 0):
-                    logger.log(5,f"[_construct_matrices_AD_random] New matrix density: {new_matr.density()}")
-                    m += 1
-                if(m % 10 == 0):
-                    logger.log(5,f"[_construct_matrices_AD_random] Generated {m} random matrices...")
+                    logger.log(5,f"[_construct_matrices_AD_random] New matrix density: {new_matr_vect.density()}")
+                if(subspace.dim() % 10 == 0):
+                    logger.debug(f"[_construct_matrices_AD_random] Generated {subspace.dim()} random matrices...")
+                logger.log(5,f"[_construct_matrices_AD_random] Densities for now {subspace.densities()}")
                 end = time.time()
                 logger.log(5,f"[_construct_matrices_AD_random] Matrix in {end - start}")
             ## We had a linearly dependant matrix: we check the probability of this being complete
-            logger.log(5,f"[_construct_matrices_AD_random] Found a linearly dependant matrix after {m} attempts.")
-            if(m >= n): # we grew too much, reached the maximal
+            logger.log(5,f"[_construct_matrices_AD_random] Found a linearly dependant matrix after {subspace.dim()} attempts.")
+            if(subspace.dim() >= n): # we grew too much, reached the maximal
                 logger.log(5,f"[_construct_matrices_AD_random] We found the maximal amount of linearly independent matrices")
                 finished = True
             else: # we checked (probabilistic) if we have finished
@@ -1255,7 +1248,7 @@ class FODESystem:
                 to get an element in the current space.")
                 Dn, Dd = self.bounds
                 # Value for the size of coefficients (see paper ``Exact linear reduction for rational dynamics``)
-                N = int(math.ceil((Dn + 2*m*Dd)/prob_err)) + self.size*Dd
+                N = int(math.ceil((Dn + 2*subspace.dim()*Dd)/prob_err)) + self.size*Dd
 
                 logger.log(5,f"[_construct_matrices_AD_random] Bound for the (prob.) coefficients: {N}")
 
@@ -1268,7 +1261,7 @@ class FODESystem:
                 else: # we add the matrix to the list
                     logger.log(5,"[_construct_matrices_AD_random] The new matrix is NOT in the vector space: we continue")
                 
-        logger.debug(f"[_construct_matrices_AD_random] -> I created {m} linearly independent matrices in {time.time()-start_global}s")
+        logger.debug(f"[_construct_matrices_AD_random] -> I created {subspace.dim()} linearly independent matrices in {time.time()-start_global}s")
         # We return the basis obtained
         return [el.as_matrix(self.size) for el in subspace.basis()]
     
@@ -1808,7 +1801,10 @@ class FODESystem:
         
         return bound
 
-    def find_maximal_threshold(self, observable, bound: float | list[float] | list[tuple[float,float]], num_points: int, threshold: float):
+    def find_maximal_threshold(self, observable, 
+        bound: float | list[float] | list[tuple[float,float]], num_points: int, threshold: float, 
+        matrix_algorithm: str = "polynomial"
+    ):
         r'''
             Method that gets the maximal threshold for numerical lumping for a given observable.
 
@@ -1824,7 +1820,7 @@ class FODESystem:
 
         if not key in self.__cache_thresholds:
             logger.debug("[find_maximal_threshold] Building matrices for lumping")
-            matrices = self.construct_matrices("polynomial")
+            matrices = self.construct_matrices(matrix_algorithm)
             subspace = OrthogonalSubspace(self.field)
             for obs in observable: subspace.absorb_new_vector(obs)
             logger.debug("[find_maximal_threshold] Computing the vectors that would be added")
@@ -1845,7 +1841,7 @@ class FODESystem:
 
     def find_acceptable_threshold(self, observable, 
         dev_max: float, bound: float | list[float] | list[tuple[float,float]], num_points: int, threshold: float,
-        with_tries=False
+        with_tries: bool = False, matrix_algorithm: str = "polynomial"
     ) -> float:
         r'''
             Method to compute an optimal threshold for numerical lumping
@@ -1856,14 +1852,15 @@ class FODESystem:
         observable, bound = self.__process_observable(observable), self.__process_bound(bound, threshold)
 
         logger.debug("[find_acceptable_threshold] Building matrices for lumping")
-        matrices = self.construct_matrices("polynomial")
+        matrices = self.construct_matrices(matrix_algorithm)
 
         logger.debug("[find_acceptable_threshold] Computing maximal epsilon and its deviation")
-        max_epsilon, last_deviation = self.find_maximal_threshold(observable, bound, num_points, threshold)
+        max_epsilon, last_deviation = self.find_maximal_threshold(observable, bound, num_points, threshold, matrix_algorithm=matrix_algorithm)
         ls, rs = 0, max_epsilon
         last_success = max_epsilon if last_deviation < dev_max else 0
         current_dev = last_deviation if last_deviation < dev_max else 0
         tries = 1
+        logger.debug(f"[find_acceptable_threshold] Initial interval of search: [{ls},{rs}]")
         if last_deviation >= dev_max:
             # If the maximal reduction is above the maximal deviation, we do a binary search from 0 to max_epsilon
             while abs(dev_max - current_dev) >= threshold and (rs-ls) > threshold: 
