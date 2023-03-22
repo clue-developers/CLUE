@@ -1856,8 +1856,7 @@ class FODESystem:
 
         logger.debug("[find_acceptable_threshold] Computing maximal epsilon and its deviation")
         max_epsilon, last_deviation = self.find_maximal_threshold(observable, bound, num_points, threshold, matrix_algorithm=matrix_algorithm)
-        ls, rs = 0, max_epsilon
-        last_success = max_epsilon if last_deviation < dev_max else 0
+        ls, rs = max_epsilon if last_deviation < dev_max else 0, max_epsilon
         current_dev = last_deviation if last_deviation < dev_max else 0
         tries = 1
         logger.debug(f"[find_acceptable_threshold] Initial interval of search: [{ls},{rs}]")
@@ -1874,7 +1873,6 @@ class FODESystem:
                 logger.debug(f"[find_acceptable_threshold] Current deviation for {epsilon = } ({subspace.dim()}): {current_dev}")
                 if current_dev < dev_max - threshold:
                     ls, rs = epsilon, rs
-                    last_success = epsilon
                 elif current_dev > dev_max + threshold:
                     ls, rs = ls, epsilon
                 else:
@@ -1882,10 +1880,10 @@ class FODESystem:
                 logger.debug(f"[find_acceptable_threshold] New interval search: [{ls},{rs}]")
                 tries += 1
         
-        logger.debug(f"[find_acceptable_threshold] Found optimal threshold --> {last_success}")        
+        logger.debug(f"[find_acceptable_threshold] Found optimal threshold --> {ls}")        
         if with_tries:
-            return last_success, tries
-        return last_success
+            return ls, tries
+        return ls
 
     ##############################################################################################################
     ##############################################################################################################
