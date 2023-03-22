@@ -1630,7 +1630,7 @@ class RationalFunction:
             atom = (
                 addop[...]
                 + (
-                    (ident | fnumber).setParseAction(push_first) # (fnumber | ident).setParseAction(push_first)
+                    (fnumber | ident).setParseAction(push_first) # (ident | fnumber).setParseAction(push_first)
                     | Group(lpar + expr + rpar)
                 )
             ).setParseAction(push_unary_minus)
