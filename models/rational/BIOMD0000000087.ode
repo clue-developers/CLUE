@@ -1,0 +1,201 @@
+begin model BIOMD0000000087
+ begin parameters
+  kalive = 1.0
+ end parameters
+ begin init
+  Ctelo = 64.0
+  Utelo
+  Cdc13 = 300.0
+  Rad17Utelo
+  Rad17 = 70.0
+  Rad24 = 70.0
+  RPA = 4000.0
+  Mec1 = 4000.0
+  ssDNA
+  RPAssDNA
+  RPAssDNA1
+  RPAssDNA2
+  Mec1RPAssDNA
+  ExoXI = 70.0
+  ExoXA
+  Exo1I = 670.0
+  Exo1A
+  Rad9I = 20.0
+  Rad9A
+  Rad53I = 6900.0
+  Rad53A
+  Chk1I = 60.0
+  Chk1A
+  Dun1I = 3000.0
+  Dun1A
+  ATP = 10000.0
+  ADP = 1000.0
+  Rad9Kin
+  recovery
+  G1 = 1.0
+  S
+  G2
+  M
+  G1cyclin
+  Scyclin
+  G2cyclin
+  Mcyclin
+  G1CdkI = 1.0
+  G1CdkA
+  SCdkI = 1.0
+  SCdkA
+  G2CdkI = 1.0
+  G2CdkA
+  MCdkI = 1.0
+  MCdkA
+  G1Soff = 1.0
+  G1Son
+  SG2off = 1.0
+  SG2on
+  G2Moff = 1.0
+  G2Mon
+  MG1off = 1.0
+  MG1on
+  sink
+  budscar
+ end init
+ begin reactions
+  Utelo + Cdc13 -> Ctelo , arbitrary 0.0005*Cdc13*Utelo*kalive [Capping]
+  Ctelo -> Utelo + Cdc13 , arbitrary 0.000385*Ctelo*kalive [Uncapping]
+  Utelo + Rad17 + Rad24 + ATP -> Rad17Utelo + Rad24 + ADP , arbitrary (1.5E-8)*Utelo*Rad17*Rad24*ATP*kalive/(5000+ATP) [Rad17binding]
+  Rad17Utelo + ExoXI -> Rad17Utelo + ExoXA , arbitrary 0.01*ExoXI*Rad17Utelo*kalive [ExoXactivation]
+  Rad17Utelo + ExoXA -> Rad17Utelo + ssDNA + ExoXA , arbitrary 0.0003*ExoXA*Rad17Utelo*kalive [ExoXactivity]
+  Exo1I -> Exo1A , arbitrary (5E-5)*Exo1I*kalive [Exo1activation]
+  Rad24 + Exo1I -> Rad24 + Exo1A , arbitrary 0.0005*Exo1I*Rad24*kalive [Exo1Rad24dependentActivation]
+  Utelo + Exo1A -> Utelo + ssDNA + Exo1A , arbitrary (3E-5)*Utelo*Exo1A*kalive [Exo1Rad17independentActivity]
+  Rad17Utelo + Exo1A -> Rad17Utelo + ssDNA + Exo1A , arbitrary (3E-5)*Rad17Utelo*Exo1A*kalive [Exo1Rad17dependentActivity]
+  RPA + ssDNA -> RPAssDNA1 , arbitrary 0.001*RPA*ssDNA*kalive [RPAbinding1]
+  ssDNA + RPAssDNA1 -> RPAssDNA2 , arbitrary 100*RPAssDNA1*ssDNA*kalive [RPAbinding2]
+  ssDNA + RPAssDNA2 -> RPAssDNA , arbitrary 100*RPAssDNA2*ssDNA*kalive [RPAbinding]
+  Mec1 + RPAssDNA -> Mec1RPAssDNA , arbitrary 0.004*RPAssDNA*Mec1*kalive [Mec1binding]
+  Rad9I + Rad9Kin -> Rad9A + Rad9Kin , arbitrary 100*Rad9Kin*Rad9I*kalive [Rad9activation]
+  ExoXA + Rad9A -> ExoXI + Rad9A , arbitrary ExoXA*0.05*Rad9A*kalive [ExoXinhibition]
+  ExoXA + Rad9I -> ExoXI + Rad9I , arbitrary ExoXA*0.05*Rad9I*kalive [ExoXinhibition2]
+  Rad9A + Rad53I -> Rad9A + Rad53A , arbitrary (1E-5)*Rad53I*Rad9A*kalive [Rad53activation]
+  Rad9A + Chk1I -> Rad9A + Chk1A , arbitrary Chk1I*0.00017*Rad9A*kalive [Chk1Activation]
+  Exo1A + Rad53A -> Exo1I + Rad53A , arbitrary Exo1A*1*Rad53A*kalive [Exo1inhibition]
+  Rad53A + Dun1I -> Rad53A + Dun1A , arbitrary Dun1I*(3.3E-6)*Rad53A*kalive [Dun1activation]
+  Chk1A + G2Mon -> Chk1A + G2Moff , arbitrary Chk1A*G2Mon*0.2*kalive [Chk1cellArrest]
+  Dun1A + G2Mon -> Dun1A + G2Moff , arbitrary Dun1A*G2Mon*0.1*kalive [Dun1cellArrest]
+  Mec1RPAssDNA + S -> RPA + Mec1 + 3*ssDNA + S , arbitrary 0.05*Mec1RPAssDNA*S*kalive [SDNArepair1]
+  Mec1RPAssDNA + G2 + G2Moff -> RPA + Mec1 + 3*ssDNA + G2 + G2Moff , arbitrary G2*G2Moff*0.05*Mec1RPAssDNA*kalive [G2DNArepair1]
+  ssDNA + S -> S , arbitrary 0.001*S*ssDNA*kalive [SDNArepair2]
+  ssDNA + G2 + G2Moff -> G2 + G2Moff , arbitrary G2*G2Moff*(1E-5)*ssDNA*kalive [G2DNArepair2]
+  Cdc13 + Rad17Utelo + recovery -> Ctelo + Rad17 + recovery , arbitrary Cdc13*0.001*Rad17Utelo*recovery*kalive [Recovery]
+  G1 -> G1 + G1cyclin , arbitrary G1*0.16*kalive [G1cyclinSynthesis]
+  S -> S + Scyclin , arbitrary 0.16*S*kalive [ScyclinSynthesis]
+  G2 -> G2 + G2cyclin , arbitrary G2*0.16*kalive [G2cyclinSynthesis]
+  M -> M + Mcyclin , arbitrary 0.16*M*kalive [McyclinSynthesis]
+  G1 + G1CdkA + G1Soff -> G1 + G1CdkA + G1Son , arbitrary G1*G1CdkA*G1Soff*0.01*kalive [G1toSGenesOn]
+  S + SCdkA + SG2off -> S + SCdkA + SG2on , arbitrary 0.01*S*SCdkA*SG2off*kalive [StoG2GenesOn]
+  G2 + G2CdkA + G2Moff -> G2 + G2CdkA + G2Mon , arbitrary G2*G2CdkA*G2Moff*0.01*kalive [G2toMGenesOn]
+  M + MCdkA + MG1off -> M + MCdkA + MG1on , arbitrary 0.01*M*MCdkA*MG1off*kalive [MtoG1GenesOn]
+  G1cyclin -> sink , arbitrary G1cyclin*0.0012*kalive [G1cyclinDegradation]
+  Scyclin -> sink , arbitrary 0.0012*Scyclin*kalive [ScyclinDegradation]
+  G2cyclin -> sink , arbitrary G2cyclin*0.0012*kalive [G2cyclinDegradation]
+  Mcyclin -> sink , arbitrary 0.0012*Mcyclin*kalive [McyclinDegradation]
+  G1 + G1CdkA + G1Son -> S + G1CdkI + G1Soff , arbitrary G1*G1CdkA*G1Son*0.01*kalive [G1toSProgession]
+  S + SCdkA + SG2on -> G2 + SCdkI + SG2off , arbitrary 0.01*S*SCdkA*SG2on*kalive [StoG2Progession]
+  G2 + G2CdkA + G2Mon -> M + G2CdkI + G2Moff , arbitrary G2*G2CdkA*G2Mon*0.01*kalive [G2toMProgession]
+  M + MCdkA + MG1on -> G1 + MCdkI + MG1off + budscar , arbitrary 0.01*M*MCdkA*MG1on*kalive [MtoG1Progession]
+ end reactions
+
+//Comments associated to the species
+//sink:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+//Comments associated to the reactions
+//Capping:  
+  //Capping
+//Uncapping:  
+  //Uncapping
+//Rad17binding:  
+  //Rad17binding
+//ExoXactivation:  
+  //ExoXactivation
+//ExoXactivity:  
+  //ExoXactivity
+//Exo1activation:  
+  //Rad24independentExo1Activation
+//Exo1Rad24dependentActivation:  
+  //Rad24dependentExo1Activation
+//Exo1Rad17independentActivity:  
+  //Rad17independentExo1Activity
+//Exo1Rad17dependentActivity:  
+  //Rad17dependentExo1Activity
+//RPAbinding1:  
+  //RPAbinding-stage1
+//RPAbinding2:  
+  //RPAbinding-stage2
+//RPAbinding:  
+  //RPAbinding-completed
+//Mec1binding:  
+  //Mec1binding
+//Rad9activation:  
+  //Rad9activation
+//ExoXinhibition:  
+  //ExoXinhibition
+//ExoXinhibition2:  
+  //ExoXinhibition2
+//Rad53activation:  
+  //Rad53activation
+//Chk1Activation:  
+  //Chk1Activation
+//Exo1inhibition:  
+  //Exo1inhibition
+//Dun1activation:  
+  //Dun1activation
+//Chk1cellArrest:  
+  //Chk1cellArrest
+//Dun1cellArrest:  
+  //Dun1cellArrest
+//SDNArepair1:  
+  //SDNArepair1
+//G2DNArepair1:  
+  //G2DNArepair1
+//SDNArepair2:  
+  //SDNArepair2
+//G2DNArepair2:  
+  //G2DNArepair2
+//Recovery:  
+  //Recovery
+//G1cyclinSynthesis:  
+  //G1cyclinSynthesis
+//ScyclinSynthesis:  
+  //ScyclinSynthesis
+//G2cyclinSynthesis:  
+  //G2cyclinSynthesis
+//McyclinSynthesis:  
+  //McyclinSynthesis
+//G1toSGenesOn:  
+  //G1toSGenesOn
+//StoG2GenesOn:  
+  //StoG2GenesOn
+//G2toMGenesOn:  
+  //G2toMGenesOn
+//MtoG1GenesOn:  
+  //MtoG1GenesOn
+//G1cyclinDegradation:  
+  //G1cyclinDegradation
+//ScyclinDegradation:  
+  //ScyclinDegradation
+//G2cyclinDegradation:  
+  //G2cyclinDegradation
+//McyclinDegradation:  
+  //McyclinDegradation
+//G1toSProgession:  
+  //G1toSProgession
+//StoG2Progession:  
+  //StoG2Progession
+//G2toMProgession:  
+  //G2toMProgession
+//MtoG1Progession:  
+  //MtoG1Progession
+
+end model
+

@@ -84,6 +84,11 @@
         "ref_title": "The statistical mechanics of complex signaling networks: nerve growth factor signaling",
         "ref_doi": "10.1088/1478-3967/1/3/006"
     },
+    "BIOMD0000000087": {
+        "type": "rational",
+        "ref_title": "Modelling the checkpoint response to telomere uncapping in budding yeast",
+        "ref_doi": "10.1098/rsif.2006.0148"
+    },
     "BIOMD0000000088": {
         "type": "rational",
         "ref_title": "Ca^{2+}-independent phospholipase A2-dependent sustained Rho-kinase activation exhibits all-or-none response",
@@ -103,6 +108,11 @@
         "type": "rational",
         "ref_title": "Dynamic mathematical modeling of IL13-induced signaling in hodgkin and primary mediastinal b-cell lymphoma allows prediction of therapeutic targets",
         "ref_doi": "10.1158/0008-5472.can-10-2987"
+    },
+    "BIOMD0000000437": {
+        "type": "rational",
+        "ref_title": "Comprehensive modelling of the Neurospora circadian clock and its temperature compensation",
+        "ref_doi": "10.1371/journal.pcbi.1002437"
     },
     "BIOMD0000000448": {
         "type": "rational",
@@ -127,6 +137,21 @@
         "type": "rational",
         "ref_title": "A multiscale model of interleukin-6-mediated immune regulation in crohn's disease and its application in drug discovery and development",
         "ref_doi": "10.1038/psp.2013.64"
+    },
+    "BIOMD0000000537": {
+        "type": "rational",
+        "ref_title": "A multiscale model of interleukin-6-mediated immune regulation in Crohn's disease and its application in drug discovery and development",
+        "ref_doi": "10.1038/psp.2013.64"
+    },
+    "BIOMD0000000611": {
+        "type": "rational",
+        "ref_title": "Using a Systems Pharmacology Model of the Blood Coagulation Network to Predict the Effects of Various Therapies on Biomarkers",
+        "ref_doi": "10.1002/psp4.50"
+    },
+    "BIOMD0000000634": {
+        "type": "rational",
+        "ref_title": "Investigating interventions in Alzheimer's disease with computer simulation models",
+        "ref_doi": "10.1371/journal.pone.0073631"
     },
     "MODEL1502270000": {
         "type": "rational",

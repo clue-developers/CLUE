@@ -1,0 +1,368 @@
+begin model BIOMD0000000611
+ begin parameters
+  k1 = 0.0043339901
+  k2 = 0.0041242451
+  k3 = 0.0019496187
+  k4 = 0.075680013
+  k5 = 3.3894832E-4
+  k6 = 0.009975373
+  k7 = 1.1527134E-5
+  k8 = 1.3800407
+  k9 = 0.036245656
+  k10 = 8.9987819
+  k11 = 9.5
+  k12 = 0.032999929
+  k13 = 20.6708
+  k14 = 0.010569458
+  k15 = 2.3887492
+  k16 = 3.764127E-5
+  k17 = 1.44895
+  k18 = 0.0050724996
+  k19 = 0.11749508
+  k20 = 0.0013766033
+  k21 = 0.048795021
+  k22 = 42.71401
+  k23 = 3.3E-5
+  k24 = 0.009
+  k25 = 0.0013357963
+  k26 = 0.0013946425
+  k27 = 4.0233556E-4
+  k29 = 149.91541
+  k30 = 0.10001522
+  k31 = 29.479266
+  k32 = 0.21872155
+  k33 = 1.801577E-4
+  k34 = 4.5E-4
+  k35 = 1.0062408E-4
+  k36 = 0.25638864
+  k37 = 0.025386917
+  k38 = 1.0556718E-6
+  k39 = 3.55E-6
+  k40 = 2.8169728E-7
+  k41 = 3.917682E-6
+  k42 = 3.2905257E-7
+  mwe5422617_5481_47c8_bf98_d6e3f1e96384 = 8.5153312E-6
+  mw3ab61faa_95e4_40a9_93de_5c51755957c4 = 0.091852853
+  mw862c3fea_05a0_4d3d_ba5c_9727bbb67907 = 1800.0
+  mw107e9839_b4a4_46c8_9102_da7d857fd655 = 47.928292
+  mweb1be1ac_0c60_4849_b306_071c8f9370c0 = 0.15
+  mw94d2be4e_839e_4154_a6f0_f0d6b61e50a9 = 57.613526
+  mw6f439ade_bb02_4671_8e45_8beaa312b3d2 = 4.1832115
+  mwf677450c_a4e3_41df_be5a_9c8928ac27f4 = 1.08E-8
+  mweacc6c48_8e8c_481b_92ce_0cb9ccb3be00 = 4.8E-7
+  mwc0cb654e_d95f_4d4b_8dc2_3a21afd35a19 = 0.13081564
+  mwb01ef86f_18d8_45e7_a452_31878dcb3d49 = 30.668349
+  mw7300dcac_9389_4201_88c7_7effa7fdb0f3 = 10.565569
+  mw44adf04a_f1e2_4ca9_9615_5a9f4d3bbea8 = 0.13304333
+  mwc189e7ea_7518_4a4f_be0f_03f2d073b29e = 83.206626
+  mwaec203ce_06d5_4003_bfdb_7244d3d77255 = 0.0011427258
+  mw05b4111c_4463_4be0_aa1e_5a8f50c7bf67 = 0.059664002
+  mw7b89687a_3110_4d5f_a9ec_7ca8761f0d41 = 84.659935
+  mw61fdd721_9193_442c_bc9e_f1058c4720e7 = 1.2943783E-5
+  mw1ddc2a05_bc78_4434_a2d9_d06701483346 = 19.338228
+  mw4fc81076_be53_4fc3_9ade_3587e8d60355 = 0.1857857
+  mwa4cc6bbe_c310_445f_bba7_a94868342831 = 10740.276
+  mwd6b996b1_d7fe_42de_b17e_b2482109c54d = 0.1043597
+  mwc5dc3645_536d_4bb4_88c7_4aeac4f5a241 = 2.0649128
+  mwc85f8d37_7f39_41b2_8ea4_00b5adad2eac = 0.07934338
+  mw807b9a99_fb16_421f_b724_69f29f3fcfb2 = 1.9895374
+  mw234b484f_d2d5_4ae8_a077_217c600588d8 = 0.24027638
+  mwa2636601_825e_4846_aa2d_c35bd242ec99 = 0.032359973
+  mw70d2f292_be41_4999_99cb_9c146808db85 = 0.077518002
+  mw0e80d629_98c1_44a6_bd57_3a4027c87b4c = 2.0869571
+  mw7aeacec0_be36_49bf_8548_7a3e2b5fe3cb = 0.029887563
+  mwb63aa5ed_b6d8_4241_9987_54828945aea3 = 0.1289308
+  mw4d2fe532_2ccd_42c4_9b4b_759022a87484 = 1.4001578
+  mw6b555ed1_194e_4fa4_9688_8105aa7c60c0 = 0.013215482
+  mwaa306898_0d0f_4748_b48a_fcd56bdc0b16 = 0.15
+  mwec1b7289_5544_4c2b_b9f6_bf6524cabda5 = 3.15
+  mw6843129b_7601_452f_be5d_977f7203bfb5 = 0.0345
+  mwc7a68e9d_cc1f_48bf_a582_c06056d082ad = 3400.0
+  mwbcd76870_e02a_442b_abdf_e42cd7086a1f = 1.7143
+  mw69d180ec_210d_4add_b599_e567c88ee538 = 9000.0
+  mwf402f97a_30c4_457f_9ef4_1be774a61358 = 1400.0
+  mwed93f2e8_0fdb_4c44_bb8f_aeef60171b0a = 90.0
+  mw61f543e9_43eb_442d_9985_d08f83a35bcd = 60.0
+  mwf4279c86_df09_4b2e_9fae_a6b9436be477 = 450.0
+  mw09b305e5_8e0c_4d34_a367_72e681d24550 = 0.001743
+  mwf417c223_4f28_436b_be61_dc0a6db906e9 = 2.5
+  mw21356d0a_52a7_47d9_a80b_c83f72f91249 = 0.5
+  mw6657e10d_433c_402e_af1d_edde69570dc7 = 20.0
+  mw3c8d8702_954e_4beb_9094_8fae9207cfb4 = 10.0
+  mw10579ad2_4018_4dc2_bd2d_cbc2b46014d2 = 0.1
+  mwa8eaa9b8_8166_49f0_b98a_ee69239b6f37 = 0.7
+  mw2555880e_202e_42c6_bcb5_c565dd6748d7 = 160.0
+  mw889568f2_c2e0_4ea3_ad4c_b26b66888184 = 0.0
+  mwd49f57a8_7e48_4891_bb1e_3e83f28d63a2 = 31.0
+  mw069bc62a_eef3_452c_9c80_6ac8e99131f3 = 340.0
+  mwea0d7c35_f4d2_4205_8c59_11ac05134dde = 1.0958881E-4
+  mw8482ca53_fca1_4841_ac2f_2469a76a758e = 0.12914436
+  mwaf2c7981_908c_4f4c_898e_2491a9f04e17 = 0.10523968
+  mw3b48c5e7_774a_4dc4_917f_8f8cff8d9c4b = 90.211653
+  mw1511789f_5e7b_43bf_b162_d930b027a867 = 0.006
+  mw7ff84021_4836_4a63_84fc_4389e5f74f81 = 0.13632245
+  mw204ea0fc_f851_4d50_9b82_bc66e34ac7dc = 18.705029
+  mw95ac212b_a197_49d6_8c76_bc6154a4cf5e = 3.5000006E-4
+  mw9bcd5c0b_3384_4d5e_92ce_70b13d64e8b8 = 0.11573051
+  mw95e328a0_be5b_4260_b6e4_d85c4c4aae9e = 0.050084768
+  mw7be1d52f_926f_47e0_964b_d3303c8453b1 = 0.05
+ end parameters
+ begin init
+  TF = 0.005
+  TF_VII
+  VII = 10.0
+  TF_VIIa
+  VIIa
+  Xa
+  IIa
+  TF_VIIa_X
+  X = 160.0
+  TF_VIIa_Xa
+  IX = 90.0
+  TF_VIIa_IX
+  IXa
+  II = 1400.0
+  VIII = 0.7
+  VIIIa
+  IXa_VIIIa
+  IXa_VIIIa_X
+  VIIIa1_L
+  VIIIa2
+  V = 20.0
+  Va
+  Xa_Va
+  Xa_Va_II
+  mIIa
+  TFPI = 2.5
+  Xa_TFPI
+  TF_VIIa_Xa_TFPI
+  ATIII = 3400.0
+  Xa_ATIII
+  mIIa_ATIII
+  IXa_ATIII
+  IIa_ATIII
+  TF_VIIa_ATIII
+  mw4e2cf0b0_bd70_45a4_9e60_eba82fa5c3e4 ( "CA" ) 
+  mw469042d3_a94f_4ebe_af1c_1ead580aad2a = 340.0 ( "XII" ) 
+  mw6c404de5_5b24_48d6_a0c4_5491e07b1f72 ( "XIIa" ) 
+  mw8c2b9a07_22c3_4912_adb1_167a38ea4cb3 = 450.0 ( "PK" ) 
+  mw819d0d09_05ba_4674_85ba_5c9439fb77f4 ( "XIIa_PK" ) 
+  mw2be3652b_79af_4228_9d1c_9d65c7d0c70f ( "K" ) 
+  mw6a63ae22_6bb4_4dcf_992f_9287439dd556 ( "XII_K" ) 
+  mwcefd1303_4967_4502_af6d_e75c88c4d548 ( "XIIa_ATIII" ) 
+  mwe043d306_ffdd_447b_9826_4df8abbece4d = 31.0 ( "XI" ) 
+  mw6591152c_8b5a_4c9b_b095_956988a01ba0 ( "XIa" ) 
+  mwe51f72d2_84fb_4b43_b900_521410fdf99c ( "XIIa_XI" ) 
+  mw72ca05d8_25b0_4765_ba03_a6a0eb846aa0 ( "XIa_ATIII" ) 
+  mwe70b2c96_44b9_48eb_967a_7eb850a916a6 ( "XIa_IX" ) 
+  mw64e9cef3_5dd3_43f3_ad04_58e8fc07a91b ( "IXa_X" ) 
+  mw6d041b25_87db_4394_9b8b_7ac61e01f359 ( "VIIa_X" ) 
+  mw85e2714d_e6e5_47d5_9ffc_d90573faebe1 ( "IIa_12mIIa" ) 
+  mwd68cbf38_9266_4dfb_aa00_f817c3421aec = 50.0 ( "Tmod" ) 
+  mwa6be116e_72f1_439e_bca6_eb61f79cc68e ( "IIa_Tmod" ) 
+  mw6a8501d2_9479_41ae_8616_1e8d0e1bbfa9 = 60.0 ( "PC" ) 
+  mw3cec90c2_500e_4f30_b6be_325ef5194755 ( "IIa_Tmod_PC" ) 
+  mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f ( "APC" ) 
+  mwd3e1ba39_ab10_4702_addd_fb6a7e184a4b = 9000.0 ( "Fg" ) 
+  mwfa9d903a_b5e5_4a38_a649_dfe4719577aa ( "F" ) 
+  mw2e632a32_3823_4933_95cb_19567cbcc66a ( "APC_Va" ) 
+  mw8bdbd17d_f542_4b8c_88c6_a82eaf997a43 ( "APC_VIIIa" ) 
+  mw18e5caa7_26eb_4521_b217_da75bb3193ad ( "Va_deg" ) 
+  mwf5c3f9df_7ccf_4ca7_b241_471a66720da8 ( "VIIIa_deg" ) 
+  mwa4fcfa0c_6944_42fc_8c74_7865f13953c8 ( "APC_IXa_VIIIa" ) 
+  mwe0bb059d_deaa_45fa_b7dc_ec1c4409c4ca ( "APC_IXa_VIIIa_X" ) 
+  mw7a1594c9_f04f_478c_9f5f_ccbe0b95a820 ( "Xa_VIII" ) 
+  mwbdb849d8_2b25_4551_8de8_adc8bead2303 ( "F12" ) 
+  mw931f65a6_3967_4ac2_9904_ba791b216fc2 ( "F12_deg" ) 
+ end init
+ begin reactions
+  3*TF + 2*TF_VII + 3*VII -> 2*TF + 3*TF_VII + 2*VII , arbitrary k2*TF*VII-k1*TF_VII [R1]
+  3*TF + 2*TF_VIIa + 3*VIIa -> 2*TF + 3*TF_VIIa + 2*VIIa , arbitrary k4*TF*VIIa-k3*TF_VIIa [R2]
+  3*VII + 3*TF_VIIa -> 2*VII + 3*TF_VIIa + VIIa , arbitrary k5*TF_VIIa*VII [R3]
+  3*VII + 3*Xa -> 2*VII + VIIa + 3*Xa , arbitrary k6*Xa*VII [R4]
+  3*VII + 3*IIa -> 2*VII + VIIa + 3*IIa , arbitrary k7*IIa*VII [R5]
+  3*TF_VIIa + 2*TF_VIIa_X + 3*X -> 2*TF_VIIa + 3*TF_VIIa_X + 2*X , arbitrary k9*TF_VIIa*X-k8*TF_VIIa_X [R6]
+  3*TF_VIIa_X -> 2*TF_VIIa_X + TF_VIIa_Xa , arbitrary k10*TF_VIIa_X [R6b]
+  3*TF_VIIa + 3*Xa + 2*TF_VIIa_Xa -> 2*TF_VIIa + 2*Xa + 3*TF_VIIa_Xa , arbitrary k12*TF_VIIa*Xa-k11*TF_VIIa_Xa [R7]
+  3*TF_VIIa + 3*IX + 2*TF_VIIa_IX -> 2*TF_VIIa + 2*IX + 3*TF_VIIa_IX , arbitrary k14*TF_VIIa*IX-k13*TF_VIIa_IX [R8]
+  3*TF_VIIa_IX -> TF_VIIa + 2*TF_VIIa_IX + IXa , arbitrary k15*TF_VIIa_IX [R8b]
+  3*Xa + 3*II -> 3*Xa + IIa + 2*II + mwbdb849d8_2b25_4551_8de8_adc8bead2303 , arbitrary k16*Xa*II [R9]
+  3*IIa + 3*VIII -> 3*IIa + 2*VIII + VIIIa , arbitrary k17*IIa*VIII [R10]
+  3*IXa + 3*VIIIa + 2*IXa_VIIIa -> 2*IXa + 2*VIIIa + 3*IXa_VIIIa , arbitrary k19*IXa*VIIIa-k18*IXa_VIIIa [R11]
+  3*X + 3*IXa_VIIIa + 2*IXa_VIIIa_X -> 2*X + 2*IXa_VIIIa + 3*IXa_VIIIa_X , arbitrary k21*IXa_VIIIa*X-k20*IXa_VIIIa_X [R12]
+  3*IXa_VIIIa_X -> Xa + IXa_VIIIa + 2*IXa_VIIIa_X , arbitrary k22*IXa_VIIIa_X [R12b]
+  3*VIIIa + 2*VIIIa1_L + 2*VIIIa2 -> 2*VIIIa + 3*VIIIa1_L + 3*VIIIa2 , arbitrary k24*VIIIa-k23*VIIIa1_L*VIIIa2 [R13]
+  3*IXa_VIIIa_X -> X + IXa + 2*IXa_VIIIa_X + VIIIa1_L + VIIIa2 , arbitrary k25*IXa_VIIIa_X [R14]
+  3*IXa_VIIIa -> IXa + 2*IXa_VIIIa + VIIIa1_L + VIIIa2 , arbitrary k26*IXa_VIIIa [R15]
+  3*IIa + 3*V -> 3*IIa + 2*V + Va , arbitrary k27*IIa*V [R16]
+  3*Xa + 3*Va + 2*Xa_Va -> 2*Xa + 2*Va + 3*Xa_Va , arbitrary mw8482ca53_fca1_4841_ac2f_2469a76a758e*Xa*Va-mw1511789f_5e7b_43bf_b162_d930b027a867*Xa_Va [R17]
+  3*II + 3*Xa_Va + 2*Xa_Va_II -> 2*II + 2*Xa_Va + 3*Xa_Va_II , arbitrary k30*Xa_Va*II-k29*Xa_Va_II [R18]
+  3*Xa_Va_II -> Xa_Va + 2*Xa_Va_II + mIIa + mwbdb849d8_2b25_4551_8de8_adc8bead2303 , arbitrary k31*Xa_Va_II [R18b]
+  3*Xa_Va + 3*mIIa -> IIa + 3*Xa_Va + 2*mIIa , arbitrary k32*mIIa*Xa_Va [R19]
+  3*Xa + 3*TFPI + 2*Xa_TFPI -> 2*Xa + 2*TFPI + 3*Xa_TFPI , arbitrary k34*Xa*TFPI-k33*Xa_TFPI [R20]
+  3*TF_VIIa_Xa + 3*TFPI + 2*TF_VIIa_Xa_TFPI -> 2*TF_VIIa_Xa + 2*TFPI + 3*TF_VIIa_Xa_TFPI , arbitrary k36*TF_VIIa_Xa*TFPI-k35*TF_VIIa_Xa_TFPI [R21]
+  3*TF_VIIa + 3*Xa_TFPI -> 2*TF_VIIa + 2*Xa_TFPI + TF_VIIa_Xa_TFPI , arbitrary k37*TF_VIIa*Xa_TFPI [R22]
+  3*Xa + 3*ATIII -> 2*Xa + 2*ATIII + Xa_ATIII , arbitrary k38*Xa*ATIII [R23]
+  3*mIIa + 3*ATIII -> 2*mIIa + 2*ATIII + mIIa_ATIII , arbitrary k39*mIIa*ATIII [R24]
+  3*IXa + 3*ATIII -> 2*IXa + 2*ATIII + IXa_ATIII , arbitrary k40*IXa*ATIII [R25]
+  3*IIa + 3*ATIII -> 2*IIa + 2*ATIII + IIa_ATIII , arbitrary k41*IIa*ATIII [R26]
+  3*TF_VIIa + 3*ATIII -> 2*TF_VIIa + 2*ATIII + TF_VIIa_ATIII , arbitrary k42*TF_VIIa*ATIII [R27]
+  3*mw4e2cf0b0_bd70_45a4_9e60_eba82fa5c3e4 + 3*mw469042d3_a94f_4ebe_af1c_1ead580aad2a -> 3*mw4e2cf0b0_bd70_45a4_9e60_eba82fa5c3e4 + 2*mw469042d3_a94f_4ebe_af1c_1ead580aad2a + mw6c404de5_5b24_48d6_a0c4_5491e07b1f72 , arbitrary mwe5422617_5481_47c8_bf98_d6e3f1e96384*mw4e2cf0b0_bd70_45a4_9e60_eba82fa5c3e4*mw469042d3_a94f_4ebe_af1c_1ead580aad2a [mw356a0437_4d35_42d9_a964_d205845dd3a0]
+  3*mw6c404de5_5b24_48d6_a0c4_5491e07b1f72 + 3*mw8c2b9a07_22c3_4912_adb1_167a38ea4cb3 + 2*mw819d0d09_05ba_4674_85ba_5c9439fb77f4 -> 2*mw6c404de5_5b24_48d6_a0c4_5491e07b1f72 + 2*mw8c2b9a07_22c3_4912_adb1_167a38ea4cb3 + 3*mw819d0d09_05ba_4674_85ba_5c9439fb77f4 , arbitrary mw3ab61faa_95e4_40a9_93de_5c51755957c4*mw6c404de5_5b24_48d6_a0c4_5491e07b1f72*mw8c2b9a07_22c3_4912_adb1_167a38ea4cb3-mw862c3fea_05a0_4d3d_ba5c_9727bbb67907*mw819d0d09_05ba_4674_85ba_5c9439fb77f4 [mw2ad76883_679b_4cfa_a390_ed12c2cb488a]
+  3*mw819d0d09_05ba_4674_85ba_5c9439fb77f4 -> mw6c404de5_5b24_48d6_a0c4_5491e07b1f72 + 2*mw819d0d09_05ba_4674_85ba_5c9439fb77f4 + mw2be3652b_79af_4228_9d1c_9d65c7d0c70f , arbitrary mw107e9839_b4a4_46c8_9102_da7d857fd655*mw819d0d09_05ba_4674_85ba_5c9439fb77f4 [mw7625dc03_2283_4c41_8d88_c03bbd995622]
+  3*mw469042d3_a94f_4ebe_af1c_1ead580aad2a + 3*mw2be3652b_79af_4228_9d1c_9d65c7d0c70f + 2*mw6a63ae22_6bb4_4dcf_992f_9287439dd556 -> 2*mw469042d3_a94f_4ebe_af1c_1ead580aad2a + 2*mw2be3652b_79af_4228_9d1c_9d65c7d0c70f + 3*mw6a63ae22_6bb4_4dcf_992f_9287439dd556 , arbitrary mweb1be1ac_0c60_4849_b306_071c8f9370c0*mw469042d3_a94f_4ebe_af1c_1ead580aad2a*mw2be3652b_79af_4228_9d1c_9d65c7d0c70f-mw94d2be4e_839e_4154_a6f0_f0d6b61e50a9*mw6a63ae22_6bb4_4dcf_992f_9287439dd556 [mwb7173277_b0a8_4585_8e75_4188d464a440]
+  3*mw6a63ae22_6bb4_4dcf_992f_9287439dd556 -> mw6c404de5_5b24_48d6_a0c4_5491e07b1f72 + mw2be3652b_79af_4228_9d1c_9d65c7d0c70f + 2*mw6a63ae22_6bb4_4dcf_992f_9287439dd556 , arbitrary mw6f439ade_bb02_4671_8e45_8beaa312b3d2*mw6a63ae22_6bb4_4dcf_992f_9287439dd556 [mwa9bc550c_e44b_4a55_9d10_c274a9c710a8]
+  3*ATIII + 3*mw6c404de5_5b24_48d6_a0c4_5491e07b1f72 -> 2*ATIII + 2*mw6c404de5_5b24_48d6_a0c4_5491e07b1f72 + mwcefd1303_4967_4502_af6d_e75c88c4d548 , arbitrary mwf677450c_a4e3_41df_be5a_9c8928ac27f4*mw6c404de5_5b24_48d6_a0c4_5491e07b1f72*ATIII [mwc0c930a7_ee46_48b9_bc37_297a29d337ed]
+  3*mw6c404de5_5b24_48d6_a0c4_5491e07b1f72 + 3*mwe043d306_ffdd_447b_9826_4df8abbece4d + 2*mwe51f72d2_84fb_4b43_b900_521410fdf99c -> 2*mw6c404de5_5b24_48d6_a0c4_5491e07b1f72 + 2*mwe043d306_ffdd_447b_9826_4df8abbece4d + 3*mwe51f72d2_84fb_4b43_b900_521410fdf99c , arbitrary mw7ff84021_4836_4a63_84fc_4389e5f74f81*mw6c404de5_5b24_48d6_a0c4_5491e07b1f72*mwe043d306_ffdd_447b_9826_4df8abbece4d-mw204ea0fc_f851_4d50_9b82_bc66e34ac7dc*mwe51f72d2_84fb_4b43_b900_521410fdf99c [mwd29fbe1e_de98_4c2f_8d81_8ce87f0a245d]
+  3*mwe51f72d2_84fb_4b43_b900_521410fdf99c -> mw6c404de5_5b24_48d6_a0c4_5491e07b1f72 + mw6591152c_8b5a_4c9b_b095_956988a01ba0 + 2*mwe51f72d2_84fb_4b43_b900_521410fdf99c , arbitrary mw95ac212b_a197_49d6_8c76_bc6154a4cf5e*mwe51f72d2_84fb_4b43_b900_521410fdf99c [mw733749dd_73df_4e8d_86b3_eabffb03d79e]
+  3*ATIII + 3*mw6591152c_8b5a_4c9b_b095_956988a01ba0 -> 2*ATIII + 2*mw6591152c_8b5a_4c9b_b095_956988a01ba0 + mw72ca05d8_25b0_4765_ba03_a6a0eb846aa0 , arbitrary mweacc6c48_8e8c_481b_92ce_0cb9ccb3be00*mw6591152c_8b5a_4c9b_b095_956988a01ba0*ATIII [mwf959d54b_b8f2_4cf9_995a_bea2a3d1735d]
+  3*IX + 3*mw6591152c_8b5a_4c9b_b095_956988a01ba0 + 2*mwe70b2c96_44b9_48eb_967a_7eb850a916a6 -> 2*IX + 2*mw6591152c_8b5a_4c9b_b095_956988a01ba0 + 3*mwe70b2c96_44b9_48eb_967a_7eb850a916a6 , arbitrary mwc0cb654e_d95f_4d4b_8dc2_3a21afd35a19*mw6591152c_8b5a_4c9b_b095_956988a01ba0*IX-mwb01ef86f_18d8_45e7_a452_31878dcb3d49*mwe70b2c96_44b9_48eb_967a_7eb850a916a6 [mw27430243_7541_45f2_a970_b53e97eb90b5]
+  3*mwe70b2c96_44b9_48eb_967a_7eb850a916a6 -> IXa + mw6591152c_8b5a_4c9b_b095_956988a01ba0 + 2*mwe70b2c96_44b9_48eb_967a_7eb850a916a6 , arbitrary mw7300dcac_9389_4201_88c7_7effa7fdb0f3*mwe70b2c96_44b9_48eb_967a_7eb850a916a6 [mwc9055518_a470_4fa9_9ebe_473dc2a371af]
+  3*X + 3*IXa + 2*mw64e9cef3_5dd3_43f3_ad04_58e8fc07a91b -> 2*X + 2*IXa + 3*mw64e9cef3_5dd3_43f3_ad04_58e8fc07a91b , arbitrary mw44adf04a_f1e2_4ca9_9615_5a9f4d3bbea8*IXa*X-mwc189e7ea_7518_4a4f_be0f_03f2d073b29e*mw64e9cef3_5dd3_43f3_ad04_58e8fc07a91b [mwfe3aa9b2_3507_4bda_b66a_d1b9ecf9b691]
+  3*mw64e9cef3_5dd3_43f3_ad04_58e8fc07a91b -> Xa + IXa + 2*mw64e9cef3_5dd3_43f3_ad04_58e8fc07a91b , arbitrary mwaec203ce_06d5_4003_bfdb_7244d3d77255*mw64e9cef3_5dd3_43f3_ad04_58e8fc07a91b [mwf5ec17b4_374b_4670_83e5_47135df80cb9]
+  3*VIIa + 3*X + 2*mw6d041b25_87db_4394_9b8b_7ac61e01f359 -> 2*VIIa + 2*X + 3*mw6d041b25_87db_4394_9b8b_7ac61e01f359 , arbitrary mw05b4111c_4463_4be0_aa1e_5a8f50c7bf67*VIIa*X-mw7b89687a_3110_4d5f_a9ec_7ca8761f0d41*mw6d041b25_87db_4394_9b8b_7ac61e01f359 [mwea194c8b_e1a0_4a6e_a4d5_f55b2f784d87]
+  3*mw6d041b25_87db_4394_9b8b_7ac61e01f359 -> VIIa + Xa + 2*mw6d041b25_87db_4394_9b8b_7ac61e01f359 , arbitrary mw61fdd721_9193_442c_bc9e_f1058c4720e7*mw6d041b25_87db_4394_9b8b_7ac61e01f359 [mwd58c2ecb_6ff8_4b9b_8c31_a7711b5217d5]
+  3*IIa + 3*mwd68cbf38_9266_4dfb_aa00_f817c3421aec + 2*mwa6be116e_72f1_439e_bca6_eb61f79cc68e -> 2*IIa + 2*mwd68cbf38_9266_4dfb_aa00_f817c3421aec + 3*mwa6be116e_72f1_439e_bca6_eb61f79cc68e , arbitrary mw9bcd5c0b_3384_4d5e_92ce_70b13d64e8b8*IIa*mwd68cbf38_9266_4dfb_aa00_f817c3421aec-mw95e328a0_be5b_4260_b6e4_d85c4c4aae9e*mwa6be116e_72f1_439e_bca6_eb61f79cc68e [mwa9e8a350_94c6_49e9_aba0_e23644ed770b]
+  3*mwa6be116e_72f1_439e_bca6_eb61f79cc68e + 3*mw6a8501d2_9479_41ae_8616_1e8d0e1bbfa9 + 2*mw3cec90c2_500e_4f30_b6be_325ef5194755 -> 2*mwa6be116e_72f1_439e_bca6_eb61f79cc68e + 2*mw6a8501d2_9479_41ae_8616_1e8d0e1bbfa9 + 3*mw3cec90c2_500e_4f30_b6be_325ef5194755 , arbitrary mwaf2c7981_908c_4f4c_898e_2491a9f04e17*mwa6be116e_72f1_439e_bca6_eb61f79cc68e*mw6a8501d2_9479_41ae_8616_1e8d0e1bbfa9-mw1ddc2a05_bc78_4434_a2d9_d06701483346*mw3cec90c2_500e_4f30_b6be_325ef5194755 [mw533077fb_883c_475c_8a43_ab003a69478c]
+  3*mw3cec90c2_500e_4f30_b6be_325ef5194755 -> mwa6be116e_72f1_439e_bca6_eb61f79cc68e + 2*mw3cec90c2_500e_4f30_b6be_325ef5194755 + mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f , arbitrary mw4fc81076_be53_4fc3_9ade_3587e8d60355*mw3cec90c2_500e_4f30_b6be_325ef5194755 [mw3a695e19_d2d0_4083_af5a_1e8dd673dd32]
+  3*IIa + 3*mwd3e1ba39_ab10_4702_addd_fb6a7e184a4b -> 3*IIa + 2*mwd3e1ba39_ab10_4702_addd_fb6a7e184a4b + mwfa9d903a_b5e5_4a38_a649_dfe4719577aa , arbitrary mw3b48c5e7_774a_4dc4_917f_8f8cff8d9c4b*IIa*mwd3e1ba39_ab10_4702_addd_fb6a7e184a4b/(mwa4cc6bbe_c310_445f_bba7_a94868342831+mwd3e1ba39_ab10_4702_addd_fb6a7e184a4b) [mw95b41c99_0a48_4f12_8367_f5b176c613e5]
+  3*Va + 3*mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f + 2*mw2e632a32_3823_4933_95cb_19567cbcc66a -> 2*Va + 2*mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f + 3*mw2e632a32_3823_4933_95cb_19567cbcc66a , arbitrary mwd6b996b1_d7fe_42de_b17e_b2482109c54d*mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f*Va-mwc5dc3645_536d_4bb4_88c7_4aeac4f5a241*mw2e632a32_3823_4933_95cb_19567cbcc66a [mw13213f35_d931_4cec_a202_9760e9a3e4b1]
+  3*VIIIa + 3*mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f + 2*mw8bdbd17d_f542_4b8c_88c6_a82eaf997a43 -> 2*VIIIa + 2*mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f + 3*mw8bdbd17d_f542_4b8c_88c6_a82eaf997a43 , arbitrary mwc85f8d37_7f39_41b2_8ea4_00b5adad2eac*mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f*VIIIa-mw807b9a99_fb16_421f_b724_69f29f3fcfb2*mw8bdbd17d_f542_4b8c_88c6_a82eaf997a43 [mw42194b65_07a6_43c3_a810_2d2c1b4fad6b]
+  3*mw2e632a32_3823_4933_95cb_19567cbcc66a -> mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f + 2*mw2e632a32_3823_4933_95cb_19567cbcc66a + mw18e5caa7_26eb_4521_b217_da75bb3193ad , arbitrary mw234b484f_d2d5_4ae8_a077_217c600588d8*mw2e632a32_3823_4933_95cb_19567cbcc66a [mwe33e10f1_9ee4_4167_94cf_81ed3aafb1af]
+  3*mw8bdbd17d_f542_4b8c_88c6_a82eaf997a43 -> mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f + 2*mw8bdbd17d_f542_4b8c_88c6_a82eaf997a43 + mwf5c3f9df_7ccf_4ca7_b241_471a66720da8 , arbitrary mwa2636601_825e_4846_aa2d_c35bd242ec99*mw8bdbd17d_f542_4b8c_88c6_a82eaf997a43 [mwa14cc09f_d815_4499_9299_642478acc115]
+  3*IXa_VIIIa + 3*mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f + 2*mwa4fcfa0c_6944_42fc_8c74_7865f13953c8 -> 2*IXa_VIIIa + 2*mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f + 3*mwa4fcfa0c_6944_42fc_8c74_7865f13953c8 , arbitrary mw70d2f292_be41_4999_99cb_9c146808db85*mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f*IXa_VIIIa-mw0e80d629_98c1_44a6_bd57_3a4027c87b4c*mwa4fcfa0c_6944_42fc_8c74_7865f13953c8 [mw33aec61d_aae4_41f1_8f35_2e2e4bb56597]
+  3*mwa4fcfa0c_6944_42fc_8c74_7865f13953c8 -> IXa + mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f + mwf5c3f9df_7ccf_4ca7_b241_471a66720da8 + 2*mwa4fcfa0c_6944_42fc_8c74_7865f13953c8 , arbitrary mw7aeacec0_be36_49bf_8548_7a3e2b5fe3cb*mwa4fcfa0c_6944_42fc_8c74_7865f13953c8 [mwc0b0317d_2b0e_490d_bfd5_8719b2ead1ec]
+  3*IXa_VIIIa_X + 3*mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f + 2*mwe0bb059d_deaa_45fa_b7dc_ec1c4409c4ca -> 2*IXa_VIIIa_X + 2*mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f + 3*mwe0bb059d_deaa_45fa_b7dc_ec1c4409c4ca , arbitrary mwb63aa5ed_b6d8_4241_9987_54828945aea3*mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f*IXa_VIIIa_X-mw4d2fe532_2ccd_42c4_9b4b_759022a87484*mwe0bb059d_deaa_45fa_b7dc_ec1c4409c4ca [mw5619c52c_ce60_4357_8d45_2c512348ecc2]
+  3*mwe0bb059d_deaa_45fa_b7dc_ec1c4409c4ca -> X + IXa + mwedf22864_05a0_40c3_a0d5_ede45a3e7e8f + mwf5c3f9df_7ccf_4ca7_b241_471a66720da8 + 2*mwe0bb059d_deaa_45fa_b7dc_ec1c4409c4ca , arbitrary mw6b555ed1_194e_4fa4_9688_8105aa7c60c0*mwe0bb059d_deaa_45fa_b7dc_ec1c4409c4ca [mw415d69bc_061f_4d57_905d_58fca6bc6463]
+  3*Xa + 3*VIII + 2*mw7a1594c9_f04f_478c_9f5f_ccbe0b95a820 -> 2*Xa + 2*VIII + 3*mw7a1594c9_f04f_478c_9f5f_ccbe0b95a820 , arbitrary mwaa306898_0d0f_4748_b48a_fcd56bdc0b16*Xa*VIII-mwec1b7289_5544_4c2b_b9f6_bf6524cabda5*mw7a1594c9_f04f_478c_9f5f_ccbe0b95a820 [mw4c020206_4593_4480_b410_d33a9df3298a]
+  3*mw7a1594c9_f04f_478c_9f5f_ccbe0b95a820 -> Xa + VIIIa + 2*mw7a1594c9_f04f_478c_9f5f_ccbe0b95a820 , arbitrary mw6843129b_7601_452f_be5d_977f7203bfb5*mw7a1594c9_f04f_478c_9f5f_ccbe0b95a820 [mwf122913a_9b0b_4492_8cb6_2dd00c3f6162]
+  3*mwbdb849d8_2b25_4551_8de8_adc8bead2303 -> 2*mwbdb849d8_2b25_4551_8de8_adc8bead2303 + mw931f65a6_3967_4ac2_9904_ba791b216fc2 , arbitrary mwea0d7c35_f4d2_4205_8c59_11ac05134dde*mwbdb849d8_2b25_4551_8de8_adc8bead2303 [mw2b7d93e1_fc1b_4fa0_a03b_4d2b2259d14f]
+  3*mw6591152c_8b5a_4c9b_b095_956988a01ba0 + 3*mw6d041b25_87db_4394_9b8b_7ac61e01f359 -> VIIa + Xa + 3*mw6591152c_8b5a_4c9b_b095_956988a01ba0 + 2*mw6d041b25_87db_4394_9b8b_7ac61e01f359 , arbitrary mw7be1d52f_926f_47e0_964b_d3303c8453b1*mw6d041b25_87db_4394_9b8b_7ac61e01f359*mw6591152c_8b5a_4c9b_b095_956988a01ba0 [mw0ca8823e_ed5a_443a_935b_db3cfb4c01e2]
+ end reactions
+
+//Comments associated to the reactions
+//R1:  
+  //R1
+//R2:  
+  //R2
+//R3:  
+  //R3
+//R4:  
+  //R4
+//R5:  
+  //R5
+//R6:  
+  //R6
+//R6b:  
+  //R6b
+//R7:  
+  //R7
+//R8:  
+  //R8
+//R8b:  
+  //R8b
+//R9:  
+  //R9
+//R10:  
+  //R10
+//R11:  
+  //R11
+//R12:  
+  //R12
+//R12b:  
+  //R12b
+//R13:  
+  //R13
+//R14:  
+  //R14
+//R15:  
+  //R15
+//R16:  
+  //R16
+//R17:  
+  //R17
+//R18:  
+  //R18
+//R18b:  
+  //R18b
+//R19:  
+  //R19
+//R20:  
+  //R20
+//R21:  
+  //R21
+//R22:  
+  //R22
+//R23:  
+  //R23
+//R24:  
+  //R24
+//R25:  
+  //R25
+//R26:  
+  //R26
+//R27:  
+  //R27
+//mw356a0437_4d35_42d9_a964_d205845dd3a0:  
+  //R28
+//mw2ad76883_679b_4cfa_a390_ed12c2cb488a:  
+  //R31
+//mw7625dc03_2283_4c41_8d88_c03bbd995622:  
+  //R31b
+//mwb7173277_b0a8_4585_8e75_4188d464a440:  
+  //R32
+//mwa9bc550c_e44b_4a55_9d10_c274a9c710a8:  
+  //R32b
+//mwc0c930a7_ee46_48b9_bc37_297a29d337ed:  
+  //R37
+//mwd29fbe1e_de98_4c2f_8d81_8ce87f0a245d:  
+  //R39
+//mw733749dd_73df_4e8d_86b3_eabffb03d79e:  
+  //R39b
+//mwf959d54b_b8f2_4cf9_995a_bea2a3d1735d:  
+  //R41
+//mw27430243_7541_45f2_a970_b53e97eb90b5:  
+  //R45
+//mwc9055518_a470_4fa9_9ebe_473dc2a371af:  
+  //R45b
+//mwfe3aa9b2_3507_4bda_b66a_d1b9ecf9b691:  
+  //R46
+//mwf5ec17b4_374b_4670_83e5_47135df80cb9:  
+  //R46b
+//mwea194c8b_e1a0_4a6e_a4d5_f55b2f784d87:  
+  //R49
+//mwd58c2ecb_6ff8_4b9b_8c31_a7711b5217d5:  
+  //R49b
+//mwa9e8a350_94c6_49e9_aba0_e23644ed770b:  
+  //R50
+//mw533077fb_883c_475c_8a43_ab003a69478c:  
+  //R51
+//mw3a695e19_d2d0_4083_af5a_1e8dd673dd32:  
+  //R052
+//mw95b41c99_0a48_4f12_8367_f5b176c613e5:  
+  //R301
+//mw13213f35_d931_4cec_a202_9760e9a3e4b1:  
+  //R053
+//mw42194b65_07a6_43c3_a810_2d2c1b4fad6b:  
+  //R055
+//mwe33e10f1_9ee4_4167_94cf_81ed3aafb1af:  
+  //R054
+//mwa14cc09f_d815_4499_9299_642478acc115:  
+  //R056
+//mw33aec61d_aae4_41f1_8f35_2e2e4bb56597:  
+  //R057
+//mwc0b0317d_2b0e_490d_bfd5_8719b2ead1ec:  
+  //R058
+//mw5619c52c_ce60_4357_8d45_2c512348ecc2:  
+  //R059
+//mw415d69bc_061f_4d57_905d_58fca6bc6463:  
+  //R060
+//mw4c020206_4593_4480_b410_d33a9df3298a:  
+  //R47
+//mwf122913a_9b0b_4492_8cb6_2dd00c3f6162:  
+  //R47b
+//mw0ca8823e_ed5a_443a_935b_db3cfb4c01e2:  
+  //N1
+
+end model
+

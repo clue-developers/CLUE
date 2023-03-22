@@ -56,6 +56,18 @@
         "t1": 20.0,
         "out_folder": "rational"
     },
+    "BIOMD0000000087": {
+        "read": "rational",
+        "matrix": "rational",
+        "observables" : [
+            ["Ctelo"],
+            ["ssDNA"],
+            ["Cdc13"]
+        ],
+        "slopes": [0.1],
+        "t1": 0.002,
+        "out_folder": "rational"
+    },
     "BIOMD0000000088": {
         "read": "rational",
         "matrix": "rational",
@@ -66,7 +78,7 @@
             ["s467 + s470 + s477 + s480"]
         ],
         "slopes": [0.1,1,10],
-        "t1": 60,
+        "t1": 10,
         "out_folder": "rational"
     },
     "BIOMD0000000113": {
@@ -97,6 +109,18 @@
         ],
         "slopes": [0.1,1,10],
         "t1": 2.0,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000437": {
+        "read": "rational",
+        "matrix": "rational",
+        "observables" : [
+            ["frq_gene", "frq_mRNA"],
+            ["wc1_gene", "wc1_mRNA"],
+            ["wc2_gene", "frq_gene", "wc1_gene"]
+        ],
+        "slopes": [0.1],
+        "t1": 100,
         "out_folder": "rational"
     },
     "BIOMD0000000448": {
@@ -142,6 +166,59 @@
         ],
         "slopes": [0.1,1,10],
         "t1": 0.1,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000535": {
+        "read": "rational",
+        "matrix": "rational",
+        "observables" : [
+            [
+                "mw114aa90f_5f5b_4fe8_9406_361c8489b6a1 + mwd5313618_89eb_4c8c_bc82_66f10f966349", 
+                "mw39c2e431_fdc3_4964_be29_6ca856620b1b + mw48867e93_f170_44e8_ac7a_185b23e1bf3b",
+                "mwf626e95e_543f_41e4_aad4_c6bf60ab345b + mw0adf3eb4_a196_4c48_b10d_4e9e9faaf9e1 + mw2c9b0499_3325_4394_8af3_bbf653a944a0",
+                "mw03db56ac_8dc6_4931_ae82_fef706d2ee3d + mw4638f126_8cb8_4021_ab41_6ae195743ba0 + mw7becb5fe_8da8_4285_a821_0d77ad811b62"
+            ]
+        ],
+        "slopes": [0.1],
+        "t1": 0.015,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000537": {
+        "read": "rational",
+        "matrix": "rational",
+        "observables" : [
+            [
+                "mw114aa90f_5f5b_4fe8_9406_361c8489b6a1 + mwd5313618_89eb_4c8c_bc82_66f10f966349", 
+                "mw39c2e431_fdc3_4964_be29_6ca856620b1b + mw48867e93_f170_44e8_ac7a_185b23e1bf3b",
+                "mwf626e95e_543f_41e4_aad4_c6bf60ab345b + mw0adf3eb4_a196_4c48_b10d_4e9e9faaf9e1 + mw2c9b0499_3325_4394_8af3_bbf653a944a0",
+                "mw03db56ac_8dc6_4931_ae82_fef706d2ee3d + mw4638f126_8cb8_4021_ab41_6ae195743ba0 + mw7becb5fe_8da8_4285_a821_0d77ad811b62"
+            ]
+        ],
+        "slopes": [0.1],
+        "t1": 0.015,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000611": {
+        "read": "rational",
+        "matrix": "rational",
+        "observables" : [
+            ["mwfa9d903a_b5e5_4a38_a649_dfe4719577aa"]
+        ],
+        "slopes": [0.1],
+        "t1": 100,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000634": {
+        "read": "rational",
+        "matrix": "rational",
+        "observables" : [
+            ["GSK3b"],
+            ["ROS"],
+            ["Tau"],
+            ["GSK3b","ROS","Tau"]
+        ],
+        "slopes": [0.1],
+        "t1": 0.00025,
         "out_folder": "rational"
     },
     "MODEL1502270000": {
