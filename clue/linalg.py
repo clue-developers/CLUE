@@ -838,10 +838,10 @@ class Subspace(object):
         '''
         in_vector = vector.copy()
         result = SparseVector(self.dim(), self.field)
-        for i,(piv, vect) in enumerate(self.echelon_form.items()):
+        for i,piv in enumerate(self.parametrizing_coordinates()):
             if in_vector[piv]:
                 result[i] = in_vector[piv]
-                in_vector.reduce(-in_vector[piv], vect)
+                in_vector.reduce(-in_vector[piv], self.echelon_form[piv])
             if in_vector.is_zero(): break
         if not in_vector.is_zero(): raise ValueError("The vector is not in the subspace.")
         return result

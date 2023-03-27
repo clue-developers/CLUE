@@ -206,7 +206,7 @@
                 "mw03db56ac_8dc6_4931_ae82_fef706d2ee3d + mw4638f126_8cb8_4021_ab41_6ae195743ba0 + mw7becb5fe_8da8_4285_a821_0d77ad811b62"
             ]
         ],
-        "slopes": [[],[],[],[]],
+        "slopes": [[]],
         "t1": 0.015,
         "out_folder": "rational"
     },
@@ -221,7 +221,7 @@
                 "mw03db56ac_8dc6_4931_ae82_fef706d2ee3d + mw4638f126_8cb8_4021_ab41_6ae195743ba0 + mw7becb5fe_8da8_4285_a821_0d77ad811b62"
             ]
         ],
-        "slopes": [[],[],[],[]],
+        "slopes": [[]],
         "t1": 0.015,
         "out_folder": "rational"
     },
@@ -261,7 +261,7 @@
         "observables" : [
             ["rmr"]
         ],
-        "slopes": [[]],
+        "epsilons": [[]],
         "t1": 1.1353522069077257e-07,
         "out_folder": "rational"
     }

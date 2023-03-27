@@ -14,7 +14,7 @@ from collections.abc import Iterable
 from functools import cached_property, reduce, lru_cache
 from io import IOBase
 from itertools import product
-from numpy import array, ndarray, mean
+from numpy import apply_along_axis, array, ndarray, matmul, mean
 from numpy.linalg import norm
 from numpy.random import normal, uniform
 from random import random, randint
@@ -667,7 +667,7 @@ class FODESystem:
             self.__cache_numerical_evaluator[equation] = func
         return self.__cache_numerical_evaluator[equation]
 
-    def check_consistency(self, other, map_variables, symbolic=False):
+    def check_consistency(self, other: FODESystem, map_variables: list[SparsePolynomial], how: str = "exact"):
         r'''
             Method that check the consistency of the differential systems
 
@@ -675,65 +675,62 @@ class FODESystem:
             after the change of variables provided by ``map_variables``.
 
             Each variable must be given as a linear :class:`~clue.rational_function.SparsePolynomial`.
+
+            Input:
+
+            * ``other``: the system for which we will compare with.
+            * ``map_variables``: a list of linear functions that represent the variables of ``self`` in terms of the 
+              variables of ``other``.
+            * ``how`` decides how to check consistency. There are three different options:
+                * "symbolic": the computations are performed symbolically using SymPy. This is the slowest but the answer 
+                  is guaranteed to be correct.
+                * "exact": evaluates in one point and check if the system is consistent using exact computations (based on 
+                  the SymPy domain in ``self.field``). When it returns ``False`` is guaranteed to be correct.
+                * "numeric": same as "exact" but with numerical computations. It is the fastest but checking equality is done
+                  with a numerical threshold of 1e-10.
         '''
         ########################################################
         # Normalizing equations if needed
         self.normalize()
-
-        ########################################################
-        # Obtaining some evaluation data
-        if symbolic:
-            dic_y_eval = {self.variables[i] : map_variables[i] for i in range(self.size)}
-            xdot_eval = other.equations
-        else:
-            ## Evaluating the variables
-            x_eval = [randint(1,100) for _ in other.variables]
-            dic_x_eval = {other.variables[i] : x_eval[i] for i in range(other.size)}
-            y_eval = [poly.eval(**dic_x_eval).ct for poly in map_variables]
-            dic_y_eval = {self.variables[i] : y_eval[i] for i in range(self.size)}
-            
-            ## Evaluation other rhs
-            xdot_eval = [other.eval_equation(i, dic_x_eval) for i in range(other.size)]
-
-        ########################################################
-        # COMPUTING LHS OF THE SYSTEM
-        vec_vars = [el.linear_part_as_vec() for el in map_variables]
-        lhs = [sum(vec_vars[i][j]*xdot_eval[j] for j in range(other.size)) for i in range(self.size)]
-        # lhs is a list of elements of type depending on other.equations (symbolic) or number (not symbolic)
+        x2y = SparseRowMatrix.from_vectors([poly.linear_part_as_vec() for poly in map_variables])
         
         ########################################################
-        # COMPUTING RHS OF THE SYSTEM
-        equations_to_eval = self.equations
-        if symbolic: # we cast everything into sympy to do evaluation
-            if isinstance(self.equations[0], SparsePolynomial):
-                equations_to_eval = [el.to_sympy().as_expr() for el in equations_to_eval]
-            elif isinstance(self.equations[0], RationalFunction):
-                equations_to_eval = [(el.numer.to_sympy()/el.denom.to_sympy()).as_expr() for el in equations_to_eval]
-            else:
-                equations_to_eval = [el.as_expr() for el in equations_to_eval]
+        ### g(Lx) =? Lf(x)
+        ########################################################
+        ########################################################
+        # Computing the values of the variables of ``other`` (x)
+        if how == "symbolic":
+            x = other.symb_variables()
+        elif how == "exact":
+            x = [self.field.convert(randint(1,100)) for _ in other.variables]
+        elif how == "numeric":  
+            x = 100*uniform(size=other.size)
+            x2y = x2y.to_numpy(dtype=x.dtype)
+        else:
+            raise ValueError("The method must be in 'symbolic', 'exact' or 'numeric'")
+            
+        ########################################################
+        # Computing the right hand-side of the check
+        fx = other.derivative(...,x) if how in ("symbolic", "numeric") else other.eval_equation(other.equations,x)
+        if how in ("symbolic", "exact"):
+            Lx  = [sum(row[i]*x[i]  for i in row.nonzero) for row in x2y]
+            Lfx = [sum(row[i]*fx[i] for i in row.nonzero) for row in x2y]
+        else:
+            Lx = matmul(x2y, x)
+            Lfx = matmul(x2y,fx)
 
-        if(isinstance(equations_to_eval[0], (SparsePolynomial, RationalFunction))):
-            # this only happens if symbolic is False, so we evaluate to numbers
-            rhs = [eq.eval(**dic_y_eval) for eq in equations_to_eval]
-        else: # sympy case
-            for k,v in list(dic_y_eval.items()):
-                if isinstance(v, SparsePolynomial):
-                    dic_y_eval[k] = v.to_sympy().as_expr()
-                elif isinstance(v, RationalFunction):
-                    dic_y_eval[k] = (v.numer.to_sympy()/v.denom.to_sympy()).as_expr()
-            rhs = [eq.subs([(k, v) for k,v in dic_y_eval.items()]) for eq in equations_to_eval]
+        ########################################################
+        # Computing the left hand-side of the check
+        gLx = self.derivative(...,Lx) if how in ("symbolic", "numeric") else self.eval_equation(self.equations, Lx)
 
-            if symbolic:
-                if isinstance(other.equations[0], SparsePolynomial):
-                    rhs = [SparsePolynomial.from_string(str(el), other.variables, other.field) for el in rhs]
-                elif isinstance(other.equations[0], RationalFunction):
-                    rhs = [RationalFunction.from_sympy(el, other.variables) for el in rhs]
-                else:
-                    ### TODO: make a comparison with sympy expressions instead of rational functions
-                    lhs = [RationalFunction.from_sympy(el, other.variables) for el in lhs]
-                    rhs = [RationalFunction.from_sympy(el, other.variables) for el in rhs]
-
-        return lhs == rhs
+        ########################################################
+        # Comparing the data
+        if how in ("symbolic", "exact"):
+            result = all(lhs == rhs for lhs,rhs in zip(gLx, Lfx))
+        else:
+            result = all(abs(gLx-Lfx) < 1e-10)
+        
+        return result
 
     def evaluate_parameters(self, values):
         r'''
@@ -1644,9 +1641,15 @@ class FODESystem:
             raise ValueError(f"The size of the input ({len(x)} does not coincide with the variables in the system ({self.size}")
         
         self.normalize() # we normalize the system (if not yet normalized)
-        output = [self.numerical_evaluator(i)(*x) for i in range(self.size)]
         if isinstance(x, ndarray):
-            output = array(output, dtype=x.dtype)
+            if len(x.shape) == 2:
+                output = apply_along_axis(lambda v: self.derivative(...,v), 0, x)
+            elif len(x.shape) == 1: 
+                output = array([self.numerical_evaluator(i)(*x) for i in range(self.size)], dtype=x.dtype)
+            else:
+                raise TypeError("Incompatible numpy array for evaluating derivatives: only dimension 1 or 2 accepted.")
+        else:
+            output = [self.numerical_evaluator(i)(*x) for i in range(self.size)]
         return output
 
     def simulate(self, t0, t1, x0, tstep=0.01, **kwds):
@@ -2238,8 +2241,8 @@ class LDESystem(FODESystem):
     #------------------------------------------------------------------------------
     # PROPERTIES OF A LUMPING
     @lru_cache(maxsize=2)
-    def is_consistent(self, symbolic: bool = False) -> bool:
-        return self.check_consistency(self.old_system, self.old_vars, symbolic)
+    def is_consistent(self, how: str = "exact") -> bool:
+        return self.check_consistency(self.old_system, self.old_vars, how)
 
     @lru_cache(maxsize=1)
     def is_unweighted(self) -> bool:

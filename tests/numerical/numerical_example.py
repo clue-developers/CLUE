@@ -61,7 +61,7 @@ class ResultNumericalExample:
     def max_perturbation(self):
         if self._max_perturbation is None:
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._max_perturbation = None
+            self._max_perturbation = 0.0
         return self._max_perturbation
     @property
     def x0(self):
@@ -125,6 +125,8 @@ class ResultNumericalExample:
         if self._exact_lumping is None:
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._exact_lumping = self.system.lumping(self.observable, method=self.example.matrix, print_system=False, print_reduction=False)
+            if not self._exact_lumping.is_consistent():
+                logger.error(f"[RNE # {self.example.name}] Exact lumping NOT CONSISTENT")
         return self._exact_lumping
     @property
     def numerical_lumping(self):
@@ -226,7 +228,7 @@ class ResultNumericalExample:
         if self._percentage_error is None:
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._percentage_error = OdeResult(**self.diff_simulation)
-            self._percentage_error.y = divide(
+            self._percentage_error.y = 100*divide(
                 self.diff_simulation.y,
                 self.original_simulation.y,
                 out=zeros_like(self.diff_simulation.y), where=logical_or(self.original_simulation.y != 0, self.diff_simulation.y != 0)
@@ -368,7 +370,7 @@ class ResultNumericalExample:
         file.write("===============================================\n")
         file.write(f"== Observables: {self.observable}\n")
         file.write(f"Name of example: {self.example.name}\n")
-        if self.percentage: file.write(f"Max. perturbation: {self.max_perturbation}\n")
+        file.write(f"Max. perturbation: {self.max_perturbation}\n")
         file.write(f"Size of original model: {self.size}\n")
         file.write(f"Size of lumping: {self.exact_size}\n")
         file.write(f"Size of numerical lumping: {self.lumped_size}\n")
@@ -413,7 +415,7 @@ class ResultNumericalExample:
                         line = file.readline().strip()
                         example, max_perturbation, original_size, exact_size, lumped_size = 5*[None]
                         et, Mxt_2, epsilon, norm_x0, norm_fx0, percentage = 6*[None]
-                        avg_err, max_err, considered_epsilons, threshold, t0, t1, time_epsilon, time_total = 8*[None]
+                        avg_per_err, avg_err, max_err, considered_epsilons, threshold, t0, t1, time_epsilon, time_total = 9*[None]
                         while not line.startswith("###############################################"): # Until the end of example is found
                             if line == "": ## Unexpected end of file
                                 raise ValueError(f"Unexpected end of file while reading {observable}")
@@ -468,10 +470,10 @@ class ResultNumericalExample:
                         example = get_example(example)
                         def _casting(value, ttype, name, allow_none = False):
                             try:
-                                return ttype(value) if ((not allow_none) or value != None) else value
+                                return ttype(value) if ((not allow_none) or (value != None and value != "None")) else None
                             except Exception as e:
                                 raise ValueError(f"Expected {ttype} for {name}: {e}")
-                        max_perturbation = _casting(max_perturbation, float, "max_perturbation", True)
+                        max_perturbation = _casting(max_perturbation, float, "max_perturbation")
                         original_size = _casting(original_size, int, "original_size")
                         exact_size = _casting(exact_size, int, "exact_size")
                         lumped_size = _casting(lumped_size, int, "lumped_size")
@@ -829,8 +831,23 @@ def __run_exact(
     observable_matrices = [SparseRowMatrix.from_vectors([obs.linear_part_as_vec() for obs in observable]) for observable in observables]
 
     ##############################################################################
+    ### Checking if there is something to execute
+    if percentage_slope == None and epsilons == None:
+        logger.error(f"[run_exact # {example.name}] No slopes nor epsilons are provided!!")
+    num_executions = sum(len(el) for el in percentage_slope) if percentage_slope != None else sum(len(el) for el in epsilons)
+    if num_executions == 0:
+        logger.warning(f"[run_exact # {example.name}] No executions for this example. Finishing execution")
+        return
+
+    ##############################################################################
     ### Computing the exact lumping for the observables -- reusing the matrix computation
     logger.log(60, f"[run_exact # {example.name}] Computing the exact lumping for each observable")
+    exact_lumpings = []
+    for observable in observables:
+        exact = system.lumping(observable, method=matrix, print_system=False,print_reduction=False)
+        if not exact.is_consistent():
+            logger.error(f"[run_exact # {example.name}] Exact lumping for {observable} is NOT CONSISTENT!!")
+            return
     exact_lumpings = [system.lumping(observable, method=matrix, print_system=False,print_reduction=False) for observable in observables]
     RRsystem._lumping_matr[example.matrix] = tuple(M.change_base(RR) for M in system._lumping_matr[matrix])
 
