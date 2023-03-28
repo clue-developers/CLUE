@@ -21,7 +21,142 @@ from sympy import RR
 examples, executed_examples = Load_Examples_Folder(SCRIPT_DIR)
 logger = logging.getLogger("clue." + __name__)
 #logger.setLevel(logging.DEBUG)
-class ResultNumericalExample:
+class Experiment:
+    def __init__(self,
+                 example: Example, observable, observable_matrix: SparseRowMatrix = None, max_perturbation: float = None,
+                 x0 = None, norm_x0: float = None, norm_fx0: float = None, system: FODESystem = None, num_system: FODESystem = None, 
+                 exact_lumping: LDESystem = None, size: int = None, exact_size: int = None,
+                 sample_points: int = None, max_epsilon: float = None
+        ):
+        self.example = example; self.observable = observable
+        self._observable_matrix = observable_matrix; self._max_perturbation = max_perturbation
+        self._x0 = x0; self._norm_x0 = norm_x0; self._norm_fx0 = norm_fx0
+        self._system = system; self._num_system = num_system; self._exact_lumping = exact_lumping; self._size = size; self._exact_size = exact_size
+        self._sample_points = sample_points; self._max_epsilon = max_epsilon
+        
+        ## Casting observables to SparsePolynomials
+        for i in range(len(self.observable)):
+            if isinstance(self.observable[i], str):
+                self.observable[i] = SparsePolynomial.from_string(self.observable[i], self.system.variables, domain=self.system.field)
+    
+    @property
+    def observable_matrix(self):
+        if self._observable_matrix is None:
+            logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self._observable_matrix = SparseRowMatrix.from_vectors([poly.linear_part_as_vec() for poly in self.observable])
+        return self._observable_matrix
+    @property
+    def max_perturbation(self):
+        if self._max_perturbation is None:
+            logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self._max_perturbation = 0.0
+        return self._max_perturbation
+    @property
+    def x0(self):
+        if self._x0 is None:
+            logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self._x0 = array([self.system.ic.get(v,0) for v in self.system.variables])
+        return self._x0
+    @property
+    def norm_x0(self):
+        if self._norm_x0 is None:
+            logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self._norm_x0 = norm(self.x0)
+        return self._norm_x0
+    @property
+    def norm_fx0(self):
+        if self._norm_fx0 is None:
+            logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self._norm_fx0 = norm(self.system.derivative(...,*self.x0))
+        return self._norm_fx0
+    @property
+    def system(self):
+        if self._system is None:
+            logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            example = self.example
+            self._system = FODESystem(file = example.path_model(), read_ic = True, parser=example.read).remove_parameters_ic()
+
+        return self._system
+    @property
+    def num_system(self):
+        if self._num_system is None:
+            logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            example = self.example
+            self._num_system = FODESystem(file = example.path_model(), read_ic = True, parser=example.read, field = RR).remove_parameters_ic()
+
+        return self._num_system
+    @property
+    def exact_lumping(self):
+        if self._exact_lumping is None:
+            logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self._exact_lumping = self.system.lumping(self.observable, method=self.example.matrix, print_system=False, print_reduction=False)
+            if not self._exact_lumping.is_consistent():
+                logger.error(f"[Experiment # {self.example.name}] Exact lumping NOT CONSISTENT")
+        return self._exact_lumping
+    @property
+    def size(self):
+        if self._size is None:
+            logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self._size = self.system.size
+        return self._size
+    @property
+    def exact_size(self):
+        if self._exact_size is None:
+            logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self._exact_size = self.exact_lumping.size
+        return self._exact_size
+    @property
+    def sample_points(self):
+        if self._sample_points is None:
+            logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self._sample_points = 100
+        return self._sample_points
+    @property
+    def max_epsilon(self):
+        if self._max_epsilon is None:
+            logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self._max_epsilon = self.num_system.find_maximal_threshold(
+                [obs.change_base(RR) for obs in self.observable],
+                self.compact_bound(), 
+                self.sample_points,
+                self.threshold,
+                matrix_algorithm=self.example.matrix
+            )[0]
+        return self._max_epsilon
+
+    def compact_bound(self):
+        return self.norm_x0
+    
+    @classmethod
+    def CSVRows(cls):
+        raise NotImplementedError(f"Method 'CSVRows' not implemented for {cls}")
+    
+    def generate_image(self):
+        raise NotImplementedError(f"Method 'generate_image' not implemented for {self.__class__}")
+    
+    def write_result(self, file: TextIOBase):
+        raise NotImplementedError(f"Method 'write_result' not implemented for {self.__class__}")
+
+    @classmethod
+    def from_file(cls, path_to_result: str) -> tuple[ResultNumericalExample]:
+        raise NotImplementedError(f"Method 'from_file' not implemented for {cls}")
+
+    def to_csv(self) -> list:
+        r'''
+            Method to create a csv row for this example.
+            
+            See :func:`CSVRows` to see the columns of the CSV.
+        '''
+        raise NotImplementedError(f"Method 'to_csv' not implemented for {self.__class__}")
+
+    def __repr__(self) -> str:
+        extra = self._extra_repr()
+        return f"{self.example.name} (r={self.example.read},m={self.example.matrix}) (C={self.compact_bound()}{'' if len(extra) == 0 else f',{extra}'}) {self.observable}"
+    
+    def _extra_repr(self) -> str:
+        return ""
+
+class ResultNumericalExample(Experiment):
     def __init__(self, 
                  example: Example, observable, observable_matrix: SparseRowMatrix = None, max_perturbation : float = None,
                  x0 = None, norm_x0: float = None, norm_fx0: float = None, percentage: float = None, epsilon: float = None, considered_epsilon: int = None,
@@ -33,54 +168,18 @@ class ResultNumericalExample:
                  time_epsilon: float = None, time_total: float = None,
                  Mxt_2: float = None, et: float = None, avg_per_err: float = None, avg_err: float = None, max_err: float = None, max_epsilon: float = None
         ):
-        self.example = example
-        self.observable = observable; self._observable_matrix = observable_matrix; self._max_perturbation = max_perturbation
-        self._x0 = x0; self._norm_x0 = norm_x0; self._norm_fx0 = norm_fx0; self._percentage = percentage; self._epsilon = epsilon; self._considered_epsilon = considered_epsilon
-        self._system = system; self._num_system = num_system; self._exact_lumping = exact_lumping; self._numerical_lumping = numerical_lumping
-        self._size = size; self._exact_size = exact_size; self._lumped_size = lumped_size
-        self._t0 = t0; self._t1 = t1; self._tstep = tstep; self._threshold = threshold; self._sample_points = sample_points
+        super().__init__(example, observable, observable_matrix, max_perturbation, x0, norm_x0, norm_fx0, system, num_system, exact_lumping, size, exact_size, sample_points, max_epsilon)
+        
+        self._percentage = percentage; self._epsilon = epsilon; self._considered_epsilon = considered_epsilon
+        self._numerical_lumping = numerical_lumping; self._lumped_size = lumped_size
+        self._t0 = t0; self._t1 = t1; self._tstep = tstep; self._threshold = threshold
         self._original_simulation = original_simulation; self._numerical_simulation = numerical_simulation
         self._merged_simulation = merged_simulation; self._diff_simulation = diff_simulation
         self._time_epsilon = time_epsilon; self._time_total = time_total
-        self._Mxt_2 = Mxt_2; self._et = et; self._avg_per_err = avg_per_err; self._avg_err = avg_err; self._max_err = max_err; self._max_epsilon = max_epsilon
+        self._Mxt_2 = Mxt_2; self._et = et; self._avg_per_err = avg_per_err; self._avg_err = avg_err; self._max_err = max_err
         self._percentage_error = None
-
-        ## Casting observables to SparsePolynomials
-        for i in range(len(self.observable)):
-            if isinstance(self.observable[i], str):
-                self.observable[i] = SparsePolynomial.from_string(self.observable[i], self.system.variables, domain=self.system.field)
             
     ## GENERATING ATTRIBUTES IF NOT GIVEN
-    @property
-    def observable_matrix(self):
-        if self._observable_matrix is None:
-            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._observable_matrix = SparseRowMatrix.from_vectors([poly.linear_part_as_vec() for poly in self.observable])
-        return self._observable_matrix
-    @property
-    def max_perturbation(self):
-        if self._max_perturbation is None:
-            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._max_perturbation = 0.0
-        return self._max_perturbation
-    @property
-    def x0(self):
-        if self._x0 is None:
-            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._x0 = array([self.system.ic.get(v,0) for v in self.system.variables])
-        return self._x0
-    @property
-    def norm_x0(self):
-        if self._norm_x0 is None:
-            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._norm_x0 = norm(self.x0)
-        return self._norm_x0
-    @property
-    def norm_fx0(self):
-        if self._norm_fx0 is None:
-            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._norm_fx0 = norm(self.system.derivative(...,*self.x0))
-        return self._norm_fx0
     @property
     def percentage(self):
         return self._percentage
@@ -105,57 +204,27 @@ class ResultNumericalExample:
                 self._considered_epsilon = 1
         return self._considered_epsilon
     @property
-    def system(self):
-        if self._system is None:
-            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            example = self.example
-            self._system = FODESystem(file = example.path_model(), read_ic = True, parser=example.read).remove_parameters_ic()
-
-        return self._system
-    @property
-    def num_system(self):
-        if self._num_system is None:
-            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            example = self.example
-            self._num_system = FODESystem(file = example.path_model(), read_ic = True, parser=example.read, field = RR).remove_parameters_ic()
-
-        return self._num_system
-    @property
-    def exact_lumping(self):
-        if self._exact_lumping is None:
-            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._exact_lumping = self.system.lumping(self.observable, method=self.example.matrix, print_system=False, print_reduction=False)
-            if not self._exact_lumping.is_consistent():
-                logger.error(f"[RNE # {self.example.name}] Exact lumping NOT CONSISTENT")
-        return self._exact_lumping
-    @property
     def numerical_lumping(self):
         if self._numerical_lumping is None:
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            ## Getting current values for computing lumping
-            old_subclass, old_subclass_args = self.num_system.lumping_subspace_class, self.num_system.lumping_subspace_kwds
-            self.num_system.lumping_subspace_class = NumericalSubspace, {"delta" : self.epsilon}
-            ## Getting numerical observable
-            num_observable = [obs.change_base(RR) for obs in self.observable]
-            ## Computing the lumping
-            ctime = time.time()
-            self._numerical_lumping = self.num_system.lumping(num_observable, method=self.example.matrix, print_system=False, print_reduction=False)
-            self._time_total = (time.time()-ctime) + self.time_epsilon
-            ## Restoring old values for computing lumping
-            self.num_system.lumping_subspace_class = old_subclass, old_subclass_args
+            if self.epsilon == 0: ## we do exact lumping with the orthogonal class
+                logger.warning(f"[RNE # {self.example.name}] Requesting for numerical lumping for epsilon = 0. Returning exact lumping")
+                ctime = time.time()
+                self._numerical_lumping = self.exact_lumping
+                self._time_total = (time.time()-ctime) + self.time_epsilon
+            else:
+                ## Getting current values for computing lumping
+                old_subclass, old_subclass_args = self.num_system.lumping_subspace_class, self.num_system.lumping_subspace_kwds
+                self.num_system.lumping_subspace_class = NumericalSubspace, {"delta" : self.epsilon}
+                ## Getting numerical observable
+                num_observable = [obs.change_base(RR) for obs in self.observable]
+                ## Computing the lumping
+                ctime = time.time()
+                self._numerical_lumping = self.num_system.lumping(num_observable, method=self.example.matrix, print_system=False, print_reduction=False)
+                self._time_total = (time.time()-ctime) + self.time_epsilon
+                ## Restoring old values for computing lumping
+                self.num_system.lumping_subspace_class = old_subclass, old_subclass_args
         return self._numerical_lumping
-    @property
-    def size(self):
-        if self._size is None:
-            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._size = self.system.size
-        return self._size
-    @property
-    def exact_size(self):
-        if self._exact_size is None:
-            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._exact_size = self.exact_lumping.size
-        return self._exact_size
     @property
     def lumped_size(self):
         if self._lumped_size is None:
@@ -181,19 +250,16 @@ class ResultNumericalExample:
             self._threshold = 1e-6
         return self._threshold
     @property
-    def sample_points(self):
-        if self._sample_points is None:
-            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._sample_points = 100
-        return self._sample_points
-    @property
     def original_simulation(self):
         if self._original_simulation is None:
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             x0 = self.x0
             Lx0 = matmul(self.exact_lumping.lumping_matrix.to_numpy(dtype=x0.dtype), x0)
             O = SparseRowMatrix.from_vectors([self.exact_lumping._subspace.find_in(row) for row in self.observable_matrix])
-            self._original_simulation = apply_matrix(self.exact_lumping.simulate(self.t0,self.t1,Lx0,self.tstep), O)
+            self._original_simulation = apply_matrix(
+                self.exact_lumping.simulate(self.t0,self.t1,Lx0,self.tstep,method=self.example.get("sim_method", "RK45")), 
+                O
+            )
             self._original_simulation.names = [str(obs) for obs in self.observable]
         return self._original_simulation
     @property
@@ -202,9 +268,12 @@ class ResultNumericalExample:
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             x0 = self.x0
             Lx0 = matmul(self.numerical_lumping.lumping_matrix.to_numpy(dtype=x0.dtype), x0)
-            O = SparseRowMatrix.from_vectors([self.numerical_lumping._subspace.find_in(row) for row in self.observable_matrix.change_base(RR)])
+            O = SparseRowMatrix.from_vectors([self.numerical_lumping._subspace.find_in(row) for row in self.observable_matrix.change_base(self.numerical_lumping.field)])
             logger.debug(f"[RNE # {self.example.name}] {inspect.stack()[0][3]} -- Starting simulation (t0={self.t0},t1={self.t1},tstep={self.tstep})")
-            self._numerical_simulation = apply_matrix(self.numerical_lumping.simulate(self.t0,self.t1,Lx0,self.tstep), O)
+            self._numerical_simulation = apply_matrix(
+                self.numerical_lumping.simulate(self.t0,self.t1,Lx0,self.tstep,method=self.example.get("sim_method", "RK45")), 
+                O
+            )
             logger.debug(f"[RNE # {self.example.name}] {inspect.stack()[0][3]} -- Finished simulation")
             self._numerical_simulation.names = [
                 f"{name}[{self.epsilon:.3f}{f'--{self.percentage}' if self.percentage != None else ''}]" for name in self.original_simulation.names
@@ -272,36 +341,21 @@ class ResultNumericalExample:
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._avg_per_err = mean(self.percentage_error.y)
         return self._avg_per_err
-
     @property
     def max_err(self):
         if self._max_err is None:
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._max_err = self.diff_simulation.y.max()
         return self._max_err
-    @property
-    def max_epsilon(self):
-        if self._max_epsilon is None:
-            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._max_epsilon = self.num_system.find_maximal_threshold(
-                [obs.change_base(RR) for obs in self.observable],
-                self.compact_bound(), 
-                self.sample_points,
-                self.threshold,
-                matrix_algorithm=self.example.matrix
-            )[0]
-        return self._max_epsilon
-
+    
     ## DERIVATIVE VALUES
     def dev_max(self):
         if self.percentage is None:
             raise ValueError("Impossible to get the maximal deviation for this example")
         return self.norm_fx0*self.percentage
-    def compact_bound(self):
-        return self.norm_x0
     
-    @staticmethod
-    def CSVRows():
+    @classmethod
+    def CSVRows(cls):
         r'''
             The data in a CSV row is:
             
@@ -356,7 +410,7 @@ class ResultNumericalExample:
         fig.savefig(
             self.example.image_path(
                 SCRIPT_DIR, self.example.read, self.example.matrix,
-                f"{self.percentage}#{self.observable}" if self.percentage else f"{self.epsilon:.3f}#{self.observable}"
+                f"{self.observable}#{self.percentage}" if self.percentage else f"{self.observable}#{self.epsilon:.3f}"
             )
         )
         plt.close()
@@ -397,8 +451,8 @@ class ResultNumericalExample:
                      
         file.flush()
 
-    @staticmethod
-    def from_file(path_to_result: str) -> tuple[ResultNumericalExample]:
+    @classmethod
+    def from_file(cls, path_to_result: str) -> tuple[ResultNumericalExample]:
         results = []
         try:
             with open(path_to_result, "r") as file:
@@ -543,8 +597,13 @@ class ResultNumericalExample:
             t0, t1, secThisEpsilon,secTotal
         ]
 
-    def __repr__(self) -> str:
-        return f"{self.example.name} (r={self.example.read},m={self.example.matrix}) (C={self.compact_bound()}; {f'{100*self.percentage}% slope = {self.dev_max()}' if self.percentage else f'E={self.epsilon}'}) {self.observable}"
+    def _extra_repr(self) -> str:
+        return f'{100*self.percentage}% slope = {self.dev_max()}' if self.percentage else f'E={self.epsilon}'
+
+class AnalysisExample:
+    def __init__(self, example: Example, observable):
+        self._example = example
+        self._observable = observable
 
 def get_example(name) -> Example:
     return examples[name]
@@ -844,11 +903,11 @@ def __run_exact(
     logger.log(60, f"[run_exact # {example.name}] Computing the exact lumping for each observable")
     exact_lumpings = []
     for observable in observables:
-        exact = system.lumping(observable, method=matrix, print_system=False,print_reduction=False)
+        exact = system.lumping(observable, method=matrix,print_system=False,print_reduction=False)
         if not exact.is_consistent():
             logger.error(f"[run_exact # {example.name}] Exact lumping for {observable} is NOT CONSISTENT!!")
             return
-    exact_lumpings = [system.lumping(observable, method=matrix, print_system=False,print_reduction=False) for observable in observables]
+        exact_lumpings.append(exact)
     RRsystem._lumping_matr[example.matrix] = tuple(M.change_base(RR) for M in system._lumping_matr[matrix])
 
     ##############################################################################

@@ -1767,21 +1767,24 @@ class FODESystem:
     def __process_observable(self, observable) -> tuple[SparseVector]:
         r'''Processing observable arguments in lumping/deviation methods'''
         logger.debug("[__process_observable] Converting the observable into a valid input")
-        if isinstance(observable[0], PolyElement):
-            logger.debug("[__process_observable] observables in PolyElement format. Casting to SparsePolynomial")
-            observable = tuple([SparsePolynomial.from_sympy(el, self.variables).linear_part_as_vec() for el in observable])
-        elif isinstance(observable[0], SparsePolynomial):
-            observable = tuple([p.linear_part_as_vec() for p in observable])
-        elif isinstance(observable[0], (list,tuple,ndarray)):
-            observable = tuple([SparseVector.from_list(v, self.field) for v in observable])
-        elif not isinstance(observable[0], SparseVector):
-            logger.debug("[__process_observable] observables seem to be in SymPy expression format, converting")
-            observable = tuple([
-                    SparseVector.from_list([self.field.convert(p.diff(sympy.Symbol(x))) for x in self.variables], self.field) 
-                    for p in observable
-            ])
+        processed_observable = []
+        for obs in observable:
+            if isinstance(obs, PolyElement):
+                logger.debug("[__process_observable] observables in PolyElement format. Casting to SparsePolynomial")
+                processed_observable.append(SparsePolynomial.from_sympy(obs, self.variables, self.field).linear_part_as_vec())
+            elif isinstance(obs, SparsePolynomial):
+                processed_observable.append(obs.linear_part_as_vec())
+            elif isinstance(obs, (list,tuple,ndarray)):
+                processed_observable.append(SparseVector.from_list(obs, self.field))
+            elif isinstance(obs, str):
+                processed_observable.append(SparsePolynomial.from_string(obs, self.variables, self.field).linear_part_as_vec())
+            elif not isinstance(obs, SparseVector):
+                logger.debug("[__process_observable] observables seem to be in SymPy expression format, converting")
+                processed_observable.append(SparseVector.from_list([self.field.convert(obs.diff(sympy.Symbol(x))) for x in self.variables]))
+            else:
+                processed_observable.append(obs)
 
-        return tuple(vector.change_base(self.field) for vector in observable)
+        return tuple(vector.change_base(self.field) for vector in processed_observable)
 
     def __process_bound(self, bound, threshold):
         r'''Processing observable and bound for find_acceptable/maximal_threshold'''
@@ -1832,13 +1835,21 @@ class FODESystem:
                 vector = subspace.matrix().row(i)
                 for M in matrices:
                     row = vector.apply_matrix(M)
-                    if row.nonzero_count: rows.append(row)
+                    # we scale the new vector depending on the ground field
+                    if row.nonzero_count():
+                        rows.append(row)
+            logger.debug(f"[find_maximal_threshold] Need to check {len(rows)} vectors")
+            logger.debug(f"[find_maximal_threshold] Maximal norm of the rows: {math.sqrt(max([el.inner_product(el) for el in rows], default=0))}")
+            logger.debug(f"[find_maximal_threshold] Dimension of the subspace: {subspace.dim()}")
             ## vectors to check
-            for row in rows: row.reduce(-self.field.one, row.apply_matrix(subspace.projector))
-            logger.debug("[find_maximal_threshold] Computing maximal norm")
-            epsilon = math.sqrt(max(el.inner_product(el) for el in rows))
-            deviation = self._deviation(subspace, bound, num_points)
-            self.__cache_thresholds[key] = epsilon, deviation
+            if len(rows) == 0:
+                self.__cache_thresholds[key] = 1.0, 0.0 # arbitrary epsilon and zero deviation due to already a lumping
+            else:
+                for row in rows: row.reduce(-self.field.one, row.apply_matrix(subspace.projector))
+                logger.debug("[find_maximal_threshold] Computing maximal norm")
+                epsilon = math.sqrt(max(el.inner_product(el) for el in rows))
+                deviation = self._deviation(subspace, bound, num_points)
+                self.__cache_thresholds[key] = epsilon, deviation
         
         return self.__cache_thresholds[key]
 

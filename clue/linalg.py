@@ -1284,7 +1284,7 @@ class OrthogonalSubspace(Subspace):
         # We check if ``new_vector`` was in ``self``
         if not ((force and new_vector.nonzero) or self._should_absorb(new_vector)):
             return -1
-
+        
         # we scale the new vector depending on the ground field
         if self.field == QQ:
             new_vector.scale(self.field.one / math.gcd(*[new_vector[i].numerator for i in new_vector.nonzero]))
@@ -1362,6 +1362,11 @@ class OrthogonalSubspace(Subspace):
         
         # we apply the functions given in rhs
         new_rhs = [old_equ.subs(psi_L_y) for old_equ in rhs]
+        new_rhs = [ # casting to SparsePolynomial the constant evaluations
+            SparsePolynomial.from_const(el, new_vars, L.field) 
+            if (not isinstance(el, (SparsePolynomial, RationalFunction)) and el in L.field) 
+            else el for el in new_rhs
+        ] 
         # we apply the basis to the obtained result
         new_rhs = [sum(L.row(j)[i]*new_rhs[i] for i in L.row(j).nonzero) for j in range(m)]
         return new_rhs

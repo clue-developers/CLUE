@@ -804,7 +804,7 @@ class SparsePolynomial(object):
         
         if any(not v in values for v in self.variables()):
             raise TypeError(f"Not enough variables were given for substitution. Required {self.variables()}, given {list(values.keys())}")
-
+        
         # we assume the user has provided everything of the same type
         to_sub = {self._varnames.index(k): v for (k,v) in values.items()}
         prod = lambda g : reduce(lambda p,q : p*q, g, 1)
@@ -1239,7 +1239,7 @@ class RationalFunction:
         self._domain = numer.domain
         self._varnames = numer.gens
         self.numer = numer
-        self.denom = denom
+        self.denom = denom if not self.numer.is_zero() else SparsePolynomial.from_const(1, self.numer._varnames, self._domain)
 
         ## Simplifying the rational function if the denominator is not 1
         if self._domain.is_Exact and denom != SparsePolynomial.from_const(1, self.gens, self.domain):
@@ -1265,7 +1265,7 @@ class RationalFunction:
         return self.numer.is_zero()
 
     def is_constant(self):
-        return self.numer.is_constant() and self.denom.is_constant()
+        return self.is_zero() or (self.numer.is_constant() and self.denom.is_constant())
     #--------------------------------------------------------------------------
     @property
     def domain(self):

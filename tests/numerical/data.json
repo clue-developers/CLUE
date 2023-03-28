@@ -170,6 +170,7 @@
             [0.25e10, 0.5e10,1e10]
         ],
         "t1": 0.1,
+        "sim_method": "LSODA",
         "out_folder": "rational"
     },
     "BIOMD0000000503": {
@@ -252,6 +253,7 @@
             [0,1,1e2,1e3,1e4,1e5,1e6,1e7,1e8]
         ],
         "t1": 0.00025,
+        "sim_method": "LSODA",
         "out_folder": "rational"
     },
     "MODEL1502270000": {
