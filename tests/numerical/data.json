@@ -150,7 +150,8 @@
             ["mTORC1a"]
         ],
         "epsilons": [0,0.5,1],
-        "t1": 0.0001,
+        "t1": 1,
+        "sim_method": "LSODA",
         "out_folder": "rational"
     },
     "BIOMD0000000488": {
