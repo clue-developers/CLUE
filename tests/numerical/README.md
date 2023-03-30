@@ -15,7 +15,9 @@ The numerical examples are compiled in the file `data.json` and allow the follow
   default value of "1e-6" is used.
 * `type`: indicates the type of example it will execute. It may be the following: 
     - `slope`: then the epsilon will be computed using a heuristic. 
-    - `epsilon`: an analysis of progressive epsilons will be generated.
-* `slopes`: only used if `type` is defined as `slope`.
+    - `epsilon`: then the values on the argument `epsilons` will be use directly as epsilons for numerical lumping.
+    - `analysis`: an analysis of progressive epsilons will be generated.
+* `slopes`/`epsilons`: only used if `type` is defined as `slope` or `epsilon`. Define the argument use on the exact tests. They can be a simple list or a list of lists: one for each observable.
 * `t0`, `t1`, `tstep`: arguments for the time span in the simulations. If not given, we 
   use "0.0", "1.0" and "None" will be used as default.
+* `sim_method`: indicates the solver used by SciPy to simulate the systems. By default, is 'RK45', but 'LSODA' tends to work faster in very stiff models.
