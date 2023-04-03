@@ -286,12 +286,18 @@ def get_varnames(strings):
 
 #------------------------------------------------------------------------------
 
-def parse_initial_conditions(lines, domain = QQ):
+def parse_initial_conditions(lines, domain = QQ, prev_ic=None):
     result = dict()
     for l in lines:
         if "=" in l:
             rhs, lhs = l.split("=")
-            result[rhs.strip()] = to_rational(lhs.strip().split(" ")[0]) if domain == QQ else domain(lhs.strip().split(" ")[0]) # added the split(" ") to avoid some cases with comments on style '( ... )'
+            ## Cleaning the lhs
+            lhs = lhs.strip().split(" ")[0].strip() # added the split(" ") to avoid some cases with comments on style '( ... )'
+            if prev_ic != None and lhs in prev_ic:
+                result[rhs.strip()] = prev_ic[lhs]
+            else:
+                result[rhs.strip()] = to_rational(lhs) if domain == QQ else domain(lhs)
+             
     return result
 
 #------------------------------------------------------------------------------
@@ -328,10 +334,10 @@ def read_system(filename, read_ic=False, parser="polynomial", domain = QQ):
 
     ic = {}; pars = []
     if read_ic:
-        ic = parse_initial_conditions(sections_raw.get('init', []),domain)
-        ic = {k:v for (k,v) in ic.items() if k in varnames}
         pars_ic = parse_initial_conditions(sections_raw.get('parameters', []), domain)
+        ic = parse_initial_conditions(sections_raw.get('init', []),domain, pars_ic)
         pars_ic = {k:v for (k,v) in pars_ic.items() if k in varnames}
+        ic = {k:v for (k,v) in ic.items() if k in varnames}
         pars = list(pars_ic.keys()); ic.update(pars_ic)
 
     return {'name' : name, 'equations' : equations, 'observables' : obs, 'variables' : varnames, 'ic' : ic, 'pars': pars}
