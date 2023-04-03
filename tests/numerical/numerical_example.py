@@ -43,7 +43,10 @@ class Experiment:
     def observable_matrix(self):
         if self._observable_matrix is None:
             logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._observable_matrix = SparseRowMatrix.from_vectors([poly.linear_part_as_vec() for poly in self.observable])
+            if any(not poly.is_linear() for poly in self.observable):
+                raise ValueError(f"The observable is not a linear polynomial: {self.observable}")
+            else:
+                self._observable_matrix = SparseRowMatrix.from_vectors([poly.linear_part_as_vec() for poly in self.observable])
         return self._observable_matrix
     @property
     def max_perturbation(self):
@@ -896,6 +899,19 @@ def __run_exact(
     num_executions = sum(len(el) for el in percentage_slope) if percentage_slope != None else sum(len(el) for el in epsilons)
     if num_executions == 0:
         logger.warning(f"[run_exact # {example.name}] No executions for this example. Finishing execution")
+        return
+    
+    ##############################################################################
+    ### Checking the linearity of the observables
+    final_observables = []
+    for (i,observable) in enumerate(observables):
+        if any(not obs.is_linear() for obs in observable):
+            logger.error(f"A given observable ({i}-th observable) is not linear. Skipping this example.")
+        else:
+            final_observables.append(observable)
+    observables = final_observables
+    if len(observables) == 0:
+        logger.error(f"No valid observables found for this example. Finishing execution.")
         return
 
     ##############################################################################
