@@ -58,6 +58,21 @@
         "ref_title": "Signaling in small subcellular volumes. II. Stochastic and diffusion effects on synaptic network properties",
         "ref_doi": "10.1529/biophysj.104.040501"
     },
+    "NIHMS80246_S4": {
+        "type": "polynomial",
+        "ref_title": "Domain-Oriented Reduction of Rule-Based Network Models",
+        "ref_doi": "10.1049/iet-syb:20070081"
+    },
+    "NIHMS80246_S6": {
+        "type": "polynomial",
+        "ref_title": "Domain-Oriented Reduction of Rule-Based Network Models",
+        "ref_doi": "10.1049/iet-syb:20070081"
+    },
+    "pcbi.1000364.s004": {
+        "type": "polynomial",
+        "ref_title": "A Bipolar Clamp Mechanism for Activation of Jak-Family Protein Tyrosine Kinases",
+        "ref_doi": "10.1371/journal.pcbi.1000364"
+    },
     "OrderedPhosphorylation": {
         "type": "polynomial",
         "ref_title": "Domain-oriented reduction of rule-based network models",
