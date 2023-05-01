@@ -286,18 +286,36 @@ def get_varnames(strings):
 
 #------------------------------------------------------------------------------
 
+r'''
+Input: lines of lines of parameter enviroment of .ODE
+It supports arithmetic operations on the lines.
+Return: dictionary where the keys are the parameters and the values are the computed values of the parameters.
+Examples::
+
+                >>> parse_initial_conditions([ "f = 0.50+0.5*1", "N = 5", "V = 1e-12*(f+N)", "L0 = (200e-9*N)*V"])
+                {'f': mpq(1,1), 'N': mpq(5,1), 'V': mpq(3,500000000000), 'L0': mpq(3,500000000000000000)}
+        '''
+
+def parse_arithmetic_expr(expr, dictionary):
+    expr = expr.replace(" ", "")
+    factors = re.findall(r"[\w\.]+(?:e[\+\-]?\d+)?|\+|\-|\*|\/|\(|\)", expr)
+    for i,factor in enumerate(factors):
+        if factor in dictionary:
+             factors[i] = "("+ str(dictionary[factor])+")"
+    return eval("".join(factors))
+
 def parse_initial_conditions(lines, domain = QQ, prev_ic=None):
     result = dict()
     for l in lines:
         if "=" in l:
-            rhs, lhs = l.split("=")
-            ## Cleaning the lhs
+            lhs, rhs = l.split("=")
             lhs = lhs.strip().split(" ")[0].strip() # added the split(" ") to avoid some cases with comments on style '( ... )'
             if prev_ic != None and lhs in prev_ic:
-                result[rhs.strip()] = prev_ic[lhs]
+                result[lhs.strip()] = prev_ic[lhs]
             else:
-                result[rhs.strip()] = to_rational(lhs) if domain == QQ else domain(lhs)
-             
+                result[lhs.strip()] = parse_arithmetic_expr(rhs,result)
+    for key in result.keys():
+        result[key] = to_rational(str(result[key]))if domain == QQ else domain(result[key])
     return result
 
 #------------------------------------------------------------------------------
