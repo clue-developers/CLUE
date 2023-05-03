@@ -287,17 +287,47 @@ def get_varnames(strings):
 #------------------------------------------------------------------------------
 
 def parse_initial_conditions(lines, domain = QQ, prev_ic=None):
+    r'''
+        Method that process the initial conditions from an .ode file
+
+        This method reads and process the initial values for a list of parameters or variables of a system
+        defined in a .ode file. It takes one value per line and, in case there is a '=', we process the initial value 
+        (if possible).
+
+        INPUT: 
+        
+        * ``lines``: list of strings with the lines defining the parameters or initial values. It supports arithmetic operations on the lines.
+        * ``domain``: domain where the initial values will be considered. It takes the rational field as default.
+        * ``prev_ic``: dictionary with previously read initial conditions that can be used in the initial conditions of ``lines``.
+
+        OUTPUT:
+
+        A dictionary where the keys are the name of the variables/parameters and the values are values read converted into ``domain``.
+        
+        EXAMPLES::
+
+            >>> from clue.ode_parser import parse_initial_conditions
+            >>> parse_initial_conditions([ "f = 0.50+0.5*t^2", "N = 5", "V = 1e-12*(f**5+N)/t", "L0 = (200E-9*N)*V"], prev_ic = {'t': 1})
+            {'f': MPQ(1,1), 'N': MPQ(5,1), 'V': MPQ(3,500000000000), 'L0': MPQ(3,500000000000000000)}
+    '''
     result = dict()
+    cummulated = dict(prev_ic) # we create a copy
     for l in lines:
         if "=" in l:
-            rhs, lhs = l.split("=")
-            ## Cleaning the lhs
+            lhs, rhs = l.split("=")
             lhs = lhs.strip().split(" ")[0].strip() # added the split(" ") to avoid some cases with comments on style '( ... )'
-            if prev_ic != None and lhs in prev_ic:
-                result[rhs.strip()] = prev_ic[lhs]
+            if prev_ic != None and lhs in prev_ic: # case where the value was already read in other part of the file (?)
+                result[lhs] = prev_ic[lhs]
             else:
-                result[rhs.strip()] = to_rational(lhs) if domain == QQ else domain(lhs)
-             
+                rf = _parse(rhs, list(cummulated.keys()), "rational", domain)
+                evaluated = rf.eval(**cummulated)
+                if not evaluated.is_constant():
+                    raise ValueError(f"Expression {rhs} not completely cleared by the values in {cummulated}")
+                result[lhs] = evaluated.constant_term
+                cummulated[lhs] = result[lhs]
+    for key in result.keys():
+        if not result[key] in domain:
+            result[key] = to_rational(result[key]) if (domain == QQ and isinstance(result[key], str)) else domain(result[key])
     return result
 
 #------------------------------------------------------------------------------
@@ -343,3 +373,5 @@ def read_system(filename, read_ic=False, parser="polynomial", domain = QQ):
     return {'name' : name, 'equations' : equations, 'observables' : obs, 'variables' : varnames, 'ic' : ic, 'pars': pars}
 
 #------------------------------------------------------------------------------
+
+
