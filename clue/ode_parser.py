@@ -286,36 +286,48 @@ def get_varnames(strings):
 
 #------------------------------------------------------------------------------
 
-r'''
-Input: lines of lines of parameter enviroment of .ODE
-It supports arithmetic operations on the lines.
-Return: dictionary where the keys are the parameters and the values are the computed values of the parameters.
-Examples::
-
-                >>> parse_initial_conditions([ "f = 0.50+0.5*1", "N = 5", "V = 1e-12*(f+N)", "L0 = (200e-9*N)*V"])
-                {'f': mpq(1,1), 'N': mpq(5,1), 'V': mpq(3,500000000000), 'L0': mpq(3,500000000000000000)}
-        '''
-
-def parse_arithmetic_expr(expr, dictionary):
-    expr = expr.replace(" ", "")
-    factors = re.findall(r"[\w\.]+(?:e[\+\-]?\d+)?|\+|\-|\*|\/|\(|\)", expr)
-    for i,factor in enumerate(factors):
-        if factor in dictionary:
-             factors[i] = "("+ str(dictionary[factor])+")"
-    return eval("".join(factors))
-
 def parse_initial_conditions(lines, domain = QQ, prev_ic=None):
+    r'''
+        Method that process the initial conditions from an .ode file
+
+        This method reads and process the initial values for a list of parameters or variables of a system
+        defined in a .ode file. It takes one value per line and, in case there is a '=', we process the initial value 
+        (if possible).
+
+        INPUT: 
+        
+        * ``lines``: list of strings with the lines defining the parameters or initial values. It supports arithmetic operations on the lines.
+        * ``domain``: domain where the initial values will be considered. It takes the rational field as default.
+        * ``prev_ic``: dictionary with previously read initial conditions that can be used in the initial conditions of ``lines``.
+
+        OUTPUT:
+
+        A dictionary where the keys are the name of the variables/parameters and the values are values read converted into ``domain``.
+        
+        EXAMPLES::
+
+            >>> from clue.ode_parser import parse_initial_conditions
+            >>> parse_initial_conditions([ "f = 0.50+0.5*t^2", "N = 5", "V = 1e-12*(f**5+N)/t", "L0 = (200E-9*N)*V"], prev_ic = {'t': 1})
+            {'f': MPQ(1,1), 'N': MPQ(5,1), 'V': MPQ(3,500000000000), 'L0': MPQ(3,500000000000000000)}
+    '''
     result = dict()
+    cummulated = dict(prev_ic) # we create a copy
     for l in lines:
         if "=" in l:
             lhs, rhs = l.split("=")
             lhs = lhs.strip().split(" ")[0].strip() # added the split(" ") to avoid some cases with comments on style '( ... )'
-            if prev_ic != None and lhs in prev_ic:
-                result[lhs.strip()] = prev_ic[lhs]
+            if prev_ic != None and lhs in prev_ic: # case where the value was already read in other part of the file (?)
+                result[lhs] = prev_ic[lhs]
             else:
-                result[lhs.strip()] = parse_arithmetic_expr(rhs,result)
+                rf = _parse(rhs, list(cummulated.keys()), "rational", domain)
+                evaluated = rf.eval(**cummulated)
+                if not evaluated.is_constant():
+                    raise ValueError(f"Expression {rhs} not completely cleared by the values in {cummulated}")
+                result[lhs] = evaluated.constant_term
+                cummulated[lhs] = result[lhs]
     for key in result.keys():
-        result[key] = to_rational(str(result[key]))if domain == QQ else domain(result[key])
+        if not result[key] in domain:
+            result[key] = to_rational(result[key]) if (domain == QQ and isinstance(result[key], str)) else domain(result[key])
     return result
 
 #------------------------------------------------------------------------------
@@ -361,3 +373,5 @@ def read_system(filename, read_ic=False, parser="polynomial", domain = QQ):
     return {'name' : name, 'equations' : equations, 'observables' : obs, 'variables' : varnames, 'ic' : ic, 'pars': pars}
 
 #------------------------------------------------------------------------------
+
+
