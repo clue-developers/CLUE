@@ -16,10 +16,10 @@
 
 ## Rationals
 
- 1. check the rational examples after the polynomial case
+ 1. Check the rational examples after the polynomial case
 
 ## Future
 
  1. Implement reader/parser of .net
  2. Fix the reader/parser .ode
- 3. Design a generic parser that the other two implement
+ 3. Design a generic parser that the other two parsers implement

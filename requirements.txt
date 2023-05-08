@@ -1,4 +1,5 @@
-sympy
+sympy >= 1.9
 pyparsing
 natsort
+scipy
 numpy
