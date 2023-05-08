@@ -311,7 +311,7 @@ def parse_initial_conditions(lines, domain = QQ, prev_ic=None):
             {'f': MPQ(1,1), 'N': MPQ(5,1), 'V': MPQ(3,500000000000), 'L0': MPQ(3,500000000000000000)}
     '''
     result = dict()
-    cummulated = dict(prev_ic) # we create a copy
+    cummulated = dict(prev_ic) if prev_ic != None else dict() # we create a copy
     for l in lines:
         if "=" in l:
             lhs, rhs = l.split("=")

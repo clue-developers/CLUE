@@ -1,24 +1,25 @@
-# Work in the paper:
+# TODO
 
-- Review and comment on what Alexander is doing
-- Give it a run to the Rational part
-- Think how to incorporate the experiments.
+## Executing
 
-# Work on the code:
+ 1. Alexander: script reading .ode to fill the JSON
+ 2. Antonio: Fix parser
+ 3. Antonio: Check why not in space (numerical simulation)
+ 4. Antonio: add references to other examples to reuse data
+ 5. Alexander: implement epsilon analysis in script
 
-- Add the epsilon analysis in the file `numerical_example.py`.
-- Add some examples of that in the JSON
-- Add all examples that appear on the paper.
-- Generate graphs with two different Y-axis on the same picture.
+## Examples
 
-# Work on experiments:
+ 1. Alexander: compile list of models
+ 2. Execute the polynomial models
+ 3. Compare with paper
 
-For each of the models we are using:
+## Rationals
 
-- Go to BioModels and check with Octave files the following information:
-  * Initial conditions are correct
-  * Type of measure of time
-  * Time horizon for simulation
-  * Method for solving IVP.
-- Check in the notebook if with this information we can execute it. If not, change solver or time horizon.
-- Re-run examples with this new information.
+ 1. Check the rational examples after the polynomial case
+
+## Future
+
+ 1. Implement reader/parser of .net
+ 2. Fix the reader/parser .ode
+ 3. Design a generic parser that the other two parsers implement

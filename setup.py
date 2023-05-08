@@ -7,6 +7,10 @@ def readfile(filename):
     with open(filename,  encoding='utf-8') as f:
         return f.read()
     
+def requirements():
+    with open("./requirements.txt", "r", encoding='utf-8') as f:
+        return f.readlines()
+    
 setup(
     name = "CLUE",
     version = "1.5.3", # the VERSION file is shared with the documentation  ## readfile("VERSION").strip(),
@@ -34,6 +38,6 @@ setup(
     keywords = "lumping differential system",
     packages = ["clue"],
     setup_requires   = [],
-    install_requires = ['sympy >= 1.9', 'pyparsing', 'natsort'],
+    install_requires = requirements(),
 )
     
