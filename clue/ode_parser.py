@@ -285,8 +285,22 @@ def get_varnames(strings):
     return sorted(list(names_set))
 
 #------------------------------------------------------------------------------
-
 def parse_initial_conditions(lines, domain = QQ, prev_ic=None):
+    result = dict()
+    for l in lines:
+        if "=" in l:
+            rhs, lhs = l.split("=")
+            ## Cleaning the lhs
+            lhs = lhs.strip().split(" ")[0].strip() # added the split(" ") to avoid some cases with comments on style '( ... )'
+            if prev_ic != None and lhs in prev_ic:
+                result[rhs.strip()] = prev_ic[lhs]
+            else:
+                result[rhs.strip()] = to_rational(lhs) if domain == QQ else domain(lhs)
+             
+    return result
+
+
+def _parse_initial_conditions(lines, domain = QQ, prev_ic=None):
     r'''
         Method that process the initial conditions from an .ode file
 
