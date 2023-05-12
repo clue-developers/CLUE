@@ -115,7 +115,7 @@ def parenthesis_comment_remover(text):
 
             >>> from clue.ode_parser import parenthesis_comment_remover
             >>> parenthesis_comment_remover('s0 = R_tot ( "R(a1~U,a2~U,s)" )')
-            's0 = R_tot' 
+            's0 = R_tot'
             >>> parenthesis_comment_remover('t0 = t1 + 0.8')
             't0 = t1 + 0.8'
             >>> parenthesis_comment_remover('a = (b+3e-7)*5')
@@ -126,8 +126,10 @@ def parenthesis_comment_remover(text):
             'a = (b+3e-7)*5'
             >>> parenthesis_comment_remover('a = (b+3e-7)*5 (   "mixed spaces")')
             'a = (b+3e-7)*5'
+            >>> parenthesis_comment_remover('a = (b+3e-7)*5 (   "spaces and tab"	)')
+            'a = (b+3e-7)*5'
     '''
-    return re.sub(r"\(\s*\".*\"\s*\)", '', text).strip()
+    return re.sub(r"\([ \t]*\".*\"[ \t]*\)", '', text).strip()
 
 #------------------------------------------------------------------------------
 
@@ -401,7 +403,7 @@ def parse_initial_conditions(lines, domain = QQ, prev_ic=None):
     for l in lines:
         if "=" in l:
             lhs, rhs = [el.strip() for el in l.split("=")]
-            rhs = rhs.split("( \"")[0].strip() # added the split("( \"") to avoid some cases with comments on style '( "..." )'
+            rhs = parenthesis_comment_remover(rhs) # added the split("( \"") to avoid some cases with comments on style '( "..." )'
             if prev_ic != None and lhs in prev_ic: # case where the value was already read in other part of the file (?)
                 result[lhs] = prev_ic[lhs]
             else:
