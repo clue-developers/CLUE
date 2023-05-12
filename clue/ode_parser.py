@@ -1,3 +1,55 @@
+r'''
+    Module to parse .ode files into a linear system of ordinary differential equations.
+
+    This module implements a complete parser of `.ode` files that will create the 
+    corresponding dynamical system (see :class:`.clue.FODESystem`). This parser 
+    allows to read initial conditions and observables right away from the file.
+
+    This module should not be directly called in general but using the optional
+    argument `"file"` in :class:`.clue.FODESystem`.
+
+    Be default the parser used is the polynomial case::
+
+        >>> from clue import *
+        >>> FODESystem(file="models/polynomial/ProteinPhosphorylation[2].ode")
+        e2 [FODESystem -- 24 -- SparsePolynomial]
+        >>> FODESystem(file="models/polynomial/fceri_ji.ode")
+        fceri_ji [FODESystem -- 374 -- SparsePolynomial]
+        >>> FODESystem(file="models/polynomial/NIHMS80246_S4.ode")
+        NIHMS80246_S4_ode [FODESystem -- 227 -- SparsePolynomial]
+        >>> FODESystem(file="models/polynomial/NIHMS80246_S6.ode")
+        NIHMS80246_S6 [FODESystem -- 33 -- SparsePolynomial]
+        >>> FODESystem(file="models/polynomial/pcbi.1000364.s004.ode")
+        pcbi1000364s004 [FODESystem -- 17 -- SparsePolynomial]
+        >>> FODESystem(file="models/polynomial/numerical/BioNetGen_CCP.ode")
+        BioNetGen_CCP [FODESystem -- 141 -- SparsePolynomial]
+        >>> FODESystem(file="models/polynomial/WeightedLinearODE/ambassador_2000.ode")
+        ambassador_2000_ode [FODESystem -- 16 -- SparsePolynomial]
+        >>> FODESystem(file="models/polynomial/MODEL8262229752.ode")
+        MODEL8262229752 [FODESystem -- 47 -- SparsePolynomial]
+        >>> FODESystem(file="models/polynomial/MODEL9085850385.ode")
+        MODEL9085850385 [FODESystem -- 59 -- SparsePolynomial]
+        >>> FODESystem(file="models/polynomial/OrderedPhosphorylation.ode")
+        borisov [FODESystem -- 227 -- SparsePolynomial]
+
+    But we can also use this parser to read rational systems. We can decide using the argument 
+    `"parser"` if the sympy or :class:`.rational_function.RationalFunction` case will be used::
+    
+        >>> FODESystem(file="models/rational/BIOMD0000000013.ode", parser="sympy")
+        BIOMD0000000013 [FODESystem -- 28 -- Add]
+        >>> FODESystem(file="models/rational/BIOMD0000000023.ode", parser="sympy")
+        BIOMD0000000023 [FODESystem -- 13 -- Add]
+        >>> FODESystem(file="models/rational/BIOMD0000000033.ode", parser="rational")
+        BIOMD0000000033 [FODESystem -- 80 -- RationalFunction]
+        >>> FODESystem(file="models/rational/BIOMD0000000087.ode", parser="rational")
+        BIOMD0000000087 [FODESystem -- 56 -- RationalFunction]
+        >>> FODESystem(file="models/rational/BIOMD0000000113.ode", parser="rational")
+        BIOMD0000000113 [FODESystem -- 20 -- RationalFunction]
+        >>> FODESystem(file="models/rational/MODEL1502270000.ode", parser="sympy")
+        MODEL1502270000 [FODESystem -- 46 -- Zero]
+        >>> FODESystem(file="models/rational/BIOMD0000000611.ode", parser="rational")
+        BIOMD0000000611 [FODESystem -- 153 -- RationalFunction]
+'''
 import re, sys, logging
 
 from functools import reduce, lru_cache
