@@ -11,43 +11,43 @@ r'''
     Be default the parser used is the polynomial case::
 
         >>> from clue import *
-        >>> FODESystem(file="models/polynomial/ProteinPhosphorylation[2].ode")
+        >>> FODESystem(file="models/polynomial/ProteinPhosphorylation[2].ode", read_ic=True)
         e2 [FODESystem -- 24 -- SparsePolynomial]
-        >>> FODESystem(file="models/polynomial/fceri_ji.ode")
+        >>> FODESystem(file="models/polynomial/fceri_ji.ode", read_ic=True)
         fceri_ji [FODESystem -- 374 -- SparsePolynomial]
-        >>> FODESystem(file="models/polynomial/NIHMS80246_S4.ode")
+        >>> FODESystem(file="models/polynomial/NIHMS80246_S4.ode", read_ic=True)
         NIHMS80246_S4_ode [FODESystem -- 227 -- SparsePolynomial]
-        >>> FODESystem(file="models/polynomial/NIHMS80246_S6.ode")
+        >>> FODESystem(file="models/polynomial/NIHMS80246_S6.ode", read_ic=True)
         NIHMS80246_S6 [FODESystem -- 33 -- SparsePolynomial]
-        >>> FODESystem(file="models/polynomial/pcbi.1000364.s004.ode")
+        >>> FODESystem(file="models/polynomial/pcbi.1000364.s004.ode", read_ic=True)
         pcbi1000364s004 [FODESystem -- 17 -- SparsePolynomial]
-        >>> FODESystem(file="models/polynomial/numerical/BioNetGen_CCP.ode")
+        >>> FODESystem(file="models/polynomial/numerical/BioNetGen_CCP.ode", read_ic=True)
         BioNetGen_CCP [FODESystem -- 141 -- SparsePolynomial]
-        >>> FODESystem(file="models/polynomial/WeightedLinearODE/ambassador_2000.ode")
+        >>> FODESystem(file="models/polynomial/WeightedLinearODE/ambassador_2000.ode", read_ic=True)
         ambassador_2000_ode [FODESystem -- 16 -- SparsePolynomial]
-        >>> FODESystem(file="models/polynomial/MODEL8262229752.ode")
+        >>> FODESystem(file="models/polynomial/MODEL8262229752.ode", read_ic=True)
         MODEL8262229752 [FODESystem -- 47 -- SparsePolynomial]
-        >>> FODESystem(file="models/polynomial/MODEL9085850385.ode")
+        >>> FODESystem(file="models/polynomial/MODEL9085850385.ode", read_ic=True)
         MODEL9085850385 [FODESystem -- 59 -- SparsePolynomial]
-        >>> FODESystem(file="models/polynomial/OrderedPhosphorylation.ode")
+        >>> FODESystem(file="models/polynomial/OrderedPhosphorylation.ode", read_ic=True)
         borisov [FODESystem -- 227 -- SparsePolynomial]
 
     But we can also use this parser to read rational systems. We can decide using the argument 
     `"parser"` if the sympy or :class:`.rational_function.RationalFunction` case will be used::
     
-        >>> FODESystem(file="models/rational/BIOMD0000000013.ode", parser="sympy")
+        >>> FODESystem(file="models/rational/BIOMD0000000013.ode", parser="sympy", read_ic=True)
         BIOMD0000000013 [FODESystem -- 28 -- Add]
-        >>> FODESystem(file="models/rational/BIOMD0000000023.ode", parser="sympy")
+        >>> FODESystem(file="models/rational/BIOMD0000000023.ode", parser="sympy", read_ic=True)
         BIOMD0000000023 [FODESystem -- 13 -- Add]
-        >>> FODESystem(file="models/rational/BIOMD0000000033.ode", parser="rational")
+        >>> FODESystem(file="models/rational/BIOMD0000000033.ode", parser="rational", read_ic=True)
         BIOMD0000000033 [FODESystem -- 80 -- RationalFunction]
-        >>> FODESystem(file="models/rational/BIOMD0000000087.ode", parser="rational")
+        >>> FODESystem(file="models/rational/BIOMD0000000087.ode", parser="rational", read_ic=True)
         BIOMD0000000087 [FODESystem -- 56 -- RationalFunction]
-        >>> FODESystem(file="models/rational/BIOMD0000000113.ode", parser="rational")
+        >>> FODESystem(file="models/rational/BIOMD0000000113.ode", parser="rational", read_ic=True)
         BIOMD0000000113 [FODESystem -- 20 -- RationalFunction]
-        >>> FODESystem(file="models/rational/MODEL1502270000.ode", parser="sympy")
+        >>> FODESystem(file="models/rational/MODEL1502270000.ode", parser="sympy", read_ic=True)
         MODEL1502270000 [FODESystem -- 46 -- Zero]
-        >>> FODESystem(file="models/rational/BIOMD0000000611.ode", parser="rational")
+        >>> FODESystem(file="models/rational/BIOMD0000000611.ode", parser="rational", read_ic=True)
         BIOMD0000000611 [FODESystem -- 153 -- RationalFunction]
 '''
 import re, sys, logging
@@ -79,6 +79,7 @@ def readfile(name):
 #------------------------------------------------------------------------------
 
 def comment_remover(text):
+    r'''Removing C++ and C style comments'''
     # taken from https://stackoverflow.com/a/241506
     def replacer(match):
         s = match.group(0)
@@ -94,6 +95,39 @@ def comment_remover(text):
 
 def bracket_comment_remover(text):
     return re.sub(r'\[[^\[\]]*\]', '', text)
+
+def parenthesis_comment_remover(text):
+    r'''
+        Method to remove special type of comments of form '("...")' or '( "..." )'.
+
+        This type of comments appear in some models during the reading of initial conditions representing 
+        some type of naming for those species/parameters. These have to be removed from the parser.
+
+        Input:
+
+        * ``text``: the string to be processed.
+
+        Output:
+
+        The same string without this type of comments. The output is strip
+
+        Examples::
+
+            >>> from clue.ode_parser import parenthesis_comment_remover
+            >>> parenthesis_comment_remover('s0 = R_tot ( "R(a1~U,a2~U,s)" )')
+            's0 = R_tot' 
+            >>> parenthesis_comment_remover('t0 = t1 + 0.8')
+            't0 = t1 + 0.8'
+            >>> parenthesis_comment_remover('a = (b+3e-7)*5')
+            'a = (b+3e-7)*5'
+            >>> parenthesis_comment_remover('a = (b+3e-7)*5 ( "why?" )')
+            'a = (b+3e-7)*5'
+            >>> parenthesis_comment_remover('a = (b+3e-7)*5 ("without spaces")')
+            'a = (b+3e-7)*5'
+            >>> parenthesis_comment_remover('a = (b+3e-7)*5 (   "mixed spaces")')
+            'a = (b+3e-7)*5'
+    '''
+    return re.sub(r"\(\s*\".*\"\s*\)", '', text).strip()
 
 #------------------------------------------------------------------------------
 
@@ -366,8 +400,8 @@ def parse_initial_conditions(lines, domain = QQ, prev_ic=None):
     cummulated = dict(prev_ic) if prev_ic != None else dict() # we create a copy
     for l in lines:
         if "=" in l:
-            lhs, rhs = l.split("=")
-            lhs = lhs.strip().split(" ")[0].strip() # added the split(" ") to avoid some cases with comments on style '( ... )'
+            lhs, rhs = [el.strip() for el in l.split("=")]
+            rhs = rhs.split("( \"")[0].strip() # added the split("( \"") to avoid some cases with comments on style '( "..." )'
             if prev_ic != None and lhs in prev_ic: # case where the value was already read in other part of the file (?)
                 result[lhs] = prev_ic[lhs]
             else:
