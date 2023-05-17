@@ -46,7 +46,7 @@ class Example:
     @property
     def observables(self): return self.__observables
     @property
-    def model(self): return self.__json.get("model", self.ref.get("model", self.name))
+    def model(self): return self.__json.get("model", self.ref.get("model", None)) if self.ref != None else self.__json.get("model", self.name)
     @property
     def range(self): return self.__json.get("range", self.ref.get("range", None)) if self.ref != None else self.__json.get("range", None)
     @property

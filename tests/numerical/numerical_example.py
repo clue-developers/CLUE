@@ -154,7 +154,7 @@ class Experiment:
 
     def __repr__(self) -> str:
         extra = self._extra_repr()
-        return f"{self.example.name} (r={self.example.read},m={self.example.matrix}) (C={self.compact_bound()}{'' if len(extra) == 0 else f',{extra}'}) {self.observable_name}"
+        return f"{self.example.name}[{self.observable_name}] (r={self.example.read},m={self.example.matrix}) (C={self.compact_bound()}{'' if len(extra) == 0 else f',{extra}'})"
     
     def _extra_repr(self) -> str:
         return ""
