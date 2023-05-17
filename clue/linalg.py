@@ -1274,7 +1274,7 @@ class OrthogonalSubspace(Subspace):
             In an orthogonal subspace, this can be done by multiplying by the pseudoinverse. We check that 
             the vector is in the subspace by applying the projector.
         '''
-        if vector.apply_matrix(self.projector) != vector:
+        if not vector in self:
             raise ValueError("The given vector is not in the current subspace")
         return vector.apply_matrix(self.pinv(True))
 
@@ -1386,6 +1386,7 @@ class NumericalSubspace(OrthogonalSubspace):
 
         Methods that are overridden:
 
+        * :func:`contains`
         * :func:`_should_absorb`
     '''
     def __init__(self, field: Domain, delta : float = 1e-4):
@@ -1393,6 +1394,11 @@ class NumericalSubspace(OrthogonalSubspace):
 
         self.__delta = max(abs(delta), 1e-10) # minimal threshold to be like zero
         self.__delta2 = self.__delta**2
+
+    def contains(self, vector : SparseVector):
+        r'''Checks whether a vector is in ``self`` or not.'''
+        self_proj = self.reduce_vector(vector.copy())
+        return self_proj.inner_product(self_proj) < 1e-15
 
     def _should_absorb(self, vector : SparseVector):
         norm_squared = float(vector.inner_product(vector))
