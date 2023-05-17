@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.join(SCRIPT_DIR, "..", "..")) # models and clue is he
 sys.path.insert(0, os.path.join(SCRIPT_DIR, "..")) # examples_data is here
 
 from contextlib import nullcontext
-from clue import FODESystem, LDESystem, SparsePolynomial, SparseVector, SparseRowMatrix, NumericalSubspace
+from clue import FODESystem, LDESystem, SparsePolynomial, SparseRowMatrix, NumericalSubspace
 from clue.simulations import apply_matrix, create_figure, merge_simulations
 from cProfile import Profile
 from examples_data import Example, Load_Examples_Folder
@@ -23,12 +23,12 @@ logger = logging.getLogger("clue." + __name__)
 #logger.setLevel(logging.DEBUG)
 class Experiment:
     def __init__(self,
-                 example: Example, observable, observable_matrix: SparseRowMatrix = None, max_perturbation: float = None,
+                 example: Example, observable, observable_name: str = None, observable_matrix: SparseRowMatrix = None, max_perturbation: float = None,
                  x0 = None, norm_x0: float = None, norm_fx0: float = None, system: FODESystem = None, num_system: FODESystem = None, 
                  exact_lumping: LDESystem = None, size: int = None, exact_size: int = None,
                  sample_points: int = None, max_epsilon: float = None
         ):
-        self.example = example; self.observable = observable
+        self.example = example; self.observable = observable; self.observable_name = observable_name
         self._observable_matrix = observable_matrix; self._max_perturbation = max_perturbation
         self._x0 = x0; self._norm_x0 = norm_x0; self._norm_fx0 = norm_fx0
         self._system = system; self._num_system = num_system; self._exact_lumping = exact_lumping; self._size = size; self._exact_size = exact_size
@@ -154,14 +154,14 @@ class Experiment:
 
     def __repr__(self) -> str:
         extra = self._extra_repr()
-        return f"{self.example.name} (r={self.example.read},m={self.example.matrix}) (C={self.compact_bound()}{'' if len(extra) == 0 else f',{extra}'}) {self.observable}"
+        return f"{self.example.name} (r={self.example.read},m={self.example.matrix}) (C={self.compact_bound()}{'' if len(extra) == 0 else f',{extra}'}) {self.observable_name}"
     
     def _extra_repr(self) -> str:
         return ""
 
 class ResultNumericalExample(Experiment):
     def __init__(self, 
-                 example: Example, observable, observable_matrix: SparseRowMatrix = None, max_perturbation : float = None,
+                 example: Example, observable, observable_name: str = None, observable_matrix: SparseRowMatrix = None, max_perturbation : float = None,
                  x0 = None, norm_x0: float = None, norm_fx0: float = None, percentage: float = None, epsilon: float = None, considered_epsilon: int = None,
                  system: FODESystem = None, num_system: FODESystem = None, exact_lumping: LDESystem = None, numerical_lumping: LDESystem = None,
                  size: int = None, exact_size: int = None, lumped_size: int = None, 
@@ -171,7 +171,7 @@ class ResultNumericalExample(Experiment):
                  time_epsilon: float = None, time_total: float = None,
                  Mxt_2: float = None, et: float = None, avg_per_err: float = None, avg_err: float = None, max_err: float = None, max_epsilon: float = None
         ):
-        super().__init__(example, observable, observable_matrix, max_perturbation, x0, norm_x0, norm_fx0, system, num_system, exact_lumping, size, exact_size, sample_points, max_epsilon)
+        super().__init__(example, observable, observable_name, observable_matrix, max_perturbation, x0, norm_x0, norm_fx0, system, num_system, exact_lumping, size, exact_size, sample_points, max_epsilon)
         
         self._percentage = percentage; self._epsilon = epsilon; self._considered_epsilon = considered_epsilon
         self._numerical_lumping = numerical_lumping; self._lumped_size = lumped_size
@@ -263,7 +263,7 @@ class ResultNumericalExample(Experiment):
                 self.exact_lumping.simulate(self.t0,self.t1,Lx0,self.tstep,method=self.example.get("sim_method", "RK45")), 
                 O
             )
-            self._original_simulation.names = [str(obs) for obs in self.observable]
+            self._original_simulation.names = [str(obs) for obs in self.observable] if len(self.observable) > 1 else [self.observable_name]
         return self._original_simulation
     @property
     def numerical_simulation(self):
@@ -413,7 +413,7 @@ class ResultNumericalExample(Experiment):
         fig.savefig(
             self.example.image_path(
                 SCRIPT_DIR, self.example.read, self.example.matrix,
-                f"{self.observable}#{self.percentage}" if self.percentage else f"{self.observable}#{self.epsilon:.3f}"
+                f"{self.observable_name}#{self.percentage}" if self.percentage else f"{self.observable_name}#{self.epsilon:.3f}"
             )
         )
         plt.close()
@@ -425,7 +425,7 @@ class ResultNumericalExample(Experiment):
         et_rel = et/Mxt_2 if Mxt_2 > 0 else float("inf") if et > 0 else 0.0
         
         file.write("===============================================\n")
-        file.write(f"== Observables: {self.observable}\n")
+        file.write(f"== Observables: {self.observable_name} -> {self.observable}\n")
         file.write(f"Name of example: {self.example.name}\n")
         file.write(f"Max. perturbation: {self.max_perturbation}\n")
         file.write(f"Size of original model: {self.size}\n")
@@ -466,7 +466,9 @@ class ResultNumericalExample(Experiment):
                         ## Reading the observable
                         line = file.readline().strip()
                         if not line.startswith("== Observables: "): raise ValueError("Incorrect format in result file: observable must be specified first")
-                        observable = [el.strip() for el in line.removeprefix("== Observables: [").removesuffix("]").split(",")] ## This will be a list of str
+                        observable_line = line.removeprefix("== Observables: ").split(" -> ")
+                        observable_name = observable_line[0].strip()
+                        observable = [el.strip() for el in observable_line[1].strip().removeprefix("[").removesuffix("]").split(",")] ## This will be a list of str
                         #########################################################
                         ## Reading other information
                         line = file.readline().strip()
@@ -475,11 +477,9 @@ class ResultNumericalExample(Experiment):
                         avg_per_err, avg_err, max_err, considered_epsilons, threshold, t0, t1, time_epsilon, time_total = 9*[None]
                         while not line.startswith("###############################################"): # Until the end of example is found
                             if line == "": ## Unexpected end of file
-                                raise ValueError(f"Unexpected end of file while reading {observable}")
+                                raise ValueError(f"Unexpected end of file while reading {observable_name}")
                             elif line.startswith("Name of example: "):
                                 example = line.removeprefix("Name of example: ")
-                            elif line.startswith("Observable: "):
-                                observable = line.removeprefix("Observable: ")
                             elif line.startswith("Max. perturbation: "):
                                 max_perturbation = line.removeprefix("Max. perturbation: ")
                             elif line.startswith("Size of original model: "):
@@ -552,7 +552,7 @@ class ResultNumericalExample(Experiment):
                         time_total = _casting(time_total, float, "time_total")
 
                         ## Creating the result object
-                        result = ResultNumericalExample(example, observable,
+                        result = ResultNumericalExample(example, observable, observable_name=observable_name,
                             max_perturbation=max_perturbation, size=original_size, exact_size=exact_size, lumped_size=lumped_size,
                             et=et, Mxt_2 = Mxt_2, epsilon=epsilon, norm_x0=norm_x0, norm_fx0=norm_fx0,percentage=percentage,
                             avg_per_err=avg_per_err, avg_err=avg_err, max_err=max_err, max_epsilon=max_epsilon, considered_epsilon=considered_epsilons,threshold=threshold,t0=t0,t1=t1,
@@ -572,7 +572,7 @@ class ResultNumericalExample(Experiment):
             
             See :func:`CSVRows` to see the columns of the CSV.
         '''
-        modelName = f"{self.example.name}_{self.observable}_{self.max_perturbation if self.max_perturbation else f'[e={self.epsilon:.3f}]'}"
+        modelName = f"{self.example.name}_{self.observable_name}_{self.max_perturbation if self.max_perturbation else f'[e={self.epsilon:.3f}]'}"
         maxPerturbation = self.max_perturbation
         size = self.size
         clum_size = self.exact_size
@@ -865,7 +865,7 @@ def run_example(*argv):
     return
 
 def __run_exact(
-        example: Example, read: str, matrix: str, observables: list[str], timeout: int, output: TextIOBase, 
+        example: Example, read: str, matrix: str, observables: dict[str,list[str]], timeout: int, output: TextIOBase, 
         percentage_slope: list[list[float]], epsilons: list[list[float]], sample_points: int, threshold: float, t0: float, t1: float, tstep: float,
 ):
     ##############################################################################
@@ -889,8 +889,8 @@ def __run_exact(
     ##############################################################################
     ### Building the observables from the example
     logger.log(60, f"[run_exact # {example.name}] Building observables")
-    observables = [[SparsePolynomial.from_string(s, system.variables, system.field) for s in obs_set] for obs_set in example.observables]
-    observable_matrices = [SparseRowMatrix.from_vectors([obs.linear_part_as_vec() for obs in observable]) for observable in observables]
+    observables = {view_name : [SparsePolynomial.from_string(s, system.variables, system.field) for s in obs_set] for (view_name, obs_set) in example.observables.items()}
+    observable_matrices = {view_name :SparseRowMatrix.from_vectors([obs.linear_part_as_vec() for obs in observable]) for view_name, observable in observables.items()}
 
     ##############################################################################
     ### Checking if there is something to execute
@@ -903,12 +903,12 @@ def __run_exact(
     
     ##############################################################################
     ### Checking the linearity of the observables
-    final_observables = []
-    for (i,observable) in enumerate(observables):
+    final_observables = {}
+    for (view_name,observable) in observables.items():
         if any(not obs.is_linear() for obs in observable):
-            logger.error(f"A given observable ({i}-th observable) is not linear. Skipping this example.")
+            logger.error(f"The view ({view_name}) has a non-linear input. Skipping this example.")
         else:
-            final_observables.append(observable)
+            final_observables[view_name] = observable
     observables = final_observables
     if len(observables) == 0:
         logger.error(f"No valid observables found for this example. Finishing execution.")
@@ -916,34 +916,34 @@ def __run_exact(
 
     ##############################################################################
     ### Computing the exact lumping for the observables -- reusing the matrix computation
-    logger.log(60, f"[run_exact # {example.name}] Computing the exact lumping for each observable")
-    exact_lumpings = []
-    for observable in observables:
+    logger.log(60, f"[run_exact # {example.name}] Computing the exact lumping for each view")
+    exact_lumpings = {}
+    for view_name, observable in observables.items():
         exact = system.lumping(observable, method=matrix,print_system=False,print_reduction=False)
         if not exact.is_consistent():
-            logger.error(f"[run_exact # {example.name}] Exact lumping for {observable} is NOT CONSISTENT!!")
+            logger.error(f"[run_exact # {example.name}] Exact lumping for {view_name} is NOT CONSISTENT!!")
             return
-        exact_lumpings.append(exact)
+        exact_lumpings[view_name] = exact
     RRsystem._lumping_matr[example.matrix] = tuple(M.change_base(RR) for M in system._lumping_matr[matrix])
 
     ##############################################################################
     ### Creating the Results structures
     logger.log(60, f"[run_exact # {example.name}] Creating the result structures")
     results : list[ResultNumericalExample] = []
-    for i in range(len(observables)):
-        observable = observables[i]; O = observable_matrices[i]; exact_lumping = exact_lumpings[i]
+    for i, (view_name, observable) in enumerate(observables.items()):
+        O = observable_matrices[view_name]; exact_lumping = exact_lumpings[view_name]
         kwds = {"observable_matrix": O, "x0": x0, "norm_x0": norm_x0, "norm_fx0": norm_fx0,
                 "system": system, "num_system": RRsystem, "exact_lumping": exact_lumping,
                 "t0": t0, "t1": t1, "tstep": tstep, "threshold": threshold, "sample_points": sample_points}
         if percentage_slope != None:
             for percentage in percentage_slope[i]:            
                 kwds["percentage"] = percentage
-                results.append(ResultNumericalExample(example, observable, **kwds))
+                results.append(ResultNumericalExample(example, observable, view_name, **kwds))
         elif epsilons != None:
             kwds["considered_epsilon"] = 1
             for epsilon in epsilons[i]:
                 kwds["epsilon"] = epsilon
-                results.append(ResultNumericalExample(example, observable, **kwds))
+                results.append(ResultNumericalExample(example, observable, view_name, **kwds))
 
     
     ##############################################################################
