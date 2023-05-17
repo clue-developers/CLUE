@@ -4,9 +4,9 @@
 
  1. [ ] Alexander: script reading .ode to fill the JSON
  2. [x] Antonio: Fix parser
- 3. [x] Antonio: change observable writing -> require a name for an observable set. By default, it is called VIEW_%d.
+ 3. [x] Antonio: change observable writing -> require a name for an observable set. By default, it is called `"VIEW_%d"`.
  3. [ ] Antonio: Check why not in space (numerical simulation)
- 4. [ ] Antonio: add references to other examples to reuse data
+ 4. [x] Antonio: add references to other examples to reuse data
  5. [ ] Alexander: implement epsilon analysis in script
 
 ## Examples

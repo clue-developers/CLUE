@@ -18,6 +18,19 @@
         ],
         "t1": 20
     },
+    "ProteinPhosphorylation[2-slope]": {
+        "ref": "ProteinPhosphorylation[2]",
+        "type": "slope",
+        "slopes": [
+            0.00001,
+            0.01,
+            1
+        ]        
+    },
+    "ProteinPhosphorylation[2-analysis]": {
+        "ref": "ProteinPhosphorylation[2]",
+        "type": "analysis"
+    },
     "journal.pcbi.1000364.s004": {
         "read": "polynomial",
         "matrix": "polynomial",
