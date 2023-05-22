@@ -1,0 +1,25 @@
+2023-05-11 12:43:00 Level 60 [run_example # NIHMS80246_S6] Running example type: slope
+2023-05-11 12:43:00 Level 60 [run_exact # NIHMS80246_S6] Reading the system both exactly and numerical
+Traceback (most recent call last):
+  File "/home/alexander/CLUE/tests/numerical/numerical_example.py", line 1106, in <module>
+    run_example(*sys.argv[2:])
+  File "/home/alexander/CLUE/tests/numerical/numerical_example.py", line 847, in run_example
+    __run_exact(example, read, matrix, observables, timeout, output, percentage_slope,None,
+  File "/home/alexander/CLUE/tests/numerical/numerical_example.py", line 874, in __run_exact
+    system = FODESystem(file=example.path_model(), read_ic = True, parser=read)
+  File "/home/alexander/CLUE/tests/numerical/./../../clue/clue.py", line 109, in __init__
+    dic = read_system(file, read_ic, parser, field)
+  File "/home/alexander/CLUE/tests/numerical/./../../clue/ode_parser.py", line 368, in read_system
+    ic = parse_initial_conditions(sections_raw.get('init', []),domain, pars_ic)
+  File "/home/alexander/CLUE/tests/numerical/./../../clue/ode_parser.py", line 322, in parse_initial_conditions
+    rf = _parse(rhs, list(cummulated.keys()), "rational", domain)
+  File "/home/alexander/CLUE/tests/numerical/./../../clue/ode_parser.py", line 113, in _parse
+    result = RationalFunction.from_string(to_parse, varnames, domain, var_dict)
+  File "/home/alexander/CLUE/tests/numerical/./../../clue/rational_function.py", line 1646, in from_string
+    RationalFunction.__parser.parseString(s, parseAll=True)
+  File "/usr/lib/python3/dist-packages/pyparsing.py", line 1955, in parseString
+    raise exc
+  File "/usr/lib/python3/dist-packages/pyparsing.py", line 3814, in parseImpl
+    raise ParseException(instring, loc, self.errmsg, self)
+pyparsing.ParseException: Expected end of text, found '('  (at char 7), (line:1, col:8)
+make: *** [Makefile:41: NIHMS80246_S6] Error 1

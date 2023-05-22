@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json, os
 
 from itertools import product
@@ -19,16 +21,19 @@ class Example:
 
     #########################################################
     ### INIT METHOD
-    def __init__(self, name, read, matrix, observables, **kwds):
-        assert read in VALID_READ and matrix in VALID_MATRIX
+    def __init__(self, name, read=None, matrix=None, observables=None, **kwds):
         self.__name = name
         self.__read = read
         self.__matrix = matrix
         self.__observables = observables
 
-        self.__model = kwds.pop("model", name)
-        self.__range = kwds.pop("range", None)
+        self.__ref = kwds.pop("ref", None)
         self.__json = kwds
+
+        if self.__ref == None and (self.__read == None or self.__matrix == None or self.__observables == None):
+            raise ValueError("Without references the arguments 'read', 'matrix' and 'observables' are mandatory")
+
+        self.__solved = False
 
     #########################################################
     ### PROPERTIES
@@ -41,12 +46,41 @@ class Example:
     @property
     def observables(self): return self.__observables
     @property
-    def model(self): return self.__model
+    def model(self): return self.__json.get("model", self.ref.get("model", None)) if self.ref != None else self.__json.get("model", self.name)
     @property
-    def range(self): return self.__range
+    def range(self): return self.__json.get("range", self.ref.get("range", None)) if self.ref != None else self.__json.get("range", None)
+    @property
+    def ref(self): return self.__ref
 
+    def solve_reference(self, context: dict[str, Example]): 
+        if not self.__solved:
+            self.__solved = True
+            if self.ref == None:
+                self.__solved = True
+            elif not self.ref in context: 
+                raise KeyError(f"The reference {self.ref} was not found in given context")
+            else: # if there is a reference and is found
+                self.__ref = context[self.ref]
+                self.ref.solve_reference(context)
+                ## Checking for circular references
+                current = self.ref
+                while(current != None):
+                    if current.name == self.name:
+                        raise KeyError(f"Circular reference found for {self.name}")
+                    current = current.ref
+                    
+                if self.read == None: self.__read = self.ref.read
+                if self.matrix == None: self.__matrix = self.ref.matrix
+                if self.observables == None: self.__observables = self.ref.observables
+             
     def get(self, attribute: str, default):
-        return default if not hasattr(self, attribute) else self.__getattr__(attribute)
+        # we first look it in self
+        if hasattr(self, attribute):
+            return self.__getattr__(attribute)
+        elif self.__solved and self.ref != None: # we look in the reference if exists
+            return self.ref.get(attribute, default)
+        else: # we return the default
+            return default 
 
     #########################################################
     ### PATH METHODS
@@ -100,6 +134,8 @@ class Example:
     def __getattr__(self, name):
         if name in self.__json:
             return self.__json[name]
+        elif hasattr(self.ref, name):
+            return self.ref.get(name, None)
         raise AttributeError(f"attribute {name} not found in the JSON")
 
     def get_model(self):
@@ -126,6 +162,8 @@ def Load_Examples_Folder(dir: str, valid_read: list[str] = None, valid_matrix: l
     with open(os.path.join(dir,'data.json')) as f:
         data = json.load(f)
         examples = {key : Example(key, **data[key]) for key in data}
+    for example in examples.values():
+        example.solve_reference(examples)
 
     executed_examples = [
         (name,read,matrix) 
