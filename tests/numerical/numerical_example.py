@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.join(SCRIPT_DIR, "..")) # examples_data is here
 
 from contextlib import nullcontext
 from clue import FODESystem, LDESystem, SparsePolynomial, SparseVector, SparseRowMatrix, NumericalSubspace
+from clue.linalg import OrthogonalSubspace, find_smallest_common_subspace
 from clue.simulations import apply_matrix, create_figure, merge_simulations
 from cProfile import Profile
 from examples_data import Example, Load_Examples_Folder
@@ -147,7 +148,7 @@ class Experiment:
     def to_csv(self) -> list:
         r'''
             Method to create a csv row for this example.
-            
+
             See :func:`CSVRows` to see the columns of the CSV.
         '''
         raise NotImplementedError(f"Method 'to_csv' not implemented for {self.__class__}")
@@ -155,16 +156,16 @@ class Experiment:
     def __repr__(self) -> str:
         extra = self._extra_repr()
         return f"{self.example.name} (r={self.example.read},m={self.example.matrix}) (C={self.compact_bound()}{'' if len(extra) == 0 else f',{extra}'}) {self.observable}"
-    
+
     def _extra_repr(self) -> str:
         return ""
 
 class ResultNumericalExample(Experiment):
-    def __init__(self, 
+    def __init__(self,
                  example: Example, observable, observable_matrix: SparseRowMatrix = None, max_perturbation : float = None,
                  x0 = None, norm_x0: float = None, norm_fx0: float = None, percentage: float = None, epsilon: float = None, considered_epsilon: int = None,
                  system: FODESystem = None, num_system: FODESystem = None, exact_lumping: LDESystem = None, numerical_lumping: LDESystem = None,
-                 size: int = None, exact_size: int = None, lumped_size: int = None, 
+                 size: int = None, exact_size: int = None, lumped_size: int = None,
                  t0: float = None, t1: float = None, tstep: float = None, threshold: float = None, sample_points: int = None,
                  original_simulation: OdeResult = None, numerical_simulation: OdeResult = None,
                  merged_simulation: OdeResult = None, diff_simulation: OdeResult = None,
@@ -172,7 +173,7 @@ class ResultNumericalExample(Experiment):
                  Mxt_2: float = None, et: float = None, avg_per_err: float = None, avg_err: float = None, max_err: float = None, max_epsilon: float = None
         ):
         super().__init__(example, observable, observable_matrix, max_perturbation, x0, norm_x0, norm_fx0, system, num_system, exact_lumping, size, exact_size, sample_points, max_epsilon)
-        
+
         self._percentage = percentage; self._epsilon = epsilon; self._considered_epsilon = considered_epsilon
         self._numerical_lumping = numerical_lumping; self._lumped_size = lumped_size
         self._t0 = t0; self._t1 = t1; self._tstep = tstep; self._threshold = threshold
@@ -181,7 +182,7 @@ class ResultNumericalExample(Experiment):
         self._time_epsilon = time_epsilon; self._time_total = time_total
         self._Mxt_2 = Mxt_2; self._et = et; self._avg_per_err = avg_per_err; self._avg_err = avg_err; self._max_err = max_err
         self._percentage_error = None
-            
+
     ## GENERATING ATTRIBUTES IF NOT GIVEN
     @property
     def percentage(self):
@@ -260,7 +261,7 @@ class ResultNumericalExample(Experiment):
             Lx0 = matmul(self.exact_lumping.lumping_matrix.to_numpy(dtype=x0.dtype), x0)
             O = SparseRowMatrix.from_vectors([self.exact_lumping._subspace.find_in(row) for row in self.observable_matrix])
             self._original_simulation = apply_matrix(
-                self.exact_lumping.simulate(self.t0,self.t1,Lx0,self.tstep,method=self.example.get("sim_method", "RK45")), 
+                self.exact_lumping.simulate(self.t0,self.t1,Lx0,self.tstep,method=self.example.get("sim_method", "RK45")),
                 O
             )
             self._original_simulation.names = [str(obs) for obs in self.observable]
@@ -274,7 +275,7 @@ class ResultNumericalExample(Experiment):
             O = SparseRowMatrix.from_vectors([self.numerical_lumping._subspace.find_in(row) for row in self.observable_matrix.change_base(self.numerical_lumping.field)])
             logger.debug(f"[RNE # {self.example.name}] {inspect.stack()[0][3]} -- Starting simulation (t0={self.t0},t1={self.t1},tstep={self.tstep})")
             self._numerical_simulation = apply_matrix(
-                self.numerical_lumping.simulate(self.t0,self.t1,Lx0,self.tstep,method=self.example.get("sim_method", "RK45")), 
+                self.numerical_lumping.simulate(self.t0,self.t1,Lx0,self.tstep,method=self.example.get("sim_method", "RK45")),
                 O
             )
             logger.debug(f"[RNE # {self.example.name}] {inspect.stack()[0][3]} -- Finished simulation")
@@ -292,7 +293,7 @@ class ResultNumericalExample(Experiment):
     def diff_simulation(self):
         if self._diff_simulation is None:
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._diff_simulation = OdeResult(**self.original_simulation) 
+            self._diff_simulation = OdeResult(**self.original_simulation)
             self.diff_simulation.y = abs(self.original_simulation.y - self.numerical_simulation.y)
         return self._diff_simulation
     @property
@@ -304,7 +305,7 @@ class ResultNumericalExample(Experiment):
                 self.diff_simulation.y,
                 self.original_simulation.y,
                 out=zeros_like(self.diff_simulation.y), where=logical_or(self.original_simulation.y != 0, self.diff_simulation.y != 0)
-            ) 
+            )
         return self._percentage_error
     @property
     def time_epsilon(self):
@@ -350,19 +351,19 @@ class ResultNumericalExample(Experiment):
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._max_err = self.diff_simulation.y.max()
         return self._max_err
-    
+
     ## DERIVATIVE VALUES
     def dev_max(self):
         if self.percentage is None:
             raise ValueError("Impossible to get the maximal deviation for this example")
         return self.norm_fx0*self.percentage
-    
+
     @classmethod
     def CSVRows(cls):
         r'''
             The data in a CSV row is:
-            
-            1. ``modelName``: an identifier of the test, including the name of the example and any other information on the 
+
+            1. ``modelName``: an identifier of the test, including the name of the example and any other information on the
               observable and perturbation to make it unique.
             2. ``type``: indicates if the system is polynomial or rational (or a different type)
             3. ``maxPerturbation``: a number indicating the percentage of perturbation done in the model.
@@ -398,14 +399,14 @@ class ResultNumericalExample(Experiment):
             "consideredEpsilons","tolerance",
             "t0", "t1", "secThisEpsilon","secTotal"
         ]
-    
+
     def generate_image(self):
         r'''Method that generates an image file with the simulations of self.'''
         fig = create_figure(
-            [self.merged_simulation, self.diff_simulation, self.percentage_error], 
-            format=["-", "-", "-"], 
+            [self.merged_simulation, self.diff_simulation, self.percentage_error],
+            format=["-", "-", "-"],
             title=[
-                f"True vs Appr. {f'[{100*self.percentage}%]' if self.percentage else ''} ({self.size} -> {self.exact_size} -> {self.lumped_size})", 
+                f"True vs Appr. {f'[{100*self.percentage}%]' if self.percentage else ''} ({self.size} -> {self.exact_size} -> {self.lumped_size})",
                 "Abs. Difference",
                 "Percentual error"
             ]
@@ -417,13 +418,13 @@ class ResultNumericalExample(Experiment):
             )
         )
         plt.close()
-    
+
     def write_result(self, file: TextIOBase):
         r'''Method that generates a results file with the information of this '''
         et = self.et
         Mxt_2 = self.Mxt_2
         et_rel = et/Mxt_2 if Mxt_2 > 0 else float("inf") if et > 0 else 0.0
-        
+
         file.write("===============================================\n")
         file.write(f"== Observables: {self.observable}\n")
         file.write(f"Name of example: {self.example.name}\n")
@@ -451,7 +452,7 @@ class ResultNumericalExample(Experiment):
         file.write(f"Time used computing optimal epsilon: {self.time_epsilon}\n")
         file.write(f"Time used on computation: {self.time_total}\n")
         file.write("###############################################\n")
-                     
+
         file.flush()
 
     @classmethod
@@ -569,7 +570,7 @@ class ResultNumericalExample(Experiment):
     def to_csv(self) -> list:
         r'''
             Method to create a csv row for this example.
-            
+
             See :func:`CSVRows` to see the columns of the CSV.
         '''
         modelName = f"{self.example.name}_{self.observable}_{self.max_perturbation if self.max_perturbation else f'[e={self.epsilon:.3f}]'}"
@@ -604,9 +605,44 @@ class ResultNumericalExample(Experiment):
         return f'{100*self.percentage}% slope = {self.dev_max()}' if self.percentage else f'E={self.epsilon}'
 
 class AnalysisExample:
-    def __init__(self, example: Example, observable):
-        self._example = example
-        self._observable = observable
+    def __init__(self, example: Example, observable, threshold: float = None, mid_points: int = None ):
+        self.example = example
+        self.observable = observable
+        self.epsilons = []
+        self.sizes = []
+        self.deviations = []
+        self._threshold = threshold
+        self._mid_points = mid_points
+
+    @property
+    def threshold(self):
+        if self._threshold is None:
+            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self._threshold = 1e-6
+        return self._threshold
+    @property
+    def mid_points(self):
+        if self._mid_points is None:
+            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self._mid_points = 10
+        return self._mid_points
+
+
+    def write_result(self, file: TextIOBase):
+        r'''Method that generates a results file with the information of this '''
+
+        file.write("===============================================\n")
+        file.write(f"== Observables: {self.observable}\n")
+        file.write(f"Name of example: {self.example.name}\n")
+        file.write(f"Epsilons: {self.epsilons}\n")
+        file.write(f"Sizes: {self.sizes}\n")
+        file.write(f"Deviations: {self.deviations}\n")
+        file.write(f"Tolerance used for computations: {self.threshold}\n")
+        # file.write(f"Time used on computation: {self.time_total}\n")
+        file.write("###############################################\n")
+
+        file.flush()
+
 
 def get_example(name) -> Example:
     return examples[name]
@@ -703,7 +739,7 @@ def add_examples_in_folder(*argv):
 def compile_results(*argv):
     r'''Method to compile the results on the examples.'''
     if len(argv) > 0: raise TypeError("No optional arguments for command 'compile'. See ''help'' for further information")
-    
+
     results: list[ResultNumericalExample] = []
     for example, read, matrix in executed_examples:
         logger.log(60, f"[compile_results] Compiling results for {example} with {read=} and {matrix=}...")
@@ -717,10 +753,10 @@ def compile_results(*argv):
                 writer.writerow(result.to_csv())
             except Exception as e:
                 logger.error(f"[compile_result] Error processing {repr(result)}:\n\t- {e}")
-    
+
         logger.log(60, f"[compile_results] Compilation complete")
 
-    return 
+    return
 
 def run_example(*argv):
     r'''Method that run the exact experiment over an example'''
@@ -729,7 +765,7 @@ def run_example(*argv):
         logger.error("[run_example] This script must be run with at least one argument for the name of the model")
         print_help()
         return
-    
+
     ## Getting the arguments for running the example
     example = get_example(argv[0])
     read = example.read; matrix = example.matrix
@@ -810,7 +846,7 @@ def run_example(*argv):
     except IndexError:
         logger.error("Invalid format of arguments. Check 'run' command in the help")
         return
-    
+
     ## Checking arguments
     profile = example.profile_path(SCRIPT_DIR) if profile else profile
     if t1 < t0: t0,t1 = t1,t0
@@ -838,7 +874,7 @@ def run_example(*argv):
             epsilons = len(example.observables)*[epsilons]
         elif not len(epsilons) == len(example.observables):
             logger.error(f"[run_example # {example.name}] Epsilons must be a list of length {len(example.observables)} of lists or arbitrary length")
-    
+
     ## Running the requested example
     with (open(output, "w") if output not in (sys.stdout, sys.stderr) else nullcontext()) as output:
         logger.log(60, f"[run_example # {example.name}] Running example type: {type_example}")
@@ -850,7 +886,11 @@ def run_example(*argv):
                 __run_exact(example, read, matrix, observables, timeout, output, None,epsilons,
                             sample_points, threshold, t0, t1, tstep)
             elif type_example == "analysis":
-                __run_analysis()
+                __run_analysis(example,
+                               # read, matrix, observables, timeout, 
+                               output, 
+                               # None,epsilons,
+                            )
             elif type_example == "perturbed":
                 __run_perturbed()
             else:
@@ -861,11 +901,11 @@ def run_example(*argv):
             stats = pstats.Stats(pr)
             stats.sort_stats(pstats.SortKey.TIME)
             stats.dump_stats(filename=profile)
-            
+
     return
 
 def __run_exact(
-        example: Example, read: str, matrix: str, observables: list[str], timeout: int, output: TextIOBase, 
+        example: Example, read: str, matrix: str, observables: list[str], timeout: int, output: TextIOBase,
         percentage_slope: list[list[float]], epsilons: list[list[float]], sample_points: int, threshold: float, t0: float, t1: float, tstep: float,
 ):
     ##############################################################################
@@ -885,7 +925,7 @@ def __run_exact(
     fx0 = array(RRsystem.derivative(..., *x0), dtype=x0.dtype)
     norm_fx0 = norm(fx0, ord=2)
     logger.log(60, f"[run_exact # {example.name}] Initial state of the problem: ||x_0|| = {norm_x0} -- ||f(x_0)|| = {norm_fx0}")
-    
+
     ##############################################################################
     ### Building the observables from the example
     logger.log(60, f"[run_exact # {example.name}] Building observables")
@@ -900,7 +940,7 @@ def __run_exact(
     if num_executions == 0:
         logger.warning(f"[run_exact # {example.name}] No executions for this example. Finishing execution")
         return
-    
+
     ##############################################################################
     ### Checking the linearity of the observables
     final_observables = []
@@ -936,7 +976,7 @@ def __run_exact(
                 "system": system, "num_system": RRsystem, "exact_lumping": exact_lumping,
                 "t0": t0, "t1": t1, "tstep": tstep, "threshold": threshold, "sample_points": sample_points}
         if percentage_slope != None:
-            for percentage in percentage_slope[i]:            
+            for percentage in percentage_slope[i]:
                 kwds["percentage"] = percentage
                 results.append(ResultNumericalExample(example, observable, **kwds))
         elif epsilons != None:
@@ -945,7 +985,7 @@ def __run_exact(
                 kwds["epsilon"] = epsilon
                 results.append(ResultNumericalExample(example, observable, **kwds))
 
-    
+
     ##############################################################################
     ### Creating the Results structures
     logger.log(60, f"[run_exact # {example.name}] Running each of the cases")
@@ -971,10 +1011,86 @@ def __run_exact(
         result.generate_image()
         logger.log(60, f"[run_exact # {example.name}] Finished execution for \n\t{repr(result)}")
 
-def __run_analysis(example: Example, read: str, matrix: str, observables: list[str], timeout: float, output: TextIOBase,
-                            sample_points: int, threshold: float, t0: float, t1: float, tstep: float):
-    logger.error("NotImplementedError: The analysis of different epsilons is not implemented")
-    return
+def __run_analysis(example: Example,
+                   # read: str, matrix: str, observables: list[str], timeout: float, 
+                   output: TextIOBase,
+                            num_points: int = 1000, threshold: float = 1e-6,
+                   mid_points: int = 5,
+                   # t0: float, t1: float, tstep: float
+                   ):
+
+    logger.info(f"[analysis_epsilon # {example.name}] Starting epsilon analysis for {example.name}")
+    system = FODESystem(file=example.path_model(), read_ic = True, parser=example.read).remove_parameters_ic()
+    RRsystem = FODESystem(
+        file=example.path_model(), read_ic = True, parser=example.read, field = RR).remove_parameters_ic()
+    x0 = array([float(RRsystem.ic.get(v, 0)) for v in RRsystem.variables])
+    norm_x0 = norm(x0, ord=2)
+
+    ## Creating the matrices for lumping
+    logger.info(f"[analysis_epsilon # {example.name}] Building matrices for lumping...")
+    system.construct_matrices(example.matrix)
+    RRsystem._lumping_matr.update({k: tuple([M.change_base(RR) for M in v]) for (k,v) in system._lumping_matr.items()})
+
+    ## Processing observables
+    logger.info(f"[analysis_epsilon # {example.name}] Building observables...")
+    observables = [[SparsePolynomial.from_string(obs, RRsystem.variables, RRsystem.field) for obs in observable] for observable in example.observables]
+    ORR = [tuple([obs.linear_part_as_vec().change_base(RR) for obs in observable]) for observable in observables]
+
+    ## Processing the bound for sampling 
+    logger.info(f"[analysis_epsilon # {example.name}] Processing bound for sampling...")
+    bound = RRsystem._FODESystem__process_bound(norm_x0, threshold)
+
+    ## Gathering data
+    all_data = []
+    for observable, O in zip(observables, ORR):
+        logger.info(f"[analysis_epsilon # {example.name}] Computing data for {observable}...")
+        if any(not poly.is_linear() for poly in observable):
+            logger.info(f"[analysis_epsilon # {example.name}] {observable} is not linear. It will be skipped.")
+            continue
+        max_epsilon, max_deviation = RRsystem.find_maximal_threshold(observable, bound, num_points, threshold, matrix_algorithm=example.matrix);
+        result = AnalysisExample(example, observable,threshold=threshold, mid_points = mid_points)
+        # result.threshold = threshold
+        # result.mid_points = mid_points
+        eps_vs_devs = []
+
+        ## First iteration is the exact lumping
+        subspace = find_smallest_common_subspace(system.construct_matrices(example.matrix), tuple(M.change_base(system.field) for M in O), OrthogonalSubspace)
+        deviation = RRsystem._deviation(subspace, bound, num_points)
+        result.epsilons.append(0.0)
+        result.sizes.append(subspace.dim())
+        result.deviations.append(deviation)
+        print(result.epsilons, result.sizes, result.deviations)
+        eps_vs_devs.append((0.0, deviation, subspace))
+
+        ## Other iterations use the numerical lumping
+        for i in range(1,mid_points+1):
+            epsilon = max_epsilon * (i/(mid_points-1))
+            subspace = find_smallest_common_subspace(RRsystem.construct_matrices(example.matrix), O, NumericalSubspace, delta=epsilon)
+            deviation = RRsystem._deviation(subspace, bound, num_points)
+            result.epsilons.append(epsilon)
+            result.sizes.append(subspace.dim())
+            result.deviations.append(deviation)
+            eps_vs_devs.append((epsilon, deviation, subspace))
+        all_data.append([eps_vs_devs, max(el[1] for el in eps_vs_devs), (system.size, eps_vs_devs[0][2].dim())])
+
+    result.write_result(output)
+    # print(result.epsilons, result.sizes, result.deviations)
+    # print(all_data)
+    ## Generating graphics
+    # logger.info(f"[analysis_epsilon # {example.name}] Generating graphics...")
+    # graphs, titles = [], []
+    # for obs, (eps_vs_devs, mdev, (osize,lsize)) in zip(example.observables, all_data):
+        # x_axis = array([el[0] for el in eps_vs_devs])
+        # data = array([[el[1]/mdev if mdev != 0 else 0, el[2].dim()] for el in eps_vs_devs]).transpose()
+        # graphs.append(OdeResult(t=x_axis, y=data, success=True, names=["deviation", "(num size)/(exact size)"]))
+        # titles.append(f"Lumping evolution for {str(obs) if len(str(obs)) < 100 else 'something'} ({osize}->{lsize})")
+
+    # # fig = create_figure(graphs, title=titles)
+
+    # logger.info(f"[analysis_epsilon # {example.name}] Finished execution for {example.name}")
+    # return all_data
+    # logger.error("NotImplementedError: The analysis of different epsilons is not implemented")
+    # return
 
 def __run_perturbed():
     logger.error("NotImplementedError: The example of perturbed models is not implemented")
