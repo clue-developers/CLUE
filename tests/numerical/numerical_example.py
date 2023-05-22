@@ -603,10 +603,11 @@ class ResultNumericalExample(Experiment):
     def _extra_repr(self) -> str:
         return f'{100*self.percentage}% slope = {self.dev_max()}' if self.percentage else f'E={self.epsilon}'
 
-class AnalysisExample:
-    def __init__(self, example: Example, observable, threshold: float = None, mid_points: int = None ):
+class AnalysisExample(Experiment):
+    def __init__(self, example: Example, observable, observable_name: str = None, threshold: float = None, mid_points: int = None ):
         self.example = example
         self.observable = observable
+        self.observable_name = observable_name
         self.epsilons = []
         self.sizes = []
         self.deviations = []
@@ -631,7 +632,7 @@ class AnalysisExample:
         r'''Method that generates a results file with the information of this '''
 
         file.write("===============================================\n")
-        file.write(f"== Observables: {self.observable}\n")
+        file.write(f"== Observables: {self.observable_name}\n")
         file.write(f"Name of example: {self.example.name}\n")
         file.write(f"Epsilons: {self.epsilons}\n")
         file.write(f"Sizes: {self.sizes}\n")
@@ -642,6 +643,9 @@ class AnalysisExample:
 
         file.flush()
 
+    def __repr__(self) -> str:
+        return f"{self.example.name}[{self.observable_name}] "
+        
 
 def get_example(name) -> Example:
     return examples[name]
@@ -1018,53 +1022,75 @@ def __run_analysis(example: Example,
                    # t0: float, t1: float, tstep: float
                    ):
 
-    logger.info(f"[analysis_epsilon # {example.name}] Starting epsilon analysis for {example.name}")
-    system = FODESystem(file=example.path_model(), read_ic = True, parser=example.read).remove_parameters_ic()
+    logger.log(60, f"[run_analysis # {example.name}] Starting epsilon analysis for {example.name}")
+    system = FODESystem(file=example.path_model(), read_ic = True, parser=example.read)
     RRsystem = FODESystem(
-        file=example.path_model(), read_ic = True, parser=example.read, field = RR).remove_parameters_ic()
+        file=example.path_model(), read_ic = True, parser=example.read, field = RR)
+   
+    logger.log(60, f"[run_analysis # {example.name}] Removing the parameters of the system")
+    system = system.remove_parameters_ic()
+    RRsystem = RRsystem.remove_parameters_ic()
+
+    logger.log(60, f"[run_analysis # {example.name}] Obtaining the initial condition from the system")
     x0 = array([float(RRsystem.ic.get(v, 0)) for v in RRsystem.variables])
     norm_x0 = norm(x0, ord=2)
 
-    ## Creating the matrices for lumping
-    logger.info(f"[analysis_epsilon # {example.name}] Building matrices for lumping...")
-    system.construct_matrices(example.matrix)
-    RRsystem._lumping_matr.update({k: tuple([M.change_base(RR) for M in v]) for (k,v) in system._lumping_matr.items()})
+    logger.log(60, f"[run_analysis # {example.name}] Building observables")
+    observables = {view_name : [SparsePolynomial.from_string(s, system.variables, system.field) for s in obs_set] for (view_name, obs_set) in example.observables.items()}
 
-    ## Processing observables
-    logger.info(f"[analysis_epsilon # {example.name}] Building observables...")
-    observables = [[SparsePolynomial.from_string(obs, RRsystem.variables, RRsystem.field) for obs in observable] for observable in example.observables]
-    ORR = [tuple([obs.linear_part_as_vec().change_base(RR) for obs in observable]) for observable in observables]
+    logger.log(60, f"[run_analysis # {example.name}] Building matrices for observables")
+    observable_matrices = {view_name :SparseRowMatrix.from_vectors([obs.linear_part_as_vec().change_base(RR) for obs in observable]) for view_name, observable in observables.items()}
+
+
+    ## Creating the matrices for lumping
+    # logger.info(f"[analysis_epsilon # {example.name}] Building matrices for lumping...")
+    # system.construct_matrices(example.matrix)
+    # RRsystem._lumping_matr.update({k: tuple([M.change_base(RR) for M in v]) for (k,v) in system._lumping_matr.items()})
+
+    # for (view_name,observable) in observables.items():
+        # if any(not obs.is_linear() for obs in observable):
+            # logger.error(f"The view ({view_name}) has a non-linear input. Skipping this example.")
+        # else:
+            # final_observables[view_name] = observable
+    # observables = final_observables
+
+    if len(observables) == 0:
+        logger.error(f"No valid observables found for this example. Finishing execution.")
+        return
+
+
+    # observables = [[SparsePolynomial.from_string(obs, RRsystem.variables, RRsystem.field) for obs in observable] for observable in example.observables]
+    # ORR = [tuple([obs.linear_part_as_vec().change_base(RR) for obs in observable]) for observable in observables]
 
     ## Processing the bound for sampling 
-    logger.info(f"[analysis_epsilon # {example.name}] Processing bound for sampling...")
+    logger.log(60, f"[run_analysis # {example.name}] Processing bound for sampling...")
     bound = RRsystem._FODESystem__process_bound(norm_x0, threshold)
 
     ## Gathering data
     all_data = []
-    for observable, O in zip(observables, ORR):
-        logger.info(f"[analysis_epsilon # {example.name}] Computing data for {observable}...")
-        if any(not poly.is_linear() for poly in observable):
-            logger.info(f"[analysis_epsilon # {example.name}] {observable} is not linear. It will be skipped.")
-            continue
+    # observable, O in zip(observables, ORR):
+    for (view_name,observable) in observables.items():
+        logger.log(60, f"[run_analysis # {example.name}] Computing data for {view_name}...")
+        # if any(not poly.is_linear() for poly in observable):
+            # logger.info(f"[analysis_epsilon # {example.name}] {observable} is not linear. It will be skipped.")
+            # continue
+        observable_matrix= observable_matrices[view_name]
         max_epsilon, max_deviation = RRsystem.find_maximal_threshold(observable, bound, num_points, threshold, matrix_algorithm=example.matrix);
-        result = AnalysisExample(example, observable,threshold=threshold, mid_points = mid_points)
-        # result.threshold = threshold
-        # result.mid_points = mid_points
+        result = AnalysisExample(example, observable, observable_name=view_name, threshold=threshold, mid_points = mid_points)
         eps_vs_devs = []
 
         ## First iteration is the exact lumping
-        subspace = find_smallest_common_subspace(system.construct_matrices(example.matrix), tuple(M.change_base(system.field) for M in O), OrthogonalSubspace)
+        subspace = find_smallest_common_subspace(system.construct_matrices(example.matrix),observable_matrix, OrthogonalSubspace)
         deviation = RRsystem._deviation(subspace, bound, num_points)
         result.epsilons.append(0.0)
         result.sizes.append(subspace.dim())
         result.deviations.append(deviation)
-        print(result.epsilons, result.sizes, result.deviations)
         eps_vs_devs.append((0.0, deviation, subspace))
 
         ## Other iterations use the numerical lumping
         for i in range(1,mid_points+1):
             epsilon = max_epsilon * (i/(mid_points-1))
-            subspace = find_smallest_common_subspace(RRsystem.construct_matrices(example.matrix), O, NumericalSubspace, delta=epsilon)
+            subspace = find_smallest_common_subspace(RRsystem.construct_matrices(example.matrix), observable_matrix, NumericalSubspace, delta=epsilon)
             deviation = RRsystem._deviation(subspace, bound, num_points)
             result.epsilons.append(epsilon)
             result.sizes.append(subspace.dim())
@@ -1072,24 +1098,9 @@ def __run_analysis(example: Example,
             eps_vs_devs.append((epsilon, deviation, subspace))
         all_data.append([eps_vs_devs, max(el[1] for el in eps_vs_devs), (system.size, eps_vs_devs[0][2].dim())])
 
+    logger.log(60, f"[run_analysis # {example.name}] Generating output for \n\t{repr(result)}")
     result.write_result(output)
-    # print(result.epsilons, result.sizes, result.deviations)
-    # print(all_data)
-    ## Generating graphics
-    # logger.info(f"[analysis_epsilon # {example.name}] Generating graphics...")
-    # graphs, titles = [], []
-    # for obs, (eps_vs_devs, mdev, (osize,lsize)) in zip(example.observables, all_data):
-        # x_axis = array([el[0] for el in eps_vs_devs])
-        # data = array([[el[1]/mdev if mdev != 0 else 0, el[2].dim()] for el in eps_vs_devs]).transpose()
-        # graphs.append(OdeResult(t=x_axis, y=data, success=True, names=["deviation", "(num size)/(exact size)"]))
-        # titles.append(f"Lumping evolution for {str(obs) if len(str(obs)) < 100 else 'something'} ({osize}->{lsize})")
 
-    # # fig = create_figure(graphs, title=titles)
-
-    # logger.info(f"[analysis_epsilon # {example.name}] Finished execution for {example.name}")
-    # return all_data
-    # logger.error("NotImplementedError: The analysis of different epsilons is not implemented")
-    # return
 
 def __run_perturbed():
     logger.error("NotImplementedError: The example of perturbed models is not implemented")

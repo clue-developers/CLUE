@@ -136,6 +136,14 @@
         ],
         "t1": 100
     },
+    "BioNetGen_CCP[analysis]": {
+        "ref": "ProteinPhosphorylation[2]",
+        "type": "analysis",
+        "observables": {
+            "VIEW_0": [
+                "s18+s40"
+            ]}
+    },
     "BIOMD0000000013": {
         "read": "sympy",
         "matrix": "auto_diff",
