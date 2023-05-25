@@ -1,4 +1,75 @@
 {
+    "Test[0]": {
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "type": "epsilon",
+        "observables": {
+            "ONE_OBSERVABLE": [
+                "S0"
+            ],
+            "TWO_OBSERVABLEs": [
+                "S0",
+                "S1"
+            ],
+            "NON_LINEAR": [
+                "S2*S1"
+            ]
+        },
+        "model": "ProteinPhosphorylation",
+        "range": 2,
+        "epsilons": [
+            0.25,
+            0.75,
+            2
+        ],
+        "t1": 20
+    },
+    "Test[0-analysis]": {
+        "ref": "Test[0]",
+        "type": "analysis"
+    },
+    "Test[0-overwrite]": {
+        "ref": "Test[0]",
+        "type": "analysis",
+        "observables": {
+            "OVERWRITE_VIEW": [
+            "S2"]
+        }
+    },
+    "Test[1]": {
+        "read": "polynomial",
+        "model": "BioNetGen_CCP",
+        "matrix": "polynomial",
+        "observables": {
+            "VIEW_0": [
+                "s18+s40"
+            ],
+            "VIEW_1": [
+                "s0+s34"
+            ],
+            "VIEW_2": [
+                "s1+s66+s67+s68"
+            ],
+            "VIEW_3": [
+                "s2+s36"
+            ],
+            "VIEW_4": [
+                "s3+s43"
+            ]
+        },
+        "slopes": [
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5
+        ],
+        "t1": 100
+    },
+    "Test[1-analysis]": {
+        "ref": "Test[1]",
+        "type": "analysis"
+    },
     "ProteinPhosphorylation[2]": {
         "read": "polynomial",
         "matrix": "polynomial",
@@ -7,6 +78,9 @@
             "VIEW_0": [
                 "S0",
                 "S1"
+            ],
+            "VIEW_1": [
+                "S2*S1"
             ]
         },
         "model": "ProteinPhosphorylation",
@@ -127,6 +201,7 @@
                 "s3+s43"
             ]
         },
+        "model": "BioNetGen_CCP",
         "slopes": [
             0.1,
             0.2,
@@ -137,12 +212,8 @@
         "t1": 100
     },
     "BioNetGen_CCP[analysis]": {
-        "ref": "ProteinPhosphorylation[2]",
-        "type": "analysis",
-        "observables": {
-            "VIEW_0": [
-                "s18+s40"
-            ]}
+        "ref": "BioNetGen_CCP",
+        "type": "analysis"
     },
     "BIOMD0000000013": {
         "read": "sympy",

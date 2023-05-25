@@ -1038,46 +1038,33 @@ def __run_analysis(example: Example,
     logger.log(60, f"[run_analysis # {example.name}] Building observables")
     observables = {view_name : [SparsePolynomial.from_string(s, system.variables, system.field) for s in obs_set] for (view_name, obs_set) in example.observables.items()}
 
-    logger.log(60, f"[run_analysis # {example.name}] Building matrices for observables")
-    observable_matrices = {view_name :SparseRowMatrix.from_vectors([obs.linear_part_as_vec().change_base(RR) for obs in observable]) for view_name, observable in observables.items()}
-
-
-    ## Creating the matrices for lumping
-    # logger.info(f"[analysis_epsilon # {example.name}] Building matrices for lumping...")
-    # system.construct_matrices(example.matrix)
-    # RRsystem._lumping_matr.update({k: tuple([M.change_base(RR) for M in v]) for (k,v) in system._lumping_matr.items()})
-
-    # for (view_name,observable) in observables.items():
-        # if any(not obs.is_linear() for obs in observable):
-            # logger.error(f"The view ({view_name}) has a non-linear input. Skipping this example.")
-        # else:
-            # final_observables[view_name] = observable
-    # observables = final_observables
+    final_observables = {}
+    for (view_name,observable) in observables.items():
+        if any(not obs.is_linear() for obs in observable):
+            logger.error(f"The view ({view_name}) has a non-linear input. Skipping this example.")
+        else:
+            final_observables[view_name] = observable
+    observables = final_observables
 
     if len(observables) == 0:
         logger.error(f"No valid observables found for this example. Finishing execution.")
         return
 
 
-    # observables = [[SparsePolynomial.from_string(obs, RRsystem.variables, RRsystem.field) for obs in observable] for observable in example.observables]
-    # ORR = [tuple([obs.linear_part_as_vec().change_base(RR) for obs in observable]) for observable in observables]
+    ## Creating the matrices for lumping
+    logger.log(60, f"[run_analysis # {example.name}] Building matrices for observables")
+    observable_matrices = {view_name :SparseRowMatrix.from_vectors([obs.linear_part_as_vec().change_base(RR) for obs in observable]) for view_name, observable in observables.items()}
 
     ## Processing the bound for sampling 
     logger.log(60, f"[run_analysis # {example.name}] Processing bound for sampling...")
     bound = RRsystem._FODESystem__process_bound(norm_x0, threshold)
 
     ## Gathering data
-    all_data = []
-    # observable, O in zip(observables, ORR):
     for (view_name,observable) in observables.items():
         logger.log(60, f"[run_analysis # {example.name}] Computing data for {view_name}...")
-        # if any(not poly.is_linear() for poly in observable):
-            # logger.info(f"[analysis_epsilon # {example.name}] {observable} is not linear. It will be skipped.")
-            # continue
         observable_matrix= observable_matrices[view_name]
         max_epsilon, max_deviation = RRsystem.find_maximal_threshold(observable, bound, num_points, threshold, matrix_algorithm=example.matrix);
         result = AnalysisExample(example, observable, observable_name=view_name, threshold=threshold, mid_points = mid_points)
-        eps_vs_devs = []
 
         ## First iteration is the exact lumping
         subspace = find_smallest_common_subspace(system.construct_matrices(example.matrix),observable_matrix, OrthogonalSubspace)
@@ -1085,7 +1072,6 @@ def __run_analysis(example: Example,
         result.epsilons.append(0.0)
         result.sizes.append(subspace.dim())
         result.deviations.append(deviation)
-        eps_vs_devs.append((0.0, deviation, subspace))
 
         ## Other iterations use the numerical lumping
         for i in range(1,mid_points+1):
@@ -1095,11 +1081,9 @@ def __run_analysis(example: Example,
             result.epsilons.append(epsilon)
             result.sizes.append(subspace.dim())
             result.deviations.append(deviation)
-            eps_vs_devs.append((epsilon, deviation, subspace))
-        all_data.append([eps_vs_devs, max(el[1] for el in eps_vs_devs), (system.size, eps_vs_devs[0][2].dim())])
 
-    logger.log(60, f"[run_analysis # {example.name}] Generating output for \n\t{repr(result)}")
-    result.write_result(output)
+        logger.log(60, f"[run_analysis # {example.name}] Generating output for \n\t{repr(result)}")
+        result.write_result(output)
 
 
 def __run_perturbed():
