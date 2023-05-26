@@ -1,5 +1,11 @@
 # TODO
 
+## Meeting 26-05
+ 1. [ ] Alexander: fix the epsilon analysis
+ 2. [ ] Alexander: implement the creation of tests from .ode
+ 3. [x] Antonio: add type "abstract" to examples.
+ 4. [x] Antonio: fix the listing and compiling of examples
+
 ## Executing
 
  1. [ ] Alexander: script reading .ode to fill the JSON

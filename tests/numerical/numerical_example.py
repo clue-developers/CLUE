@@ -26,20 +26,23 @@ class Experiment:
     def __init__(self,
                  example: Example, observable, observable_name: str = None, observable_matrix: SparseRowMatrix = None, max_perturbation: float = None,
                  x0 = None, norm_x0: float = None, norm_fx0: float = None, system: FODESystem = None, num_system: FODESystem = None, 
-                 exact_lumping: LDESystem = None, size: int = None, exact_size: int = None,
+                 exact_lumping: LDESystem = None, size: int = None, exact_size: int = None, threshold: float = None,
                  sample_points: int = None, max_epsilon: float = None
         ):
         self.example = example; self.observable = observable; self.observable_name = observable_name
         self._observable_matrix = observable_matrix; self._max_perturbation = max_perturbation
         self._x0 = x0; self._norm_x0 = norm_x0; self._norm_fx0 = norm_fx0
         self._system = system; self._num_system = num_system; self._exact_lumping = exact_lumping; self._size = size; self._exact_size = exact_size
-        self._sample_points = sample_points; self._max_epsilon = max_epsilon
+        self._threshold = threshold; self._sample_points = sample_points; self._max_epsilon = max_epsilon
         
         ## Casting observables to SparsePolynomials
         for i in range(len(self.observable)):
             if isinstance(self.observable[i], str):
                 self.observable[i] = SparsePolynomial.from_string(self.observable[i], self.system.variables, domain=self.system.field)
     
+    ####################################################################################################
+    ### PROPERTIES
+    ####################################################################################################
     @property
     def observable_matrix(self):
         if self._observable_matrix is None:
@@ -110,6 +113,12 @@ class Experiment:
             self._exact_size = self.exact_lumping.size
         return self._exact_size
     @property
+    def threshold(self):
+        if self._threshold is None:
+            logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self._threshold = 1e-6
+        return self._threshold
+    @property
     def sample_points(self):
         if self._sample_points is None:
             logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
@@ -131,6 +140,9 @@ class Experiment:
     def compact_bound(self):
         return self.norm_x0
     
+    ####################################################################################################
+    ### ABSTRACT METHODS
+    ####################################################################################################
     @classmethod
     def CSVRows(cls):
         raise NotImplementedError(f"Method 'CSVRows' not implemented for {cls}")
@@ -142,7 +154,7 @@ class Experiment:
         raise NotImplementedError(f"Method 'write_result' not implemented for {self.__class__}")
 
     @classmethod
-    def from_file(cls, path_to_result: str) -> tuple[ResultNumericalExample]:
+    def from_file(cls, path_to_result: str) -> tuple[Experiment]:
         raise NotImplementedError(f"Method 'from_file' not implemented for {cls}")
 
     def to_csv(self) -> list:
@@ -153,6 +165,9 @@ class Experiment:
         '''
         raise NotImplementedError(f"Method 'to_csv' not implemented for {self.__class__}")
 
+    ####################################################################################################
+    ### REPRESENTATION METHODS
+    ####################################################################################################
     def __repr__(self) -> str:
         extra = self._extra_repr()
         return f"{self.example.name}[{self.observable_name}] (r={self.example.read},m={self.example.matrix}) (C={self.compact_bound()}{'' if len(extra) == 0 else f',{extra}'})"
@@ -172,17 +187,19 @@ class ResultNumericalExample(Experiment):
                  time_epsilon: float = None, time_total: float = None,
                  Mxt_2: float = None, et: float = None, avg_per_err: float = None, avg_err: float = None, max_err: float = None, max_epsilon: float = None
         ):
-        super().__init__(example, observable, observable_name, observable_matrix, max_perturbation, x0, norm_x0, norm_fx0, system, num_system, exact_lumping, size, exact_size, sample_points, max_epsilon)
+        super().__init__(example, observable, observable_name, observable_matrix, max_perturbation, x0, norm_x0, norm_fx0, system, num_system, exact_lumping, size, exact_size, threshold, sample_points, max_epsilon)
         self._percentage = percentage; self._epsilon = epsilon; self._considered_epsilon = considered_epsilon
         self._numerical_lumping = numerical_lumping; self._lumped_size = lumped_size
-        self._t0 = t0; self._t1 = t1; self._tstep = tstep; self._threshold = threshold
+        self._t0 = t0; self._t1 = t1; self._tstep = tstep
         self._original_simulation = original_simulation; self._numerical_simulation = numerical_simulation
         self._merged_simulation = merged_simulation; self._diff_simulation = diff_simulation
         self._time_epsilon = time_epsilon; self._time_total = time_total
         self._Mxt_2 = Mxt_2; self._et = et; self._avg_per_err = avg_per_err; self._avg_err = avg_err; self._max_err = max_err
         self._percentage_error = None
 
-    ## GENERATING ATTRIBUTES IF NOT GIVEN
+    ####################################################################################################
+    ### PROPERTIES (ADDING MORE THAN IN EXPERIMENT)
+    ####################################################################################################
     @property
     def percentage(self):
         return self._percentage
@@ -246,12 +263,6 @@ class ResultNumericalExample(Experiment):
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._tstep = (self.t1-self.t0)/200
         return self._tstep
-    @property
-    def threshold(self):
-        if self._threshold is None:
-            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._threshold = 1e-6
-        return self._threshold
     @property
     def original_simulation(self):
         if self._original_simulation is None:
@@ -351,12 +362,17 @@ class ResultNumericalExample(Experiment):
             self._max_err = self.diff_simulation.y.max()
         return self._max_err
 
-    ## DERIVATIVE VALUES
+    ####################################################################################################
+    ### DERIVED PROPERTIES
+    ####################################################################################################
     def dev_max(self):
         if self.percentage is None:
             raise ValueError("Impossible to get the maximal deviation for this example")
         return self.norm_fx0*self.percentage
 
+    ####################################################################################################
+    ### IMPLEMENTATION OF ABSTRACT METHODS
+    ####################################################################################################
     @classmethod
     def CSVRows(cls):
         r'''
@@ -600,34 +616,33 @@ class ResultNumericalExample(Experiment):
             t0, t1, secThisEpsilon,secTotal
         ]
 
+    ####################################################################################################
+    ### REPRESENTATION METHODS
+    ####################################################################################################
     def _extra_repr(self) -> str:
         return f'{100*self.percentage}% slope = {self.dev_max()}' if self.percentage else f'E={self.epsilon}'
 
 class AnalysisExample(Experiment):
-    def __init__(self, example: Example, observable, observable_name: str = None, threshold: float = None, mid_points: int = None ):
-        self.example = example
-        self.observable = observable
-        self.observable_name = observable_name
+    def __init__(self, example: Example, observable, observable_name: str = None, threshold: float = None, mid_points: int = None):
+        super().__init__(example, observable, observable_name, thershold=threshold)
         self.epsilons = []
         self.sizes = []
         self.deviations = []
-        self._threshold = threshold
         self._mid_points = mid_points
 
-    @property
-    def threshold(self):
-        if self._threshold is None:
-            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._threshold = 1e-6
-        return self._threshold
+    ####################################################################################################
+    ### PROPERTIES (ADDING MORE THAN IN EXPERIMENT)
+    ####################################################################################################
     @property
     def mid_points(self):
         if self._mid_points is None:
-            logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            logger.debug(f"[AnalysisExample # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._mid_points = 10
         return self._mid_points
 
-
+    ####################################################################################################
+    ### IMPLEMENTATION OF ABSTRACT METHODS
+    ####################################################################################################
     def write_result(self, file: TextIOBase):
         r'''Method that generates a results file with the information of this '''
 
@@ -643,10 +658,14 @@ class AnalysisExample(Experiment):
 
         file.flush()
 
+    # TODO: there are quite some methods missing
+    ####################################################################################################
+    ### REPRESENTATION METHODS
+    ####################################################################################################
+    # TODO: SURE TO OVERWRITE THIS?
     def __repr__(self) -> str:
-        return f"{self.example.name}[{self.observable_name}] "
+        return f"{self.example.name}[{self.observable_name}]"
         
-
 def get_example(name) -> Example:
     return examples[name]
 
@@ -676,6 +695,7 @@ def list_examples(*argv):
     r'''List examples in the folder. It allows several arguments.'''
     full = False
     type = ("polynomial", "uncertain", "rational", "sympy")
+    example_types = set()
     allowed_folders = []; forbidden_folders = []; allowed_names = []; forbidden_names = []; executed = None
     i = 0
     ## Reading the arguments
@@ -686,6 +706,10 @@ def list_examples(*argv):
             type = ("rational", "sympy"); i+= 1
         elif argv[i] == "-p":
             type = ("polynomial",); i+= 1
+        elif argv[i] == "-t":
+            if argv[i+1] != "abstract":
+                example_types.add(argv[i+1])
+            i+=2
         elif argv[i] == "-of":
             allowed_folders.append(argv[i+1]); i += 2
         elif argv[i] == "-wf":
@@ -707,6 +731,7 @@ def list_examples(*argv):
 
     ## Creating the filtering function
     filter = lambda example: (examples[example].read in type and 
+                                ((len(example_types) == 0 and examples[example].get("type", "slope") != "abstract") or (examples[example].get("type", "slope") in example_types)) and 
                                 (len(allowed_folders) == 0 or examples[example].get("out_folder",None) in allowed_folders) and
                                 (len(forbidden_folders) == 0 or examples[example].get("out_folder",None) not in forbidden_folders) and
                                 (len(allowed_names) == 0 or any(example.startswith(name) for name in allowed_names)) and 
@@ -716,11 +741,11 @@ def list_examples(*argv):
 
     ## Creating the string to be printed
     if full:
-        lines = [["Example name", "Read", "Out folder"]]
-        get_str = lambda example : (example.name, example.read, example.get("out_folder", ""))
+        lines = [["Example name", "Read", "Type", "Ref. example", "Out folder"]]
+        get_str = lambda example : (example.name, example.read, example.get("type", "slope"), example.ref.name if example.ref != None else "", example.get("out_folder", ""))
 
         lines.extend([get_str(examples[name]) for name in examples if filter(name)])
-        lines.append(["N.models", f"{len(lines)-1}", ""])
+        lines.append(["N.models", f"{len(lines)-1}", "", "", ""])
         n_elem = len(lines[0])
         max_length = [max(len(line[i]) if line[i] != None else 4 for line in lines) for i in range(n_elem)]
 
@@ -741,6 +766,7 @@ def add_examples_in_folder(*argv):
 
 def compile_results(*argv):
     r'''Method to compile the results on the examples.'''
+    ## TODO: check how this works with the epsilon analysis
     if len(argv) > 0: raise TypeError("No optional arguments for command 'compile'. See ''help'' for further information")
 
     results: list[ResultNumericalExample] = []
@@ -890,10 +916,10 @@ def run_example(*argv):
                             sample_points, threshold, t0, t1, tstep)
             elif type_example == "analysis":
                 __run_analysis(example,
-                               # read, matrix, observables, timeout, 
+                               read, matrix, observables, timeout, 
                                output, 
-                               # None,epsilons,
-                            )
+                               None,epsilons
+                               )
             elif type_example == "perturbed":
                 __run_perturbed()
             else:
@@ -1015,13 +1041,18 @@ def __run_exact(
         logger.log(60, f"[run_exact # {example.name}] Finished execution for \n\t{repr(result)}")
 
 def __run_analysis(example: Example,
-                   # read: str, matrix: str, observables: list[str], timeout: float, 
+                   read: str, matrix: str, observables: list[str], timeout: float, 
                    output: TextIOBase,
-                            num_points: int = 1000, threshold: float = 1e-6,
-                   mid_points: int = 5,
-                   # t0: float, t1: float, tstep: float
+                   num_points: int = 1000, threshold: float = 1e-6,
+                   mid_points: int = 20
                    ):
+    r'''
+        TODO:
 
+        * Add the control with timeouts just to not get stuck in an example
+        * Change the use of example.read and example.matrix to the arguments read and matrix
+        * mid_points: number of epsilons to be tried && num_points: sample points for computing the deviation
+    '''
     logger.log(60, f"[run_analysis # {example.name}] Starting epsilon analysis for {example.name}")
     system = FODESystem(file=example.path_model(), read_ic = True, parser=example.read)
     RRsystem = FODESystem(

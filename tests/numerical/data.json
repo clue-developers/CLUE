@@ -70,7 +70,7 @@
         "ref": "Test[1]",
         "type": "analysis"
     },
-    "ProteinPhosphorylation[2]": {
+    "ProteinPhosphorylation[2-base]": {
         "read": "polynomial",
         "matrix": "polynomial",
         "type": "epsilon",
@@ -85,15 +85,19 @@
         },
         "model": "ProteinPhosphorylation",
         "range": 2,
+        "t1": 20
+    },
+    "ProteinPhosphorylation[2]": {
+        "ref": "ProteinPhosphorylation[2-base]",
+        "type": "epsilon",
         "epsilons": [
             0.25,
             0.75,
             2
-        ],
-        "t1": 20
+        ]
     },
     "ProteinPhosphorylation[2-slope]": {
-        "ref": "ProteinPhosphorylation[2]",
+        "ref": "ProteinPhosphorylation[2-base]",
         "type": "slope",
         "slopes": [
             0.00001,
