@@ -623,11 +623,12 @@ class ResultNumericalExample(Experiment):
         return f'{100*self.percentage}% slope = {self.dev_max()}' if self.percentage else f'E={self.epsilon}'
 
 class AnalysisExample(Experiment):
-    def __init__(self, example: Example, observable, observable_name: str = None, threshold: float = None, mid_points: int = None):
+    def __init__(self, example: Example, observable, observable_name: str = None, threshold: float = None, mid_points: int = None, time_total: float = None):
         super().__init__(example, observable, observable_name, thershold=threshold)
         self.epsilons = []
         self.sizes = []
         self.deviations = []
+        self.time_total = time_total
         self._mid_points = mid_points
 
     ####################################################################################################
@@ -643,6 +644,41 @@ class AnalysisExample(Experiment):
     ####################################################################################################
     ### IMPLEMENTATION OF ABSTRACT METHODS
     ####################################################################################################
+          # TODO: there are quite some methods missing
+    # def CSVRows(cls):
+         # r'''
+            # The data in a CSV row is:
+
+            # 1. ``modelName``: an identifier of the test, including the name of the example and any other information on the
+              # observable and perturbation to make it unique.
+            # 2. ``type``: indicates if the system is polynomial or rational (or a different type)
+            # 3. ``size``: original size of the model
+            # 4. ``lum_size``: size of the (numerical or exact) lumping.
+            # 5. ``epsilon``: epsilon used for the numerical lumping.
+            # 6. ``deviation``: computed deviation for a given epsilon.
+            # 7. ``max_deviation``: maximal deviation allowed for getting the optimal epsilon.
+            # 8. ``norm_x0``: size of the initial condition at initial time.
+            # 9. ``compactum_bound``: size of the compactum used for computing samples for the deviation.
+            # 10. ``norm_fx0``: size of the drift at the initial time
+            # 11. ``tolerance``: tolerance used for equality of floats.
+            # 25. ``secTotal``: time spent in the whole example.
+        # '''
+        # return
+    # [
+            # "modelName","type","maxPerturbation",
+            # "size","clum_size","nlum_size",
+            # "et_rel","et","|M*xt|_2",
+            # "epsilon","max_deviation","norm_x0","compactum_bound","norm_fx0","max_allowed_slope",
+            # "avg_per_err", "avg_err","max_err","max_epsilon",
+            # "consideredEpsilons","tolerance",
+            # "t0", "t1", "secThisEpsilon","secTotal"
+        # ]
+
+
+    def generate_image(self):
+        logger.error("NotImplementedError: The example of perturbed models is not implemented")
+        return
+
     def write_result(self, file: TextIOBase):
         r'''Method that generates a results file with the information of this '''
 
@@ -658,14 +694,23 @@ class AnalysisExample(Experiment):
 
         file.flush()
 
-    # TODO: there are quite some methods missing
+
+    @classmethod
+    def from_file(cls, path_to_result: str) -> tuple[ResultNumericalExample]:
+        logger.error("NotImplementedError: The example of perturbed models is not implemented")
+        return
+
+    def to_csv(self) -> list:
+        logger.error("NotImplementedError: The example of perturbed models is not implemented")
+        return
+
     ####################################################################################################
     ### REPRESENTATION METHODS
     ####################################################################################################
-    # TODO: SURE TO OVERWRITE THIS?
-    def __repr__(self) -> str:
-        return f"{self.example.name}[{self.observable_name}]"
-        
+    def _extra_repr(self) -> str:
+        return f'[AnalysisEpsilon]'
+
+       
 def get_example(name) -> Example:
     return examples[name]
 
@@ -1041,7 +1086,7 @@ def __run_exact(
         logger.log(60, f"[run_exact # {example.name}] Finished execution for \n\t{repr(result)}")
 
 def __run_analysis(example: Example,
-                   read: str, matrix: str, observables: list[str], timeout: float, 
+                   read: str, matrix: str, observables: list[str], timeout: float,
                    output: TextIOBase,
                    num_points: int = 1000, threshold: float = 1e-6,
                    mid_points: int = 20
@@ -1049,7 +1094,7 @@ def __run_analysis(example: Example,
     r'''
         TODO:
 
-        * Add the control with timeouts just to not get stuck in an example
+        * Add the control with timeouts just to not get stuck in an example [X]
         * Change the use of example.read and example.matrix to the arguments read and matrix
         * mid_points: number of epsilons to be tried && num_points: sample points for computing the deviation
     '''
@@ -1088,11 +1133,13 @@ def __run_analysis(example: Example,
 
     ## Processing the bound for sampling 
     logger.log(60, f"[run_analysis # {example.name}] Processing bound for sampling...")
-    bound = RRsystem._FODESystem__process_bound(norm_x0, threshold)
 
+    bound = RRsystem._FODESystem__process_bound(norm_x0, threshold)
+    # bound = RRsystem._FODESystem__process_bound(norm_x0, 1e-6)
     ## Gathering data
     for (view_name,observable) in observables.items():
         logger.log(60, f"[run_analysis # {example.name}] Computing data for {view_name}...")
+        ctime = time.time()
         observable_matrix= observable_matrices[view_name]
         max_epsilon, max_deviation = RRsystem.find_maximal_threshold(observable, bound, num_points, threshold, matrix_algorithm=example.matrix);
         result = AnalysisExample(example, observable, observable_name=view_name, threshold=threshold, mid_points = mid_points)
@@ -1107,13 +1154,21 @@ def __run_analysis(example: Example,
         ## Other iterations use the numerical lumping
         for i in range(1,mid_points+1):
             epsilon = max_epsilon * (i/(mid_points-1))
-            subspace = find_smallest_common_subspace(RRsystem.construct_matrices(example.matrix), observable_matrix, NumericalSubspace, delta=epsilon)
-            deviation = RRsystem._deviation(subspace, bound, num_points)
+            try:
+                with Timeout(timeout):
+                    subspace = find_smallest_common_subspace(RRsystem.construct_matrices(example.matrix), observable_matrix, NumericalSubspace, delta=epsilon)
+                    deviation = RRsystem._deviation(subspace, bound, num_points)
+            except TimeoutError:
+                logger.error(f"[run_analysis # {example.name}] Timeout of {timeout} reached while computing \n\t{repr(result)}. Trying next interation.")
+                continue
+
             result.epsilons.append(epsilon)
             result.sizes.append(subspace.dim())
             result.deviations.append(deviation)
 
+        result.time_total = time.time()-ctime
         logger.log(60, f"[run_analysis # {example.name}] Generating output for \n\t{repr(result)}")
+
         result.write_result(output)
 
 
