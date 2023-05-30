@@ -624,7 +624,7 @@ class ResultNumericalExample(Experiment):
 
 class AnalysisExample(Experiment):
     def __init__(self, example: Example, observable, observable_name: str = None, threshold: float = None, mid_points: int = None):
-        super().__init__(example, observable, observable_name, thershold=threshold)
+        super().__init__(example, observable, observable_name, threshold=threshold)
         self.epsilons = []
         self.sizes = []
         self.deviations = []
@@ -918,7 +918,7 @@ def run_example(*argv):
                 __run_analysis(example,
                                read, matrix, observables, timeout, 
                                output, 
-                               None,epsilons
+                               num_points=sample_points, threshold=threshold
                                )
             elif type_example == "perturbed":
                 __run_perturbed()
@@ -1098,7 +1098,7 @@ def __run_analysis(example: Example,
         result = AnalysisExample(example, observable, observable_name=view_name, threshold=threshold, mid_points = mid_points)
 
         ## First iteration is the exact lumping
-        subspace = find_smallest_common_subspace(system.construct_matrices(example.matrix),observable_matrix, OrthogonalSubspace)
+        subspace = find_smallest_common_subspace(RRsystem.construct_matrices(example.matrix),observable_matrix, OrthogonalSubspace)
         deviation = RRsystem._deviation(subspace, bound, num_points)
         result.epsilons.append(0.0)
         result.sizes.append(subspace.dim())
