@@ -623,11 +623,12 @@ class ResultNumericalExample(Experiment):
         return f'{100*self.percentage}% slope = {self.dev_max()}' if self.percentage else f'E={self.epsilon}'
 
 class AnalysisExample(Experiment):
-    def __init__(self, example: Example, observable, observable_name: str = None, threshold: float = None, mid_points: int = None):
-        super().__init__(example, observable, observable_name, threshold=threshold)
+    def __init__(self, example: Example, observable, observable_name: str = None, observable_matrix: SparseRowMatrix = None, x0 = None, norm_x0: float = None,system: FODESystem = None, num_system: FODESystem = None,threshold: float = None, time_total: float = None, sample_points: int = None, mid_points: int = None, max_dev: float = None):
+        super().__init__(example, observable, observable_name, observable_matrix=observable_matrix, x0=x0, norm_x0=norm_x0,sample_points=sample_points,  system=system, num_system=num_system,  threshold=threshold)
         self.epsilons = []
         self.sizes = []
         self.deviations = []
+        self.max_dev = max_dev
         self.time_total = time_total
         self._mid_points = mid_points
 
@@ -645,35 +646,30 @@ class AnalysisExample(Experiment):
     ### IMPLEMENTATION OF ABSTRACT METHODS
     ####################################################################################################
           # TODO: there are quite some methods missing
-    # def CSVRows(cls):
-         # r'''
-            # The data in a CSV row is:
+    def CSVRows(cls):
+        r'''
+            The data in a CSV row is:
 
-            # 1. ``modelName``: an identifier of the test, including the name of the example and any other information on the
-              # observable and perturbation to make it unique.
-            # 2. ``type``: indicates if the system is polynomial or rational (or a different type)
-            # 3. ``size``: original size of the model
-            # 4. ``lum_size``: size of the (numerical or exact) lumping.
-            # 5. ``epsilon``: epsilon used for the numerical lumping.
-            # 6. ``deviation``: computed deviation for a given epsilon.
-            # 7. ``max_deviation``: maximal deviation allowed for getting the optimal epsilon.
-            # 8. ``norm_x0``: size of the initial condition at initial time.
-            # 9. ``compactum_bound``: size of the compactum used for computing samples for the deviation.
-            # 10. ``norm_fx0``: size of the drift at the initial time
-            # 11. ``tolerance``: tolerance used for equality of floats.
-            # 25. ``secTotal``: time spent in the whole example.
-        # '''
-        # return
-    # [
-            # "modelName","type","maxPerturbation",
-            # "size","clum_size","nlum_size",
-            # "et_rel","et","|M*xt|_2",
-            # "epsilon","max_deviation","norm_x0","compactum_bound","norm_fx0","max_allowed_slope",
-            # "avg_per_err", "avg_err","max_err","max_epsilon",
-            # "consideredEpsilons","tolerance",
-            # "t0", "t1", "secThisEpsilon","secTotal"
-        # ]
-
+            1. ``modelName``: an identifier of the test, including the name of the example and any other information.
+            2. ``observable``: observable being analysed
+            2. ``type``: indicates if the system is polynomial or rational (or a different type).
+            3. ``size``: original size of the model.
+            4. ``lum_size``: size of the (numerical or exact) lumping.
+            5. ``epsilon``: epsilon used for the numerical lumping.
+            6. ``deviation``: computed deviation for a given epsilon.
+            7. ``max_deviation``: maximal deviation allowed.
+            8. ``norm_x0``: size of the initial condition at initial time.
+            9. ``compactum_bound``: size of the compactum used for computing samples for the deviation.
+            11. ``tolerance``: tolerance used for equality of floats.
+            12. ``secTotal``: time spent in the whole example.
+        '''
+        return [
+        "modelName","observable", "type",
+        "size","lum_size","epsilon",
+        "deviation","max_deviation","norm_x0",
+        "compactum_bound","tolerance",
+        "secTotal",
+    ]
 
     def generate_image(self):
         logger.error("NotImplementedError: The example of perturbed models is not implemented")
@@ -685,11 +681,16 @@ class AnalysisExample(Experiment):
         file.write("===============================================\n")
         file.write(f"== Observables: {self.observable_name}\n")
         file.write(f"Name of example: {self.example.name}\n")
+        file.write(f"Size of original model: {self.size}\n")
+        file.write(f"Size of lumpings: {self.sizes}\n")
         file.write(f"Epsilons: {self.epsilons}\n")
-        file.write(f"Sizes: {self.sizes}\n")
         file.write(f"Deviations: {self.deviations}\n")
+        file.write(f"Value for maximal deviation: {self.max_dev}\n")
+        file.write(f"Size of initial value: {self.norm_x0}\n")
+        file.write(f"Size of compactum used for sampling the deviation: {self.compact_bound()}\n")
+        # file.write(f"Size of initial drift: {self.norm_fx0}\n")
         file.write(f"Tolerance used for computations: {self.threshold}\n")
-        # file.write(f"Time used on computation: {self.time_total}\n")
+        file.write(f"Time used on computation: {self.time_total}\n")
         file.write("###############################################\n")
 
         file.flush()
@@ -701,8 +702,28 @@ class AnalysisExample(Experiment):
         return
 
     def to_csv(self) -> list:
-        logger.error("NotImplementedError: The example of perturbed models is not implemented")
-        return
+        r'''
+            Method to create a csv row for this example.
+
+            See :func:`CSVRows` to see the columns of the CSV.
+        '''
+        modelName = f"{self.example.name}_{self.observable_name}_AnalysisEpsilon"
+        size = self.size
+        sizes = self.sizes
+        epsilons = self.epsilons
+        deviations = self.deviations
+        max_dev = self.max_dev
+        norm_x0 = self.norm_x0
+        compact_bound = self.compact_bound
+        threshold = self.threshold
+        time_total = self.time_total
+        rows = []
+
+        for i, epsilon in enumerate(epsilons):
+            row = [ modelName,self.example.get("out_folder", "polynomial"),size, sizes[i], epsilon, deviations[i], max_dev, norm_x0, compact_bound,threshold, time_total
+                   ]
+            rows.append(row)
+        return rows
 
     ####################################################################################################
     ### REPRESENTATION METHODS
@@ -710,7 +731,6 @@ class AnalysisExample(Experiment):
     def _extra_repr(self) -> str:
         return f'[AnalysisEpsilon]'
 
-       
 def get_example(name) -> Example:
     return examples[name]
 
@@ -1141,7 +1161,12 @@ def __run_analysis(example: Example,
         ctime = time.time()
         observable_matrix= observable_matrices[view_name]
         max_epsilon, max_deviation = RRsystem.find_maximal_threshold(observable, bound, num_points, threshold, matrix_algorithm=example.matrix);
-        result = AnalysisExample(example, observable, observable_name=view_name, threshold=threshold, mid_points = mid_points)
+
+        kwds = {
+            # "observable_matrix": observable_matrix, 
+            "x0": x0, "norm_x0": norm_x0,
+            "system": system, "num_system": RRsystem,  "threshold": threshold, "sample_points": num_points, "max_dev":max_deviation}
+        result = AnalysisExample(example, observable, observable_name=view_name, mid_points = mid_points, **kwds)
 
         ## First iteration is the exact lumping
         subspace = find_smallest_common_subspace(RRsystem.construct_matrices(example.matrix),observable_matrix, OrthogonalSubspace)
