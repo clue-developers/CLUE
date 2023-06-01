@@ -918,8 +918,7 @@ def run_example(*argv):
                 __run_analysis(example,
                                read, matrix, observables, timeout, 
                                output, 
-                               num_points=sample_points, threshold=threshold
-                               )
+                               sample_points,threshold) # mid_points set to default (20)
             elif type_example == "perturbed":
                 __run_perturbed()
             else:
