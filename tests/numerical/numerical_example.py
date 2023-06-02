@@ -541,11 +541,7 @@ class ResultNumericalExample(Experiment):
                             line = file.readline().strip()
                         ## Casting the result to their types
                         example = get_example(example)
-                        def _casting(value, ttype, name, allow_none = False):
-                            try:
-                                return ttype(value) if ((not allow_none) or (value != None and value != "None")) else None
-                            except Exception as e:
-                                raise ValueError(f"Expected {ttype} for {name}: {e}")
+                        
                         max_perturbation = _casting(max_perturbation, float, "max_perturbation")
                         original_size = _casting(original_size, int, "original_size")
                         exact_size = _casting(exact_size, int, "exact_size")
@@ -623,11 +619,11 @@ class ResultNumericalExample(Experiment):
         return f'{100*self.percentage}% slope = {self.dev_max()}' if self.percentage else f'E={self.epsilon}'
 
 class AnalysisExample(Experiment):
-    def __init__(self, example: Example, observable, observable_name: str = None, observable_matrix: SparseRowMatrix = None, x0 = None, norm_x0: float = None,system: FODESystem = None, num_system: FODESystem = None,threshold: float = None, time_total: float = None, sample_points: int = None, mid_points: int = None, max_dev: float = None):
+    def __init__(self, example: Example, observable, observable_name: str = None, observable_matrix: SparseRowMatrix = None, x0 = None, norm_x0: float = None,system: FODESystem = None, num_system: FODESystem = None,threshold: float = None, time_total: float = None, sample_points: int = None, mid_points: int = None, max_dev: float = None, epsilons: list = [], sizes: list=[], deviations:list = [] ):
         super().__init__(example, observable, observable_name, observable_matrix=observable_matrix, x0=x0, norm_x0=norm_x0,sample_points=sample_points,  system=system, num_system=num_system,  threshold=threshold)
-        self.epsilons = []
-        self.sizes = []
-        self.deviations = []
+        self.epsilons = epsilons
+        self.sizes = sizes
+        self.deviations = deviations
         self.max_dev = max_dev
         self.time_total = time_total
         self._mid_points = mid_points
@@ -697,9 +693,73 @@ class AnalysisExample(Experiment):
 
 
     @classmethod
-    def from_file(cls, path_to_result: str) -> tuple[ResultNumericalExample]:
-        logger.error("NotImplementedError: The example of perturbed models is not implemented")
-        return
+    def from_file(cls, path_to_result: str) -> tuple[AnalysisExample]:
+        results=[]
+        try:
+            with open(path_to_result, "r") as file:
+                if line.startswith("==============================================="): # New example
+                        #########################################################
+                     ## Reading the observable
+                        line = file.readline().strip()
+                        if not line.startswith("== Observables: "): raise ValueError("Incorrect format in result file: observable must be specified first")
+                        observable_line = line.removeprefix("== Observables: ").split(" -> ")
+                        observable_name = observable_line[0].strip()
+                        observable = [el.strip() for el in observable_line[1].strip().removeprefix("[").removesuffix("]").split(",")] ## This will be a list of str
+                        #########################################################
+
+                        line = file.readline().strip()
+
+                        while not line.startswith("###############################################"): # Until the end of example is found
+                            if line == "": ## Unexpected end of file
+                                raise ValueError(f"Unexpected end of file while reading {observable_name}")
+                            elif line.startswith("Name of example: "):
+                                example = line.removeprefix("Name of example: ")
+                            elif line.startswith("Size of original model: "):
+                                original_size = line.removeprefix("Size of original model: ")
+                            elif line.startswith("Size of lumpings: "):
+                                lumpings_sizes = line.removeprefix("Size of lumpings: ")
+                            elif line.startswith("Epsilons: "):
+                                epsilons = line.removeprefix("Epsilons: ")
+
+                            elif line.startswith("Deviations: "):
+                                deviations = line.removeprefix("Deviations: ")
+
+                            elif line.startswith("Value for maximal deviation: "):
+                                max_dev = line.removeprefix("Value for maximal deviation: ")
+                            elif line.startswith("Size of initial value: "):
+                                norm_x0 = line.removeprefix("Size of initial value: ")
+                            elif line.startswith("Size of compactum used for sampling the deviation: "):
+                                compact_bound = line.removeprefix("Size of initial value: ")
+                            elif line.startswith("Tolerance used for computations: "):
+                                threshold = line.removeprefix("Tolerance used for computations: ")
+                            elif line.startswith("Time used on computation: "):
+                                time_total = line.removeprefix("Time used on computation: ")
+                            else:
+                                logger.debug(f"[from_file] Omitting line: {line}")
+                            line = file.readline().strip()
+
+                        ## Casting results to their type
+
+                        example = get_example(example)
+                        original_size = _casting(original_size, int, "original_size")
+                        lumpings_sizes = _casting(lumpings_sizes, list, "lumpings_sizes")
+                        epsilons = _casting(epsilons, list, "Epsilons")
+                        deviations = _casting(deviations, list, "Deviations")
+                        max_dev = _casting(max_dev, float, "Maximal deviation")
+                        norm_x0 = _casting(norm_x0, float, "Size initial value")
+                        threshold = _casting(threshold, float, "threshold")
+                        time_total = _casting(time_total, float, "time_total")
+                         ## Creating the result object
+                        result = AnalysisExample(example, observable, observable_name=observable_name, size=original_size, sizes=lumpings_sizes, epsilons=epsilons, deviations=deviations, max_dev=max_dev, norm_x0=norm_x0,threshold=threshold,
+                             time_total=time_total)
+                        logger.info(f"[from_file] Read case {repr(result)}")
+                        results.append(result)
+                    else:
+                        logger.debug(f"[from_file] Omitting line: {line}")
+                    line = file.readline().strip()
+        except ValueError as e:
+            logger.error(f"[from_file] Error while reading a file: {e}")
+        return results
 
     def to_csv(self) -> list:
         r'''
@@ -733,6 +793,12 @@ class AnalysisExample(Experiment):
 
 def get_example(name) -> Example:
     return examples[name]
+
+def _casting(value, ttype, name, allow_none = False):
+    try:
+        return ttype(value) if ((not allow_none) or (value != None and value != "None")) else None
+    except Exception as e:
+        raise ValueError(f"Expected {ttype} for {name}: {e}")
 
 class Timeout(object):
     def __init__(self, seconds):
