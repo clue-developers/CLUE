@@ -1185,11 +1185,11 @@ def __run_analysis(example: Example,
         TODO:
 
         * Add the control with timeouts just to not get stuck in an example [X]
-        * Change the use of example.read and example.matrix to the arguments read and matrix
-        * mid_points: number of epsilons to be tried && num_points: sample points for computing the deviation
+        * Change the use of example.read and example.matrix to the arguments read and matrix [X]
+        * mid_points: number of epsilons to be tried && num_points: sample points for computing the deviation [X]
     '''
     logger.log(60, f"[run_analysis # {example.name}] Starting epsilon analysis for {example.name}")
-    system = FODESystem(file=example.path_model(), read_ic = True, parser=example.read)
+    system = FODESystem(file=example.path_model(), read_ic = True, parser=read)
     RRsystem = FODESystem(
         file=example.path_model(), read_ic = True, parser=example.read, field = RR)
    
