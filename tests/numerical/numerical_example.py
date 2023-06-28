@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import csv, inspect, os, pstats, signal, sys, time, logging
+import csv, inspect, os, pstats, signal, sys, time, logging, json
 
 SCRIPT_DIR = os.path.dirname(__file__) if __name__ != "__main__" else "./"
 sys.path.insert(0, os.path.join(SCRIPT_DIR, "..", "..")) # models and clue is here
@@ -619,7 +619,7 @@ class ResultNumericalExample(Experiment):
         return f'{100*self.percentage}% slope = {self.dev_max()}' if self.percentage else f'E={self.epsilon}'
 
 class AnalysisExample(Experiment):
-    def __init__(self, example: Example, observable, observable_name: str = None, observable_matrix: SparseRowMatrix = None, x0 = None, norm_x0: float = None,system: FODESystem = None, num_system: FODESystem = None,threshold: float = None, time_total: float = None, sample_points: int = None, mid_points: int = None, max_dev: float = None, epsilons: list = [], sizes: list=[], deviations:list = [] ):
+    def __init__(self, example: Example, observable, observable_name: str = None, observable_matrix: SparseRowMatrix = None, size: int = None,x0 = None, norm_x0: float = None,system: FODESystem = None, num_system: FODESystem = None,threshold: float = None, time_total: float = None, sample_points: int = None, mid_points: int = None, max_dev: float = None, epsilons: list = [], sizes: list=[], deviations:list = [] ):
         super().__init__(example, observable, observable_name, observable_matrix=observable_matrix, x0=x0, norm_x0=norm_x0,sample_points=sample_points,  system=system, num_system=num_system,  threshold=threshold)
         self.epsilons = epsilons
         self.sizes = sizes
@@ -641,7 +641,6 @@ class AnalysisExample(Experiment):
     ####################################################################################################
     ### IMPLEMENTATION OF ABSTRACT METHODS
     ####################################################################################################
-          # TODO: there are quite some methods missing
     def CSVRows(cls):
         r'''
             The data in a CSV row is:
@@ -668,6 +667,7 @@ class AnalysisExample(Experiment):
     ]
 
     def generate_image(self):
+        # TODO: implement
         logger.error("NotImplementedError: The example of perturbed models is not implemented")
         return
 
@@ -675,7 +675,8 @@ class AnalysisExample(Experiment):
         r'''Method that generates a results file with the information of this '''
 
         file.write("===============================================\n")
-        file.write(f"== Observables: {self.observable_name}\n")
+        file.write(f"== Observables: {self.observable_name} -> {self.observable}\n")
+        # file.write(f"== Observables: {self.observable_name}\n")
         file.write(f"Name of example: {self.example.name}\n")
         file.write(f"Size of original model: {self.size}\n")
         file.write(f"Size of lumpings: {self.sizes}\n")
@@ -697,15 +698,17 @@ class AnalysisExample(Experiment):
         results=[]
         try:
             with open(path_to_result, "r") as file:
-                if line.startswith("==============================================="): # New example
-                        #########################################################
-                     ## Reading the observable
+                line = file.readline().strip()
+                while line != "":
+                    if line.startswith("==============================================="): # New example
+                #########################################################
+                ## Reading the observable
+                #########################################################
                         line = file.readline().strip()
                         if not line.startswith("== Observables: "): raise ValueError("Incorrect format in result file: observable must be specified first")
                         observable_line = line.removeprefix("== Observables: ").split(" -> ")
                         observable_name = observable_line[0].strip()
                         observable = [el.strip() for el in observable_line[1].strip().removeprefix("[").removesuffix("]").split(",")] ## This will be a list of str
-                        #########################################################
 
                         line = file.readline().strip()
 
@@ -713,17 +716,15 @@ class AnalysisExample(Experiment):
                             if line == "": ## Unexpected end of file
                                 raise ValueError(f"Unexpected end of file while reading {observable_name}")
                             elif line.startswith("Name of example: "):
-                                example = line.removeprefix("Name of example: ")
+                                example_name = line.removeprefix("Name of example: ")
                             elif line.startswith("Size of original model: "):
                                 original_size = line.removeprefix("Size of original model: ")
                             elif line.startswith("Size of lumpings: "):
                                 lumpings_sizes = line.removeprefix("Size of lumpings: ")
                             elif line.startswith("Epsilons: "):
                                 epsilons = line.removeprefix("Epsilons: ")
-
                             elif line.startswith("Deviations: "):
                                 deviations = line.removeprefix("Deviations: ")
-
                             elif line.startswith("Value for maximal deviation: "):
                                 max_dev = line.removeprefix("Value for maximal deviation: ")
                             elif line.startswith("Size of initial value: "):
@@ -738,9 +739,9 @@ class AnalysisExample(Experiment):
                                 logger.debug(f"[from_file] Omitting line: {line}")
                             line = file.readline().strip()
 
-                        ## Casting results to their type
+                ## Casting results to their type
 
-                        example = get_example(example)
+                        example = get_example(example_name)
                         original_size = _casting(original_size, int, "original_size")
                         lumpings_sizes = _casting(lumpings_sizes, list, "lumpings_sizes")
                         epsilons = _casting(epsilons, list, "Epsilons")
@@ -749,18 +750,19 @@ class AnalysisExample(Experiment):
                         norm_x0 = _casting(norm_x0, float, "Size initial value")
                         threshold = _casting(threshold, float, "threshold")
                         time_total = _casting(time_total, float, "time_total")
-                         ## Creating the result object
+                        ## Creating the result object
                         result = AnalysisExample(example, observable, observable_name=observable_name, size=original_size, sizes=lumpings_sizes, epsilons=epsilons, deviations=deviations, max_dev=max_dev, norm_x0=norm_x0,threshold=threshold,
-                             time_total=time_total)
-                        logger.info(f"[from_file] Read case {repr(result)}")
+                                             time_total=time_total)
+                        logger.info(f"[rom_file] Read case {repr(result)}")
                         results.append(result)
+                    # line = file.readline().strip()
                     else:
                         logger.debug(f"[from_file] Omitting line: {line}")
                     line = file.readline().strip()
         except ValueError as e:
             logger.error(f"[from_file] Error while reading a file: {e}")
         return results
-
+ 
     def to_csv(self) -> list:
         r'''
             Method to create a csv row for this example.
@@ -796,7 +798,10 @@ def get_example(name) -> Example:
 
 def _casting(value, ttype, name, allow_none = False):
     try:
-        return ttype(value) if ((not allow_none) or (value != None and value != "None")) else None
+        if ttype == list:
+            return json.loads(value)
+        else:
+            return ttype(value) if ((not allow_none) or (value != None and value != "None")) else None
     except Exception as e:
         raise ValueError(f"Expected {ttype} for {name}: {e}")
 
@@ -897,7 +902,7 @@ def add_examples_in_folder(*argv):
 
 def compile_results(*argv):
     r'''Method to compile the results on the examples.'''
-    ## TODO: check how this works with the epsilon analysis
+    ## TODO: add support for analysis example
     if len(argv) > 0: raise TypeError("No optional arguments for command 'compile'. See ''help'' for further information")
 
     results: list[ResultNumericalExample] = []
