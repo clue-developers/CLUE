@@ -1,4 +1,9 @@
 {
+    "journal.pcbi.1003544.s006": {
+        "type": "polynomial",
+        "ref_title": "Exact Hybrid Particle/Population Simulation of Rule-Based Models of Biochemical Systems",
+        "ref_doi": "10.1371/journal.pcbi.1003544"
+    },
     "Barua": {
         "type": "polynomial",
         "ref_title": "A bipolar clamp mechanism for activation of Jak-family protein tyrosine kinases",

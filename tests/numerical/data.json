@@ -1,4 +1,77 @@
 {
+    "CMSB2023[0]":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "BioNetGen_CCP",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ],
+        "observables":{
+            "D13PG": [
+                "s18+s40"
+            ]   
+        },
+        "t1": 100
+    },
+    "CMSB2023[1]":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "NIHMS80246_S6",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ],
+        "observables":{
+            "S2P": [
+                "s14+s15+s16+s17+s18+s19+s20+s21+s22+s23"
+            ]   
+        },
+        "t1": 600
+    },
+    "CMSB2023[2]":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "journal.pcbi.1003544.s006",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ],
+        "observables":{
+            "RC": ["S7+S11+S14+2*S16+S17+S18+S20+S22+S25+S29+S34+S35+S36+S37+2*S49+S50+S51+S53"]
+        },
+        "t1": 40
+    },
+
+
+    "journal.pcbi.1003544.s006":{
+        "read":"polynomial",
+        "matrix": "polynomial",
+        "type": "slope",
+        "observables": {
+            "RC": ["S7+S11+S14+2*S16+S17+S18+S20+S22+S25+S29+S34+S35+S36+S37+2*S49+S50+S51+S53"]
+        },
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ],
+        "t1": 40
+    },
     "Test[0]": {
         "read": "polynomial",
         "matrix": "polynomial",
@@ -183,7 +256,7 @@
             0.4,
             0.5
         ],
-        "t1": 40
+        "t1": 600
     },
     "BioNetGen_CCP": {
         "read": "polynomial",
@@ -219,6 +292,8 @@
         "ref": "BioNetGen_CCP",
         "type": "analysis"
     },
+
+
     "BIOMD0000000013": {
         "read": "sympy",
         "matrix": "auto_diff",
