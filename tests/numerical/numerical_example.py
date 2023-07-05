@@ -21,7 +21,7 @@ from sympy import RR
 
 examples, executed_examples = Load_Examples_Folder(SCRIPT_DIR)
 logger = logging.getLogger("clue." + __name__)
-#logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.DEBUG)
 class Experiment:
     def __init__(self,
                  example: Example, observable, observable_name: str = None, observable_matrix: SparseRowMatrix = None, max_perturbation: float = None,
@@ -1240,7 +1240,7 @@ def __run_analysis(example: Example,
         result = AnalysisExample(example, observable, observable_name=view_name, mid_points = mid_points, **kwds)
 
         ## First iteration is the exact lumping
-        subspace = find_smallest_common_subspace(RRsystem.construct_matrices(example.matrix),observable_matrix, OrthogonalSubspace)
+        subspace = find_smallest_common_subspace(system.construct_matrices(example.matrix),observable_matrix.change_base(system.field), OrthogonalSubspace)
         deviation = RRsystem._deviation(subspace, bound, num_points)
         result.epsilons.append(0.0)
         result.sizes.append(subspace.dim())

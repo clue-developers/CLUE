@@ -75,12 +75,15 @@ class Example:
              
     def get(self, attribute: str, default):
         # we first look it in self
-        if hasattr(self, attribute):
-            return self.__getattr__(attribute)
-        elif self.__solved and self.ref != None: # we look in the reference if exists
-            return self.ref.get(attribute, default)
-        else: # we return the default
-            return default 
+        try:
+            if hasattr(self, attribute):
+                return self.__getattr__(attribute)
+            elif self.__solved and self.ref != None: # we look in the reference if exists
+                return self.ref.get(attribute, default)
+            else: 
+                return default
+        except AttributeError as e:
+            return default
 
     #########################################################
     ### PATH METHODS

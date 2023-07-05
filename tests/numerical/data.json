@@ -18,6 +18,10 @@
         },
         "t1": 100
     },
+    "CMSB2023[0-epsilon]":{
+        "ref": "CMSB2023[0]",
+        "type": "analysis"
+    },
     "CMSB2023[1]":{
         "read": "polynomial",
         "matrix": "polynomial",
@@ -37,6 +41,10 @@
         },
         "t1": 600
     },
+    "CMSB2023[1-epsilon]":{
+        "ref": "CMSB2023[1]",
+        "type": "analysis"
+    },
     "CMSB2023[2]":{
         "read": "polynomial",
         "matrix": "polynomial",
@@ -53,6 +61,10 @@
             "RC": ["S7+S11+S14+2*S16+S17+S18+S20+S22+S25+S29+S34+S35+S36+S37+2*S49+S50+S51+S53"]
         },
         "t1": 40
+    },
+    "CMSB2023[2-epsilon]":{
+        "ref": "CMSB2023[2]",
+        "type": "analysis"
     },
 
 
