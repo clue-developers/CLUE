@@ -14,7 +14,7 @@ from cProfile import Profile
 from examples_data import Example, Load_Examples_Folder
 from io import TextIOBase
 from matplotlib import pyplot as plt
-from numpy import array, logical_or, matmul, mean, divide, zeros_like
+from numpy import array, matmul, mean, divide, zeros_like
 from numpy.linalg import norm
 from scipy.integrate._ivp.ivp import OdeResult
 from sympy import RR
@@ -314,7 +314,7 @@ class ResultNumericalExample(Experiment):
             self._percentage_error.y = 100*divide(
                 self.diff_simulation.y,
                 self.original_simulation.y,
-                out=zeros_like(self.diff_simulation.y), where=logical_or(self.original_simulation.y != 0, self.diff_simulation.y != 0)
+                out=zeros_like(self.diff_simulation.y), where=self.original_simulation.y != 0
             )
         return self._percentage_error
     @property

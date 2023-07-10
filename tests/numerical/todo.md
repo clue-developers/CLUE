@@ -2,8 +2,8 @@
 
 ## Meeting 05-07
  1. [ ] Antonio: Why getting optimal epsilons is so slow?
- 2. [ ] Both: Why CMSB2023[2] Matlab exact is 28 instead of 22?
- 3. [ ] Antonio: Why average error is "inf"?
+ 2. [o] Both: Why CMSB2023[2] Matlab exact is 28 instead of 22?
+ 3. [x] Antonio: Why average error is "inf"?
  4. [ ] Alexander: implement the creation of tests from .ode
  5. [ ] Alexander: generate images for epsilon analysis.
 
