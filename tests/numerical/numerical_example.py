@@ -828,6 +828,7 @@ class Timeout(object):
 ### SCRIPT METHODS
 ############################################################
 def list_examples(*argv):
+    # TODO: Update this method for analysis type
     r'''List examples in the folder. It allows several arguments.'''
     full = False
     type = ("polynomial", "uncertain", "rational", "sympy")
