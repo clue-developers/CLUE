@@ -1,4 +1,4 @@
-begin model NIHMS80246_S4_ode
+begin model NIHMS80246_S4
  begin parameters
   L_tot = 100
   R_tot = 100

@@ -836,7 +836,7 @@ def list_examples(*argv):
     allowed_folders = []; forbidden_folders = []; allowed_names = []; forbidden_names = []; executed = None
     i = 0
     ## Reading the arguments
-    while i < len(argv): 
+    while i < len(argv):
         if argv[i] in ("-r", "-p") and len(type) < 4:
             raise TypeError("The type for listing was already given. Check 'help' command for further information")
         if argv[i] == "-r":
@@ -896,10 +896,182 @@ def list_examples(*argv):
 
 def add_examples_in_folder(*argv):
     r'''Add bunch of examples to be executed. It allows several arguments'''
-    if len(argv) > 0: raise TypeError("No optional arguments for command 'compile'. See ''help'' for further information")
-    logger.error("[add_examples_in_folder] Method not yet implemented")
-    print_help()
+    overwrite = False
+    json_file = None
+    matrix = 'polynomial'
+    read = 'polynomial'
+    views_source = 'views'
+    out_folder = None
+    exp_type = None
+    n = 0
+    nargv = len(argv)
+    if(nargv == 0):
+        raise ValueError("[add_examples_in_folder] This script must be run with at least one argument corresponding to the path where the models are.")
+    try:
+        while(n < nargv):
+            if argv[n] == "-r":
+                read = argv[n+1]; n += 2
+            elif argv[n]  == "-m":
+                matrix = argv[n+1]; n += 2
+            elif argv[n] == "-of":
+                out_folder = argv[n+1]; n += 2
+                if not os.path.exists(os.path.dirname(out_folder)):
+                    logger.warning("[add_examples_in_folder] Invalid output path. Make sure the directory exists. Skipping this parameter.")
+            elif argv[n] == "-vs":
+                views_source = argv[n+1]; n += 2
+            elif argv[n] == "-ow":
+                overwrite = True; n += 1
+            elif argv[n] == "-a":
+                exp_type = 'analysis'; n += 1
+            elif argv[n] == "-s":
+                exp_type = 'slope'; n += 1
+            elif argv[n] == "-j":
+                json_file = argv[n+1]; n += 2
+            elif n == nargv-1:
+                models_path = argv[n]; n+=2
+                if not os.path.exists(os.path.dirname(models_path)):
+                    logger.error("[add_examples_in_folder] Invalid path to models. Check the specified path.")
+                    return
+
+    except IndexError:
+        logger.error("[add_examples_in_folder] Invalid format of arguments. Check 'run' command in the help")
+        return
+
+    models = sorted([x for x in os.listdir(models_path) if x.endswith(".ode")])
+
+    if json_file is None:
+        raise ValueError("[add_examples_in_folder] Unspecified json file. Try using the option -j <name of file>.")
+
+    experiments = []
+    for model in models:
+        name=model.removesuffix('.ode')
+        experiments.append(__get_model_dict(models_path+model,
+                                            model_name=name,
+                                            views_source=views_source,
+                                            matrix=matrix,
+                                            read=read,
+                                            exp_type=exp_type,
+                                            out_folder=out_folder))
+    if len(experiments) == 0:
+        logger.error("[add_examples_in_folder] No experiments found in given folder")
+        return
+    __write_experiments_to_json(experiments, json_file, overwrite)
     return
+
+def __get_model_dict(file, model_name=None,views_source='views', matrix='polynomial', read='polynomial', out_folder=None, exp_type=None):
+    # Read model from .ODE
+    model = readfile(file)
+    name_from_file, sections_text = extract_model_name(model)
+    sections_raw = split_in_sections(sections_text)
+    if model_name == None:
+        model_name = name_from_file
+
+    result = {}
+    result['model'] = model_name
+    result['matrix'] = matrix
+    result['read'] = read
+
+    views = {}
+
+    # Getting named views from views section
+    if views_source == 'views':
+        if 'views' in sections_raw:
+            for line in sections_raw['views']:
+                if "=" in line:
+                    lhs, rhs = [el.strip() for el in line.split("=")]
+                    views[lhs] = [rhs]
+        if 'views' not in sections_raw or len(views)==0:
+            logger.info(f'[get_model_dict] The file {file} does not have any explicit views.')
+            if 'partition' in sections_raw:
+                logger.info(f'[get_model_dict] Attempting to create views based on the elements of the partition.')
+                views_source = 'partition'
+            else:
+                logger.info(f'[get_model_dict] The file {file} does not have partitions to generate view from.')
+
+
+    # Generating view of the partition and (if chosen) views from the sets of the partition          
+    if 'partition' in sections_raw:
+        view_p = []
+        for i,line in enumerate(sections_raw['partition']):
+            if views_source == 'partition':
+                view_name = 'VIEW_'+str(i)
+            if "NULL" in line:
+                logger.info(f'[get_model_dict] Removing "NULL" from set {line.strip()}')
+                line = line.replace('NULL', '')
+            rhs = '+'.join([el for el in line.strip(' ,{}').split(',') ])
+            if views_source == 'partition':
+                views[view_name] = [rhs]
+            view_p.append( [rhs])
+        views['PARTITION']= view_p
+
+    if len(views) != 0:
+        result['observables'] = views
+    else:
+        logger.warning(f'[get_model_dict] File {file} does not have observables.')
+
+    # Adding base experiment
+    if exp_type =='slope':
+        result['type'] = 'slope'
+        result['slopes'] = ['0.1', '0.2','0.3','0.4', '0.5']
+        # Getting final time
+        expr = re.findall(r'tEnd=\d*', sections_text)
+        if len(expr) != 0:
+            _,tend = [el.strip() for el in expr[0].split("=")]
+            result['t1'] = tend
+    elif exp_type == 'analysis':
+        result['type'] = 'analysis'
+    else:
+        raise ValueError("[get_model_dict] Invalid experiment type.")
+
+    # Adding output folder
+    if out_folder is not None:
+        result['out_folder'] = out_folder
+
+    return result
+
+def __write_experiments_to_json(experiments, json_file, overwrite=False):
+    # Opening or creating json_file
+    if os.path.isfile(json_file) is False:
+        logger.warning(f"[write_experiments_to_json] The json file {json_file} does not exist. It will be automatically created.")
+        with open(json_file, 'w') as f:
+            logger.info(f"[write_experiments_to_json] The json file {json_file} created")
+    with open(json_file) as fp:
+        if os.stat(json_file).st_size == 0:
+            models_dict = {}
+            logger.info(f'[write_experiments_to_json] Empty JSON file detected.')
+        else:
+            try:
+                models_dict = json.load(fp)
+            except:
+                logger.error('[write_experiments_to_json] Impossible to load JSON file')
+
+    written_exp = 0
+    for exp in experiments:
+        name=exp['model']
+        if name in models_dict:
+            logger.info(f"[write_experiments_to_json] Model {name} already found.")
+            if not overwrite:
+                logger.info(f'[write_experiments_to_json] Skipping model {name} ')
+                continue
+            logger.info(f'[write_experiments_to_json] Overwriting model {name}')
+        else:
+            logger.info(f'[write_experiments_to_json] Writing model {name}')
+        written_exp += 1
+        models_dict[name] = exp
+
+    try:
+        with open(json_file,'w') as fp:
+            json.dump(models_dict, fp,
+                      indent=4,
+                      separators=(',',': '))
+        if written_exp == 0:
+            logger.info(f'[write_experiments_to_json] No models added to {json_file}')
+            return
+        logger.info(f'[write_experiments_to_json] {written_exp} models succesfully written to {json_file}')
+        return
+    except:
+        logger.error('[write_experiments_to_json] Impossible to write models')
+
 
 def compile_results(*argv):
     r'''Method to compile the results on the examples.'''

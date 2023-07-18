@@ -144,7 +144,8 @@ begin model cyclin1ODE
   S141
  end init
  begin partition
-  {S1,S129,S36,S54,S41,S10,S11,S78,S0,S48},  {S141}
+  {S1,S129,S36,S54,S41,S10,S11,S78,S0,S48},  
+  {S141}
  end partition
  begin ODE
   d(S0) = 0.001*S24
