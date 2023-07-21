@@ -667,9 +667,23 @@ class AnalysisExample(Experiment):
     ]
 
     def generate_image(self):
-        # TODO: implement
-        logger.error("NotImplementedError: The example of perturbed models is not implemented")
-        return
+        r'''Method that generates an image file with the simulations of self.'''
+        x_axis = array( self.epsilons)
+        data = array([[self.sizes[i]/self.size, dev/self.max_dev ] for i, dev in enumerate(self.deviations)]).transpose()
+        graph = OdeResult(t=x_axis, y=data, success=True, names=["dev/devmax", "num size/size"])
+        fig = create_figure(
+            graph,
+        title = f"Lumping evolution for {str(self.observable) }"
+        )
+        fig.savefig(
+            self.example.image_path(
+                SCRIPT_DIR, self.example.read, self.example.matrix,
+                f"{self.observable_name}#analysis"
+            )
+        )
+        plt.close()
+        # logger.error("NotImplementedError: The example of perturbed models is not implemented")
+        # return
 
     def write_result(self, file: TextIOBase):
         r'''Method that generates a results file with the information of this '''
@@ -1436,8 +1450,13 @@ def __run_analysis(example: Example,
 
         result.time_total = time.time()-ctime
         logger.log(60, f"[run_analysis # {example.name}] Generating output for \n\t{repr(result)}")
-
         result.write_result(output)
+        logger.log(60, f"[run_analysis # {example.name}] Generating images for \n\t{repr(result)}")
+        result.generate_image()
+        logger.log(60, f"[run_analysis # {example.name}] Finished execution for \n\t{repr(result)}")
+
+
+
 
 
 def __run_perturbed():
