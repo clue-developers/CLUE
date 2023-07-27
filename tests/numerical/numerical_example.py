@@ -1127,6 +1127,7 @@ def run_example(*argv):
     profile: bool = None
     percentage_slope: float | list[float] = None
     epsilons: float | list[float] = None
+    mid_points: int = example.get("mid_points", 50)
     sample_points: int = example.get("sample_points", 50)
     threshold: float = example.get("threshold", 1e-6)
     type_example: str = example.get("type", "slope")
@@ -1227,6 +1228,9 @@ def run_example(*argv):
         elif not len(epsilons) == len(example.observables):
             logger.error(f"[run_example # {example.name}] Epsilons must be a list of length {len(example.observables)} of lists or arbitrary length")
 
+    # if type_example == "analysis":
+        # mid_points = example.get("mid_points", 20 ) if mid_points is None else mid_points
+        
     ## Running the requested example
     with (open(output, "w") if output not in (sys.stdout, sys.stderr) else nullcontext()) as output:
         logger.log(60, f"[run_example # {example.name}] Running example type: {type_example}")
@@ -1238,10 +1242,8 @@ def run_example(*argv):
                 __run_exact(example, read, matrix, observables, timeout, output, None,epsilons,
                             sample_points, threshold, t0, t1, tstep)
             elif type_example == "analysis":
-                __run_analysis(example,
-                               read, matrix, observables, timeout, 
-                               output, 
-                               sample_points,threshold) # mid_points set to default (20)
+                __run_analysis(example = example,
+                               read=read, matrix=matrix, observables=observables,timeout=timeout, output=output, num_points=sample_points, threshold=threshold, mid_points=mid_points)
             elif type_example == "perturbed":
                 __run_perturbed()
             else:
@@ -1415,7 +1417,7 @@ def __run_analysis(example: Example,
     # bound = RRsystem._FODESystem__process_bound(norm_x0, 1e-6)
     ## Gathering data
     for (view_name,observable) in observables.items():
-        logger.log(60, f"[run_analysis # {example.name}] Computing data for {view_name}...")
+        logger.log(60, f"[run_analysis # {example.name}] Computing {mid_points} for {view_name}...")
         ctime = time.time()
         observable_matrix= observable_matrices[view_name]
         max_epsilon, max_deviation = RRsystem.find_maximal_threshold(observable, bound, num_points, threshold, matrix_algorithm=example.matrix);

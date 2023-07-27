@@ -1,4 +1,17 @@
 {
+    "CMSB2023[presentation]":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "BioNetGen_CCP",
+        "type": "analysis",
+        "mid_points": 120,
+        "observables":{
+            "D13PG": [
+                "s18+s40"
+            ]   
+        }
+    },
+
     "CMSB2023[0]":{
         "read": "polynomial",
         "matrix": "polynomial",
