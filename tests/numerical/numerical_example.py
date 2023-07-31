@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.join(SCRIPT_DIR, "..", "..")) # models and clue is he
 sys.path.insert(0, os.path.join(SCRIPT_DIR, "..")) # examples_data is here
 
 from contextlib import nullcontext
-from clue import FODESystem, LDESystem, SparsePolynomial, SparseVector, SparseRowMatrix, NumericalSubspace
+from clue import FODESystem, LDESystem, SparsePolynomial, SparseRowMatrix, NumericalSubspace
 from clue.linalg import OrthogonalSubspace, find_smallest_common_subspace
 from clue.simulations import apply_matrix, create_figure, merge_simulations
 from cProfile import Profile
@@ -974,6 +974,8 @@ def add_examples_in_folder(*argv):
 
 def __get_model_dict(file, model_name=None,views_source='views', matrix='polynomial', read='polynomial', out_folder=None, exp_type=None):
     # Read model from .ODE
+    from clue.parser import readfile, extract_model_name, split_in_sections
+    import re
     model = readfile(file)
     name_from_file, sections_text = extract_model_name(model)
     sections_raw = split_in_sections(sections_text)
