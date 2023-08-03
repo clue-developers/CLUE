@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import csv, inspect, os, pstats, signal, sys, time, logging, json
+import csv, inspect, os, pstats, signal, sys, time, logging, json, re
 
 SCRIPT_DIR = os.path.dirname(__file__) if __name__ != "__main__" else "./"
 sys.path.insert(0, os.path.join(SCRIPT_DIR, "..", "..")) # models and clue is here
@@ -10,6 +10,7 @@ from contextlib import nullcontext
 from clue import FODESystem, LDESystem, SparsePolynomial, SparseRowMatrix, NumericalSubspace
 from clue.linalg import OrthogonalSubspace, find_smallest_common_subspace
 from clue.simulations import apply_matrix, create_figure, merge_simulations
+from clue.ode_parser import readfile, extract_model_name, split_in_sections
 from cProfile import Profile
 from examples_data import Example, Load_Examples_Folder
 from io import TextIOBase
@@ -670,10 +671,10 @@ class AnalysisExample(Experiment):
         r'''Method that generates an image file with the simulations of self.'''
         x_axis = array( self.epsilons)
         data = array([[self.sizes[i]/self.size, dev/self.max_dev ] for i, dev in enumerate(self.deviations)]).transpose()
-        graph = OdeResult(t=x_axis, y=data, success=True, names=["dev/devmax", "num size/size"])
+        graph = OdeResult(t=x_axis, y=data, success=True, names=["num size/size","dev/devmax"])
         fig = create_figure(
             graph,
-        title = f"Lumping evolution for {str(self.observable) }"
+        title = f"Lumping evolution for {str(self.observable_name)},Original Size= {self.size}, Max_dev = {self.max_dev:.3E}"
         )
         fig.savefig(
             self.example.image_path(
@@ -910,13 +911,15 @@ def list_examples(*argv):
 
 def add_examples_in_folder(*argv):
     r'''Add bunch of examples to be executed. It allows several arguments'''
+
     overwrite = False
     json_file = None
     matrix = 'polynomial'
     read = 'polynomial'
-    views_source = 'views'
     out_folder = None
-    exp_type = None
+    exp_type = 'analysis'
+    models_path = None
+
     n = 0
     nargv = len(argv)
     if(nargv == 0):
@@ -931,8 +934,6 @@ def add_examples_in_folder(*argv):
                 out_folder = argv[n+1]; n += 2
                 if not os.path.exists(os.path.dirname(out_folder)):
                     logger.warning("[add_examples_in_folder] Invalid output path. Make sure the directory exists. Skipping this parameter.")
-            elif argv[n] == "-vs":
-                views_source = argv[n+1]; n += 2
             elif argv[n] == "-ow":
                 overwrite = True; n += 1
             elif argv[n] == "-a":
@@ -946,6 +947,10 @@ def add_examples_in_folder(*argv):
                 if not os.path.exists(os.path.dirname(models_path)):
                     logger.error("[add_examples_in_folder] Invalid path to models. Check the specified path.")
                     return
+            else:
+                raise TypeError(f"Option {argv[n]} not recognized. Check 'help' command for further information")
+
+
 
     except IndexError:
         logger.error("[add_examples_in_folder] Invalid format of arguments. Check 'run' command in the help")
@@ -953,15 +958,32 @@ def add_examples_in_folder(*argv):
 
     models = sorted([x for x in os.listdir(models_path) if x.endswith(".ode")])
 
+    if out_folder is None:
+        out_folder = ''
+        split = re.split('\/', models_path)
+        i =-1
+        while out_folder == '':
+            out_folder=split[i]
+            i -= 1
+        out_folder = './'+out_folder
+
+
     if json_file is None:
-        raise ValueError("[add_examples_in_folder] Unspecified json file. Try using the option -j <name of file>.")
+        json_file = ''
+        split = re.split('\/', models_path)
+        i =-1
+        while json_file == '':
+            json_file=split[i]
+            i -= 1
+        json_file += '.json'
+
+        # raise ValueError("[add_examples_in_folder] Unspecified json file. Try using the option -j <name of file>.")
 
     experiments = []
     for model in models:
         name=model.removesuffix('.ode')
         experiments.append(__get_model_dict(models_path+model,
                                             model_name=name,
-                                            views_source=views_source,
                                             matrix=matrix,
                                             read=read,
                                             exp_type=exp_type,
@@ -972,10 +994,8 @@ def add_examples_in_folder(*argv):
     __write_experiments_to_json(experiments, json_file, overwrite)
     return
 
-def __get_model_dict(file, model_name=None,views_source='views', matrix='polynomial', read='polynomial', out_folder=None, exp_type=None):
+def __get_model_dict(file, model_name=None, matrix='polynomial', read='polynomial', out_folder=None, exp_type='analysis'):
     # Read model from .ODE
-    from clue.parser import readfile, extract_model_name, split_in_sections
-    import re
     model = readfile(file)
     name_from_file, sections_text = extract_model_name(model)
     sections_raw = split_in_sections(sections_text)
@@ -990,34 +1010,34 @@ def __get_model_dict(file, model_name=None,views_source='views', matrix='polynom
     views = {}
 
     # Getting named views from views section
-    if views_source == 'views':
-        if 'views' in sections_raw:
-            for line in sections_raw['views']:
-                if "=" in line:
-                    lhs, rhs = [el.strip() for el in line.split("=")]
-                    views[lhs] = [rhs]
-        if 'views' not in sections_raw or len(views)==0:
-            logger.info(f'[get_model_dict] The file {file} does not have any explicit views.')
-            if 'partition' in sections_raw:
-                logger.info(f'[get_model_dict] Attempting to create views based on the elements of the partition.')
-                views_source = 'partition'
-            else:
-                logger.info(f'[get_model_dict] The file {file} does not have partitions to generate view from.')
+    check_partition = 0
+    if 'views' in sections_raw:
+        for line in sections_raw['views']:
+            if "=" in line:
+                lhs, rhs = [el.strip() for el in line.split("=")]
+                views[lhs] = [rhs]
+    if 'views' not in sections_raw or len(views)==0:
+        logger.info(f'[get_model_dict] The file {file} does not have any explicit views.')
+        if 'partition' in sections_raw:
+            logger.info(f'[get_model_dict] Attempting to create views based on the elements of the partition.')
+            check_partition = 1
+        else:
+            logger.info(f'[get_model_dict] The file {file} does not have partitions to generate view from.')
 
 
     # Generating view of the partition and (if chosen) views from the sets of the partition          
     if 'partition' in sections_raw:
         view_p = []
         for i,line in enumerate(sections_raw['partition']):
-            if views_source == 'partition':
-                view_name = 'VIEW_'+str(i)
             if "NULL" in line:
                 logger.info(f'[get_model_dict] Removing "NULL" from set {line.strip()}')
                 line = line.replace('NULL', '')
             rhs = '+'.join([el for el in line.strip(' ,{}').split(',') ])
-            if views_source == 'partition':
+            if check_partition:
+                view_name = 'VIEW_'+str(i)
                 views[view_name] = [rhs]
-            view_p.append( [rhs])
+            if rhs != '':
+                view_p.append( [rhs])
         views['PARTITION']= view_p
 
     if len(views) != 0:
