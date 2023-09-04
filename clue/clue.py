@@ -10,6 +10,7 @@ r'''
 from __future__ import annotations
 
 import logging, math, sympy, sys, time
+import numpy as np
 from collections.abc import Iterable
 from functools import cached_property, reduce, lru_cache
 from io import IOBase
@@ -1736,8 +1737,10 @@ class FODESystem:
             Output: 
 
             An approximate value for the average deviation of the subspace with respect to ``self`` on the domain `[0,C]^N`.
+
+        TODO: minimize list operations, remove castings by using np arrays for L and PL
         '''
-        if not isinstance(subspace, OrthogonalSubspace): 
+        if not isinstance(subspace, OrthogonalSubspace):
             raise NotImplementedError("Only implemented pseudoinverse for Orthogonal subspaces")
         
         key = subspace.matrix(), bound
@@ -1746,18 +1749,19 @@ class FODESystem:
             L = subspace.matrix()
             pi_L = subspace.projector # This is (L^+ L)
 
+
             logger.debug("[_deviation] Computing random points...")
             diff_bound = [b[1]-b[0] for b in bound]
             rhs_point = [array([random()*diff_bound[i] + bound[i][0] for i in range(self.size)]) for _ in range(num_points)] # evaluation points
             logger.debug("[_deviation] Getting the L^+Lx values...")
-            lhs_point = [array([sum(float(pi_L.row(i)[j])*p[j] for j in pi_L.row(i).nonzero) for i in range(pi_L.nrows)]) for p in rhs_point]
+            lhs_point = [array([np.sum([float(pi_L.row(i)[j])*p[j] for j in pi_L.row(i).nonzero]) for i in range(pi_L.nrows)]) for p in rhs_point]
 
             deviations = []
             
             logger.debug("[_deviation] Computing deviation for each point")
             for (lhs, rhs) in zip(lhs_point, rhs_point):
                 diff_evals = self.derivative(..., lhs) - self.derivative(..., rhs)
-                diff = array([sum(float(L.row(i)[j])*(diff_evals[j]) for j in L.row(i).nonzero) for i in range(L.nrows)])
+                diff = array([np.sum([ float(L.row(i)[j])*(diff_evals[j]) for j in L.row(i).nonzero]) for i in range(L.nrows)])
                 deviations.append(norm(diff, ord=2))
 
             logger.debug("[_deviation] Returning the average deviation")
