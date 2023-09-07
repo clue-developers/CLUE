@@ -10,12 +10,12 @@ r'''
 from __future__ import annotations
 
 import logging, math, sympy, sys, time
-import numpy as np
+#import numpy as np
 from collections.abc import Iterable
 from functools import cached_property, reduce, lru_cache
 from io import IOBase
 from itertools import product
-from numpy import apply_along_axis, array, ndarray, matmul, mean
+from numpy import apply_along_axis, array, ndarray, matmul, mean, sum as npsum
 from numpy.linalg import norm
 from numpy.random import normal, uniform
 from random import random, randint
@@ -1752,16 +1752,27 @@ class FODESystem:
 
             logger.debug("[_deviation] Computing random points...")
             diff_bound = [b[1]-b[0] for b in bound]
+            ## TODO: CHeck maybe a better way of doing this
             rhs_point = [array([random()*diff_bound[i] + bound[i][0] for i in range(self.size)]) for _ in range(num_points)] # evaluation points
             logger.debug("[_deviation] Getting the L^+Lx values...")
-            lhs_point = [array([np.sum([float(pi_L.row(i)[j])*p[j] for j in pi_L.row(i).nonzero]) for i in range(pi_L.nrows)]) for p in rhs_point]
+            ## TODO: try with all in numpy ##
+            ## rhs_point = array([[random()*diff_bound[i] + bound[i][0] for i in range(self.size)]) for _ in range(num_points)]) # rows are the evaluation points
+            ## pi_L = pi_L.to_numpy(dtype=float).transpose()
+            ## lhs_point =  matmul(rhs_point, pi_L) # the rows are the desired points
+            ##
+            lhs_point = [array([npsum([float(pi_L.row(i)[j])*p[j] for j in pi_L.row(i).nonzero]) for i in range(pi_L.nrows)]) for p in rhs_point]
 
             deviations = []
             
             logger.debug("[_deviation] Computing deviation for each point")
+            ## TODO: try with all in numpy ##
+            ## L = L.to_numpy(dtype=float)
+            ## diff_evals = self.derivative(..., lhs_point) - self.derivative(..., rhs_point) ## rows are the differences on the (f(lhs) - f(rhs))
+            ## diff = matmul(diff_evals, L.transpose()) # the rows are the L(f(L^T x)) - L(f(x))
+            ## deviations = diff.apply_along_axis(lambda v : norm(v, ord=2), 0, diff)
             for (lhs, rhs) in zip(lhs_point, rhs_point):
                 diff_evals = self.derivative(..., lhs) - self.derivative(..., rhs)
-                diff = array([np.sum([ float(L.row(i)[j])*(diff_evals[j]) for j in L.row(i).nonzero]) for i in range(L.nrows)])
+                diff = array([npsum([ float(L.row(i)[j])*(diff_evals[j]) for j in L.row(i).nonzero]) for i in range(L.nrows)])
                 deviations.append(norm(diff, ord=2))
 
             logger.debug("[_deviation] Returning the average deviation")
