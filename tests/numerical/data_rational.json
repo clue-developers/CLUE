@@ -1,0 +1,552 @@
+{
+    "Rational[0]": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "type": "epsilon",
+        "model":"BIOMD0000000088",
+        "epsilons": [
+            0.5,
+            5,
+            10
+        ],
+        "t1": 10 ,
+        "observables": {
+            "VIEW_0": [
+                "s360 + s359 + s358"
+            ]
+        },
+        "out_folder": "rational"
+    },
+    "Rational[1]": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "type": "epsilon",
+        "model":"BIOMD0000000087",
+        "epsilons": [
+            1E-4,
+            1E-3,
+            1E-2,
+            1E-1,
+            1
+        ],
+        "t1": 100 ,
+        "observables": {
+            "Ctelo": [
+                "Ctelo"
+            ]
+        },
+        "out_folder": "rational"
+    },
+    "Rational[1-slopes]": {
+        "ref": "Rational[1]",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ],
+        "t1": 100 
+    },
+"Rational[2]": {
+        "read": "rational",
+        "matrix": "rational",
+        "type": "slope",
+        "model":"BIOMD0000000437",
+        "slopes": [
+            0.05,
+            0.1
+        ],
+        "epsilons": [
+            1,
+            1e2            
+        ],
+        "t1": 100 ,
+        "observables": {
+            "frq_mRNA": [
+                "frq_mRNA"
+            ],
+            "frq_gene": [
+                "frq_gene"
+            ]
+        },
+        "out_folder": "rational"
+    },
+
+    "Rational[3]": {
+        "read": "rational",
+        "matrix": "rational",
+        "model":"BIOMD0000000488",
+        "type": "analysis",
+        "observables": {
+            "VIEW_0": [
+                "GSK3b"
+            ],
+            "VIEW_1": [
+                "ROS"
+            ],
+            "VIEW_2": [
+                "Tau"
+            ],
+            "VIEW_3": [
+                "GSK3b",
+                "ROS",
+                "Tau"
+            ]
+        },
+        "epsilons": [
+            [
+                0,
+                1,
+                100.0,
+                1000.0,
+                10000.0,
+                100000.0,
+                1000000.0,
+                10000000.0,
+                100000000.0
+            ],
+            [
+                0,
+                250000.0,
+                1000000.0,
+                2000000.0
+            ],
+            [
+                2500000000.0,
+                5000000000.0,
+                10000000000.0
+            ],
+            [
+                2500000000.0,
+                5000000000.0,
+                10000000000.0
+            ]
+        ],
+        "t1": 0.1,
+        "sim_method": "LSODA",
+        "out_folder": "rational"
+    },
+    "CMSB2023[presentation]":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "BioNetGen_CCP",
+        "type": "analysis",
+        "mid_points": 120,
+        "observables":{
+            "D13PG": [
+                "s18+s40"
+            ]   
+        }
+    },
+
+    "BIOMD0000000013": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "type": "analysis",
+        "observables": {
+            "x_CO2": [
+                "x_CO2"
+            ]
+        },
+        "epsilons": [
+            0.5,
+            1
+        ],
+        "t1": 0.4,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000023": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "type": "analysis",
+        "observables": {
+            "Fru": [
+                "Fru"
+            ]
+        },
+        "epsilons": [
+            0.5,
+            1
+        ],
+        "t1": 20.0,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000033": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "type": "analysis",
+        "observables": {
+            "freeEGFReceptor": [
+                "freeEGFReceptor"
+            ]
+        },
+        "epsilons": [
+            0.5,
+            1
+        ],
+        "t1": 20.0,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000087": {
+        "read": "rational",
+        "matrix": "rational",
+        "type": "analysis",
+        "observables": {
+            "Ctelo": [
+                "Ctelo"
+            ],
+            "ssDNA": [
+                "ssDNA"
+            ],
+            "Cdc13": [
+                "Cdc13"
+            ]
+        },
+        "epsilons": [
+            10000,
+            20000,
+            30000,
+            50000
+        ],
+        "t1": 0.002,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000088": {
+        "read": "rational",
+        "matrix": "rational",
+        "type": "analysis",
+        "observables": {
+            "VIEW_0": [
+                "s360 + s359 + s358"
+            ],
+            "VIEW_1": [
+                "s135"
+            ],
+            "VIEW_2": [
+                "s124"
+            ],
+            "VIEW_3": [
+                "s467 + s470 + s477 + s480"
+            ]
+        },
+        "epsilons": [
+            [
+                0,
+                1,
+                10,
+                20,
+                50
+            ],
+            [
+                0,
+                10,
+                100,
+                400
+            ],
+            [
+                1,
+                10,
+                25
+            ],
+            [
+                1,
+                5,
+                10,
+                25
+            ]
+        ],
+        "t1": 10,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000113": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "type": "analysis",
+        "observables": {
+            "VIEW_0": [
+                "Y"
+            ]
+        },
+        "epsilons": [
+            0.5,
+            1
+        ],
+        "t1": 1,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000182": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "type": "analysis",
+        "observables": {
+            "VIEW_0": [
+                "AC_cyto_mem"
+            ]
+        },
+        "epsilons": [
+            0.5,
+            1
+        ],
+        "t1": 0.01,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000313": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "type": "analysis",
+        "observables": {
+            "VIEW_0": [
+                "IL13_DecoyR"
+            ]
+        },
+        "epsilons": [
+            0.5,
+            1
+        ],
+        "t1": 2.0,
+        "out_folder": "rational"
+    },
+        "BIOMD0000000448": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "type": "analysis",
+        "observables": {
+            "VIEW_0": [
+                "mTORC1a"
+            ]
+        },
+        "epsilons": [
+            0,
+            0.5,
+            1
+        ],
+        "t1": 1,
+        "sim_method": "LSODA",
+        "out_folder": "rational"
+    },
+    "BIOMD0000000488": {
+        "read": "rational",
+        "matrix": "rational",
+        "type": "analysis",
+        "observables": {
+            "VIEW_0": [
+                "GSK3b"
+            ],
+            "VIEW_1": [
+                "ROS"
+            ],
+            "VIEW_2": [
+                "Tau"
+            ],
+            "VIEW_3": [
+                "GSK3b",
+                "ROS",
+                "Tau"
+            ]
+        },
+        "epsilons": [
+            [
+                0,
+                1,
+                100.0,
+                1000.0,
+                10000.0,
+                100000.0,
+                1000000.0,
+                10000000.0,
+                100000000.0
+            ],
+            [
+                0,
+                250000.0,
+                1000000.0,
+                2000000.0
+            ],
+            [
+                2500000000.0,
+                5000000000.0,
+                10000000000.0
+            ],
+            [
+                2500000000.0,
+                5000000000.0,
+                10000000000.0
+            ]
+        ],
+        "t1": 0.1,
+        "sim_method": "LSODA",
+        "out_folder": "rational"
+    },
+    "BIOMD0000000503": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "observables": {
+            "VIEW_0": [
+                "G6P"
+            ],
+            "VIEW_1": [
+                "NADPH"
+            ],
+            "VIEW_2": [
+                "P6G"
+            ]
+        },
+        "slopes": [
+            [],
+            [],
+            []
+        ],
+        "t1": 0.025,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000526": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "type": "analysis",
+        "observables": {
+            "VIEW_0": [
+                "DISC"
+            ]
+        },
+        "epsilons": [
+            0.5,
+            1
+        ],
+        "t1": 0.1,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000535": {
+        "read": "rational",
+        "matrix": "rational",
+        "type": "analysis",
+        "observables": {
+            "VIEW_0": [
+                "mw114aa90f_5f5b_4fe8_9406_361c8489b6a1 + mwd5313618_89eb_4c8c_bc82_66f10f966349",
+                "mw39c2e431_fdc3_4964_be29_6ca856620b1b + mw48867e93_f170_44e8_ac7a_185b23e1bf3b",
+                "mwf626e95e_543f_41e4_aad4_c6bf60ab345b + mw0adf3eb4_a196_4c48_b10d_4e9e9faaf9e1 + mw2c9b0499_3325_4394_8af3_bbf653a944a0",
+                "mw03db56ac_8dc6_4931_ae82_fef706d2ee3d + mw4638f126_8cb8_4021_ab41_6ae195743ba0 + mw7becb5fe_8da8_4285_a821_0d77ad811b62"
+            ]
+        },
+        "slopes": [
+            []
+        ],
+        "t1": 0.015,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000537": {
+        "read": "rational",
+        "matrix": "rational",
+        "type": "analysis",
+        "observables": {
+            "VIEW_0": [
+                "mw114aa90f_5f5b_4fe8_9406_361c8489b6a1 + mwd5313618_89eb_4c8c_bc82_66f10f966349",
+                "mw39c2e431_fdc3_4964_be29_6ca856620b1b + mw48867e93_f170_44e8_ac7a_185b23e1bf3b",
+                "mwf626e95e_543f_41e4_aad4_c6bf60ab345b + mw0adf3eb4_a196_4c48_b10d_4e9e9faaf9e1 + mw2c9b0499_3325_4394_8af3_bbf653a944a0",
+                "mw03db56ac_8dc6_4931_ae82_fef706d2ee3d + mw4638f126_8cb8_4021_ab41_6ae195743ba0 + mw7becb5fe_8da8_4285_a821_0d77ad811b62"
+            ]
+        },
+        "slopes": [
+            []
+        ],
+        "t1": 0.015,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000611": {
+        "read": "rational",
+        "matrix": "rational",
+        "type": "analysis",
+        "observables": {
+            "VIEW_0": [
+                "mwfa9d903a_b5e5_4a38_a649_dfe4719577aa"
+            ]
+        },
+        "slopes": [
+            []
+        ],
+        "t1": 100,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000634": {
+        "read": "rational",
+        "matrix": "rational",
+        "type": "analysis",
+        "observables": {
+            "VIEW_0": [
+                "GSK3b"
+            ],
+            "VIEW_1": [
+                "ROS"
+            ],
+            "VIEW_2": [
+                "Tau"
+            ],
+            "VIEW_3": [
+                "GSK3b",
+                "ROS",
+                "Tau"
+            ]
+        },
+        "epsilons": [
+            [
+                0,
+                1,
+                100.0,
+                1000.0,
+                10000.0,
+                100000.0,
+                1000000.0,
+                10000000.0,
+                100000000.0
+            ],
+            [
+                100000.0,
+                500000.0,
+                1000000.0,
+                1500000.0,
+                2000000.0
+            ],
+            [
+                0,
+                1,
+                100.0,
+                1000.0,
+                10000.0,
+                100000.0,
+                1000000.0,
+                10000000.0,
+                100000000.0
+            ],
+            [
+                0,
+                1,
+                100.0,
+                1000.0,
+                10000.0,
+                100000.0,
+                1000000.0,
+                10000000.0,
+                100000000.0
+            ]
+        ],
+        "t1": 0.00025,
+        "sim_method": "LSODA",
+        "out_folder": "rational"
+    },
+    "MODEL1502270000": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "type": "analysis",
+        "observables": {
+            "VIEW_0": [
+                "rmr"
+            ]
+        },
+        "epsilons": [
+            []
+        ],
+        "t1": 1.1353522069077257e-07,
+        "out_folder": "rational"
+    }
+}
