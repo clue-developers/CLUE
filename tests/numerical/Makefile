@@ -42,7 +42,12 @@ compile:
 	@python3 numerical_example.py compile
 
 clean:
-	@rm -rf **.png **.example.txt
+	@echo "Removing result files..."
+	@find . -name "*.example.txt" -type f -delete
+	@echo "Removing images..."
+	@find . -name "*.png" -type f -delete
+	@echo "Removing execution profiles..."
+	@find . -name "*.prf" -type f -delete
 
 %:
 	$(PYTHON) numerical_example.py run $@ $(FLAGS)
