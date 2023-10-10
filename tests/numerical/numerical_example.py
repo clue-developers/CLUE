@@ -28,13 +28,13 @@ class Experiment:
                  example: Example, observable, observable_name: str = None, observable_matrix: SparseRowMatrix = None, max_perturbation: float = None,
                  x0 = None, norm_x0: float = None, norm_fx0: float = None, system: FODESystem = None, num_system: FODESystem = None, 
                  exact_lumping: LDESystem = None, size: int = None, exact_size: int = None, threshold: float = None,
-                 sample_points: int = None, max_epsilon: float = None
+                 sample_points: int = None, max_epsilon: float = None, max_dev: float = None
         ):
         self.example = example; self.observable = observable; self.observable_name = observable_name
         self._observable_matrix = observable_matrix; self._max_perturbation = max_perturbation
         self._x0 = x0; self._norm_x0 = norm_x0; self._norm_fx0 = norm_fx0
         self._system = system; self._num_system = num_system; self._exact_lumping = exact_lumping; self._size = size; self._exact_size = exact_size
-        self._threshold = threshold; self._sample_points = sample_points; self._max_epsilon = max_epsilon
+        self._threshold = threshold; self._sample_points = sample_points; self._max_epsilon = max_epsilon; self._max_dev = max_dev
         
         ## Casting observables to SparsePolynomials
         for i in range(len(self.observable)):
@@ -69,13 +69,13 @@ class Experiment:
     def norm_x0(self):
         if self._norm_x0 is None:
             logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._norm_x0 = norm(self.x0)
+            self._norm_x0 = norm(self.x0.astype(float))
         return self._norm_x0
     @property
     def norm_fx0(self):
         if self._norm_fx0 is None:
             logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._norm_fx0 = norm(self.system.derivative(...,*self.x0))
+            self._norm_fx0 = norm(self.system.derivative(...,*self.x0.astype(float)))
         return self._norm_fx0
     @property
     def system(self):
@@ -129,14 +129,20 @@ class Experiment:
     def max_epsilon(self):
         if self._max_epsilon is None:
             logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._max_epsilon = self.num_system.find_maximal_threshold(
+            self._max_epsilon, self._max_dev = self.num_system.find_maximal_threshold(
                 [obs.change_base(RR) for obs in self.observable],
                 self.compact_bound(), 
                 self.sample_points,
                 self.threshold,
                 matrix_algorithm=self.example.matrix
-            )[0]
+            )
         return self._max_epsilon
+    @property
+    def max_dev(self):
+        if self._max_dev is None:
+            logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self.max_epsilon
+        return self._max_dev
 
     def compact_bound(self):
         return self.norm_x0
@@ -620,24 +626,94 @@ class ResultNumericalExample(Experiment):
         return f'{100*self.percentage}% slope = {self.dev_max()}' if self.percentage else f'E={self.epsilon}'
 
 class AnalysisExample(Experiment):
-    def __init__(self, example: Example, observable, observable_name: str = None, observable_matrix: SparseRowMatrix = None, size: int = None,x0 = None, norm_x0: float = None,system: FODESystem = None, num_system: FODESystem = None,threshold: float = None, time_total: float = None, sample_points: int = None, mid_points: int = None, max_dev: float = None, epsilons: list = [], sizes: list=[], deviations:list = [] ):
-        super().__init__(example, observable, observable_name, observable_matrix=observable_matrix, x0=x0, norm_x0=norm_x0,sample_points=sample_points,  system=system, num_system=num_system,  threshold=threshold)
-        self.epsilons = epsilons
-        self.sizes = sizes
-        self.deviations = deviations
-        self.max_dev = max_dev
-        self.time_total = time_total
+    def __init__(self, 
+                 ## FROM EXPERIMENT
+                 example: Example, observable, observable_name: str = None, observable_matrix: SparseRowMatrix = None, max_perturbation: float = None,
+                 x0 = None, norm_x0: float = None, norm_fx0: float = None, system: FODESystem = None, num_system: FODESystem = None, 
+                 exact_lumping: LDESystem = None, size: int = None, exact_size: int = None, threshold: float = None,
+                 sample_points: int = None, max_epsilon: float = None, max_dev: float = None,
+                 ## FROM ANALYSIS EXPERIMENT
+                 epsilons: list[float] = None, sizes: list[int] = None, deviations: list[float] = None, mid_points: int = None, time_total: float = None,
+                 epsilon_min: float = None, epsilon_max: float = None, timeout: float = 0
+                 ):
+        super().__init__(
+            example, observable, observable_name=observable_name, observable_matrix=observable_matrix, max_perturbation=max_perturbation, 
+            x0=x0, norm_x0=norm_x0, norm_fx0=norm_fx0, system=system, num_system=num_system,
+            exact_lumping=exact_lumping, size=size, exact_size=exact_size, threshold=threshold, 
+            sample_points=sample_points, max_epsilon=max_epsilon, max_dev=max_dev
+        )
+        self._epsilons = epsilons
+        self._sizes = sizes
+        self._deviations = deviations
         self._mid_points = mid_points
+        self._time_total = time_total
+
+        self.__epsilon_bound = (epsilon_min, epsilon_max)
+        self.__timeout = timeout
 
     ####################################################################################################
-    ### PROPERTIES (ADDING MORE THAN IN EXPERIMENT)
+    ### PROPERTIES (ADDING THE NEW PROPERTIES)
     ####################################################################################################
+    @property
+    def epsilons(self):
+        if self._epsilons is None:
+            logger.debug(f"[AnalysisExample # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            min_epsilon = 0 if self.__epsilon_bound[0] is None else self.__epsilon_bound[0]
+            max_epsilon = self.max_epsilon if self.__epsilon_bound[1] is None else self.__epsilon_bound[1]
+
+            ## Initializing the two new variables
+            epsilons = list(); sizes = list(); deviations = list()
+            logger.debug(f"[AnalysisExample # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            bound = self.num_system._FODESystem__process_bound(self.compact_bound(), self.threshold)
+            logger.debug(f"[AnalysisExample # {self.example.name}] Computing the numerical lumping for each epsilon ({self.mid_points})")
+            ctime = time.time()
+            for epsilon in (min_epsilon + i*(max_epsilon - min_epsilon)/(self.mid_points-1) for i in range(self.mid_points)):
+                logger.debug(f"[AnalysisExample # {self.example.name}] Case of {epsilon=}")
+                if epsilon == 0: # Exact lumping is needed
+                    logger.debug(f"[AnalysisExample # {self.example.name}] \tIt is an exact lumping!")
+                    epsilons.append(0.0)
+                    sizes.append(self.exact_size)
+                    deviations.append(0.0)
+                else: # numerical lumping is performed
+                    try:
+                        with Timeout(self.__timeout):
+                            subspace = find_smallest_common_subspace(self.num_system.construct_matrices(self.example.matrix), self.observable_matrix.change_base(RR), NumericalSubspace, delta=epsilon)
+                            sizes.append(subspace.dim())
+                            deviations.append(self.num_system._deviation(subspace, bound, self.sample_points))
+                            epsilons.append(epsilon)
+                    except TimeoutError:
+                        logger.error(f"[AnalysisExample # {self.example.name}] Timeout of {self.__timeout} reached while computing \n\t{repr(self)}\n\t with {epsilon=}. Trying next interation.")
+            self._time_total = time.time() - ctime
+
+            ## Saving the results
+            self._epsilons = tuple(epsilons)
+            self._sizes = tuple(sizes)
+            self._deviations = tuple(deviations)
+        return self._epsilons
+    @property
+    def sizes(self):
+        if self._sizes is None:
+            logger.debug(f"[AnalysisExample # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self.epsilons
+        return self._sizes
+    @property
+    def deviations(self):
+        if self._deviations is None:
+            logger.debug(f"[AnalysisExample # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self.sizes
+        return self._deviations
     @property
     def mid_points(self):
         if self._mid_points is None:
             logger.debug(f"[AnalysisExample # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._mid_points = 10
+            self._mid_points = 50
         return self._mid_points
+    @property
+    def time_total(self):
+        if self._time_total is None:
+            logger.debug(f"[AnalysisExample # {self.example.name}] Computing {inspect.stack()[0][3]}")
+            self.sizes
+        return self._time_total
 
     ####################################################################################################
     ### IMPLEMENTATION OF ABSTRACT METHODS
@@ -670,11 +746,15 @@ class AnalysisExample(Experiment):
     def generate_image(self):
         r'''Method that generates an image file with the simulations of self.'''
         x_axis = array( self.epsilons)
-        data = array([[self.sizes[i]/self.size, dev/self.max_dev ] for i, dev in enumerate(self.deviations)]).transpose()
-        graph = OdeResult(t=x_axis, y=data, success=True, names=["num size/size","dev/devmax"])
+        ## Deciding what to show as original drift
+        drift = min(max(self.deviations), self.norm_fx0) / self.max_dev
+        title_drift = f",\norig.drift/devmax = {self.norm_fx0 / self.max_dev}" if min(max(self.deviations), self.norm_fx0) != self.norm_fx0 else ""
+        data = array([[self.sizes[i]/self.size, dev/self.max_dev, drift] for i, dev in enumerate(self.deviations)]).transpose()
+        graph = OdeResult(t=x_axis, y=data, success=True, names=["num size/size","dev/devmax","orig.drift/devmax"])
         fig = create_figure(
             graph,
-        title = f"Lumping evolution for {str(self.observable_name)},Original Size= {self.size}, Max_dev = {self.max_dev:.3E}"
+            format=("o-", "o-", "-"),
+            title = f"Lumping evolution for {str(self.observable_name)},Original Size= {self.size}, Max_dev = {self.max_dev:.3E}{title_drift}"
         )
         fig.savefig(
             self.example.image_path(
@@ -683,30 +763,26 @@ class AnalysisExample(Experiment):
             )
         )
         plt.close()
-        # logger.error("NotImplementedError: The example of perturbed models is not implemented")
-        # return
 
     def write_result(self, file: TextIOBase):
         r'''Method that generates a results file with the information of this '''
 
         file.write("===============================================\n")
         file.write(f"== Observables: {self.observable_name} -> {self.observable}\n")
-        # file.write(f"== Observables: {self.observable_name}\n")
         file.write(f"Name of example: {self.example.name}\n")
         file.write(f"Size of original model: {self.size}\n")
-        file.write(f"Size of lumpings: {self.sizes}\n")
-        file.write(f"Epsilons: {self.epsilons}\n")
-        file.write(f"Deviations: {self.deviations}\n")
+        file.write(f"Size of lumpings: {list(self.sizes)}\n")
+        file.write(f"Epsilons: {list(self.epsilons)}\n")
+        file.write(f"Deviations: {list(self.deviations)}\n")
         file.write(f"Value for maximal deviation: {self.max_dev}\n")
         file.write(f"Size of initial value: {self.norm_x0}\n")
         file.write(f"Size of compactum used for sampling the deviation: {self.compact_bound()}\n")
-        # file.write(f"Size of initial drift: {self.norm_fx0}\n")
+        file.write(f"Size of initial drift: {self.norm_fx0}\n")
         file.write(f"Tolerance used for computations: {self.threshold}\n")
         file.write(f"Time used on computation: {self.time_total}\n")
         file.write("###############################################\n")
 
         file.flush()
-
 
     @classmethod
     def from_file(cls, path_to_result: str) -> tuple[AnalysisExample]:
@@ -716,9 +792,9 @@ class AnalysisExample(Experiment):
                 line = file.readline().strip()
                 while line != "":
                     if line.startswith("==============================================="): # New example
-                #########################################################
-                ## Reading the observable
-                #########################################################
+                        #########################################################
+                        ## Reading the observable
+                        #########################################################
                         line = file.readline().strip()
                         if not line.startswith("== Observables: "): raise ValueError("Incorrect format in result file: observable must be specified first")
                         observable_line = line.removeprefix("== Observables: ").split(" -> ")
@@ -744,8 +820,10 @@ class AnalysisExample(Experiment):
                                 max_dev = line.removeprefix("Value for maximal deviation: ")
                             elif line.startswith("Size of initial value: "):
                                 norm_x0 = line.removeprefix("Size of initial value: ")
-                            elif line.startswith("Size of compactum used for sampling the deviation: "):
-                                compact_bound = line.removeprefix("Size of initial value: ")
+                            # elif line.startswith("Size of compactum used for sampling the deviation: "):
+                            #     compact_bound = line.removeprefix("Size of compactum used for sampling the deviation: ")
+                            elif line.startswith("Size of initial drift: "):
+                                norm_fx0 = line.removeprefix("Size of initial drift: ")
                             elif line.startswith("Tolerance used for computations: "):
                                 threshold = line.removeprefix("Tolerance used for computations: ")
                             elif line.startswith("Time used on computation: "):
@@ -754,21 +832,22 @@ class AnalysisExample(Experiment):
                                 logger.debug(f"[from_file] Omitting line: {line}")
                             line = file.readline().strip()
 
-                ## Casting results to their type
-
+                        ## Casting results to their type
                         example = get_example(example_name)
                         original_size = _casting(original_size, int, "original_size")
-                        lumpings_sizes = _casting(lumpings_sizes, list, "lumpings_sizes")
-                        epsilons = _casting(epsilons, list, "Epsilons")
-                        deviations = _casting(deviations, list, "Deviations")
+                        lumpings_sizes = _casting(lumpings_sizes, tuple, "lumpings_sizes")
+                        epsilons = _casting(epsilons, tuple, "Epsilons")
+                        deviations = _casting(deviations, tuple, "Deviations")
                         max_dev = _casting(max_dev, float, "Maximal deviation")
                         norm_x0 = _casting(norm_x0, float, "Size initial value")
+                        norm_fx0 = _casting(norm_fx0, float, "Initial drift")
                         threshold = _casting(threshold, float, "threshold")
                         time_total = _casting(time_total, float, "time_total")
                         ## Creating the result object
-                        result = AnalysisExample(example, observable, observable_name=observable_name, size=original_size, sizes=lumpings_sizes, epsilons=epsilons, deviations=deviations, max_dev=max_dev, norm_x0=norm_x0,threshold=threshold,
-                                             time_total=time_total)
-                        logger.info(f"[rom_file] Read case {repr(result)}")
+                        result = AnalysisExample(example, observable, observable_name=observable_name, 
+                            size=original_size, max_dev=max_dev, norm_x0=norm_x0, norm_fx0=norm_fx0, threshold=threshold,
+                            sizes=lumpings_sizes, epsilons=epsilons, deviations=deviations, time_total=time_total)
+                        logger.info(f"[from_file] Read case {repr(result)}")
                         results.append(result)
                     # line = file.readline().strip()
                     else:
@@ -813,8 +892,8 @@ def get_example(name) -> Example:
 
 def _casting(value, ttype, name, allow_none = False):
     try:
-        if ttype == list:
-            return json.loads(value)
+        if ttype in (tuple,list):
+            return ttype(json.loads(value))
         else:
             return ttype(value) if ((not allow_none) or (value != None and value != "None")) else None
     except Exception as e:
@@ -1362,7 +1441,7 @@ def __run_exact(
 
 
     ##############################################################################
-    ### Creating the Results structures
+    ### Running examples
     logger.log(60, f"[run_exact # {example.name}] Running each of the cases")
     for result in results:
         logger.log(60, f"[run_exact # {example.name}] Computing (if needed) epsilon for \n\t{repr(result)}")
@@ -1392,13 +1471,6 @@ def __run_analysis(example: Example,
                    num_points: int = 1000, threshold: float = 1e-6,
                    mid_points: int = 20
                    ):
-    r'''
-        TODO:
-
-        * Add the control with timeouts just to not get stuck in an example [X]
-        * Change the use of example.read and example.matrix to the arguments read and matrix [X]
-        * mid_points: number of epsilons to be tried && num_points: sample points for computing the deviation [X]
-    '''
     logger.log(60, f"[run_analysis # {example.name}] Starting epsilon analysis for {example.name}")
     system = FODESystem(file=example.path_model(), read_ic = True, parser=read)
     RRsystem = FODESystem(
@@ -1407,6 +1479,10 @@ def __run_analysis(example: Example,
     logger.log(60, f"[run_analysis # {example.name}] Removing the parameters of the system")
     system = system.remove_parameters_ic()
     RRsystem = RRsystem.remove_parameters_ic()
+
+    logger.log(60, f"[run_analysis # {example.name}] Obtaining Jacobian matrices for exact system... (shared among examples)")
+    system.construct_matrices(matrix)
+    RRsystem._lumping_matr[example.matrix] = tuple(M.change_base(RR) for M in system._lumping_matr[matrix]) 
 
     logger.log(60, f"[run_analysis # {example.name}] Obtaining the initial condition from the system")
     x0 = array([float(RRsystem.ic.get(v, 0)) for v in RRsystem.variables])
@@ -1430,58 +1506,28 @@ def __run_analysis(example: Example,
 
     ## Creating the matrices for lumping
     logger.log(60, f"[run_analysis # {example.name}] Building matrices for observables")
-    observable_matrices = {view_name :SparseRowMatrix.from_vectors([obs.linear_part_as_vec().change_base(RR) for obs in observable]) for view_name, observable in observables.items()}
+    observable_matrices = {view_name :SparseRowMatrix.from_vectors([obs.linear_part_as_vec() for obs in observable]) for view_name, observable in observables.items()}
 
     ## Processing the bound for sampling 
     logger.log(60, f"[run_analysis # {example.name}] Processing bound for sampling...")
 
-    bound = RRsystem._FODESystem__process_bound(norm_x0, threshold)
-    # bound = RRsystem._FODESystem__process_bound(norm_x0, 1e-6)
-    ## Gathering data
+    results : list[AnalysisExample] = list()
+    ## Generating results structures
     for (view_name,observable) in observables.items():
-        logger.log(60, f"[run_analysis # {example.name}] Computing {mid_points} for {view_name}...")
-        ctime = time.time()
-        observable_matrix= observable_matrices[view_name]
-        max_epsilon, max_deviation = RRsystem.find_maximal_threshold(observable, bound, num_points, threshold, matrix_algorithm=example.matrix);
+        results.append(AnalysisExample(example, observable, observable_name=view_name, observable_matrix = observable_matrices[view_name], max_perturbation = None,
+                 x0 = x0, norm_x0 = norm_x0, norm_fx0 = None, system = system, num_system = RRsystem, 
+                 exact_lumping = None, size = system.size, exact_size = None, threshold = threshold,
+                 sample_points = num_points, max_epsilon = None, max_dev = None,
+                 ## FROM ANALYSIS EXPERIMENT
+                 epsilons = None, sizes = None, deviations = None, mid_points = mid_points, time_total = None, timeout = timeout
+        ))
 
-        kwds = {
-            # "observable_matrix": observable_matrix, 
-            "x0": x0, "norm_x0": norm_x0,
-            "system": system, "num_system": RRsystem,  "threshold": threshold, "sample_points": num_points, "max_dev":max_deviation}
-        result = AnalysisExample(example, observable, observable_name=view_name, mid_points = mid_points, **kwds)
-
-        ## First iteration is the exact lumping
-        subspace = find_smallest_common_subspace(system.construct_matrices(example.matrix),observable_matrix.change_base(system.field), OrthogonalSubspace)
-        deviation = RRsystem._deviation(subspace, bound, num_points)
-        result.epsilons.append(0.0)
-        result.sizes.append(subspace.dim())
-        result.deviations.append(deviation)
-
-        ## Other iterations use the numerical lumping
-        for i in range(1,mid_points+1):
-            epsilon = max_epsilon * (i/(mid_points-1))
-            try:
-                with Timeout(timeout):
-                    subspace = find_smallest_common_subspace(RRsystem.construct_matrices(example.matrix), observable_matrix, NumericalSubspace, delta=epsilon)
-                    deviation = RRsystem._deviation(subspace, bound, num_points)
-            except TimeoutError:
-                logger.error(f"[run_analysis # {example.name}] Timeout of {timeout} reached while computing \n\t{repr(result)}. Trying next interation.")
-                continue
-
-            result.epsilons.append(epsilon)
-            result.sizes.append(subspace.dim())
-            result.deviations.append(deviation)
-
-        result.time_total = time.time()-ctime
+    for result in results:
         logger.log(60, f"[run_analysis # {example.name}] Generating output for \n\t{repr(result)}")
         result.write_result(output)
         logger.log(60, f"[run_analysis # {example.name}] Generating images for \n\t{repr(result)}")
         result.generate_image()
         logger.log(60, f"[run_analysis # {example.name}] Finished execution for \n\t{repr(result)}")
-
-
-
-
 
 def __run_perturbed():
     logger.error("NotImplementedError: The example of perturbed models is not implemented")
