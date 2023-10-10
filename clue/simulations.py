@@ -187,7 +187,8 @@ def create_figure(simulation : OdeResult | Collection[OdeResult], names : str | 
         if i >= len(simulation): break # we do not fill all the plots if there are not enough
         a = a.item() # removing the numpy.ndarray class
         for j in range(len(simulation[i].y)):
-            a.plot(simulation[i].t, simulation[i].y[j], format[i], label=names[i][j])
+            format_to_use = format[i] if not isinstance(format[i], (tuple, list)) else format[i][j]
+            a.plot(simulation[i].t, simulation[i].y[j], format_to_use, label=names[i][j])
         if i == 0 and legend:
             a.legend()
         a.title.set_text(title[i]); a.set_xlim(*xinterval[i]); a.set_ylim(*yinterval[i])
