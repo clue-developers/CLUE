@@ -49,7 +49,7 @@ def _func_for_expr(expr, varnames, domain):
             if isinstance(exp, FracElement):
                 return base**int(exp.as_expr())
             return base**int(exp)
-    elif(isinstance(expr, sympy.core.numbers.Rational)):
+    elif(isinstance(expr, (sympy.core.numbers.Rational, sympy.core.numbers.Float))):
         def __func(*args): #pylint: disable=unused-argument
             return domain.convert(expr)
     elif(isinstance(expr, sympy.core.symbol.Symbol) and str(expr) in varnames):
@@ -2083,6 +2083,7 @@ class FODESystem:
         #######################################################################################
         if out_format == "sympy":
             ## deciding out ring
+            out_ring = None
             if isinstance(result["equations"][0], SparsePolynomial):
                 out_ring = result["equations"][0].get_sympy_ring()
                 F = out_ring
@@ -2097,14 +2098,17 @@ class FODESystem:
                     out_ring = result["equations"][0][0].get_sympy_ring()
                     F = sympy.FractionField(sympy.QQ, result["equations"][0].gens)
             def transform(p):
-                if isinstance(p, (list,tuple)):
-                    return [transform(q) for q in p]
-                elif isinstance(p, SparsePolynomial):
-                    return out_ring(p.get_sympy_dict())
-                elif isinstance(p, RationalFunction):
-                    return F(out_ring(p.numer.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict()))
-                else:
-                    return p # already in sympy
+                if not out_ring is None:
+                    if isinstance(p, (list,tuple)):
+                        return [transform(q) for q in p]
+                    elif isinstance(p, SparsePolynomial):
+                        return out_ring(p.get_sympy_dict())
+                    elif isinstance(p, RationalFunction):
+                        return F(out_ring(p.numer.get_sympy_dict()))/F(out_ring(p.denom.get_sympy_dict()))
+                    else:
+                        return p # already in sympy
+                else: 
+                    return p  # already in sympy
             result["equations"] = [transform(p) for p in result["equations"]]
         elif out_format == "internal":
             pass
