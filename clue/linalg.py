@@ -241,6 +241,9 @@ class SparseVector(object):
 
     def change_base(self, new_field):
         r'''Change the base domain for the sparse vector'''
+        if self.field == new_field:
+            return self
+        
         new_vector = SparseVector(self.dim, new_field)
         for i in self.nonzero: 
             new_vector[i] = new_field.convert(self[i])
@@ -530,6 +533,9 @@ class SparseRowMatrix(object):
     
     def change_base(self, new_field):
         r'''Change the base domain for the sparse vector'''
+        if self.field == new_field:
+            return self
+        
         new_matrix = SparseRowMatrix(self.dim, new_field)
         for i in self.nonzero: 
             new_matrix.set_row(i, self[i].change_base(new_field))
