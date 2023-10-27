@@ -131,7 +131,7 @@ class Experiment:
             logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
             self._max_epsilon, self._max_dev = self.num_system.find_maximal_threshold(
                 [obs.change_base(RR) for obs in self.observable],
-                self.compact_bound(), 
+                self.compact_bound(),
                 self.sample_points,
                 self.threshold,
                 matrix_algorithm=self.example.matrix
@@ -212,6 +212,9 @@ class ResultNumericalExample(Experiment):
         return self._percentage
     @property
     def epsilon(self):
+        # TODO: max eps heuristic
+        # Max dev heuristic
+        # Update interfaces
         if self._epsilon is None:
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             if self.percentage is None:
@@ -665,7 +668,7 @@ class AnalysisExample(Experiment):
             epsilons = list(); sizes = list(); deviations = list()
             logger.debug(f"[AnalysisExample # {self.example.name}] Computing {inspect.stack()[0][3]}")
             bound = self.num_system._FODESystem__process_bound(self.compact_bound(), self.threshold)
-            logger.debug(f"[AnalysisExample # {self.example.name}] Computing the numerical lumping for each epsilon ({self.mid_points})")
+            logger.debug(f"[AnalysisExample # {self.example.name}] Computing numerical lumping for ({self.mid_points}) epsilon in range {self.__epsilon_bound} ")
             ctime = time.time()
             for epsilon in (min_epsilon + i*(max_epsilon - min_epsilon)/(self.mid_points-1) for i in range(self.mid_points)):
                 logger.debug(f"[AnalysisExample # {self.example.name}] Case of {epsilon=}")
@@ -1232,6 +1235,8 @@ def run_example(*argv):
     sample_points: int = example.get("sample_points", 50)
     threshold: float = example.get("threshold", 1e-6)
     type_example: str = example.get("type", "slope")
+    epsilon_min: float = example.get("epsilon_min", 0.0)
+    epsilon_max: float = example.get("epsilon_max", None)
     t0: float = example.get("t0", 0.0); t1: float = example.get("t1", 1.0); tstep: float = example.get("tstep", None)
 
     ## Checking the rest of the arguments
@@ -1344,7 +1349,7 @@ def run_example(*argv):
                             sample_points, threshold, t0, t1, tstep)
             elif type_example == "analysis":
                 __run_analysis(example = example,
-                               read=read, matrix=matrix, observables=observables,timeout=timeout, output=output, num_points=sample_points, threshold=threshold, mid_points=mid_points)
+                               read=read, matrix=matrix, observables=observables,timeout=timeout, output=output, num_points=sample_points, threshold=threshold, mid_points=mid_points, epsilon_min=epsilon_min, epsilon_max=epsilon_max)
             elif type_example == "perturbed":
                 __run_perturbed()
             else:
@@ -1416,6 +1421,7 @@ def __run_exact(
         exact = system.lumping(observable, method=matrix,print_system=False,print_reduction=False)
         if not exact.is_consistent():
             logger.error(f"[run_exact # {example.name}] Exact lumping for {view_name} is NOT CONSISTENT!!")
+            raise RuntimeError
             return
         exact_lumpings[view_name] = exact
     RRsystem._lumping_matr[example.matrix] = tuple(M.change_base(RR) for M in system._lumping_matr[matrix])
@@ -1469,7 +1475,7 @@ def __run_analysis(example: Example,
                    read: str, matrix: str, observables: list[str], timeout: float,
                    output: TextIOBase,
                    num_points: int = 1000, threshold: float = 1e-6,
-                   mid_points: int = 20
+                   mid_points: int = 20, epsilon_min = None, epsilon_max = None
                    ):
     logger.log(60, f"[run_analysis # {example.name}] Starting epsilon analysis for {example.name}")
     system = FODESystem(file=example.path_model(), read_ic = True, parser=read)
@@ -1519,7 +1525,7 @@ def __run_analysis(example: Example,
                  exact_lumping = None, size = system.size, exact_size = None, threshold = threshold,
                  sample_points = num_points, max_epsilon = None, max_dev = None,
                  ## FROM ANALYSIS EXPERIMENT
-                 epsilons = None, sizes = None, deviations = None, mid_points = mid_points, time_total = None, timeout = timeout
+                 epsilons = None, sizes = None, deviations = None, mid_points = mid_points, time_total = None, timeout = timeout, epsilon_min = epsilon_min, epsilon_max=epsilon_max
         ))
 
     for result in results:
