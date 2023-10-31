@@ -185,7 +185,7 @@ class Experiment:
 class ResultNumericalExample(Experiment):
     def __init__(self, 
                  example: Example, observable, observable_name: str = None, observable_matrix: SparseRowMatrix = None, max_perturbation : float = None,
-                 x0 = None, norm_x0: float = None, norm_fx0: float = None, percentage: float = None, epsilon: float = None, considered_epsilon: int = None,
+                 x0 = None, norm_x0: float = None, norm_fx0: float = None, percentage: float = None, epsilon: float = None, considered_epsilon: int = None, percentage_epsilon: float = None,
                  system: FODESystem = None, num_system: FODESystem = None, exact_lumping: LDESystem = None, numerical_lumping: LDESystem = None,
                  size: int = None, exact_size: int = None, lumped_size: int = None,
                  t0: float = None, t1: float = None, tstep: float = None, threshold: float = None, sample_points: int = None,
@@ -202,7 +202,7 @@ class ResultNumericalExample(Experiment):
         self._merged_simulation = merged_simulation; self._diff_simulation = diff_simulation
         self._time_epsilon = time_epsilon; self._time_total = time_total
         self._Mxt_2 = Mxt_2; self._et = et; self._avg_per_err = avg_per_err; self._avg_err = avg_err; self._max_err = max_err
-        self._percentage_error = None
+        self._percentage_error = None; self._percentage_epsilon = percentage_epsilon
 
     ####################################################################################################
     ### PROPERTIES (ADDING MORE THAN IN EXPERIMENT)
@@ -211,19 +211,25 @@ class ResultNumericalExample(Experiment):
     def percentage(self):
         return self._percentage
     @property
+    def percentage_epsilon(self):
+        return self._percentage_epsilon
+    @property
     def epsilon(self):
         # TODO: max eps heuristic
         # Max dev heuristic
         # Update interfaces
         if self._epsilon is None:
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            if self.percentage is None:
+            if self.percentage is None and self.percentage_epsilon is None:
                 raise ValueError("Impossible to get the epsilon for this example")
-            ctime = time.time()
-            self._epsilon, self._considered_epsilon = self.num_system.find_acceptable_threshold(
-                [obs.change_base(RR) for obs in self.observable], self.dev_max(), self.compact_bound(), 
-                self.sample_points, self.threshold, with_tries=True, matrix_algorithm=self.example.matrix)
-            self._time_epsilon = time.time()-ctime
+            elif self.percentage is not None and self.percentage_epsilon is None:
+                ctime = time.time()
+                self._epsilon, self._considered_epsilon = self.num_system.find_acceptable_threshold(
+                    [obs.change_base(RR) for obs in self.observable], self.dev_max(), self.compact_bound(), 
+                    self.sample_points, self.threshold, with_tries=True, matrix_algorithm=self.example.matrix)
+                self._time_epsilon = time.time()-ctime
+            elif self.percentage is None and self.percentage_epsilon is not None:
+                self._epsilon = self.percentage_epsilon * self.max_epsilon
         return self._epsilon
     @property
     def considered_epsilon(self):
@@ -752,8 +758,10 @@ class AnalysisExample(Experiment):
         ## Deciding what to show as original drift
         drift = min(max(self.deviations), self.norm_fx0) / self.max_dev
         title_drift = f",\norig.drift/devmax = {self.norm_fx0 / self.max_dev}" if min(max(self.deviations), self.norm_fx0) != self.norm_fx0 else ""
-        data = array([[self.sizes[i]/self.size, dev/self.max_dev, drift] for i, dev in enumerate(self.deviations)]).transpose()
-        graph = OdeResult(t=x_axis, y=data, success=True, names=["num size/size","dev/devmax","orig.drift/devmax"])
+        # data = array([[self.sizes[i]/self.size, dev/self.max_dev, drift] for i, dev in enumerate(self.deviations)]).transpose()
+        # graph = OdeResult(t=x_axis, y=data, success=True, names=["num size/size","dev/devmax","orig.drift/devmax"])
+        data = array([[self.sizes[i]/self.size] for i, dev in enumerate(self.deviations)]).transpose()
+        graph = OdeResult(t=x_axis, y=data, success=True, names=["num size/size"])
         fig = create_figure(
             graph,
             format=("o-", "o-", "-"),
@@ -1231,6 +1239,7 @@ def run_example(*argv):
     profile: bool = None
     percentage_slope: float | list[float] = None
     epsilons: float | list[float] = None
+    percentage_epsilon: float | list[float] = None
     mid_points: int = example.get("mid_points", 50)
     sample_points: int = example.get("sample_points", 50)
     threshold: float = example.get("threshold", 1e-6)
@@ -1322,6 +1331,15 @@ def run_example(*argv):
             percentage_slope = len(example.observables)*[percentage_slope]
         elif not len(percentage_slope) == len(example.observables):
             logger.error(f"[run_example # {example.name}] Slopes must be a list of length {len(example.observables)} of lists or arbitrary length")
+    if type_example == "percentage_epsilon":
+        percentage_epsilon = example.get("percentage_epsilon", [0.1]) if percentage_epsilon is None else percentage_epsilon
+        if not isinstance(percentage_epsilon, (list,tuple)):
+            percentage_epsilon = len(example.observables)*[[percentage_epsilon]]
+        elif isinstance(percentage_epsilon, (list,tuple)) and any(not isinstance(el, (tuple, list)) for el in percentage_epsilon):
+            percentage_epsilon = len(example.observables)*[percentage_epsilon]
+        elif not len(percentage_epsilon) == len(example.observables):
+            logger.error(f"[run_example # {example.name}] Epsilon percentages must be a list of length {len(example.observables)} of lists or arbitrary length")
+
 
     if epsilons != None and type_example != "epsilon":
         logger.warning(f"[run_example # {example.name}] Epsilons provided but example is not of type epsilon")
@@ -1347,6 +1365,9 @@ def run_example(*argv):
             elif type_example == "epsilon":
                 __run_exact(example, read, matrix, observables, timeout, output, None,epsilons,
                             sample_points, threshold, t0, t1, tstep)
+            elif type_example == "percentage_epsilon":
+                __run_exact(example, read, matrix, observables, timeout, output, None, epsilons,
+                            sample_points, threshold, t0, t1, tstep, percentage_epsilon)
             elif type_example == "analysis":
                 __run_analysis(example = example,
                                read=read, matrix=matrix, observables=observables,timeout=timeout, output=output, num_points=sample_points, threshold=threshold, mid_points=mid_points, epsilon_min=epsilon_min, epsilon_max=epsilon_max)
@@ -1365,7 +1386,7 @@ def run_example(*argv):
 
 def __run_exact(
         example: Example, read: str, matrix: str, observables: dict[str,list[str]], timeout: int, output: TextIOBase, 
-        percentage_slope: list[list[float]], epsilons: list[list[float]], sample_points: int, threshold: float, t0: float, t1: float, tstep: float,
+        percentage_slope: list[list[float]], epsilons: list[list[float]], sample_points: int, threshold: float, t0: float, t1: float, tstep: float,percentage_epsilon: list[list[float]]
 ):
     ##############################################################################
     ### Reading the system
@@ -1393,9 +1414,15 @@ def __run_exact(
 
     ##############################################################################
     ### Checking if there is something to execute
-    if percentage_slope == None and epsilons == None:
+    if percentage_slope == None and epsilons == None and percentage_epsilon == None:
         logger.error(f"[run_exact # {example.name}] No slopes nor epsilons are provided!!")
-    num_executions = sum(len(el) for el in percentage_slope) if percentage_slope != None else sum(len(el) for el in epsilons)
+    if percentage_slope != None:
+        num_executions = sum(len(el) for el in percentage_slope)
+    elif percentage_epsilon != None:
+        num_executions = sum(len(el) for el in percentage_epsilon)
+    else:
+        num_executions=sum(len(el) for el in epsilons)
+
     if num_executions == 0:
         logger.warning(f"[run_exact # {example.name}] No executions for this example. Finishing execution")
         return
@@ -1438,6 +1465,10 @@ def __run_exact(
         if percentage_slope != None:
             for percentage in percentage_slope[i]:
                 kwds["percentage"] = percentage
+                results.append(ResultNumericalExample(example, observable, view_name, **kwds))
+        elif percentage_epsilon != None:
+            for percentage in percentage_epsilon[i]:
+                kwds["percentage_epsilon"] = percentage
                 results.append(ResultNumericalExample(example, observable, view_name, **kwds))
         elif epsilons != None:
             kwds["considered_epsilon"] = 1

@@ -1,4 +1,242 @@
 {
+    "BIOMD*088": {
+        "read": "rational",
+        "matrix": "rational",
+        "type": "analysis",
+        "model":"BIOMD0000000088",
+        "observables": {
+            "Rho_kinase": [
+                "s124"
+            ]
+        },
+        "out_folder": "rational"
+    },
+    "BIOMD*088[epsilons]": {
+        "ref": "BIOMD*088",
+        "type": "epsilon",
+        "epsilons": [
+            0.5,
+            2.5,
+            5,
+            10
+        ],
+        "t1": 10 
+    },
+    "BIOMD*088[slopes]": {
+        "ref": "BIOMD*088",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ],
+        "t1": 10 
+    },
+    "BIOMD*088[percentages]": {
+        "ref": "BIOMD*088",
+        "type": "percentage_epsilon",
+        "percentage_epsilon": [
+            1e-4,
+            1e-3,
+            1e-2,
+            1e-1,
+            0.25,
+            0.5
+        ]
+    },
+
+    "BIOMD*087": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "type": "analysis",
+        "model":"BIOMD0000000087",
+        "t1": 100 ,
+        "observables": {
+            "Ctelo": [
+                "Ctelo"
+            ],
+            "ssDNA": [
+                "ssDNA"
+            ],
+            "Cdc13": [
+                "Cdc13"
+            ]
+        },        
+        "out_folder": "rational"
+    },
+    "BIOMD*087[slopes]": {
+        "ref": "BIOMD*087",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ]
+    },
+    "BIOMD*087[epsilons]": {
+        "ref": "BIOMD*087",
+        "type": "epsilon",
+        "epsilons": [
+            0.5,
+            0.9,
+            0.95,
+            0.99
+        ]
+    },
+    "BIOMD*087[percentages]": {
+        "ref": "BIOMD*087",
+        "type": "percentage_epsilon",
+        "percentage_epsilon": [
+            1e-4,
+            1e-3,
+            1e-2,
+            1e-1,
+            0.25,
+            0.5
+        ]
+    },
+
+
+    "BIOMD*437": {
+        "read": "rational",
+        "matrix": "rational",
+        "type": "analysis",
+        "model":"BIOMD0000000437",
+        "epsilon_max": 1,
+        "t1": 100 ,
+        "observables": {
+            "frq_mRNA": [
+                "frq_mRNA"
+            ],
+            "frq_gene": [
+                "frq_gene"
+            ]
+        },
+        "out_folder": "rational"
+    },
+    "BIOMD*437[slopes]": {
+        "ref": "BIOMD*437",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ]
+    },
+    "BIOMD*437[epsilons]": {
+        "ref": "BIOMD*437",
+        "type": "epsilon",
+        "epsilons": [
+            1,
+            1e2,
+            1e3,
+            1e4
+        ]
+    },
+    "BIOMD*437[percentages]": {
+        "ref": "BIOMD*437",
+        "type": "percentage_epsilon",
+        "percentage_epsilon": [
+            1e-4,
+            1e-3,
+            1e-2,
+            1e-1,
+            0.25,
+            0.5
+        ]
+    },
+
+    "BIOMD*488": {
+        "read": "rational",
+        "matrix": "rational",
+        "model":"BIOMD0000000488",
+        "epsilon_max": 1e2,
+        "type": "analysis",
+        "observables": {
+            "GSK3b": [
+                "GSK3b"
+            ],
+            "ROS": [
+                "ROS"
+            ],
+            "Tau": [
+                "Tau"
+            ],
+            "GSK3b, ROS, Tau": [
+                "GSK3b",
+                "ROS",
+                "Tau"
+            ]
+        },
+        
+        "t1": 0.1,
+        "sim_method": "LSODA",
+        "out_folder": "rational"
+    },
+    "BIOMD*488[slopes]": {
+        "ref": "BIOMD*488",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ]
+    },
+    "BIOMD*488[epsilons]": {
+        "ref": "BIOMD*488",
+        "type": "epsilon",
+        "epsilons": [
+            [
+                0,
+                1,
+                100.0,
+                1000.0,
+                10000.0,
+                100000.0,
+                1000000.0,
+                10000000.0,
+                100000000.0
+            ],
+            [
+                0,
+                250000.0,
+                1000000.0,
+                2000000.0
+            ],
+            [
+                2500000000.0,
+                5000000000.0,
+                10000000000.0
+            ],
+            [
+                2500000000.0,
+                5000000000.0,
+                10000000000.0
+            ]
+        ]
+    },
+    "BIOMD*488[percentages]": {
+        "ref": "BIOMD*488",
+        "type": "percentage_epsilon",
+        "percentage_epsilon": [
+            1e-4,
+            1e-3,
+            1e-2,
+            1e-1,
+            0.25,
+            0.5
+        ]
+    },
+
+    
     "CMSB2023[presentation]":{
         "read": "polynomial",
         "matrix": "polynomial",
@@ -12,319 +250,12 @@
         }
     },
 
-    "CMSB2023[0]":{
-        "read": "polynomial",
-        "matrix": "polynomial",
-        "model": "BioNetGen_CCP",
-        "type": "slope",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ],
-        "observables":{
-            "D13PG": [
-                "s18+s40"
-            ]   
-        },
-        "t1": 100
-    },
-    "CMSB2023[0-epsilon]":{
-        "ref": "CMSB2023[0]",
-        "type": "analysis"
-    },
-    "CMSB2023[1]":{
-        "read": "polynomial",
-        "matrix": "polynomial",
-        "model": "NIHMS80246_S6",
-        "type": "slope",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ],
-        "observables":{
-            "S2P": [
-                "s14+s15+s16+s17+s18+s19+s20+s21+s22+s23"
-            ]   
-        },
-        "t1": 600
-    },
-    "CMSB2023[1-epsilon]":{
-        "ref": "CMSB2023[1]",
-        "type": "analysis"
-    },
-    "CMSB2023[2]":{
-        "read": "polynomial",
-        "matrix": "polynomial",
-        "model": "journal.pcbi.1003544.s006",
-        "type": "slope",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ],
-        "observables":{
-            "RC": ["S7+S11+S14+2*S16+S17+S18+S20+S22+S25+S29+S34+S35+S36+S37+2*S49+S50+S51+S53"]
-        },
-        "t1": 40
-    },
-    "CMSB2023[2-epsilon]":{
-        "ref": "CMSB2023[2]",
-        "type": "analysis"
-    },
-
-
-    "journal.pcbi.1003544.s006":{
-        "read":"polynomial",
-        "matrix": "polynomial",
-        "type": "slope",
-        "observables": {
-            "RC": ["S7+S11+S14+2*S16+S17+S18+S20+S22+S25+S29+S34+S35+S36+S37+2*S49+S50+S51+S53"]
-        },
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ],
-        "t1": 40
-    },
-    "Test[0]": {
-        "read": "polynomial",
-        "matrix": "polynomial",
-        "type": "epsilon",
-        "observables": {
-            "ONE_OBSERVABLE": [
-                "S0"
-            ],
-            "TWO_OBSERVABLEs": [
-                "S0",
-                "S1"
-            ],
-            "NON_LINEAR": [
-                "S2*S1"
-            ]
-        },
-        "model": "ProteinPhosphorylation",
-        "range": 2,
-        "epsilons": [
-            0.25,
-            0.75,
-            2
-        ],
-        "t1": 20
-    },
-    "Test[0-analysis]": {
-        "ref": "Test[0]",
-        "type": "analysis"
-    },
-    "Test[0-overwrite]": {
-        "ref": "Test[0]",
-        "type": "analysis",
-        "observables": {
-            "OVERWRITE_VIEW": [
-            "S2"]
-        }
-    },
-    "Test[1]": {
-        "read": "polynomial",
-        "model": "BioNetGen_CCP",
-        "matrix": "polynomial",
-        "observables": {
-            "VIEW_0": [
-                "s18+s40"
-            ],
-            "VIEW_1": [
-                "s0+s34"
-            ],
-            "VIEW_2": [
-                "s1+s66+s67+s68"
-            ],
-            "VIEW_3": [
-                "s2+s36"
-            ],
-            "VIEW_4": [
-                "s3+s43"
-            ]
-        },
-        "slopes": [
-            0.1,
-            0.2,
-            0.3,
-            0.4,
-            0.5
-        ],
-        "t1": 100
-    },
-    "Test[1-analysis]": {
-        "ref": "Test[1]",
-        "type": "analysis"
-    },
-    "ProteinPhosphorylation[2-base]": {
-        "read": "polynomial",
-        "matrix": "polynomial",
-        "type": "epsilon",
-        "observables": {
-            "VIEW_0": [
-                "S0",
-                "S1"
-            ],
-            "VIEW_1": [
-                "S2*S1"
-            ]
-        },
-        "model": "ProteinPhosphorylation",
-        "range": 2,
-        "t1": 20
-    },
-    "ProteinPhosphorylation[2]": {
-        "ref": "ProteinPhosphorylation[2-base]",
-        "type": "epsilon",
-        "epsilons": [
-            0.25,
-            0.75,
-            2
-        ]
-    },
-    "ProteinPhosphorylation[2-slope]": {
-        "ref": "ProteinPhosphorylation[2-base]",
-        "type": "slope",
-        "slopes": [
-            0.00001,
-            0.01,
-            1
-        ]        
-    },
-    "ProteinPhosphorylation[2-analysis]": {
-        "ref": "ProteinPhosphorylation[2]",
-        "type": "analysis"
-    },
-    "journal.pcbi.1000364.s004": {
-        "read": "polynomial",
-        "matrix": "polynomial",
-        "model": "pcbi.1000364.s004",
-        "observables": {
-            "VIEW_0": [
-                "s1*s5+s1*s6+s1*s10"
-            ]
-        },
-        "slopes": [
-            0.1,
-            0.2,
-            0.3,
-            0.4,
-            0.5
-        ],
-        "t1": 40
-    },
-    "NIHMS80246_S4": {
-        "read": "polynomial",
-        "matrix": "polynomial",
-        "observables": {
-            "obsL_tot": [
-                "s0+s4+s5+s6+s7+s8+s10+s12+s13+s14+s15+s16+s17+s18+s20+s22+s24+s25+s26+s27+s28+s29+s30+s31+s32+s33+s34+s35+s36+s37+s38+s39+s40+s42+s44+s46+s48+s49+s50+s51+s52+s53+s54+s55+s56+s57+s58+s61+s62+s63+s64+s65+s66+s67+s68+s69+s70+s71+s72+s73+s74+s75+s76+s77+s78+s79+s80+s81+s82+s83+s84+s86+s88+s90+s92+s93+s94+s95+s96+s97+s98+s99+s100+s101+s102+s103+s104+s105+s106+s107+s108+s109+s110+s113+s114+s115+s116+s118+s119+s120+s121+s122+s123+s124+s125+s126+s127+s128+s129+s130+s131+s132+s133+s134+s135+s136+s137+s138+s139+s140+s141+s142+s143+s144+s145+s146+s147+s148+s149+s150+s151+s152+s153+s154+s155+s156+s157+s158+s159+s160+s161+s162+s163+s164+s165+s166+s167+s168+s169+s170+s171+s172+s173+s174+s175+s177+s178+s179+s180+s181+s182+s183+s185+s186+s187+s188+s189+s190+s191+s192+s193+s194+s195+s196+s197+s198+s199+s200+s201+s202+s203+s204+s205+s206+s207+s208+s209+s210+s211+s212"
-            ],
-            "obsR_tot": [
-                "s1+s4+s1*s5+s1*s6+s1*s7+s8+s9+s10+s11+s1*s12+s1*s13+s1*s14+s1*s15+s1*s16+s1*s17+s18+s19+s20+s21+s22+s23+s1*s24+s1*s25+s1*s26+s1*s27+s1*s28+s1*s29+s1*s30+s1*s31+s1*s32+s1*s33+s1*s34+s1*s35+s1*s36+s1*s37+s1*s38+s1*s39+s40+s41+s42+s43+s44+s45+s46+s47+s1*s48+s1*s49+s1*s50+s1*s51+s1*s52+s1*s53+s1*s54+s1*s55+s1*s56+s1*s57+s1*s58+s1*s61+s1*s62+s1*s63+s1*s64+s1*s65+s1*s66+s1*s67+s1*s68+s1*s69+s1*s70+s1*s71+s1*s72+s1*s73+s1*s74+s1*s75+s1*s76+s1*s77+s1*s78+s1*s79+s1*s80+s1*s81+s1*s82+s1*s83+s84+s85+s86+s87+s88+s89+s90+s91+s1*s92+s1*s93+s1*s94+s1*s95+s1*s96+s1*s97+s1*s98+s1*s99+s1*s100+s1*s101+s1*s102+s1*s103+s1*s104+s1*s105+s1*s106+s1*s107+s1*s108+s109+s110+s111+s112+s1*s113+s1*s114+s1*s115+s1*s116+s1*s118+s1*s119+s1*s120+s1*s121+s1*s122+s1*s123+s1*s124+s1*s125+s1*s126+s1*s127+s1*s128+s1*s129+s1*s130+s1*s131+s1*s132+s1*s133+s1*s134+s1*s135+s1*s136+s1*s137+s1*s138+s1*s139+s1*s140+s1*s141+s1*s142+s1*s143+s1*s144+s1*s145+s1*s146+s1*s147+s1*s148+s1*s149+s1*s150+s1*s151+s1*s152+s1*s153+s1*s154+s1*s155+s1*s156+s1*s157+s1*s158+s1*s159+s1*s160+s1*s161+s1*s162+s1*s163+s1*s164+s1*s165+s1*s166+s1*s167+s1*s168+s1*s169+s1*s170+s1*s171+s1*s172+s1*s173+s1*s174+s175+s176+s1*s177+s1*s178+s1*s179+s1*s180+s1*s181+s1*s182+s183+s184+s1*s185+s1*s186+s1*s187+s1*s188+s1*s189+s1*s190+s1*s191+s1*s192+s1*s193+s1*s194+s1*s195+s1*s196+s1*s197+s1*s198+s1*s199+s1*s200+s1*s201+s1*s202+s1*s203+s1*s204+s1*s205+s1*s206+s1*s207+s1*s208+s1*s209+s1*s210+s1*s211+s1*s212"
-            ],
-            "obsA_tot": [
-                "s2+s16+s20+s21+s26+s29+s30+s35+s1*s37+s38+s42+s43+s49+s55+s58+s63+s66+s1*s67+s68+s69+s71+s75+s1*s78+s79+s80+s88+s89+s96+s99+s101+s102+s105+s106+s109+s110+s111+s112+s113+s114+s115+s116+s118+s120+s121+s1*s122+s123+s1*s124+s1*s125+s126+s128+s129+s132+s134+s135+s136+s137+s1*s138+s139+s1*s140+s1*s141+s144+s146+s147+s150+s152+s153+s156+s158+s159+s161+s163+s164+s1*s165+s166+s1*s167+s1*s168+s170+s171+s1*s172+s1*s173+s1*s174+s179+s181+s183+s184+s185+s186+s188+s189+s1*s192+s193+s194+s1*s195+s196+s197+s200+s201+s202+s1*s203+s205+s206+s1*s207+s208+s1*s209+s211+s1*s212"
-            ],
-            "obsB_tot": [
-                "s3+s17+s22+s23+s27+s28+s31+s32+s33+s36+s38+s1*s39+s40+s41+s44+s45+s46+s47+s48+s50+s51+s52+s53+s54+s56+s57+s58+s59+s60+s61+s62+s64+s65+s66+s68+s69+s1*s70+s71+s1*s72+s1*s73+s1*s74+s75+s1*s76+s1*s77+s79+s80+s1*s81+s1*s82+s1*s83+s84+s85+s86+s87+s88+s89+s90+s91+s92+s93+s94+s95+s96+s97+s98+s99+s100+s101+s102+s103+s104+s105+s106+s1*s107+s1*s108+s109+s110+s111+s112+s113+s114+s115+s116+s117+s118+s119+s120+s121+s122+s123+s124+s125+s1*s126+s1*s127+s1*s128+s1*s129+s1*s130+s1*s131+s1*s132+s1*s133+s1*s134+s1*s135+s136+s137+s138+s139+s140+s141+s1*s142+s1*s143+s1*s144+s1*s145+s1*s146+s1*s147+s1*s148+s1*s149+s1*s150+s1*s151+s1*s152+s1*s153+s1*s154+s1*s155+s1*s156+s1*s157+s1*s158+s1*s159+s1*s160+s1*s161+s1*s162+s1*s163+s1*s164+s1*s165+s1*s166+s1*s167+s1*s168+s1*s169+s1*s170+s1*s171+s1*s172+s1*s173+s1*s174+s175+s176+s177+s178+s179+s180+s181+s1*s182+s183+s184+s185+s186+s1*s187+s188+s189+s1*s190+s1*s191+s192+s1*s193+s1*s194+s195+s1*s196+s1*s197+s1*s198+s1*s199+s1*s200+s1*s201+s1*s202+s1*s203+s1*s204+s1*s205+s1*s206+s1*s207+s1*s208+s1*s209+s1*s210+s1*s211+s1*s212"
-            ],
-            "obsR_dim": [
-                "s1*s5+s1*s6+s1*s7+s1*s12+s1*s13+s1*s14+s1*s15+s1*s16+s1*s17+s1*s24+s1*s25+s1*s26+s1*s27+s1*s28+s1*s29+s1*s30+s1*s31+s1*s32+s1*s33+s1*s34+s1*s35+s1*s36+s1*s37+s1*s38+s1*s39+s1*s48+s1*s49+s1*s50+s1*s51+s1*s52+s1*s53+s1*s54+s1*s55+s1*s56+s1*s57+s1*s58+s1*s61+s1*s62+s1*s63+s1*s64+s1*s65+s1*s66+s1*s67+s1*s68+s1*s69+s1*s70+s1*s71+s1*s72+s1*s73+s1*s74+s1*s75+s1*s76+s1*s77+s1*s78+s1*s79+s1*s80+s1*s81+s1*s82+s1*s83+s1*s92+s1*s93+s1*s94+s1*s95+s1*s96+s1*s97+s1*s98+s1*s99+s1*s100+s1*s101+s1*s102+s1*s103+s1*s104+s1*s105+s1*s106+s1*s107+s1*s108+s1*s113+s1*s114+s1*s115+s1*s116+s1*s118+s1*s119+s1*s120+s1*s121+s1*s122+s1*s123+s1*s124+s1*s125+s1*s126+s1*s127+s1*s128+s1*s129+s1*s130+s1*s131+s1*s132+s1*s133+s1*s134+s1*s135+s1*s136+s1*s137+s1*s138+s1*s139+s1*s140+s1*s141+s1*s142+s1*s143+s1*s144+s1*s145+s1*s146+s1*s147+s1*s148+s1*s149+s1*s150+s1*s151+s1*s152+s1*s153+s1*s154+s1*s155+s1*s156+s1*s157+s1*s158+s1*s159+s1*s160+s1*s161+s1*s162+s1*s163+s1*s164+s1*s165+s1*s166+s1*s167+s1*s168+s1*s169+s1*s170+s1*s171+s1*s172+s1*s173+s1*s174+s1*s177+s1*s178+s1*s179+s1*s180+s1*s181+s1*s182+s1*s185+s1*s186+s1*s187+s1*s188+s1*s189+s1*s190+s1*s191+s1*s192+s1*s193+s1*s194+s1*s195+s1*s196+s1*s197+s1*s198+s1*s199+s1*s200+s1*s201+s1*s202+s1*s203+s1*s204+s1*s205+s1*s206+s1*s207+s1*s208+s1*s209+s1*s210+s1*s211+s1*s212"
-            ],
-            "obsAbound": [
-                "s16+s20+s21+s26+s29+s30+s35+s1*s37+s38+s42+s43+s49+s55+s58+s63+s66+s1*s67+s68+s69+s71+s75+s1*s78+s79+s80+s88+s89+s96+s99+s101+s102+s105+s106+s109+s110+s111+s112+s113+s114+s115+s116+s118+s120+s121+s1*s122+s123+s1*s124+s1*s125+s126+s128+s129+s132+s134+s135+s136+s137+s1*s138+s139+s1*s140+s1*s141+s144+s146+s147+s150+s152+s153+s156+s158+s159+s161+s163+s164+s1*s165+s166+s1*s167+s1*s168+s170+s171+s1*s172+s1*s173+s1*s174+s179+s181+s183+s184+s185+s186+s188+s189+s1*s192+s193+s194+s1*s195+s196+s197+s200+s201+s202+s1*s203+s205+s206+s1*s207+s208+s1*s209+s211+s1*s212"
-            ],
-            "obsB1pY": [
-                "s32+s44+s45+s51+s52+s56+s59+s61+s64+s68+s72+s76+s79+s1*s81+s82+s84+s85+s90+s91+s92+s94+s97+s98+s100+s101+s103+s105+s107+s109+s111+s113+s115+s117+s119+s120+s123+s124+s127+s128+s130+s133+s134+s136+s139+s140+s1*s142+s143+s144+s1*s145+s1*s146+s147+s148+s151+s152+s1*s154+s155+s156+s1*s157+s1*s158+s159+s162+s163+s166+s167+s1*s169+s1*s170+s171+s1*s172+s173+s175+s176+s177+s178+s179+s180+s181+s182+s183+s184+s185+s186+s187+s188+s189+s1*s190+s191+s192+s193+s194+s195+s1*s196+s197+s1*s198+s199+s1*s200+s201+s202+s203+s1*s204+s1*s205+s1*s206+s1*s207+s208+s209+s1*s210+s1*s211+s1*s212"
-            ],
-            "obsB2pY": [
-                "s33+s46+s47+s53+s54+s57+s60+s61+s65+s69+s73+s77+s80+s82+s1*s83+s86+s87+s90+s91+s93+s95+s97+s98+s100+s102+s104+s106+s108+s110+s112+s114+s116+s117+s119+s121+s123+s125+s127+s129+s131+s133+s135+s137+s139+s141+s143+s145+s147+s148+s1*s149+s150+s1*s151+s152+s1*s153+s155+s157+s159+s1*s160+s161+s1*s162+s163+s1*s164+s166+s168+s1*s169+s170+s1*s171+s173+s1*s174+s175+s176+s177+s178+s179+s180+s181+s182+s183+s184+s185+s186+s187+s188+s189+s190+s1*s191+s192+s193+s194+s195+s196+s1*s197+s198+s1*s199+s200+s1*s201+s202+s203+s1*s204+s1*s205+s206+s207+s1*s208+s1*s209+s1*s210+s1*s211+s1*s212"
-            ]
-        },
-        "slopes": [
-            0.1,
-            0.2,
-            0.3,
-            0.4,
-            0.5
-        ],
-        "t1": 40
-    },
-    "NIHMS80246_S6": {
-        "read": "polynomial",
-        "matrix": "polynomial",
-        "observables": {
-            "VIEW_0": [
-                "s9+s10+s11+s12+s13+s14+s15+s16+s17+s19"
-            ],
-            "VIEW_1": [
-                "s14+s15+s16+s17+s18+s19+s20+s21+s22+s23"
-            ]
-        },
-        "slopes": [
-            0.1,
-            0.2,
-            0.3,
-            0.4,
-            0.5
-        ],
-        "t1": 600
-    },
-    "BioNetGen_CCP": {
-        "read": "polynomial",
-        "matrix": "polynomial",
-        "observables": {
-            "VIEW_0": [
-                "s18+s40"
-            ],
-            "VIEW_1": [
-                "s0+s34"
-            ],
-            "VIEW_2": [
-                "s1+s66+s67+s68"
-            ],
-            "VIEW_3": [
-                "s2+s36"
-            ],
-            "VIEW_4": [
-                "s3+s43"
-            ]
-        },
-        "model": "BioNetGen_CCP",
-        "slopes": [
-            0.1,
-            0.2,
-            0.3,
-            0.4,
-            0.5
-        ],
-        "t1": 100
-    },
-    "BioNetGen_CCP[analysis]": {
-        "ref": "BioNetGen_CCP",
-        "type": "analysis"
-    },
-
-
     "BIOMD0000000013": {
         "read": "sympy",
         "matrix": "auto_diff",
-        "type": "epsilon",
+        "type": "analysis",
         "observables": {
-            "VIEW_0": [
+            "x_CO2": [
                 "x_CO2"
             ]
         },
@@ -335,12 +266,14 @@
         "t1": 0.4,
         "out_folder": "rational"
     },
-    "BIOMD0000000023": {
+
+    "BIOMD*023": {
+        "model":"BIOMD0000000023",
         "read": "sympy",
         "matrix": "auto_diff",
-        "type": "epsilon",
+        "type": "analysis",
         "observables": {
-            "VIEW_0": [
+            "Fru": [
                 "Fru"
             ]
         },
@@ -351,12 +284,36 @@
         "t1": 20.0,
         "out_folder": "rational"
     },
-    "BIOMD0000000033": {
+    "BIOMD*023[slopes]": {
+        "ref": "BIOMD*023",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ]
+    },
+    "BIOMD*023[epsilons]": {
+        "ref": "BIOMD*023",
+        "type": "epsilon",
+        "epsilons": [
+            0.5,
+            0.9,
+            0.95,
+            0.99
+        ]
+    },
+
+
+    "BIOMD*033": {
         "read": "sympy",
         "matrix": "auto_diff",
-        "type": "epsilon",
+        "model":"BIOMD0000000033",
+        "type": "analysis",
         "observables": {
-            "VIEW_0": [
+            "freeEGFReceptor": [
                 "freeEGFReceptor"
             ]
         },
@@ -367,34 +324,33 @@
         "t1": 20.0,
         "out_folder": "rational"
     },
-    "BIOMD0000000087": {
-        "read": "rational",
-        "matrix": "rational",
-        "type": "epsilon",
-        "observables": {
-            "VIEW_0": [
-                "Ctelo"
-            ],
-            "VIEW_1": [
-                "ssDNA"
-            ],
-            "VIEW_2": [
-                "Cdc13"
-            ]
-        },
-        "epsilons": [
-            10000,
-            20000,
-            30000,
-            50000
-        ],
-        "t1": 0.002,
-        "out_folder": "rational"
+    "BIOMD*033[slopes]": {
+        "ref": "BIOMD*033",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ]
     },
+    "BIOMD*033[epsilons]": {
+        "ref": "BIOMD*033",
+        "type": "epsilon",
+        "epsilons": [
+            0.5,
+            0.9,
+            0.95,
+            0.99
+        ]
+    },
+
+
     "BIOMD0000000088": {
         "read": "rational",
         "matrix": "rational",
-        "type": "epsilon",
+        "type": "analysis",
         "observables": {
             "VIEW_0": [
                 "s360 + s359 + s358"
@@ -438,10 +394,12 @@
         "t1": 10,
         "out_folder": "rational"
     },
-    "BIOMD0000000113": {
+
+    "BIOMD*113": {
         "read": "sympy",
         "matrix": "auto_diff",
-        "type": "epsilon",
+        "model": "BIOMD0000000113",
+        "type": "analysis",
         "observables": {
             "VIEW_0": [
                 "Y"
@@ -454,10 +412,33 @@
         "t1": 1,
         "out_folder": "rational"
     },
+    "BIOMD*113[slopes]": {
+        "ref": "BIOMD*113",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ]
+    },
+    "BIOMD*113[epsilons]": {
+        "ref": "BIOMD*113",
+        "type": "epsilon",
+        "epsilons": [
+            0.5,
+            0.9,
+            0.95,
+            0.99
+        ]
+        
+    },
+
     "BIOMD0000000182": {
         "read": "sympy",
         "matrix": "auto_diff",
-        "type": "epsilon",
+        "type": "analysis",
         "observables": {
             "VIEW_0": [
                 "AC_cyto_mem"
@@ -470,10 +451,11 @@
         "t1": 0.01,
         "out_folder": "rational"
     },
-    "BIOMD0000000313": {
+    "BIOMD*313": {
         "read": "sympy",
         "matrix": "auto_diff",
-        "type": "epsilon",
+        "model":"BIOMD0000000313",
+        "type": "analysis",
         "observables": {
             "VIEW_0": [
                 "IL13_DecoyR"
@@ -486,48 +468,34 @@
         "t1": 2.0,
         "out_folder": "rational"
     },
-    "BIOMD0000000437": {
-        "read": "rational",
-        "matrix": "rational",
-        "type": "epsilon",
-        "observables": {
-            "VIEW_0": [
-                "frq_gene",
-                "frq_mRNA"
-            ],
-            "VIEW_1": [
-                "wc1_gene",
-                "wc1_mRNA"
-            ],
-            "VIEW_2": [
-                "wc2_gene",
-                "frq_gene",
-                "wc1_gene"
-            ]
-        },
-        "epsilons": [
-            [
-                0,
-                1000,
-                100000
-            ],
-            [
-                0,
-                10000,
-                100000,
-                200000
-            ],
-            [
-                0
-            ]
-        ],
-        "t1": 100,
-        "out_folder": "rational"
+    "BIOMD*313[slopes]": {
+        "ref":"BIOMD*313",
+        "type": "slopes",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ]
     },
-    "BIOMD0000000448": {
+    "BIOMD*313[epsilons]": {
+        "ref":"BIOMD*313",
+        "type": "epsilon",
+        "epsilons": [
+            0.5,
+            0.9,
+            0.95,
+            0.99
+        ]
+    },
+
+    "BIOMD*448": {
         "read": "sympy",
         "matrix": "auto_diff",
-        "type": "epsilon",
+        "model":"BIOMD0000000448",
+        "type": "analysis",
+        "epsilon_max": 0.01,
         "observables": {
             "VIEW_0": [
                 "mTORC1a"
@@ -542,10 +510,45 @@
         "sim_method": "LSODA",
         "out_folder": "rational"
     },
+    "BIOMD*448[slopes]": {
+        "ref":"BIOMD*448",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ]
+    },
+    "BIOMD*448[epsilons]": {
+        "ref":"BIOMD*448",
+        "type": "epsilon",
+        "epsilons": [
+            1e-2,
+            0.05,
+            1e-1
+        ]
+    },
+    "BIOMD*448[percentages]": {
+        "ref":"BIOMD*448",
+        "type": "percentage_epsilon",
+        "percentage_epsilon": [
+            1e-4,
+            1e-3,
+            1e-2,
+            1e-1,
+            0.25,
+            0.5
+        ]
+    },
+
+
+
     "BIOMD0000000488": {
         "read": "rational",
         "matrix": "rational",
-        "type": "epsilon",
+        "type": "analysis",
         "observables": {
             "VIEW_0": [
                 "GSK3b"
@@ -598,6 +601,7 @@
     "BIOMD0000000503": {
         "read": "sympy",
         "matrix": "auto_diff",
+        "type": "analysis",
         "observables": {
             "VIEW_0": [
                 "G6P"
@@ -620,7 +624,7 @@
     "BIOMD0000000526": {
         "read": "sympy",
         "matrix": "auto_diff",
-        "type": "epsilon",
+        "type": "analysis",
         "observables": {
             "VIEW_0": [
                 "DISC"
@@ -636,6 +640,7 @@
     "BIOMD0000000535": {
         "read": "rational",
         "matrix": "rational",
+        "type": "analysis",
         "observables": {
             "VIEW_0": [
                 "mw114aa90f_5f5b_4fe8_9406_361c8489b6a1 + mwd5313618_89eb_4c8c_bc82_66f10f966349",
@@ -653,6 +658,7 @@
     "BIOMD0000000537": {
         "read": "rational",
         "matrix": "rational",
+        "type": "analysis",
         "observables": {
             "VIEW_0": [
                 "mw114aa90f_5f5b_4fe8_9406_361c8489b6a1 + mwd5313618_89eb_4c8c_bc82_66f10f966349",
@@ -667,9 +673,11 @@
         "t1": 0.015,
         "out_folder": "rational"
     },
-    "BIOMD0000000611": {
+    "BIOMD*611": {
         "read": "rational",
         "matrix": "rational",
+        "model":"BIOMD0000000611",
+        "type": "analysis",
         "observables": {
             "VIEW_0": [
                 "mwfa9d903a_b5e5_4a38_a649_dfe4719577aa"
@@ -681,10 +689,37 @@
         "t1": 100,
         "out_folder": "rational"
     },
-    "BIOMD0000000634": {
+    "BIOMD*611[slopes]": {
+        "ref":"BIOMD*611",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ]
+    },
+    "BIOMD*611[epsilons]": {
+        "ref":"BIOMD*611",
+        "type": "epsilon",
+        "epsilons": [
+            0.1,
+            1,
+            1e1,
+            1e2,
+            1e3,
+            1e4,
+            1e5
+        ]
+    },
+
+    "BIOMD*634": {
         "read": "rational",
         "matrix": "rational",
-        "type": "epsilon",
+        "model":"BIOMD0000000634",
+        "epsilon_max": 1e1,
+        "type": "analysis",
         "observables": {
             "VIEW_0": [
                 "GSK3b"
@@ -747,10 +782,46 @@
         "sim_method": "LSODA",
         "out_folder": "rational"
     },
+    "BIOMD*634[slopes]": {
+        "ref":"BIOMD*634",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ]
+    },
+    "BIOMD*634[epsilons]": {
+        "ref":"BIOMD*634",
+        "type": "epsilon",
+        "epsilons": [
+            0.1,
+            1,
+            1e1,
+            1e2,
+            1e3,
+            1e4,
+            1e5
+        ]
+    },
+    "BIOMD*634[percentages]": {
+        "ref":"BIOMD*634",
+        "type": "percentage_epsilon",
+        "percentage_epsilon": [
+            1e-4,
+            1e-3,
+            1e-2,
+            1e-1,
+            0.25,
+            0.5
+        ]
+    },
     "MODEL1502270000": {
         "read": "sympy",
         "matrix": "auto_diff",
-        "type": "epsilon",
+        "type": "analysis",
         "observables": {
             "VIEW_0": [
                 "rmr"
@@ -760,6 +831,30 @@
             []
         ],
         "t1": 1.1353522069077257e-07,
+        "out_folder": "rational"
+    },
+    "BIOMD0000000087": {
+        "read": "rational",
+        "matrix": "rational",
+        "type": "analysis",
+        "observables": {
+            "Ctelo": [
+                "Ctelo"
+            ],
+            "ssDNA": [
+                "ssDNA"
+            ],
+            "Cdc13": [
+                "Cdc13"
+            ]
+        },
+        "epsilons": [
+            10000,
+            20000,
+            30000,
+            50000
+        ],
+        "t1": 0.002,
         "out_folder": "rational"
     }
 }
