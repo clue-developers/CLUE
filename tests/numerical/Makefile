@@ -1,8 +1,10 @@
 ALL=$(shell python3 numerical_example.py list)
 POLY=$(shell python3 numerical_example.py list -p)
 RATIONAL=$(shell python3 numerical_example.py list -r)
+GOODRATIONAL=BIOMD*437[percentages] BIOMD*448[percentages] BIOMD*488[percentages] BIOMD*634[percentages]
 GOOD=ProteinPhosphorylation[2] BioNetGen_CCP BIOMD0000000448 BIOMD0000000437 BIOMD0000000488 BIOMD0000000634
 CMSB=CMSB2023[0] CMSB2023[1] CMSB2023[2] 
+NEW=BIOMD*023[slopes] BIOMD*033[slopes] BIOMD*113[slopes] BIOMD*313[slopes] BIOMD*448[slopes] BIOMD*611[slopes] BIOMD*634[slopes]
 PYTHON=python3
 FLAGS=-p -t 600 
 
@@ -22,6 +24,12 @@ good: $(GOOD)
 	@echo "Finished good examples"
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
+new: $(NEW)
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	@echo "Finished new examples"
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+
 
 poly: $(POLY)
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -32,6 +40,12 @@ rational: $(RATIONAL)
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	@echo "Finished all rational examples"
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+goodrational: $(GOODRATIONAL)
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	@echo "Finished all GOOD rational examples"
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
 
 uncertain: $(UNCERTAIN)
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -50,4 +64,4 @@ clean:
 	@find . -name "*.prf" -type f -delete
 
 %:
-	$(PYTHON) numerical_example.py run $@ $(FLAGS)
+	timeout 5m $(PYTHON) numerical_example.py run $@ $(FLAGS)
