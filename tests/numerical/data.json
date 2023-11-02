@@ -1,4 +1,117 @@
 {
+    "BioNetGen_CCP":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "BioNetGen_CCP",
+        "type": "analysis",
+        "observables":{
+            "D13PG": [
+                "s18+s40"
+            ]   
+        },
+        "t1": 100
+    },
+    "BioNetGen_CCP[slopes]": {
+        "ref": "BioNetGen_CCP",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ]
+    },
+    "BioNetGen_CCP[percentages]": {
+        "ref": "BioNetGen_CCP",
+        "type": "percentage_epsilon",
+        "percentage_epsilon": [
+            1e-4,
+            1e-3,
+            1e-2,
+            1e-1,
+            0.15,
+            0.25,
+            0.3,
+            0.5
+        ]
+    },
+
+    "NIHMS80246_S6":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "NIHMS80246_S6",
+        "type": "analysis",
+        "observables":{
+            "S2P": [
+                "s14+s15+s16+s17+s18+s19+s20+s21+s22+s23"
+            ]   
+        },
+        "t1": 600
+    },
+    "NIHMS80246_S6[slopes]":{
+        "ref": "NIHMS80246_S6",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ]
+    },
+    "NIHMS80246_S6[percentages]":{
+        "ref": "NIHMS80246_S6",
+        "type": "percentage_epsilon",
+        "percentage_epsilon": [
+            1e-4,
+            1e-3,
+            1e-2,
+            1e-1,
+            0.15,
+            0.25,
+            0.3,
+            0.5
+        ]
+    },
+
+    "journal.pcbi.1003544.s006":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "journal.pcbi.1003544.s006",
+        "type": "analysis",
+        "observables":{
+            "RC": ["S7+S11+S14+2*S16+S17+S18+S20+S22+S25+S29+S34+S35+S36+S37+2*S49+S50+S51+S53"]
+        },
+        "t1": 40
+    }, 
+    "journal.pcbi.1003544.s006[slopes]":{
+        "ref": "journal.pcbi.1003544.s006",
+        "type": "slope",
+        "slopes": [
+            0.1,
+            0.3,
+            0.5,
+            0.7,
+            0.9
+        ]
+    },
+    "journal.pcbi.1003544.s006[percentages]":{
+        "ref": "journal.pcbi.1003544.s006",
+        "type": "percentage_epsilon",
+        "percentage_epsilon": [
+            1e-4,
+            1e-3,
+            1e-2,
+            1e-1,
+            0.15,
+            0.25,
+            0.3,
+            0.5
+        ]
+    },
+
+
     "BIOMD*088": {
         "read": "rational",
         "matrix": "rational",
