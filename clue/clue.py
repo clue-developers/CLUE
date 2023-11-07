@@ -1965,6 +1965,61 @@ class FODESystem:
             return nl,nr, ls, rs, tries
         return nl,nr, ls, rs
 
+    def find_reduction_given_size(self, observable, 
+        dev_max: float, bound: float | list[float] | list[tuple[float,float]], num_points: int, threshold: float,
+                                  with_tries: bool = False, matrix_algorithm: str = "polynomial", eps_min: float = 0, allowed_size: float=1
+    ) -> float:
+        r'''
+            Method to compute the a reduction for a numerical lumping based on a maximum allowed size for the reduced model.
+
+        '''
+        observable, bound = self.__process_observable(observable), self.__process_bound(bound, threshold)
+        max_n = allowed_size * self.size
+
+        logger.debug("[find_next_reduction] Building matrices for lumping")
+        matrices = self.construct_matrices(matrix_algorithm)
+
+        logger.debug("[find_next_reduction] Computing maximal epsilon and its deviation")
+        max_epsilon,_ = self.find_maximal_threshold(observable, bound, num_points, threshold, matrix_algorithm=matrix_algorithm)
+
+        ls = eps_min
+        rs = max_epsilon
+        if ls == 0:
+            logger.debug("[find_next_reduction] Exact reduction detected.")
+            l_subspace = find_smallest_common_subspace(matrices, observable, OrthogonalSubspace)
+        else:
+            l_subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=ls)
+        nl = l_subspace.dim()
+
+        r_subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=rs)
+        nr = r_subspace.dim()
+
+        if max_n > nl:
+            raise ValueError("Maximum allowed size larger than exact lumping.")
+        elif max_n < nr:
+            raise ValueError("Maximum size smaller than the smalles possible lumping.")
+
+        tries = 1
+        logger.debug(f"[find_next_reduction] Initial interval of search: [{ls},{rs}]")
+        while (rs-ls) > threshold:
+            epsilon = (rs+ls)/2
+            logger.debug(f"[find_next_reduction] New value for {epsilon = }")
+            logger.log(5,f"[find_next_reduction] Computing lumping dimension for {epsilon = } (computing subspace)")
+            subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=epsilon)
+            n_epsilon = subspace.dim()
+            logger.log(5,f"[find_acceptable_threshold] Computed subspace for {epsilon = } ({n_epsilon})")
+            if n_epsilon < max_n:
+                ls, rs, nr = ls, epsilon, n_epsilon
+            elif n_epsilon >= max_n:
+                ls, rs, nl = epsilon, rs, n_epsilon
+            logger.debug(f"[find_next_reduction] New interval search: [{ls},{rs}]")
+            tries += 1
+    
+        logger.debug(f"[find_next_reduction] Reduction change found in interval -->[{ls},{rs}]")        
+        if with_tries:
+            return nl,nr, ls, rs, tries
+        return nl,nr, ls, rs
+
 
     ##############################################################################################################
     ##############################################################################################################

@@ -215,9 +215,6 @@ class ResultNumericalExample(Experiment):
         return self._percentage_epsilon
     @property
     def epsilon(self):
-        # TODO: max eps heuristic
-        # Max dev heuristic
-        # Update interfaces
         if self._epsilon is None:
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             if self.percentage is None and self.percentage_epsilon is None:
