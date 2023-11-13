@@ -1,4 +1,104 @@
 {
+    "BIOMD*101":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "BIOMD0000000101",
+        "observables":{ 
+            "RI":["RI"],
+            "RII":["RII"],
+            "lRIRII":["lRIRII"],
+            "RI_endo":["RI_endo"],
+            "RII_endo":["RII_endo"]
+        },
+        "tEnd":500
+    },
+"BIOMD*101[percentage_size]": {
+        "ref": "BIOMD*101",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ]
+    },
+    "BIOMD*504":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "BIOMD0000000504",
+        "observables":{ 
+            "MMP1":["MMP1"],
+            "MMP13": ["MMP13"],
+            "AggFrag":["AggFrag"],
+            "ColFrag":["ColFrag"]
+        },
+        "tEnd":14
+    },
+    "BIOMD*504[percentage_size]": {
+        "ref": "BIOMD*504",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ]
+    },
+
+"MODEL1001150000":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "MODEL1001150000",
+        "observables":{ 
+            "KaMe":["KaMe"],
+            "Ca":["Ca"]
+        },
+        "tEnd":10
+    },
+"MODEL1001150000[percentage_size]": {
+        "ref": "MODEL1001150000",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ]
+    },
+    "MODEL1504160000":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "MODEL1504160000",
+        "observables":{ 
+  "cd8_in_spleen":["cd8_in_spleen"],
+  "cd8_in_lung":["cd8_in_lung"],
+  "cd8_in_mln":["cd8_in_mln"]
+        },
+        "tEnd":30
+    },
+"MODEL1504160000[percentage_size]": {
+        "ref": "MODEL1504160000",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ]
+    },
+
     "BioNetGen_CCP":{
         "read": "polynomial",
         "matrix": "polynomial",
