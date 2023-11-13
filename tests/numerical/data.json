@@ -28,12 +28,28 @@
         "percentage_epsilon": [
             1e-4,
             1e-3,
+            0.25e-2,
+            0.5e-2,
             1e-2,
+            0.25e-1,
+            0.5e-1,
             1e-1,
             0.15,
             0.25,
-            0.3,
             0.5
+        ]
+    },
+    "BioNetGen_CCP[percentage_size]": {
+        "ref": "BioNetGen_CCP",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
         ]
     },
 
@@ -66,12 +82,28 @@
         "percentage_epsilon": [
             1e-4,
             1e-3,
+            0.25e-2,
+            0.5e-2,
             1e-2,
+            0.25e-1,
+            0.5e-1,
             1e-1,
             0.15,
             0.25,
-            0.3,
             0.5
+        ]
+    },
+    "NIHMS80246_S6[percentage_size]":{
+        "ref": "NIHMS80246_S6",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
         ]
     },
 
@@ -102,14 +134,28 @@
         "percentage_epsilon": [
             1e-4,
             1e-3,
+            0.25e-2,
+            0.5e-2,
             1e-2,
+            0.25e-1,
+            0.5e-1,
             1e-1,
             0.15,
             0.25,
-            0.3,
             0.5
-        ]
-    },
+        ]    },
+    "journal.pcbi.1003544.s006[percentage_size]":{
+        "ref": "journal.pcbi.1003544.s006",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.750,
+            0.875
+        ]    },
 
 
     "BIOMD*088": {
@@ -153,11 +199,17 @@
         "percentage_epsilon": [
             1e-4,
             1e-3,
+            0.25e-2,
+            0.5e-2,
             1e-2,
+            0.25e-1,
+            0.5e-1,
             1e-1,
+            0.15,
             0.25,
             0.5
         ]
+
     },
 
     "BIOMD*087": {
@@ -207,8 +259,12 @@
             1e-4,
             1e-3,
             1e-2,
+            0.25e-2,
+            0.5e-2,
             1e-1,
+            0.15,
             0.25,
+            0.3,
             0.5
         ]
     },
@@ -258,10 +314,28 @@
         "percentage_epsilon": [
             1e-4,
             1e-3,
+            0.25e-2,
+            0.5e-2,
             1e-2,
+            0.25e-1,
+            0.5e-1,
             1e-1,
+            0.15,
             0.25,
             0.5
+        ]
+    },
+    "BIOMD*437[percentage_size]": {
+        "ref": "BIOMD*437",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
         ]
     },
 
@@ -342,10 +416,28 @@
         "percentage_epsilon": [
             1e-4,
             1e-3,
+            0.25e-2,
+            0.5e-2,
             1e-2,
+            0.25e-1,
+            0.5e-1,
             1e-1,
+            0.15,
             0.25,
             0.5
+        ]
+    },
+    "BIOMD*488[percentage_size]": {
+        "ref": "BIOMD*488",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
         ]
     },
 
@@ -649,10 +741,28 @@
         "percentage_epsilon": [
             1e-4,
             1e-3,
+            0.25e-2,
+            0.5e-2,
             1e-2,
+            0.25e-1,
+            0.5e-1,
             1e-1,
+            0.15,
             0.25,
             0.5
+        ]
+    },
+    "BIOMD*448[percentage_size]": {
+        "ref":"BIOMD*448",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
         ]
     },
 
@@ -925,10 +1035,28 @@
         "percentage_epsilon": [
             1e-4,
             1e-3,
+            0.25e-2,
+            0.5e-2,
             1e-2,
+            0.25e-1,
+            0.5e-1,
             1e-1,
+            0.15,
             0.25,
             0.5
+        ]
+    },
+    "BIOMD*634[percentage_size]": {
+        "ref":"BIOMD*634",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
         ]
     },
     "MODEL1502270000": {
