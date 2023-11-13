@@ -34,6 +34,8 @@ r'''
         [k3*(k4 - x1**3/3 + x1 + x2), -(-k1 + k2*x2 + x1)/k3, 0, 0, 0, 0, 0]
         >>> ode_scrapper(id=1631).equations
         [(k1*k3 - k2*x1)/k3, (-k1*k3 + k2*x1)/k3, 0, 0, 0, 0]
+        >>> ode_scrapper(name="BIOMD0000000098")
+        ODEBase 1399 (BIOMD0000000098) [FODESystem -- 17 -- Mul]
 '''
 import io, logging, re, requests
 from bs4 import BeautifulSoup
