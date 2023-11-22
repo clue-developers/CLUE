@@ -1,0 +1,28 @@
+begin model importE2
+importBNG(fileIn="fceri_ji.net",highMemory=true)
+write(fileOut="fceri_ji.ode")
+//reduceFE()
+//reduceFE(prePartition=USER)
+//exportScriptsEpsCLump(
+//	fileOut="scripts/fceri_ji_LynFree.m",
+//	M0={1:1},  
+//	slope_max_error from = 1000 to = 3000 step = 100, 
+//	maxPercPerturb from =0 to = 20 step =5, 
+//	csvFile="fceri_ji_LynFree.csv",writeInnerScript=true
+//)
+//exportScriptsEpsCLump(
+//	fileOut="scripts/fceri_ji_AllObs.m",
+//	M0 = USER,  
+//	slope_max_error from = 0.5 to = 1 step = 0.5, 
+//	maxPercPerturb from =0 to = 20 step =5, 
+//	csvFile="fceri_ji_AllObs.csv",writeInnerScript=true
+//)
+exportScriptsEpsCLump(
+	fileOut="scripts/fceri_ji_RecSykPS.m",
+	tEnd=100,
+	M0 = USER,  
+	slope_max_error from = 1000 to = 3000 step = 100, 
+	maxPercPerturb from =0 to = 15 step =5, 
+	csvFile="fceri_ji_RecSykPS.csv",writeInnerScript=true
+)
+end model

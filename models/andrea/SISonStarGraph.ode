@@ -1,0 +1,58 @@
+/*
+ * This model is used in the section 'Species equivalence for epidemic processes in networks.' of Applications.  
+*/
+begin model SISonStarGrah
+//Let us consider a star graph with 5 nodes:
+//		1
+//		|		
+//4	--	0	--	2
+//		|
+//		3
+begin parameters
+ b = 1
+ g = 0.01
+end parameters
+begin init
+ S0 = 0   S1 = 1   S2 = 1   S3 = 0   S4 = 1
+ I0 = 1   I1 = 0   I2 = 0   I3 = 1   I4 = 0
+end init
+begin partition
+{S1,S2,S3,S4}
+end partition
+begin reactions
+ //S0 + Ii -> I0 + Ii 
+ S0 + I1 -> I0 + I1 , b
+ S0 + I2 -> I0 + I2 , b
+ S0 + I3 -> I0 + I3 , b
+ S0 + I4 -> I0 + I4 , b
+
+ //Si + I0 -> Ii + I0
+ S1 + I0 -> I1 + I0 , b
+ S2 + I0 -> I2 + I0 , b
+ S3 + I0 -> I3 + I0 , b
+ S4 + I0 -> I4 + I0 , b
+
+ //The I -> S for each node
+ I0 -> S0 , g	
+ I1 -> S1 , g
+ I2 -> S2 , g
+ I3 -> S3 , g
+ I4 -> S4 , g 
+end reactions
+begin views
+ vS0 = S0
+ vI0 = I0
+ vSi = S1+S2+S3+S4
+ vIi = I1+I2+I3+I4 
+end views
+//reduceSE(reducedFile="SISonStarGrahSE.ode",prePartition=USER)
+//this=curry(paramsToCurry=ALL)
+////write(fileOut="SISonStarGrahParameterIndependent.ode")
+//reduceSE(reducedFile="SISonStarGrahParameterIndependentSE.ode",prePartition=USER)
+//reduceFE(reducedFile="SISonStarGrahFEPrep.ode",prePartition=USER)
+//exportJacobianFunctionForEpsCLump(fileOut="../SISonStarGrah.m", epsilon=0 , M0={S1:1,S2:1,S3:1,S4:1})
+ //exportScriptEpsCLump(fileOut="script/SISonStarGrah.m",epsilon=0, M0={S0:1.0},writeMainScript=true)//, maxPercPerturb=0)
+ exportScriptEpsCLump(fileOut="script/SISonStarGrah.m",epsilon=0, M0={0:1.0},writeMainScript=true)//, maxPercPerturb=0)
+ //exportScriptEpsCLump(fileOut="script/SISonStarGrah.m",epsilon=0, M0={S1:1,S2:1,S3:1,S4:1},writeMainScript=true)//, maxPercPerturb=0)
+
+end model

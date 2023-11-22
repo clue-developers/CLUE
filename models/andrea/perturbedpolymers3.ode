@@ -1,0 +1,67 @@
+begin model perturbedpolymers
+ begin parameters
+  r0=10
+  a1=1 - 0.00005/2
+  a2=1 + 0.00005/2
+  a3=1 + 0.00005/2
+  b1=2 - 0.00005/2
+  b2=2 + 0.00005/2
+  b3=2 + 0.00005/2
+  g1=3 - 0.00005/2
+  g2=3 + 0.00005/2
+  g3=3 + 0.00005/2
+  a1rev = 0.1
+  a2rev = 0.1
+  a3rev = 0.1
+  b1rev = 0.2
+  b2rev = 0.2
+  b3rev = 0.2
+ end parameters
+ begin init
+  
+  
+  A1=1
+  A2=0
+  A3=0
+  A1p=0
+  A2p=0
+  A3p=0
+  H=1
+  H2=1
+  C2H2=1
+  A1CHCHp=0
+  A2CHCHp=0
+  A3CHCHp=0
+  I=1
+ 
+ end init
+ begin reactions
+ 
+  I -> I + A1 , r0    
+  
+  A1 + H -> A1p + H2, a1
+  A2 + H -> A2p + H2, a2
+  A3 + H -> A3p + H2, a3
+  
+  A1p + H2 -> A1 + H, a1rev
+  A2p + H2 -> A2 + H, a2rev
+  A3p + H2 -> A3 + H, a3rev
+  
+  A1p + C2H2 -> A1CHCHp, b1
+  A2p + C2H2 -> A2CHCHp, b2
+  A3p + C2H2 -> A3CHCHp, b3
+  
+  A1CHCHp  -> A1p + C2H2, b1rev
+  A2CHCHp  -> A2p + C2H2, b2rev
+  A3CHCHp  -> A3p + C2H2, b3rev
+  
+  A1CHCHp + C2H2 -> A2 + H, g1
+  A2CHCHp + C2H2 -> A3 + H, g2
+  A3CHCHp + C2H2 -> A1 + H, g3
+  
+ end reactions
+
+ //simulateODE(tEnd=0.8)
+ write(fileOut="perturbedpolymers3ODE.ode",format=ODE)
+
+end model

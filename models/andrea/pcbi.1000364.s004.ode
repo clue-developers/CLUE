@@ -1,0 +1,70 @@
+begin model pcbi1000364s004
+ begin parameters
+  kon_dimer = 1.0
+  koff_dimer = 0.1
+  kon_SH2 = 1.0
+  koff_SH2 = 0.1
+  kphos_slow = 0.1
+  kphos_fast = 1.0
+  Jtot = 0.000014
+  Stot = 0.1
+ end parameters
+ begin init
+  s0 = Stot ( "S(DD,SH2)" ) 
+  s1 = Jtot ( "J(Y~U,Y1~P)" ) 
+  s2 ( "J(Y~U,Y1~P!1).S(DD,SH2!1)" ) 
+  s3 ( "S(DD!1,SH2).S(DD!1,SH2)" ) 
+  s4 ( "J(Y~U,Y1~P!1).S(DD!2,SH2!1).S(DD!2,SH2)" ) 
+  s5 ( "J(Y~U,Y1~P!1).J(Y~U,Y1~P!2).S(DD!3,SH2!1).S(DD!3,SH2!2)" ) 
+  s6 ( "J(Y~P,Y1~P!1).J(Y~U,Y1~P!2).S(DD!3,SH2!1).S(DD!3,SH2!2)" ) 
+  s7 ( "J(Y~P,Y1~P)" ) 
+  s8 ( "J(Y~P,Y1~P!1).S(DD!2,SH2!1).S(DD!2,SH2)" ) 
+  s9 ( "J(Y~P,Y1~P!1).S(DD,SH2!1)" ) 
+  s10 ( "J(Y~P,Y1~P!1).J(Y~P,Y1~P!2).S(DD!3,SH2!1).S(DD!3,SH2!2)" ) 
+ end init
+ begin partition
+  {s5,s6,s10}
+ end partition
+ begin reactions
+  s0 + s1 -> s2 , kon_SH2
+  2*s0 -> s3 , 0.5*kon_dimer
+  s1 + s3 -> s4 , 2*kon_SH2
+  s2 -> s0 + s1 , koff_SH2
+  s0 + s2 -> s4 , kon_dimer
+  2*s2 -> s5 , 0.5*kon_dimer
+  s3 -> 2*s0 , koff_dimer
+  s1 + s4 -> s5 , kon_SH2
+  s4 -> s1 + s3 , koff_SH2
+  s5 -> s1 + s4 , 2*koff_SH2
+  s4 -> s0 + s2 , koff_dimer
+  s5 -> 2*s2 , koff_dimer
+  s5 -> s6 , 2*kphos_slow
+  s6 -> s4 + s7 , koff_SH2
+  s6 -> s1 + s8 , koff_SH2
+  s6 -> s2 + s9 , koff_dimer
+  s6 -> s10 , kphos_fast
+  s1 + s8 -> s6 , kon_SH2
+  s0 + s7 -> s9 , kon_SH2
+  s3 + s7 -> s8 , 2*kon_SH2
+  s4 + s7 -> s6 , kon_SH2
+  s7 + s8 -> s10 , kon_SH2
+  s8 -> s3 + s7 , koff_SH2
+  s9 -> s0 + s7 , koff_SH2
+  s10 -> s7 + s8 , 2*koff_SH2
+  s0 + s9 -> s8 , kon_dimer
+  s2 + s9 -> s6 , kon_dimer
+  2*s9 -> s10 , 0.5*kon_dimer
+  s8 -> s0 + s9 , koff_dimer
+  s10 -> 2*s9 , koff_dimer
+ end reactions
+ begin views
+ J_mono= s1 +s7
+    JS= s2+ s9
+    JSS =s3+s8
+  JSSJ = s1*s5+s1*s6+s1*s10
+ end views
+reduceFE()
+reduceCoRNFE(perturbation absolute =0.1,)
+reduceCoRNFE(perturbation percentage =10,)
+end model
+

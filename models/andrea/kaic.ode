@@ -1,0 +1,56 @@
+begin model kaic
+ begin parameters
+  k1 = 0.5
+  k2 = 0.5
+  k3 = 1.0
+  k4 = 1.0
+ end parameters
+ begin init
+  PP = 200
+  OO = 100
+  OP = 0
+  PO = 0
+ end init
+ begin partition
+  {OO},
+  {PP},
+  {OP,PO}
+ end partition
+ begin  reactions
+  //'Copy' of AM for OP
+  OO + PP -> OO + OP , k1
+  OO + PP -> OP + PP , k2
+  OO + OP -> OO + OO , k3
+  PP + OP -> PP + PP , k4
+  
+  //'Copy' of AM for PO
+  OO + PP -> OO + PO , k1
+  OO + PP -> PO + PP , k2
+  OO + PO -> OO + OO , k3
+  PP + PO -> PP + PP , k4
+ end reactions
+ begin views
+  v1 = PP
+  v2 = OO
+  v3 = OP+PO
+ end views
+ exportScriptEpsCLump(fileOut="script/kaicc.m",epsilon=0, M0={OP:1.0,PO:1.0},writeMainScript=true)//, maxPercPerturb=0)
+ 
+ 
+ 
+ 
+ 
+ //simulateODE(tEnd=0.05,steps=100,viewPlot=VIEWS)
+
+//simulateCTMC(tEnd=0.05,steps=100,repeats=1,method=nextReaction,viewPlot=VIEWS)
+//simulateCTMC(tEnd=0.05,steps=100,repeats=10,method=nextReaction,viewPlot=VIEWS)
+//simulateCTMC(tEnd=0.05,steps=100,repeats=100,method=nextReaction,viewPlot=VIEWS)
+
+ 
+//reduceFE(reducedFile="reductions/KaiC/kaicFE.ode",prePartition=NO)
+//reduceSMB(reducedFile="reductions/KaiC/kaicSMB.ode",prePartition=USER)
+
+//exportJacobianFunctionForEpsCLump(fileOut="../KaiCJacobian3.m", epsilon=0 , M0={OP:1.0,PO:1.0})//,{OO:1.1,PP:1.0}) //M0=[x1=1.1,x2=2],[x1=1,x3=1])
+//exportJacobianFunctionForEpsCLump(fileOut="../KaiCJacobian2.m", epsilon=1.0+k1 , M0={OP:1.0,PO:1.0}) //M0=[x1=1.1,x2=2],[x1=1,x3=1])
+
+end model

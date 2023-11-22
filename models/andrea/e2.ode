@@ -1,0 +1,117 @@
+begin model e2
+ begin parameters
+  Etot = 2
+  Ftot = 2
+  Stot = 3
+  kOnE = 0.7
+  kOffE = 3
+  kCatE = 5.0
+  kOnF = 0.7
+  kOffF = 3
+  kCatF = 5.1
+ end parameters
+ begin init
+  S0 = 2.0
+  S1 = 2.0
+  S2 = 3.0
+  S3
+  S4
+  S5
+  S6
+  S7
+  S8
+  S9
+  S10
+  S11
+  S12
+  S13
+  S14
+  S15
+  S16
+  S17
+ end init
+ begin partition
+  {S0},
+  {S1}/*,
+  {S2,S3,S4,S5,S7,S8,S11,S12},
+  {S17,S6,S9,S10,S13,S14,S15,S16}*/
+ end partition
+ begin reactions
+  S0 + S2 -> S3 , kOnE
+  S0 + S2 -> S4 , kOnE
+  S0 + S4 -> S5 , kOnE
+  S3 -> S0 + S2 , kOffE
+  S3 -> S0 + S6 , kCatE
+  S0 + S3 -> S5 , kOnE
+  S4 -> S0 + S2 , kOffE
+  S4 -> S0 + S7 , kCatE
+  S0 + S7 -> S8 , kOnE
+  S5 -> S0 + S4 , kOffE
+  S5 -> S0 + S9 , kCatE
+  S1 + S6 -> S10 , kOnF
+  S0 + S6 -> S9 , kOnE
+  S5 -> S0 + S3 , kOffE
+  S5 -> S0 + S8 , kCatE
+  S1 + S7 -> S11 , kOnF
+  S0 + S11 -> S12 , kOnE
+  S8 -> S0 + S7 , kOffE
+  S8 -> S0 + S13 , kCatE
+  S1 + S9 -> S14 , kOnF
+  S10 -> S1 + S6 , kOffF
+  S10 -> S1 + S2 , kCatF
+  S0 + S10 -> S14 , kOnE
+  S9 -> S0 + S6 , kOffE
+  S9 -> S0 + S13 , kCatE
+  S1 + S8 -> S12 , kOnF
+  S11 -> S1 + S7 , kOffF
+  S11 -> S1 + S2 , kCatF
+  S12 -> S0 + S11 , kOffE
+  S12 -> S0 + S15 , kCatE
+  S1 + S13 -> S16 , kOnF
+  S14 -> S1 + S9 , kOffF
+  S14 -> S1 + S4 , kCatF
+  S14 -> S0 + S10 , kOffE
+  S14 -> S0 + S16 , kCatE
+  S1 + S13 -> S15 , kOnF
+  S12 -> S1 + S8 , kOffF
+  S12 -> S1 + S3 , kCatF
+  S1 + S15 -> S17 , kOnF
+  S16 -> S1 + S13 , kOffF
+  S16 -> S1 + S7 , kCatF
+  S1 + S16 -> S17 , kOnF
+  S15 -> S1 + S13 , kOffF
+  S15 -> S1 + S6 , kCatF
+  S17 -> S1 + S15 , kOffF
+  S17 -> S1 + S11 , kCatF
+  S17 -> S1 + S16 , kOffF
+  S17 -> S1 + S10 , kCatF
+ end reactions
+ begin views
+  Efree = S0
+  Ffree = S1
+  S1P = S6+S9+S10+S13+S14+S15+S16+S17
+ end views
+ simulateODE(tEnd=1)
+// reduceFE(reducedFile="e2FE.ode")
+ //exportJacobianFunctionForEpsCLump(fileOut="../e2.m", epsilon=0 , M0={S0:1})
+ //reduceFE(reducedFile="e2FE.ode",prePartition=USER)
+//exportJacobianFunctionForEpsCLump(fileOut="../e2.m", epsilon=0 , M0={S0:1},{S1:1})
+// exportJacobianFunctionForEpsCLump(fileOut="../e2M.m", epsilon=0 , 
+// 	M0={S0:1},{S1:1},{S2:1},{S3:1,S4:1},{S5:1},
+// 	   {S6:1,S7:1},{S8:1,S9:1},{S10:1,S11:1},{S12:1,S14:1},{S13:1},{S15:1,S16:1},{S17:1}
+// )
+
+
+ 
+// exportJacobianFunctionForEpsCLump(fileOut="../e2maxPert0_1.m", epsilon=0 , M0={S0:1},{S1:1},maxPerturb=0.1)
+// exportJacobianFunctionForEpsCLump(fileOut="../e2maxPert0_2.m", epsilon=0 , M0={S0:1},{S1:1},maxPerturb=0.2)
+// exportJacobianFunctionForEpsCLump(fileOut="../e2maxPert0_3.m", epsilon=0 , M0={S0:1},{S1:1},maxPerturb=0.3)
+// exportJacobianFunctionForEpsCLump(fileOut="../e2maxPert0_4.m", epsilon=0 , M0={S0:1},{S1:1},maxPerturb=0.4)
+// exportJacobianFunctionForEpsCLump(fileOut="../e2maxPert0_5.m", epsilon=0 , M0={S0:1},{S1:1},maxPerturb=0.5)
+// exportJacobianFunctionForEpsCLump(fileOut="../e2maxPert0_6.m", epsilon=0 , M0={S0:1},{S1:1},maxPerturb=0.6)
+// exportJacobianFunctionForEpsCLump(fileOut="../e2maxPert0_7.m", epsilon=0 , M0={S0:1},{S1:1},maxPerturb=0.7)
+// exportJacobianFunctionForEpsCLump(fileOut="../e2maxPert0_8.m", epsilon=0 , M0={S0:1},{S1:1},maxPerturb=0.8)
+// exportJacobianFunctionForEpsCLump(fileOut="../e2maxPert0_9.m", epsilon=0 , M0={S0:1},{S1:1},maxPerturb=0.9)
+// exportJacobianFunctionForEpsCLump(fileOut="../e2maxPert1_0.m", epsilon=0 , M0={S0:1},{S1:1},maxPerturb=1.0)
+end model
+

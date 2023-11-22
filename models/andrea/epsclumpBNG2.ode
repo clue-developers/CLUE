@@ -1,0 +1,97 @@
+begin model importBioNetGen_CCP
+importBNG(fileIn="BioNetGen_CCP.net",highMemory=true)
+//write(fileOut="BioNetGen_CCP.ode")
+//reduceFE()
+//reduceFE(prePartition=USER)
+//exportMatlab(fileOut="solveODEs.m",tEnd=30)
+/*
+exportScriptsEpsCLump(
+	fileOut="scripts/BioNetGen_CCP_P6GL3.m",
+	M0={0:1,34:1},{29:1},
+	//cLump=4,
+	//epsilon from = 0 to = 0.3 step = 0.1,
+	slope_max_error from = 0.2 to = 0.2 step = 0.2, 
+	maxPercPerturb from =0 to = 0 step =0, 
+	csvFile="BioNetGen_CCP_P6GL3.csv",writeInnerScript=true
+)
+*/
+ 
+//exportScriptsEpsCLump(
+//	fileOut="scripts/BioNetGen_CCP_P6GL.m",
+//	M0={0:1,34:1},
+//	//cLump=4,
+//	//epsilon from = 0 to = 0.3 step = 0.1,
+//	slope_max_error from = 0.1 to = 0.5 step = 0.1, 
+//	maxPercPerturb from =0 to = 20 step =5, 
+//	csvFile="BioNetGen_CCP_P6GL.csv",writeInnerScript=true
+//)
+
+exportScriptsEpsCLump(
+	//The matlab script to run
+	fileOut="scripts/BioNetGen_CCP_D13PG100view.m",
+	//The errors will be computed b running the model up to this time horizon
+	tEnd=100,
+	//M0 can be expressed in several ways
+	//M0={18:1,40:1},
+	M0 = 19,
+	slope_max_error from = 0.1 to = 0.5 step = 0.1, 
+	//slope_max_error from = 0.2 to = 0.2 step = 0.1,
+	maxPercPerturb from =0 to = 20 step =5, 
+	csvFile="BioNetGen_CCP_D13PG100view.csv",writeInnerScript=true
+)
+
+
+// exportScriptsEpsCLump(
+//	fileOut="scripts/BioNetGen_CCP_FUM.m",
+//	M0={1:1,66:1,67:1,69:1},
+//	slope_max_error from = 0.1 to = 0.5 step = 0.1, 
+//	maxPercPerturb from =0 to = 20 step =5, 
+//	csvFile="BioNetGen_CCP_FUM.csv",writeInnerScript=true
+//)
+
+//exportScriptsEpsCLump(
+//	fileOut="scripts/BioNetGen_CCP_P6GC.m",
+//	M0={2:1,36:1},
+//	slope_max_error from = 0.1 to = 0.5 step = 0.1, 
+//	maxPercPerturb from =0 to = 20 step =5,
+//	csvFile="BioNetGen_CCP_P6GC.csv",writeInnerScript=true
+//)
+
+//exportScriptsEpsCLump(
+//	fileOut="scripts/BioNetGen_CCP_S7P.m",
+//	M0={3:1,43:1},
+//	slope_max_error from = 0.1 to = 0.3 step = 0.1, 
+//	maxPercPerturb from =0 to = 20 step =5, 
+//	csvFile="BioNetGen_CCP_S7P.csv",writeInnerScript=true
+//)
+//exportScriptsEpsCLump(
+//	fileOut="scripts/BioNetGen_CCP_AllObs.m",
+//	M0 = USER,  
+//	slope_max_error from = 0.1 to = 0.3 step = 0.1, 
+//	maxPercPerturb from =0 to = 20 step =5,  
+//	csvFile="BioNetGen_CCP_AllObs.csv",writeInnerScript=true
+//)
+
+
+
+
+
+//exportScriptsEpsCLump(
+//	fileOut="scripts/BioNetGen_CCP_P6GL_moreEps.m",
+//	M0={0:1,34:1},
+//	//cLump=4,
+//	epsilon from = 0 to = 0.3 step = 0.1,
+//	//slope_max_error from = 0.1 to = 1 step = 0.1, 
+//	maxPercPerturb from =0 to = 10 step =5, 
+//	csvFile="BioNetGen_CCP_P6GL_moreEps.csv",writeInnerScript=true
+//)
+
+
+//exportScriptsEpsCLump(
+//	fileOut="scripts/BioNetGen_CCP_P6GL.m",
+//	M0={0:1,34:1},
+//	slope_max_error from = 0.1 to = 1 step = 0.1, 
+//	maxPercPerturb from =0 to = 20 step =5, 
+//	csvFile="BioNetGen_CCP_P6GL.csv",writeInnerScript=true
+//)
+end model

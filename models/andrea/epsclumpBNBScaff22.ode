@@ -1,0 +1,20 @@
+begin model importBioNetGen_CCP
+importBNG(fileIn="Scaff22.net",highMemory=true)
+//write(fileOut="scaff22.ode")
+//reduceFE()
+//reduceFE(prePartition=USER)
+//exportMatlab(fileOut="solveODEs.m",tEnd=30)
+
+exportScriptsEpsCLump(
+	fileOut="scripts/scaff22_MAPKchainone.m",
+	tEnd=50,
+	M0 = USER,  
+	slope_max_error from = 0.0 to = 0.0 step = 0.1, 
+	maxPercPerturb from =0 to = 0 step =5,  
+	csvFile="scaff22_MAPKchainone.csv",writeInnerScript=true
+)
+//simulateODE(tEnd=100,library=SUNDIALS)
+//reduceFE(prePartition=USER)
+//tolerance_espCLump=6e-2;%tolerance_espCLump=min_eps_increment;   
+
+end model

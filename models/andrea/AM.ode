@@ -1,0 +1,62 @@
+begin model AM
+ /*
+  * Optional list of parameters. Each parameter is specified as:
+  * 	 parameterName = expression
+  * with "expression" being an arithmetic expression of reals and parameters.
+  * Supported arithmetic operations: +, -, *, /, ^, max, min, abs
+  */
+ begin parameters
+   p1 = 1.0
+   p2 = 2.0
+   p3 = 3.0
+   p4 = 4.0
+ end parameters
+/*
+  * List of variables (or species) and their initial concentration. Each variable is specified as:
+  * 	variableName [= IC]
+  * with "IC" being an arithmetic expression of reals and parameters. 
+  * IC is optional, with default value 0
+  */
+ begin init
+  x0 = 1E-2
+  x1 = 1.5
+  x2 = 2.0
+ end init
+  /*
+  * An optional partition of species. It can be used as initial partition when applying any of the supported reductions. 
+  * Unspecified species belong to a default block. 
+  */
+ begin partition
+  {x0}, {x1}, {x2}
+ end partition
+/*
+ * List of reactions. Each reaction is specified as:
+ * 	reagents -> products , rate
+ * where "reagents" and "products" are multisets of variables, while "rate" can be 
+ * 	1) an arithmetic expression of reals and parameters. In which case we have a mass action reaction, and the rate is its kinetic constant
+ * 	2) "arbitrary", followed by an arithmetic expression of reals, parameters and variables. The rate is the actual firing rate of this arbitrary reaction
+ * 	3) "Hill", followed by three real parameters K, R1, and R2, and two naturals n1 and n2. This is a reaction with Hill kinetics.
+ */
+begin reactions
+  x0 + x2 -> x2 + x1, p1
+  x0 + x2 -> x0 + x1, p2
+  x0 + x1 -> x0 + x0, p3
+  x2 + x1 -> x2 + x2, p4
+end reactions
+ /*
+ * Optional list of views (or observables) to be plot. Each view is given in a line of this form:
+ * 	 viewName = value
+ * with value being an arithmetic expression of reals, parameters and variables.
+ */
+ begin views
+  vx0 = x0
+  vx1 = x1
+  vx2 = x2
+  vAll = x0 + x1 + x2
+ end views
+ //exportStoichiometry(fileOut="AM.csv")
+ //write(fileOut="AMODE.ode",format=ODE)
+ //exportJacobianFunction(fileOut="AMJacobian.m")
+ //exportJacobianFunctionForEpsCLump(fileOut="../AMJacobian.m",epsilon=1.0,M0={x1:1.0})
+ //reduceBE(reducedFile="AMbe.ode")
+end model
