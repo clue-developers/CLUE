@@ -1995,10 +1995,12 @@ class FODESystem:
         nr = r_subspace.dim()
 
         if max_n > nl:
-            raise ValueError("Maximum allowed size larger than exact lumping.")
+            logger.log(5,f"[find_reduction_given_size] Desired size ({max_n}) larger than exact reduction size ({nl}). Returning exact reduction.")
+            nr = nl
+            rs = ls
         elif max_n < nr:
-            logger.log(5,f"[find_reduction_given_size] Desired size ({max_n}) smaller than minimum size ({n_r}). Setting desired size to {n_r}")
-            max_n = n_r
+            logger.log(5,f"[find_reduction_given_size] Desired size ({max_n}) smaller than minimum size ({nr}). Setting desired size to {nr}")
+            max_n = nr
 
         tries = 1
         logger.debug(f"[find_reduction_given_size] Initial interval of search: [{ls},{rs}]")

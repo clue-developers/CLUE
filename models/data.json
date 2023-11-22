@@ -85,7 +85,7 @@
     },
     "ProteinPhosphorylation": {
         "type": "polynomial",
-        "range": "2..8",
+        "range": "",
         "ref_title": "Efficient modeling, simulation and coarse-graining of biological complexity with NFsim",
         "ref_doi": "10.1038/nmeth.1546"
     },
@@ -6465,5 +6465,145 @@
     "us_agencies_aggregate": {
         "type": "polynomial",
         "path": "WeightedLinearODE"
+    },
+    "exportEpsCLump": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "epsclumpBNBScaff22": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "exampleUnknownScalarParameters": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "epsclumpBNG": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "epsCLump_ei": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "htreeFE": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "e5": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "epsclumpJak": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "e3FE": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "hTreeCircuit3_1": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "exampleUnknownScalarParametersRN": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "fe": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "e5FE": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "perturbedpolymers2": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "epsclumpFCeri": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "perturbedpolymers2ODE": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "SISonStarGrahFEPrep": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "AM": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "hTreeCircuit3_1RN": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "SISonStarGraph": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "journal.pcbi.1004611.s003": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "kaic": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "epsclump": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "htreeBE": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "e2FE": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "hTreeCircuit3_1RNSymmetric": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "e2": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "e3": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "loadSISonRealWorkdNetwork": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "out.ego-facebook.smb": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "perturbedpolymers3": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "epsclumpBNG2": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "kaicFE": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "e4": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "e4FE": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/andrea/"
     }
 }

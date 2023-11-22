@@ -70,4 +70,4 @@ clean:
 	@find . -name "*.prf" -type f -delete
 
 %:
-	timeout 5m $(PYTHON) numerical_example.py run $@ $(FLAGS)
+	 $(PYTHON) numerical_example.py run $@ $(FLAGS)

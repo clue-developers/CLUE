@@ -1,859 +1,116 @@
 {
-    "BIOMD*101":{
-        "read": "polynomial",
+    "AM": {
+        "model": "AM",
         "matrix": "polynomial",
-        "model": "BIOMD0000000101",
-        "observables":{ 
-            "RI":["RI"],
-            "RII":["RII"],
-            "lRIRII":["lRIRII"],
-            "RI_endo":["RI_endo"],
-            "RII_endo":["RII_endo"]
-        },
-        "tEnd":500
-    },
-"BIOMD*101[percentage_size]": {
-        "ref": "BIOMD*101",
-        "type": "percentage_size",
-        "percentage_size": [
-            0.125,
-            0.25,
-            0.375,
-            0.5,
-            0.625,
-            0.75,
-            0.875
-        ]
-    },
-    "BIOMD*504":{
         "read": "polynomial",
-        "matrix": "polynomial",
-        "model": "BIOMD0000000504",
-        "observables":{ 
-            "MMP1":["MMP1"],
-            "MMP13": ["MMP13"],
-            "AggFrag":["AggFrag"],
-            "ColFrag":["ColFrag"]
-        },
-        "tEnd":14
-    },
-    "BIOMD*504[percentage_size]": {
-        "ref": "BIOMD*504",
-        "type": "percentage_size",
-        "percentage_size": [
-            0.125,
-            0.25,
-            0.375,
-            0.5,
-            0.625,
-            0.75,
-            0.875
-        ]
-    },
-
-"MODEL1001150000":{
-        "read": "polynomial",
-        "matrix": "polynomial",
-        "model": "MODEL1001150000",
-        "observables":{ 
-            "KaMe":["KaMe"],
-            "Ca":["Ca"]
-        },
-        "tEnd":10
-    },
-"MODEL1001150000[percentage_size]": {
-        "ref": "MODEL1001150000",
-        "type": "percentage_size",
-        "percentage_size": [
-            0.125,
-            0.25,
-            0.375,
-            0.5,
-            0.625,
-            0.75,
-            0.875
-        ]
-    },
-    "MODEL1504160000":{
-        "read": "polynomial",
-        "matrix": "polynomial",
-        "model": "MODEL1504160000",
-        "observables":{ 
-  "cd8_in_spleen":["cd8_in_spleen"],
-  "cd8_in_lung":["cd8_in_lung"],
-  "cd8_in_mln":["cd8_in_mln"]
-        },
-        "tEnd":30
-    },
-"MODEL1504160000[percentage_size]": {
-        "ref": "MODEL1504160000",
-        "type": "percentage_size",
-        "percentage_size": [
-            0.125,
-            0.25,
-            0.375,
-            0.5,
-            0.625,
-            0.75,
-            0.875
-        ]
-    },
-
-    "BioNetGen_CCP":{
-        "read": "polynomial",
-        "matrix": "polynomial",
-        "model": "BioNetGen_CCP",
-        "type": "analysis",
-        "observables":{
-            "D13PG": [
-                "s18+s40"
-            ]   
-        },
-        "t1": 100
-    },
-    "BioNetGen_CCP[slopes]": {
-        "ref": "BioNetGen_CCP",
-        "type": "slope",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ]
-    },
-    "BioNetGen_CCP[percentages]": {
-        "ref": "BioNetGen_CCP",
-        "type": "percentage_epsilon",
-        "percentage_epsilon": [
-            1e-4,
-            1e-3,
-            0.25e-2,
-            0.5e-2,
-            1e-2,
-            0.25e-1,
-            0.5e-1,
-            1e-1,
-            0.15,
-            0.25,
-            0.5
-        ]
-    },
-    "BioNetGen_CCP[percentage_size]": {
-        "ref": "BioNetGen_CCP",
-        "type": "percentage_size",
-        "percentage_size": [
-            0.125,
-            0.25,
-            0.375,
-            0.5,
-            0.625,
-            0.75,
-            0.875
-        ]
-    },
-
-    "NIHMS80246_S6":{
-        "read": "polynomial",
-        "matrix": "polynomial",
-        "model": "NIHMS80246_S6",
-        "type": "analysis",
-        "observables":{
-            "S2P": [
-                "s14+s15+s16+s17+s18+s19+s20+s21+s22+s23"
-            ]   
-        },
-        "t1": 600
-    },
-    "NIHMS80246_S6[slopes]":{
-        "ref": "NIHMS80246_S6",
-        "type": "slope",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ]
-    },
-    "NIHMS80246_S6[percentages]":{
-        "ref": "NIHMS80246_S6",
-        "type": "percentage_epsilon",
-        "percentage_epsilon": [
-            1e-4,
-            1e-3,
-            0.25e-2,
-            0.5e-2,
-            1e-2,
-            0.25e-1,
-            0.5e-1,
-            1e-1,
-            0.15,
-            0.25,
-            0.5
-        ]
-    },
-    "NIHMS80246_S6[percentage_size]":{
-        "ref": "NIHMS80246_S6",
-        "type": "percentage_size",
-        "percentage_size": [
-            0.125,
-            0.25,
-            0.375,
-            0.5,
-            0.625,
-            0.75,
-            0.875
-        ]
-    },
-
-    "journal.pcbi.1003544.s006":{
-        "read": "polynomial",
-        "matrix": "polynomial",
-        "model": "journal.pcbi.1003544.s006",
-        "type": "analysis",
-        "observables":{
-            "RC": ["S7+S11+S14+2*S16+S17+S18+S20+S22+S25+S29+S34+S35+S36+S37+2*S49+S50+S51+S53"]
-        },
-        "t1": 40
-    }, 
-    "journal.pcbi.1003544.s006[slopes]":{
-        "ref": "journal.pcbi.1003544.s006",
-        "type": "slope",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ]
-    },
-    "journal.pcbi.1003544.s006[percentages]":{
-        "ref": "journal.pcbi.1003544.s006",
-        "type": "percentage_epsilon",
-        "percentage_epsilon": [
-            1e-4,
-            1e-3,
-            0.25e-2,
-            0.5e-2,
-            1e-2,
-            0.25e-1,
-            0.5e-1,
-            1e-1,
-            0.15,
-            0.25,
-            0.5
-        ]    },
-    "journal.pcbi.1003544.s006[percentage_size]":{
-        "ref": "journal.pcbi.1003544.s006",
-        "type": "percentage_size",
-        "percentage_size": [
-            0.125,
-            0.25,
-            0.375,
-            0.5,
-            0.625,
-            0.750,
-            0.875
-        ]    },
-
-
-    "BIOMD*088": {
-        "read": "rational",
-        "matrix": "rational",
-        "type": "analysis",
-        "model":"BIOMD0000000088",
         "observables": {
-            "Rho_kinase": [
-                "s124"
+            "vx0": [
+                "x0"
+            ],
+            "vx1": [
+                "x1"
+            ],
+            "vx2": [
+                "x2"
+            ],
+            "vAll": [
+                "x0 + x1 + x2"
             ]
         },
-        "out_folder": "rational"
-    },
-    "BIOMD*088[epsilons]": {
-        "ref": "BIOMD*088",
-        "type": "epsilon",
-        "epsilons": [
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
             0.5,
-            2.5,
-            5,
-            10
+            0.625,
+            0.75,
+            0.875
         ],
-        "t1": 10 
+        "out_folder": "./andrea"
     },
-    "BIOMD*088[slopes]": {
-        "ref": "BIOMD*088",
-        "type": "slope",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ],
-        "t1": 10 
-    },
-    "BIOMD*088[percentages]": {
-        "ref": "BIOMD*088",
-        "type": "percentage_epsilon",
-        "percentage_epsilon": [
-            1e-4,
-            1e-3,
-            0.25e-2,
-            0.5e-2,
-            1e-2,
-            0.25e-1,
-            0.5e-1,
-            1e-1,
-            0.15,
-            0.25,
-            0.5
-        ]
-
-    },
-
-    "BIOMD*087": {
-        "read": "sympy",
-        "matrix": "auto_diff",
-        "type": "analysis",
-        "model":"BIOMD0000000087",
-        "t1": 100 ,
-        "observables": {
-            "Ctelo": [
-                "Ctelo"
-            ],
-            "ssDNA": [
-                "ssDNA"
-            ],
-            "Cdc13": [
-                "Cdc13"
-            ]
-        },        
-        "out_folder": "rational"
-    },
-    "BIOMD*087[slopes]": {
-        "ref": "BIOMD*087",
-        "type": "slope",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ]
-    },
-    "BIOMD*087[epsilons]": {
-        "ref": "BIOMD*087",
-        "type": "epsilon",
-        "epsilons": [
-            0.5,
-            0.9,
-            0.95,
-            0.99
-        ]
-    },
-    "BIOMD*087[percentages]": {
-        "ref": "BIOMD*087",
-        "type": "percentage_epsilon",
-        "percentage_epsilon": [
-            1e-4,
-            1e-3,
-            1e-2,
-            0.25e-2,
-            0.5e-2,
-            1e-1,
-            0.15,
-            0.25,
-            0.3,
-            0.5
-        ]
-    },
-
-
-    "BIOMD*437": {
-        "read": "rational",
-        "matrix": "rational",
-        "type": "analysis",
-        "model":"BIOMD0000000437",
-        "epsilon_max": 1,
-        "t1": 100 ,
-        "observables": {
-            "frq_mRNA": [
-                "frq_mRNA"
-            ],
-            "frq_gene": [
-                "frq_gene"
-            ]
-        },
-        "out_folder": "rational"
-    },
-    "BIOMD*437[slopes]": {
-        "ref": "BIOMD*437",
-        "type": "slope",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ]
-    },
-    "BIOMD*437[epsilons]": {
-        "ref": "BIOMD*437",
-        "type": "epsilon",
-        "epsilons": [
-            1,
-            1e2,
-            1e3,
-            1e4
-        ]
-    },
-    "BIOMD*437[percentages]": {
-        "ref": "BIOMD*437",
-        "type": "percentage_epsilon",
-        "percentage_epsilon": [
-            1e-4,
-            1e-3,
-            0.25e-2,
-            0.5e-2,
-            1e-2,
-            0.25e-1,
-            0.5e-1,
-            1e-1,
-            0.15,
-            0.25,
-            0.5
-        ]
-    },
-    "BIOMD*437[percentage_size]": {
-        "ref": "BIOMD*437",
-        "type": "percentage_size",
-        "percentage_size": [
-            0.125,
-            0.25,
-            0.375,
-            0.5,
-            0.625,
-            0.75,
-            0.875
-        ]
-    },
-
-    "BIOMD*488": {
-        "read": "rational",
-        "matrix": "rational",
-        "model":"BIOMD0000000488",
-        "epsilon_max": 1e2,
-        "type": "analysis",
-        "observables": {
-            "GSK3b": [
-                "GSK3b"
-            ],
-            "ROS": [
-                "ROS"
-            ],
-            "Tau": [
-                "Tau"
-            ],
-            "GSK3b, ROS, Tau": [
-                "GSK3b",
-                "ROS",
-                "Tau"
-            ]
-        },
-        
-        "t1": 0.1,
-        "sim_method": "LSODA",
-        "out_folder": "rational"
-    },
-    "BIOMD*488[slopes]": {
-        "ref": "BIOMD*488",
-        "type": "slope",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ]
-    },
-    "BIOMD*488[epsilons]": {
-        "ref": "BIOMD*488",
-        "type": "epsilon",
-        "epsilons": [
-            [
-                0,
-                1,
-                100.0,
-                1000.0,
-                10000.0,
-                100000.0,
-                1000000.0,
-                10000000.0,
-                100000000.0
-            ],
-            [
-                0,
-                250000.0,
-                1000000.0,
-                2000000.0
-            ],
-            [
-                2500000000.0,
-                5000000000.0,
-                10000000000.0
-            ],
-            [
-                2500000000.0,
-                5000000000.0,
-                10000000000.0
-            ]
-        ]
-    },
-    "BIOMD*488[percentages]": {
-        "ref": "BIOMD*488",
-        "type": "percentage_epsilon",
-        "percentage_epsilon": [
-            1e-4,
-            1e-3,
-            0.25e-2,
-            0.5e-2,
-            1e-2,
-            0.25e-1,
-            0.5e-1,
-            1e-1,
-            0.15,
-            0.25,
-            0.5
-        ]
-    },
-    "BIOMD*488[percentage_size]": {
-        "ref": "BIOMD*488",
-        "type": "percentage_size",
-        "percentage_size": [
-            0.125,
-            0.25,
-            0.375,
-            0.5,
-            0.625,
-            0.75,
-            0.875
-        ]
-    },
-
     
-    "CMSB2023[presentation]":{
-        "read": "polynomial",
+    "MODEL8262229752": {
+        "model": "MODEL8262229752",
         "matrix": "polynomial",
-        "model": "BioNetGen_CCP",
-        "type": "analysis",
-        "mid_points": 120,
-        "observables":{
-            "D13PG": [
-                "s18+s40"
-            ]   
-        }
-    },
-
-    "BIOMD0000000013": {
-        "read": "sympy",
-        "matrix": "auto_diff",
-        "type": "analysis",
-        "observables": {
-            "x_CO2": [
-                "x_CO2"
-            ]
-        },
-        "epsilons": [
-            0.5,
-            1
-        ],
-        "t1": 0.4,
-        "out_folder": "rational"
-    },
-
-    "BIOMD*023": {
-        "model":"BIOMD0000000023",
-        "read": "sympy",
-        "matrix": "auto_diff",
-        "type": "analysis",
-        "observables": {
-            "Fru": [
-                "Fru"
-            ]
-        },
-        "epsilons": [
-            0.5,
-            1
-        ],
-        "t1": 20.0,
-        "out_folder": "rational"
-    },
-    "BIOMD*023[slopes]": {
-        "ref": "BIOMD*023",
-        "type": "slope",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ]
-    },
-    "BIOMD*023[epsilons]": {
-        "ref": "BIOMD*023",
-        "type": "epsilon",
-        "epsilons": [
-            0.5,
-            0.9,
-            0.95,
-            0.99
-        ]
-    },
-
-
-    "BIOMD*033": {
-        "read": "sympy",
-        "matrix": "auto_diff",
-        "model":"BIOMD0000000033",
-        "type": "analysis",
-        "observables": {
-            "freeEGFReceptor": [
-                "freeEGFReceptor"
-            ]
-        },
-        "epsilons": [
-            0.5,
-            1
-        ],
-        "t1": 20.0,
-        "out_folder": "rational"
-    },
-    "BIOMD*033[slopes]": {
-        "ref": "BIOMD*033",
-        "type": "slope",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ]
-    },
-    "BIOMD*033[epsilons]": {
-        "ref": "BIOMD*033",
-        "type": "epsilon",
-        "epsilons": [
-            0.5,
-            0.9,
-            0.95,
-            0.99
-        ]
-    },
-
-
-    "BIOMD0000000088": {
-        "read": "rational",
-        "matrix": "rational",
-        "type": "analysis",
+        "read": "polynomial",
         "observables": {
             "VIEW_0": [
-                "s360 + s359 + s358"
+                "AI2_trans_r"
             ],
             "VIEW_1": [
-                "s135"
+                "AI2_phos_r"
             ],
             "VIEW_2": [
-                "s124"
+                "AI2_excret_r"
             ],
             "VIEW_3": [
-                "s467 + s470 + s477 + s480"
-            ]
-        },
-        "epsilons": [
-            [
-                0,
-                1,
-                10,
-                20,
-                50
+                "AI2_syn_r"
             ],
-            [
-                0,
-                10,
-                100,
-                400
+            "VIEW_4": [
+                "AdoMet_r"
             ],
-            [
-                1,
-                10,
-                25
+            "VIEW_5": [
+                "DPD_deg_r"
             ],
-            [
-                1,
-                5,
-                10,
-                25
-            ]
-        ],
-        "t1": 10,
-        "out_folder": "rational"
-    },
-
-    "BIOMD*113": {
-        "read": "sympy",
-        "matrix": "auto_diff",
-        "model": "BIOMD0000000113",
-        "type": "analysis",
-        "observables": {
-            "VIEW_0": [
-                "Y"
-            ]
-        },
-        "epsilons": [
-            0.5,
-            1
-        ],
-        "t1": 1,
-        "out_folder": "rational"
-    },
-    "BIOMD*113[slopes]": {
-        "ref": "BIOMD*113",
-        "type": "slope",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ]
-    },
-    "BIOMD*113[epsilons]": {
-        "ref": "BIOMD*113",
-        "type": "epsilon",
-        "epsilons": [
-            0.5,
-            0.9,
-            0.95,
-            0.99
-        ]
-        
-    },
-
-    "BIOMD0000000182": {
-        "read": "sympy",
-        "matrix": "auto_diff",
-        "type": "analysis",
-        "observables": {
-            "VIEW_0": [
-                "AC_cyto_mem"
+            "VIEW_6": [
+                "LuxS_mRNA_d"
+            ],
+            "VIEW_7": [
+                "LuxS_prot_d"
+            ],
+            "VIEW_8": [
+                "LuxS_transc"
+            ],
+            "VIEW_9": [
+                "LuxS_transl"
+            ],
+            "VIEW_10": [
+                "MTR_e"
+            ],
+            "VIEW_11": [
+                "MTR_syn_r"
+            ],
+            "VIEW_12": [
+                "Met_recov"
+            ],
+            "VIEW_13": [
+                "Methy_trans"
+            ],
+            "VIEW_14": [
+                "Pfs_prot_d"
+            ],
+            "VIEW_15": [
+                "Polyamine_uti"
+            ],
+            "VIEW_16": [
+                "SAH_Hydro_r"
+            ],
+            "VIEW_17": [
+                "SAM_Dec"
+            ],
+            "VIEW_18": [
+                "SRH_cleav"
+            ],
+            "VIEW_19": [
+                "SpeE_syn_r"
+            ],
+            "VIEW_20": [
+                "Spermi_uti"
+            ],
+            "VIEW_21": [
+                "b_reac_r"
+            ],
+            "VIEW_22": [
+                "pfs_mRNA_d"
+            ],
+            "VIEW_23": [
+                "pfs_transc"
+            ],
+            "VIEW_24": [
+                "pfs_transl"
             ]
         },
-        "epsilons": [
-            0.5,
-            1
-        ],
-        "t1": 0.01,
-        "out_folder": "rational"
-    },
-    "BIOMD*313": {
-        "read": "sympy",
-        "matrix": "auto_diff",
-        "model":"BIOMD0000000313",
-        "type": "analysis",
-        "observables": {
-            "VIEW_0": [
-                "IL13_DecoyR"
-            ]
-        },
-        "epsilons": [
-            0.5,
-            1
-        ],
-        "t1": 2.0,
-        "out_folder": "rational"
-    },
-    "BIOMD*313[slopes]": {
-        "ref":"BIOMD*313",
-        "type": "slopes",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ]
-    },
-    "BIOMD*313[epsilons]": {
-        "ref":"BIOMD*313",
-        "type": "epsilon",
-        "epsilons": [
-            0.5,
-            0.9,
-            0.95,
-            0.99
-        ]
-    },
-
-    "BIOMD*448": {
-        "read": "sympy",
-        "matrix": "auto_diff",
-        "model":"BIOMD0000000448",
-        "type": "analysis",
-        "epsilon_max": 0.01,
-        "observables": {
-            "VIEW_0": [
-                "mTORC1a"
-            ]
-        },
-        "epsilons": [
-            0,
-            0.5,
-            1
-        ],
-        "t1": 1,
-        "sim_method": "LSODA",
-        "out_folder": "rational"
-    },
-    "BIOMD*448[slopes]": {
-        "ref":"BIOMD*448",
-        "type": "slope",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ]
-    },
-    "BIOMD*448[epsilons]": {
-        "ref":"BIOMD*448",
-        "type": "epsilon",
-        "epsilons": [
-            1e-2,
-            0.05,
-            1e-1
-        ]
-    },
-    "BIOMD*448[percentages]": {
-        "ref":"BIOMD*448",
-        "type": "percentage_epsilon",
-        "percentage_epsilon": [
-            1e-4,
-            1e-3,
-            0.25e-2,
-            0.5e-2,
-            1e-2,
-            0.25e-1,
-            0.5e-1,
-            1e-1,
-            0.15,
-            0.25,
-            0.5
-        ]
-    },
-    "BIOMD*448[percentage_size]": {
-        "ref":"BIOMD*448",
         "type": "percentage_size",
         "percentage_size": [
             0.125,
@@ -863,291 +120,39 @@
             0.625,
             0.75,
             0.875
-        ]
+        ],
+        "out_folder": "./andrea"
     },
-
-
-
-    "BIOMD0000000488": {
-        "read": "rational",
-        "matrix": "rational",
-        "type": "analysis",
+    "NIHMS80246_S4": {
+        "model": "NIHMS80246_S4",
+        "matrix": "polynomial",
+        "read": "polynomial",
         "observables": {
-            "VIEW_0": [
-                "GSK3b"
+            "obsL_tot": [
+                "s0+s4+s5+s6+s7+s8+s10+s12+s13+s14+s15+s16+s17+s18+s20+s22+s24+s25+s26+s27+s28+s29+s30+s31+s32+s33+s34+s35+s36+s37+s38+s39+s40+s42+s44+s46+s48+s49+s50+s51+s52+s53+s54+s55+s56+s57+s58+s61+s62+s63+s64+s65+s66+s67+s68+s69+s70+s71+s72+s73+s74+s75+s76+s77+s78+s79+s80+s81+s82+s83+s84+s86+s88+s90+s92+s93+s94+s95+s96+s97+s98+s99+s100+s101+s102+s103+s104+s105+s106+s107+s108+s109+s110+s113+s114+s115+s116+s118+s119+s120+s121+s122+s123+s124+s125+s126+s127+s128+s129+s130+s131+s132+s133+s134+s135+s136+s137+s138+s139+s140+s141+s142+s143+s144+s145+s146+s147+s148+s149+s150+s151+s152+s153+s154+s155+s156+s157+s158+s159+s160+s161+s162+s163+s164+s165+s166+s167+s168+s169+s170+s171+s172+s173+s174+s175+s177+s178+s179+s180+s181+s182+s183+s185+s186+s187+s188+s189+s190+s191+s192+s193+s194+s195+s196+s197+s198+s199+s200+s201+s202+s203+s204+s205+s206+s207+s208+s209+s210+s211+s212"
             ],
-            "VIEW_1": [
-                "ROS"
+            "obsR_tot": [
+                "s1+s4+s1*s5+s1*s6+s1*s7+s8+s9+s10+s11+s1*s12+s1*s13+s1*s14+s1*s15+s1*s16+s1*s17+s18+s19+s20+s21+s22+s23+s1*s24+s1*s25+s1*s26+s1*s27+s1*s28+s1*s29+s1*s30+s1*s31+s1*s32+s1*s33+s1*s34+s1*s35+s1*s36+s1*s37+s1*s38+s1*s39+s40+s41+s42+s43+s44+s45+s46+s47+s1*s48+s1*s49+s1*s50+s1*s51+s1*s52+s1*s53+s1*s54+s1*s55+s1*s56+s1*s57+s1*s58+s1*s61+s1*s62+s1*s63+s1*s64+s1*s65+s1*s66+s1*s67+s1*s68+s1*s69+s1*s70+s1*s71+s1*s72+s1*s73+s1*s74+s1*s75+s1*s76+s1*s77+s1*s78+s1*s79+s1*s80+s1*s81+s1*s82+s1*s83+s84+s85+s86+s87+s88+s89+s90+s91+s1*s92+s1*s93+s1*s94+s1*s95+s1*s96+s1*s97+s1*s98+s1*s99+s1*s100+s1*s101+s1*s102+s1*s103+s1*s104+s1*s105+s1*s106+s1*s107+s1*s108+s109+s110+s111+s112+s1*s113+s1*s114+s1*s115+s1*s116+s1*s118+s1*s119+s1*s120+s1*s121+s1*s122+s1*s123+s1*s124+s1*s125+s1*s126+s1*s127+s1*s128+s1*s129+s1*s130+s1*s131+s1*s132+s1*s133+s1*s134+s1*s135+s1*s136+s1*s137+s1*s138+s1*s139+s1*s140+s1*s141+s1*s142+s1*s143+s1*s144+s1*s145+s1*s146+s1*s147+s1*s148+s1*s149+s1*s150+s1*s151+s1*s152+s1*s153+s1*s154+s1*s155+s1*s156+s1*s157+s1*s158+s1*s159+s1*s160+s1*s161+s1*s162+s1*s163+s1*s164+s1*s165+s1*s166+s1*s167+s1*s168+s1*s169+s1*s170+s1*s171+s1*s172+s1*s173+s1*s174+s175+s176+s1*s177+s1*s178+s1*s179+s1*s180+s1*s181+s1*s182+s183+s184+s1*s185+s1*s186+s1*s187+s1*s188+s1*s189+s1*s190+s1*s191+s1*s192+s1*s193+s1*s194+s1*s195+s1*s196+s1*s197+s1*s198+s1*s199+s1*s200+s1*s201+s1*s202+s1*s203+s1*s204+s1*s205+s1*s206+s1*s207+s1*s208+s1*s209+s1*s210+s1*s211+s1*s212"
             ],
-            "VIEW_2": [
-                "Tau"
+            "obsA_tot": [
+                "s2+s16+s20+s21+s26+s29+s30+s35+s1*s37+s38+s42+s43+s49+s55+s58+s63+s66+s1*s67+s68+s69+s71+s75+s1*s78+s79+s80+s88+s89+s96+s99+s101+s102+s105+s106+s109+s110+s111+s112+s113+s114+s115+s116+s118+s120+s121+s1*s122+s123+s1*s124+s1*s125+s126+s128+s129+s132+s134+s135+s136+s137+s1*s138+s139+s1*s140+s1*s141+s144+s146+s147+s150+s152+s153+s156+s158+s159+s161+s163+s164+s1*s165+s166+s1*s167+s1*s168+s170+s171+s1*s172+s1*s173+s1*s174+s179+s181+s183+s184+s185+s186+s188+s189+s1*s192+s193+s194+s1*s195+s196+s197+s200+s201+s202+s1*s203+s205+s206+s1*s207+s208+s1*s209+s211+s1*s212"
             ],
-            "VIEW_3": [
-                "GSK3b",
-                "ROS",
-                "Tau"
+            "obsB_tot": [
+                "s3+s17+s22+s23+s27+s28+s31+s32+s33+s36+s38+s1*s39+s40+s41+s44+s45+s46+s47+s48+s50+s51+s52+s53+s54+s56+s57+s58+s59+s60+s61+s62+s64+s65+s66+s68+s69+s1*s70+s71+s1*s72+s1*s73+s1*s74+s75+s1*s76+s1*s77+s79+s80+s1*s81+s1*s82+s1*s83+s84+s85+s86+s87+s88+s89+s90+s91+s92+s93+s94+s95+s96+s97+s98+s99+s100+s101+s102+s103+s104+s105+s106+s1*s107+s1*s108+s109+s110+s111+s112+s113+s114+s115+s116+s117+s118+s119+s120+s121+s122+s123+s124+s125+s1*s126+s1*s127+s1*s128+s1*s129+s1*s130+s1*s131+s1*s132+s1*s133+s1*s134+s1*s135+s136+s137+s138+s139+s140+s141+s1*s142+s1*s143+s1*s144+s1*s145+s1*s146+s1*s147+s1*s148+s1*s149+s1*s150+s1*s151+s1*s152+s1*s153+s1*s154+s1*s155+s1*s156+s1*s157+s1*s158+s1*s159+s1*s160+s1*s161+s1*s162+s1*s163+s1*s164+s1*s165+s1*s166+s1*s167+s1*s168+s1*s169+s1*s170+s1*s171+s1*s172+s1*s173+s1*s174+s175+s176+s177+s178+s179+s180+s181+s1*s182+s183+s184+s185+s186+s1*s187+s188+s189+s1*s190+s1*s191+s192+s1*s193+s1*s194+s195+s1*s196+s1*s197+s1*s198+s1*s199+s1*s200+s1*s201+s1*s202+s1*s203+s1*s204+s1*s205+s1*s206+s1*s207+s1*s208+s1*s209+s1*s210+s1*s211+s1*s212"
+            ],
+            "obsR_dim": [
+                "s1*s5+s1*s6+s1*s7+s1*s12+s1*s13+s1*s14+s1*s15+s1*s16+s1*s17+s1*s24+s1*s25+s1*s26+s1*s27+s1*s28+s1*s29+s1*s30+s1*s31+s1*s32+s1*s33+s1*s34+s1*s35+s1*s36+s1*s37+s1*s38+s1*s39+s1*s48+s1*s49+s1*s50+s1*s51+s1*s52+s1*s53+s1*s54+s1*s55+s1*s56+s1*s57+s1*s58+s1*s61+s1*s62+s1*s63+s1*s64+s1*s65+s1*s66+s1*s67+s1*s68+s1*s69+s1*s70+s1*s71+s1*s72+s1*s73+s1*s74+s1*s75+s1*s76+s1*s77+s1*s78+s1*s79+s1*s80+s1*s81+s1*s82+s1*s83+s1*s92+s1*s93+s1*s94+s1*s95+s1*s96+s1*s97+s1*s98+s1*s99+s1*s100+s1*s101+s1*s102+s1*s103+s1*s104+s1*s105+s1*s106+s1*s107+s1*s108+s1*s113+s1*s114+s1*s115+s1*s116+s1*s118+s1*s119+s1*s120+s1*s121+s1*s122+s1*s123+s1*s124+s1*s125+s1*s126+s1*s127+s1*s128+s1*s129+s1*s130+s1*s131+s1*s132+s1*s133+s1*s134+s1*s135+s1*s136+s1*s137+s1*s138+s1*s139+s1*s140+s1*s141+s1*s142+s1*s143+s1*s144+s1*s145+s1*s146+s1*s147+s1*s148+s1*s149+s1*s150+s1*s151+s1*s152+s1*s153+s1*s154+s1*s155+s1*s156+s1*s157+s1*s158+s1*s159+s1*s160+s1*s161+s1*s162+s1*s163+s1*s164+s1*s165+s1*s166+s1*s167+s1*s168+s1*s169+s1*s170+s1*s171+s1*s172+s1*s173+s1*s174+s1*s177+s1*s178+s1*s179+s1*s180+s1*s181+s1*s182+s1*s185+s1*s186+s1*s187+s1*s188+s1*s189+s1*s190+s1*s191+s1*s192+s1*s193+s1*s194+s1*s195+s1*s196+s1*s197+s1*s198+s1*s199+s1*s200+s1*s201+s1*s202+s1*s203+s1*s204+s1*s205+s1*s206+s1*s207+s1*s208+s1*s209+s1*s210+s1*s211+s1*s212"
+            ],
+            "obsAbound": [
+                "s16+s20+s21+s26+s29+s30+s35+s1*s37+s38+s42+s43+s49+s55+s58+s63+s66+s1*s67+s68+s69+s71+s75+s1*s78+s79+s80+s88+s89+s96+s99+s101+s102+s105+s106+s109+s110+s111+s112+s113+s114+s115+s116+s118+s120+s121+s1*s122+s123+s1*s124+s1*s125+s126+s128+s129+s132+s134+s135+s136+s137+s1*s138+s139+s1*s140+s1*s141+s144+s146+s147+s150+s152+s153+s156+s158+s159+s161+s163+s164+s1*s165+s166+s1*s167+s1*s168+s170+s171+s1*s172+s1*s173+s1*s174+s179+s181+s183+s184+s185+s186+s188+s189+s1*s192+s193+s194+s1*s195+s196+s197+s200+s201+s202+s1*s203+s205+s206+s1*s207+s208+s1*s209+s211+s1*s212"
+            ],
+            "obsB1pY": [
+                "s32+s44+s45+s51+s52+s56+s59+s61+s64+s68+s72+s76+s79+s1*s81+s82+s84+s85+s90+s91+s92+s94+s97+s98+s100+s101+s103+s105+s107+s109+s111+s113+s115+s117+s119+s120+s123+s124+s127+s128+s130+s133+s134+s136+s139+s140+s1*s142+s143+s144+s1*s145+s1*s146+s147+s148+s151+s152+s1*s154+s155+s156+s1*s157+s1*s158+s159+s162+s163+s166+s167+s1*s169+s1*s170+s171+s1*s172+s173+s175+s176+s177+s178+s179+s180+s181+s182+s183+s184+s185+s186+s187+s188+s189+s1*s190+s191+s192+s193+s194+s195+s1*s196+s197+s1*s198+s199+s1*s200+s201+s202+s203+s1*s204+s1*s205+s1*s206+s1*s207+s208+s209+s1*s210+s1*s211+s1*s212"
+            ],
+            "obsB2pY": [
+                "s33+s46+s47+s53+s54+s57+s60+s61+s65+s69+s73+s77+s80+s82+s1*s83+s86+s87+s90+s91+s93+s95+s97+s98+s100+s102+s104+s106+s108+s110+s112+s114+s116+s117+s119+s121+s123+s125+s127+s129+s131+s133+s135+s137+s139+s141+s143+s145+s147+s148+s1*s149+s150+s1*s151+s152+s1*s153+s155+s157+s159+s1*s160+s161+s1*s162+s163+s1*s164+s166+s168+s1*s169+s170+s1*s171+s173+s1*s174+s175+s176+s177+s178+s179+s180+s181+s182+s183+s184+s185+s186+s187+s188+s189+s190+s1*s191+s192+s193+s194+s195+s196+s1*s197+s198+s1*s199+s200+s1*s201+s202+s203+s1*s204+s1*s205+s206+s207+s1*s208+s1*s209+s1*s210+s1*s211+s1*s212"
             ]
         },
-        "epsilons": [
-            [
-                0,
-                1,
-                100.0,
-                1000.0,
-                10000.0,
-                100000.0,
-                1000000.0,
-                10000000.0,
-                100000000.0
-            ],
-            [
-                0,
-                250000.0,
-                1000000.0,
-                2000000.0
-            ],
-            [
-                2500000000.0,
-                5000000000.0,
-                10000000000.0
-            ],
-            [
-                2500000000.0,
-                5000000000.0,
-                10000000000.0
-            ]
-        ],
-        "t1": 0.1,
-        "sim_method": "LSODA",
-        "out_folder": "rational"
-    },
-    "BIOMD0000000503": {
-        "read": "sympy",
-        "matrix": "auto_diff",
-        "type": "analysis",
-        "observables": {
-            "VIEW_0": [
-                "G6P"
-            ],
-            "VIEW_1": [
-                "NADPH"
-            ],
-            "VIEW_2": [
-                "P6G"
-            ]
-        },
-        "slopes": [
-            [],
-            [],
-            []
-        ],
-        "t1": 0.025,
-        "out_folder": "rational"
-    },
-    "BIOMD0000000526": {
-        "read": "sympy",
-        "matrix": "auto_diff",
-        "type": "analysis",
-        "observables": {
-            "VIEW_0": [
-                "DISC"
-            ]
-        },
-        "epsilons": [
-            0.5,
-            1
-        ],
-        "t1": 0.1,
-        "out_folder": "rational"
-    },
-    "BIOMD0000000535": {
-        "read": "rational",
-        "matrix": "rational",
-        "type": "analysis",
-        "observables": {
-            "VIEW_0": [
-                "mw114aa90f_5f5b_4fe8_9406_361c8489b6a1 + mwd5313618_89eb_4c8c_bc82_66f10f966349",
-                "mw39c2e431_fdc3_4964_be29_6ca856620b1b + mw48867e93_f170_44e8_ac7a_185b23e1bf3b",
-                "mwf626e95e_543f_41e4_aad4_c6bf60ab345b + mw0adf3eb4_a196_4c48_b10d_4e9e9faaf9e1 + mw2c9b0499_3325_4394_8af3_bbf653a944a0",
-                "mw03db56ac_8dc6_4931_ae82_fef706d2ee3d + mw4638f126_8cb8_4021_ab41_6ae195743ba0 + mw7becb5fe_8da8_4285_a821_0d77ad811b62"
-            ]
-        },
-        "slopes": [
-            []
-        ],
-        "t1": 0.015,
-        "out_folder": "rational"
-    },
-    "BIOMD0000000537": {
-        "read": "rational",
-        "matrix": "rational",
-        "type": "analysis",
-        "observables": {
-            "VIEW_0": [
-                "mw114aa90f_5f5b_4fe8_9406_361c8489b6a1 + mwd5313618_89eb_4c8c_bc82_66f10f966349",
-                "mw39c2e431_fdc3_4964_be29_6ca856620b1b + mw48867e93_f170_44e8_ac7a_185b23e1bf3b",
-                "mwf626e95e_543f_41e4_aad4_c6bf60ab345b + mw0adf3eb4_a196_4c48_b10d_4e9e9faaf9e1 + mw2c9b0499_3325_4394_8af3_bbf653a944a0",
-                "mw03db56ac_8dc6_4931_ae82_fef706d2ee3d + mw4638f126_8cb8_4021_ab41_6ae195743ba0 + mw7becb5fe_8da8_4285_a821_0d77ad811b62"
-            ]
-        },
-        "slopes": [
-            []
-        ],
-        "t1": 0.015,
-        "out_folder": "rational"
-    },
-    "BIOMD*611": {
-        "read": "rational",
-        "matrix": "rational",
-        "model":"BIOMD0000000611",
-        "type": "analysis",
-        "observables": {
-            "VIEW_0": [
-                "mwfa9d903a_b5e5_4a38_a649_dfe4719577aa"
-            ]
-        },
-        "slopes": [
-            []
-        ],
-        "t1": 100,
-        "out_folder": "rational"
-    },
-    "BIOMD*611[slopes]": {
-        "ref":"BIOMD*611",
-        "type": "slope",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ]
-    },
-    "BIOMD*611[epsilons]": {
-        "ref":"BIOMD*611",
-        "type": "epsilon",
-        "epsilons": [
-            0.1,
-            1,
-            1e1,
-            1e2,
-            1e3,
-            1e4,
-            1e5
-        ]
-    },
-
-    "BIOMD*634": {
-        "read": "rational",
-        "matrix": "rational",
-        "model":"BIOMD0000000634",
-        "epsilon_max": 1e1,
-        "type": "analysis",
-        "observables": {
-            "VIEW_0": [
-                "GSK3b"
-            ],
-            "VIEW_1": [
-                "ROS"
-            ],
-            "VIEW_2": [
-                "Tau"
-            ],
-            "VIEW_3": [
-                "GSK3b",
-                "ROS",
-                "Tau"
-            ]
-        },
-        "epsilons": [
-            [
-                0,
-                1,
-                100.0,
-                1000.0,
-                10000.0,
-                100000.0,
-                1000000.0,
-                10000000.0,
-                100000000.0
-            ],
-            [
-                100000.0,
-                500000.0,
-                1000000.0,
-                1500000.0,
-                2000000.0
-            ],
-            [
-                0,
-                1,
-                100.0,
-                1000.0,
-                10000.0,
-                100000.0,
-                1000000.0,
-                10000000.0,
-                100000000.0
-            ],
-            [
-                0,
-                1,
-                100.0,
-                1000.0,
-                10000.0,
-                100000.0,
-                1000000.0,
-                10000000.0,
-                100000000.0
-            ]
-        ],
-        "t1": 0.00025,
-        "sim_method": "LSODA",
-        "out_folder": "rational"
-    },
-    "BIOMD*634[slopes]": {
-        "ref":"BIOMD*634",
-        "type": "slope",
-        "slopes": [
-            0.1,
-            0.3,
-            0.5,
-            0.7,
-            0.9
-        ]
-    },
-    "BIOMD*634[epsilons]": {
-        "ref":"BIOMD*634",
-        "type": "epsilon",
-        "epsilons": [
-            0.1,
-            1,
-            1e1,
-            1e2,
-            1e3,
-            1e4,
-            1e5
-        ]
-    },
-    "BIOMD*634[percentages]": {
-        "ref":"BIOMD*634",
-        "type": "percentage_epsilon",
-        "percentage_epsilon": [
-            1e-4,
-            1e-3,
-            0.25e-2,
-            0.5e-2,
-            1e-2,
-            0.25e-1,
-            0.5e-1,
-            1e-1,
-            0.15,
-            0.25,
-            0.5
-        ]
-    },
-    "BIOMD*634[percentage_size]": {
-        "ref":"BIOMD*634",
         "type": "percentage_size",
         "percentage_size": [
             0.125,
@@ -1157,45 +162,1476 @@
             0.625,
             0.75,
             0.875
-        ]
+        ],
+        "out_folder": "./andrea"
     },
-    "MODEL1502270000": {
-        "read": "sympy",
-        "matrix": "auto_diff",
-        "type": "analysis",
+    "NIHMS80246_S6": {
+        "model": "NIHMS80246_S6",
+        "matrix": "polynomial",
+        "read": "polynomial",
         "observables": {
-            "VIEW_0": [
-                "rmr"
+            "obsS1P": [
+                "s9+s10+s11+s12+s13+s14+s15+s16+s17+s19"
+            ],
+            "obsS2P": [
+                "s14+s15+s16+s17+s18+s19+s20+s21+s22+s23"
+            ],
+            "PARTITION": "s9+s10+s11+s12+s13+s14+s15+s16+s17+s19"
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": "600",
+        "out_folder": "./andrea"
+    },
+    "SISonStarGrahFEPrep": {
+        "model": "SISonStarGrahFEPrep",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "vS1": [
+                "S1/4"
+            ],
+            "vI1": [
+                "I1/4"
+            ],
+            "vI0": [
+                "I0/1"
+            ],
+            "vS0": [
+                "S0/1"
             ]
         },
-        "epsilons": [
-            []
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
         ],
-        "t1": 1.1353522069077257e-07,
-        "out_folder": "rational"
+        "out_folder": "./andrea"
     },
-    "BIOMD0000000087": {
-        "read": "rational",
-        "matrix": "rational",
-        "type": "analysis",
+    "SISonStarGraph": {
+        "model": "SISonStarGraph",
+        "matrix": "polynomial",
+        "read": "polynomial",
         "observables": {
-            "Ctelo": [
-                "Ctelo"
+            "vS0": [
+                "S0"
             ],
-            "ssDNA": [
-                "ssDNA"
+            "vI0": [
+                "I0"
             ],
-            "Cdc13": [
-                "Cdc13"
+            "vSi": [
+                "S1+S2+S3+S4"
+            ],
+            "vIi": [
+                "I1+I2+I3+I4"
+            ],
+            "PARTITION": "S1+S2+S3+S4"
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "e2": {
+        "model": "e2",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "Efree": [
+                "S0"
+            ],
+            "Ffree": [
+                "S1"
+            ],
+            "S1P": [
+                "S6+S9+S10+S13+S14+S15+S16+S17"
+            ],
+            "PARTITION": "S0,S1"
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": "1",
+        "out_folder": "./andrea"
+    },
+    "e2FE": {
+        "model": "e2FE",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "vS10": [
+                "S10/2"
+            ],
+            "vS13": [
+                "S13/1"
+            ],
+            "vS1": [
+                "S1/1"
+            ],
+            "vS12": [
+                "S12/2"
+            ],
+            "vS0": [
+                "S0/1"
+            ],
+            "vS6": [
+                "S6/2"
+            ],
+            "vS17": [
+                "S17/1"
+            ],
+            "vS3": [
+                "S3/2"
+            ],
+            "vS2": [
+                "S2/1"
+            ],
+            "vS5": [
+                "S5/1"
+            ],
+            "vS15": [
+                "S15/2"
+            ],
+            "vS8": [
+                "S8/2"
             ]
         },
-        "epsilons": [
-            10000,
-            20000,
-            30000,
-            50000
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
         ],
-        "t1": 0.002,
-        "out_folder": "rational"
+        "out_folder": "./andrea"
+    },
+    "e3": {
+        "model": "e3",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "Efree": [
+                "S0"
+            ],
+            "Ffree": [
+                "S1"
+            ],
+            "S1P": [
+                "S8+S15+S16+S17+S26+S27+S28+S29+S30+S37+S38+S39+S40+S41+S42+S43+S48+S49+S50+S51+S52+S53+S54+S57+S58+S59+S60+S61+S62+S63+S64+S65"
+            ],
+            "PARTITION": "S0,S1"
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "e3FE": {
+        "model": "e3FE",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "vS56": [
+                "S56/3"
+            ],
+            "vS35": [
+                "S35/3"
+            ],
+            "vS1": [
+                "S1/1"
+            ],
+            "vS34": [
+                "S34/3"
+            ],
+            "vS22": [
+                "S22/3"
+            ],
+            "vS46": [
+                "S46/6"
+            ],
+            "vS53": [
+                "S53/3"
+            ],
+            "vS62": [
+                "S62/3"
+            ],
+            "vS65": [
+                "S65/1"
+            ],
+            "vS12": [
+                "S12/1"
+            ],
+            "vS13": [
+                "S13/6"
+            ],
+            "vS17": [
+                "S17/3"
+            ],
+            "vS6": [
+                "S6/3"
+            ],
+            "vS57": [
+                "S57/3"
+            ],
+            "vS3": [
+                "S3/3"
+            ],
+            "vS8": [
+                "S8/3"
+            ],
+            "vS2": [
+                "S2/1"
+            ],
+            "vS0": [
+                "S0/1"
+            ],
+            "vS24": [
+                "S24/6"
+            ],
+            "vS27": [
+                "S27/3"
+            ],
+            "vS39": [
+                "S39/6"
+            ],
+            "vS49": [
+                "S49/1"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "e4": {
+        "model": "e4",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "Efree": [
+                "S0"
+            ],
+            "Ffree": [
+                "S1"
+            ],
+            "S1P": [
+                "S10+S23+S24+S25+S26+S47+S48+S49+S50+S51+S52+S53+S54+S55+S80+S81+S82+S83+S84+S85+S86+S87+S88+S89+S90+S91+S92+S93+S94+S95+S120+S121+S122+S123+S124+S125+S126+S127+S128+S129+S130+S131+S132+S133+S134+S135+S136+S137+S138+S139+S140+S141+S162+S163+S164+S165+S166+S167+S168+S169+S170+S171+S172+S173+S174+S175+S176+S177+S178+S179+S180+S181+S182+S183+S184+S185+S198+S199+S200+S201+S202+S203+S204+S205+S206+S207+S208+S209+S210+S211+S212+S213+S214+S215+S216+S217+S218+S219+S226+S227+S228+S229+S230+S231+S232+S233+S234+S235+S236+S237+S238+S239+S240+S241+S244+S245+S246+S247+S248+S249+S250+S251+S252+S253+S254+S255+S256+S257"
+            ],
+            "PARTITION": "S0"
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "e4FE": {
+        "model": "e4FE",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "vS155": [
+                "S155/4"
+            ],
+            "vS0": [
+                "S0/1"
+            ],
+            "vS7": [
+                "S7/6"
+            ],
+            "vS244": [
+                "S244/6"
+            ],
+            "vS85": [
+                "S85/12"
+            ],
+            "vS109": [
+                "S109/6"
+            ],
+            "vS239": [
+                "S239/4"
+            ],
+            "vS37": [
+                "S37/1"
+            ],
+            "vS152": [
+                "S152/12"
+            ],
+            "vS192": [
+                "S192/6"
+            ],
+            "vS137": [
+                "S137/6"
+            ],
+            "vS1": [
+                "S1/1"
+            ],
+            "vS73": [
+                "S73/12"
+            ],
+            "vS193": [
+                "S193/12"
+            ],
+            "vS2": [
+                "S2/1"
+            ],
+            "vS70": [
+                "S70/12"
+            ],
+            "vS257": [
+                "S257/1"
+            ],
+            "vS26": [
+                "S26/4"
+            ],
+            "vS19": [
+                "S19/12"
+            ],
+            "vS42": [
+                "S42/12"
+            ],
+            "vS201": [
+                "S201/1"
+            ],
+            "vS205": [
+                "S205/12"
+            ],
+            "vS17": [
+                "S17/4"
+            ],
+            "vS125": [
+                "S125/4"
+            ],
+            "vS68": [
+                "S68/4"
+            ],
+            "vS49": [
+                "S49/6"
+            ],
+            "vS159": [
+                "S159/12"
+            ],
+            "vS10": [
+                "S10/4"
+            ],
+            "vS227": [
+                "S227/4"
+            ],
+            "vS113": [
+                "S113/24"
+            ],
+            "vS38": [
+                "S38/12"
+            ],
+            "vS167": [
+                "S167/12"
+            ],
+            "vS253": [
+                "S253/4"
+            ],
+            "vS3": [
+                "S3/4"
+            ],
+            "vS223": [
+                "S223/12"
+            ],
+            "vS243": [
+                "S243/4"
+            ],
+            "vS108": [
+                "S108/4"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "e5": {
+        "model": "e5",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "Efree": [
+                "S0"
+            ],
+            "Ffree": [
+                "S1"
+            ],
+            "S1P": [
+                "S12+S33+S34+S35+S36+S37+S78+S79+S80+S81+S82+S83+S84+S85+S86+S87+S88+S89+S90+S91+S154+S155+S156+S157+S158+S159+S160+S161+S162+S163+S164+S165+S166+S167+S168+S169+S170+S171+S172+S173+S174+S175+S176+S177+S178+S179+S180+S181+S182+S183+S264+S265+S266+S267+S268+S269+S270+S271+S272+S273+S274+S275+S276+S277+S278+S279+S280+S281+S282+S283+S284+S285+S286+S287+S288+S289+S290+S291+S292+S293+S294+S295+S296+S297+S298+S299+S300+S301+S302+S303+S304+S305+S306+S307+S308+S309+S310+S311+S312+S313+S314+S403+S404+S405+S406+S407+S408+S409+S410+S411+S412+S413+S414+S415+S416+S417+S418+S419+S420+S421+S422+S423+S424+S425+S426+S427+S428+S429+S430+S431+S432+S433+S434+S435+S436+S437+S438+S439+S440+S441+S442+S443+S444+S445+S446+S447+S448+S449+S450+S451+S452+S453+S454+S455+S456+S457+S458+S459+S460+S461+S462+S463+S464+S465+S466+S467+S468+S469+S470+S471+S472+S473+S554+S555+S556+S557+S558+S559+S560+S561+S562+S563+S564+S565+S566+S567+S568+S569+S570+S571+S572+S573+S574+S575+S576+S577+S578+S579+S580+S581+S582+S583+S584+S585+S586+S587+S588+S589+S590+S591+S592+S593+S594+S595+S596+S597+S598+S599+S600+S601+S602+S603+S604+S605+S606+S607+S608+S609+S610+S611+S612+S613+S614+S615+S616+S617+S618+S619+S620+S621+S622+S623+S624+S625+S626+S627+S628+S629+S630+S631+S632+S633+S634+S635+S636+S637+S700+S701+S702+S703+S704+S705+S706+S707+S708+S709+S710+S711+S712+S713+S714+S715+S716+S717+S718+S719+S720+S721+S722+S723+S724+S725+S726+S727+S728+S729+S730+S731+S732+S733+S734+S735+S736+S737+S738+S739+S740+S741+S742+S743+S744+S745+S746+S747+S748+S749+S750+S751+S752+S753+S754+S755+S756+S757+S758+S759+S760+S761+S762+S763+S764+S765+S766+S767+S768+S769+S770+S771+S772+S773+S774+S775+S776+S777+S778+S779+S780+S781+S782+S783+S824+S825+S826+S827+S828+S829+S830+S831+S832+S833+S834+S835+S836+S837+S838+S839+S840+S841+S842+S843+S844+S845+S846+S847+S848+S849+S850+S851+S852+S853+S854+S855+S856+S857+S858+S859+S860+S861+S862+S863+S864+S865+S866+S867+S868+S869+S870+S871+S872+S873+S874+S875+S876+S877+S878+S879+S880+S881+S882+S883+S884+S885+S886+S887+S888+S889+S890+S891+S892+S893+S894+S915+S916+S917+S918+S919+S920+S921+S922+S923+S924+S925+S926+S927+S928+S929+S930+S931+S932+S933+S934+S935+S936+S937+S938+S939+S940+S941+S942+S943+S944+S945+S946+S947+S948+S949+S950+S951+S952+S953+S954+S955+S956+S957+S958+S959+S960+S961+S962+S963+S964+S965+S974+S975+S976+S977+S978+S979+S980+S981+S982+S983+S984+S985+S986+S987+S988+S989+S990+S991+S992+S993+S994+S995+S996+S997+S998+S999+S1000+S1001+S1002+S1003+S1006+S1007+S1008+S1009+S1010+S1011+S1012+S1013+S1014+S1015+S1016+S1017+S1018+S1019+S1020+S1021+S1022+S1023+S1024+S1025"
+            ],
+            "PARTITION": "S0,S1"
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "e5FE": {
+        "model": "e5FE",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "vS1005": [
+                "S1005/5"
+            ],
+            "vS1020": [
+                "S1020/5"
+            ],
+            "vS81": [
+                "S81/10"
+            ],
+            "vS124": [
+                "S124/20"
+            ],
+            "vS678": [
+                "S678/5"
+            ],
+            "vS420": [
+                "S420/30"
+            ],
+            "vS3": [
+                "S3/5"
+            ],
+            "vS1": [
+                "S1/1"
+            ],
+            "vS1000": [
+                "S1000/5"
+            ],
+            "vS571": [
+                "S571/5"
+            ],
+            "vS8": [
+                "S8/10"
+            ],
+            "vS820": [
+                "S820/20"
+            ],
+            "vS833": [
+                "S833/1"
+            ],
+            "vS583": [
+                "S583/30"
+            ],
+            "vS905": [
+                "S905/10"
+            ],
+            "vS23": [
+                "S23/10"
+            ],
+            "vS906": [
+                "S906/30"
+            ],
+            "vS58": [
+                "S58/5"
+            ],
+            "vS1025": [
+                "S1025/1"
+            ],
+            "vS128": [
+                "S128/30"
+            ],
+            "vS359": [
+                "S359/5"
+            ],
+            "vS241": [
+                "S241/60"
+            ],
+            "vS804": [
+                "S804/30"
+            ],
+            "vS388": [
+                "S388/30"
+            ],
+            "vS0": [
+                "S0/1"
+            ],
+            "vS517": [
+                "S517/10"
+            ],
+            "vS669": [
+                "S669/10"
+            ],
+            "vS670": [
+                "S670/30"
+            ],
+            "vS769": [
+                "S769/10"
+            ],
+            "vS970": [
+                "S970/20"
+            ],
+            "vS975": [
+                "S975/10"
+            ],
+            "vS808": [
+                "S808/20"
+            ],
+            "vS226": [
+                "S226/20"
+            ],
+            "vS2": [
+                "S2/1"
+            ],
+            "vS919": [
+                "S919/5"
+            ],
+            "vS67": [
+                "S67/20"
+            ],
+            "vS229": [
+                "S229/30"
+            ],
+            "vS529": [
+                "S529/60"
+            ],
+            "vS163": [
+                "S163/20"
+            ],
+            "vS135": [
+                "S135/30"
+            ],
+            "vS26": [
+                "S26/20"
+            ],
+            "vS304": [
+                "S304/10"
+            ],
+            "vS514": [
+                "S514/20"
+            ],
+            "vS60": [
+                "S60/30"
+            ],
+            "vS37": [
+                "S37/5"
+            ],
+            "vS682": [
+                "S682/60"
+            ],
+            "vS376": [
+                "S376/20"
+            ],
+            "vS715": [
+                "S715/20"
+            ],
+            "vS931": [
+                "S931/20"
+            ],
+            "vS1006": [
+                "S1006/10"
+            ],
+            "vS224": [
+                "S224/5"
+            ],
+            "vS521": [
+                "S521/30"
+            ],
+            "vS364": [
+                "S364/60"
+            ],
+            "vS360": [
+                "S360/10"
+            ],
+            "vS123": [
+                "S123/1"
+            ],
+            "vS837": [
+                "S837/30"
+            ],
+            "vS276": [
+                "S276/10"
+            ],
+            "vS12": [
+                "S12/5"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "epsCLump_ei": {
+        "model": "epsCLump_ei",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "epsclump": {
+        "model": "epsclump",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": "20",
+        "out_folder": "./andrea"
+    },
+    "epsclumpBNBScaff22": {
+        "model": "epsclumpBNBScaff22",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": "50",
+        "out_folder": "./andrea"
+    },
+    "epsclumpBNG": {
+        "model": "epsclumpBNG",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": "30000",
+        "out_folder": "./andrea"
+    },
+    "epsclumpBNG2": {
+        "model": "epsclumpBNG2",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": "100",
+        "out_folder": "./andrea"
+    },
+    "epsclumpFCeri": {
+        "model": "epsclumpFCeri",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": "100",
+        "out_folder": "./andrea"
+    },
+    "epsclumpJak": {
+        "model": "epsclumpJak",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "exampleUnknownScalarParameters": {
+        "model": "exampleUnknownScalarParameters",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "exampleUnknownScalarParametersRN": {
+        "model": "exampleUnknownScalarParametersRN",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "exportEpsCLump": {
+        "model": "exportEpsCLump",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": "50",
+        "out_folder": "./andrea"
+    },
+    "fceri_ji": {
+        "model": "fceri_ji",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "RecSykPS": [
+                "s138+s173+s174+s175+s176+s177+s179+s180+s181+s182+s183+s184+s185+s186+s187+s188+s189+s190+s191+s192+s193+s194+s195+s196+s197+s1*s198+s199+s200+s201+s202+s203+s204+s205+s206+s207+s208+s209+s210+s211+s212+s213+s214+s215+s216+s217+s218+s219+s220+s221+s222+s223+s224+s1*s225+s226+s227+s228+s229+s230+s231+s232+s233+s234+s235+s236+s237+s238+s239+s240+s241+s242+s243+s244+s245+s246+s247+s248+s249+s250+s251+s252+s253+s254+s255+s256+s257+s258+s259+s260+s261+s262+s263+s264+s265+s266+s268+s269+s270+s271+s272+s273+s274+s275+s276+s277+s278+s279+s280+s281+s282+s283+s284+s285+s286+s287+s288+s289+s290+s291+s1*s292+s1*s293+s1*s294+s1*s295+s1*s296+s1*s297+s1*s298+s1*s299+s1*s300+s1*s301+s1*s302+s303+s304+s305+s306+s307+s308+s309+s310+s311+s312+s313+s314+s315+s316+s317+s318+s319+s320+s1*s321+s1*s322+s1*s323+s1*s324+s1*s325+s1*s326+s1*s327+s1*s328+s1*s329+s1*s330+s1*s331+s1*s332+s1*s333+s1*s334+s1*s335+s336+s337+s338+s1*s339+s340+s341+s342+s343+s344+s345+s346+s1*s347+s1*s348+s1*s349+s1*s350+s1*s351+s1*s352+s1*s353"
+            ],
+            "PARTITION": "s226+s227+s228+s229+s230+s231+s232+s233+s234+s235+s236+s237+s238+s239+s240+s241+s242+s243+s244+s245+s246+s247+s248+s249+s250+s251+s252+s253+s254+s255+s256+s257+s258+s259+s260+s261+s262+s263+s264+s265+s266+s268+s269+s270+s271+s272+s273+s274+s275+s276+s277+s278+s279+s280+s281+s282+s283+s284+s285+s286+s287+s288+s289+s290+s291+s303+s304+s305+s306+s307+s308+s309+s310+s311+s312+s313+s314+s315+s316+s317+s318+s319+s320+s336+s337+s338+s340+s341+s342+s343+s344+s345+s346+s138+s173+s174+s175+s176+s177+s179+s180+s181+s182+s183+s184+s185+s186+s187+s188+s189+s190+s191+s192+s193+s194+s195+s196+s197+s199+s200+s201+s202+s203+s204+s205+s206+s207+s208+s209+s210+s211+s212+s213+s214+s215+s216+s217+s218+s219+s220+s221+s222+s223+s224,s225+s353+s292+s293+s294+s295+s296+s297+s298+s299+s300+s301+s302+s321+s322+s323+s324+s325+s198+s326+s327+s328+s329+s330+s331+s332+s333+s334+s335+s339+s347+s348+s349+s350+s351+s352"
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": "100",
+        "out_folder": "./andrea"
+    },
+    "fe": {
+        "model": "fe",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "vs90": [
+                "s90/1"
+            ],
+            "vs67": [
+                "s67/4"
+            ],
+            "vs10": [
+                "s10/1"
+            ],
+            "vs25": [
+                "s25/1"
+            ],
+            "vs70": [
+                "s70/1"
+            ],
+            "vs150": [
+                "s150/16"
+            ],
+            "vs56": [
+                "s56/1"
+            ],
+            "vs12": [
+                "s12/1"
+            ],
+            "vs27": [
+                "s27/1"
+            ],
+            "vs145": [
+                "s145/4"
+            ],
+            "vs49": [
+                "s49/1"
+            ],
+            "vs51": [
+                "s51/1"
+            ],
+            "vs9": [
+                "s9/1"
+            ],
+            "vs14": [
+                "s14/1"
+            ],
+            "vs19": [
+                "s19/1"
+            ],
+            "vs88": [
+                "s88/4"
+            ],
+            "vs31": [
+                "s31/4"
+            ],
+            "vs60": [
+                "s60/4"
+            ],
+            "vs113": [
+                "s113/4"
+            ],
+            "vs84": [
+                "s84/1"
+            ],
+            "vs6": [
+                "s6/1"
+            ],
+            "vs37": [
+                "s37/4"
+            ],
+            "vs58": [
+                "s58/10"
+            ],
+            "vs54": [
+                "s54/1"
+            ],
+            "vs3": [
+                "s3/1"
+            ],
+            "vs100": [
+                "s100/16"
+            ],
+            "vs74": [
+                "s74/1"
+            ],
+            "vs63": [
+                "s63/1"
+            ],
+            "vs75": [
+                "s75/4"
+            ],
+            "vs79": [
+                "s79/4"
+            ],
+            "vs28": [
+                "s28/1"
+            ],
+            "vs89": [
+                "s89/4"
+            ],
+            "vs101": [
+                "s101/4"
+            ],
+            "vs30": [
+                "s30/1"
+            ],
+            "vs97": [
+                "s97/4"
+            ],
+            "vs53": [
+                "s53/1"
+            ],
+            "vs147": [
+                "s147/16"
+            ],
+            "vs104": [
+                "s104/4"
+            ],
+            "vs96": [
+                "s96/16"
+            ],
+            "vs62": [
+                "s62/4"
+            ],
+            "vs50": [
+                "s50/4"
+            ],
+            "vs103": [
+                "s103/10"
+            ],
+            "vs83": [
+                "s83/4"
+            ],
+            "vs95": [
+                "s95/16"
+            ],
+            "vs44": [
+                "s44/1"
+            ],
+            "vs120": [
+                "s120/4"
+            ],
+            "vs11": [
+                "s11/1"
+            ],
+            "vs20": [
+                "s20/1"
+            ],
+            "vs64": [
+                "s64/1"
+            ],
+            "vs170": [
+                "s170/10"
+            ],
+            "vs93": [
+                "s93/1"
+            ],
+            "vs43": [
+                "s43/1"
+            ],
+            "vs117": [
+                "s117/4"
+            ],
+            "vs141": [
+                "s141/4"
+            ],
+            "vs8": [
+                "s8/1"
+            ],
+            "vs40": [
+                "s40/1"
+            ],
+            "vs61": [
+                "s61/4"
+            ],
+            "vs76": [
+                "s76/4"
+            ],
+            "vs69": [
+                "s69/4"
+            ],
+            "vs39": [
+                "s39/1"
+            ],
+            "vs154": [
+                "s154/16"
+            ],
+            "vs0": [
+                "s0/1"
+            ],
+            "vs52": [
+                "s52/4"
+            ],
+            "vs24": [
+                "s24/1"
+            ],
+            "vs32": [
+                "s32/4"
+            ],
+            "vs59": [
+                "s59/4"
+            ],
+            "vs17": [
+                "s17/1"
+            ],
+            "vs1": [
+                "s1/1"
+            ],
+            "vs21": [
+                "s21/4"
+            ],
+            "vs106": [
+                "s106/1"
+            ],
+            "vs57": [
+                "s57/4"
+            ],
+            "vs33": [
+                "s33/1"
+            ],
+            "vs23": [
+                "s23/1"
+            ],
+            "vs35": [
+                "s35/1"
+            ],
+            "vs34": [
+                "s34/4"
+            ],
+            "vs73": [
+                "s73/4"
+            ],
+            "vs46": [
+                "s46/4"
+            ],
+            "vs82": [
+                "s82/4"
+            ],
+            "vs139": [
+                "s139/4"
+            ],
+            "vs80": [
+                "s80/1"
+            ],
+            "vs2": [
+                "s2/4"
+            ],
+            "vs114": [
+                "s114/4"
+            ],
+            "vs26": [
+                "s26/1"
+            ],
+            "vs45": [
+                "s45/1"
+            ],
+            "vs99": [
+                "s99/10"
+            ],
+            "vs92": [
+                "s92/4"
+            ],
+            "vs48": [
+                "s48/1"
+            ],
+            "vs18": [
+                "s18/1"
+            ],
+            "vs15": [
+                "s15/1"
+            ],
+            "vs22": [
+                "s22/1"
+            ],
+            "vs55": [
+                "s55/4"
+            ],
+            "vs13": [
+                "s13/1"
+            ],
+            "vs7": [
+                "s7/1"
+            ],
+            "vs38": [
+                "s38/4"
+            ],
+            "vs16": [
+                "s16/1"
+            ],
+            "vs78": [
+                "s78/4"
+            ],
+            "vs5": [
+                "s5/1"
+            ],
+            "vs36": [
+                "s36/1"
+            ],
+            "vs29": [
+                "s29/1"
+            ],
+            "vs4": [
+                "s4/1"
+            ],
+            "vs143": [
+                "s143/4"
+            ],
+            "vs47": [
+                "s47/1"
+            ],
+            "vs86": [
+                "s86/4"
+            ],
+            "vs41": [
+                "s41/1"
+            ],
+            "vs157": [
+                "s157/4"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "hTreeCircuit3_1": {
+        "model": "hTreeCircuit3_1",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": "7",
+        "out_folder": "./andrea"
+    },
+    "hTreeCircuit3_1RN": {
+        "model": "hTreeCircuit3_1RN",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": "10",
+        "out_folder": "./andrea"
+    },
+    "hTreeCircuit3_1RNSymmetric": {
+        "model": "hTreeCircuit3_1RNSymmetric",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "htreeBE": {
+        "model": "htreeBE",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "vvn1k1": [
+                "vn1k1/1"
+            ],
+            "vvn3k1": [
+                "vn3k1/4"
+            ],
+            "vvn2k1": [
+                "vn2k1/2"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "htreeFE": {
+        "model": "htreeFE",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "vvn1k1": [
+                "vn1k1/1"
+            ],
+            "vvn3k1": [
+                "vn3k1/4"
+            ],
+            "vvn2k1": [
+                "vn2k1/2"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "journal.pcbi.1004611.s003": {
+        "model": "journal.pcbi.1004611.s003",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "Tot_R": [
+                "s1+s7+s10+2*s11+2*s13+2*s14+s16+s17+s18+s19+s20+s21+2*s22+2*s23+2*s24+s27+s28+s29+s30+s31+s32+2*s33+2*s34+2*s35+2*s36+s37+s38+s39+2*s40+2*s41+2*s42+s43+s44+s45+2*s46+2*s47+2*s49+2*s50+s51+s52+s53+2*s54+2*s55+2*s56"
+            ],
+            "PARTITION": "s37+s38+s39+s43+s44+s45+s51+s52+s53+s1+s7+s10+s16+s17+s18+s19+s20+s21+s27+s28+s29+s30+s31+s32,s33+s34+s35+s36+s40+s41+s42+s11+s13+s14+s46+s47+s49+s50+s22+s54+s23+s55+s24+s56"
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "kaic": {
+        "model": "kaic",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "v1": [
+                "PP"
+            ],
+            "v2": [
+                "OO"
+            ],
+            "v3": [
+                "OP+PO"
+            ],
+            "PARTITION": "OO,PP,OP+PO"
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "kaicFE": {
+        "model": "kaicFE",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "vPP": [
+                "PP/4"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "loadSISonRealWorkdNetwork": {
+        "model": "loadSISonRealWorkdNetwork",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "out.ego-facebook.smb": {
+        "model": "out.ego-facebook.smb",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "pcbi.1000364.s004": {
+        "model": "pcbi.1000364.s004",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "J_mono": [
+                "s1 +s7"
+            ],
+            "JS": [
+                "s2+ s9"
+            ],
+            "JSS": [
+                "s3+s8"
+            ],
+            "JSSJ": [
+                "s1*s5+s1*s6+s1*s10"
+            ],
+            "PARTITION": "s5+s6+s10"
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
+    },
+    "perturbedpolymers2": {
+        "model": "perturbedpolymers2",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": "0",
+        "out_folder": "./andrea"
+    },
+    "perturbedpolymers2ODE": {
+        "model": "perturbedpolymers2ODE",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": "0",
+        "out_folder": "./andrea"
+    },
+    "perturbedpolymers3": {
+        "model": "perturbedpolymers3",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./andrea"
     }
 }

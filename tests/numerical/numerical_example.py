@@ -1036,6 +1036,8 @@ def add_examples_in_folder(*argv):
                 exp_type = 'analysis'; n += 1
             elif argv[n] == "-s":
                 exp_type = 'slope'; n += 1
+            elif argv[n] == "-ps":
+                exp_type = 'percentage_size'; n += 1
             elif argv[n] == "-j":
                 json_file = argv[n+1]; n += 2
             elif n == nargv-1:
@@ -1133,8 +1135,8 @@ def __get_model_dict(file, model_name=None, matrix='polynomial', read='polynomia
                 view_name = 'VIEW_'+str(i)
                 views[view_name] = [rhs]
             if rhs != '':
-                view_p.append( [rhs])
-        views['PARTITION']= view_p
+                view_p.append(rhs)
+        views['PARTITION']=['",'.join(view_p)]
 
     if len(views) != 0:
         result['observables'] = views
@@ -1144,12 +1146,20 @@ def __get_model_dict(file, model_name=None, matrix='polynomial', read='polynomia
     # Adding base experiment
     if exp_type =='slope':
         result['type'] = 'slope'
-        result['slopes'] = ['0.1', '0.2','0.3','0.4', '0.5']
+        result['slopes'] = [0.1, 0.2,0.3,0.4, 0.5]
         # Getting final time
         expr = re.findall(r'tEnd=\d*', sections_text)
         if len(expr) != 0:
             _,tend = [el.strip() for el in expr[0].split("=")]
-            result['t1'] = tend
+            result['t1'] = float(tend)
+    elif exp_type =='percentage_size':
+        result['type'] = 'percentage_size'
+        result['percentage_size'] = [x*0.125 for x in range(1,8)]
+        # Getting final time
+        expr = re.findall(r'tEnd=\d*', sections_text)
+        if len(expr) != 0:
+            _,tend = [el.strip() for el in expr[0].split("=")]
+            result['t1'] = float(tend)
     elif exp_type == 'analysis':
         result['type'] = 'analysis'
     else:
