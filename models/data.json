@@ -85,7 +85,6 @@
     },
     "ProteinPhosphorylation": {
         "type": "polynomial",
-        "range": "",
         "ref_title": "Efficient modeling, simulation and coarse-graining of biological complexity with NFsim",
         "ref_doi": "10.1038/nmeth.1546"
     },
@@ -6605,5 +6604,193 @@
     "e4FE": {
         "type": "polynomial",
         "path": "/home/alexander/CLUE/models/andrea/"
+    },
+    "BIOMD0000000539": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000199": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000085": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000405": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000046": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000475": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000362": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000099": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000080": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000431": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000360": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000270": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000430": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000530": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000257": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000205": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000103": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000365": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000292": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000335": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000200": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000102": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000368": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000483": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000002": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000030": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000609": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000314": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000361": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000315": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000364": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000038": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000357": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000069": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000359": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000282": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000447": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000072": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000028": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000082": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000086": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000040": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000198": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000108": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000629": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000369": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
+    },
+    "BIOMD0000000243": {
+        "type": "polynomial",
+        "path": "/home/alexander/CLUE/models/polynomial/odebase/"
     }
 }

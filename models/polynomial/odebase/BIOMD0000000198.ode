@@ -1,0 +1,63 @@
+begin model ODEBase 1446 (BIOMD0000000198)
+ begin parameters
+  x1 = 1/2
+  x11 = 0
+  x12 = 0
+  k1 = 700
+  k2 = 800
+  k3 = 850
+  k4 = 20
+  k5 = 1/5
+  k6 = 700
+  k7 = 800
+  k8 = 850
+  k9 = 5
+  k10 = 25
+  k11 = 8/5
+  k12 = 1/50
+  k13 = 11/100
+  k14 = 1/40
+  k15 = 8/125
+  k16 = 11/250
+  k17 = 1
+  k18 = 1/2
+  k19 = 14/125
+  k20 = 36/125
+ end parameters
+ begin inits
+  x2 = 14/125
+  x3 = 0
+  x4 = 0
+  x5 = 0
+  x6 = 36/125
+  x7 = 0
+  x8 = 0
+  x9 = 0
+  x10 = 0
+ end inits
+ begin ODE
+  d(x2) = x3*k2 - x2*k1*k18
+  d(x3) = -x3*k2 - x3*k3 + x2*k1*k18
+  d(x4) = x3*k3 + x5*k5 - x4*k4
+  d(x5) = x4*k4 - x5*k5
+  d(x6) = x7*k7 - x6*k6*k18
+  d(x7) = -x7*k7 - x7*k8 + x6*k6*k18
+  d(x8) = x9*k10 + x7*k8 - x8*k9*k18
+  d(x9) = x10*k12 - x9*k10 - x9*k11 + x8*k9*k18
+  d(x10) = x9*k11 - x10*k12
+ end ODE
+end model
+//simulateODE(tEnd=100,viewPlot=VIEWS)
+//Species
+//x1:NO
+//x2:sGCfast
+//x3:NO_sGCfast
+//x4:NO_sGCfast_6coord
+//x5:NO_sGCfast_5coord
+//x6:sGCslow
+//x7:NO_sGCslow
+//x8:NO_sGCslow_6coord
+//x9:NO_sGCslow_6coord_NO_int
+//x10:NO_sGCslow_5coord
+//x11:NO_sGC_5coord_tot
+//x12:sGC_inact_tot

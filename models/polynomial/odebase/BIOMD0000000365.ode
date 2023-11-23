@@ -1,0 +1,115 @@
+begin model ODEBase 1560 (BIOMD0000000365)
+ begin parameters
+  k1 = 100000000
+  k2 = 7/10
+  k3 = 8/125
+  k4 = 1
+  k5 = 13/25000
+  k6 = 7/250
+  k7 = 2570
+  k8 = 43/2500000
+  k9 = 2630
+  k10 = 1
+  k11 = 1/100000000
+  k12 = 1/5000000
+  k13 = 1/5000000
+  k14 = 1/5000000
+  k15 = 1/5000000
+ end parameters
+ begin inits
+  x1
+  x2
+  x3 = 0
+  x4 = 0
+  x5 = 0
+  x6 = 0
+  x7 = 0
+  x8 = 0
+  x9 = 0
+  x10 = 0
+  x11 = 0
+  x12 = 0
+  x13 = 0
+  x14 = 0
+  x15 = 0
+  x16 = 0
+  x17 = 0
+  x18 = 0
+  x19 = 0
+  x20 = 0
+  x21 = 0
+  x22 = 0
+  x23 = 0
+  x24 = 0
+  x25 = 0
+  x26 = 0
+  x27 = 0
+  x28 = 0
+  x29 = 0
+  x30 = 0
+ end inits
+ begin ODE
+  d(x1) = x11*k2 + x13*k2 + x15*k2 + x23*k2 + x3*k2 + x30*k2 + x5*k2 + x7*k2 + x9*k2 - x1*x10*k1 - x1*x12*k1 - x1*x14*k1 - x1*x17*k1 - x1*x2*k1 - x1*x29*k1 - x1*x4*k1 - x1*x6*k1 - x1*x8*k1
+  d(x2) = x3*k2 - x2*k8 + x16*x17*k9 - x1*x2*k1
+  d(x3) = -x3*k2 - x3*k3 - x3*k4 + x1*x2*k1
+  d(x4) = x5*k2 - x4*k6 - x4*k8 + x25*x29*k7 + x17*x19*k9 - x1*x4*k1
+  d(x5) = x3*k3 - x5*k2 - x5*k4 - x5*k5 - x5*k6 + x1*x4*k1 + x25*x30*k7
+  d(x6) = x7*k2 - x6*k8 + x17*x18*k9 - x1*x6*k1
+  d(x7) = x3*k4 - x7*k2 - x7*k3 - x7*k5 + x1*x6*k1
+  d(x8) = x9*k2 - x8*k6 - x8*k8 + x26*x29*k7 + x17*x24*k9 - x1*x8*k1
+  d(x9) = x7*k3 + x5*k4 - x9*k2 - x9*k5 - x9*k6 + x1*x8*k1 + x26*x30*k7
+  d(x10) = x11*k2 - x10*k8 + x17*x20*k9 - x1*x10*k1
+  d(x11) = x7*k5 - x11*k2 - x11*k3 + x1*x10*k1
+  d(x12) = x13*k2 - x12*k6 - x12*k8 + x27*x29*k7 + x17*x21*k9 - x1*x12*k1
+  d(x13) = x5*k5 - x13*k2 - x13*k4 - x13*k6 + x1*x12*k1 + x27*x30*k7
+  d(x14) = x15*k2 - x14*k6 - x14*k8 + x28*x29*k7 + x17*x22*k9 - x1*x14*k1
+  d(x15) = x11*k3 + x13*k4 + x9*k5 - x15*k2 - x15*k6 + x1*x14*k1 + x28*x30*k6
+  d(x16) = x2*k8 - x16*x17*k9
+  d(x17) = x23*k2 + x10*k8 + x12*k8 + x14*k8 + x2*k8 + x4*k8 + x6*k8 + x8*k8 - x1*x17*k1 - x16*x17*k9 - x17*x18*k9 - x17*x19*k9 - x17*x20*k9 - x17*x21*k9 - x17*x22*k9 - x17*x24*k9
+  d(x18) = x6*k8 - x17*x18*k9
+  d(x19) = x4*k8 - x17*x19*k9
+  d(x20) = x10*k8 - x17*x20*k9
+  d(x21) = x12*k8 - x17*x21*k9
+  d(x22) = x14*k8 - x17*x22*k9
+  d(x23) = -x23*k2 + x1*x17*k1
+  d(x24) = x8*k8 - x17*x24*k9
+  d(x25) = x4*k6 + x5*k6 - x25*x29*k7 - x25*x30*k7
+  d(x26) = x8*k6 + x9*k6 - x26*x29*k7 - x26*x30*k7
+  d(x27) = x12*k6 + x13*k6 - x27*x29*k7 - x27*x30*k7
+  d(x28) = x14*k6 + x15*k6 - x28*x30*k6 - x28*x29*k7
+  d(x29) = x30*k2 + x12*k6 + x14*k6 + x4*k6 + x8*k6 - x1*x29*k1 - x25*x29*k7 - x26*x29*k7 - x27*x29*k7 - x28*x29*k7
+  d(x30) = x13*k6 + x15*k6 + x5*k6 + x9*k6 - x30*k2 + x1*x29*k1 - x28*x30*k6 - x25*x30*k7 - x26*x30*k7 - x27*x30*k7
+ end ODE
+end model
+//simulateODE(tEnd=100,viewPlot=VIEWS)
+//Species
+//x1:APC
+//x2:Va
+//x3:Va_APC
+//x4:Va3
+//x5:Va3_APC
+//x6:Va5
+//x7:Va5_APC
+//x8:Va53
+//x9:Va53_APC
+//x10:Va56
+//x11:Va56_APC
+//x12:Va36
+//x13:Va36_APC
+//x14:Va536
+//x15:Va536_APC
+//x16:HC
+//x17:LC
+//x18:HC5
+//x19:HC3
+//x20:HC56
+//x21:HC36
+//x22:HC536
+//x23:LC_APC
+//x24:HC53
+//x25:VaA3
+//x26:VaA53
+//x27:VaA36
+//x28:VaA536
+//x29:VaLCA1
+//x30:VaLCA1_APC

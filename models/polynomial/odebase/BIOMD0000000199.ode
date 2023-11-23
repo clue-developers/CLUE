@@ -1,0 +1,66 @@
+begin model ODEBase 1447 (BIOMD0000000199)
+ begin parameters
+  x9 = 40
+  x10 = 140
+  x11 = 0
+  x12 = 0
+  x13 = 0
+  x14 = 0
+  x15 = 0
+  k1 = 13/5
+  k2 = 9/10
+  k3 = 26
+  k4 = 13/5
+  k5 = 9/10
+  k6 = 26
+  k7 = 5
+  k8 = 13/5
+  k9 = 1/10000
+  k10 = 13/10000
+  k11 = 1
+  k12 = 40
+  k13 = 140
+  k14 = 0
+  k15 = 0
+  k16 = 0
+  k17 = 0
+  k18 = 1
+ end parameters
+ begin inits
+  x1 = 1
+  x2 = 0
+  x3 = 0
+  x4 = 0
+  x5 = 0
+  x6 = 0
+  x7 = 0
+  x8 = 0
+ end inits
+ begin ODE
+  d(x1) = x7*k7 - x1*k1 + x8*k10*k13
+  d(x2) = x1*k1 + x8*k9 - x2*k2*k13
+  d(x3) = -x3*k3 + x2*k2*k13
+  d(x4) = x3*k3 - x4*k4
+  d(x5) = x4*k4 - x5*k5*k13
+  d(x6) = -x6*k6 + x5*k5*k13
+  d(x7) = x6*k6 - x7*k7 - x7*k8
+  d(x8) = x7*k8 - x8*k9 - x8*k10*k13
+ end ODE
+end model
+//simulateODE(tEnd=100,viewPlot=VIEWS)
+//Species
+//x1:FeIII
+//x2:FeII
+//x3:FeII_O2
+//x4:FeIII_star
+//x5:FeII_star
+//x6:FeII_star_O2
+//x7:FeIII_NO
+//x8:FeII_NO
+//x9:NADPH
+//x10:O2
+//x11:citrulline
+//x12:NO3
+//x13:NO
+//x14:NADPplus
+//x15:FeIII_t

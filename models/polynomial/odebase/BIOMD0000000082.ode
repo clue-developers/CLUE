@@ -1,0 +1,57 @@
+begin model ODEBase 1389 (BIOMD0000000082)
+ begin parameters
+  k1 = 1
+  k2 = 5000000
+  k3 = 1/2
+  k4 = 100000000
+  k5 = 1/10
+  k6 = 1/10
+  k7 = 100000
+  k8 = 10000000
+  k9 = 1/10
+  k10 = 1/20
+  k11 = 1/10
+  k12 = 1/100000000
+  k13 = 1001/100000000
+  k14 = 1/1000000000
+  k15 = 10001/1000000000
+  k16 = 1/1000000000
+  k17 = 10001/1000000000
+ end parameters
+ begin inits
+  x1
+  x2 = 0
+  x3 = 0
+  x4 = 0
+  x5 = 0
+  x6 = 0
+  x7
+  x8
+  x9
+  x10 = 0
+ end inits
+ begin ODE
+  d(x1) = x2*k3 - x1*x8*k2
+  d(x2) = x6*k10 + x3*k5 - x2*k3 + x1*x8*k2 - x2*x9*k4
+  d(x3) = -x3*k5 - x3*k6 + x2*x9*k4 + x4*x5*k7
+  d(x4) = x3*k6 + x6*k9 - x4*x5*k7 - x4*x7*k8
+  d(x5) = x3*k6 - x4*x5*k7
+  d(x6) = -x6*k10 - x6*k9 + x4*x7*k8
+  d(x7) = x6*k9 - x4*x7*k8
+  d(x8) = x2*k3 - x1*x8*k2
+  d(x9) = x10*k11 + x3*k5 - x2*x9*k4
+  d(x10) = x6*k10 - x10*k11
+ end ODE
+end model
+//simulateODE(tEnd=100,viewPlot=VIEWS)
+//Species
+//x1:agonist
+//x2:DR
+//x3:DRG_GDP
+//x4:DRG
+//x5:GDP
+//x6:DRG_GTP
+//x7:GTP
+//x8:Recptor
+//x9:G_GDP
+//x10:G_GTP

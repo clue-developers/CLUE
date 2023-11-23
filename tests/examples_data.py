@@ -170,11 +170,11 @@ class Example:
 
         return json
 
-def Load_Examples_Folder(dir: str, valid_read: list[str] = None, valid_matrix: list[str] = None) -> tuple[dict[str,Example], list[tuple[str,str,str]]]:
+def Load_Examples_Folder(dir: str, examples_json: str = 'data.json', valid_read: list[str] = None, valid_matrix: list[str] = None) -> tuple[dict[str,Example], list[tuple[str,str,str]]]:
     valid_read = VALID_READ if valid_read is None else valid_read
     valid_matrix = VALID_MATRIX if valid_matrix is None else valid_matrix
     examples = {}
-    with open(os.path.join(dir,'data.json')) as f:
+    with open(os.path.join(dir,examples_json)) as f:
         data = json.load(f)
         examples = {}
         for key in data:

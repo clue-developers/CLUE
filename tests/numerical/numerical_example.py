@@ -20,7 +20,8 @@ from numpy.linalg import norm
 from scipy.integrate._ivp.ivp import OdeResult
 from sympy import RR
 
-examples, executed_examples = Load_Examples_Folder(SCRIPT_DIR)
+EX_JSON = 'odebase.json'
+examples, executed_examples = Load_Examples_Folder(SCRIPT_DIR,EX_JSON)
 logger = logging.getLogger("clue." + __name__)
 logger.setLevel(logging.DEBUG)
 class Experiment:

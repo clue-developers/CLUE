@@ -1,0 +1,42 @@
+begin model ODEBase 1563 (BIOMD0000000369)
+ begin parameters
+  k1 = 1
+  k2 = 1/10
+  k3 = 1
+  k4 = 1
+  k5 = 1
+  k6 = 1
+  k7 = 1
+  k8 = 1
+  k9 = 0
+  k10 = 1/1000
+  k11 = 1
+ end parameters
+ begin inits
+  x1 = 5
+  x2 = 10
+  x3 = 100
+  x4 = 0
+  x5 = 0
+  x6 = 0
+  x7 = 0
+ end inits
+ begin ODE
+  d(x1) = -x1*x5*k1 - x1*x7*k9
+  d(x2) = -x2*x4*k2 - x2*x4*k2*k10
+  d(x3) = -x3*x6*k4
+  d(x4) = x1*x5*k1 + x1*x7*k9 - x4*k5
+  d(x5) = x2*x4*k2 - x5*x7*k3 - x5*k6
+  d(x6) = x2*x4*k2*k10 + x5*x7*k3 - x6*k7
+  d(x7) = x3*x6*k4 - x7*k8
+ end ODE
+end model
+//simulateODE(tEnd=100,viewPlot=VIEWS)
+//Species
+//x1:Z1
+//x2:Z2
+//x3:Z4
+//x4:E1
+//x5:E2
+//x6:E3
+//x7:E4

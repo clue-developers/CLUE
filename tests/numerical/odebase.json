@@ -1,0 +1,916 @@
+{
+    "BIOMD0000000002": {
+        "model": "BIOMD0000000002",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000028": {
+        "model": "BIOMD0000000028",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000030": {
+        "model": "BIOMD0000000030",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000038": {
+        "model": "BIOMD0000000038",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000040": {
+        "model": "BIOMD0000000040",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000046": {
+        "model": "BIOMD0000000046",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000069": {
+        "model": "BIOMD0000000069",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000072": {
+        "model": "BIOMD0000000072",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000080": {
+        "model": "BIOMD0000000080",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000082": {
+        "model": "BIOMD0000000082",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000085": {
+        "model": "BIOMD0000000085",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000086": {
+        "model": "BIOMD0000000086",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000099": {
+        "model": "BIOMD0000000099",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000102": {
+        "model": "BIOMD0000000102",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000103": {
+        "model": "BIOMD0000000103",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000108": {
+        "model": "BIOMD0000000108",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000198": {
+        "model": "BIOMD0000000198",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000199": {
+        "model": "BIOMD0000000199",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000200": {
+        "model": "BIOMD0000000200",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000205": {
+        "model": "BIOMD0000000205",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000243": {
+        "model": "BIOMD0000000243",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000257": {
+        "model": "BIOMD0000000257",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000270": {
+        "model": "BIOMD0000000270",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000282": {
+        "model": "BIOMD0000000282",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000292": {
+        "model": "BIOMD0000000292",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000314": {
+        "model": "BIOMD0000000314",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000315": {
+        "model": "BIOMD0000000315",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000335": {
+        "model": "BIOMD0000000335",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000357": {
+        "model": "BIOMD0000000357",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000359": {
+        "model": "BIOMD0000000359",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000360": {
+        "model": "BIOMD0000000360",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000361": {
+        "model": "BIOMD0000000361",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000362": {
+        "model": "BIOMD0000000362",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000364": {
+        "model": "BIOMD0000000364",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000365": {
+        "model": "BIOMD0000000365",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000368": {
+        "model": "BIOMD0000000368",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000369": {
+        "model": "BIOMD0000000369",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000405": {
+        "model": "BIOMD0000000405",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "x1": [
+                "x1"
+            ],
+            "x2": [
+                "x2"
+            ],
+            "E1": [
+                "x3"
+            ],
+            "E2": [
+                "x4"
+            ],
+            "E": [
+                "x5"
+            ],
+            "Ex1": [
+                "x6"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": 100.0,
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000430": {
+        "model": "BIOMD0000000430",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "MKKPP": [
+                "x6"
+            ],
+            "MKKKPP": [
+                "x9"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": 1000.0,
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000431": {
+        "model": "BIOMD0000000431",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "MKPP": [
+                "x6"
+            ],
+            "MKKKP": [
+                "x8"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": 1000.0,
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000447": {
+        "model": "BIOMD0000000447",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "PLG": [
+                "x1"
+            ],
+            "PLS": [
+                "x2"
+            ],
+            "TGFb1": [
+                "x6"
+            ],
+            "TSP1": [
+                "x7"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": 500.0,
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000475": {
+        "model": "BIOMD0000000475",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "PCNA": [
+                "x2"
+            ],
+            "PCNAonU": [
+                "x12"
+            ],
+            "PCNAonUU": [
+                "x19"
+            ],
+            "PCNAonUUU": [
+                "x22"
+            ],
+            "PCNAoff": [
+                "x23"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": 100.0,
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000483": {
+        "model": "BIOMD0000000483",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "Pa": [
+                "x1"
+            ],
+            "Pb": [
+                "x2"
+            ],
+            "Da": [
+                "x3"
+            ],
+            "Db": [
+                "x4"
+            ],
+            "BDa": [
+                "x5"
+            ],
+            "BDb": [
+                "x6"
+            ],
+            "ESA": [
+                "x7"
+            ],
+            "ESB": [
+                "x8"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": 100.0,
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000530": {
+        "model": "BIOMD0000000530",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "mRNA": [
+                "x1"
+            ],
+            "miRNA_1": [
+                "x2"
+            ],
+            "miRNA_2": [
+                "x3"
+            ],
+            "TF_mRNA": [
+                "x7"
+            ],
+            "TF_miRNA_1": [
+                "x8"
+            ],
+            "TF_miRNA_2": [
+                "x9"
+            ],
+            "protein": [
+                "x10"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": 100.0,
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000539": {
+        "model": "BIOMD0000000539",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "A": [
+                "x1"
+            ],
+            "gB": [
+                "x3"
+            ],
+            "rB": [
+                "x4"
+            ],
+            "B": [
+                "x5"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": 100.0,
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000609": {
+        "model": "BIOMD0000000609",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "Sulphate__PAPS": [
+                "x1"
+            ],
+            "GSH": [
+                "x2"
+            ],
+            "NAPQI": [
+                "x3"
+            ],
+            "Paracetamol_APAP": [
+                "x4"
+            ],
+            "Protein_adducts": [
+                "x5"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": 100.0,
+        "out_folder": "./odebase"
+    },
+    "BIOMD0000000629": {
+        "model": "BIOMD0000000629",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            "LRCA": [
+                "x5"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "t1": 100.0,
+        "out_folder": "./odebase"
+    }
+}

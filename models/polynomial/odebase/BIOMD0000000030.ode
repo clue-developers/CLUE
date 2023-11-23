@@ -1,0 +1,100 @@
+begin model ODEBase 1346 (BIOMD0000000030)
+ begin parameters
+  k1 = 1/50
+  k2 = 1
+  k3 = 1/100
+  k4 = 4/125
+  k5 = 1
+  k6 = 15
+  k7 = 1/50
+  k8 = 1
+  k9 = 1/100
+  k10 = 4/125
+  k11 = 1
+  k12 = 15
+  k13 = 9/200
+  k14 = 1
+  k15 = 23/250
+  k16 = 1
+  k17 = 1/100
+  k18 = 1/100
+  k19 = 1
+  k20 = 1/2
+  k21 = 43/500
+  k22 = 11/10000
+  k23 = 1/100
+  k24 = 1
+  k25 = 47/100
+  k26 = 7/50
+  k27 = 9/5000
+  k28 = 9/200
+  k29 = 1
+  k30 = 23/250
+  k31 = 1
+  k32 = 1/100
+  k33 = 1
+  k34 = 800
+  k35 = 180
+  k36 = 100
+ end parameters
+ begin inits
+  x1 = 800
+  x2 = 0
+  x3 = 0
+  x4 = 0
+  x5 = 180
+  x6 = 100
+  x7 = 0
+  x8 = 0
+  x9 = 0
+  x10 = 0
+  x11 = 0
+  x12 = 0
+  x13 = 0
+  x14 = 0
+  x15 = 0
+  x16 = 0
+  x17 = 0
+  x18 = 0
+ end inits
+ begin ODE
+  d(x1) = x9*k2 + x17*k21 + x18*k26 + x10*k8 - x1*x5*k1 - x1*x6*k22 - x1*x6*k27 - x1*x5*k7
+  d(x2) = x13*k24 + x9*k3 + x14*k31 + x7*k5 - x2*x6*k23 - x2*x6*k32 - x2*x5*k4
+  d(x3) = x8*k11 + x15*k16 + x16*k19 + x10*k9 - x3*x5*k10 - x3*x6*k17 - x3*x6*k18
+  d(x4) = x8*k12 + x11*k14 + x12*k29 + x7*k6 - x4*x6*k13 - x4*x6*k28
+  d(x5) = x8*k11 + x8*k12 + x9*k2 + x9*k3 + x7*k5 + x7*k6 + x10*k8 + x10*k9 - x1*x5*k1 - x3*x5*k10 - x2*x5*k4 - x1*x5*k7
+  d(x6) = x11*k14 + x15*k16 + x16*k19 + x17*k21 + x13*k24 + x18*k26 + x12*k29 + x14*k31 - x4*x6*k13 - x3*x6*k17 - x3*x6*k18 - x1*x6*k22 - x2*x6*k23 - x1*x6*k27 - x4*x6*k28 - x2*x6*k32
+  d(x7) = -x7*k5 - x7*k6 + x2*x5*k4
+  d(x8) = -x8*k11 - x8*k12 + x3*x5*k10
+  d(x9) = -x9*k2 - x9*k3 + x1*x5*k1
+  d(x10) = -x10*k8 - x10*k9 + x1*x5*k7
+  d(x11) = -x11*k14 - x11*k15 + x4*x6*k13
+  d(x12) = -x12*k29 - x12*k30 + x4*x6*k28
+  d(x13) = -x13*k24 - x13*k25 + x2*x6*k23
+  d(x14) = x12*k30 - x14*k31 + x2*x6*k32
+  d(x15) = x11*k15 - x15*k16 + x3*x6*k17
+  d(x16) = -x16*k19 - x16*k20 + x3*x6*k18
+  d(x17) = x16*k20 - x17*k21 + x1*x6*k22
+  d(x18) = x13*k25 - x18*k26 + x1*x6*k27
+ end ODE
+end model
+//simulateODE(tEnd=100,viewPlot=VIEWS)
+//Species
+//x1:M
+//x2:MpY
+//x3:MpT
+//x4:Mpp
+//x5:MAPKK
+//x6:MKP
+//x7:MpY_MAPKK
+//x8:MpT_MAPKK
+//x9:M_MAPKK_Y
+//x10:M_MAPKK_T
+//x11:Mpp_MKP_Y
+//x12:Mpp_MKP_T
+//x13:MpY_MKP_Y
+//x14:MpY_MKP_T
+//x15:MpT_MKP_Y
+//x16:MpT_MKP_T
+//x17:M_MKP_T
+//x18:M_MKP_Y

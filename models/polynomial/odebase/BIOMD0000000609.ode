@@ -1,0 +1,44 @@
+begin model ODEBase 1698 (BIOMD0000000609)
+ begin parameters
+  k1 = 33/250000000000000
+  k2 = 2
+  k3 = 687/50000000000000000
+  k4 = 1600000000000000000
+  k5 = 299/100
+  k6 = 226000000000000
+  k7 = 53/2000000000000000
+  k8 = 2
+  k9 = 63/200
+  k10 = 63/2000
+  k11 = 110
+  k12 = 1
+ end parameters
+ begin inits
+  x1
+  x2
+  x3 = 0
+  x4
+  x5 = 0
+ end inits
+ begin ODE
+  d(x1) = k7 - x1*k8 - x1*x4*k6
+  d(x2) = k3 - x2*k2 - x2*x3*k4
+  d(x3) = x4*k9 - x3*k10 - x3*k11 - x2*x3*k4
+  d(x4) = x3*k10 - x4*k5 - x4*k9 - x1*x4*k6
+  d(x5) = x3*k11
+ end ODE
+ begin views
+    Sulphate__PAPS = x1
+    GSH = x2
+    NAPQI = x3
+    Paracetamol_APAP =x4
+    Protein_adducts = x5
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
+end model
+//Species
+//x1:Sulphate__PAPS
+//x2:GSH
+//x3:NAPQI
+//x4:Paracetamol_APAP
+//x5:Protein_adducts
