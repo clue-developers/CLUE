@@ -22,8 +22,13 @@ begin model ODEBase 1355 (BIOMD0000000040)
   d(x3) = -x3*k7 + x4*k5*k8
   d(x4) = -2*x4**2*k6 + x1*k3*k8 + x4*k5*k8 - x1*x4*k4
  end ODE
+ begin views
+HBrO2 = x4
+Br = x1
+Ce = x3
+ end views
+simulateODE(tEnd=500,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:Br
 //x2:BrO3

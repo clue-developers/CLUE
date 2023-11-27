@@ -40,8 +40,12 @@ begin model ODEBase 1407 (BIOMD0000000108)
   d(x6) = x4*k15 - x6*k11 + x1*x4*k4
   d(x7) = x5*k10 + x4*k15 - x7*k14 + 1/100*x1*k9
  end ODE
+ begin views
+O2 = x1
+H2O2 = x3
+ end views
+simulateODE(tEnd=1000,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:species_0000001
 //x2:species_0000002

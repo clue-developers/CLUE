@@ -58,7 +58,7 @@ begin model ODEBase 1448 (BIOMD0000000200)
   k54 = 1/500000
  end parameters
  begin inits
-  x1
+  x1 = 1 //Added
   x2 = 0
   x3
   x4 = 0
@@ -101,8 +101,13 @@ begin model ODEBase 1448 (BIOMD0000000200)
   d(x20) = x21*k37 - x2*x20*k38 - x5*x20*k39 - x7*x20*k40 - x14*x20*k41 - x12*x20*k42 - x16*x20*k43
   d(x21) = -x21*k37 + x2*x20*k38 + x5*x20*k39 + x7*x20*k40 + x14*x20*k41 + x12*x20*k42 + x16*x20*k43
  end ODE
+ begin views
+AA = x1
+TT = x8
+W = x3
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:AA
 //x2:AAp

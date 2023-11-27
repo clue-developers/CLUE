@@ -89,8 +89,13 @@ begin model ODEBase 1403 (BIOMD0000000103)
   d(x16) = -x16*k44 + x17*k2*k47 - x16*k12*k47 - x16*k6*k47 + x8*x10*k11*k46 + x9*x11*k5*k46 - x1*x16*k1*k46
   d(x17) = -x17*k43 - x17*k45 - x17*k12*k47 - x17*k2*k47 - x17*k6*k47 + x1*x16*k1*k46 + x8*x13*k11*k46 + x9*x12*k5*k46
  end ODE
+ begin views
+A = x1
+C3 = x7
+C9 = x2
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:A
 //x2:C9

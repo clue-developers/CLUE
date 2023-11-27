@@ -64,8 +64,14 @@ begin model ODEBase 1353 (BIOMD0000000038)
   d(x12) = x11*k16 + x13*k19 - x7*x12*k17 - x12*k18*k25
   d(x13) = -x13*k19 - x13*k20 + x12*k18*k25 + x10*k21*k24
  end ODE
+ begin views
+EI = x1
+HPr = x4
+EIIA = x7
+EIICB = x10
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:EI
 //x2:PyrPI

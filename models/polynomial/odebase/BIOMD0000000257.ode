@@ -47,8 +47,18 @@ begin model ODEBase 1490 (BIOMD0000000257)
   d(x10) = x11*k11 - x10*k9 + x8*x9*k8 - x10*k10*k22
   d(x11) = -x11*k11 - x11*k12 + x10*k10*k22 + x4*x8*k13
  end ODE
+ begin views
+ST = x9
+STUST = x6
+STUS = x5
+STU = x4
+STUSU = x7
+SU = x8
+SUSTU = x11
+SUST = x10
+ end views
+simulateODE(tEnd=600,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:S
 //x2:U

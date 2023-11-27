@@ -35,13 +35,22 @@ begin model ODEBase 1400 (BIOMD0000000099)
   d(x6) = x1*k13 - x3*x6*k14
   d(x7) = x6*k5 - x3*x7*k6
  end ODE
+ begin views
+Ex_cAMP = x1
+In_cAMP = x2
+PKA = x3
+REGA = x4
+ACA = x5
+CAR1 = x6
+ERK2 = x7
+ end views
+simulateODE(tEnd=50,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
-//x1:species_0
-//x2:species_1
-//x3:species_2
-//x4:species_3
-//x5:species_4
-//x6:species_5
-//x7:species_6
+//x1:species_0 Ex_cAMP
+//x2:species_1 In_cAMP
+//x3:species_2 PKA
+//x4:species_3 REGA
+//x5:species_4 ACA
+//x6:species_5 CAR1
+//x7:species_6 ERK2

@@ -17,8 +17,8 @@ begin model ODEBase 1560 (BIOMD0000000365)
   k15 = 1/5000000
  end parameters
  begin inits
-  x1
-  x2
+  x1 = 1
+  x2 = 1
   x3 = 0
   x4 = 0
   x5 = 0
@@ -80,8 +80,13 @@ begin model ODEBase 1560 (BIOMD0000000365)
   d(x29) = x30*k2 + x12*k6 + x14*k6 + x4*k6 + x8*k6 - x1*x29*k1 - x25*x29*k7 - x26*x29*k7 - x27*x29*k7 - x28*x29*k7
   d(x30) = x13*k6 + x15*k6 + x5*k6 + x9*k6 - x30*k2 + x1*x29*k1 - x28*x30*k6 - x25*x30*k7 - x26*x30*k7 - x27*x30*k7
  end ODE
+ begin views
+APC = x1
+Va = x2
+Va_APC = x3
+ end views
+simulateODE(tEnd=800,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:APC
 //x2:Va

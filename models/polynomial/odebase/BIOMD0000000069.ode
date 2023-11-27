@@ -50,8 +50,15 @@ begin model ODEBase 1379 (BIOMD0000000069)
   d(x9) = -x9*k6*k10 - x3*x9*k6*k14 - x2*x9*k6*k15 - x4*x9*k6*k16
   d(x10) = x5*k13 + x9*k6*k10 - x6*x10*k12 + x3*x9*k6*k14 + x2*x9*k6*k15 + x4*x9*k6*k16
  end ODE
+ begin views
+srci = x1
+srco = x2
+srca = x3
+srcc = x4
+CSK_cytoplasm = x6
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:srci
 //x2:srco

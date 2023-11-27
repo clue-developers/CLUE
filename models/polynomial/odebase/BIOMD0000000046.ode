@@ -55,8 +55,15 @@ begin model ODEBase 1361 (BIOMD0000000046)
   d(x11) = x2*x12*k12 + x4*x10*k7 - x9*x11*k9
   d(x12) = x4*x9*k11 - x2*x12*k12
  end ODE
+ begin views
+NADH = x1
+O2 = x2
+H2O2 = x3
+per3 = x4
+coIII = x11
+ end views
+simulateODE(tEnd=10000,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:NADH
 //x2:O2

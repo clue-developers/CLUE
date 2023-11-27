@@ -22,8 +22,13 @@ begin model ODEBase 1515 (BIOMD0000000292)
   d(x3) = -x4*k1 - x3*k2 + 2*x2*x6*k3
   d(x4) = x3*k2 - x4*k1
  end ODE
+ begin views
+NADPH = x1
+ADP = x2
+ATP = x3
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:NADPH
 //x2:ADP

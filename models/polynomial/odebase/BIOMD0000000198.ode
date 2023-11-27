@@ -46,8 +46,11 @@ begin model ODEBase 1446 (BIOMD0000000198)
   d(x9) = x10*k12 - x9*k10 - x9*k11 + x8*k9*k18
   d(x10) = x9*k11 - x10*k12
  end ODE
+ begin views
+NO = x1
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:NO
 //x2:sGCfast

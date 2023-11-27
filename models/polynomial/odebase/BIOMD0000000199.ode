@@ -46,8 +46,14 @@ begin model ODEBase 1447 (BIOMD0000000199)
   d(x7) = x6*k6 - x7*k7 - x7*k8
   d(x8) = x7*k8 - x8*k9 - x8*k10*k13
  end ODE
+ begin views
+NADPH = x9
+FeIII = x1
+citrulline = x11
+FeII_NO = x8
+ end views
+simulateODE(tEnd=10,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:FeIII
 //x2:FeII

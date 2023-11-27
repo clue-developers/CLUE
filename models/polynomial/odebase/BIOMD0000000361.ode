@@ -34,8 +34,13 @@ begin model ODEBase 1556 (BIOMD0000000361)
   d(x7) = x8*k10 - x7*k8 + x5*x6*k7 - x1*x7*k9
   d(x8) = -x8*k10 + x1*x7*k9
  end ODE
+ begin views
+Xa = x5
+X = x2
+TFPI = x6
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:VIIa_TF
 //x2:X

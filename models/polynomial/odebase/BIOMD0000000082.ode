@@ -42,8 +42,12 @@ begin model ODEBase 1389 (BIOMD0000000082)
   d(x9) = x10*k11 + x3*k5 - x2*x9*k4
   d(x10) = x6*k10 - x10*k11
  end ODE
+ begin views
+GTP = x7
+GDP = x5
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:agonist
 //x2:DR

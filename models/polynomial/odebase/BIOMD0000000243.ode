@@ -70,8 +70,16 @@ begin model ODEBase 1482 (BIOMD0000000243)
   d(x22) = x5*x17*k6 + x4*x18*k7
   d(x23) = x5*x18*k7
  end ODE
+ begin views
+C3 = x7
+C8 = x8
+C8_star = x9
+C3_star = x10
+NF_kB_IkB = x12
+NF_kB_IkB_P = x13
+ end views
+simulateODE(tEnd=400,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:L
 //x2:L_RF

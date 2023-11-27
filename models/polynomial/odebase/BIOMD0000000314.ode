@@ -42,8 +42,12 @@ begin model ODEBase 1531 (BIOMD0000000314)
   d(x10) = x7*x9*k10 - x8*x10*k11
   d(x11) = x10*k12
  end ODE
+ begin views
+STAT5 = x9
+pSTAT5 = x10
+ end views
+simulateODE(tEnd=150,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:Rec
 //x2:Rec_i

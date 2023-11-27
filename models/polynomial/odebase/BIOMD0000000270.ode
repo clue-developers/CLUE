@@ -119,8 +119,19 @@ begin model ODEBase 1501 (BIOMD0000000270)
   d(x31) = x30*k4 - x31*k4
   d(x32) = x31*k4 - x32*k4
  end ODE
+ begin views
+Epo = x33
+pJAK2 = x10
+pEpoR = x11
+ppMEK2 = x16
+ppMEK1 = x17
+ppERK1 = x18
+ppERK2 = x19
+pSOS = x20
+sumSOS = x14 + x4 
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:JAK2
 //x2:EpoR

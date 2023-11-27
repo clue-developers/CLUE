@@ -127,8 +127,15 @@ begin model ODEBase 1544 (BIOMD0000000335)
   d(x33) = x7*x29*k41
   d(x34) = x4*x29*k42
  end ODE
+ begin views
+TF = x1
+IIa = x7
+Xa = x6
+VIIIa = x16
+IXa = x13
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:TF
 //x2:TF_VII

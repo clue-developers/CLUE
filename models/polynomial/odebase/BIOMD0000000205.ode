@@ -744,8 +744,13 @@ begin model ODEBase 1452 (BIOMD0000000205)
   d(x193) = -x193*k310 - x193*k311 + x96*x176*k309
   d(x194) = -x194*k313 - x194*k314 + x96*x178*k312
  end ODE
+ begin views
+ppERK = x36
+RhoGTP = x87
+EGFR = x2
+ end views
+simulateODE(tEnd=4000,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:species_0
 //x2:species_1

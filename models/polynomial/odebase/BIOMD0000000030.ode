@@ -77,8 +77,12 @@ begin model ODEBase 1346 (BIOMD0000000030)
   d(x17) = x16*k20 - x17*k21 + x1*x6*k22
   d(x18) = x13*k25 - x18*k26 + x1*x6*k27
  end ODE
+ begin views
+MKP = x6
+MpY_MKP_T = x14
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
 end model
-//simulateODE(tEnd=100,viewPlot=VIEWS)
 //Species
 //x1:M
 //x2:MpY
