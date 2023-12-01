@@ -102,6 +102,11 @@ begin model BIOMD0000000182
   MEK_active_cyto + PP2A_cyto -> MEK_cyto + PP2A_cyto , arbitrary kcat_PPase_mek*0.00166112956810631*PP2A_cyto*0.00166112956810631*MEK_active_cyto*1/(15.7+0.00166112956810631*MEK_active_cyto)*1*1*1/KMOLE [PPase_mek]
   c2_R2C2_cyto + cAMP_cyto -> c3_R2C2_cyto , arbitrary (8.35*0.00166112956810631*c2_R2C2_cyto*0.00166112956810631*cAMP_cyto+(-0.0167*0.00166112956810631*c3_R2C2_cyto))*1*1*1/KMOLE [A1]
  end reactions
+ begin views
+PDE4_cyto = PDE4_cyto
+MAPK_active_cyto = MAPK_active_cyto
+ end views
+ simulateODE(tEnd=100, viewPlot=VIEWS)
 
 //Comments associated to the reactions
 //activate_Gs:  

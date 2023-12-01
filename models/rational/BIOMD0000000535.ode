@@ -171,6 +171,12 @@ begin model BIOMD0000000535
   2*mwf7796221_1fea_4274_a93e_c00adbf5778c -> mwf7796221_1fea_4274_a93e_c00adbf5778c , arbitrary 1*mwbd1d5bc3_d4b9_4aec_9b86_6f776da20a30*mwf7796221_1fea_4274_a93e_c00adbf5778c/1 [mw9629d028_fcc0_4886_9e4d_36eecdb0381d]
  end reactions
 
+begin views
+  CRP = mw114aa90f_5f5b_4fe8_9406_361c8489b6a1 
+  IL6 = mw0adf3eb4_a196_4c48_b10d_4e9e9faaf9e1 
+  pSTAT3 = mw48867e93_f170_44e8_ac7a_185b23e1bf3b 
+end views
+simulateODE(tEnd=12, viewPlot=VIEWS)
 //Comments associated to the reactions
 //reaction_1:  
   //reaction_1

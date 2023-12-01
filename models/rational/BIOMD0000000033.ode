@@ -111,6 +111,13 @@ begin model BIOMD0000000033
   BRafInactive + Rap1Active -> BRafActive + Rap1Active ,  1*kRap1ToBRaf*Rap1Active*BRafInactive/(BRafInactive+KmRap1ToBRaf)
   BRafActive + Raf1PPtase -> BRafInactive + Raf1PPtase ,  1*kdBRaf*Raf1PPtase*BRafActive/(BRafActive+KmdBRaf)
  end reactions
+ begin views
+ErkActive = ErkActive
+EGF = EGF
+NGF = NGF
+ end views
+ simulateODE(tEnd=100, viewPlot=VIEWS)
+
 reduceFDE(reducedFile="reductions/BIOMD0000000033_FDE.ode")
 end model
 

@@ -104,7 +104,11 @@ begin model BIOMD0000000087
   G2 + G2CdkA + G2Mon -> M + G2CdkI + G2Moff , arbitrary G2*G2CdkA*G2Mon*0.01*kalive [G2toMProgession]
   M + MCdkA + MG1on -> G1 + MCdkI + MG1off + budscar , arbitrary 0.01*M*MCdkA*MG1on*kalive [MtoG1Progession]
  end reactions
-
+begin views
+Ctelo = Ctelo
+Utelo = Utelo
+end views
+simulateODE(tEnd=500, viewPlot=VIEWS)
 //Comments associated to the species
 //sink:  
   //This is the null species. It has been added because some reactions became with empty products after the transformations.

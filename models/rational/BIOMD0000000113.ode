@@ -38,7 +38,12 @@ begin model BIOMD0000000113
   SINK -> Z , arbitrary 1*k*Z [R_eff]
   Wt -> Wt + W_star , arbitrary 1*vp/Wt*(vMK*Z^1.0/(Ka^1.0+Z^1.0)/vp*(1-W_star)/(K1+1-W_star)-W_star/(K2+W_star)) [Protein_Phosphorylation]
  end reactions
-
+ 
+ begin views
+Z = Z 
+Wt = Wt
+ end views
+ simulateODE(tEnd=10, viewPlot=VIEWS)
 //Comments associated to the species
 //SINK:  
   //This is the null species. It has been added because some reactions became with empty products after the transformations.

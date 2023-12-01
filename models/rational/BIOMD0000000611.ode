@@ -240,6 +240,12 @@ begin model BIOMD0000000611
   3*mw6591152c_8b5a_4c9b_b095_956988a01ba0 + 3*mw6d041b25_87db_4394_9b8b_7ac61e01f359 -> VIIa + Xa + 3*mw6591152c_8b5a_4c9b_b095_956988a01ba0 + 2*mw6d041b25_87db_4394_9b8b_7ac61e01f359 , arbitrary mw7be1d52f_926f_47e0_964b_d3303c8453b1*mw6d041b25_87db_4394_9b8b_7ac61e01f359*mw6591152c_8b5a_4c9b_b095_956988a01ba0 [mw0ca8823e_ed5a_443a_935b_db3cfb4c01e2]
  end reactions
 
+begin views
+Xa_Va_II= Xa_Va_II
+X = X
+TF = TF
+end views
+simulateODE(tEnd=30, viewPlot=VIEWS)
 //Comments associated to the reactions
 //R1:  
   //R1

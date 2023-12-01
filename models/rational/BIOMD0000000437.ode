@@ -163,6 +163,12 @@ begin model BIOMD0000000437 //CHANGED ARGUMENTS IN EXPONENTS
   2*L_WCCVVDn -> L_WCCVVDn + degraded_L_WCCCVVDn , arbitrary L_WCCVVDn*kd_WCCVVD [L_WCCVVD_degradation]
  end reactions
 
+begin views
+  frq_gene = frq_gene 
+  WC1c = WC1c 
+  WC2c = WC2c 
+end views
+simulateODE(tEnd=40, viewPlot=VIEWS)
 //Comments associated to the reactions
 //re45:  
   //Time
