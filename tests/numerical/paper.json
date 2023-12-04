@@ -75,9 +75,6 @@
         "matrix": "polynomial",
         "read": "polynomial",
         "observables": {
-            "C9": [
-                "x2"
-            ],
             "C3": [
                 "x7"
             ]
@@ -92,7 +89,7 @@
             0.75,
             0.875
         ],
-        "t1": 100.0,
+        "t1": 5000.0,
         "out_folder": "paper/polynomial"
     },
 
@@ -103,11 +100,8 @@
         "observables": {
             "C3": [
                 "x7"
-            ],
-            "C9": [
-                "x2"
             ]
-        },
+                   },
         "type": "percentage_size",
         "percentage_size": [
             0.125,
@@ -118,17 +112,43 @@
             0.75,
             0.875
         ],
-        "t1": 100.0,
+        "t1": 5000.0,
         "out_folder": "paper/polynomial"
     },
+
+    "BIOMD437": {
+        "model":"BIOMD0000000437",
+        "read": "rational",
+        "matrix": "rational",
+        "type": "percentage_size",
+        "t1": 40 ,
+        "observables": {
+            "frq_mRNA": [
+                "frq_mRNA"
+           ]
+        },
+        "percentage_size": [
+            0.125,
+            0.25,
+            0.375,
+            0.5,
+            0.625,
+            0.75,
+            0.875
+        ],
+        "sim_method": "Radau",
+        "out_folder": "paper/rational"
+    },
+
+
     "BIOMD448": {
         "read": "sympy",
         "matrix": "auto_diff",
         "model":"BIOMD0000000448",
         "type": "percentage_size",
         "observables": {
-            "VIEW_0": [
-                "mTORC1a"
+            "S6p": [
+                "S6p"
             ]
         },
         "percentage_size": [
@@ -140,8 +160,8 @@
             0.75,
             0.875
         ],
-        "t1": 10,
-        "sim_method": "LSODA",
+        "t1": 5,
+        "sim_method": "Radau",
         "out_folder": "paper/rational"
     },
 
@@ -151,13 +171,7 @@
         "matrix": "rational",
         "type": "percentage_size",
         "observables": {
-            "VIEW_0": [
-                "GSK3b"
-            ],
-            "VIEW_1": [
-                "ROS"
-            ],
-            "VIEW_2": [
+            "Tau": [
                 "Tau"
             ]
                     },
@@ -171,23 +185,19 @@
             0.875
         ],
 
-        "t1": 0.1,
-        "sim_method": "LSODA",
+        "t1": 10,
+        "sim_method": "Radau",
         "out_folder": "paper/rational"
     },
 
-    "BIOMD437": {
-        "model":"BIOMD0000000437",
+        "BIOMD634": {
+        "model":"BIOMD0000000634",
         "read": "rational",
         "matrix": "rational",
         "type": "percentage_size",
-        "t1": 100 ,
         "observables": {
-            "frq_mRNA": [
-                "frq_mRNA"
-            ],
-            "frq_gene": [
-                "frq_gene"
+            "Tau": [
+                "Tau"
             ]
         },
         "percentage_size": [
@@ -199,27 +209,8 @@
             0.75,
             0.875
         ],
-        "out_folder": "paper/rational"
-    },
-
-    "BIOMD634": {
-        "model":"BIOMD0000000634",
-        "read": "rational",
-        "matrix": "rational",
-        "type": "percentage_size",
-        "observables": {
-            "GSK3b": [
-                "GSK3b"
-            ],
-            "ROS": [
-                "ROS"
-            ],
-            "Tau": [
-                "Tau"
-            ]
-        },
-        "t1": 0.010025,
-        "sim_method": "LSODA",
+        "t1": 12,
+        "sim_method": "BDF",
         "out_folder": "paper/rational"
     }
 }

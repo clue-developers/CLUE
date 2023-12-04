@@ -166,8 +166,8 @@
     },
     "BIOMD0000000182": {
         "model": "BIOMD0000000182",
-        "matrix": "rational",
-        "read": "rational",
+        "matrix": "auto_diff",
+        "read": "sympy",
         "observables": {
             "PDE4_cyto": [
                 "PDE4_cyto"
@@ -218,6 +218,7 @@
             0.875
         ],
         "t1": 120.0,
+        "sim_method": "Radau",
         "out_folder": "./rational-sizes"
     },
     "BIOMD0000000437": {
@@ -225,6 +226,9 @@
         "matrix": "rational",
         "read": "rational",
         "observables": {
+            "frq_mRNA": [
+                "frq_mRNA"
+            ],
             "frq_gene": [
                 "frq_gene"
             ],
@@ -246,12 +250,13 @@
             0.875
         ],
         "t1": 40.0,
+        "sim_method": "Radau",
         "out_folder": "./rational-sizes"
     },
     "BIOMD0000000448": {
         "model": "BIOMD0000000448",
-        "matrix": "rational",
-        "read": "rational",
+        "matrix": "auto_diff",
+        "read": "sympy",
         "observables": {
             "IRip": [
                 "IRip"
@@ -270,6 +275,9 @@
             ],
             "S6p": [
                 "S6p"
+            ],
+            "mTORC1a": [
+                "mTORC1a"
             ]
         },
         "type": "percentage_size",
@@ -283,6 +291,7 @@
             0.875
         ],
         "t1": 30.0,
+        "sim_method": "Radau",
         "out_folder": "./rational-sizes"
     },
     "BIOMD0000000488": {
@@ -293,15 +302,17 @@
             "GSK3b": [
                 "GSK3b"
             ],
-            "GliaA": [
-                "GliaA"
-            ],
+            
             "ROS": [
                 "ROS"
             ],
             "AbetaPlaque": [
                 "AbetaPlaque"
+            ],
+            "Tau": [
+                "Tau"
             ]
+
         },
         "type": "percentage_size",
         "percentage_size": [
@@ -313,13 +324,14 @@
             0.75,
             0.875
         ],
-        "t1": 12.0,
+        "t1": 10.0,
+        "sim_method": "Radau",
         "out_folder": "./rational-sizes"
     },
     "BIOMD0000000503": {
         "model": "BIOMD0000000503",
-        "matrix": "rational",
-        "read": "rational",
+        "matrix": "auto_diff",
+        "read": "sympy",
         "observables": {
             "G6P": [
                 "G6P"
@@ -342,6 +354,7 @@
             0.875
         ],
         "t1": 120.0,
+        "sim_method": "BDF",
         "out_folder": "./rational-sizes"
     },
     "BIOMD0000000526": {
@@ -349,15 +362,6 @@
         "matrix": "rational",
         "read": "rational",
         "observables": {
-            "CD95": [
-                "CD95"
-            ],
-            "FADD": [
-                "FADD"
-            ],
-            "p55free": [
-                "p55free"
-            ],
             "Bid": [
                 "Bid"
             ]
@@ -372,7 +376,8 @@
             0.75,
             0.875
         ],
-        "t1": 10.0,
+        "t1": 0.05,
+        "sim_method": "BDF",
         "out_folder": "./rational-sizes"
     },
     "BIOMD0000000535": {
@@ -485,6 +490,7 @@
             0.875
         ],
         "t1": 12.0,
+        "sim_method": "BDF",
         "out_folder": "./rational-sizes"
     },
     "MODEL1502270000": {
