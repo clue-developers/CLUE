@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(SCRIPT_DIR, "..")) # examples_data is here
 
 from contextlib import nullcontext
 from clue import FODESystem, LDESystem, SparsePolynomial, SparseRowMatrix, NumericalSubspace
-from clue.linalg import OrthogonalSubspace, find_smallest_common_subspace
+from clue.linalg import find_smallest_common_subspace
 from clue.simulations import apply_matrix, create_figure, merge_simulations
 from clue.ode_parser import readfile, extract_model_name, split_in_sections
 from cProfile import Profile
