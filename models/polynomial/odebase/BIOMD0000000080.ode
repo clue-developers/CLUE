@@ -1,0 +1,61 @@
+begin model ODEBase 1388 (BIOMD0000000080)
+ begin parameters
+  k1 = 1
+  k2 = 5000000
+  k3 = 10
+  k4 = 100000000
+  k5 = 1/10
+  k6 = 5
+  k7 = 100000
+  k8 = 5000000
+  k9 = 55
+  k10 = 1
+  k11 = 2
+  k12 = 31/1000000
+  k13 = 41/1000000
+  k14 = 1/10000000000
+  k15 = 100001/10000000000
+  k16 = 1/1000000
+  k17 = 11/1000000
+ end parameters
+ begin inits
+  x1
+  x2 = 0
+  x3 = 0
+  x4
+  x5 = 0
+  x6 = 0
+  x7 = 0
+  x8
+  x9 = 0
+  x10
+ end inits
+ begin ODE
+  d(x1) = x2*k3 - x1*x10*k2
+  d(x2) = x7*k10 + x3*k5 - x2*k3 + x1*x10*k2 - x2*x4*k4
+  d(x3) = -x3*k5 - x3*k6 + x2*x4*k4 + x5*x6*k7
+  d(x4) = x9*k11 + x3*k5 - x2*x4*k4
+  d(x5) = x3*k6 + x7*k9 - x5*x6*k7 - x5*x8*k8
+  d(x6) = x3*k6 - x5*x6*k7
+  d(x7) = -x7*k10 - x7*k9 + x5*x8*k8
+  d(x8) = x7*k9 - x5*x8*k8
+  d(x9) = x7*k10 - x9*k11
+  d(x10) = x2*k3 - x1*x10*k2
+ end ODE
+ begin views
+GDP = x6
+GTP = x8
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
+end model
+//Species
+//x1:D
+//x2:DR
+//x3:DRG_GDP
+//x4:G_GDP
+//x5:DRG
+//x6:GDP
+//x7:DRG_GTP
+//x8:GTP
+//x9:G_GTP
+//x10:R

@@ -486,5 +486,11 @@ pKCaMcomplex_2_2_2_2 -> 2*pKCaM_2_2, kpCaM4
 
 
 end reactions
+begin views
+Ca2 = Ca2
+KaMe = KaMe
+Ca = Ca 
+end views
 
+simulateODE(tEnd=10)
 end model

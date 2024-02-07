@@ -260,6 +260,12 @@ begin model BIOMD0000000634
   2*ROS + Sink -> ROS + Sink , arbitrary kremROS*ROS [ROSremoval]
  end reactions
 
+begin views
+  GSK3b = GSK3b
+  ROS = ROS
+  Tau = Tau
+end views
+simulateODE(tEnd=12, viewPlot=VIEWS)
 //Comments associated to the species
 //Sink:  
   //This is the null species. It has been added because some reactions became with empty products after the transformations.

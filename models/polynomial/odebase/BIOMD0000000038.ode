@@ -1,0 +1,92 @@
+begin model ODEBase 1353 (BIOMD0000000038)
+ begin parameters
+  x14 = 2800
+  x15 = 900
+  x16 = 50
+  x17 = 500
+  k1 = 1
+  k2 = 1960
+  k3 = 480000
+  k4 = 108000
+  k5 = 294
+  k6 = 14000
+  k7 = 14000
+  k8 = 84000
+  k9 = 3360
+  k10 = 21960
+  k11 = 21960
+  k12 = 4392
+  k13 = 3384
+  k14 = 880
+  k15 = 880
+  k16 = 2640
+  k17 = 960
+  k18 = 260
+  k19 = 389
+  k20 = 4800
+  k21 = 27/5000
+  k22 = 2800
+  k23 = 900
+  k24 = 50
+  k25 = 500
+  k26 = 5
+  k27 = 50
+  k28 = 40
+  k29 = 10
+ end parameters
+ begin inits
+  x1 = 3
+  x2 = 0
+  x3 = 2
+  x4 = 25
+  x5 = 0
+  x6 = 25
+  x7 = 20
+  x8 = 0
+  x9 = 20
+  x10 = 5
+  x11 = 0
+  x12 = 5
+  x13 = 0
+ end inits
+ begin ODE
+  d(x1) = x2*k3 + x5*k8 - x1*k2*k22 - x1*x6*k9
+  d(x2) = -x2*k3 - x2*k4 + x1*k2*k22 + x3*k5*k23
+  d(x3) = x2*k4 + x5*k7 - x3*k5*k23 - x3*x4*k6
+  d(x4) = x8*k12 + x5*k7 - x4*x9*k13 - x3*x4*k6
+  d(x5) = -x5*k7 - x5*k8 + x3*x4*k6 + x1*x6*k9
+  d(x6) = x8*k11 + x5*k8 - x6*x7*k10 - x1*x6*k9
+  d(x7) = x8*k11 + x11*k16 - x6*x7*k10 - x7*x12*k17
+  d(x8) = -x8*k11 - x8*k12 + x6*x7*k10 + x4*x9*k13
+  d(x9) = x8*k12 + x11*k15 - x4*x9*k13 - x9*x10*k14
+  d(x10) = x11*k15 + x13*k20 - x9*x10*k14 - x10*k21*k24
+  d(x11) = -x11*k15 - x11*k16 + x9*x10*k14 + x7*x12*k17
+  d(x12) = x11*k16 + x13*k19 - x7*x12*k17 - x12*k18*k25
+  d(x13) = -x13*k19 - x13*k20 + x12*k18*k25 + x10*k21*k24
+ end ODE
+ begin views
+EI = x1
+HPr = x4
+EIIA = x7
+EIICB = x10
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
+end model
+//Species
+//x1:EI
+//x2:PyrPI
+//x3:EIP
+//x4:HPr
+//x5:EIPHPr
+//x6:HPrP
+//x7:EIIA
+//x8:HPrPIIA
+//x9:EIIAP
+//x10:EIICB
+//x11:EIIAPIICB
+//x12:EIICBP
+//x13:EIICBPGlc
+//x14:PEP
+//x15:Pyr
+//x16:GlcP
+//x17:Glc

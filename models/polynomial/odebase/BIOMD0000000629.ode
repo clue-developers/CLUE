@@ -1,0 +1,36 @@
+begin model ODEBase 1707 (BIOMD0000000629)
+ begin parameters
+  k1 = 1
+  k2 = 3/5
+  k3 = 1/10
+  k4 = 7/500
+  k5 = 1/5
+  k6 = 1/2000
+  k7 = 7/2000
+  k8 = 30
+ end parameters
+ begin inits
+  x1
+  x2 = 0
+  x3 = 7/2000
+  x4 = 30
+  x5 = 0
+ end inits
+ begin ODE
+  d(x1) = x2*k3 - x1*x3*k2
+  d(x2) = x5*k5 - x2*k3 + x1*x3*k2 - x2*x4*k4
+  d(x3) = x2*k3 - x1*x3*k2
+  d(x4) = x5*k5 - x2*x4*k4
+  d(x5) = -x5*k5 + x2*x4*k4
+ end ODE
+ begin views
+ LRCA = x5
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
+end model
+//Species
+//x1:L
+//x2:LR
+//x3:R
+//x4:CA
+//x5:LRCA

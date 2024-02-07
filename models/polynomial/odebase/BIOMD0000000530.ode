@@ -1,0 +1,64 @@
+begin model ODEBase 1664 (BIOMD0000000530)
+ begin parameters
+  x7 = 1
+  x8 = 1
+  x9 = 1
+  k1 = 1
+  k2 = 22649/50000000
+  k3 = 130837/10000000000
+  k4 = 499767/500000
+  k5 = 1
+  k6 = 1
+  k7 = 1
+  k8 = 1
+  k9 = 1
+  k10 = 1
+  k11 = 49991/200000
+  k12 = 241033/1000000
+  k13 = 46949/250000
+  k14 = 1
+  k15 = 1
+  k16 = 1
+  k17 = 1
+  k18 = 1
+ end parameters
+ begin inits
+  x1 = 1
+  x2 = 0
+  x3 = 0
+  x4 = 0
+  x5 = 0
+  x6 = 0
+  x10 = 1
+ end inits
+ begin ODE
+  d(x1) = x4*k11 + x5*k12 + x6*k13 + x7*k5 - x1*k8 - x1*x2*k2 - x1*x3*k3 - x1*x2*x3*k4
+  d(x2) = x4*k11 + x6*k13 + x8*k6 - x2*k9 - x1*x2*k2 - x1*x2*x3*k4
+  d(x3) = x5*k12 + x6*k13 + x9*k7 - x3*k10 - x1*x3*k3 - x1*x2*x3*k4
+  d(x4) = -x4*k11 - x4*k14 + x1*x2*k2
+  d(x5) = -x5*k12 - x5*k15 + x1*x3*k3
+  d(x6) = -x6*k13 - x6*k16 + x1*x2*x3*k4
+  d(x10) = x1*k17 - x10*k18
+ end ODE
+ begin views
+mRNA = x1
+miRNA_1 = x2
+miRNA_2 = x3
+TF_mRNA = x7
+TF_miRNA_1 = x8
+TF_miRNA_2 = x9
+protein = x10
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
+end model
+//Species
+//x1:species_1 //mRNA
+//x2:species_2 //miRNA_1
+//x3:species_3 //miRNA_2
+//x4:species_4 //duplex_1
+//x5:species_5 //duplex_2
+//x6:species_6 //triplex
+//x7:species_7 //TF_mRNA
+//x8:species_8 //TF_miRNA_1
+//x9:species_9 //TF_miRNA_2
+//x10:species_10 //protein

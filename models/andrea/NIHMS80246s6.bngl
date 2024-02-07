@@ -1,0 +1,64 @@
+begin parameters
+
+# Total concentrations
+
+R_tot       100
+S_tot       100
+
+# Kinetic constants
+
+k1    0.4
+k_1   0.6
+
+k2    0.6
+k_2   0.4
+
+k3     0.03
+k_3    1
+
+k1p       0.3
+k_1p      0.7
+
+k2p       0.7
+k_2p      0.3
+
+end parameters
+
+begin species 
+    R(a1~U,a2~U,s) R_tot # RTK
+    S(r,Y1~Y,Y2~Y) S_tot # Substrate for RTK
+end species
+
+begin reaction rules 
+    # Rule 1: activation/deactivation of a1 kinase center on R
+    R(a1~U) <-> R(a1~A) k1, k_1   
+
+    # Rule 2: activation/deactivation of a2 kinase center on R
+    R(a2~U) <-> R(a2~A) k2, k_2
+
+    # Rule 3: binding RTK to the substrate      
+    R(s) + S(r) <-> R(s!1).S(r!1) k3, k_3
+
+    # Rule 4: first step of S phosphorylation by a1 kinase center 
+    R(s!1,a1~A).S(r!1,Y1~Y) -> R(s!1,a1~A).S(r!1,Y1~pY) k1p    
+
+    # Rule 5: second step of S phosphorylation by a2 kinase center 
+    R(s!1,a2~A).S(r!1,Y1~pY,Y2~Y) -> R(s!1,a2~A).S(r!1,Y1~pY,Y2~pY) k2p
+
+    # Rule 6: the reverse process  
+    S(Y1~pY) -> S(Y1~Y) k_1p 
+
+    # Rule 7: the reverse process  
+    S(Y2~pY) -> S(Y2~pY) k_2p
+end reaction rules
+
+begin observables
+   Molecules S1P   S(Y1~pY) 
+   Molecules S2P   S(Y2~pY) 
+end observables
+
+generate_network({overwrite=>1});
+
+simulate_ode({t_end=>40,n_steps=>40,atol=>1e-8,rtol=>1e-8,sparse=>1});
+
+

@@ -20,6 +20,10 @@ begin model BIOMD0000000101
   SINK
   source = 1.0
  end init
+ begin partition
+ {RI, RII, lRIRII}, 
+ {RI_endo, lRIRII_endo, RII_endo}
+ end partition
  begin reactions
   RI -> RI + RI_endo , ki
   RI -> RI + SINK , ( -1) * (kcd)
@@ -43,8 +47,14 @@ begin model BIOMD0000000101
   source -> RI + source , pRI
   source -> RII + source , pRII
  end reactions
-
-//Comments associated to the species
+ begin views
+  RI = RI
+  RII = RII
+  lRIRII = lRIRII
+  RI_endo = RI_endo
+  RII_endo = RII_endo
+ end views
+simulateODE(tEnd=500)
 //SINK:  
   //This is the null species. It has been added because some reactions became with empty products after the transformations.
 

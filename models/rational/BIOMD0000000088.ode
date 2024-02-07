@@ -218,6 +218,11 @@ begin model BIOMD0000000088
   s556 + s267 -> s135 + s556 + s267 , arbitrary 1*0.01*s556*(s267-s135) [re174]
   s172 + s557 -> s135 + s557 , arbitrary 1*0.01*s557*(s172-s135) [re175]
  end reactions
+ begin views
+  Rho-kinase = s124 
+  MYPT1.Rho-kinase= s496 
+ end views
+ simulateODE(tEnd=100, viewPlot=VIEWS)
 
 //Comments associated to the reactions
 //re1:  

@@ -1,0 +1,41 @@
+begin model importbarua2012
+importBNG(fileIn="barua2012.net",highMemory=true)
+//write(fileOut="barua._ode")
+//reduceFE()
+//reduceFE(prePartition=USER)
+
+//simulateODE(tEnd=100)
+exportScriptsEpsCLump(
+	fileOut="scripts/barua_Ig_alpha_P.m",
+	tEnd=30000,
+	M0={13:1,26:1,44:1,73:1,115:1},
+	slope_max_error from = 0.5 to = 1 step = 0.5, 
+	maxPercPerturb from =0 to = 20 step =5, 
+	csvFile="barua_Ig_alpha_P.csv",writeInnerScript=true
+)
+//exportScriptsEpsCLump(
+//	fileOut="scripts/barua_Ig_alpha_PP.m",
+//	M0={27:1,45:1,74:1,116:1,178:1},
+//	slope_max_error from = 0.5 to = 1 step = 0.5, 
+//	maxPercPerturb from =0 to = 20 step =5, 
+//	csvFile="barua_Ig_alpha_PP.csv",writeInnerScript=true
+//)
+//exportScriptsEpsCLump(
+//	fileOut="scripts/barua_AllObs.m",
+//	M0 = USER,  
+//	slope_max_error from = 0.5 to = 1 step = 0.5, 
+//	maxPercPerturb from =0 to = 20 step =5, 
+//	csvFile="barua_AllObs.csv",writeInnerScript=true
+//)
+
+//exportScriptsEpsCLump(
+//	fileOut="scripts/barua_AllObsAAA.m",
+//	M0 = USER,  
+//	cLump = 100,
+//	//slope_max_error from = 0.5 to = 1 step = 0.5,
+//	
+//	maxPercPerturb from =0 to = 20 step =5, 
+//	csvFile="barua_AllObsAAA.csv",writeInnerScript=true
+//)
+
+end model

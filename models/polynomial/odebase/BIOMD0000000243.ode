@@ -1,0 +1,106 @@
+begin model ODEBase 1482 (BIOMD0000000243)
+ begin parameters
+  k1 = 1
+  k2 = 19957/156250000
+  k3 = 1673329/2500000
+  k4 = 1/100000
+  k5 = 5946569/10000000000
+  k6 = 9999999/10000000
+  k7 = 8875063/10000000
+  k8 = 4022189/5000000000
+  k9 = 2249759/1000000000
+  k10 = 602629/5000000
+  k11 = 2891451/100000000
+  k12 = 751457/5000000
+  k13 = 7204261/10000000000
+  k14 = 28033/78125
+  k15 = 1842081/500000
+  k16 = 278739/12500000
+  k17 = 32091/5000000
+  k18 = 1
+  k19 = 5083923/1000000
+ end parameters
+ begin inits
+  x1 = 5661/50
+  x2 = 0
+  x3 = 0
+  x4 = 0
+  x5 = 0
+  x6 = 0
+  x7 = 360851/250000
+  x8 = 1611913/25000
+  x9 = 0
+  x10 = 0
+  x11 = 0
+  x12 = 2369773/500000
+  x13 = 0
+  x14 = 0
+  x15 = 0
+  x16 = 285206/3125
+  x17 = 3699281/500000
+  x18 = 5083923/1000000
+  x19 = 230913/40000
+  x20 = 0
+  x21 = 0
+  x22 = 0
+  x23 = 0
+ end inits
+ begin ODE
+  d(x1) = -x1*x16*k1
+  d(x2) = x1*x16*k1 - x2*x8*k2 - x2*x17*k3 - x2*x18*k4
+  d(x3) = x2*x8*k2 - x3*x8*k5 - x3*x17*k6 - x3*x18*k7
+  d(x4) = x2*x17*k3 - x4*x8*k5 - x4*x17*k6 - x4*x18*k7
+  d(x5) = x2*x18*k4 - x5*x8*k5 - x5*x17*k6 - x5*x18*k7
+  d(x6) = -x6**2*k8 + x8*x10*k10 + x3*x8*k5
+  d(x7) = -x7*x9*k9
+  d(x8) = -x8*x10*k10 - x2*x8*k2 - x3*x8*k5 - x4*x8*k5 - x5*x8*k5
+  d(x9) = x6**2*k8 - x9*k11
+  d(x10) = -x10*k12 + x7*x9*k9
+  d(x11) = x4*x8*k5 + x3*x17*k6 - x11*x19*k13
+  d(x12) = -x12*x14*k14
+  d(x13) = -x13*k15 + x12*x14*k14
+  d(x14) = -x14*k16 + x11*x19*k13
+  d(x15) = x13*k15 - x15*k17
+  d(x16) = -x1*x16*k1
+  d(x17) = -x2*x17*k3 - x3*x17*k6 - x4*x17*k6 - x5*x17*k6
+  d(x18) = -x2*x18*k4 - x3*x18*k7 - x4*x18*k7 - x5*x18*k7
+  d(x19) = -x11*x19*k13
+  d(x20) = x5*x8*k5 + x3*x18*k7
+  d(x21) = x4*x17*k6
+  d(x22) = x5*x17*k6 + x4*x18*k7
+  d(x23) = x5*x18*k7
+ end ODE
+ begin views
+C3 = x7
+C8 = x8
+C8_star = x9
+C3_star = x10
+NF_kB_IkB = x12
+NF_kB_IkB_P = x13
+ end views
+simulateODE(tEnd=400,viewPlot=VIEWS)
+end model
+//Species
+//x1:L
+//x2:L_RF
+//x3:L_RF_C8
+//x4:L_RF_FL
+//x5:L_RF_FS
+//x6:p43_p41
+//x7:C3
+//x8:C8
+//x9:C8_star
+//x10:C3_star
+//x11:p43_FLIP
+//x12:NF_kB_IkB
+//x13:NF_kB_IkB_P
+//x14:p43_FLIP_IKK_star
+//x15:NF_kB_star
+//x16:RF
+//x17:FL
+//x18:FS
+//x19:IKK
+//x20:L_RF_C8_FS
+//x21:L_RF_FL_FL
+//x22:L_RF_FL_FS
+//x23:L_RF_FS_FS

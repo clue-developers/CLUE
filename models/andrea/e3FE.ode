@@ -1,0 +1,242 @@
+// Automatically generated from e3 via fe
+// Original number of species: 66
+// Reduced number of species: 22
+// Original number of reactions: 288
+// Reduced number of reactions: 60
+begin model e3FE
+ begin parameters
+  Etot = 300.0
+  Ftot = 300.0
+  Stot = 3000.0
+  kOnE = 0.7
+  kOffE = 3.0
+  kCatE = 5.0
+  kOnF = 0.7
+  kOffF = 3.0
+  kCatF = 5.1
+ end parameters
+ begin init
+  S0 = 300.0
+  S1 = 300.0
+  S2 = 3000.0
+  S3
+  S6
+  S8
+  S12
+  S13
+  S17
+  S22
+  S24
+  S27
+  S34
+  S35
+  S39
+  S46
+  S49
+  S53
+  S56
+  S57
+  S62
+  S65
+ end init
+ begin reactions
+  S0 + S2 -> S3 , kOnE+kOnE+kOnE
+  S0 + S3 -> S6 , (kOnE+kOnE+kOnE+kOnE+kOnE+kOnE)/3.0
+  S0 + S6 -> S12 , (kOnE+kOnE+kOnE)/3.0
+  S0 + S8 -> S13 , (kOnE+kOnE+kOnE+kOnE+kOnE+kOnE)/3.0
+  S0 + S13 -> S22 , (kOnE+kOnE+kOnE+kOnE+kOnE+kOnE)/6.0
+  S0 + S17 -> S24 , (kOnE+kOnE+kOnE+kOnE+kOnE+kOnE)/3.0
+  S0 + S24 -> S34 , (kOnE+kOnE+kOnE+kOnE+kOnE+kOnE)/6.0
+  S0 + S27 -> S35 , (kOnE+kOnE+kOnE)/3.0
+  S0 + S39 -> S46 , (kOnE+kOnE+kOnE+kOnE+kOnE+kOnE)/6.0
+  S0 + S53 -> S56 , (kOnE+kOnE+kOnE)/3.0
+  S1 + S8 -> S17 , (kOnF+kOnF+kOnF)/3.0
+  S1 + S13 -> S24 , (kOnF+kOnF+kOnF+kOnF+kOnF+kOnF)/6.0
+  S1 + S22 -> S34 , (kOnF+kOnF+kOnF)/3.0
+  S1 + S27 -> S39 , (kOnF+kOnF+kOnF+kOnF+kOnF+kOnF)/3.0
+  S1 + S35 -> S46 , (kOnF+kOnF+kOnF+kOnF+kOnF+kOnF)/3.0
+  S1 + S39 -> S53 , (kOnF+kOnF+kOnF+kOnF+kOnF+kOnF)/6.0
+  S1 + S46 -> S56 , (kOnF+kOnF+kOnF+kOnF+kOnF+kOnF)/6.0
+  S1 + S49 -> S57 , kOnF+kOnF+kOnF
+  S1 + S57 -> S62 , (kOnF+kOnF+kOnF+kOnF+kOnF+kOnF)/3.0
+  S1 + S62 -> S65 , (kOnF+kOnF+kOnF)/3.0
+  S3 -> S0 + S2 , (kOffE+kOffE+kOffE)/3.0
+  S3 -> S0 + S8 , (kCatE+kCatE+kCatE)/3.0
+  S6 -> S0 + S3 , (kOffE+kOffE+kOffE+kOffE+kOffE+kOffE)/3.0
+  S6 -> S0 + S13 , (kCatE+kCatE+kCatE+kCatE+kCatE+kCatE)/3.0
+  S12 -> S0 + S6 , kOffE+kOffE+kOffE
+  S12 -> S0 + S22 , kCatE+kCatE+kCatE
+  S13 -> S0 + S8 , (kOffE+kOffE+kOffE+kOffE+kOffE+kOffE)/6.0
+  S13 -> S0 + S27 , (kCatE+kCatE+kCatE+kCatE+kCatE+kCatE)/6.0
+  S17 -> S1 + S2 , (kCatF+kCatF+kCatF)/3.0
+  S17 -> S1 + S8 , (kOffF+kOffF+kOffF)/3.0
+  S22 -> S0 + S13 , (kOffE+kOffE+kOffE+kOffE+kOffE+kOffE)/3.0
+  S22 -> S0 + S35 , (kCatE+kCatE+kCatE+kCatE+kCatE+kCatE)/3.0
+  S24 -> S0 + S17 , (kOffE+kOffE+kOffE+kOffE+kOffE+kOffE)/6.0
+  S24 -> S0 + S39 , (kCatE+kCatE+kCatE+kCatE+kCatE+kCatE)/6.0
+  S24 -> S1 + S3 , (kCatF+kCatF+kCatF+kCatF+kCatF+kCatF)/6.0
+  S24 -> S1 + S13 , (kOffF+kOffF+kOffF+kOffF+kOffF+kOffF)/6.0
+  S34 -> S0 + S24 , (kOffE+kOffE+kOffE+kOffE+kOffE+kOffE)/3.0
+  S34 -> S0 + S46 , (kCatE+kCatE+kCatE+kCatE+kCatE+kCatE)/3.0
+  S34 -> S1 + S6 , (kCatF+kCatF+kCatF)/3.0
+  S34 -> S1 + S22 , (kOffF+kOffF+kOffF)/3.0
+  S35 -> S0 + S27 , (kOffE+kOffE+kOffE)/3.0
+  S35 -> S0 + S49 , (kCatE+kCatE+kCatE)/3.0
+  S39 -> S1 + S8 , (kCatF+kCatF+kCatF+kCatF+kCatF+kCatF)/6.0
+  S39 -> S1 + S27 , (kOffF+kOffF+kOffF+kOffF+kOffF+kOffF)/6.0
+  S46 -> S0 + S39 , (kOffE+kOffE+kOffE+kOffE+kOffE+kOffE)/6.0
+  S46 -> S0 + S57 , (kCatE+kCatE+kCatE+kCatE+kCatE+kCatE)/6.0
+  S46 -> S1 + S13 , (kCatF+kCatF+kCatF+kCatF+kCatF+kCatF)/6.0
+  S46 -> S1 + S35 , (kOffF+kOffF+kOffF+kOffF+kOffF+kOffF)/6.0
+  S53 -> S1 + S17 , (kCatF+kCatF+kCatF+kCatF+kCatF+kCatF)/3.0
+  S53 -> S1 + S39 , (kOffF+kOffF+kOffF+kOffF+kOffF+kOffF)/3.0
+  S56 -> S0 + S53 , (kOffE+kOffE+kOffE)/3.0
+  S56 -> S0 + S62 , (kCatE+kCatE+kCatE)/3.0
+  S56 -> S1 + S24 , (kCatF+kCatF+kCatF+kCatF+kCatF+kCatF)/3.0
+  S56 -> S1 + S46 , (kOffF+kOffF+kOffF+kOffF+kOffF+kOffF)/3.0
+  S57 -> S1 + S27 , (kCatF+kCatF+kCatF)/3.0
+  S57 -> S1 + S49 , (kOffF+kOffF+kOffF)/3.0
+  S62 -> S1 + S39 , (kCatF+kCatF+kCatF+kCatF+kCatF+kCatF)/3.0
+  S62 -> S1 + S57 , (kOffF+kOffF+kOffF+kOffF+kOffF+kOffF)/3.0
+  S65 -> S1 + S53 , kCatF+kCatF+kCatF
+  S65 -> S1 + S62 , kOffF+kOffF+kOffF
+ end reactions
+ begin views
+  vS56 = S56/3
+  vS35 = S35/3
+  vS1 = S1/1
+  vS34 = S34/3
+  vS22 = S22/3
+  vS46 = S46/6
+  vS53 = S53/3
+  vS62 = S62/3
+  vS65 = S65/1
+  vS12 = S12/1
+  vS13 = S13/6
+  vS17 = S17/3
+  vS6 = S6/3
+  vS57 = S57/3
+  vS3 = S3/3
+  vS8 = S8/3
+  vS2 = S2/1
+  vS0 = S0/1
+  vS24 = S24/6
+  vS27 = S27/3
+  vS39 = S39/6
+  vS49 = S49/1
+ end views
+
+//Comments associated to the species
+//S0:  
+  //Singleton block 
+  // 	S0
+//S1:  
+  //Singleton block 
+  // 	S1
+//S2:  
+  //Singleton block 
+  // 	S2
+//S3:  
+  //Representative of block (with 3 species)
+  // 	S3
+  // 	S4
+  // 	S5
+//S6:  
+  //Representative of block (with 3 species)
+  // 	S6
+  // 	S7
+  // 	S9
+//S8:  
+  //Representative of block (with 3 species)
+  // 	S8
+  // 	S10
+  // 	S11
+//S12:  
+  //Singleton block 
+  // 	S12
+//S13:  
+  //Representative of block (with 6 species)
+  // 	S15
+  // 	S16
+  // 	S13
+  // 	S19
+  // 	S14
+  // 	S18
+//S17:  
+  //Representative of block (with 3 species)
+  // 	S17
+  // 	S20
+  // 	S21
+//S22:  
+  //Representative of block (with 3 species)
+  // 	S26
+  // 	S23
+  // 	S22
+//S24:  
+  //Representative of block (with 6 species)
+  // 	S30
+  // 	S29
+  // 	S33
+  // 	S24
+  // 	S31
+  // 	S25
+//S27:  
+  //Representative of block (with 3 species)
+  // 	S27
+  // 	S28
+  // 	S32
+//S34:  
+  //Representative of block (with 3 species)
+  // 	S41
+  // 	S36
+  // 	S34
+//S35:  
+  //Representative of block (with 3 species)
+  // 	S35
+  // 	S37
+  // 	S38
+//S39:  
+  //Representative of block (with 6 species)
+  // 	S39
+  // 	S42
+  // 	S40
+  // 	S43
+  // 	S44
+  // 	S45
+//S46:  
+  //Representative of block (with 6 species)
+  // 	S50
+  // 	S52
+  // 	S48
+  // 	S51
+  // 	S46
+  // 	S47
+//S49:  
+  //Singleton block 
+  // 	S49
+//S53:  
+  //Representative of block (with 3 species)
+  // 	S53
+  // 	S54
+  // 	S55
+//S56:  
+  //Representative of block (with 3 species)
+  // 	S61
+  // 	S59
+  // 	S56
+//S57:  
+  //Representative of block (with 3 species)
+  // 	S58
+  // 	S60
+  // 	S57
+//S62:  
+  //Representative of block (with 3 species)
+  // 	S62
+  // 	S63
+  // 	S64
+//S65:  
+  //Singleton block 
+  // 	S65
+
+end model
+

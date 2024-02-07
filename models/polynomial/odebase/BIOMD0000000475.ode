@@ -1,0 +1,120 @@
+begin model ODEBase 1625 (BIOMD0000000475)
+ begin parameters
+  k1 = 0
+  k2 = 1
+  k3 = 3/200000000
+  k4 = 1/100
+  k5 = 1000
+  k6 = 1/4000000
+  k7 = 100000
+  k8 = 1000
+  k9 = 351/10000
+  k10 = 1/100
+  k11 = 1/100
+  k12 = 1
+  k13 = 100000
+  k14 = 1/200000
+  k15 = 1/200
+  k16 = 39/500
+  k17 = 1/10000000000
+  k18 = 1/20
+  k19 = 3/400000
+  k20 = 1/200000
+  k21 = 39/500
+  k22 = 1/10000000000
+  k23 = 1/200
+  k24 = 1/200
+  k25 = 3/100000000
+  k26 = 1/1250
+  k27 = 1/200
+  k28 = 1001
+  k29 = 7480
+  k30 = 206
+  k31 = 194
+  k32 = 8698
+  k33 = 1520
+  k34 = 193
+ end parameters
+ begin inits
+  x1 = 1001
+  x2 = 7480
+  x3 = 0
+  x4 = 0
+  x5 = 206
+  x6 = 194
+  x7 = 0
+  x8 = 8698
+  x9 = 0
+  x10 = 0
+  x11 = 0
+  x12 = 0
+  x13 = 1520
+  x14 = 0
+  x15 = 0
+  x16 = 0
+  x17 = 0
+  x18 = 193
+  x19 = 0
+  x20 = 0
+  x21 = 0
+  x22 = 0
+  x23 = 0
+ end inits
+ begin ODE
+  d(x1) = -x1*x2*k3
+  d(x2) = -x1*x2*k3
+  d(x3) = x9*k8 + x1*x2*k3 - x3*x4*k7
+  d(x4) = x11*k12 + x5**2*k4 + x9*k8 - x4*k5 - x3*x4*k7
+  d(x5) = -2*x5**2*k4 + 2*x4*k5
+  d(x6) = x10*k11 - x6*x8*k6
+  d(x7) = x10*k10 + x6*x8*k6 - x7*x9*k9
+  d(x8) = x12*k25 + 2*x19*k26 + 3*x22*k27 - x8*x18*k13 - x6*x8*k6
+  d(x9) = x10*k10 - x9*k8 + x3*x4*k7 - x7*x9*k9
+  d(x10) = -x10*k10 - x10*k11 + x7*x9*k9
+  d(x11) = x10*k11 - x11*k12
+  d(x12) = x11*k12 + x14*k15 - x12*k25 - x12*x13*k14
+  d(x13) = x14*k15 + x17*k19 + x21*k24 - x12*x13*k14 - x13*x19*k20
+  d(x14) = x16*k17 - x14*k15 + x12*x13*k14 - x14*x15*k16
+  d(x15) = x16*k17 + x20*k22 + x8*x18*k13 - x14*x15*k16 - x15*x17*k21
+  d(x16) = -x16*k17 - x16*k18 + x14*x15*k16
+  d(x17) = x16*k18 + x20*k22 - x17*k19 + x13*x19*k20 - x15*x17*k21
+  d(x18) = x16*k18 + x20*k23 - x8*x18*k13
+  d(x19) = x17*k19 - x19*k26 - x13*x19*k20
+  d(x20) = -x20*k22 - x20*k23 + x15*x17*k21
+  d(x21) = x20*k23 - x21*k24
+  d(x22) = x21*k24 - x22*k27
+  d(x23) = x12*k25 + x19*k26 + x22*k27
+ end ODE
+ begin views
+PCNA = x2
+PCNAonU = x12
+PCNAonUU = x19
+PCNAonUUU = x22
+PCNAoff = x23
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
+end model
+//Species
+//x1:species_1 // L
+//x2:species_2 // PCNA
+//x3:species_3 // PCNAon
+//x4:species_4 // Rad18Rad18
+//x5:species_5 // Rad18
+//x6:species_6 // Rad6
+//x7:species_7 // Rad6U
+//x8:species_8 // U
+//x9:species_9 // Rad18Rad18PCNAon
+//x10:species_10// Rad18Rad18PCNAonRad6U
+//x11:species_11// Rad18Rad18PCNAonU
+//x12:species_12// PCNAonU
+//x13:species_13// Rad5
+//x14:species_14// Rad5PCNAonU
+//x15:species_15// Ubc13UMms2
+//x16:species_16// Ubc13UMms2Rad5PCNAonU
+//x17:species_17// Rad5PCNAonUU
+//x18:species_18// Ubc13Mms2
+//x19:species_19// PCNAonUU
+//x20:species_20// Ubc13UMms2Rad5PCNAonUU
+//x21:species_21// Rad5PCNAonUUU
+//x22:species_22// PCNAonUUU
+//x23:species_23// PCNAoff

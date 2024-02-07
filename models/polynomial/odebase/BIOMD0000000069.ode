@@ -1,0 +1,72 @@
+begin model ODEBase 1379 (BIOMD0000000069)
+ begin parameters
+  k1 = 1
+  k2 = 4/5
+  k3 = 1
+  k4 = 10
+  k5 = 1
+  k6 = 1
+  k7 = 1/20
+  k8 = 3/20
+  k9 = 7/200
+  k10 = 1/10000
+  k11 = 0
+  k12 = 1/10
+  k13 = 1/100
+  k14 = 1
+  k15 = 0
+  k16 = 1
+  k17 = 1
+  k18 = 0
+  k19 = 0
+  k20 = 1/10000
+  k21 = 1
+  k22 = 1
+  k23 = 1
+  k24 = 1
+  k25 = 1
+ end parameters
+ begin inits
+  x1 = 1
+  x2 = 0
+  x3 = 0
+  x4 = 0
+  x5 = 0
+  x6 = 1
+  x7 = 1
+  x8 = 0
+  x9 = 1
+  x10 = 0
+ end inits
+ begin ODE
+  d(x1) = x2*x5*k1 + x4*k4*k7 - x1*k2*k11 - x1*x8*k2*k17
+  d(x2) = x3*k7 + x1*k2*k11 - x2*x5*k1 - x2*k3*k10 - x2**2*k3*k15 + x1*x8*k2*k17 - x2*x3*k3*k14 - x2*x4*k3*k16
+  d(x3) = -x3*k7 + x2*k3*k10 + x4*k2*k11 + x2**2*k3*k15 - x3*x5*k1 + x2*x3*k3*k14 + x2*x4*k3*k16 + x4*x8*k2*k17
+  d(x4) = x3*x5*k1 - x4*k2*k11 - x4*k4*k7 - x4*x8*k2*k17
+  d(x5) = -x5*k13 + x6*x10*k12
+  d(x6) = x5*k13 - x6*x10*k12
+  d(x7) = x8*k8 - x7*k9 - x7*k5*k10 - x3*x7*k5*k14 - x2*x7*k5*k15 - x4*x7*k5*k16
+  d(x8) = x7*k9 - x8*k8 + x7*k5*k10 + x3*x7*k5*k14 + x2*x7*k5*k15 + x4*x7*k5*k16
+  d(x9) = -x9*k6*k10 - x3*x9*k6*k14 - x2*x9*k6*k15 - x4*x9*k6*k16
+  d(x10) = x5*k13 + x9*k6*k10 - x6*x10*k12 + x3*x9*k6*k14 + x2*x9*k6*k15 + x4*x9*k6*k16
+ end ODE
+ begin views
+srci = x1
+srco = x2
+srca = x3
+srcc = x4
+CSK_cytoplasm = x6
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
+end model
+//Species
+//x1:srci
+//x2:srco
+//x3:srca
+//x4:srcc
+//x5:Cbp_P_CSK
+//x6:CSK_cytoplasm
+//x7:PTP
+//x8:PTP_pY789
+//x9:Cbp
+//x10:Cbp_P

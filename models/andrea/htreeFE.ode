@@ -1,0 +1,54 @@
+// Automatically generated from hTreeCircuit3_1RN via fe
+// Size of initial partition: 1
+// Original number of species: 7
+// Reduced number of species: 3 (42.86%)
+// Original number of reactions: 15
+// Reduced number of reactions: 6
+begin model htreeFE
+ begin parameters
+  b2 = 0.5606494502496796
+  b3 = 0.5606494502496796
+  an1k1 = 1.1195700850873262
+  an2k1 = 0.5233235724597057
+  an2k2 = an2k1
+  an3k1 = 0.603301590244999
+  an3k2 = an3k1
+  an3k3 = an3k1
+  an3k4 = an3k1
+ end parameters
+ begin init
+  vn1k1
+  vn2k1
+  vn3k1
+ end init
+ begin reactions
+  vn1k1 -> vn1k1 + vn2k1 , an2k1+an2k2
+  vn1k1 -> 2*vn1k1 , ((an1k1 * (-1.0)) + (-b2)) + (-b3)
+  vn2k1 -> vn1k1 + vn2k1 , (-(b2 * (-1.0))+-(b3 * (-1.0)))/2.0
+  vn2k1 -> vn2k1 + vn3k1 , (an3k1+an3k2+an3k3+an3k4)/2.0
+  vn2k1 -> 2*vn2k1 , (an2k1 * (-1.0)+an2k2 * (-1.0))/2.0
+  vn3k1 -> 2*vn3k1 , (an3k1 * (-1.0)+an3k2 * (-1.0)+an3k3 * (-1.0)+an3k4 * (-1.0))/4.0
+ end reactions
+ begin views
+  vvn1k1 = vn1k1/1
+  vvn3k1 = vn3k1/4
+  vvn2k1 = vn2k1/2
+ end views
+
+//Comments associated to the species
+//vn1k1:  
+  //Singleton block 
+  // 	vn1k1
+//vn2k1:  
+  //Representative of block (with 2 species)
+  // 	vn2k1
+  // 	vn2k2
+//vn3k1:  
+  //Representative of block (with 4 species)
+  // 	vn3k1
+  // 	vn3k2
+  // 	vn3k3
+  // 	vn3k4
+
+end model
+

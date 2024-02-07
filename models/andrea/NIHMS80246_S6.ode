@@ -1,0 +1,151 @@
+begin model NIHMS80246_S6
+ begin parameters
+  R_tot = 100
+  S_tot = 100
+  k1 = 0.4
+  k_1 = 0.6
+  k2 = 0.6
+  k_2 = 0.4
+  k3 = 0.03
+  k_3 = 1
+  k1p = 0.3
+  k_1p = 0.7
+  k2p = 0.7
+  k_2p = 0.3
+ end parameters
+ begin init
+  s0 = R_tot ( "R(a1~U,a2~U,s)" ) 
+  s1 = S_tot ( "S(Y1~Y,Y2~Y,r)" ) 
+  s2 ( "R(a1~A,a2~U,s)" ) 
+  s3 ( "R(a1~U,a2~A,s)" ) 
+  s4 ( "R(a1~U,a2~U,s!1).S(Y1~Y,Y2~Y,r!1)" ) 
+  s5 ( "R(a1~A,a2~A,s)" ) 
+  s6 ( "R(a1~A,a2~U,s!1).S(Y1~Y,Y2~Y,r!1)" ) 
+  s7 ( "R(a1~U,a2~A,s!1).S(Y1~Y,Y2~Y,r!1)" ) 
+  s8 ( "R(a1~A,a2~A,s!1).S(Y1~Y,Y2~Y,r!1)" ) 
+  s9 ( "R(a1~A,a2~U,s!1).S(Y1~pY,Y2~Y,r!1)" ) 
+  s10 ( "R(a1~U,a2~U,s!1).S(Y1~pY,Y2~Y,r!1)" ) 
+  s11 ( "R(a1~A,a2~A,s!1).S(Y1~pY,Y2~Y,r!1)" ) 
+  s12 ( "S(Y1~pY,Y2~Y,r)" ) 
+  s13 ( "R(a1~U,a2~A,s!1).S(Y1~pY,Y2~Y,r!1)" ) 
+  s14 ( "R(a1~A,a2~A,s!1).S(Y1~pY,Y2~pY,r!1)" ) 
+  s15 ( "R(a1~U,a2~A,s!1).S(Y1~pY,Y2~pY,r!1)" ) 
+  s16 ( "R(a1~A,a2~U,s!1).S(Y1~pY,Y2~pY,r!1)" ) 
+  s17 ( "S(Y1~pY,Y2~pY,r)" ) 
+  s18 ( "R(a1~A,a2~A,s!1).S(Y1~Y,Y2~pY,r!1)" ) 
+  s19 ( "R(a1~U,a2~U,s!1).S(Y1~pY,Y2~pY,r!1)" ) 
+  s20 ( "R(a1~U,a2~A,s!1).S(Y1~Y,Y2~pY,r!1)" ) 
+  s21 ( "R(a1~A,a2~U,s!1).S(Y1~Y,Y2~pY,r!1)" ) 
+  s22 ( "S(Y1~Y,Y2~pY,r)" ) 
+  s23 ( "R(a1~U,a2~U,s!1).S(Y1~Y,Y2~pY,r!1)" ) 
+ end init
+ begin partition
+//  {s1,s2,s3,s4,s5,s6,s7,s8,s0},
+//  {s18,s20,s21,s22,s23},
+//  {s9,s10,s11,s12,s13},
+//  {s17,s19,s14,s15,s16}
+//
+//obsS1P = s9+s10+s11+s12+s13+s14+s15+s16+s17+s19
+{s9,s10,s11,s12,s13,s14,s15,s16,s17,s19}
+//
+ //obsS2P = s14+s15+s16+s17+s18+s19+s20+s21+s22+s23
+ //{s14,s15,s16,s17,s18,s19,s20,s21,s22,s23}
+ end partition
+ begin reactions
+  s0 -> s2 , k1
+  s0 -> s3 , k2
+  s0 + s1 -> s4 , k3
+  s3 -> s5 , k1
+  s4 -> s6 , k1
+  s2 -> s0 , k_1
+  s2 -> s5 , k2
+  s4 -> s7 , k2
+  s3 -> s0 , k_2
+  s1 + s2 -> s6 , k3
+  s1 + s3 -> s7 , k3
+  s4 -> s0 + s1 , k_3
+  s7 -> s8 , k1
+  s5 -> s3 , k_1
+  s6 -> s4 , k_1
+  s6 -> s8 , k2
+  s5 -> s2 , k_2
+  s7 -> s4 , k_2
+  s1 + s5 -> s8 , k3
+  s6 -> s1 + s2 , k_3
+  s7 -> s1 + s3 , k_3
+  s6 -> s9 , k1p
+  s8 -> s7 , k_1
+  s9 -> s10 , k_1
+  s9 -> s11 , k2
+  s8 -> s6 , k_2
+  s8 -> s1 + s5 , k_3
+  s9 -> s2 + s12 , k_3
+  s8 -> s11 , k1p
+  s9 -> s6 , k_1p
+  s10 -> s9 , k1
+  s11 -> s13 , k_1
+  s10 -> s13 , k2
+  s11 -> s9 , k_2
+  s0 + s12 -> s10 , k3
+  s2 + s12 -> s9 , k3
+  s3 + s12 -> s13 , k3
+  s5 + s12 -> s11 , k3
+  s10 -> s0 + s12 , k_3
+  s11 -> s5 + s12 , k_3
+  s11 -> s14 , k2p
+  s10 -> s4 , k_1p
+  s11 -> s8 , k_1p
+  s12 -> s1 , k_1p
+  s13 -> s11 , k1
+  s14 -> s15 , k_1
+  s13 -> s10 , k_2
+  s14 -> s16 , k_2
+  s13 -> s3 + s12 , k_3
+  s14 -> s5 + s17 , k_3
+  s13 -> s15 , k2p
+  s13 -> s7 , k_1p
+  s14 -> s18 , k_1p
+  s15 -> s14 , k1
+  s16 -> s19 , k_1
+  s18 -> s20 , k_1
+  s16 -> s14 , k2
+  s15 -> s19 , k_2
+  s18 -> s21 , k_2
+  s0 + s17 -> s19 , k3
+  s2 + s17 -> s16 , k3
+  s3 + s17 -> s15 , k3
+  s5 + s17 -> s14 , k3
+  s15 -> s3 + s17 , k_3
+  s16 -> s2 + s17 , k_3
+  s18 -> s5 + s22 , k_3
+  s18 -> s14 , k1p
+  s15 -> s20 , k_1p
+  s16 -> s21 , k_1p
+  s17 -> s22 , k_1p
+  s19 -> s16 , k1
+  s20 -> s18 , k1
+  s21 -> s23 , k_1
+  s19 -> s15 , k2
+  s21 -> s18 , k2
+  s20 -> s23 , k_2
+  s0 + s22 -> s23 , k3
+  s2 + s22 -> s21 , k3
+  s3 + s22 -> s20 , k3
+  s5 + s22 -> s18 , k3
+  s19 -> s0 + s17 , k_3
+  s20 -> s3 + s22 , k_3
+  s21 -> s2 + s22 , k_3
+  s21 -> s16 , k1p
+  s19 -> s23 , k_1p
+  s23 -> s21 , k1
+  s23 -> s20 , k2
+  s23 -> s0 + s22 , k_3
+ end reactions
+ begin views
+  obsS1P = s9+s10+s11+s12+s13+s14+s15+s16+s17+s19
+  obsS2P = s14+s15+s16+s17+s18+s19+s20+s21+s22+s23
+ end views
+ //reduceSE()
+ simulateODE(tEnd=600)
+end model
+

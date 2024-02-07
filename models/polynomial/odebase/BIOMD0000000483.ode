@@ -1,0 +1,57 @@
+begin model ODEBase 1630 (BIOMD0000000483)
+ begin parameters
+  k1 = 1
+  k2 = 1
+  k3 = 100
+  k4 = 100
+  k5 = 1/100000
+  k6 = 1/100000
+  k7 = 1/10
+  k8 = 1/10
+  k9 = 1
+  k10 = 0
+  k11 = 0
+  k12 = 0
+  k13 = 0
+ end parameters
+ begin inits
+  x1 = 0
+  x2 = 0
+  x3 = 0
+  x4 = 0
+  x5 = 0
+  x6 = 0
+  x7 = 0
+  x8 = 0
+ end inits
+ begin ODE
+  d(x1) = x3*k3 - x1*k1 + 2*x6*k8 + x1*x4*k6 - x1**2*x4*k6
+  d(x2) = x4*k4 - x2*k2 + 2*x5*k7 + x2*x3*k5 - x2**2*x3*k5
+  d(x3) = x5*k7 + 1/2*x2*x3*k5 - 1/2*x2**2*x3*k5
+  d(x4) = x6*k8 + 1/2*x1*x4*k6 - 1/2*x1**2*x4*k6
+  d(x5) = -x5*k7 + 1/2*x2**2*x3*k5 - 1/2*x2*x3*k5
+  d(x6) = -x6*k8 + 1/2*x1**2*x4*k6 - 1/2*x1*x4*k6
+  d(x7) = x1*k1 - x3*k3
+  d(x8) = x2*k2 - x4*k4
+ end ODE
+ begin views
+Pa = x1
+Pb = x2
+Da = x3
+Db = x4
+BDa = x5
+BDb = x6
+ESA = x7
+ESB = x8
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
+end model
+//Species
+//x1:Pa
+//x2:Pb
+//x3:Da
+//x4:Db
+//x5:BDa
+//x6:BDb
+//x7:ESA
+//x8:ESB

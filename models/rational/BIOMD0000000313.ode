@@ -57,6 +57,13 @@ begin model BIOMD0000000313
   pSTAT5 -> pSTAT5 + CD274mRNA , arbitrary pSTAT5*CD274mRNA_production*1 [reaction_16]
  end reactions
 
+begin views
+  IL13 = IL13
+  CD274mRNA = CD274mRNA
+  pSTAT5 = pSTAT5
+  SOCS3 = SOCS3
+end views
+simulateODE(tEnd=120, viewPlot=VIEWS)
 //Comments associated to the species
 //SINK:  
   //This is the null species. It has been added because some reactions became with empty products after the transformations.

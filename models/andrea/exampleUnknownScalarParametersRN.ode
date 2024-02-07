@@ -1,0 +1,17 @@
+begin model exampleUnknownScalarParametersRN
+ begin init
+  x1
+  x2
+  a
+  b
+ end init
+ begin reactions
+  x1 + a -> 2*x1 + a , 1
+  x1 + b -> x1 + x2 + b , 1
+  x2 + a -> 2*x2 + a , 1
+  x2 + b -> x1 + x2 + b , 1
+ end reactions
+ exportScriptEpsCLump(fileOut="script/exampleUnknownScalarParametersRN.m",epsilon=0, M0={x1:1.0,x2:1.0},writeMainScript=true)//, maxPercPerturb=0)
+ //exportJacobianFunctionForEpsCLump(fileOut="../exampleUnknownScalarParameters2.m", epsilon=0, M0={x1:1.0,x2:1.0}) //,{a:1})
+end model
+

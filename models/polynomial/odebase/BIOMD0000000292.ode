@@ -1,0 +1,38 @@
+begin model ODEBase 1515 (BIOMD0000000292)
+ begin parameters
+  x2 = 2
+  x5 = 1/2
+  x6
+  k1 = 123/1000
+  k2 = 5/8
+  k3 = 3/10
+  k4 = 307/500
+  k5 = 6/5
+  k6 = 5/2
+  k7 = 1
+  k8 = 1
+ end parameters
+ begin inits
+  x1 = 7/10
+  x3 = 1/2
+  x4 = 2
+ end inits
+ begin ODE
+  d(x1) = x6*k4 - x3*k2
+  d(x3) = -x4*k1 - x3*k2 + 2*x2*x6*k3
+  d(x4) = x3*k2 - x4*k1
+ end ODE
+ begin views
+NADPH = x1
+ADP = x2
+ATP = x3
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
+end model
+//Species
+//x1:NADPH
+//x2:ADP
+//x3:ATP
+//x4:X
+//x5:Y
+//x6:NADP

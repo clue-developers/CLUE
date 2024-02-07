@@ -126,6 +126,12 @@ begin model BIOMD0000000503
   2*R5P -> R5P , arbitrary 1*1*R5P [R5P_sink]
  end reactions
 
+begin views
+  G6P = G6P 
+  NADPH = NADPH 
+  P6G = P6G
+end views
+simulateODE(tEnd=120, viewPlot=VIEWS)
 //Comments associated to the reactions
 //ADH:  
   //ADH

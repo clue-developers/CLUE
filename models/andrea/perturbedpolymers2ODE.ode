@@ -1,0 +1,70 @@
+begin model perturbedpolymers2ODE
+ begin parameters
+  r0 = 10.0 // Setted to zero before the export
+
+  
+// 0.1%
+  a1 = 1.0001
+  a2 = 1.0004
+  b1 = 2.0003
+  b2 = 1.9985
+  g1 = 2.9998
+  g2 = 3.0010
+  
+
+  a1rev = 0.1
+  a2rev = 0.1
+  b1rev = 0.2
+  b2rev = 0.2
+ end parameters
+ begin init
+  A1 = 5 //100.0
+  A2
+  A1p
+  A2p
+  H = 5 //100.0
+  H2 = 5 //100.0
+  C2H2 = 5 //100.0
+  A1CHCHp
+  A2CHCHp
+  I = 1.0
+ end init
+ begin ODE
+  d(A1) = r0*I  -a1*A1*H + a1rev*A1p*H2 + g2*C2H2*A2CHCHp
+  d(A2) = -a2*A2*H + a2rev*A2p*H2 + g1*C2H2*A1CHCHp
+  d(A1p) = a1*A1*H + -a1rev*A1p*H2 + -b1*A1p*C2H2 + b1rev*A1CHCHp
+  d(A2p) = a2*A2*H + -a2rev*A2p*H2 + -b2*A2p*C2H2 + b2rev*A2CHCHp
+  d(H) = -a1*A1*H + -a2*A2*H + a1rev*A1p*H2 + a2rev*A2p*H2 + g1*C2H2*A1CHCHp + g2*C2H2*A2CHCHp
+  d(H2) = a1*A1*H + a2*A2*H + -a1rev*A1p*H2 + -a2rev*A2p*H2
+  d(C2H2) = -b1*A1p*C2H2 + -b2*A2p*C2H2 + b1rev*A1CHCHp + b2rev*A2CHCHp + -g1*C2H2*A1CHCHp + -g2*C2H2*A2CHCHp
+  d(A1CHCHp) = b1*A1p*C2H2 + -b1rev*A1CHCHp + -g1*C2H2*A1CHCHp
+  d(A2CHCHp) = b2*A2p*C2H2 + -b2rev*A2CHCHp + -g2*C2H2*A2CHCHp
+  d(I) = 0
+ end ODE
+
+
+setParam(param=r0,expr=0)
+
+//exportEpsilonBoundsScript(
+//	fileOut="MATLABfiles\\perturbedpolymers2r0_0.m",tEnd=0.06,
+//	deltat=0.0001,paramsToPerturb=[a1,a2,b1,b2,g1,g2],epsilon=0.8,reduction=forward,
+//	defaultIC=0.0001
+//)
+//write(fileOut="perturbedpolymers2RN.ode",format=MA-RN)
+//approximateFDE(epsilon=0.8,matlabScript="poly2FDE.m",paramsToPerturb=ALL)
+simulateODE(tEnd=0.06)
+
+//exportPontryaginPolygonMethod(fileOut="CORA\\poly2.m",tEnd=0.1,
+//	paramsToPerturb={
+//	a1 in [0.99,1.01],
+//	a2 in [0.99,1.01],
+//	b1 in [1.98,2.02],
+//	b2 in [1.98,2.02],
+//	g1 in [2.97,3.03],
+//	g2 in [2.97,3.03]
+//	},species=A1,A2,cora=true
+//)
+
+
+end model
+

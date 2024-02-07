@@ -1,0 +1,58 @@
+begin model ODEBase 1407 (BIOMD0000000108)
+ begin parameters
+  x8
+  x9
+  k1 = 33/50000000
+  k2 = 1600000000
+  k3 = 1600000000
+  k4 = 100000
+  k5 = 20000
+  k6 = 1
+  k7 = 34000000
+  k8 = 1000000
+  k9 = 1000
+  k10 = 250000000
+  k11 = 19/50
+  k12 = 87/10000
+  k13 = 87/10000
+  k14 = 30000
+  k15 = 7
+  k16 = 88000
+  k17 = 0
+  k18 = 1/200000
+  k19 = 1
+ end parameters
+ begin inits
+  x1 = 0
+  x2
+  x3 = 0
+  x4 = 0
+  x5 = 0
+  x6 = 0
+  x7 = 0
+ end inits
+ begin ODE
+  d(x1) = k1 - 1/100*x1*k9 + x1*x2*k3 - x1*x2*k2 - x1*x8*k3 - x1*x4*k4 - x1*x3*k5
+  d(x2) = x8*k12 - x2*k12 - x2*k13 + x1*x8*k3 - x1*x2*k2 - x1*x2*k3
+  d(x3) = 1/100*x1*k9 + x1*x8*k3 - x1*x2*k3 - x1*x3*k5 - x2*x3*k6 - x3*x9*k7
+  d(x4) = x7*k14 - x4*k15 - 2*x4**2*k16 - x1*x4*k4
+  d(x5) = -x5*k10 - x5*k8 + 2*x1*x3*k5 + 2*x2*x3*k6
+  d(x6) = x4*k15 - x6*k11 + x1*x4*k4
+  d(x7) = x5*k10 + x4*k15 - x7*k14 + 1/100*x1*k9
+ end ODE
+ begin views
+O2 = x1
+H2O2 = x3
+ end views
+simulateODE(tEnd=1000,viewPlot=VIEWS)
+end model
+//Species
+//x1:species_0000001
+//x2:species_0000002
+//x3:species_0000006
+//x4:species_0000007
+//x5:species_0000008
+//x6:species_0000009
+//x7:species_0000011
+//x8:species_0000016
+//x9:species_0000017

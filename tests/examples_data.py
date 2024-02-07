@@ -1,12 +1,15 @@
 from __future__ import annotations
 
-import json, os
+import json, logging, os
 
 from itertools import product
 from functools import lru_cache
 
 import models.models_data
 from typing import TextIO
+
+logger = logging.getLogger("clue." + __name__)
+logger.setLevel(logging.DEBUG)
 
 VALID_READ = ["polynomial", "rational", "sympy", "uncertain"]
 VALID_MATRIX = ["polynomial", "rational", "auto_diff"]
@@ -30,8 +33,10 @@ class Example:
         self.__ref = kwds.pop("ref", None)
         self.__json = kwds
 
-        if self.__ref == None and (self.__read == None or self.__matrix == None or self.__observables == None):
-            raise ValueError("Without references the arguments 'read', 'matrix' and 'observables' are mandatory")
+        self.__valid = False
+
+        # if self.__ref == None and (self.__read == None or self.__matrix == None or self.__observables == None):
+            # raise ValueError("Without references the arguments 'read', 'matrix' and 'observables' are mandatory")
 
         self.__solved = False
 
@@ -51,6 +56,13 @@ class Example:
     def range(self): return self.__json.get("range", self.ref.get("range", None)) if self.ref != None else self.__json.get("range", None)
     @property
     def ref(self): return self.__ref
+    @property
+    def valid(self):
+        if not (self.ref == None and (self.read == None or self.matrix == None or self.observables == None)):
+            self.__valid = True
+        return self.__valid
+
+
 
     def solve_reference(self, context: dict[str, Example]): 
         if not self.__solved:
@@ -158,13 +170,20 @@ class Example:
 
         return json
 
-def Load_Examples_Folder(dir: str, valid_read: list[str] = None, valid_matrix: list[str] = None) -> tuple[dict[str,Example], list[tuple[str,str,str]]]:
+def Load_Examples_Folder(dir: str, examples_json: str = 'data.json', valid_read: list[str] = None, valid_matrix: list[str] = None) -> tuple[dict[str,Example], list[tuple[str,str,str]]]:
     valid_read = VALID_READ if valid_read is None else valid_read
     valid_matrix = VALID_MATRIX if valid_matrix is None else valid_matrix
     examples = {}
-    with open(os.path.join(dir,'data.json')) as f:
+    with open(os.path.join(dir,examples_json)) as f:
         data = json.load(f)
-        examples = {key : Example(key, **data[key]) for key in data}
+        examples = {}
+        for key in data:
+            example = Example(key, **data[key])
+            if example.valid:
+                examples[key] = example
+            else:
+               logger.error(f'[Load_Examples_Folder] Example {key} is not a valid example. Make sure it has a valid ref or all three read, matrix, and observables fields')
+
     for example in examples.values():
         example.solve_reference(examples)
 
