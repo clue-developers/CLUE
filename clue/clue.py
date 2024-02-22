@@ -1971,6 +1971,11 @@ class FODESystem:
     ) -> float:
         r'''
             Method to compute the a reduction for a numerical lumping based on a maximum allowed size for the reduced model.
+            Output:
+                - nl: smallest size closest to allowed_size
+                - nr: largest size closest to allowed_size
+                - ls: smallest threshold for the reduction
+                - rs: largest threshold for the reduction
 
         '''
         observable, bound = self.__process_observable(observable), self.__process_bound(bound, threshold)
