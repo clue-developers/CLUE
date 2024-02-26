@@ -79,7 +79,7 @@ def _automated_differentiation(expr, varnames, domain, point):
 ### Structure for a differential system
 class FODESystem:
     r'''
-        Class to represent a system of Firs Order Differential Equations.
+        Class to represent a system of First Order Differential Equations.
 
         This class allows to store intermediate steps to save time in computations.
         It will also offer functionality to choose more freely the algorithms to do the 
@@ -1779,14 +1779,14 @@ class FODESystem:
             self.__cache_deviations[key] = mean(deviations)
         return self.__cache_deviations[key]
 
-    def __process_observable(self, observable) -> tuple[SparseVector]:
+    def __process_observable(self, observable: list) -> tuple[SparseVector]:
         r'''Processing observable arguments in lumping/deviation methods'''
         logger.debug("[__process_observable] Converting the observable into a valid input")
         processed_observable = []
         for obs in observable:
             if isinstance(obs, PolyElement):
                 logger.debug("[__process_observable] observables in PolyElement format. Casting to SparsePolynomial")
-                processed_observable.append(SparsePolynomial.from_sympy(obs, self.variables, self.field).linear_part_as_vec())
+                processed_observable.append(SparsePolynomial.from_sympy(obs, self.variables).linear_part_as_vec())
             elif isinstance(obs, SparsePolynomial):
                 processed_observable.append(obs.linear_part_as_vec())
             elif isinstance(obs, (list,tuple,ndarray)):
@@ -1822,18 +1822,24 @@ class FODESystem:
         
         return bound
 
-    def find_maximal_threshold(self, observable, 
+    def find_maximal_threshold(self, observable: list, 
         bound: float | list[float] | list[tuple[float,float]], num_points: int, threshold: float, 
         matrix_algorithm: str = "polynomial"
     ):
         r'''
             Method that gets the maximal threshold for numerical lumping for a given observable.
+            Input:
+                - ``observable``: a list of observables
+            Output:
+                - maximal epsilon
 
             Numerical lumping creates a reduction of the system (similar to exact lumping) where the distance of a point to the 
             linear space decides whether to add or not a vector to such linear subspace.
 
             This method computes a value for the allowed distance for a given observable such that the numerical lumping
             of the observable is itself.
+
+            Examples:: 
         '''
         observable, bound = self.__process_observable(observable), self.__process_bound(bound, threshold)
 
@@ -1868,15 +1874,23 @@ class FODESystem:
         
         return self.__cache_thresholds[key]
 
-    def find_acceptable_threshold(self, observable, 
+    def find_acceptable_threshold(self, observable: list, 
         dev_max: float, bound: float | list[float] | list[tuple[float,float]], num_points: int, threshold: float,
         with_tries: bool = False, matrix_algorithm: str = "polynomial"
-    ) -> float:
+    ) -> float| tuple[float, int]:
         r'''
             Method to compute an optimal threshold for numerical lumping
+            This method computes an optimal threshold for the current system so the numerical lumping has a deviation close
+            to a given value. 
 
-            This method computes an optimal threshold for the current system so the numerical lumping have a deviation close
-            to a given value. The deviation of the system, given some observables, is the 
+            Input:
+                - ``observable``: a list of observables
+                - ``dev_max``: maximum allowed deviation 
+            Output:
+                - ``low_size``: maximal epsilon that leads to a lower deviation than the max
+                - ``tries`` (optional): number of iterations
+
+            The deviation of the system, given some observables, is the 
         '''
         observable, bound = self.__process_observable(observable), self.__process_bound(bound, threshold)
 
@@ -1885,14 +1899,14 @@ class FODESystem:
 
         logger.debug("[find_acceptable_threshold] Computing maximal epsilon and its deviation")
         max_epsilon, last_deviation = self.find_maximal_threshold(observable, bound, num_points, threshold, matrix_algorithm=matrix_algorithm)
-        ls, rs = max_epsilon if last_deviation < dev_max else 0, max_epsilon
+        low_size, high_size = max_epsilon if last_deviation < dev_max else 0, max_epsilon
         current_dev = last_deviation if last_deviation < dev_max else 0
         tries = 1
-        logger.debug(f"[find_acceptable_threshold] Initial interval of search: [{ls},{rs}]")
+        logger.debug(f"[find_acceptable_threshold] Initial interval of search: [{low_size},{high_size}]")
         if last_deviation >= dev_max:
             # If the maximal reduction is above the maximal deviation, we do a binary search from 0 to max_epsilon
-            while abs(dev_max - current_dev) >= threshold and (rs-ls) > threshold: 
-                epsilon = (rs+ls)/2
+            while abs(dev_max - current_dev) >= threshold and (high_size-low_size) > threshold: 
+                epsilon = (high_size+low_size)/2
                 logger.debug(f"[find_acceptable_threshold] New value for {epsilon = }")
                 logger.log(5,f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing subspace)")
                 subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=epsilon)
@@ -1901,29 +1915,37 @@ class FODESystem:
                 current_dev = self._deviation(subspace, bound, num_points)
                 logger.debug(f"[find_acceptable_threshold] Current deviation for {epsilon = } ({subspace.dim()}): {current_dev}")
                 if current_dev < dev_max - threshold:
-                    ls, rs = epsilon, rs
+                    low_size, high_size = epsilon, high_size
                 elif current_dev > dev_max + threshold:
-                    ls, rs = ls, epsilon
+                    low_size, high_size = low_size, epsilon
                 else:
-                    ls, rs = epsilon, epsilon
-                logger.debug(f"[find_acceptable_threshold] New interval search: [{ls},{rs}]")
+                    low_size, high_size = epsilon, epsilon
+                logger.debug(f"[find_acceptable_threshold] New interval search: [{low_size},{high_size}]")
                 tries += 1
         
-        logger.debug(f"[find_acceptable_threshold] Found optimal threshold --> {ls}")        
+        logger.debug(f"[find_acceptable_threshold] Found optimal threshold --> {low_size}")        
         if with_tries:
-            return ls, tries
-        return ls
+            return low_size, tries
+        return low_size
 
     def find_next_reduction(self, observable, 
         dev_max: float, bound: float | list[float] | list[tuple[float,float]], num_points: int, threshold: float,
         with_tries: bool = False, matrix_algorithm: str = "polynomial", eps_min = 0
-    ) -> float:
+    ) -> tuple[int, int, float, float, int] | tuple[int, int, float, float]:
         r'''
             Method to compute the next possible reduction for a numerical lumping
 
-            Given an initial epsilon e_min, there exists an epsilon e such that
-            the number of species in the reduction changes.
-            This method computes an interval (a,b) such that e \in (a,b)
+            Given an initial epsilon ``e_min``, there exists an epsilon e such that the number of species in the reduction changes from ``left_size`` to ``right_size``.
+            This method computes an interval ``I =(left_eps, right_eps)`` of size lesser or equal to ``threshold`` such that the real change happens at ``e \in (a,b)``
+            Input:
+                - ``observable``: a list of observables
+                - ``eps_min``: lowest starting value of epsilon
+            Output:
+                - ``left_size``: largest size lesser or equal to allowed_size
+                - ``right_size``: smallest size greater or equal to allowed_size
+                - ``left_eps``: epsilon value generating left_size
+                - ``right_eps``: epsilon value generating right_eps
+                - ``tries``: number of iterations
         '''
         observable, bound = self.__process_observable(observable), self.__process_bound(bound, threshold)
 
@@ -1932,51 +1954,56 @@ class FODESystem:
 
         logger.debug("[find_next_reduction] Computing maximal epsilon and its deviation")
         max_epsilon,_ = self.find_maximal_threshold(observable, bound, num_points, threshold, matrix_algorithm=matrix_algorithm)
-        ls = eps_min
-        rs = max_epsilon
-        if ls == 0:
+        left_eps = eps_min
+        right_eps = max_epsilon
+        if left_eps == 0:
             logger.debug("[find_next_reduction] Exact reduction detected.")
             l_subspace = find_smallest_common_subspace(matrices, observable, OrthogonalSubspace)
         else:
-            l_subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=ls)
-        nl = l_subspace.dim()
+            l_subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=left_eps)
+        left_size = l_subspace.dim()
 
-        r_subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=rs)
-        nr = r_subspace.dim()
+        r_subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=right_eps)
+        right_size = r_subspace.dim()
 
         tries = 1
-        logger.debug(f"[find_next_reduction] Initial interval of search: [{ls},{rs}]")
-        while (rs-ls) > threshold:
-            epsilon = (rs+ls)/2
+        logger.debug(f"[find_next_reduction] Initial interval of search: [{left_eps},{right_eps}]")
+        while (right_eps-left_eps) > threshold:
+            epsilon = (right_eps+left_eps)/2
             logger.debug(f"[find_next_reduction] New value for {epsilon = }")
             logger.log(5,f"[find_next_reduction] Computing lumping dimension for {epsilon = } (computing subspace)")
             subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=epsilon)
             n_epsilon = subspace.dim()
             logger.log(5,f"[find_acceptable_threshold] Computed subspace for {epsilon = } ({n_epsilon})")
-            if n_epsilon < nl:
-                ls, rs, nr = ls, epsilon, n_epsilon
-            elif n_epsilon >= nl:
-                ls, rs, nl = epsilon, rs, n_epsilon
-            logger.debug(f"[find_next_reduction] New interval search: [{ls},{rs}]")
+            if n_epsilon < left_size:
+                left_eps, right_eps, right_size = left_eps, epsilon, n_epsilon
+            elif n_epsilon >= left_size:
+                left_eps, right_eps, left_size = epsilon, right_eps, n_epsilon
+            logger.debug(f"[find_next_reduction] New interval search: [{left_eps},{right_eps}]")
             tries += 1
     
-        logger.debug(f"[find_next_reduction] Reduction change found in interval -->[{ls},{rs}]")        
+        logger.debug(f"[find_next_reduction] Reduction change found in interval -->[{left_eps},{right_eps}]")        
         if with_tries:
-            return nl,nr, ls, rs, tries
-        return nl,nr, ls, rs
+            return left_size,right_size, left_eps, right_eps, tries
+        return left_size, right_size, left_eps, right_eps
 
     def find_reduction_given_size(self, observable, 
         dev_max: float, bound: float | list[float] | list[tuple[float,float]], num_points: int, threshold: float,
                                   with_tries: bool = False, matrix_algorithm: str = "polynomial", eps_min: float = 0, allowed_size: float=1
-    ) -> float:
+    ) -> tuple[int, int, float, float, int] | tuple[int, int, float, float]:
         r'''
             Method to compute the a reduction for a numerical lumping based on a maximum allowed size for the reduced model.
+            Input:
+                - ``observable``: a list of observables
+                - ``dev_max``: maximum deviation
+                - ``allowed_size``: percentage of the original size of the model
+                
             Output:
-                - nl: smallest size closest to allowed_size
-                - nr: largest size closest to allowed_size
-                - ls: smallest threshold for the reduction
-                - rs: largest threshold for the reduction
-
+                - ``left_size``: largest size lesser or equal to allowed_size
+                - ``right_size``: smallest size greater or equal to allowed_size
+                - ``left_eps``: epsilon value generating left_size
+                - ``right_eps``: epsilon value generating right_eps
+                - ``tries``: number of iterations
         '''
         observable, bound = self.__process_observable(observable), self.__process_bound(bound, threshold)
         max_n = allowed_size * self.size
@@ -1987,46 +2014,46 @@ class FODESystem:
         logger.debug("[find_reduction_given_size] Computing maximal epsilon and its deviation")
         max_epsilon,_ = self.find_maximal_threshold(observable, bound, num_points, threshold, matrix_algorithm=matrix_algorithm)
 
-        ls = eps_min
-        rs = max_epsilon
-        if ls == 0:
+        left_eps = eps_min
+        right_eps = max_epsilon
+        if left_eps == 0:
             logger.debug("[find_reduction_given_size] Exact reduction detected.")
             l_subspace = find_smallest_common_subspace(matrices, observable, OrthogonalSubspace)
         else:
-            l_subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=ls)
-        nl = l_subspace.dim()
+            l_subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=left_eps)
+        left_size = l_subspace.dim()
 
-        r_subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=rs)
-        nr = r_subspace.dim()
+        r_subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=right_eps)
+        right_size = r_subspace.dim()
 
-        if max_n > nl:
-            logger.log(5,f"[find_reduction_given_size] Desired size ({max_n}) larger than exact reduction size ({nl}). Returning exact reduction.")
-            nr = nl
-            rs = ls
-        elif max_n < nr:
-            logger.log(5,f"[find_reduction_given_size] Desired size ({max_n}) smaller than minimum size ({nr}). Setting desired size to {nr}")
-            max_n = nr
+        if max_n > left_size:
+            logger.log(5,f"[find_reduction_given_size] Desired size ({max_n}) larger than exact reduction size ({left_size}). Returning exact reduction.")
+            right_size = left_size
+            right_eps = left_eps
+        elif max_n < right_size:
+            logger.log(5,f"[find_reduction_given_size] Desired size ({max_n}) smaller than minimum size ({right_size}). Setting desired size to {right_size}")
+            max_n = right_size
 
         tries = 1
-        logger.debug(f"[find_reduction_given_size] Initial interval of search: [{ls},{rs}]")
-        while (rs-ls) > threshold:
-            epsilon = (rs+ls)/2
+        logger.debug(f"[find_reduction_given_size] Initial interval of search: [{left_eps},{right_eps}]")
+        while (right_eps-left_eps) > threshold:
+            epsilon = (right_eps+left_eps)/2
             logger.debug(f"[find_reduction_given_size] New value for {epsilon = }")
             logger.log(5,f"[find_reduction_given_size] Computing lumping dimension for {epsilon = } (computing subspace)")
             subspace = find_smallest_common_subspace(matrices, observable, NumericalSubspace, delta=epsilon)
             n_epsilon = subspace.dim()
             logger.log(5,f"[find_acceptable_threshold] Computed subspace for {epsilon = } ({n_epsilon})")
             if n_epsilon < max_n:
-                ls, rs, nr = ls, epsilon, n_epsilon
+                left_eps, right_eps, right_size = left_eps, epsilon, n_epsilon
             elif n_epsilon >= max_n:
-                ls, rs, nl = epsilon, rs, n_epsilon
-            logger.debug(f"[find_reduction_given_size] New interval search: [{ls},{rs}]")
+                left_eps, right_eps, left_size = epsilon, right_eps, n_epsilon
+            logger.debug(f"[find_reduction_given_size] New interval search: [{left_eps},{right_eps}]")
             tries += 1
     
-        logger.debug(f"[find_reduction_given_size] Reduction change found in interval -->[{ls},{rs}]")        
+        logger.debug(f"[find_reduction_given_size] Reduction change found in interval -->[{left_eps},{right_eps}]")        
         if with_tries:
-            return nl,nr, ls, rs, tries
-        return nl,nr, ls, rs
+            return left_size,right_size, left_eps, right_eps, tries
+        return left_size,right_size, left_eps, right_eps
 
 
     ##############################################################################################################
@@ -2070,7 +2097,7 @@ class FODESystem:
                 >>> system = FODESystem([x0**2 + x1 + x2, x2, x1], variables=['x0','x1','x2'])
                 >>> lumping = system.lumping([x0], print_reduction=False,initial_conditions={'x0': 1, 'x1': 2, 'x2': 5})
                 >>> lumping.ic
-                {'y0': MPQ(1,1), 'y1': MPQ(7,1)}
+                {'y0': mpq(1,1), 'y1': mpq(7,1)}
                 >>> lumping.old_vars
                 [x0, x1 + x2]
                 >>> lumping.is_consistent()
@@ -2098,7 +2125,7 @@ class FODESystem:
                 ...       print_reduction=False,
                 ...       initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
                 >>> lumping.ic
-                {'y0': MPQ(1,1), 'y1': MPQ(7,1)}
+                {'y0': mpq(1,1), 'y1': mpq(7,1)}
                 >>> lumping.old_vars
                 [x0, x1 + x2]
                 >>> lumping.is_consistent()
@@ -2123,7 +2150,7 @@ class FODESystem:
                 ...       print_reduction=False,
                 ...       initial_conditions={"x" : 1, "y" : 2})
                 >>> lumping.ic
-                {'y0': MPQ(-1,1)}
+                {'y0': mpq(-1,1)}
                 >>> lumping.old_vars
                 [x - y]
                 >>> lumping.is_consistent()
