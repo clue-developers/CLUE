@@ -10,7 +10,6 @@ r'''
 from __future__ import annotations
 
 import logging, math, sympy, sys, time
-#import numpy as np
 from collections.abc import Iterable
 from functools import cached_property, reduce, lru_cache
 from io import IOBase
@@ -1840,6 +1839,16 @@ class FODESystem:
             of the observable is itself.
 
             Examples:: 
+                >>> from clue import *
+                >>> from sympy import QQ
+                >>> from sympy.polys.rings import vring
+                >>> R = vring(["x0", "x1", "x2"], QQ)
+                >>> system = FODESystem([x1**2 +4.05*x1*x2+4*x2**2, 2*x0-4*x2, -x0-x1], variables=['x0','x1','x2'])
+                >>> bound = [(0,1) for i in range(system.size)]
+                >>> eps,_ = system.find_maximal_threshold(['x0'], bound, 100, 1e-6)
+                >>> eps
+                8.966744
+
         '''
         observable, bound = self.__process_observable(observable), self.__process_bound(bound, threshold)
 
@@ -1891,6 +1900,17 @@ class FODESystem:
                 - ``tries`` (optional): number of iterations
 
             The deviation of the system, given some observables, is the 
+
+            Examples::
+                >>> from clue import *
+                >>> from sympy import QQ
+                >>> from sympy.polys.rings import vring
+                >>> R = vring(["x0", "x1", "x2"], QQ)
+                >>> system = FODESystem([x1**2 +4.05*x1*x2+4*x2**2, 2*x0-4*x2, -x0-x1], variables=['x0','x1','x2'])
+                >>> bound = [(0,1) for i in range(system.size)]
+                >>> eps = system.find_acceptable_threshold(['x0'],0.01, bound, 100, 1e-6)
+                >>> eps
+                0.089109
         '''
         observable, bound = self.__process_observable(observable), self.__process_bound(bound, threshold)
 
@@ -1936,7 +1956,7 @@ class FODESystem:
             Method to compute the next possible reduction for a numerical lumping
 
             Given an initial epsilon ``e_min``, there exists an epsilon e such that the number of species in the reduction changes from ``left_size`` to ``right_size``.
-            This method computes an interval ``I =(left_eps, right_eps)`` of size lesser or equal to ``threshold`` such that the real change happens at ``e \in (a,b)``
+            This method computes an interval ``I =(left_eps, right_eps)`` of size lesser or equal to ``threshold`` such that the real change happens at ``e \in I``
             Input:
                 - ``observable``: a list of observables
                 - ``eps_min``: lowest starting value of epsilon
@@ -1946,6 +1966,16 @@ class FODESystem:
                 - ``left_eps``: epsilon value generating left_size
                 - ``right_eps``: epsilon value generating right_eps
                 - ``tries``: number of iterations
+            Examples::
+                >>> from clue import *
+                >>> from sympy import QQ
+                >>> from sympy.polys.rings import vring
+                >>> R = vring(["x0", "x1", "x2"], QQ)
+                >>> system = FODESystem([x1**2 +4.05*x1*x2+4*x2**2, 2*x0-4*x2, -x0-x1], variables=['x0','x1','x2'])
+                >>> bound = [(0,1) for i in range(system.size)]
+                >>> system.find_next_reduction(['x0'],0, bound, 100, 1e-6)
+                (3, 2, 0.089109, 0.089110)
+
         '''
         observable, bound = self.__process_observable(observable), self.__process_bound(bound, threshold)
 
@@ -2004,6 +2034,19 @@ class FODESystem:
                 - ``left_eps``: epsilon value generating left_size
                 - ``right_eps``: epsilon value generating right_eps
                 - ``tries``: number of iterations
+            Examples::
+                >>> from clue import *
+                >>> from sympy import QQ
+                >>> from sympy.polys.rings import vring
+                >>> R = vring(["x0", "x1", "x2"], QQ)
+                >>> system = FODESystem([x1**2 +4.05*x1*x2+4*x2**2, 2*x0-4*x2, -x0-x1], variables=['x0','x1','x2'])
+                >>> bound = [(0,1) for i in range(system.size)]
+                >>> system.find_reduction_given_size(['x0'],0, bound, 100, 1e-6,allowed_size=0.5)
+                (2, 2, 8.966744, 8.966745)
+                >>> system.find_reduction_given_size(['x0'],0, bound, 100, 1e-6,allowed_size=0.7)
+                (3, 2, 0.089109, 0.089110)
+
+
         '''
         observable, bound = self.__process_observable(observable), self.__process_bound(bound, threshold)
         max_n = allowed_size * self.size
@@ -2083,6 +2126,7 @@ class FODESystem:
                 - method - user decision about how to compute the internal matrices for lumping. See method 
                 :func:`construct_matrices` for further information.
                 - file - optional file descriptor to print the results (in case ``print_system`` or ``print_reduction`` are ``True``)
+
 
             Output
                 a tuple (the right-hand side of an aggregated system, new_variables)
