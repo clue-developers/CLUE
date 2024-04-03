@@ -2,7 +2,7 @@ import json, os, sys
 
 sys.path.insert(0, "./../../") # clue, models, tests is here
 
-import tests.examples.examples_data as EXAMPLES
+import tests.examples_data as EXAMPLES
 import models.models_data as MODELS
 
 def pass_filter(filter, data):

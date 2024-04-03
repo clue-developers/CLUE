@@ -160,7 +160,7 @@
             0.75,
             0.875
         ],
-        "t1": 5,
+        "t1": 1000,
         "sim_method": "Radau",
         "out_folder": "paper/rational"
     },
