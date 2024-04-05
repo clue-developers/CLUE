@@ -51,7 +51,7 @@ class UncertainFODESystem(FODESystem):
             >>> ## 2*x0 + 3*x1 + 2*x2, x0+2*x1+x2, 2*x0 + 4*x1 + 2*x2
             >>> usystem = UncertainFODESystem([(x0 + 2*x1 + x2, 3*x0+4*x1+3*x2), (x1, 2*x0+3*x1+2*x2), (x0 + 3*x1 + x2, 3*x0 + 5*x1 + 3*x2)], variables=['x0','x1','x2'])
             >>> usystem.lumping([x0+x2])._subspace.matrix().to_list()
-            [[MPQ(1,1), 0, MPQ(1,1)], [0, MPQ(1,1), 0]]
+            [[mpq(1,1), 0, mpq(1,1)], [0, mpq(1,1), 0]]
             >>> usystem.lower_equations
             (x0 + 2*x1 + x2, x1, x0 + 3*x1 + x2)
             >>> usystem.upper_equations
@@ -71,7 +71,7 @@ class UncertainFODESystem(FODESystem):
             (40*a + 25*b + 75*c + 80*d, 44*a + 27*b + 81*c + 88*d, 42*a + 28*b + 84*c + 84*d, 44*a + 27*b + 81*c + 88*d)
             >>> a,b,c,d = usystem.symb_variables()
             >>> usystem.lumping([a+2*d])._subspace.matrix().to_list()
-            [[MPQ(1,1), 0, 0, MPQ(2,1)], [0, MPQ(1,1), MPQ(3,1), 0]]
+            [[mpq(1,1), 0, 0, mpq(2,1)], [0, mpq(1,1), mpq(3,1), 0]]
     '''
     def __init__(self, equations=None, observables=None, variables = None, ic={}, name = None, 
                 matrices = None, 

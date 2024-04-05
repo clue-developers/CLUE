@@ -1,5 +1,5 @@
 ## -*- encoding: utf-8 -*-
-from setuptools import setup
+from setuptools import setup, find_packages
 from codecs import open # To open the README file with proper encoding
 
 # Get information from separate files (README, VERSION)
@@ -36,7 +36,7 @@ setup(
       'Programming Language :: Python :: 3.8.5',
     ], # classifiers list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
     keywords = "lumping differential system",
-    packages = ["clue"],
+    packages =  ["clue"],
     setup_requires   = [],
     install_requires = requirements(),
 )

@@ -143,9 +143,9 @@ class SparsePolynomial(object):
                 >>> from clue.rational_function import SparsePolynomial
                 >>> p = SparsePolynomial.from_string("1 + x/2 + 3*y + 5*x*y", ['x','y'])
                 >>> print(p.coefficients)
-                (MPQ(1,1), MPQ(1,2), MPQ(3,1), MPQ(5,1))
+                (mpq(1,1), mpq(1,2), mpq(3,1), mpq(5,1))
                 >>> SparsePolynomial.from_const(10, ["x", "y"]).coefficients
-                (MPQ(10,1),)
+                (mpq(10,1),)
 
             This method return an empty tuple if no monomial is contained, i.e., the polynomial 
             is equal to zero::
@@ -196,7 +196,7 @@ class SparsePolynomial(object):
                 15
                 >>> p = SparsePolynomial(['x'])
                 >>> p.content
-                0
+                mpz(0)
         '''
         return sympy.polys.polytools.gcd(self.coefficients)
 
@@ -218,21 +218,21 @@ class SparsePolynomial(object):
                 >>> from clue.rational_function import *
                 >>> sp = SparsePolynomial.from_string("x*y*z + x*6 - 10", ['x','y','z'])
                 >>> sp.constant_term
-                MPQ(-10,1)
+                mpq(-10,1)
                 >>> sp = SparsePolynomial.from_string("x - y", ['x','y'])
                 >>> sp.constant_term
-                MPQ(0,1)
+                mpq(0,1)
                 >>> sp = SparsePolynomial.from_const(13, ['x','y','z'])
                 >>> sp.constant_term
-                MPQ(13,1)
+                mpq(13,1)
                 >>> sp = SparsePolynomial(['x']) # zero polynomial
                 >>> sp.constant_term
-                MPQ(0,1)
+                mpq(0,1)
 
             This property can also be obtained via :func:`ct`::
 
                 >>> sp.ct
-                MPQ(0,1)
+                mpq(0,1)
         '''
         return self._data.get((), self.domain.zero)
 
@@ -263,7 +263,7 @@ class SparsePolynomial(object):
                 >>> one = SparsePolynomial(["x", "y"], QQ, {(): 1})
                 >>> p = one + x//(2*one) + (3*one)*y + (5*one)*x*y
                 >>> print(p.linear_components)
-                ((1, x, y, x*y), (MPQ(1,1), MPQ(1,2), MPQ(3,1), MPQ(5,1)))
+                ((1, x, y, x*y), (mpq(1,1), mpq(1,2), mpq(3,1), mpq(5,1)))
         '''
         return self.monomials, self.coefficients
 

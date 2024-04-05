@@ -12,7 +12,7 @@ r'''
 '''
 from __future__ import annotations
 
-import copy, logging, math, sympy
+import copy, logging, math
 
 from collections import deque
 
@@ -123,8 +123,19 @@ class SparseVector(object):
 
             The number of digits of the biggest entry. If the field is not the rational numbers, we 
             raise a :class:`TypeError`.
+        
+            Examples::
 
-            TODO: add examples
+                >>> from clue.clue import SparseVector, SparseRowMatrix
+                >>> v = SparseVector.from_list([1,2])
+                >>> v.digits()
+                1
+                >>> v = SparseVector.from_list([1,20]) 
+                >>> v.digits()
+                2
+                >>> v = SparseVector.from_list([0.001,0.01,1])
+                >>> v.digits()
+                3
         '''
         if self.field != QQ:
             raise TypeError("The number of digits can only be computed over the rational numbers")
@@ -169,11 +180,11 @@ class SparseVector(object):
                 >>> from clue.linalg import *
                 >>> v = SparseVector.from_list([1,0,0])
                 >>> v.to_list()
-                [MPQ(1,1), 0, 0]
+                [mpq(1,1), 0, 0]
                 >>> w = SparseVector.from_list([0,1,1])
                 >>> v.reduce(3, w)
                 >>> v.to_list()
-                [MPQ(1,1), MPQ(3,1), MPQ(3,1)]
+                [mpq(1,1), mpq(3,1), mpq(3,1)]
         '''
         if not coef or vect.is_zero(): # case coeff == 0 or vect == 0
             return # no changes
@@ -202,7 +213,18 @@ class SparseVector(object):
 
             This method DO NOT return anything. The result is stored in-place ``self``.
 
-            TODO: add examples
+            Examples::
+
+                >>> from clue.linalg import *
+                >>> v = SparseVector.from_list([1,0,0])
+                >>> v.scale(3)
+                >>> v.to_list()
+                [mpq(3,1), 0, 0]
+                >>> v = SparseVector.from_list([1/2,1/4])
+                >>> v.scale(2)
+                >>> v.to_list()
+                [mpq(1,1), mpq(1,2)]
+
         '''
         if not coef: # the result is zero
             self.nonzero = set()
@@ -316,7 +338,21 @@ class SparseVector(object):
 
             The scalar product of ``self`` and ``rhs`` as an element in ``self.field``.
 
-            TODO: add examples
+            Examples::
+
+                >>> from clue.linalg import *
+                >>> v = SparseVector.from_list([2,1,1])
+                >>> u = SparseVector.from_list([1,-1,-1])
+                >>> v.inner_product(u)
+                mpq(0,1)
+                >>> v = SparseVector.from_list([1,1,1,1])
+                >>> v.inner_product(v)
+                mpq(4,1)
+                >>> v = SparseVector.from_list([2,1,1])
+                >>> u = SparseVector.from_list([0,0,0])
+                >>> v.inner_product(u)
+                mpq(0,1)
+
         '''
         if self.is_zero() or rhs.is_zero():
             return self.field.zero
@@ -346,7 +382,25 @@ class SparseVector(object):
 
             The scalar product of ``self`` and ``rhs`` as an element in ``self.field``.
 
-            TODO: add examples
+            Examples::
+
+                >>> from clue.linalg import *
+                >>> v = SparseVector.from_list([2,1])
+                >>> M = SparseVector.from_list([1,0,0,1])
+                >>> M = M.as_matrix(2)
+                >>> v.apply_matrix(M).to_list()
+                [mpq(2,1), mpq(1,1)]
+                >>> v = SparseVector.from_list([1,1])
+                >>> M = SparseVector.from_list([1,2,3,4])
+                >>> M = M.as_matrix(2)
+                >>> v.apply_matrix(M).to_list()
+                [mpq(3,1), mpq(7,1)]
+                >>> v = SparseVector.from_list([1,2])
+                >>> M = SparseVector.from_list([0,1/2,0,2])
+                >>> M = M.as_matrix(2)
+                >>> v.apply_matrix(M).to_list()
+                [mpq(1,1), mpq(4,1)]
+
         '''
         if(self.dim != matr.ncols):
             raise TypeError(f"Impossible to multiply matrix with {matr.ncols} with vector of size {self.dim}")
@@ -395,6 +449,7 @@ class SparseVector(object):
             This means that for every entry, for both numerator and denominator we compute the value modulus ``mod``.
             This, combined with a reconstruction method (see :func:`rational_reconstruction`), allows to perform 
             operations with smaller size and obtain the true final result.
+            This method works best for a large enough prime ``mod``.
 
             This method only works if ``self.field`` are the rational numbers.
 
@@ -406,7 +461,15 @@ class SparseVector(object):
 
             A :class:`SparseVector` over a finite field whose entries are the reduction modulo ``mod`` of ``self``.
 
-            TODO: add examples
+            Examples::
+
+                >>> from clue.linalg import *
+                >>> v = SparseVector.from_list([2,1])
+                >>> v.reduce_mod(487).to_list()
+                [SymmetricModularIntegerMod487(2), SymmetricModularIntegerMod487(1)]
+                >>> v = SparseVector.from_list([7/6,5/3])
+                >>> v.reduce_mod(487).to_list()
+                [SymmetricModularIntegerMod487(407), SymmetricModularIntegerMod487(164)]
         '''
         if self.field != QQ:
             raise ValueError(f"Reduction can be done only for a vector over rationals but the field is {self.field}")
@@ -450,7 +513,15 @@ class SparseVector(object):
             A new :class:`SparseVector` with the rationals as field that can be obtained 
             from ``self`` as a rational reconstruction.
 
-            TODO: add examples
+            Examples::
+
+                >>> from clue.linalg import *
+                >>> v = SparseVector.from_list([2,1])
+                >>> v.reduce_mod(487).rational_reconstruction().to_list()
+                [mpq(2,1), mpq(1,1)]
+                >>> v = SparseVector.from_list([7/6,5/3])
+                >>> v.reduce_mod(487).rational_reconstruction().to_list()
+                [mpq(7,6), mpq(5,3)]
         '''
         if (not self.field.is_FiniteField) or (not isprime(self.field.characteristic())):
             raise ValueError(f"Rational reconstruction is not available over {self.field}")
