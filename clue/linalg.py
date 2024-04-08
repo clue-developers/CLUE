@@ -17,6 +17,7 @@ import copy, logging, math
 from collections import deque
 
 from itertools import combinations, product
+from typing import Iterable, Any
 
 from sympy import GF, QQ, RR, gcd, nextprime, symbols
 from sympy.ntheory.modular import isprime
@@ -570,9 +571,19 @@ class SparseRowMatrix(object):
           integer is provided we create a square matrix.
         * ``field``: (``sympy.QQ`` by default) structure from Sympy determining the ambient space of the coefficients. 
 
-        TODO: add examples of vectors, how they are created and some operations with them
+        Examples::
+
+                >>> from clue.clue import SparseRowMatrix
+                >>> from sympy import QQ                
+                >>> M = SparseRowMatrix.from_list([[1,2],[3,4]], QQ)
+                >>> print(M.transpose().pretty_print())
+                [ 1  3 ]
+                [ 2  4 ]
+               
+
+        TODO: add examples of matrices, how they are created and some operations with them
     '''
-    def __init__(self, dim : int | list[int] | tuple[int], field : Domain = QQ):
+    def __init__(self, dim : int | list[int] | tuple[int, int], field : Domain = QQ):
         if(not isinstance(dim, (list, tuple))):
             dim = (dim, dim)
         
@@ -583,8 +594,28 @@ class SparseRowMatrix(object):
         self.field : Domain = field
 
     @classmethod
-    def from_list(cls, entries_list : list | tuple, field : Domain = QQ):
-        r'''Method to build a new :class:`SparseRowMatrix` from a dense representation (i.e., a list or tuple)'''
+    def from_list(cls, entries_list : list[list[Any]] , field : Domain = QQ):
+        r'''
+        Method to build a new :class:`SparseRowMatrix` from a dense representation (i.e., a list  of lists )
+        
+        Examples::
+
+            >>> from clue.clue import SparseRowMatrix, SparseVector
+            >>> from sympy import QQ  
+            >>> M = SparseRowMatrix.from_list([[1,0],[0,1]], QQ)
+            >>> print(M.pretty_print())
+            [ 1 0 ]
+            [ 0 1 ]
+            >>> M = SparseRowMatrix.from_list([1,0,0,1], QQ)
+            Traceback (most recent call last):
+            ...
+            TypeError: 'int' object is not subscriptable
+            >>> M = SparseVector.from_list([1,0,0,1], QQ).as_matrix(2)
+            >>> print(M.pretty_print())
+            [ 1 0 ]
+            [ 0 1 ]
+
+        '''
         result = cls(len(entries_list), field)
         for i, j in product(range(len(entries_list)), repeat=2):
             result.increment(i,j, field.convert(entries_list[i][j]))
@@ -596,14 +627,37 @@ class SparseRowMatrix(object):
     def copy(self):
         r'''
             Returns a copy of the matrix.
+
+        Examples::
+
+            >>> from clue.clue import SparseRowMatrix
+            >>> from sympy import QQ  
+            >>> M = SparseRowMatrix.from_list([[1,0],[0,1]], QQ)
+            >>> N = M.copy()
+            >>> print(N.pretty_print())
+            [ 1 0 ]
+            [ 0 1 ]
+
         '''
         res = SparseRowMatrix(self.dim, self.field)
         res.nonzero = self.nonzero.copy()
         res.__data = {i : self.row(i).copy() for i in self.__data}
         return res
     
-    def change_base(self, new_field):
-        r'''Change the base domain for the sparse vector'''
+    def change_base(self, new_field : Domain):
+        r'''
+        Change the base domain for the sparse vector
+
+        Examples::
+
+            >>> from clue.clue import SparseVector, SparseRowMatrix
+            >>> from sympy import QQ, RR
+            >>> M = SparseRowMatrix.from_list([[1/2,2/4],[3/4,4/5]], QQ)
+            >>> print(M.change_base(RR).pretty_print())
+            [  0.5 0.5 ]
+            [ 0.75 0.8 ]
+
+        '''
         if self.field == new_field:
             return self
         
@@ -613,7 +667,19 @@ class SparseRowMatrix(object):
         return new_matrix
 
     def transpose(self):
-        r'''Method that returns the transposed matrix of ``self``'''
+        r'''
+        Method that returns the transposed matrix of ``self``
+
+        Examples::
+
+            >>> from clue.clue import SparseRowMatrix
+            >>> from sympy import QQ
+            >>> M = SparseRowMatrix.from_list([[1,2],[3,4]], QQ)
+            >>> print(M.transpose().pretty_print())
+            [ 1  3 ]
+            [ 2  4 ]
+         
+        '''
         result = SparseRowMatrix((self.ncols, self.nrows), self.field)
         for j in range(self.ncols):
             jth_col = self.column(j)
@@ -633,7 +699,7 @@ class SparseRowMatrix(object):
 
     #--------------------------------------------------------------------------
 
-    def __setitem__(self, cell : tuple[int,int] | list[int], value):
+    def __setitem__(self, cell : tuple[int,int] | list[int], value: Any):
         i, j = cell
         if(i < 0 or i >= self.nrows):
             raise IndexError(f"Row {i} out of dimension")
@@ -650,7 +716,7 @@ class SparseRowMatrix(object):
             self.__data[i] = SparseVector(self.ncols, self.field)
             self.__data[i][j] = value
 
-    def set_row(self, i, new_row):
+    def set_row(self, i:int, new_row: SparseVector):
         if not isinstance(new_row, SparseVector) or new_row.dim != self.ncols:
             raise TypeError(f"The given row is not of valid format. A SparseVector is required of dimension {self.ncols}")
         if(i < 0 or i >= self.nrows):
@@ -663,7 +729,7 @@ class SparseRowMatrix(object):
             self.nonzero.add(i)
             self.__data[i] = new_row
 
-    def set_col(self, j, new_col):
+    def set_col(self, j:int, new_col: SparseVector):
         if not isinstance(new_col, SparseVector) or new_col.dim != self.nrows:
             raise TypeError(f"The given column is not of valid format. A SparseVector is required of dimension {self.nrows}")
         if(j < 0 or j >= self.ncols):
@@ -687,12 +753,26 @@ class SparseRowMatrix(object):
 
     #--------------------------------------------------------------------------
 
-    def increment(self, i : int, j: int, extra):
+    def increment(self, i : int, j: int, extra: Any):
         r'''
             Method to increment the value of an element by a given quantity.
 
             This method uses __setitem__, hence removing the vector if we end up with a 
             whole zero row.
+
+            Examples::
+                >>> from clue.clue import SparseRowMatrix
+                >>> from sympy import QQ
+                >>> M = SparseRowMatrix.from_list([[1,2],[3,4]], QQ)
+                >>> M.increment(0,0,-1)
+                >>> print(M.pretty_print())
+                [ 0 2 ]
+                [ 3 4 ]
+                >>> M.increment(0,1,-2)
+                >>> print(M.pretty_print())
+                [ 0 0 ]
+                [ 3 4 ]
+             
         '''
         self[i, j] = self[i, j] + extra
 
@@ -717,7 +797,19 @@ class SparseRowMatrix(object):
     #--------------------------------------------------------------------------
 
     def matmul(self, other : SparseRowMatrix) -> SparseRowMatrix:
-        r'''Computes the product of two sparse matrices (``self``*``other``)'''
+        r'''
+        Computes the product of two sparse matrices (``self``*``other``)
+
+            Examples::
+                >>> from clue.clue import SparseRowMatrix
+                >>> from sympy import QQ
+                >>> M = SparseRowMatrix.from_list([[1,2,3],[4,5,6]], QQ)
+                >>> N = SparseRowMatrix.from_list([[0,1],[1,0]], QQ)
+                >>> print(M.matmul(N).pretty_print())
+                [ 2 1 ]
+                [ 5 4 ]
+
+        '''
         srows, scols = self.dim; orows, ocols = other.dim
         if scols != orows:
             raise TypeError(f"The dimension of the matrices do not match for multiplication: ({srows}x{scols}) - ({orows}x{ocols})")
@@ -741,13 +833,20 @@ class SparseRowMatrix(object):
 
             Input:
 
-            * ``mod``: a prime over which we will compute the modulus.
+            * ``mod``: a sufficiently large prime over which we will compute the modulus.
 
             Output:
 
             A :class:`SparseRowMatrix` over a finite field whose entries are the reduction modulo ``mod`` of ``self``.
+            Examples::
 
-            TODO: add examples
+                >>> from clue.clue import SparseVector, SparseRowMatrix
+                >>> from sympy import QQ
+                >>> M = SparseRowMatrix.from_list([[1/2,2/4],[3/4,4/5]], QQ)
+                >>> print(M.reduce_mod(487).pretty_print())
+                [ 244 mod 487 244 mod 487 ]
+                [ 366 mod 487 293 mod 487 ]
+
         '''
         if self.field != QQ:
             raise ValueError(f"Reduction can be done only for a vector over rationals but the field is {self.field}")
@@ -759,10 +858,54 @@ class SparseRowMatrix(object):
                 result.__data[i] = row_reduced
         return result
 
+    def rational_reconstruction(self):
+        r'''
+            Method to make a rational reconstruction from a modular expression.
+
+            This method converts this modular sparse matrix into a rational matrix using 
+            a rational reconstruction algorithm (see :func:`rational_reconstruction_sage`)
+
+            This method runs a rational reconstruction to each row. 
+
+            Output:
+
+            A new :class:`Subspace` with the rationals as field that can be obtained 
+            from ``self`` as a rational reconstruction.
+
+            Examples::
+
+                >>> from clue.clue import SparseVector, SparseRowMatrix
+                >>> from sympy import QQ
+                >>> M = SparseRowMatrix.from_list([[1/2,2/4],[3/4,4/5]], QQ)
+                >>> N = M.reduce_mod(487)
+                >>> print(N.rational_reconstruction().pretty_print())
+                [ 1/2 1/2 ]
+                [ 3/4 4/5 ]
+        '''
+        if (not self.field.is_FiniteField) or (not isprime(self.field.characteristic())):
+            raise ValueError(f"Rational reconstruction is not available over {self.field}")
+ 
+        result = SparseRowMatrix(self.dim, QQ)
+        for i in self.nonzero:
+            row_reconst = self.__data[i].rational_reconstruction()
+            if not row_reconst.is_zero():
+                result.nonzero.add(i)
+                result.__data[i] = row_reconst
+        return result
+
     #--------------------------------------------------------------------------
 
     def to_vector(self):
-        r'''Method that transforms a matrix into a vector with row-first preference'''
+        r'''
+        Method that transforms a matrix into a vector with row-first preference
+            Examples::
+
+                >>> from clue.clue import SparseVector, SparseRowMatrix
+                >>> from sympy import QQ
+                >>> M = SparseRowMatrix.from_list([[1/2,2/4],[3/4,4/5]], QQ)
+                >>> print(M.to_vector().to_list())
+                [mpq(1,2), mpq(1,2), mpq(3,4), mpq(4,5)]
+        '''
         result = SparseVector(self.nrows*self.ncols, self.field)
         for i in self.nonzero:
             ith_row = self.row(i)
