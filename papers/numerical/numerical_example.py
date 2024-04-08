@@ -2,17 +2,13 @@ from __future__ import annotations
 
 import csv, inspect, os, pstats, signal, sys, time, logging, json, re
 
-SCRIPT_DIR = os.path.dirname(__file__) if __name__ != "__main__" else "./"
-sys.path.insert(0, os.path.join(SCRIPT_DIR, "..", "..")) # models and clue is here
-sys.path.insert(0, os.path.join(SCRIPT_DIR, "..")) # examples_data is here
-
 from contextlib import nullcontext
 from clue import FODESystem, LDESystem, SparsePolynomial, SparseRowMatrix, NumericalSubspace
 from clue.linalg import find_smallest_common_subspace
 from clue.simulations import apply_matrix, create_figure, merge_simulations
 from clue.ode_parser import readfile, extract_model_name, split_in_sections
 from cProfile import Profile
-from examples_data import Example, Load_Examples_Folder
+from papers.examples_data import Example, Load_Examples_Folder
 from io import TextIOBase
 from matplotlib import pyplot as plt
 from numpy import array, matmul, mean, divide, zeros_like
@@ -20,8 +16,12 @@ from numpy.linalg import norm
 from scipy.integrate._ivp.ivp import OdeResult
 from sympy import RR
 
+from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).parent
 EX_JSON = 'paper.json'
-examples, executed_examples = Load_Examples_Folder(SCRIPT_DIR,EX_JSON)
+
+examples, executed_examples = Load_Examples_Folder(SCRIPT_DIR, EX_JSON)
 logger = logging.getLogger("clue." + __name__)
 logger.setLevel(logging.DEBUG)
 class Experiment:

@@ -7,6 +7,7 @@ from functools import lru_cache
 
 import models.models_data
 from typing import TextIO
+from pathlib import Path
 
 logger = logging.getLogger("clue." + __name__)
 logger.setLevel(logging.DEBUG)
@@ -170,7 +171,7 @@ class Example:
 
         return json
 
-def Load_Examples_Folder(dir: str, examples_json: str = 'data.json', valid_read: list[str] = None, valid_matrix: list[str] = None) -> tuple[dict[str,Example], list[tuple[str,str,str]]]:
+def Load_Examples_Folder(dir: Path, examples_json: str = 'data.json', valid_read: list[str] = None, valid_matrix: list[str] = None) -> tuple[dict[str,Example], list[tuple[str,str,str]]]:
     valid_read = VALID_READ if valid_read is None else valid_read
     valid_matrix = VALID_MATRIX if valid_matrix is None else valid_matrix
     examples = {}
