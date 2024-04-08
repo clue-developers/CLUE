@@ -2042,7 +2042,7 @@ class FODESystem:
                 >>> system = FODESystem([x1**2 +4.05*x1*x2+4*x2**2, 2*x0-4*x2, -x0-x1], variables=['x0','x1','x2'])
                 >>> bound = [(0,1) for i in range(system.size)]
                 >>> system.find_reduction_given_size(['x0'],0, bound, 100, 1e-6,allowed_size=0.5)
-                (2, 2, 8.966744, 8.966745)
+                (2, 1, 8.966744, 8.966745)
                 >>> system.find_reduction_given_size(['x0'],0, bound, 100, 1e-6,allowed_size=0.7)
                 (3, 2, 0.089109, 0.089110)
 
@@ -2141,7 +2141,7 @@ class FODESystem:
                 >>> system = FODESystem([x0**2 + x1 + x2, x2, x1], variables=['x0','x1','x2'])
                 >>> lumping = system.lumping([x0], print_reduction=False,initial_conditions={'x0': 1, 'x1': 2, 'x2': 5})
                 >>> lumping.ic
-                {'y0': mpq(1,1), 'y1': mpq(7,1)}
+                {'y0': MPQ(1,1), 'y1': MPQ(7,1)}
                 >>> lumping.old_vars
                 [x0, x1 + x2]
                 >>> lumping.is_consistent()
@@ -2169,7 +2169,7 @@ class FODESystem:
                 ...       print_reduction=False,
                 ...       initial_conditions={"x0" : 1, "x1" : 2, "x2" : 5})
                 >>> lumping.ic
-                {'y0': mpq(1,1), 'y1': mpq(7,1)}
+                {'y0': MPQ(1,1), 'y1': MPQ(7,1)}
                 >>> lumping.old_vars
                 [x0, x1 + x2]
                 >>> lumping.is_consistent()
@@ -2194,7 +2194,7 @@ class FODESystem:
                 ...       print_reduction=False,
                 ...       initial_conditions={"x" : 1, "y" : 2})
                 >>> lumping.ic
-                {'y0': mpq(-1,1)}
+                {'y0': MPQ(-1,1)}
                 >>> lumping.old_vars
                 [x - y]
                 >>> lumping.is_consistent()

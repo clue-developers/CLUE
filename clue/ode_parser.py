@@ -396,7 +396,7 @@ def parse_initial_conditions(lines, domain = QQ, prev_ic=None):
 
             >>> from clue.ode_parser import parse_initial_conditions
             >>> parse_initial_conditions([ "f = 0.50+0.5*t^2", "N = 5", "V = 1e-12*(f**5+N)/t", "L0 = (200E-9*N)*V"], prev_ic = {'t': 1})
-            {'f': mpq(1,1), 'N': mpq(5,1), 'V': mpq(3,500000000000), 'L0': mpq(3,500000000000000000)}
+            {'f': MPQ(1,1), 'N': MPQ(5,1), 'V': MPQ(3,500000000000), 'L0': MPQ(3,500000000000000000)}
     '''
     result = dict()
     cummulated = dict(prev_ic) if prev_ic != None else dict() # we create a copy

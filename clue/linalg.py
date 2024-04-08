@@ -181,11 +181,11 @@ class SparseVector(object):
                 >>> from clue.linalg import *
                 >>> v = SparseVector.from_list([1,0,0])
                 >>> v.to_list()
-                [mpq(1,1), 0, 0]
+                [MPQ(1,1), 0, 0]
                 >>> w = SparseVector.from_list([0,1,1])
                 >>> v.reduce(3, w)
                 >>> v.to_list()
-                [mpq(1,1), mpq(3,1), mpq(3,1)]
+                [MPQ(1,1), MPQ(3,1), MPQ(3,1)]
         '''
         if not coef or vect.is_zero(): # case coeff == 0 or vect == 0
             return # no changes
@@ -220,11 +220,11 @@ class SparseVector(object):
                 >>> v = SparseVector.from_list([1,0,0])
                 >>> v.scale(3)
                 >>> v.to_list()
-                [mpq(3,1), 0, 0]
+                [MPQ(3,1), 0, 0]
                 >>> v = SparseVector.from_list([1/2,1/4])
                 >>> v.scale(2)
                 >>> v.to_list()
-                [mpq(1,1), mpq(1,2)]
+                [MPQ(1,1), MPQ(1,2)]
 
         '''
         if not coef: # the result is zero
@@ -345,14 +345,14 @@ class SparseVector(object):
                 >>> v = SparseVector.from_list([2,1,1])
                 >>> u = SparseVector.from_list([1,-1,-1])
                 >>> v.inner_product(u)
-                mpq(0,1)
+                MPQ(0,1)
                 >>> v = SparseVector.from_list([1,1,1,1])
                 >>> v.inner_product(v)
-                mpq(4,1)
+                MPQ(4,1)
                 >>> v = SparseVector.from_list([2,1,1])
                 >>> u = SparseVector.from_list([0,0,0])
                 >>> v.inner_product(u)
-                mpq(0,1)
+                MPQ(0,1)
 
         '''
         if self.is_zero() or rhs.is_zero():
@@ -390,17 +390,17 @@ class SparseVector(object):
                 >>> M = SparseVector.from_list([1,0,0,1])
                 >>> M = M.as_matrix(2)
                 >>> v.apply_matrix(M).to_list()
-                [mpq(2,1), mpq(1,1)]
+                [MPQ(2,1), MPQ(1,1)]
                 >>> v = SparseVector.from_list([1,1])
                 >>> M = SparseVector.from_list([1,2,3,4])
                 >>> M = M.as_matrix(2)
                 >>> v.apply_matrix(M).to_list()
-                [mpq(3,1), mpq(7,1)]
+                [MPQ(3,1), MPQ(7,1)]
                 >>> v = SparseVector.from_list([1,2])
                 >>> M = SparseVector.from_list([0,1/2,0,2])
                 >>> M = M.as_matrix(2)
                 >>> v.apply_matrix(M).to_list()
-                [mpq(1,1), mpq(4,1)]
+                [MPQ(1,1), MPQ(4,1)]
 
         '''
         if(self.dim != matr.ncols):
@@ -519,10 +519,10 @@ class SparseVector(object):
                 >>> from clue.linalg import *
                 >>> v = SparseVector.from_list([2,1])
                 >>> v.reduce_mod(487).rational_reconstruction().to_list()
-                [mpq(2,1), mpq(1,1)]
+                [MPQ(2,1), MPQ(1,1)]
                 >>> v = SparseVector.from_list([7/6,5/3])
                 >>> v.reduce_mod(487).rational_reconstruction().to_list()
-                [mpq(7,6), mpq(5,3)]
+                [MPQ(7,6), MPQ(5,3)]
         '''
         if (not self.field.is_FiniteField) or (not isprime(self.field.characteristic())):
             raise ValueError(f"Rational reconstruction is not available over {self.field}")
@@ -904,7 +904,7 @@ class SparseRowMatrix(object):
                 >>> from sympy import QQ
                 >>> M = SparseRowMatrix.from_list([[1/2,2/4],[3/4,4/5]], QQ)
                 >>> print(M.to_vector().to_list())
-                [mpq(1,2), mpq(1,2), mpq(3,4), mpq(4,5)]
+                [MPQ(1,2), MPQ(1,2), MPQ(3,4), MPQ(4,5)]
         '''
         result = SparseVector(self.nrows*self.ncols, self.field)
         for i in self.nonzero:

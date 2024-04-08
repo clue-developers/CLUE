@@ -3,3 +3,6 @@ pyparsing
 natsort
 scipy
 numpy
+matplotlib
+requests
+beautifulsoup4
