@@ -15,6 +15,7 @@ from numpy import array, matmul, mean, divide, zeros_like
 from numpy.linalg import norm
 from scipy.integrate._ivp.ivp import OdeResult
 from sympy import RR
+from typing import Optional
 
 from pathlib import Path
 
@@ -24,9 +25,11 @@ EX_JSON = 'paper.json'
 examples, executed_examples = Load_Examples_Folder(SCRIPT_DIR, EX_JSON)
 logger = logging.getLogger("clue." + __name__)
 logger.setLevel(logging.DEBUG)
+
+
 class Experiment:
     def __init__(self,
-                 example: Example, observable, observable_name: str = None, observable_matrix: SparseRowMatrix = None, max_perturbation: float = None,
+                 example: Example, observable, observable_name: Optional[str] = None, observable_matrix: Optional[SparseRowMatrix] = None, max_perturbation: Optional[float] = None,
                  x0 = None, norm_x0: float = None, norm_fx0: float = None, system: FODESystem = None, num_system: FODESystem = None, 
                  exact_lumping: LDESystem = None, size: int = None, exact_size: int = None, threshold: float = None,
                  sample_points: int = None, max_epsilon: float = None, max_dev: float = None
