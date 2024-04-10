@@ -4,7 +4,7 @@
  1. [ ] Antonio: Why getting optimal epsilons is so slow?
  2. [o] Both: Why CMSB2023[2] Matlab exact is 28 instead of 22?
  3. [x] Antonio: Why average error is "inf"?
- 4. [ ] Alexander: implement the creation of tests from .ode
+ 4. [x] Alexander: implement the creation of tests from .ode
  5. [ ] Alexander: generate images for epsilon analysis.
 
 ## Meeting 26-05
@@ -30,7 +30,14 @@
 
 ## Rationals
 
- 1. [ ] Check the rational examples after the polynomial case
+ 1. [x] Check the rational examples after the polynomial case
+
+## Analysis
+
+ 1. [x] Alexander: Implement analysis finding sizes vs epsilon without sampling
+ 2. [ ] Alexander: Refactor to remove deviation (this might involve modifying clue.py)
+ 3. [ ] Alexander: Add testing for one polynomial and one rational model
+  
 
 ## Future
 

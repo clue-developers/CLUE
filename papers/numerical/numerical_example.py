@@ -11,7 +11,7 @@ from cProfile import Profile
 from papers.examples_data import Example, Load_Examples_Folder
 from io import TextIOBase
 from matplotlib import pyplot as plt
-from numpy import array, matmul, mean, divide, zeros_like
+from numpy import array, matmul, mean, divide, zeros_like, reshape
 from numpy.linalg import norm
 from scipy.integrate._ivp.ivp import OdeResult
 from sympy import RR
@@ -20,7 +20,8 @@ from typing import Optional
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).parent
-EX_JSON = 'paper.json'
+# EX_JSON = 'paper.json'
+EX_JSON = 'test.json'
 
 examples, executed_examples = Load_Examples_Folder(SCRIPT_DIR, EX_JSON)
 logger = logging.getLogger("clue." + __name__)
@@ -676,32 +677,43 @@ class AnalysisExample(Experiment):
     @property
     def epsilons(self):
         if self._epsilons is None:
-            logger.debug(f"[AnalysisExample # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            min_epsilon = 0 if self.__epsilon_bound[0] is None else self.__epsilon_bound[0]
-            max_epsilon = self.max_epsilon if self.__epsilon_bound[1] is None else self.__epsilon_bound[1]
+            logger.debug(f"[AnalysisExample # {self.example.name}] Finding reductions {inspect.stack()[0][3]}")
 
             ## Initializing the two new variables
             epsilons = list(); sizes = list(); deviations = list()
-            logger.debug(f"[AnalysisExample # {self.example.name}] Computing {inspect.stack()[0][3]}")
             bound = self.num_system._FODESystem__process_bound(self.compact_bound(), self.threshold)
-            logger.debug(f"[AnalysisExample # {self.example.name}] Computing numerical lumping for ({self.mid_points}) epsilon in range {self.__epsilon_bound} ")
             ctime = time.time()
-            for epsilon in (min_epsilon + i*(max_epsilon - min_epsilon)/(self.mid_points-1) for i in range(self.mid_points)):
-                logger.debug(f"[AnalysisExample # {self.example.name}] Case of {epsilon=}")
-                if epsilon == 0: # Exact lumping is needed
-                    logger.debug(f"[AnalysisExample # {self.example.name}] \tIt is an exact lumping!")
-                    epsilons.append(0.0)
-                    sizes.append(self.exact_size)
-                    deviations.append(0.0)
-                else: # numerical lumping is performed
-                    try:
-                        with Timeout(self.__timeout):
-                            subspace = find_smallest_common_subspace(self.num_system.construct_matrices(self.example.matrix), self.observable_matrix.change_base(RR), NumericalSubspace, delta=epsilon)
-                            sizes.append(subspace.dim())
-                            deviations.append(self.num_system._deviation(subspace, bound, self.sample_points))
-                            epsilons.append(epsilon)
-                    except TimeoutError:
-                        logger.error(f"[AnalysisExample # {self.example.name}] Timeout of {self.__timeout} reached while computing \n\t{repr(self)}\n\t with {epsilon=}. Trying next interation.")
+
+            # Adding initial values
+            nl = self.size+1
+            nr = self.size
+            rs = 0.0
+            ls = 0.0
+
+
+            logger.info(f"[AnalysisExample # {self.example.name}] Finding next reduction")
+            while rs < self.max_epsilon and nr > self.observable_matrix.nrows and nr!=nl:
+                sizes.append(nr);  epsilons.append((ls+rs)/2)
+                try:
+                    with Timeout(self.__timeout):
+                        nl,nr,ls,rs = self.num_system.find_next_reduction(self.observable, dev_max=1, bound=bound, num_points=1, threshold=self.threshold, matrix_algorithm=self.example.matrix,eps_min=rs)
+                        logger.debug(f"[AnalysisExample # {self.example.name}] Found a reduction from {nl} to {nr} at epsilon={(ls+rs)/2}")
+                except TimeoutError:
+                    logger.error(f"[AnalysisExample # {self.example.name}] Timeout of {self.__timeout} reached while computing \n\t{repr(self)}\n\t with {rs}. Trying next interation.")
+            # for epsilon in (min_epsilon + i*(max_epsilon - min_epsilon)/(self.mid_points-1) for i in range(self.mid_points)):
+                # logger.debug(f"[AnalysisExample # {self.example.name}] Case of {epsilon=}")
+                # if epsilon == 0: # Exact lumping is needed
+                    # logger.debug(f"[AnalysisExample # {self.example.name}] \tIt is an exact lumping!")
+                    # epsilons.append(0.0)
+                    # sizes.append(self.exact_size)
+                    # deviations.append(0.0)
+                # else: # numerical lumping is performed
+                    # try:
+                        # with Timeout(self.__timeout):
+                            # subspace = find_smallest_common_subspace(self.num_system.construct_matrices(self.example.matrix), self.observable_matrix.change_base(RR), NumericalSubspace, delta=epsilon)
+                            # sizes.append(subspace.dim())
+                            # deviations.append(self.num_system._deviation(subspace, bound, self.sample_points))
+                            # epsilons.append(epsilon)
             self._time_total = time.time() - ctime
 
             ## Saving the results
@@ -764,18 +776,13 @@ class AnalysisExample(Experiment):
 
     def generate_image(self):
         r'''Method that generates an image file with the simulations of self.'''
-        x_axis = array( self.epsilons)
-        ## Deciding what to show as original drift
-        drift = min(max(self.deviations), self.norm_fx0) / self.max_dev
-        title_drift = f",\norig.drift/devmax = {self.norm_fx0 / self.max_dev}" if min(max(self.deviations), self.norm_fx0) != self.norm_fx0 else ""
-        # data = array([[self.sizes[i]/self.size, dev/self.max_dev, drift] for i, dev in enumerate(self.deviations)]).transpose()
-        # graph = OdeResult(t=x_axis, y=data, success=True, names=["num size/size","dev/devmax","orig.drift/devmax"])
-        data = array([[self.sizes[i]/self.size] for i, dev in enumerate(self.deviations)]).transpose()
-        graph = OdeResult(t=x_axis, y=data, success=True, names=["num size/size"])
+        x_axis = reshape(array( self.epsilons), (len(self.epsilons), 1))
+        data = reshape(array(self.sizes), (1, len(self.epsilons)))
+        graph = OdeResult(t=x_axis, y=data, success=True, names=["sizes"])
         fig = create_figure(
             graph,
-            format=("o-", "o-", "-"),
-            title = f"Lumping evolution for {str(self.observable_name)},Original Size= {self.size}, Max_dev = {self.max_dev:.3E}{title_drift}"
+            format=("o-", "-"),
+            title = f"Lumping evolution for {str(self.observable_name)},Original Size= {self.size} "
         )
         fig.savefig(
             self.example.image_path(
@@ -1383,8 +1390,14 @@ def run_example(*argv):
 
     # if type_example == "analysis":
         # mid_points = example.get("mid_points", 20 ) if mid_points is None else mid_points
-        
     ## Running the requested example
+    if not output.parent.exists():
+        logger.log(60, f"[run_example # {example.name}] Creating output directory: {output.parent}")
+        output.parent.mkdir(parents=True)
+        img_dir = output.parent / "images"
+        logger.log(60, f"[run_example # {example.name}] Creating output images directory: {img_dir}")
+        img_dir.mkdir(parents=True)
+
     with (open(output, "w") if output not in (sys.stdout, sys.stderr) else nullcontext()) as output:
         logger.log(60, f"[run_example # {example.name}] Running example type: {type_example}")
         with Profile() if profile else nullcontext() as pr:
@@ -1410,6 +1423,9 @@ def run_example(*argv):
 
         ## Saving the profile (if requested)
         if profile:
+            if not Path(profile).parent.exists():
+                Path(profile).parent.mkdir(parents=True)
+
             stats = pstats.Stats(pr)
             stats.sort_stats(pstats.SortKey.TIME)
             stats.dump_stats(filename=profile)

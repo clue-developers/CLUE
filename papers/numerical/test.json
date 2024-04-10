@@ -1,0 +1,31 @@
+{
+    "BioNetGen_CCP":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "BioNetGen_CCP",
+        "type": "percentage_size",
+        "observables":{
+            "D13PG": [
+                "s18+s40"
+            ]   
+        },
+        "percentage_size": [
+            0.25,
+            0.875
+        ],
+        "t1": 100,
+        "out_folder": "test/polynomial"
+    },
+    "BioNetGen_CCP":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "BioNetGen_CCP",
+        "type": "analysis",
+        "observables":{
+            "D13PG": [
+                "s18+s40"
+            ]   
+        },
+        "out_folder": "test/polynomial"
+    }
+}

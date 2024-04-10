@@ -100,9 +100,9 @@ class Example:
 
     #########################################################
     ### PATH METHODS
-    def base_path(self, basedir):
+    def base_path(self, basedir: Path):
         if hasattr(self, "out_folder"):
-            return os.path.join(basedir, self.out_folder)
+            return basedir / self.out_folder
         else:
             return basedir
 
@@ -113,37 +113,24 @@ class Example:
         return f"{self.name}[r={read},m={matrix}]{obs_str}"
 
     @lru_cache(maxsize=None)
-    def out_path(self, basedir, read = None, matrix = None, observables = None):
-        return os.path.join(
-            self.base_path(basedir), 
-            "systems", 
-            f"{self.base_file_name(read,matrix,observables)}{Example.OutSystemExtension}"
-        )
+    def out_path(self, basedir: Path, read = None, matrix = None, observables = None):
+        return self.base_path(basedir) / "systems" / f"{self.base_file_name(read,matrix,observables)}{Example.OutSystemExtension}"
 
     @lru_cache(maxsize=None)
     def image_path(self, basedir, read = None, matrix = None, extra=None):
-        return os.path.join(
-            self.base_path(basedir), "images",
-            f"{self.base_file_name(read, matrix)}{f'[{extra}]' if extra != None else ''}{Example.ImageExtension}"
-        )
+        return self.base_path(basedir)/ "images" / f"{self.base_file_name(read, matrix)}{f'[{extra}]' if extra != None else ''}{Example.ImageExtension}"
+        
     
     @lru_cache(maxsize=None)
-    def results_path(self, basedir, read = None, matrix = None,extra=None):
-        return os.path.join(
-            self.base_path(basedir), 
-            f"[result{f'#{extra}' if extra != None else ''}]{self.base_file_name(read, matrix)}{Example.ResultExtension}"
-        )
+    def results_path(self, basedir: Path, read = None, matrix = None,extra=None):
+        return self.base_path(basedir) / f"[result{f'#{extra}' if extra != None else ''}]{self.base_file_name(read, matrix)}{Example.ResultExtension}"
 
     @lru_cache(maxsize=None)
-    def profile_path(self, basedir, read = None, matrix = None):
-        return os.path.join(
-            self.base_path(basedir), 
-            "profiles",
-            f"{self.base_file_name(read, matrix)}{Example.ProfileExtension}"
-        )
+    def profile_path(self, basedir: Path, read = None, matrix = None):
+        return self.base_path(basedir) / "profiles" / f"{self.base_file_name(read, matrix)}{Example.ProfileExtension}"
 
-    def is_executed(self, basedir, read = None, matrix = None):
-        return os.path.exists(self.results_path(basedir,read,matrix))
+    def is_executed(self, basedir: Path, read = None, matrix = None):
+        return self.results_path(basedir,read,matrix).exists()
 
     #########################################################
     ### OTHER METHODS
