@@ -4,7 +4,6 @@ import csv, inspect, os, pstats, signal, sys, time, logging, json, re
 
 from contextlib import nullcontext
 from clue import FODESystem, LDESystem, SparsePolynomial, SparseRowMatrix, NumericalSubspace
-from clue.linalg import find_smallest_common_subspace
 from clue.simulations import apply_matrix, create_figure, merge_simulations
 from clue.ode_parser import readfile, extract_model_name, split_in_sections
 from cProfile import Profile
@@ -20,8 +19,8 @@ from typing import Optional
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).parent
-# EX_JSON = 'paper.json'
-EX_JSON = 'test.json'
+EX_JSON = 'paper.json'
+# EX_JSON = 'test_analysis.json'
 
 examples, executed_examples = Load_Examples_Folder(SCRIPT_DIR, EX_JSON)
 logger = logging.getLogger("clue." + __name__)
@@ -309,7 +308,7 @@ class ResultNumericalExample(Experiment):
             logger.debug(f"[RNE # {self.example.name}] Computing {inspect.stack()[0][3]}")
             x0 = self.x0
             Lx0 = matmul(self.numerical_lumping.lumping_matrix.to_numpy(dtype=x0.dtype), x0)
-            O = SparseRowMatrix.from_vectors([self.numerical_lumping._subspace.find_in(row) for row in self.observable_matrix.change_base(self.numerical_lumping.field)])
+            O = SparseRowMatrix.from_vectors([self.numerical_lumping._subspace.find_in(row) for row in self.observable_matrix.change_base(self.numerical_lumping._subspace.field)])
             logger.debug(f"[RNE # {self.example.name}] {inspect.stack()[0][3]} -- Starting simulation (t0={self.t0},t1={self.t1},tstep={self.tstep})")
             self._numerical_simulation = apply_matrix(
                 self.numerical_lumping.simulate(self.t0,self.t1,Lx0,self.tstep,method=self.example.get("sim_method", "RK45")),
@@ -1234,7 +1233,7 @@ def compile_results(*argv):
     results: list[ResultNumericalExample] = []
     for example, read, matrix in executed_examples:
         logger.log(60, f"[compile_results] Compiling results for {example} with {read=} and {matrix=}...")
-        results.extend(ResultNumericalExample.from_file(examples[example].results_path(SCRIPT_DIR, read, matrix)))
+        results.extend(ResultNumericalExample.from_file(examples[example].results_path(SCRIPT_DIR,read=read, matrix=matrix)))
 
     with open(os.path.join(SCRIPT_DIR, "compilation.csv"), "w") as file:
         writer = csv.writer(file, delimiter=";")

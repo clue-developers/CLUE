@@ -35,5 +35,13 @@ clean:
 	@echo "Removing execution profiles..."
 	@find . -name "*.prf" -type f -delete
 
+reproduce:$(ALL)
+	@FLAGS="-t 600"
+	@python3 numerical_example.py compile
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	@echo "Reproduced all examples. Compiled results are available in 'compilation.csv'."
+	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+
 %:
 	 $(PYTHON) numerical_example.py run $@ $(FLAGS)
