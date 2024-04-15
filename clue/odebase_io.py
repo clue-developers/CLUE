@@ -1,4 +1,4 @@
-r'''
+r"""
     Module with the functions necessary to get models from the website ODEBase.
 
     The website (ODEBase)[https://www.odebase.org/] contains a list of models coming from 
@@ -36,63 +36,81 @@ r'''
         [(k1*k3 - k2*x1)/k3, (-k1*k3 + k2*x1)/k3, 0, 0, 0, 0]
         >>> ode_scrapper(name="BIOMD0000000098")
         ODEBase 1399 (BIOMD0000000098) [FODESystem -- 17 -- Mul]
-'''
+"""
+
 import io, logging, re, requests
 from bs4 import BeautifulSoup
 from clue import FODESystem, QQ, SparsePolynomial
-from sympy.parsing.sympy_parser import auto_number, auto_symbol, factorial_notation, lambda_notation, parse_expr, repeated_decimals
+from sympy.parsing.sympy_parser import (
+    auto_number,
+    auto_symbol,
+    factorial_notation,
+    lambda_notation,
+    parse_expr,
+    repeated_decimals,
+)
 
 logger = logging.getLogger(__name__)
 
-def get_dictionary_of_variables(base_url: str, what: str, ref: str|int) -> dict[str,str]:
-    if what in ('variables','species', 'var'):
+
+def get_dictionary_of_variables(
+    base_url: str, what: str, ref: str | int
+) -> dict[str, str]:
+    if what in ("variables", "species", "var"):
         what = "species_map"
-    elif what in ('parameters', 'parameter', 'par'):
+    elif what in ("parameters", "parameter", "par"):
         what = "parameter_map"
     else:
-        raise ValueError("The argument 'what' must indicate either 'variables' or 'parameters'")
-    
+        raise ValueError(
+            "The argument 'what' must indicate either 'variables' or 'parameters'"
+        )
+
     response = requests.get(f"{base_url}/detail/{what}/{ref}/text")
-    soup = BeautifulSoup(io.BytesIO(response.content), 'html.parser')
+    soup = BeautifulSoup(io.BytesIO(response.content), "html.parser")
     output = dict()
     for line in soup.get_text().split("\n"):
         if "=" in line:
             in_var, out_var = line.split("=")
             output[in_var.strip()] = out_var.strip()
-    
+
     return output
 
-def get_odes(base_url: str, ref: str|int) -> dict[str,str]:
+
+def get_odes(base_url: str, ref: str | int) -> dict[str, str]:
     response = requests.get(f"{base_url}/detail/odes/{ref}/sage")
-    soup = BeautifulSoup(io.BytesIO(response.content), 'html.parser')
-    
+    soup = BeautifulSoup(io.BytesIO(response.content), "html.parser")
+
     import re
-    
+
     variables = get_dictionary_of_variables(base_url, "var", ref)
-    equations = {v : "0" for v in variables}
-    
+    equations = {v: "0" for v in variables}
+
     for line in soup.get_text().split("\n"):
         line = line.removeprefix("[").removesuffix("]").strip()
         result = re.search(r"Eq\(Derivative\(([a-zA-Z0-9]+), t\), (.+)\)[,]?", line)
         var, value = result.groups()
-        
+
         if not var in equations:
-            raise ValueError(f"Found a variable ({var}) that was not in the species list")
+            raise ValueError(
+                f"Found a variable ({var}) that was not in the species list"
+            )
         else:
             equations[var] = value
-            
+
     return equations
 
-def get_parameter_values(base_url: str, ref: str|int) -> dict[str, str]:
+
+def get_parameter_values(base_url: str, ref: str | int) -> dict[str, str]:
     response = requests.get(f"{base_url}/detail/parameters/{ref}/sage")
-    soup = BeautifulSoup(io.BytesIO(response.content), 'html.parser')
+    soup = BeautifulSoup(io.BytesIO(response.content), "html.parser")
     output = dict()
     for line in soup.get_text().split("\n"):
         if "=" in line:
             in_var, out_var = line.split("=")
             output[in_var.strip()] = out_var.strip()
-    
+
     return output
+
 
 def multireplace(string, replacements, ignore_case=False):
     """
@@ -105,110 +123,143 @@ def multireplace(string, replacements, ignore_case=False):
     if not replacements:
         # Edge case that'd produce a funny regex and cause a KeyError
         return string
-    
+
     # If case insensitive, we need to normalize the old string so that later a replacement
     # can be found. For instance with {"HEY": "lol"} we should match and find a replacement for "hey",
     # "HEY", "hEy", etc.
     if ignore_case:
+
         def normalize_old(s):
             return s.lower()
 
         re_mode = re.IGNORECASE
 
     else:
+
         def normalize_old(s):
             return s
 
         re_mode = 0
 
     replacements = {normalize_old(key): val for key, val in replacements.items()}
-    
+
     # Place longer ones first to keep shorter substrings from matching where the longer ones should take place
     # For instance given the replacements {'ab': 'AB', 'abc': 'ABC'} against the string 'hey abc', it should produce
     # 'hey ABC' and not 'hey ABc'
     rep_sorted = sorted(replacements, key=len, reverse=True)
     rep_escaped = map(re.escape, rep_sorted)
-    
+
     # Create a big OR regex that matches any of the substrings to replace
     pattern = re.compile("|".join(rep_escaped), re_mode)
-    
+
     # For each match, look up the new string in the replacements, being the key the normalized old string
-    return pattern.sub(lambda match: replacements[normalize_old(match.group(0))], string)
+    return pattern.sub(
+        lambda match: replacements[normalize_old(match.group(0))], string
+    )
+
 
 def custom_symbol(tokens, local_dict, _):
     return auto_symbol(tokens, local_dict, dict())
 
-transformations = [lambda_notation, custom_symbol, repeated_decimals, auto_number, factorial_notation]
 
-def get_clue(base_url: str, ref: str|int, name: str = None,
-             transform_names: bool = True, polynomial: str = False, field = QQ
+transformations = [
+    lambda_notation,
+    custom_symbol,
+    repeated_decimals,
+    auto_number,
+    factorial_notation,
+]
+
+
+def get_clue(
+    base_url: str,
+    ref: str | int,
+    name: str = None,
+    transform_names: bool = True,
+    polynomial: str = False,
+    field=QQ,
 ) -> FODESystem:
     variables = get_dictionary_of_variables(base_url, "var", ref)
     equations = get_odes(base_url, ref)
     parameters = get_dictionary_of_variables(base_url, "par", ref)
     parameter_values = get_parameter_values(base_url, ref)
-    
+
     ## We transform the values into the given field
-    parameter_values = {k : field(v) for (k,v) in parameter_values.items()}
-    
+    parameter_values = {k: field(v) for (k, v) in parameter_values.items()}
+
     ## We merge the equations with equations for the parameters
-    equations = equations | {par : "0" for par in parameters}
-    
+    equations = equations | {par: "0" for par in parameters}
+
     ## We transform the names if necessary
     if transform_names:
         true_names = variables | parameters
-        equations = {true_names[var] : multireplace(equ, true_names) for (var, equ) in equations.items()}
-        parameter_values = {true_names[par] : value for (par, value) in parameter_values.items()}
-    
-    var_names = list(); equs = list()
-    for (k,v) in equations.items():
-        var_names.append(k); equs.append(v)
+        equations = {
+            true_names[var]: multireplace(equ, true_names)
+            for (var, equ) in equations.items()
+        }
+        parameter_values = {
+            true_names[par]: value for (par, value) in parameter_values.items()
+        }
+
+    var_names = list()
+    equs = list()
+    for k, v in equations.items():
+        var_names.append(k)
+        equs.append(v)
     return FODESystem(
-        equations = [
-            SparsePolynomial.from_string(equ, var_names,field) if polynomial else parse_expr(equ, transformations=transformations) 
+        equations=[
+            (
+                SparsePolynomial.from_string(equ, var_names, field)
+                if polynomial
+                else parse_expr(equ, transformations=transformations)
+            )
             for equ in equs
-            ], 
-        variables = var_names,
-        ic = parameter_values,
-        name = f"ODEBase {ref}{f' ({name})' if name!=None else ''}"
+        ],
+        variables=var_names,
+        ic=parameter_values,
+        name=f"ODEBase {ref}{f' ({name})' if name!=None else ''}",
     )
 
-def ode_scrapper(*, 
-                 polynomial: bool=None, rational:bool=None, 
-                 num_species: int|tuple[int,int]=None, 
-                 num_parameters: int|tuple[int,int]=None, 
-                 num_constraints: int|tuple[int,int]=None,
-                 deficiency: int|tuple[int,int]=None,
-                 id: int = None,
-                 name: str = None,
-                 index: int = None,
-                 translation: bool = False) -> FODESystem | list[FODESystem]:
-    r'''
-        Method to create the :class:`FODESystem` from an entry in the ODEBase Database.
 
-        All arguments are named, meaning we need to provide them as keywords. They provide an 
-        interface for filtering in the database. We return a list whenever there is more than one 
-        system that satisfy all the criteria.
+def ode_scrapper(
+    *,
+    polynomial: bool = None,
+    rational: bool = None,
+    num_species: int | tuple[int, int] = None,
+    num_parameters: int | tuple[int, int] = None,
+    num_constraints: int | tuple[int, int] = None,
+    deficiency: int | tuple[int, int] = None,
+    id: int = None,
+    name: str = None,
+    index: int = None,
+    translation: bool = False,
+) -> FODESystem | list[FODESystem]:
+    r"""
+    Method to create the :class:`FODESystem` from an entry in the ODEBase Database.
 
-        The arguments can be as follows:
+    All arguments are named, meaning we need to provide them as keywords. They provide an
+    interface for filtering in the database. We return a list whenever there is more than one
+    system that satisfy all the criteria.
 
-        * ``polynomial``: boolean value indicating whether the system is polynomial or not.
-        * ``rational``: boolean value indicating whether the system is rational or not. Be aware that 
-          any polynomial system is also rational, hence setting ``rational`` to ``False`` will also
-          exclude all polynomial models.
-        * ``num_species``: either a number or a pair of numbers indicating the range of the 
-          number of species allowed in the system. The format ``(None, d)`` will return all models
-          with number of species up to `d`, while ``(d, None)`` return the models with at least `d`
-          species. A single value indicates an exact number of species derired.
-        * ``num_parameters``: same as ``num_species`` but with the number of parameters of the system.
-        * ``num_constrains``: same as ``num_species`` but with the number of constrains of the system.
-        * ``deficiency``: same as ``num_species`` but with the number of deficiencies of the system.
-        * ``id``: obtains the model with given ID if it has passed the other filters
-        * ``index``: if obtained several models after filtering, it returns the given in that index.
-        * ``translation``: models in ODEBase are usually defined with predefined names that are then 
-          map to the real values of their corresponding meaning. This flag indicates if the obtained
-          model must translate the names to the true names or not.
-    '''
+    The arguments can be as follows:
+
+    * ``polynomial``: boolean value indicating whether the system is polynomial or not.
+    * ``rational``: boolean value indicating whether the system is rational or not. Be aware that
+      any polynomial system is also rational, hence setting ``rational`` to ``False`` will also
+      exclude all polynomial models.
+    * ``num_species``: either a number or a pair of numbers indicating the range of the
+      number of species allowed in the system. The format ``(None, d)`` will return all models
+      with number of species up to `d`, while ``(d, None)`` return the models with at least `d`
+      species. A single value indicates an exact number of species derired.
+    * ``num_parameters``: same as ``num_species`` but with the number of parameters of the system.
+    * ``num_constrains``: same as ``num_species`` but with the number of constrains of the system.
+    * ``deficiency``: same as ``num_species`` but with the number of deficiencies of the system.
+    * ``id``: obtains the model with given ID if it has passed the other filters
+    * ``index``: if obtained several models after filtering, it returns the given in that index.
+    * ``translation``: models in ODEBase are usually defined with predefined names that are then
+      map to the real values of their corresponding meaning. This flag indicates if the obtained
+      model must translate the names to the true names or not.
+    """
     # URL of the website to analyze
     base_url = "https://www.odebase.org"
     rational_url = f"is_rational={rational}" if rational != None else ""
@@ -230,56 +281,100 @@ def ode_scrapper(*,
     elif isinstance(deficiency, tuple):
         deficiency = f"{f'{deficiency[0]}' if deficiency[0] != None else ''}-{f'{deficiency[1]}' if deficiency[1] != None else ''}"
     num_species_url = f"num_species_range={num_species}" if num_species != None else ""
-    num_parameters_url = f"num_parameters_range={num_parameters}" if num_parameters != None else ""
-    num_constraints_url = f"num_constraints_range={num_constraints}" if num_constraints != None else ""
+    num_parameters_url = (
+        f"num_parameters_range={num_parameters}" if num_parameters != None else ""
+    )
+    num_constraints_url = (
+        f"num_constraints_range={num_constraints}" if num_constraints != None else ""
+    )
     deficiency_url = f"deficiency_range={deficiency}" if deficiency != None else ""
     url = f"{base_url}/table/?{'&'.join(el for el in [rational_url, polynomial_url, num_species_url, num_parameters_url, num_constraints_url, deficiency_url] if el != '')}"
-    
+
     # Send an HTTP GET request to the website
     logger.debug("[scrap] Getting the list of Rational models...")
     response = requests.get(url)
 
     # Parse the HTML code using BeautifulSoup
-    soup = BeautifulSoup(io.BytesIO(response.content), 'html.parser')
+    soup = BeautifulSoup(io.BytesIO(response.content), "html.parser")
 
     # Extract the relevant information from the HTML code
     references = list()
-    for row in soup.select('tbody tr'):
+    for row in soup.select("tbody tr"):
         all_tds = row.find_all("td")
         model_ref = all_tds[1].find("a")
         mod_name = model_ref.get_text()
-        ref = int(model_ref.get("href").split("/")[-1]) # just the number
+        ref = int(model_ref.get("href").split("/")[-1])  # just the number
         is_polynomial = all_tds[8].get_text() == "Yes"
         references.append((mod_name, ref, is_polynomial))
 
-    if index != None: # we only keep the indexed reference
+    if index != None:  # we only keep the indexed reference
         references = [references[index]]
-    if id != None: # we only keep the given id
-        references = [(mod_name, ref, is_poly) for (mod_name,ref,is_poly) in references if ref == id]
-    if name != None: # we only keep the given name
-        references = [(mod_name, ref, is_poly) for (mod_name,ref, is_poly) in references if mod_name == name]
-    
-        
+    if id != None:  # we only keep the given id
+        references = [
+            (mod_name, ref, is_poly)
+            for (mod_name, ref, is_poly) in references
+            if ref == id
+        ]
+    if name != None:  # we only keep the given name
+        references = [
+            (mod_name, ref, is_poly)
+            for (mod_name, ref, is_poly) in references
+            if mod_name == name
+        ]
+
     logger.debug(f"[scrap] Obtained {len(references)} models")
     logger.debug(f"[scrap] Processing each model...")
     output = list()
-    for i,(name, ref, is_poly) in enumerate(references):
+    for i, (name, ref, is_poly) in enumerate(references):
         logger.debug(f"[scrap] Processing model {name} ({i+1}/{len(references)})...")
         try:
-            output.append(get_clue(base_url, ref, name=name, transform_names=translation, polynomial=is_poly))
-        except (TypeError,ValueError): # We first try to simplify the reading
+            output.append(
+                get_clue(
+                    base_url,
+                    ref,
+                    name=name,
+                    transform_names=translation,
+                    polynomial=is_poly,
+                )
+            )
+        except (TypeError, ValueError):  # We first try to simplify the reading
             try:
-                output.append(get_clue(base_url, ref, name=name, transform_names=translation, polynomial=False))
-            except (TypeError,ValueError):
+                output.append(
+                    get_clue(
+                        base_url,
+                        ref,
+                        name=name,
+                        transform_names=translation,
+                        polynomial=False,
+                    )
+                )
+            except (TypeError, ValueError):
                 try:
-                    output.append(get_clue(base_url, ref, name=name, transform_names=False, polynomial=is_poly))
+                    output.append(
+                        get_clue(
+                            base_url,
+                            ref,
+                            name=name,
+                            transform_names=False,
+                            polynomial=is_poly,
+                        )
+                    )
                 except (TypeError, ValueError):
                     try:
-                        output.append(get_clue(base_url, ref, name=name, transform_names=False, polynomial=False))
+                        output.append(
+                            get_clue(
+                                base_url,
+                                ref,
+                                name=name,
+                                transform_names=False,
+                                polynomial=False,
+                            )
+                        )
                     except (TypeError, ValueError):
                         logger.error(f"[scrap] Found error while parsing model {name}.")
-                        raise        
+                        raise
     logger.debug(f"[scrap] Finished execution")
-    return output if len(output)!=1 else output[0]
+    return output if len(output) != 1 else output[0]
+
 
 # __all__ = ["ode_scrapper"]

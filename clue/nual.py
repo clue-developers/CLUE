@@ -1,12 +1,13 @@
-r'''
+r"""
     Module for a description of the arithmetic of `n`-ual numbers.
 
     This module contains a basic Python implementation of `n`-ual numbers in the class
     :class:`NualNumber`.
-'''
+"""
+
 
 class NualNumber:
-    r'''
+    r"""
         Dual numbers can be defined as a special ring structure in vectors of 
         two coordinates `(v_1, v_2)` where the addition and product are defined 
         as follows:
@@ -109,7 +110,8 @@ class NualNumber:
         Be aware that these divisions may not be exact computations. For example, divisions with
         the Python type ``int`` lead to the use of ``float`` type output, which is not an exact domain
         of computations.
-    '''
+    """
+
     def __init__(self, coeffs, field=None):
         self.__size = len(coeffs)
         self.__coeffs = [coeffs[i] for i in range(self.__size)]
@@ -124,60 +126,60 @@ class NualNumber:
         return self.__coeffs.copy()
 
     def _to_nual(self, other):
-        r'''
-            Method to convert an element into a `n`-ual number of the same length as ``self``.
+        r"""
+        Method to convert an element into a `n`-ual number of the same length as ``self``.
 
-            This method will be used in all arithmetic operations with :class:`NualNumber`
-            to convert the other input to the same type if possible and will follow these rules:
+        This method will be used in all arithmetic operations with :class:`NualNumber`
+        to convert the other input to the same type if possible and will follow these rules:
 
-            * If ``other`` can be set as input for :class:`NualNumber`, then we create the
-              corresponding element and check if the length are the same. A :class:`ValueError`
-              will be raised if the length does not coincide.
-            * Otherwise, we put ``other`` in a list of the same length as ``self`` and create 
-              the corresponding :class:`NualNumber`. The behavior of the arithmetic will now 
-              rely on the type of the data inside the :class:`NualNumber`.
+        * If ``other`` can be set as input for :class:`NualNumber`, then we create the
+          corresponding element and check if the length are the same. A :class:`ValueError`
+          will be raised if the length does not coincide.
+        * Otherwise, we put ``other`` in a list of the same length as ``self`` and create
+          the corresponding :class:`NualNumber`. The behavior of the arithmetic will now
+          rely on the type of the data inside the :class:`NualNumber`.
 
-            Input:
-                ``other`` - object to be casted into the same type of NualNumber
+        Input:
+            ``other`` - object to be casted into the same type of NualNumber
 
-            Output:
-                A :class:`NualNumber` with the casted version of ``other`` with the same 
-                length as ``self``.
+        Output:
+            A :class:`NualNumber` with the casted version of ``other`` with the same
+            length as ``self``.
 
-            Examples::
+        Examples::
 
-                >>> from clue.nual import *
-                >>> a = NualNumber([1,2,3])
-                >>> a._to_nual(2)
-                [2, 0, 0]
-                >>> a._to_nual(set([1]))
-                [{1}, 0, 0]
-                >>> a._to_nual([1])
-                Traceback (most recent call last):
-                ...
-                TypeError: The input [1] has incorrect length
-                >>> a._to_nual(NualNumber([4,5,6]))
-                [4, 5, 6]
-                >>> a._to_nual([1,4,2])
-                [1, 4, 2]
-                >>> a._to_nual(a) == a
-                True
-        '''
+            >>> from clue.nual import *
+            >>> a = NualNumber([1,2,3])
+            >>> a._to_nual(2)
+            [2, 0, 0]
+            >>> a._to_nual(set([1]))
+            [{1}, 0, 0]
+            >>> a._to_nual([1])
+            Traceback (most recent call last):
+            ...
+            TypeError: The input [1] has incorrect length
+            >>> a._to_nual(NualNumber([4,5,6]))
+            [4, 5, 6]
+            >>> a._to_nual([1,4,2])
+            [1, 4, 2]
+            >>> a._to_nual(a) == a
+            True
+        """
         try:
             other = NualNumber(other)
         except TypeError:
             ## The input is not iterable with integers, hence we create a list with
             ## appropriate length for it
-            return NualNumber([other] + [0 for _ in range(self.size-1)])
+            return NualNumber([other] + [0 for _ in range(self.size - 1)])
 
         ## If a NualNumber was created, we check the tpe is correct
-        if(other.size == self.size):
+        if other.size == self.size:
             return other
         else:
-            raise TypeError("The input %s has incorrect length" %other)
+            raise TypeError("The input %s has incorrect length" % other)
 
     def change_base(self, new_field):
-        r'''It changes the type of the elements forcing it to be a fixed domain'''
+        r"""It changes the type of the elements forcing it to be a fixed domain"""
         if new_field == self.__field:
             return self
         return NualNumber([new_field.convert(el) for el in self.__coeffs], new_field)
@@ -210,7 +212,7 @@ class NualNumber:
             return NotImplemented
 
         # other is now a NualNumber with the same size
-        return NualNumber([self[i]+other[i] for i in range(self.size)])
+        return NualNumber([self[i] + other[i] for i in range(self.size)])
 
     def __mul__(self, other):
         try:
@@ -219,7 +221,10 @@ class NualNumber:
             return NotImplemented
 
         # other is now a NualNumber with the same size
-        return NualNumber([self[0]*other[0]] + [self[0]*other[i]+self[i]*other[0] for i in range(1, self.size)])
+        return NualNumber(
+            [self[0] * other[0]]
+            + [self[0] * other[i] + self[i] * other[0] for i in range(1, self.size)]
+        )
 
     def __neg__(self):
         return NualNumber([-c for c in self.coeffs])
@@ -234,13 +239,17 @@ class NualNumber:
             return NotImplemented
 
         # other is now a NualNumber with the same size
-        return self + (-other) # using code for __add__
+        return self + (-other)  # using code for __add__
 
     def __inv__(self):
-        if(self[0] == 0):            
-            raise ZeroDivisionError("%d-ual numbers with first term 0 are not invertible" %self.size)
+        if self[0] == 0:
+            raise ZeroDivisionError(
+                "%d-ual numbers with first term 0 are not invertible" % self.size
+            )
 
-        return NualNumber([1/self[0]] + [-self[i]/self[0]**2 for i in range(1, self.size)])
+        return NualNumber(
+            [1 / self[0]] + [-self[i] / self[0] ** 2 for i in range(1, self.size)]
+        )
 
     def __truediv__(self, other):
         try:
@@ -249,116 +258,126 @@ class NualNumber:
             return NotImplemented
 
         # other is now a NualNumber with the same size
-        return self * (other.__inv__()) # using code for __mul__
+        return self * (other.__inv__())  # using code for __mul__
 
     def __pow__(self, exp):
-        r'''
-            Computes the power of a `n`-ual number for arbitrary constant exponent.
+        r"""
+        Computes the power of a `n`-ual number for arbitrary constant exponent.
 
-            This method computes the power of a nual number by the following formula:
+        This method computes the power of a nual number by the following formula:
 
-            .. MATH::
+        .. MATH::
 
-                (a_1,a_2,\ldots,a_n)^\alpha = a_1^{\alpha-1}(a_1, \alpha a_2,\ldots, \alpha a_n).
+            (a_1,a_2,\ldots,a_n)^\alpha = a_1^{\alpha-1}(a_1, \alpha a_2,\ldots, \alpha a_n).
 
-            This formula is based in the General Binomial Theorem that states that, for any `x`, `y` 
-            and `\alpha \in \mathbb{C}`, it holds:
+        This formula is based in the General Binomial Theorem that states that, for any `x`, `y`
+        and `\alpha \in \mathbb{C}`, it holds:
 
-            .. MATH::
+        .. MATH::
 
-                (x + y)^\alpha = \sum_{k=0}^{\infty} \binom{\alpha}{k}x^{\alpha-k}y^k.
+            (x + y)^\alpha = \sum_{k=0}^{\infty} \binom{\alpha}{k}x^{\alpha-k}y^k.
 
-            Since `n`-ual numbers are elements in the ring 
-            
-            .. MATH::
+        Since `n`-ual numbers are elements in the ring
 
-                R_n = \frac{R[\varepsilon_1,\ldots,\varepsilon_{n-1}]}{\langle \varepsilon_i \varepsilon_j\ :\ i,j =1,\ldots, n-1\rangle}
+        .. MATH::
 
-            we have that:
+            R_n = \frac{R[\varepsilon_1,\ldots,\varepsilon_{n-1}]}{\langle \varepsilon_i \varepsilon_j\ :\ i,j =1,\ldots, n-1\rangle}
 
-            .. MATH::
+        we have that:
 
-                (a_1,a_2,\ldots,a_n)^\alpha = \left((a_1,0,\ldots,0) + (0,a_2,\ldots,a_n)\right)^\alpha.
+        .. MATH::
 
-            On one hand, it is easy t see that `(0,a_2,\ldots,a_n)^k = 0` for all `k\geq 2`. Hence the infinite sum 
-            of the binomial theorem is truncated to a sum of two terms for `k=0` and `k=1`, leading to the formula
-            depicted above.
+            (a_1,a_2,\ldots,a_n)^\alpha = \left((a_1,0,\ldots,0) + (0,a_2,\ldots,a_n)\right)^\alpha.
 
-            This method then works for any exponent `\alpha` such that ``self[0]``has implemented the method ``__pow__``.
-        '''
+        On one hand, it is easy t see that `(0,a_2,\ldots,a_n)^k = 0` for all `k\geq 2`. Hence the infinite sum
+        of the binomial theorem is truncated to a sum of two terms for `k=0` and `k=1`, leading to the formula
+        depicted above.
+
+        This method then works for any exponent `\alpha` such that ``self[0]``has implemented the method ``__pow__``.
+        """
         ## Particular cases for exp == 0 or 1
-        if(exp == 0):
+        if exp == 0:
             return NualNumber([1] + [0 for _ in range(1, self.size)])
-        elif(exp ==  1):
+        elif exp == 1:
             return self
         int_exp = int(exp)
-        if(int_exp != exp):
+        if int_exp != exp:
             pass
         else:
-            exp = int_exp # changing the type of exp to int
+            exp = int_exp  # changing the type of exp to int
 
-        com = self[0]**(exp-1)
-        return NualNumber([self[0]*com] + [exp*self[i]*com for i in range(1,self.size)])
+        com = self[0] ** (exp - 1)
+        return NualNumber(
+            [self[0] * com] + [exp * self[i] * com for i in range(1, self.size)]
+        )
 
     def __rpow__(self, base):
         from sympy import log
-        return self.exp()**log(base)
 
-    def __radd__(self, other): return self.__add__(other)
+        return self.exp() ** log(base)
 
-    def __rsub__(self, other): return (-self).__add__(other)
+    def __radd__(self, other):
+        return self.__add__(other)
 
-    def __rmul__(self, other): return self.__mul__(other)
+    def __rsub__(self, other):
+        return (-self).__add__(other)
 
-    def __rtruediv__(self, other): return (self.__inv__()).__mul__(other)
+    def __rmul__(self, other):
+        return self.__mul__(other)
 
-    def __iadd__(self, other): return self.__add__(other)
+    def __rtruediv__(self, other):
+        return (self.__inv__()).__mul__(other)
 
-    def __isub__(self, other): return self.__sub__(other)
+    def __iadd__(self, other):
+        return self.__add__(other)
 
-    def __imul__(self, other): return self.__mul__(other)
+    def __isub__(self, other):
+        return self.__sub__(other)
 
-    def __itruediv__(self, other): return self.__truediv__(other)
+    def __imul__(self, other):
+        return self.__mul__(other)
+
+    def __itruediv__(self, other):
+        return self.__truediv__(other)
 
     ## Other magic methods
     def __str__(self):
         return str(self.coeffs)
 
-    def __repr__(self): return str(self)
+    def __repr__(self):
+        return str(self)
 
     def __hash__(self):
         return sum(hash(c) for c in self.coeffs)
-    
+
     def exp(self):
-        r'''
-            Method that computes the value ``e**self``.
+        r"""
+        Method that computes the value ``e**self``.
 
-            This method computes the exponential of ``self`` using the transcendental
-            element `e` from the Sympy library. This method works for any type of entries
-            that are valid for the __pow__ method in Sympy.
+        This method computes the exponential of ``self`` using the transcendental
+        element `e` from the Sympy library. This method works for any type of entries
+        that are valid for the __pow__ method in Sympy.
 
-            If we consider the `n`-ual number `(a_1,\ldots,a_n)`, we can write it down as 
-        
-            .. MATH::
+        If we consider the `n`-ual number `(a_1,\ldots,a_n)`, we can write it down as
 
-                (a_1,\ldots, a_n) = (a_1, 0, \ldots, 0) + (0, a_2, \ldots, a_n) = a + b,
+        .. MATH::
 
-            in such a way that the second summand has the property `b^2 = 0`. Now, using the 
-            multiplicative property of the exponential:
+            (a_1,\ldots, a_n) = (a_1, 0, \ldots, 0) + (0, a_2, \ldots, a_n) = a + b,
 
-            .. MATH::
+        in such a way that the second summand has the property `b^2 = 0`. Now, using the
+        multiplicative property of the exponential:
 
-                \exp(a + b) = e^a \exp(b) = e^a \sum_{k\geq 0}\frac{b^n}{n!} = e^a(1 + b).
+        .. MATH::
 
-            If we write this as vectors, then we easily get the formula:
+            \exp(a + b) = e^a \exp(b) = e^a \sum_{k\geq 0}\frac{b^n}{n!} = e^a(1 + b).
 
-            .. MATH::
+        If we write this as vectors, then we easily get the formula:
 
-                \exp((a_1,\ldots,a_n)) = (e^{a_1}, e^{a_1}a_2, \ldots, e^{a_1}a_n)
-        '''
+        .. MATH::
+
+            \exp((a_1,\ldots,a_n)) = (e^{a_1}, e^{a_1}a_2, \ldots, e^{a_1}a_n)
+        """
         from sympy import E
 
-        com = E**self[0]
-        return NualNumber([com] + [com*self[i] for i in range(1, self.size)])
-
-    
+        com = E ** self[0]
+        return NualNumber([com] + [com * self[i] for i in range(1, self.size)])
