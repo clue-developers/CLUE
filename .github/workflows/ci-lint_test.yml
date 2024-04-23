@@ -2,9 +2,9 @@ name: CI-Actions
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, PR_3 ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, PR_3 ]
 
 
 jobs:
