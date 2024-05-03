@@ -6,5 +6,3 @@ numpy
 matplotlib
 requests
 beautifulsoup4
-pylint
-black

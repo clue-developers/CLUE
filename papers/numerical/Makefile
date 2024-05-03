@@ -37,7 +37,7 @@ clean:
 
 reproduce:$(ALL)
 	@FLAGS="-t 600"
-	@python3 numerical_example.py compile
+	@python3 numerical_example.py compile 
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	@echo "Reproduced all examples. Compiled results are available in 'compilation.csv'."
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"

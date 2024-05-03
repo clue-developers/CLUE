@@ -40,7 +40,8 @@ r"""
 
 import io, logging, re, requests
 from bs4 import BeautifulSoup
-from clue import FODESystem, QQ, SparsePolynomial
+from clue import FODESystem, SparsePolynomial
+from sympy import QQ
 from sympy.parsing.sympy_parser import (
     auto_number,
     auto_symbol,
@@ -377,4 +378,4 @@ def ode_scrapper(
     return output if len(output) != 1 else output[0]
 
 
-# __all__ = ["ode_scrapper"]
+__all__ = ["ode_scrapper"]

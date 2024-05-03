@@ -2721,6 +2721,7 @@ class FODESystem:
         initial_conditions=None,
         method="polynomial",
         file=sys.stdout,
+        include_parameters = False,
     ):
         r"""
         Main function, performs a lumping of a polynomial ODE system
@@ -2736,6 +2737,7 @@ class FODESystem:
             - method - user decision about how to compute the internal matrices for lumping. See method
             :func:`construct_matrices` for further information.
             - file - optional file descriptor to print the results (in case ``print_system`` or ``print_reduction`` are ``True``)
+            - include_parameters - whether to include parameters as variables in the lumping. 
 
 
         Output
@@ -2860,6 +2862,9 @@ class FODESystem:
 
         ## Normalizing input if needed
         self.normalize()
+
+        if not include_parameters:
+            self.remove_parameters_ic()
 
         observable = self.__process_observable(observable)
 
@@ -3027,6 +3032,8 @@ class FODESystem:
             print("Lumped system:", file=file)
             for i in range(lumping_subspace.dim()):
                 print(f"{vars_new[i]}' = {lumped_rhs[i]}", file=file)
+        if self.size == len(lumped_rhs):
+            logger.warning(f"[lumping] lumped size ({len(lumped_rhs)}) and original size ({self.size}) are the same.")
 
         return {
             "equations": lumped_rhs,
