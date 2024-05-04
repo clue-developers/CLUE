@@ -18,7 +18,7 @@ import copy, logging, math
 from collections import deque
 
 from itertools import combinations, product
-from typing import Any, Type, Callable
+from typing import Any
 
 from sympy import GF, QQ, RR, gcd, nextprime, symbols
 from sympy.core.symbol import Symbol

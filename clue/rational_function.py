@@ -5,7 +5,6 @@ from functools import cached_property, reduce
 from pyparsing import (
     Literal,
     ParseException,
-    Word,
     Group,
     Forward,
     alphas,
@@ -15,7 +14,7 @@ from pyparsing import (
 )
 
 import sympy
-from sympy import QQ, oo, sympify
+from sympy import QQ, oo
 
 from .linalg import SparseVector
 from .nual import NualNumber

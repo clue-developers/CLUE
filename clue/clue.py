@@ -23,7 +23,7 @@ from scipy.integrate import solve_ivp
 from sympy import QQ, RR, lambdify, symbols, oo
 from sympy.polys.fields import FracElement
 from sympy.polys.rings import PolyElement
-from typing import Callable, Any
+from typing import Any, Callable
 
 from .linalg import (
     SparseRowMatrix,
@@ -357,6 +357,15 @@ class FODESystem:
     @property
     def ic(self):
         return self._ic
+
+    def set_ic(self, new_ic):
+        if not isinstance(new_ic, dict):
+            raise TypeError("The initial conditions must be a dictionary")
+        if all([key in self.species for key in new_ic.keys()]):
+            self._ic = new_ic
+        else:
+            raise ValueError("The initial conditions must be a dictionary with species as keys")
+
 
     @property
     def name(self):
@@ -2307,9 +2316,6 @@ class FODESystem:
     def find_maximal_threshold(
         self,
         observable: list,
-        bound: float | list[float] | list[tuple[float, float]],
-        num_points: int,
-        threshold: float,
         matrix_algorithm: str = "polynomial",
     ):
         r"""
@@ -2331,17 +2337,14 @@ class FODESystem:
             >>> from sympy.polys.rings import vring
             >>> R = vring(["x0", "x1", "x2"], QQ)
             >>> system = FODESystem([x1**2 +4.05*x1*x2+4*x2**2, 2*x0-4*x2, -x0-x1], variables=['x0','x1','x2'])
-            >>> bound = [(0,1) for i in range(system.size)]
-            >>> eps,_ = system.find_maximal_threshold(['x0'], bound, 100, 1e-6)
+            >>> eps = system.find_maximal_threshold(['x0'])
             >>> eps
             8.966744
 
         """
-        observable, bound = self.__process_observable(observable), self.__process_bound(
-            bound, threshold
-        )
+        observable = self.__process_observable(observable)
 
-        key = observable, bound
+        key = observable 
 
         if not key in self.__cache_thresholds:
             logger.debug("[find_maximal_threshold] Building matrices for lumping")
@@ -2371,129 +2374,124 @@ class FODESystem:
             if len(rows) == 0:
                 self.__cache_thresholds[key] = (
                     1.0,
-                    0.0,
-                )  # arbitrary epsilon and zero deviation due to already a lumping
+                )  # arbitrary epsilon  due to already a lumping
             else:
                 for row in rows:
                     row.reduce(-self.field.one, row.apply_matrix(subspace.projector))
                 logger.debug("[find_maximal_threshold] Computing maximal norm")
                 epsilon = math.sqrt(max(el.inner_product(el) for el in rows))
-                deviation = self._deviation(subspace, bound, num_points)
-                self.__cache_thresholds[key] = epsilon, deviation
+                self.__cache_thresholds[key] = epsilon
 
         return self.__cache_thresholds[key]
 
-    def find_acceptable_threshold(
-        self,
-        observable: list,
-        dev_max: float,
-        bound: float | list[float] | list[tuple[float, float]],
-        num_points: int,
-        threshold: float,
-        with_tries: bool = False,
-        matrix_algorithm: str = "polynomial",
-    ) -> float | tuple[float, int]:
-        r"""
-        Method to compute an optimal threshold for numerical lumping
-        This method computes an optimal threshold for the current system so the numerical lumping has a deviation close
-        to a given value.
+    # def find_acceptable_threshold(
+        # self,
+        # observable: list,
+        # dev_max: float,
+        # bound: float | list[float] | list[tuple[float, float]],
+        # num_points: int,
+        # threshold: float,
+        # with_tries: bool = False,
+        # matrix_algorithm: str = "polynomial",
+    # ) -> float | tuple[float, int]:
+        # r"""
+        # Method to compute an optimal threshold for numerical lumping
+        # This method computes an optimal threshold for the current system so the numerical lumping has a deviation close
+        # to a given value.
 
-        Input:
-            - ``observable``: a list of observables
-            - ``dev_max``: maximum allowed deviation
-        Output:
-            - ``low_size``: maximal epsilon that leads to a lower deviation than the max
-            - ``tries`` (optional): number of iterations
+        # Input:
+            # - ``observable``: a list of observables
+            # - ``dev_max``: maximum allowed deviation
+        # Output:
+            # - ``low_size``: maximal epsilon that leads to a lower deviation than the max
+            # - ``tries`` (optional): number of iterations
 
-        The deviation of the system, given some observables, is the
+        # The deviation of the system, given some observables, is the
 
-        Examples::
-            >>> from clue import *
-            >>> from sympy import QQ
-            >>> from sympy.polys.rings import vring
-            >>> R = vring(["x0", "x1", "x2"], QQ)
-            >>> system = FODESystem([x1**2 +4.05*x1*x2+4*x2**2, 2*x0-4*x2, -x0-x1], variables=['x0','x1','x2'])
-            >>> bound = [(0,1) for i in range(system.size)]
-            >>> eps = system.find_acceptable_threshold(['x0'],0.01, bound, 100, 1e-6)
-            >>> eps
-            0.089109
-        """
-        observable, bound = self.__process_observable(observable), self.__process_bound(
-            bound, threshold
-        )
+        # Examples::
+            # >>> from clue import *
+            # >>> from sympy import QQ
+            # >>> from sympy.polys.rings import vring
+            # >>> R = vring(["x0", "x1", "x2"], QQ)
+            # >>> system = FODESystem([x1**2 +4.05*x1*x2+4*x2**2, 2*x0-4*x2, -x0-x1], variables=['x0','x1','x2'])
+            # >>> bound = [(0,1) for i in range(system.size)]
+            # >>> eps = system.find_acceptable_threshold(['x0'],0.01, bound, 100, 1e-6)
+            # >>> eps
+            # 0.089109
+        # """
+        # observable, bound = self.__process_observable(observable), self.__process_bound(
+            # bound, threshold
+        # )
 
-        logger.debug("[find_acceptable_threshold] Building matrices for lumping")
-        matrices = self.construct_matrices(matrix_algorithm)
+        # logger.debug("[find_acceptable_threshold] Building matrices for lumping")
+        # matrices = self.construct_matrices(matrix_algorithm)
 
-        logger.debug(
-            "[find_acceptable_threshold] Computing maximal epsilon and its deviation"
-        )
-        max_epsilon, last_deviation = self.find_maximal_threshold(
-            observable, bound, num_points, threshold, matrix_algorithm=matrix_algorithm
-        )
-        low_size, high_size = (
-            max_epsilon if last_deviation < dev_max else 0
-        ), max_epsilon
-        current_dev = last_deviation if last_deviation < dev_max else 0
-        tries = 1
-        logger.debug(
-            f"[find_acceptable_threshold] Initial interval of search: [{low_size},{high_size}]"
-        )
-        if last_deviation >= dev_max:
-            # If the maximal reduction is above the maximal deviation, we do a binary search from 0 to max_epsilon
-            while (
-                abs(dev_max - current_dev) >= threshold
-                and (high_size - low_size) > threshold
-            ):
-                epsilon = (high_size + low_size) / 2
-                logger.debug(f"[find_acceptable_threshold] New value for {epsilon = }")
-                logger.log(
-                    5,
-                    f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing subspace)",
-                )
-                subspace = find_smallest_common_subspace(
-                    matrices, observable, NumericalSubspace, delta=epsilon
-                )
-                logger.log(
-                    5,
-                    f"[find_acceptable_threshold] Computed subspace for {epsilon = } ({subspace.dim()})",
-                )
-                logger.log(
-                    5,
-                    f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing deviation)",
-                )
-                current_dev = self._deviation(subspace, bound, num_points)
-                logger.debug(
-                    f"[find_acceptable_threshold] Current deviation for {epsilon = } ({subspace.dim()}): {current_dev}"
-                )
-                if current_dev < dev_max - threshold:
-                    low_size, high_size = epsilon, high_size
-                elif current_dev > dev_max + threshold:
-                    low_size, high_size = low_size, epsilon
-                else:
-                    low_size, high_size = epsilon, epsilon
-                logger.debug(
-                    f"[find_acceptable_threshold] New interval search: [{low_size},{high_size}]"
-                )
-                tries += 1
+        # logger.debug(
+            # "[find_acceptable_threshold] Computing maximal epsilon and its deviation"
+        # )
+        # max_epsilon, last_deviation = self.find_maximal_threshold(
+            # observable, bound, num_points, threshold, matrix_algorithm=matrix_algorithm
+        # )
+        # low_size, high_size = (
+            # max_epsilon if last_deviation < dev_max else 0
+        # ), max_epsilon
+        # current_dev = last_deviation if last_deviation < dev_max else 0
+        # tries = 1
+        # logger.debug(
+            # f"[find_acceptable_threshold] Initial interval of search: [{low_size},{high_size}]"
+        # )
+        # if last_deviation >= dev_max:
+            # # If the maximal reduction is above the maximal deviation, we do a binary search from 0 to max_epsilon
+            # while (
+                # abs(dev_max - current_dev) >= threshold
+                # and (high_size - low_size) > threshold
+            # ):
+                # epsilon = (high_size + low_size) / 2
+                # logger.debug(f"[find_acceptable_threshold] New value for {epsilon = }")
+                # logger.log(
+                    # 5,
+                    # f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing subspace)",
+                # )
+                # subspace = find_smallest_common_subspace(
+                    # matrices, observable, NumericalSubspace, delta=epsilon
+                # )
+                # logger.log(
+                    # 5,
+                    # f"[find_acceptable_threshold] Computed subspace for {epsilon = } ({subspace.dim()})",
+                # )
+                # logger.log(
+                    # 5,
+                    # f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing deviation)",
+                # )
+                # current_dev = self._deviation(subspace, bound, num_points)
+                # logger.debug(
+                    # f"[find_acceptable_threshold] Current deviation for {epsilon = } ({subspace.dim()}): {current_dev}"
+                # )
+                # if current_dev < dev_max - threshold:
+                    # low_size, high_size = epsilon, high_size
+                # elif current_dev > dev_max + threshold:
+                    # low_size, high_size = low_size, epsilon
+                # else:
+                    # low_size, high_size = epsilon, epsilon
+                # logger.debug(
+                    # f"[find_acceptable_threshold] New interval search: [{low_size},{high_size}]"
+                # )
+                # tries += 1
 
-        logger.debug(
-            f"[find_acceptable_threshold] Found optimal threshold --> {low_size}"
-        )
-        if with_tries:
-            return low_size, tries
-        return low_size
+        # logger.debug(
+            # f"[find_acceptable_threshold] Found optimal threshold --> {low_size}"
+        # )
+        # if with_tries:
+            # return low_size, tries
+        # return low_size
 
     def find_next_reduction(
         self,
         observable,
-        dev_max: float,
-        bound: float | list[float] | list[tuple[float, float]],
-        num_points: int,
-        threshold: float,
+        eps_min: float =0,
         with_tries: bool = False,
+        threshold: float = 1e-6,
         matrix_algorithm: str = "polynomial",
-        eps_min=0,
     ) -> tuple[int, int, float, float, int] | tuple[int, int, float, float]:
         r"""
         Method to compute the next possible reduction for a numerical lumping
@@ -2503,26 +2501,25 @@ class FODESystem:
         Input:
             - ``observable``: a list of observables
             - ``eps_min``: lowest starting value of epsilon
+
         Output:
             - ``left_size``: largest size lesser or equal to allowed_size
             - ``right_size``: smallest size greater or equal to allowed_size
             - ``left_eps``: epsilon value generating left_size
             - ``right_eps``: epsilon value generating right_eps
             - ``tries``: number of iterations
+
         Examples::
             >>> from clue import *
             >>> from sympy import QQ
             >>> from sympy.polys.rings import vring
             >>> R = vring(["x0", "x1", "x2"], QQ)
             >>> system = FODESystem([x1**2 +4.05*x1*x2+4*x2**2, 2*x0-4*x2, -x0-x1], variables=['x0','x1','x2'])
-            >>> bound = [(0,1) for i in range(system.size)]
-            >>> system.find_next_reduction(['x0'],0, bound, 100, 1e-6)
+            >>> system.find_next_reduction(['x0'])
             (3, 2, 0.089109, 0.089110)
 
         """
-        observable, bound = self.__process_observable(observable), self.__process_bound(
-            bound, threshold
-        )
+        observable = self.__process_observable(observable) 
 
         logger.debug("[find_next_reduction] Building matrices for lumping")
         matrices = self.construct_matrices(matrix_algorithm)
@@ -2530,8 +2527,8 @@ class FODESystem:
         logger.debug(
             "[find_next_reduction] Computing maximal epsilon and its deviation"
         )
-        max_epsilon, _ = self.find_maximal_threshold(
-            observable, bound, num_points, threshold, matrix_algorithm=matrix_algorithm
+        max_epsilon  = self.find_maximal_threshold(
+            observable, matrix_algorithm=matrix_algorithm
         )
         left_eps = eps_min
         right_eps = max_epsilon
@@ -2551,7 +2548,9 @@ class FODESystem:
         )
         right_size = r_subspace.dim()
 
-        tries = 1
+        if with_tries:
+            tries = 1
+
         logger.debug(
             f"[find_next_reduction] Initial interval of search: [{left_eps},{right_eps}]"
         )
@@ -2577,7 +2576,9 @@ class FODESystem:
             logger.debug(
                 f"[find_next_reduction] New interval search: [{left_eps},{right_eps}]"
             )
-            tries += 1
+
+            if with_tries:
+                tries += 1
 
         logger.debug(
             f"[find_next_reduction] Reduction change found in interval -->[{left_eps},{right_eps}]"
@@ -2589,14 +2590,10 @@ class FODESystem:
     def find_reduction_given_size(
         self,
         observable,
-        dev_max: float,
-        bound: float | list[float] | list[tuple[float, float]],
-        num_points: int,
-        threshold: float,
-        with_tries: bool = False,
-        matrix_algorithm: str = "polynomial",
-        eps_min: float = 0,
         allowed_size: float = 1,
+        with_tries: bool = False,
+        threshold: float = 1e-6,
+        matrix_algorithm: str = "polynomial",
     ) -> tuple[int, int, float, float, int] | tuple[int, int, float, float]:
         r"""
         Method to compute the a reduction for a numerical lumping based on a maximum allowed size for the reduced model.
@@ -2611,6 +2608,7 @@ class FODESystem:
             - ``left_eps``: epsilon value generating left_size
             - ``right_eps``: epsilon value generating right_eps
             - ``tries``: number of iterations
+
         Examples::
             >>> from clue import *
             >>> from sympy import QQ
@@ -2618,16 +2616,13 @@ class FODESystem:
             >>> R = vring(["x0", "x1", "x2"], QQ)
             >>> system = FODESystem([x1**2 +4.05*x1*x2+4*x2**2, 2*x0-4*x2, -x0-x1], variables=['x0','x1','x2'])
             >>> bound = [(0,1) for i in range(system.size)]
-            >>> system.find_reduction_given_size(['x0'],0, bound, 100, 1e-6,allowed_size=0.5)
+            >>> system.find_reduction_given_size(['x0'],allowed_size=0.5)
             (2, 1, 8.966744, 8.966745)
-            >>> system.find_reduction_given_size(['x0'],0, bound, 100, 1e-6,allowed_size=0.7)
+            >>> system.find_reduction_given_size(['x0'],allowed_size=0.7)
             (3, 2, 0.089109, 0.089110)
 
-
         """
-        observable, bound = self.__process_observable(observable), self.__process_bound(
-            bound, threshold
-        )
+        observable = self.__process_observable(observable)
         max_n = allowed_size * self.size
 
         logger.debug("[find_reduction_given_size] Building matrices for lumping")
@@ -2636,11 +2631,11 @@ class FODESystem:
         logger.debug(
             "[find_reduction_given_size] Computing maximal epsilon and its deviation"
         )
-        max_epsilon, _ = self.find_maximal_threshold(
-            observable, bound, num_points, threshold, matrix_algorithm=matrix_algorithm
+        max_epsilon  = self.find_maximal_threshold(
+            observable, matrix_algorithm=matrix_algorithm
         )
 
-        left_eps = eps_min
+        left_eps = 0
         right_eps = max_epsilon
         if left_eps == 0:
             logger.debug("[find_reduction_given_size] Exact reduction detected.")
@@ -2721,7 +2716,6 @@ class FODESystem:
         initial_conditions=None,
         method="polynomial",
         file=sys.stdout,
-        include_parameters = False,
     ):
         r"""
         Main function, performs a lumping of a polynomial ODE system
@@ -2862,9 +2856,6 @@ class FODESystem:
 
         ## Normalizing input if needed
         self.normalize()
-
-        if not include_parameters:
-            self.remove_parameters_ic()
 
         observable = self.__process_observable(observable)
 
