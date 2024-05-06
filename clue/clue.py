@@ -11,7 +11,7 @@ r"""
 from __future__ import annotations
 
 import logging, math, sympy, sys, time
-from collections.abc import Iterable
+from collections.abc import Collection, Mapping
 from functools import cached_property, reduce, lru_cache
 from io import IOBase
 from itertools import product
@@ -36,6 +36,7 @@ from .linalg import (
 from .nual import NualNumber
 from .ode_parser import read_system
 from .rational_function import SparsePolynomial, RationalFunction
+from .simulations import apply_matrix
 
 ## Configuring logger for this module
 logger = logging.getLogger(__name__)
@@ -2102,7 +2103,7 @@ class FODESystem:
             output = [self.numerical_evaluator(i)(*x) for i in range(self.size)]
         return output
 
-    def simulate(self, t0, t1, x0, tstep=0.01, view=None, **kwds):
+    def simulate(self, t0, t1, x0=None, tstep=0.01, view=None, **kwds):
         r"""
         Method to simulate the dynamical system
 
@@ -2116,7 +2117,7 @@ class FODESystem:
         * ``t1``: ending point of the time interval (can be smaller than ``t0``).
         * ``x0``: starting data (must have length ``len(self)``). If not given, we take values (0 as default) from ``self.ic``.
         * ``tstep``: time steps where the output data will be displayed (must be positive).
-        * ``view``: list of linear combinations of variables to be filtered from the simulation. If none is given, we return the 
+        * ``view``: list of linear combinations of variables to be filtered from the simulation. If none are given, we return the 
           complete simulation of the system.
         * ``kwds``: other arguments to be passed to the ivp solver. See :func:`scipy.integrate.solve_ivp` for further information
 
@@ -2125,15 +2126,36 @@ class FODESystem:
         A :class:`scipy.integrate._ivp.ivp.OdeResult` with the result of the simulation of ``self`` with the given data.
         """
         # Checking the input ``x``
-        if not isinstance(x0, Iterable):
-            raise ValueError(
-                f"The size of the input ({len(x0)} does not coincide with the variables in the system ({self.size}"
-            )
+        if x0 is None:
+            if self.ic is None:
+                raise ValueError("Impossible to compute simulation: no initial data given")
+            x0 = [self.ic.get(v, 0.0) for v in self.variables]
+        
+        if not isinstance(x0, (Collection, Mapping)):
+            raise TypeError(f"The given initial condition is not of valid type: must be a list or a dictionary")
+        elif isinstance(x0, Collection):
+            if len(x0) != self.size:
+                raise ValueError(
+                    f"The size of the input ({len(x0)}) does not coincide with the variables in the system ({self.size})"
+                )
+        elif isinstance(x0, Mapping):
+            x0 = [x0.get(v, 0.0) for v in self.variables]
+            
         x0 = list(x0)  # we cast it to a list
 
         # Checking the input tstep
         if tstep <= 0:
             raise ValueError("The time-step must be strictly positive")
+        
+        # Checking the input view
+        if view is not None:
+            if not isinstance(view, (list,tuple)):
+                raise TypeError(f"The views must be a list of elements to be observed from the simulation")
+            elif len(view) == 0:
+                raise ValueError(f"The given view has nothing to observe.")
+            view = self.__process_observable(view)
+            O = SparseRowMatrix.from_vectors(view).to_numpy()
+            
 
         # Computing the time points for evaluation (all equally distributed)
         tpoints = [t0]
@@ -2149,8 +2171,9 @@ class FODESystem:
         # adding the names to the simulation
         simulation.names = self.variables
 
-        ## Create matrix from view
         ## Apply matrix on simulation
+        if view is not None: # we need to apply the observe matrix built from the view
+            simulation = apply_matrix(simulation, O)
         return simulation
 
     def _deviation(
