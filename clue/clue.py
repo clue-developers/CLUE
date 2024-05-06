@@ -1046,19 +1046,17 @@ class FODESystem:
             new_ic = {k: v for (k, v) in self.ic.items() if (not k in values)}
 
         # setting the new name
-        new_name = (
-            f"{self.name}_evaluated[{';'.join(f'{k}->{v}' for (k,v) in values.items())}]"
-            if self.name != None
-            else None
-        )
+        new_name = None
+        if self.name != None:
+            new_name = f"{self.name}_evaluated" # f"{self.name}_evaluated[{';'.join(f'{k}->{v}' for (k,v) in values.items())}]"
 
         # returning the resulting system
         return FODESystem(
             new_equations,  # the equations has less variables
             new_observables,  # the observables are also evaluated
             new_variables,  # the remaining variables
-            new_ic,  # the initial values do not have the evaluated parameters
-            new_name,  # we keep the name of the system
+            ic = new_ic,  # the initial values do not have the evaluated parameters
+            name = new_name,  # we keep the name of the system
         )
 
     def remove_parameters_ic(self):
@@ -2749,7 +2747,7 @@ class FODESystem:
         observable,
         new_vars_name="y",
         print_system=False,
-        print_reduction=True,
+        print_reduction=False,
         out_format="sympy",
         loglevel=None,
         initial_conditions=None,

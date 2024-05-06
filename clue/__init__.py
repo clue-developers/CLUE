@@ -20,6 +20,8 @@ from .linalg import *
 from .rational_function import *
 from .clue import *
 from .uncertain import *
+from .odebase_io import *
+from .simulations import *
 
 
 def clue_version():
