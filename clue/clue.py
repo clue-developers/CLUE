@@ -359,7 +359,7 @@ class FODESystem:
     def ic(self):
         return self._ic
 
-    def set_ic(self, new_ic: dict | list | tuple, fill: bool = True):
+    def set_ic(self, new_ic: dict[str, float] | list[float] | tuple[float], fill: bool = True):
         r'''
             Method to set the initial conditions on the system
 
@@ -371,12 +371,29 @@ class FODESystem:
             * ``fill``: in the case of the dictionary input, this argument indicates whther to fill with zeros all
               variables not appearing in the dictionary.
         '''
-        if not isinstance(new_ic, dict):
-            raise TypeError("The initial conditions must be a dictionary")
-        if all([key in self.species for key in new_ic.keys()]):
-            self._ic = new_ic
-        else:
-            raise ValueError("The initial conditions must be a dictionary with species as keys")
+        if not isinstance(new_ic, (dict, list, tuple)):
+            raise TypeError("The initial conditions must be a dictionary, a list or a tuple")
+
+        if isinstance(new_ic, dict):
+            if not all([key in self.variables for key in new_ic.keys()]):
+                raise ValueError("The initial conditions must be a dictionary with species as keys")
+            for key in self.variables:
+                if key in new_ic.keys():
+                    self._ic[key] = new_ic[key]
+                elif fill:
+                    self._ic[key] = 0
+
+        elif isinstance(new_ic, (list, tuple)):
+            if len(new_ic) > len(self.variables):
+                raise ValueError(
+                    "The initial conditions must be a list or tuple with at most as many elements than the number of variables"
+                )
+
+            for i,key in enumerate(self.variables):
+                if i < len(new_ic):
+                    self._ic[key] = new_ic[i]
+                elif fill:
+                    self._ic[key] = 0
 
 
     @property
@@ -2525,9 +2542,9 @@ class FODESystem:
     def find_next_reduction(
         self,
         observable,
-        eps_min: float =0,
+        eps_min: float = 0,
         with_tries: bool = False,
-        threshold: float = 1e-6,
+        threshold: float = 1e-9,
         matrix_algorithm: str = "polynomial",
     ) -> tuple[int, int, float, float, int] | tuple[int, int, float, float]:
         r"""
@@ -2627,21 +2644,22 @@ class FODESystem:
     def find_reduction_given_size(
         self,
         observable,
-        allowed_size: float = 1,
+        percentage_size: Optional[float] = None,
+        max_size: Optional[int] = None,
         with_tries: bool = False,
-        threshold: float = 1e-6,
+        threshold: float = 1e-9,
         matrix_algorithm: str = "polynomial",
     ) -> tuple[int, int, float, float, int] | tuple[int, int, float, float]:
         r"""
         Method to compute the a reduction for a numerical lumping based on a maximum allowed size for the reduced model.
         Input:
             - ``observable``: a list of observables
-            - ``dev_max``: maximum deviation
-            - ``allowed_size``: percentage of the original size of the model
+            - ``percentage_size``: percentage of the original size of the model
+            - ``max_size``: maximum allowed size of the reduced model
 
         Output:
-            - ``left_size``: largest size lesser or equal to allowed_size
-            - ``right_size``: smallest size greater or equal to allowed_size
+            - ``left_size``: largest size lesser or equal to percentage_size
+            - ``right_size``: smallest size greater or equal to percentage_size
             - ``left_eps``: epsilon value generating left_size
             - ``right_eps``: epsilon value generating right_eps
             - ``tries``: number of iterations
@@ -2653,14 +2671,22 @@ class FODESystem:
             >>> R = vring(["x0", "x1", "x2"], QQ)
             >>> system = FODESystem([x1**2 +4.05*x1*x2+4*x2**2, 2*x0-4*x2, -x0-x1], variables=['x0','x1','x2'])
             >>> bound = [(0,1) for i in range(system.size)]
-            >>> system.find_reduction_given_size(['x0'],allowed_size=0.5)
+            >>> system.find_reduction_given_size(['x0'],percentage_size=0.5)
             (2, 1, 8.966744, 8.966745)
-            >>> system.find_reduction_given_size(['x0'],allowed_size=0.7)
+            >>> system.find_reduction_given_size(['x0'],percentage_size=0.7)
             (3, 2, 0.089109, 0.089110)
 
         """
         observable = self.__process_observable(observable)
-        max_n = allowed_size * self.size
+
+        if max_size is not None and percentage_size is not None:
+            raise ValueError(
+                "The arguments 'max_size' and 'percentage_size' cannot be given at the same time."
+            )
+        elif max_size is not None:
+            max_n = self.size 
+        else:
+            max_n = percentage_size * self.size
 
         logger.debug("[find_reduction_given_size] Building matrices for lumping")
         matrices = self.construct_matrices(matrix_algorithm)
@@ -2967,8 +2993,8 @@ class FODESystem:
         initial_conditions=None,
         method="polynomial",
         file=sys.stdout,
-        epsilon:float = None,
-        max_size: int = None
+        epsilon: Optional[float] = None,
+        max_size: Optional[int] = None
     ):
         r'''
             Method to create a numerical lumping.
@@ -2982,14 +3008,111 @@ class FODESystem:
             If none of the arguments ``epsilon`` nor ``max_size`` are given, the method will return the first numerical reduction that 
             does not coincide with the exact reduction.
         '''
+
+        #######################################################################################
+        ### PREPROCESSING
+        #######################################################################################
+        # if epsilon is not None and max_size is not None:
+            # raise ValueError("Either epsilon or max_size should be given")
+
+        ## Setting the logger level active
+        if loglevel != None:
+            old_level = logger.getEffectiveLevel()
+            if loglevel == "INFO":
+                logger.setLevel(logging.INFO)
+            elif loglevel == "DEBUG":
+                logger.setLevel(logging.DEBUG)
+            elif loglevel == "WARNING":
+                logger.setLevel(logging.WARNING)
+            elif loglevel == "ERROR":
+                logger.setLevel(logging.ERROR)
+
+        logger.debug("[lumping] Starting aggregation")
+
+        ## Normalizing input if needed
+        self.normalize()
+
+        observable = self.__process_observable(observable)
+
         old_lumping_class = self.lumping_subspace_class
         old_lumping_kwds = self.lumping_subspace_kwds
 
-        self.lumping_subspace_class = NumericalSubspace, {"epsilon": 1e-6}
+        # Computing numerical subspace
+        if epsilon is not None and max_size is not None:
+            raise ValueError("Either epsilon or max_size should be given")
 
-        ## DO SOMETHING with _lumping
+
+        if max_size is not None:
+            _,_,_,epsilon = self.find_reduction_given_size(observable, allowed_size=max_size, matrix_algorithm=method)
+        else:
+            _,_,_,epsilon = self.find_next_reduction(observable, matrix_algorithm=method)
+
+        self.lumping_subspace_class = NumericalSubspace, {"delta": epsilon}
+
+        # Main computation
+
+        result = self._lumping(
+            observable,
+            new_vars_name,
+            print_system,
+            print_reduction,
+            initial_conditions,
+            method,
+            file,
+        )
+
+        #######################################################################################
+        ### POSTPROCESSING
+        #######################################################################################
 
         self.lumping_subspace_class = old_lumping_class, old_lumping_kwds
+
+        if out_format == "sympy":
+            ## deciding out ring
+            out_ring = None
+            if isinstance(result["equations"][0], SparsePolynomial):
+                out_ring = result["equations"][0].get_sympy_ring()
+                F = out_ring
+            elif isinstance(result["equations"][0], RationalFunction):
+                out_ring = result["equations"][0].get_sympy_ring()
+                F = sympy.FractionField(sympy.QQ, result["equations"][0].gens)
+            elif isinstance(result["equations"][0], (list, tuple)):
+                if isinstance(result["equations"][0][0], SparsePolynomial):
+                    out_ring = result["equations"][0][0].get_sympy_ring()
+                    F = out_ring
+                elif isinstance(result["equations"][0][0], RationalFunction):
+                    out_ring = result["equations"][0][0].get_sympy_ring()
+                    F = sympy.FractionField(sympy.QQ, result["equations"][0].gens)
+
+            def transform(p):
+                if not out_ring is None:
+                    if isinstance(p, (list, tuple)):
+                        return [transform(q) for q in p]
+                    elif isinstance(p, SparsePolynomial):
+                        return out_ring(p.get_sympy_dict())
+                    elif isinstance(p, RationalFunction):
+                        return F(out_ring(p.numer.get_sympy_dict())) / F(
+                            out_ring(p.denom.get_sympy_dict())
+                        )
+                    else:
+                        return p  # already in sympy
+                else:
+                    return p  # already in sympy
+
+            result["equations"] = [transform(p) for p in result["equations"]]
+        elif out_format == "internal":
+            pass
+        else:
+            if loglevel != None:
+                logger.setLevel(old_level)
+            raise ValueError(f"Unknown output format {out_format}")
+
+        ## Fixing the level of the logger
+        if loglevel != None:
+            logger.setLevel(old_level)
+        return self._lumped_system_type(old_system=self, dic=result)
+
+
 
     def _lumping(
         self,
