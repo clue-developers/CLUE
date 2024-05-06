@@ -1,0 +1,23 @@
+begin model dom_Wikberg_2013b_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 1.0*S1 + 1.0*S2 + 1.0*S3 + 2.0*S4 + 1.0*S5
+  d(S1) = 1.0*S2 + 1.0*S3 + 1.0*S4 + 2.0*S5
+  d(S2) = 1.0*S3 + 7.0*S5
+  d(S3) = 1.0*S4 + 2.0*S5
+  d(S4) = 1.0*S5
+  d(S5) = 1.0*S2
+ end ODE
+
+end model
+

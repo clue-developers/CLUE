@@ -1,0 +1,27 @@
+begin model dom_Collias_1951b_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+  S7
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 1.0*S1 + 1.0*S3
+  d(S1) = 7.0*S2 + 2.0*S4
+  d(S2) = 1.0*S3 + 3.0*S4 + 1.0*S5 + 6.0*S6 + 2.0*S7
+  d(S3) = 2.0*S0 + 1.0*S2 + 6.0*S4 + 6.0*S5 + 3.0*S7
+  d(S4) = 1.0*S6 + 2.0*S7
+  d(S5) = 3.0*S6
+  d(S6) = 0
+  d(S7) = 0
+ end ODE
+
+end model
+

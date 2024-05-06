@@ -1,0 +1,25 @@
+begin model dom_Alados_1992e_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 9.0*S1 + 17.0*S2 + 8.0*S3 + 10.0*S4 + 4.0*S5 + 17.0*S6
+  d(S1) = 1.0*S0 + 8.0*S2 + 8.0*S3 + 2.0*S4 + 6.0*S6
+  d(S2) = 5.0*S1 + 10.0*S3 + 27.0*S4 + 6.0*S5 + 91.0*S6
+  d(S3) = 10.0*S2 + 10.0*S4 + 6.0*S5 + 37.0*S6
+  d(S4) = 4.0*S1 + 13.0*S2 + 9.0*S3 + 41.0*S5 + 64.0*S6
+  d(S5) = 2.0*S1 + 10.0*S2 + 28.0*S3 + 7.0*S4 + 46.0*S6
+  d(S6) = 15.0*S1 + 18.0*S2 + 48.0*S3 + 1.0*S4 + 6.0*S5
+ end ODE
+
+end model
+

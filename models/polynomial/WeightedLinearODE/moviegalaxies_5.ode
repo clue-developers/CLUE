@@ -1,0 +1,29 @@
+begin model moviegalaxies_5_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+  S7
+  S8
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 4.0*S2 + 4.0*S3 + 1.0*S4 + 5.0*S5 + 1.0*S6 + 1.0*S8 + 1.0*S1 + 1.0*S7
+  d(S1) = 1.0*S0 + 1.0*S8
+  d(S2) = 4.0*S0 + 4.0*S3
+  d(S3) = 4.0*S0 + 4.0*S2
+  d(S4) = 1.0*S0
+  d(S5) = 5.0*S0
+  d(S6) = 1.0*S0
+  d(S7) = 1.0*S0
+  d(S8) = 1.0*S0 + 1.0*S1
+ end ODE
+
+end model
+

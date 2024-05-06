@@ -342,7 +342,13 @@ begin model BIOMD0000000504
   2*MMP13 + 2*TIMP3 -> MMP13 + MMP13_TIMP3 + TIMP3 , pkinhibMMP13TIMP3
   2*MMP13_TIMP3 -> MMP13 + MMP13_TIMP3 + TIMP3 , pkrelMMP13TIMP3
  end reactions
-
+ begin views
+  MMP1 = MMP1
+  MMP13 = MMP13
+  AggFrag = AggFrag
+  ColFrag = ColFrag
+ end views
+simulateODE(tEnd=14)
 //Comments associated to the species
 //Sink:  
   //This is the null species. It has been added because some reactions became with empty products after the transformations.

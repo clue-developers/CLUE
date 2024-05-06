@@ -27,6 +27,13 @@ begin model BIOMD0000000023
   HexP -> glycolysis ,  1*0.1*0.0575*HexP/(0.2+0.0575*HexP) [v10]
   Suc -> Sucvac ,  1*1*Suc/(100+Suc) [v11]
  end reactions
-
+ begin views
+HexP = HexP
+Fru = Fru
+Suc = Suc
+Sucvac = Sucvac
+Glc = Glc
+ end views
+ simulateODE(tEnd=100, viewPlot=VIEWS)
 end model
 

@@ -1,0 +1,275 @@
+begin model BIOMD0000000488
+ begin parameters
+  ksynp53mRNA = 0.001
+  kdegp53mRNA = 1.0E-4
+  ksynMdm2mRNA = 5.0E-4
+  kdegMdm2mRNA = 5.0E-4
+  ksynMdm2mRNAGSK3bp53 = 7.0E-4
+  ksynp53 = 0.007
+  kdegp53 = 0.005
+  kbinMdm2p53 = 0.001155
+  krelMdm2p53 = 1.155E-5
+  kbinGSK3bp53 = 2.0E-6
+  krelGSK3bp53 = 0.002
+  ksynMdm2 = 4.95E-4
+  kdegMdm2 = 0.01
+  kbinE1Ub = 2.0E-4
+  kbinE2Ub = 0.001
+  kp53Ub = 5.0E-5
+  kp53PolyUb = 0.01
+  kbinProt = 2.0E-6
+  kactDUBp53 = 1.0E-7
+  kactDUBProtp53 = 1.0E-4
+  kactDUBMdm2 = 1.0E-7
+  kMdm2Ub = 4.56E-6
+  kMdm2PUb = 6.84E-6
+  kMdm2PolyUb = 0.00456
+  kdam = 0.08
+  krepair = 2.0E-5
+  kactATM = 1.0E-4
+  kinactATM = 5.0E-4
+  kphosp53 = 2.0E-4
+  kdephosp53 = 0.5
+  kphosMdm2 = 2.0
+  kdephosMdm2 = 0.5
+  kphosMdm2GSK3b = 0.005
+  kphosMdm2GSK3bp53 = 0.5
+  kphospTauGSK3bp53 = 0.1
+  kphospTauGSK3b = 2.0E-4
+  kdephospTau = 0.01
+  kbinMTTau = 0.1
+  krelMTTau = 1.0E-4
+  ksynTau = 8.0E-5
+  kbinTauProt = 1.925E-7
+  kdegTau20SProt = 0.01
+  kaggTau = 1.0E-8
+  kaggTauP1 = 1.0E-8
+  kaggTauP2 = 1.0E-7
+  ktangfor = 0.001
+  kinhibprot = 1.0E-7
+  ksynp53mRNAAbeta = 1.0E-5
+  kdamROS = 1.0E-5
+  kgenROSAbeta = 2.0E-5
+  kgenROSPlaque = 1.0E-5
+  kgenROSGlia = 1.0E-5
+  kproteff = 1.0
+  kremROS = 7.0E-5
+  kprodAbeta = 1.86E-5
+  kprodAbeta2 = 1.86E-5
+  kdegAbeta = 1.5E-5
+  kaggAbeta = 3.0E-6
+  kdisaggAbeta = 1.0E-6
+  kdisaggAbeta1 = 2.0E-4
+  kdisaggAbeta2 = 1.0E-6
+  kdegAbetaGlia = 0.005
+  kpf = 0.2
+  kpg = 0.15
+  kpghalf = 10.0
+  kactglia1 = 6.0E-7
+  kactglia2 = 6.0E-7
+  kinactglia1 = 5.0E-6
+  kinactglia2 = 5.0E-6
+  kbinAbetaGlia = 1.0E-5
+  krelAbetaGlia = 5.0E-5
+  kdegAntiAb = 2.75E-6
+  kbinAbantiAb = 1.0E-6
+ end parameters
+ begin init
+  Mdm2 = 5.0
+  p53 = 5.0
+  Mdm2_p53 = 95.0
+  Mdm2_mRNA = 10.0
+  p53_mRNA = 10.0
+  ATMA
+  ATMI = 200.0
+  p53_P
+  Mdm2_P
+  IR
+  ROS
+  damDNA
+  E1 = 100.0
+  E2 = 100.0
+  E1_Ub
+  E2_Ub
+  Proteasome = 500.0
+  Ub = 4000.0
+  p53DUB = 200.0
+  Mdm2DUB = 200.0
+  DUB = 200.0
+  Mdm2_p53_Ub
+  Mdm2_p53_Ub2
+  Mdm2_p53_Ub3
+  Mdm2_p53_Ub4
+  Mdm2_P1_p53_Ub4
+  Mdm2_Ub
+  Mdm2_Ub2
+  Mdm2_Ub3
+  Mdm2_Ub4
+  Mdm2_P_Ub
+  Mdm2_P_Ub2
+  Mdm2_P_Ub3
+  Mdm2_P_Ub4
+  p53_Ub4_Proteasome
+  Mdm2_Ub4_Proteasome
+  Mdm2_P_Ub4_Proteasome
+  GSK3b = 500.0
+  GSK3b_p53
+  GSK3b_p53_P
+  Abeta
+  AggAbeta_Proteasome
+  AbetaPlaque
+  Tau
+  Tau_P1
+  Tau_P2
+  MT_Tau = 100.0
+  AggTau
+  AggTau_Proteasome
+  Proteasome_Tau
+  PP1 = 50.0
+  NFT
+  ATP = 10000.0
+  ADP = 1000.0
+  AMP = 1000.0
+  AbetaDimer
+  AbetaPlaque_GliaA
+  GliaI = 100.0
+  GliaM1
+  GliaM2
+  GliaA
+  antiAb
+  Abeta_antiAb
+  AbetaDimer_antiAb
+  degAbetaGlia
+  disaggPlaque1
+  disaggPlaque2
+  Source = 1.0
+  Sink = 1.0
+ end init
+ begin reactions
+  2*Source -> p53_mRNA + 2*Source , arbitrary ksynp53mRNA*Source [p53mRNASynthesis]
+  2*p53_mRNA + Sink -> p53_mRNA + Sink , arbitrary kdegp53mRNA*p53_mRNA [p53mRNADegradation]
+  2*Mdm2_mRNA -> Mdm2 + 2*Mdm2_mRNA , arbitrary ksynMdm2*Mdm2_mRNA [Mdm2Synthesis]
+  2*p53 -> 2*p53 + Mdm2_mRNA , arbitrary ksynMdm2mRNA*p53 [Mdm2mRNASynthesis1]
+  2*p53_P -> Mdm2_mRNA + 2*p53_P , arbitrary ksynMdm2mRNA*p53_P [Mdm2mRNASynthesis2]
+  2*GSK3b_p53 -> Mdm2_mRNA + 2*GSK3b_p53 , arbitrary ksynMdm2mRNAGSK3bp53*GSK3b_p53 [Mdm2mRNASynthesis3]
+  2*GSK3b_p53_P -> Mdm2_mRNA + 2*GSK3b_p53_P , arbitrary ksynMdm2mRNAGSK3bp53*GSK3b_p53_P [Mdm2mRNASynthesis4]
+  2*Mdm2_mRNA + Sink -> Mdm2_mRNA + Sink , arbitrary kdegMdm2mRNA*Mdm2_mRNA [Mdm2mRNADegradation]
+  2*Mdm2 + 2*p53 -> Mdm2 + p53 + Mdm2_p53 , arbitrary kbinMdm2p53*p53*Mdm2 [P53Mdm2Binding]
+  2*Mdm2_p53 -> Mdm2 + p53 + Mdm2_p53 , arbitrary krelMdm2p53*Mdm2_p53 [P53Mdm2Release]
+  2*p53 + 2*GSK3b -> p53 + GSK3b + GSK3b_p53 , arbitrary kbinGSK3bp53*GSK3b*p53 [GSK3p53Binding]
+  2*GSK3b_p53 -> p53 + GSK3b + GSK3b_p53 , arbitrary krelGSK3bp53*GSK3b_p53 [GSK3p53Release]
+  2*p53_P + 2*GSK3b -> p53_P + GSK3b + GSK3b_p53_P , arbitrary kbinGSK3bp53*GSK3b*p53_P [GSK3p53PBinding]
+  2*GSK3b_p53_P -> p53_P + GSK3b + GSK3b_p53_P , arbitrary krelGSK3bp53*GSK3b_p53_P [GSK3_p53PRelease]
+  2*E1 + 2*Ub + 2*ATP + AMP -> E1 + E1_Ub + Ub + 2*ATP + AMP , arbitrary kbinE1Ub*E1*Ub*ATP/(5000+ATP) [E1UbBinding]
+  2*E2 + 2*E1_Ub -> E1 + E2 + E1_Ub + E2_Ub , arbitrary kbinE2Ub*E2*E1_Ub [E2UbBinding]
+  2*Mdm2 + 2*E2_Ub -> Mdm2 + E2 + E2_Ub + Mdm2_Ub , arbitrary kMdm2Ub*Mdm2*E2_Ub [Mdm2Ubiquitination]
+  2*E2_Ub + 2*Mdm2_Ub -> E2 + E2_Ub + Mdm2_Ub + Mdm2_Ub2 , arbitrary kMdm2PolyUb*Mdm2_Ub*E2_Ub [Mdm2polyUbiquitination1]
+  2*E2_Ub + 2*Mdm2_Ub2 -> E2 + E2_Ub + Mdm2_Ub2 + Mdm2_Ub3 , arbitrary kMdm2PolyUb*Mdm2_Ub2*E2_Ub [Mdm2polyUbiquitination2]
+  2*E2_Ub + 2*Mdm2_Ub3 -> E2 + E2_Ub + Mdm2_Ub3 + Mdm2_Ub4 , arbitrary kMdm2PolyUb*Mdm2_Ub3*E2_Ub [Mdm2polyUbiquitination3]
+  2*Mdm2DUB + 2*Mdm2_Ub4 -> Ub + 2*Mdm2DUB + Mdm2_Ub3 + Mdm2_Ub4 , arbitrary kactDUBMdm2*Mdm2_Ub4*Mdm2DUB [Mdm2Deubiquitination4]
+  2*Mdm2DUB + 2*Mdm2_Ub3 -> Ub + 2*Mdm2DUB + Mdm2_Ub2 + Mdm2_Ub3 , arbitrary kactDUBMdm2*Mdm2_Ub3*Mdm2DUB [Mdm2Deubiquitination3]
+  2*Mdm2DUB + 2*Mdm2_Ub2 -> Ub + 2*Mdm2DUB + Mdm2_Ub + Mdm2_Ub2 , arbitrary kactDUBMdm2*Mdm2_Ub2*Mdm2DUB [Mdm2Deubiquitination2]
+  2*Mdm2DUB + 2*Mdm2_Ub -> Mdm2 + Ub + 2*Mdm2DUB + Mdm2_Ub , arbitrary kactDUBMdm2*Mdm2_Ub*Mdm2DUB [Mdm2Deubiquitination1]
+  2*Proteasome + 2*Mdm2_Ub4 -> Proteasome + Mdm2_Ub4 + Mdm2_Ub4_Proteasome , arbitrary kbinProt*Mdm2_Ub4*Proteasome [Mdm2ProteasomeBinding1]
+  2*Mdm2_Ub4_Proteasome -> Proteasome + 4*Ub + Mdm2_Ub4_Proteasome , arbitrary kdegMdm2*Mdm2_Ub4_Proteasome*kproteff [Mdm2Degradation]
+  2*p53_mRNA -> p53 + 2*p53_mRNA , arbitrary ksynp53*p53_mRNA [p53Synthesis]
+  2*Mdm2_p53 + 2*E2_Ub -> Mdm2_p53 + E2 + E2_Ub + Mdm2_p53_Ub , arbitrary kp53Ub*E2_Ub*Mdm2_p53 [p53Monoubiquitination]
+  2*E2_Ub + 2*Mdm2_p53_Ub -> E2 + E2_Ub + Mdm2_p53_Ub + Mdm2_p53_Ub2 , arbitrary kp53PolyUb*Mdm2_p53_Ub*E2_Ub [p53Polyubiquitination1]
+  2*E2_Ub + 2*Mdm2_p53_Ub2 -> E2 + E2_Ub + Mdm2_p53_Ub2 + Mdm2_p53_Ub3 , arbitrary kp53PolyUb*Mdm2_p53_Ub2*E2_Ub [p53Polyubiquitination2]
+  2*E2_Ub + 2*Mdm2_p53_Ub3 -> E2 + E2_Ub + Mdm2_p53_Ub3 + Mdm2_p53_Ub4 , arbitrary kp53PolyUb*Mdm2_p53_Ub3*E2_Ub [p53Polyubiquitination3]
+  2*p53DUB + 2*Mdm2_p53_Ub4 -> Ub + 2*p53DUB + Mdm2_p53_Ub3 + Mdm2_p53_Ub4 , arbitrary kactDUBp53*Mdm2_p53_Ub4*p53DUB [p53Deubiqutination4]
+  2*p53DUB + 2*Mdm2_p53_Ub3 -> Ub + 2*p53DUB + Mdm2_p53_Ub2 + Mdm2_p53_Ub3 , arbitrary kactDUBp53*Mdm2_p53_Ub3*p53DUB [p53Deubiquitination3]
+  2*p53DUB + 2*Mdm2_p53_Ub2 -> Ub + 2*p53DUB + Mdm2_p53_Ub + Mdm2_p53_Ub2 , arbitrary kactDUBp53*Mdm2_p53_Ub2*p53DUB [p53Deubiquitination2]
+  2*p53DUB + 2*Mdm2_p53_Ub -> Mdm2_p53 + Ub + 2*p53DUB + Mdm2_p53_Ub , arbitrary kactDUBp53*Mdm2_p53_Ub*p53DUB [p53Deubiquitination1]
+  2*Mdm2_p53_Ub4 + 2*GSK3b -> Mdm2_p53_Ub4 + Mdm2_P1_p53_Ub4 + 2*GSK3b , arbitrary kphosMdm2GSK3b*Mdm2_p53_Ub4*GSK3b [Mdm2GSK3phosphorylation1]
+  2*Mdm2_p53_Ub4 + 2*GSK3b_p53 -> Mdm2_p53_Ub4 + Mdm2_P1_p53_Ub4 + 2*GSK3b_p53 , arbitrary kphosMdm2GSK3bp53*Mdm2_p53_Ub4*GSK3b_p53 [Mdm2GSK3phosphorylation2]
+  2*Mdm2_p53_Ub4 + 2*GSK3b_p53_P -> Mdm2_p53_Ub4 + Mdm2_P1_p53_Ub4 + 2*GSK3b_p53_P , arbitrary kphosMdm2GSK3bp53*Mdm2_p53_Ub4*GSK3b_p53_P [Mdm2GSK3phosphorylation3]
+  2*Proteasome + 2*Mdm2_P1_p53_Ub4 -> Mdm2 + Proteasome + Mdm2_P1_p53_Ub4 + p53_Ub4_Proteasome , arbitrary kbinProt*Mdm2_P1_p53_Ub4*Proteasome [p53ProteasomeBinding1]
+  2*p53_Ub4_Proteasome + 2*ATP + ADP -> Proteasome + 4*Ub + p53_Ub4_Proteasome + 2*ATP + ADP , arbitrary kdegp53*kproteff*p53_Ub4_Proteasome*ATP/(5000+ATP) [Degradationp53_Ub4]
+  2*Tau -> Tau + MT_Tau , arbitrary kbinMTTau*Tau [TauMTbinding]
+  2*MT_Tau -> Tau + MT_Tau , arbitrary krelMTTau*MT_Tau [TauMTrelease]
+  2*GSK3b_p53 + 2*Tau -> 2*GSK3b_p53 + Tau + Tau_P1 , arbitrary kphospTauGSK3bp53*GSK3b_p53*Tau [Tauphosphorylation1]
+  2*GSK3b_p53 + 2*Tau_P1 -> 2*GSK3b_p53 + Tau_P1 + Tau_P2 , arbitrary kphospTauGSK3bp53*GSK3b_p53*Tau_P1 [Tauphosphorylation2]
+  2*GSK3b_p53_P + 2*Tau -> 2*GSK3b_p53_P + Tau + Tau_P1 , arbitrary kphospTauGSK3bp53*GSK3b_p53_P*Tau [Tauphosphorylation3]
+  2*GSK3b_p53_P + 2*Tau_P1 -> 2*GSK3b_p53_P + Tau_P1 + Tau_P2 , arbitrary kphospTauGSK3bp53*GSK3b_p53_P*Tau_P1 [Tauphosphorylation4]
+  2*GSK3b + 2*Tau -> 2*GSK3b + Tau + Tau_P1 , arbitrary kphospTauGSK3b*GSK3b*Tau [Tauphosphorylation5]
+  2*GSK3b + 2*Tau_P1 -> 2*GSK3b + Tau_P1 + Tau_P2 , arbitrary kphospTauGSK3b*GSK3b*Tau_P1 [Tauphosphorylation6]
+  2*Tau_P2 + 2*PP1 -> Tau_P1 + Tau_P2 + 2*PP1 , arbitrary kdephospTau*Tau_P2*PP1 [Taudephosphorylation1]
+  2*Tau_P1 + 2*PP1 -> Tau + Tau_P1 + 2*PP1 , arbitrary kdephospTau*Tau_P1*PP1 [Taudephosphorylation2]
+  3*Tau_P1 -> Tau_P1 + 2*AggTau , arbitrary kaggTauP1*Tau_P1^2*0.5 [TauP1Aggregation1]
+  2*Tau_P1 + 2*AggTau -> Tau_P1 + 3*AggTau , arbitrary kaggTauP1*Tau_P1*AggTau [TauP1Aggregation2]
+  3*Tau_P2 -> Tau_P2 + 2*AggTau , arbitrary kaggTauP2*Tau_P2^2*0.5 [TauP2Aggregation1]
+  2*Tau_P2 + 2*AggTau -> Tau_P2 + 3*AggTau , arbitrary kaggTauP2*Tau_P2*AggTau [TauP2Aggregation2]
+  3*Tau -> Tau + 2*AggTau , arbitrary kaggTau*Tau^2*0.5 [TauAggregation1]
+  2*Tau + 2*AggTau -> Tau + 3*AggTau , arbitrary kaggTau*Tau*AggTau [TauAggregation2]
+  3*AggTau -> AggTau + 2*NFT , arbitrary ktangfor*AggTau^2*0.5 [TangleFormation1]
+  2*AggTau + 2*NFT -> AggTau + 3*NFT , arbitrary ktangfor*AggTau*NFT [TangleFormation2]
+  2*Proteasome + 2*AggTau -> Proteasome + AggTau + AggTau_Proteasome , arbitrary kinhibprot*AggTau*Proteasome [ProteasomeInhibitionAggTau]
+  2*Source -> Abeta + 2*Source , arbitrary kprodAbeta*Source [Abetaproduction1]
+  2*GSK3b_p53 -> 2*GSK3b_p53 + Abeta , arbitrary kprodAbeta2*GSK3b_p53 [Abetaproduction2]
+  2*GSK3b_p53_P -> 2*GSK3b_p53_P + Abeta , arbitrary kprodAbeta2*GSK3b_p53_P [Abetaproduction3]
+  2*Proteasome + 2*AbetaDimer -> Proteasome + AggAbeta_Proteasome + AbetaDimer , arbitrary kinhibprot*AbetaDimer*Proteasome [ProteasomeInhibitionAbeta]
+  2*Abeta + Sink -> Abeta + Sink , arbitrary kdegAbeta*Abeta [AbetaDegradation]
+  2*Abeta -> p53_mRNA + 2*Abeta , arbitrary ksynp53mRNAAbeta*Abeta [p53transcriptionViaAbeta]
+  2*IR -> 2*IR + damDNA , arbitrary kdam*IR [DNAdamage]
+  2*damDNA + Sink -> damDNA + Sink , arbitrary krepair*damDNA [DNArepair]
+  2*ATMI + 2*damDNA -> ATMA + ATMI + 2*damDNA , arbitrary kactATM*damDNA*ATMI [ATMactivation]
+  2*p53 + 2*ATMA -> p53 + 2*ATMA + p53_P , arbitrary kphosp53*p53*ATMA [p53phosphorylation]
+  2*p53_P -> p53 + p53_P , arbitrary kdephosp53*p53_P [p53dephosphorylation]
+  2*Mdm2 + 2*ATMA -> Mdm2 + 2*ATMA + Mdm2_P , arbitrary kphosMdm2*Mdm2*ATMA [Mdm2phosphorylation]
+  2*Mdm2_P -> Mdm2 + Mdm2_P , arbitrary kdephosMdm2*Mdm2_P [Mdm2dephosphorylation]
+  2*Mdm2_P + 2*E2_Ub -> Mdm2_P + E2 + E2_Ub + Mdm2_P_Ub , arbitrary kMdm2PUb*Mdm2_P*E2_Ub [Mdm2PUbiquitination]
+  2*E2_Ub + 2*Mdm2_P_Ub -> E2 + E2_Ub + Mdm2_P_Ub + Mdm2_P_Ub2 , arbitrary kMdm2PolyUb*Mdm2_P_Ub*E2_Ub [Mdm2PpolyUbiquitination1]
+  2*E2_Ub + 2*Mdm2_P_Ub2 -> E2 + E2_Ub + Mdm2_P_Ub2 + Mdm2_P_Ub3 , arbitrary kMdm2PolyUb*Mdm2_P_Ub2*E2_Ub [Mdm2PpolyUbiquitination2]
+  2*E2_Ub + 2*Mdm2_P_Ub3 -> E2 + E2_Ub + Mdm2_P_Ub3 + Mdm2_P_Ub4 , arbitrary kMdm2PolyUb*Mdm2_P_Ub3*E2_Ub [Mdm2PpolyUbiquitination3]
+  2*Mdm2DUB + 2*Mdm2_P_Ub4 -> Ub + 2*Mdm2DUB + Mdm2_P_Ub3 + Mdm2_P_Ub4 , arbitrary kactDUBMdm2*Mdm2_P_Ub4*Mdm2DUB [Mdm2PDeubiquitination4]
+  2*Mdm2DUB + 2*Mdm2_P_Ub3 -> Ub + 2*Mdm2DUB + Mdm2_P_Ub2 + Mdm2_P_Ub3 , arbitrary kactDUBMdm2*Mdm2_P_Ub3*Mdm2DUB [Mdm2PDeubiquitination3]
+  2*Mdm2DUB + 2*Mdm2_P_Ub2 -> Ub + 2*Mdm2DUB + Mdm2_P_Ub + Mdm2_P_Ub2 , arbitrary kactDUBMdm2*Mdm2_P_Ub2*Mdm2DUB [Mdm2PDeubiquitination2]
+  2*Mdm2DUB + 2*Mdm2_P_Ub -> Mdm2_P + Ub + 2*Mdm2DUB + Mdm2_P_Ub , arbitrary kactDUBMdm2*Mdm2_P_Ub*Mdm2DUB [Mdm2PDeubiquitination1]
+  2*Proteasome + 2*Mdm2_P_Ub4 -> Proteasome + Mdm2_P_Ub4 + Mdm2_P_Ub4_Proteasome , arbitrary kbinProt*Mdm2_P_Ub4*Proteasome [Mdm2PProteasomeBinding1]
+  2*Mdm2_P_Ub4_Proteasome -> Proteasome + 4*Ub + Mdm2_P_Ub4_Proteasome , arbitrary kdegMdm2*Mdm2_P_Ub4_Proteasome*kproteff [Mdm2PDegradation]
+  2*ATMA -> ATMA + ATMI , arbitrary kinactATM*ATMA [ATMInactivation]
+  2*Abeta -> ROS + 2*Abeta , arbitrary kgenROSAbeta*Abeta [AbetaROSproduction1]
+  2*AbetaPlaque -> ROS + 2*AbetaPlaque , arbitrary kgenROSPlaque*AbetaPlaque [PlaqueROSproduction]
+  2*AggAbeta_Proteasome -> ROS + 2*AggAbeta_Proteasome , arbitrary kgenROSAbeta*AggAbeta_Proteasome [AggAbetaROSproduction2]
+  2*ROS -> 2*ROS + damDNA , arbitrary kdamROS*ROS [ROSDNAdamage]
+  2*Source -> Tau + 2*Source , arbitrary ksynTau*Source [TauSynthesis]
+  2*Proteasome + 2*Tau -> Proteasome + Tau + Proteasome_Tau , arbitrary kbinTauProt*Tau*Proteasome [TauProteasomeBinding]
+  2*Proteasome_Tau -> Proteasome + Proteasome_Tau , arbitrary kdegTau20SProt*Proteasome_Tau [Tau20SProteasomeDegradation]
+  3*Abeta -> Abeta + AbetaDimer , arbitrary kaggAbeta*Abeta^2*0.5 [AbetaAggregation1]
+  3*AbetaDimer -> AbetaPlaque + AbetaDimer , arbitrary kpf*AbetaDimer^2*0.5 [AbetaPlaqueFormation1]
+  2*AbetaPlaque + 2*AbetaDimer -> 3*AbetaPlaque + AbetaDimer , arbitrary kpg*AbetaDimer*AbetaPlaque^2/(kpghalf^2+AbetaPlaque^2) [AbetaPlaqueGrowth]
+  2*AbetaDimer -> 2*Abeta + AbetaDimer , arbitrary kdisaggAbeta*AbetaDimer [AbetaDisaggregation1]
+  2*AbetaPlaque -> AbetaPlaque + AbetaDimer + disaggPlaque1 , arbitrary kdisaggAbeta1*AbetaPlaque [AbetaDisaggregation3]
+  2*AbetaPlaque + 2*antiAb -> AbetaPlaque + AbetaDimer + 2*antiAb + disaggPlaque2 , arbitrary kdisaggAbeta2*antiAb*AbetaPlaque [AbetaDisaggregation4]
+  2*Abeta + 2*antiAb -> Abeta + antiAb + Abeta_antiAb , arbitrary kbinAbantiAb*Abeta*antiAb [Abeta_antiAbBinding]
+  2*AbetaDimer + 2*antiAb -> AbetaDimer + antiAb + AbetaDimer_antiAb , arbitrary kbinAbantiAb*AbetaDimer*antiAb [AbetaDimer_antiAbBinding]
+  2*Abeta_antiAb -> antiAb + Abeta_antiAb , arbitrary 10*kdegAbeta*Abeta_antiAb [Abeta_antiAbDegredation]
+  2*AbetaDimer_antiAb -> antiAb + AbetaDimer_antiAb , arbitrary 10*kdegAbeta*AbetaDimer_antiAb [AbetaDimer_antiAbDegredation]
+  2*AbetaPlaque + 2*GliaI -> 2*AbetaPlaque + GliaI + GliaM1 , arbitrary kactglia1*GliaI*AbetaPlaque [GliaActivationStep1]
+  2*AbetaPlaque + 2*GliaM1 -> 2*AbetaPlaque + GliaM1 + GliaM2 , arbitrary kactglia1*GliaM1*AbetaPlaque [GliaActivationStep2]
+  2*GliaM2 + 2*antiAb -> GliaM2 + GliaA + 2*antiAb , arbitrary kactglia2*GliaM2*antiAb [GliaActivationStep3]
+  2*GliaA -> GliaM2 + GliaA , arbitrary kinactglia1*GliaA [GliaInactivationStep1]
+  2*GliaM2 -> GliaM1 + GliaM2 , arbitrary kinactglia2*GliaM2 [GliaInactivationStep2]
+  2*GliaM1 -> GliaI + GliaM1 , arbitrary kinactglia2*GliaM1 [GliaInactivationStep3]
+  2*AbetaPlaque + 2*GliaA -> AbetaPlaque + AbetaPlaque_GliaA + GliaA , arbitrary kbinAbetaGlia*AbetaPlaque*GliaA [AbetaBindingToGlia]
+  2*AbetaPlaque_GliaA -> AbetaPlaque + AbetaPlaque_GliaA + GliaA , arbitrary krelAbetaGlia*AbetaPlaque_GliaA [AbetaReleaseFromGlia]
+  2*AbetaPlaque_GliaA -> AbetaPlaque_GliaA + GliaA + degAbetaGlia , arbitrary kdegAbetaGlia*AbetaPlaque_GliaA [AbetaPlaqueClearanceByGlia]
+  2*AbetaPlaque_GliaA -> ROS + 2*AbetaPlaque_GliaA , arbitrary kgenROSGlia*AbetaPlaque_GliaA [ROSgenerationByGlia]
+  2*antiAb + Sink -> antiAb + Sink , arbitrary kdegAntiAb*antiAb [antiAbRemoval]
+  2*ROS + Sink -> ROS + Sink , arbitrary kremROS*ROS [ROSremoval]
+ end reactions
+
+begin views
+  GSK3b = GSK3b 
+  GliaA = GliaA
+  ROS = ROS
+  AbetaPlaque = AbetaPlaque
+end views
+simulateODE(tEnd=12, viewPlot=VIEWS)
+//Comments associated to the species
+//Sink:  
+  //This is the null species. It has been added because some reactions became with empty products after the transformations.
+
+end model
+

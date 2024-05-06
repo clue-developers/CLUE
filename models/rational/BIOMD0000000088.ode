@@ -1,0 +1,450 @@
+begin model BIOMD0000000088
+ begin init
+  s2 ( "thrombin" ) 
+  s174 ( "thrombin_R" ) 
+  s130 = 0.42 ( "pro_thrombinR" ) 
+  s4 ( "thrombin_ligand" ) 
+  s57 ( "thrombinR active" ) 
+  s93 = 0.2 ( "RGS" ) 
+  s165 ( "Inositol" ) 
+  s183 ( "sa40_degraded" ) 
+  s55 ( "thrombinR" ) 
+  s184 ( "RGS" ) 
+  s48 = 50.0 ( "GTP" ) 
+  s187 ( "G_sub_q_endsub__alpha_.GTP" ) 
+  s50 = 5.0 ( "GDP" ) 
+  s171 = 0.008333 ( "IP3R" ) 
+  s173 ( "3IP3.IP3R" ) 
+  s98 = 0.1 ( "p115RhoGEF" ) 
+  s124 = 0.042 ( "Rho-kinase" ) 
+  s118 = 0.1 ( "RhoGAP" ) 
+  s153 ( "DAG" ) 
+  s152 = 0.3 ( "IP3" ) 
+  s213 ( "Rho_GAP" ) 
+  s214 = 0.005 ( "Rho.GTP" ) 
+  s151 = 10.0 ( "PIP2" ) 
+  s164 ( "PC" ) 
+  s231 = 0.09 ( "Rho.GDP" ) 
+  s233 ( "Rho_GEF" ) 
+  s245 ( "Rho_GEF_active" ) 
+  s252 = 0.005 ( "Rho.GTP.Rho-kinase" ) 
+  s277 = 0.3 ( "Ca_super_2_plus__endsuper_.CaM" ) 
+  s278 ( "2Ca_super_2_plus__endsuper_.CaM" ) 
+  s279 ( "3Ca_super_2_plus__endsuper_.CaM" ) 
+  s280 ( "4Ca_super_2_plus__endsuper_.CaM" ) 
+  s289 = 0.69 ( "MLCK" ) 
+  s292 = 0.05 ( "MLCK.Ca_super_2_plus__endsuper_.CaM" ) 
+  s293 ( "MLCK.2Ca_super_2_plus__endsuper_.CaM" ) 
+  s294 ( "MLCK.3Ca_super_2_plus__endsuper_.CaM" ) 
+  s295 ( "MLCK.4Ca_super_2_plus__endsuper_.CaM" ) 
+  s309 = 2.0 ( "PKC" ) 
+  s310 = 0.039823 ( "PKC active1" ) 
+  s311 ( "PKC.DAG" ) 
+  s314 = 0.68193 ( "PKC active_2" ) 
+  s324 ( "PKC active_3" ) 
+  s329 ( "csa39_degraded" ) 
+  s330 ( "csa36_degraded" ) 
+  s331 ( "csa35_degraded" ) 
+  s332 ( "PKC active_1.CPI" ) 
+  s335 ( "PKC active_2.CPI" ) 
+  s338 ( "PKC active_3.CPI" ) 
+  s352 ( "CPI-17.MYPT1_PPase" ) 
+  s355 ( "CPI-17.MYPT1_PPase" ) 
+  s349 = 0.059 ( "CPI-17" ) 
+  s360 = 0.1 ( "MLC" ) 
+  s358 = 4.3 ( "MLC" ) 
+  s361 ( "Rho-kinase.MLC" ) 
+  s362 ( "Rho-kinase.MLC" ) 
+  s350 ( "CPI-17" ) 
+  s135 = 0.0833 ( "Ca_super_2_plus__endsuper_" ) 
+  s276 = 19.65 ( "CaM" ) 
+  s172 = 155.0 ( "Ca_super_2_plus__endsuper_ store" ) 
+  s410 ( "G_beta__gamma__1" ) 
+  s421 ( "G_beta__gamma__2" ) 
+  s424 = 0.57 ( "PLC_beta_" ) 
+  s430 = 0.5 ( "Ca_super_2_plus__endsuper_ trunsp" ) 
+  s432 = 0.1 ( "Ca_super_2_plus__endsuper_ pump" ) 
+  s435 ( "G_sub_12_endsub__alpha__beta__gamma__thrombinR active" ) 
+  s436 ( "p115RhoGEF.GTP_alpha_" ) 
+  s437 = 0.5 ( "G_sub_12_endsub__alpha__beta__gamma_" ) 
+  s438 ( "G_sub_12_endsub__alpha_.GDP" ) 
+  s439 ( "G_sub_12_endsub__alpha_.GTP" ) 
+  s440 ( "G_sub_q_endsub__alpha_.GDP" ) 
+  s441 ( "G_sub_q_endsub__alpha__beta__gamma__thrombinR active" ) 
+  s442 = 0.5 ( "G_sub_q_endsub__alpha__beta__gamma_" ) 
+  s443 ( "PLC_beta_.G_sub_q_endsub__alpha_.GTP" ) 
+  s444 ( "2Ca_super_2_plus__endsuper_ .Ca_super_2_plus__endsuper_ trunsp" ) 
+  s446 ( "Ca_super_2_plus__endsuper_  pump.Ca_super_2_plus__endsuper_" ) 
+  s449 ( "Rho.GTP.Rho-kinase.MLC" ) 
+  s456 ( "Rho.GTP.Rho-kinase.MLC" ) 
+  s359 = 0.6 ( "MLC" ) 
+  s463 ( "MYPT1.Rho-kinase" ) 
+  s467 ( "MYPT1.MLC" ) 
+  s470 ( "MYPT1.MLC" ) 
+  s477 ( "MYPT1.MLC" ) 
+  s480 ( "MYPT1.MLC" ) 
+  s491 ( "MLCK.MLC" ) 
+  s487 ( "MLCK.MLC" ) 
+  s496 ( "MYPT1.Rho-kinase" ) 
+  s506 ( "MLCK.4Ca_super_2_plus__endsuper_.CaM.MLC" ) 
+  s512 ( "MLCK.3Ca_super_2_plus__endsuper_.CaM.MLC" ) 
+  s513 ( "MLCK.4Ca_super_2_plus__endsuper_.CaM.MLC" ) 
+  s520 ( "MLCK.3Ca_super_2_plus__endsuper_.CaM.MLC" ) 
+  s526 ( "MLCK.2Ca_super_2_plus__endsuper_.CaM.MLC" ) 
+  s539 ( "MLCK.2Ca_super_2_plus__endsuper_.CaM.MLC" ) 
+  s546 ( "MLCK.Ca_super_2_plus__endsuper_.CaM.MLC" ) 
+  s551 ( "MLCK.Ca_super_2_plus__endsuper_.CaM.MLC" ) 
+  s556 = 0.00833 ( "Ca_super_2_plus__endsuper_ ext leak" ) 
+  s267 = 4000.0 ( "Ca_super_2_plus__endsuper_ ext" ) 
+  s557 = 0.001 ( "Ca_super_2_plus__endsuper_ int leak" ) 
+  s564 ( "PLC_beta_.G_sub_q_endsub__alpha_.GTP.Ca_super_2_plus__endsuper_" ) 
+  s565 ( "PKC.Ca_super_2_plus__endsuper_.DAG" ) 
+  s566 = 0.094 ( "PKC.Ca_super_2_plus__endsuper_" ) 
+  s567 ( "PLC_beta_.G_sub_q_endsub_.GTP.Ca.PIP2" ) 
+  s568 = 0.08 ( "PLC_beta_.Ca.PIP2" ) 
+  s569 = 0.15 ( "PLC_beta_.Ca_super_2_plus__endsuper_" ) 
+  s351 = 0.7 ( "MYPT1_PPase" ) 
+  s570 = 0.4941 ( "MYPT1_PPase" ) 
+ end init
+ begin reactions
+  s2 + s130 -> s174 , arbitrary 1*((1+4)*15*s130*s2/5-15*4*s174) [re1]
+  s48 + s435 -> s55 + s50 + s410 + s439 , arbitrary 1*0.01*s48*s435 [re12]
+  s55 -> s183 , arbitrary 1*0.00224*s55 [re14]
+  s57 + s442 -> s441 , arbitrary 1*(1*s442*s57-0.006*s441) [re15]
+  s48 + s441 -> s55 + s187 + s50 + s421 , arbitrary 1*0.01*s48*s441 [re16]
+  s439 -> s438 , arbitrary 1*0.0133*s439 [re17]
+  s410 + s438 -> s437 , arbitrary 1*0.01*s410*s438 [re19]
+  s93 + s187 -> s184 , arbitrary 1*((1+23.51)*0.0102*s187*s93/0.05-23.51*0.0102*s184) [re20]
+  s421 + s440 -> s442 , arbitrary 1*0.01*s421*s440 [re22]
+  s98 + s439 -> s436 , arbitrary 1*(20*s439*s98-0.1*s436) [re23]
+  s231 + s436 -> s214 + s436 , arbitrary 1*0.052*s231*s436/(0.015+s214) [re24]
+  s98 + s231 -> s233 , arbitrary 1*((1+4)*0.04*s98*s231/2-0.04*4*s233) [re26]
+  s118 + s214 -> s213 , arbitrary 1*((1+13.246)*0.993*s118*s214/2.83-0.993*13.246*s213) [re28]
+  s233 -> s98 + s214 , arbitrary 1*0.04*s233 [re32]
+  s213 -> s118 + s231 , arbitrary 1*0.9933*s213 [re33]
+  s184 -> s93 + s440 , arbitrary 1*0.0102*s184 [re34]
+  s436 -> s98 + s438 , arbitrary 1*0.0117*s436 [re37]
+  s214 -> s231 , arbitrary 1*0.0003667*s214 [re38]
+  s124 + s214 -> s252 , arbitrary 1*(10*s124*s214-0.5*s252) [re39]
+  s174 -> s2 + s4 + s57 , arbitrary 1*15*s174 [re40]
+  s57 + s437 -> s435 , arbitrary 1*(1*s437*s57-0.006*s435) [re43]
+  s187 -> s440 , arbitrary 1*0.0133*s187 [re44]
+  s57 -> s183 , arbitrary 1*0.00224*s57 [re45]
+  s187 + s569 -> s564 , arbitrary 1*(25.201*s187*s569-1*s564) [re47]
+  s187 + s424 -> s443 , arbitrary 1*(2.5201*s424*s187-1*s443) [re48]
+  s135 + s443 -> s564 , arbitrary 1*(30*s135*s443-1*s564) [re51]
+  s135 + s424 -> s569 , arbitrary 1*(3*s424*s135-1*s569) [re52]
+  s564 -> s440 + s569 , arbitrary 1*0.0133*s564 [re54]
+  s151 + s569 -> s568 , arbitrary 1*((1+4)*10*s569*s151/19.841-4*10*s568) [re55]
+  s151 + s564 -> s567 , arbitrary 1*((1+4)*48*s564*s151/5-4*48*s567) [re56]
+  s568 -> s153 + s152 + s569 , arbitrary 1*10*s568 [re57]
+  s567 -> s153 + s152 + s564 , arbitrary 1*48*s567 [re58]
+  s153 -> s164 , arbitrary 1*0.15*s153 [re59]
+  s152 -> s165 , arbitrary 1*2.5*s152 [re60]
+  s171 + 3*s152 -> s173 , arbitrary 1*(0.1*s152*s152*s152*s171-10*s173) [re68]
+  s173 + s172 -> s173 + s135 , arbitrary 1*150*s173*(s172-s135) [re73]
+  s444 -> 2*s172 + s430 , arbitrary 1*1*s444 [re85]
+  s135 + s276 -> s277 , arbitrary 1*(10*s276*s135-50*s277) [re86]
+  s277 + s135 -> s278 , arbitrary 1*(10*s277*s135-45*s278) [re87]
+  s279 + s135 -> s280 , arbitrary 1*(10*s279*s135-500*s280) [re88]
+  s278 + s135 -> s279 , arbitrary 1*(10*s278*s135-170*s279) [re89]
+  s280 + s289 -> s295 , arbitrary 1*(10*s280*s289-0.01*s295) [re90]
+  s279 + s289 -> s294 , arbitrary 1*(10*s279*s289-0.01*s294) [re91]
+  s278 + s289 -> s293 , arbitrary 1*(0.1*s278*s289-0.45*s293) [re92]
+  s277 + s289 -> s292 , arbitrary 1*(0.1*s277*s289-0.5*s292) [re93]
+  s309 -> s310 , arbitrary 1*(1*s309-50*s310) [re94]
+  s153 + s309 -> s311 , arbitrary 1*(0.0003*s309*s153-0.1*s311) [re95]
+  s566 -> s314 , arbitrary 1*(1.2705*s566-3.5026*s314) [re96]
+  s309 + s135 -> s566 , arbitrary 1*(0.3*s309*s135-0.5*s566) [re97]
+  s446 + s267 -> s432 + s267 , arbitrary 1*4.9*s446 [re98]
+  2*s135 + s430 -> s444 , arbitrary 1*(30*s135*s135*s430-3*s444) [re100]
+  s153 + s566 -> s565 , arbitrary 1*(0.004*s566*s153-8.6348*s565) [re101]
+  s565 -> s324 , arbitrary 1*(1*s565-0.1*s324) [re102]
+  s324 -> s329 , arbitrary 1*(4.63E-5)*s324 [re106]
+  s314 -> s330 , arbitrary 1*(4.63E-5)*s314 [re107]
+  s310 -> s331 , arbitrary 1*(4.63E-5)*s310 [re108]
+  s135 + s432 -> s446 , arbitrary 1*((1+4)*4.9*s432*s135/0.04-4.9*4*s446) [re109]
+  s324 + s349 -> s338 , arbitrary 1*((1+4)*3.94*s324*s349/0.0014-3.94*4*s338) [re110]
+  s314 + s349 -> s335 , arbitrary 1*((1+4)*3.94*s314*s349/0.0014-4*3.94*s335) [re111]
+  s310 + s349 -> s332 , arbitrary 1*((1+4)*3.94*s310*s349/0.0014-3.94*4*s332) [re112]
+  s338 -> s324 + s350 , arbitrary 1*3.94*s338 [re113]
+  s335 -> s314 + s350 , arbitrary 1*3.94*s335 [re114]
+  s332 -> s310 + s350 , arbitrary 1*3.94*s332 [re115]
+  s350 -> s349 , arbitrary 1*0.5*s350 [re116]
+  s350 + s351 -> s352 , arbitrary 1*(100*s351*s350-0.62*s352) [re117]
+  s349 + s351 -> s355 , arbitrary 1*(0.01*s351*s349-0.1*s355) [re118]
+  s352 -> s355 , arbitrary 1*0.5*s352 [re119]
+  s124 + s358 -> s361 , arbitrary 1*((1+16.617)*1.28*s124*s358/4.5099-1.28*16.617*s361) [re120]
+  s124 + s359 -> s362 , arbitrary 1*((1+16.617)*1.28*s124*s359/4.5099-1.28*16.617*s362) [re121]
+  s361 -> s124 + s359 , arbitrary 1*1.28*s361 [re123]
+  s362 -> s124 + s360 , arbitrary 1*1.28*s362 [re124]
+  s252 + s358 -> s456 , arbitrary 1*((1+0.4261)*8.66*s252*s358/2.47-8.66*0.4261*s456) [re125]
+  s252 + s359 -> s449 , arbitrary 1*((1+0.4261)*8.66*s252*s359/2.47-8.66*0.4261*s449) [re126]
+  s456 -> s252 + s359 , arbitrary 1*8.66*s456 [re127]
+  s449 -> s252 + s360 , arbitrary 1*8.66*s449 [re128]
+  s124 + s351 -> s463 , arbitrary 1*((1+0.23288)*1.46*s124*s351/0.18-1.46*0.23288*s463) [re129]
+  s463 -> s124 + s570 , arbitrary 1*1.46*s463 [re130]
+  s252 + s351 -> s496 , arbitrary 1*((1+0.028278)*17.505*s252*s351/0.1-17.505*0.028278*s496) [re131]
+  s496 -> s252 + s570 , arbitrary 1*17.505*s496 [re132]
+  s360 + s570 -> s467 , arbitrary 1*((1+28.795)*1.95*s360*s570/58.099-1.95*28.795*s467) [re133]
+  s360 + s351 -> s470 , arbitrary 1*((1+7.5865)*9.317*s360*s351/16-9.317*7.5865*s470) [re134]
+  s359 + s570 -> s477 , arbitrary 1*((1+28.795)*1.95*s359*s570/58.099-1.95*28.795*s477) [re135]
+  s359 + s351 -> s480 , arbitrary 1*((1+7.5865)*9.317*s351*s359/16-9.317*7.5865*s480) [re136]
+  s467 -> s359 + s570 , arbitrary 1*1.95*s467 [re137]
+  s470 -> s359 + s351 , arbitrary 1*9.317*s470 [re138]
+  s477 -> s358 + s570 , arbitrary 1*1.95*s477 [re139]
+  s480 -> s358 + s351 , arbitrary 1*9.317*s480 [re140]
+  s570 -> s351 , arbitrary 1*0.2*s570 [re141]
+  s289 + s358 -> s487 , arbitrary 1*((1+39.349)*3.67*s289*s358/148.08-3.67*39.349*s487) [re154]
+  s289 + s359 -> s491 , arbitrary 1*((1+39.349)*3.67*s289*s359/148.08-3.67*39.349*s491) [re155]
+  s487 -> s289 + s359 , arbitrary 1*3.67*s487 [re156]
+  s491 -> s289 + s360 , arbitrary 1*3.67*s491 [re157]
+  s292 + s358 -> s551 , arbitrary 1*((1+1.7299)*3.67*s292*s358/10.019-3.67*1.7299*s551) [re158]
+  s293 + s358 -> s539 , arbitrary 1*((1+1.7299)*3.67*s293*s358/10.019-3.67*1.7299*s539) [re159]
+  s294 + s358 -> s520 , arbitrary 1*((1+1.7299)*3.67*s294*s358/10.019-3.67*1.7299*s520) [re160]
+  s295 + s358 -> s513 , arbitrary 1*((1+1.7299)*3.67*s295*s358/10.019-3.67*1.7299*s513) [re161]
+  s292 + s359 -> s546 , arbitrary 1*((1+1.7299)*3.67*s292*s359/10.019-3.67*1.7299*s546) [re162]
+  s293 + s359 -> s526 , arbitrary 1*((1+1.7299)*3.67*s293*s359/10.019-3.67*1.7299*s526) [re163]
+  s294 + s359 -> s512 , arbitrary 1*((1+1.7299)*3.67*s294*s359/10.019-3.67*1.7299*s512) [re164]
+  s295 + s359 -> s506 , arbitrary 1*((1+1.7299)*3.67*s295*s359/10.019-3.67*1.7299*s506) [re165]
+  s506 -> s295 + s360 , arbitrary 1*3.67*s506 [re166]
+  s513 -> s295 + s359 , arbitrary 1*3.67*s513 [re167]
+  s512 -> s294 + s360 , arbitrary 1*3.67*s512 [re168]
+  s520 -> s294 + s359 , arbitrary 1*3.67*s520 [re169]
+  s526 -> s293 + s360 , arbitrary 1*3.67*s526 [re170]
+  s539 -> s293 + s359 , arbitrary 1*3.67*s539 [re171]
+  s546 -> s292 + s360 , arbitrary 1*3.67*s546 [re172]
+  s551 -> s292 + s359 , arbitrary 1*3.67*s551 [re173]
+  s556 + s267 -> s135 + s556 + s267 , arbitrary 1*0.01*s556*(s267-s135) [re174]
+  s172 + s557 -> s135 + s557 , arbitrary 1*0.01*s557*(s172-s135) [re175]
+ end reactions
+ begin views
+  Rho-kinase = s124 
+  MYPT1.Rho-kinase= s496 
+ end views
+ simulateODE(tEnd=100, viewPlot=VIEWS)
+
+//Comments associated to the reactions
+//re1:  
+  //A2-1.1
+//re12:  
+  //A1-2
+//re14:  
+  //A1-5.1
+//re15:  
+  //A1-3
+//re16:  
+  //A1-4
+//re17:  
+  //A1-6
+//re19:  
+  //A1-7
+//re20:  
+  //A2-2.1
+//re22:  
+  //A1-9
+//re23:  
+  //B1-1
+//re24:  
+  //B2-1.1
+//re26:  
+  //B2-2.1
+//re28:  
+  //B2-3.1
+//re32:  
+  //B2-1.2
+//re33:  
+  //B2-3.2
+//re34:  
+  //A2-2.2
+//re37:  
+  //B1-2
+//re38:  
+  //B1-3
+//re39:  
+  //B1-4
+//re40:  
+  //A2-1.2
+//re43:  
+  //A1-1
+//re44:  
+  //A1-8
+//re45:  
+  //A1-5.2
+//re47:  
+  //C1-2
+//re48:  
+  //C1-3
+//re51:  
+  //C1-4
+//re52:  
+  //C1-1
+//re54:  
+  //C1-5
+//re55:  
+  //C2-1.1
+//re56:  
+  //C2-2.1
+//re57:  
+  //C2-1.2
+//re58:  
+  //C2-2.2
+//re59:  
+  //C1-6
+//re60:  
+  //C1-7
+//re68:  
+  //C1-8
+//re73:  
+  //D3-1
+//re85:  
+  //D1-2
+//re86:  
+  //D1-3
+//re87:  
+  //D1-4
+//re88:  
+  //D1-6
+//re89:  
+  //D1-5
+//re90:  
+  //D1-10
+//re91:  
+  //D1-9
+//re92:  
+  //D1-8
+//re93:  
+  //D1-7
+//re94:  
+  //E1-1
+//re95:  
+  //E1-3
+//re96:  
+  //E1-5
+//re97:  
+  //E1-4
+//re98:  
+  //D2-1.2
+//re100:  
+  //D1-1
+//re101:  
+  //E1-7
+//re102:  
+  //E1-8
+//re106:  
+  //E1-9
+//re107:  
+  //E1-6
+//re108:  
+  //E1-2
+//re109:  
+  //D2-1.1
+//re110:  
+  //E2-1.1.3
+//re111:  
+  //E2-1.1.2
+//re112:  
+  //E2-1.1.1
+//re113:  
+  //E2-1.2.3
+//re114:  
+  //E2-1.2.2
+//re115:  
+  //E2-1.2.1
+//re116:  
+  //E1-10
+//re117:  
+  //E1-11
+//re118:  
+  //E1-12
+//re119:  
+  //E1-13
+//re120:  
+  //F2-1.1
+//re121:  
+  //F2-2.1
+//re123:  
+  //F2-1.2
+//re124:  
+  //F2-2.2
+//re125:  
+  //F2-3.1
+//re126:  
+  //F2-4.1
+//re127:  
+  //F2-3.2
+//re128:  
+  //F2-4.2
+//re129:  
+  //F2-14.1
+//re130:  
+  //F2-14.2
+//re131:  
+  //F2-13.1
+//re132:  
+  //F2-13.2
+//re133:  
+  //F2-11.1
+//re134:  
+  //F2-9.1
+//re135:  
+  //F2-12.1
+//re136:  
+  //F2-10.1
+//re137:  
+  //F2-11.2
+//re138:  
+  //F2-9.2
+//re139:  
+  //F2-12.2
+//re140:  
+  //F2-10.2
+//re141:  
+  //F1-1
+//re154:  
+  //F2-7.1
+//re155:  
+  //F2-8.1
+//re156:  
+  //F2-7.2
+//re157:  
+  //F2-8.2
+//re158:  
+  //F2-5.1.1
+//re159:  
+  //F2-5.2.1
+//re160:  
+  //F2-5.3.1
+//re161:  
+  //F2-5.4.1
+//re162:  
+  //F2-6.1.1
+//re163:  
+  //F2-6.2.1
+//re164:  
+  //F2-6.3.1
+//re165:  
+  //F2-6.4.1
+//re166:  
+  //F2-6.4.2
+//re167:  
+  //F2-5.4.2
+//re168:  
+  //F2-6.3.2
+//re169:  
+  //F2-5.3.2
+//re170:  
+  //F2-6.2.2
+//re171:  
+  //F2-5.2.2
+//re172:  
+  //F2-6.1.2
+//re173:  
+  //F2-5.1.2
+//re174:  
+  //D3-3
+//re175:  
+  //D3-2
+
+end model
+

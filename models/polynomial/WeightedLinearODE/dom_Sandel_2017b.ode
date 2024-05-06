@@ -1,0 +1,57 @@
+begin model dom_Sandel_2017b_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+  S7
+  S8
+  S9
+  S10
+  S11
+  S12
+  S13
+  S14
+  S15
+  S16
+  S17
+  S18
+  S19
+  S20
+  S21
+  S22
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 1.0*S21
+  d(S1) = 1.0*S16 + 1.0*S19
+  d(S2) = 0
+  d(S3) = 1.0*S22
+  d(S4) = 1.0*S3 + 2.0*S8 + 1.0*S9 + 4.0*S19
+  d(S5) = 2.0*S12 + 3.0*S13 + 1.0*S21
+  d(S6) = 1.0*S13 + 1.0*S15
+  d(S7) = 0
+  d(S8) = 1.0*S22
+  d(S9) = 0
+  d(S10) = 0
+  d(S11) = 0
+  d(S12) = 0
+  d(S13) = 0
+  d(S14) = 0
+  d(S15) = 0
+  d(S16) = 0
+  d(S17) = 0
+  d(S18) = 0
+  d(S19) = 0
+  d(S20) = 0
+  d(S21) = 0
+  d(S22) = 0
+ end ODE
+
+end model
+

@@ -1,0 +1,29 @@
+begin model dom_Hewitt_2009a_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+  S7
+  S8
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 8.0*S1 + 3.0*S2 + 5.0*S5 + 6.0*S6 + 9.0*S7 + 11.0*S8
+  d(S1) = 7.0*S0 + 6.0*S3 + 2.0*S4 + 5.0*S5 + 43.0*S6 + 15.0*S7 + 16.0*S8
+  d(S2) = 1.0*S1 + 5.0*S5 + 8.0*S6 + 1.0*S7 + 1.0*S8
+  d(S3) = 1.0*S0 + 2.0*S1 + 3.0*S6 + 2.0*S8
+  d(S4) = 1.0*S6 + 3.0*S7 + 1.0*S8
+  d(S5) = 1.0*S1 + 4.0*S6 + 1.0*S7
+  d(S6) = 1.0*S2 + 7.0*S5 + 5.0*S7 + 3.0*S8
+  d(S7) = 7.0*S6 + 2.0*S8
+  d(S8) = 1.0*S6 + 1.0*S7
+ end ODE
+
+end model
+

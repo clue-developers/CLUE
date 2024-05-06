@@ -1,0 +1,23 @@
+begin model dom_Vervaecke_2000_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 2.0*S1 + 30.0*S2 + 6.0*S3 + 19.0*S4 + 122.0*S5
+  d(S1) = 18.0*S2 + 19.0*S4 + 85.0*S5
+  d(S2) = 1.0*S1 + 3.0*S3 + 8.0*S4 + 84.0*S5
+  d(S3) = 267.0*S4 + 50.0*S5
+  d(S4) = 5.0*S3 + 10.0*S5
+  d(S5) = 1.0*S0 + 4.0*S2 + 4.0*S3 + 1.0*S4
+ end ODE
+
+end model
+

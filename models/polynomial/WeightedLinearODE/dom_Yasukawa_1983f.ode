@@ -1,0 +1,23 @@
+begin model dom_Yasukawa_1983f_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 21.0*S1 + 7.0*S2 + 3.0*S3 + 4.0*S4 + 17.0*S5
+  d(S1) = 15.0*S2 + 11.0*S3 + 15.0*S4 + 20.0*S5
+  d(S2) = 22.0*S3 + 4.0*S4 + 23.0*S5
+  d(S3) = 2.0*S2 + 19.0*S4 + 10.0*S5
+  d(S4) = 11.0*S2 + 4.0*S3 + 7.0*S5
+  d(S5) = 3.0*S4
+ end ODE
+
+end model
+

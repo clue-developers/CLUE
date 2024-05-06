@@ -1,4 +1,9 @@
 {
+    "journal.pcbi.1003544.s006": {
+        "type": "polynomial",
+        "ref_title": "Exact Hybrid Particle/Population Simulation of Rule-Based Models of Biochemical Systems",
+        "ref_doi": "10.1371/journal.pcbi.1003544"
+    },
     "Barua": {
         "type": "polynomial",
         "ref_title": "A bipolar clamp mechanism for activation of Jak-family protein tyrosine kinases",
@@ -14,6 +19,21 @@
         "ref_title": "A computer simulation approach to assessing therapeutic intervention points for the prevention of cytokine-induced cartilage breakdown",
         "ref_doi": "10.1002/art.38297"
     },
+    "cyclin1ODE": {
+        "type": "polynomial",
+        "ref_title": "Lumpability for Uncertain Continuous-Time Markov Chains",
+        "ref_doi": "10.1007/978-3-030-85172-9_21"
+    },
+    "wgc2": {
+        "type": "polynomial",
+        "ref_title": "Lumpability for Uncertain Continuous-Time Markov Chains",
+        "ref_doi": "10.1007/978-3-030-85172-9_21"
+    },
+    "wgc3": {
+        "type": "polynomial",
+        "ref_title": "Lumpability for Uncertain Continuous-Time Markov Chains",
+        "ref_doi": "10.1007/978-3-030-85172-9_21"
+    },
     "fceri_ji": {
         "type": "polynomial",
         "ref_title": "Investigation of Early Events in FceRI-Mediated Signaling Using a Detailed Mathematical Model",
@@ -21,8 +41,7 @@
     },
     "model_example": {
         "type": "polynomial",
-        "ref_title": "model example for the tutorial of the package",
-        "ref_doi": ""
+        "ref_title": "model example for the tutorial of the package"
     },
     "MODEL1001150000": {
         "type": "polynomial",
@@ -44,6 +63,21 @@
         "ref_title": "Signaling in small subcellular volumes. II. Stochastic and diffusion effects on synaptic network properties",
         "ref_doi": "10.1529/biophysj.104.040501"
     },
+    "NIHMS80246_S4": {
+        "type": "polynomial",
+        "ref_title": "Domain-Oriented Reduction of Rule-Based Network Models",
+        "ref_doi": "10.1049/iet-syb:20070081"
+    },
+    "NIHMS80246_S6": {
+        "type": "polynomial",
+        "ref_title": "Domain-Oriented Reduction of Rule-Based Network Models",
+        "ref_doi": "10.1049/iet-syb:20070081"
+    },
+    "pcbi.1000364.s004": {
+        "type": "polynomial",
+        "ref_title": "A Bipolar Clamp Mechanism for Activation of Jak-Family Protein Tyrosine Kinases",
+        "ref_doi": "10.1371/journal.pcbi.1000364"
+    },
     "OrderedPhosphorylation": {
         "type": "polynomial",
         "ref_title": "Domain-oriented reduction of rule-based network models",
@@ -51,7 +85,6 @@
     },
     "ProteinPhosphorylation": {
         "type": "polynomial",
-        "range": "2..8",
         "ref_title": "Efficient modeling, simulation and coarse-graining of biological complexity with NFsim",
         "ref_doi": "10.1038/nmeth.1546"
     },
@@ -70,6 +103,16 @@
         "ref_title": "The statistical mechanics of complex signaling networks: nerve growth factor signaling",
         "ref_doi": "10.1088/1478-3967/1/3/006"
     },
+    "BIOMD0000000087": {
+        "type": "rational",
+        "ref_title": "Modelling the checkpoint response to telomere uncapping in budding yeast",
+        "ref_doi": "10.1098/rsif.2006.0148"
+    },
+    "BIOMD0000000088": {
+        "type": "rational",
+        "ref_title": "Ca^{2+}-independent phospholipase A2-dependent sustained Rho-kinase activation exhibits all-or-none response",
+        "ref_doi": "10.1111/j.1365-2443.2006.01001.x"
+    },
     "BIOMD0000000113": {
         "type": "rational",
         "ref_title": "Protein phosphorylation driven by intracellular calcium oscillations: A kinetic analysis",
@@ -85,10 +128,24 @@
         "ref_title": "Dynamic mathematical modeling of IL13-induced signaling in hodgkin and primary mediastinal b-cell lymphoma allows prediction of therapeutic targets",
         "ref_doi": "10.1158/0008-5472.can-10-2987"
     },
+    "BIOMD0000000437": {
+        "type": "rational",
+        "ref_title": "Comprehensive modelling of the Neurospora circadian clock and its temperature compensation",
+        "ref_doi": "10.1371/journal.pcbi.1002437"
+    },
     "BIOMD0000000448": {
         "type": "rational",
         "ref_title": "Insulin signaling in type 2 diabetes",
         "ref_doi": "10.1074/jbc.m112.432062"
+    },
+    "BIOMD0000000488": {
+        "type": "rational",
+        "ref_title": "Investigating interventions in Alzheimer's disease with computer simulation models",
+        "ref_doi": "10.1371/journal.pone.0073631"
+    },
+    "BIOMD0000000503": {
+        "type": "rational",
+        "ref_title": "Enzyme characterisation and kinetic modelling of the pentose phosphate pathway in yeast"
     },
     "BIOMD0000000526": {
         "type": "rational",
@@ -100,9 +157,6640 @@
         "ref_title": "A multiscale model of interleukin-6-mediated immune regulation in crohn's disease and its application in drug discovery and development",
         "ref_doi": "10.1038/psp.2013.64"
     },
+    "BIOMD0000000537": {
+        "type": "rational",
+        "ref_title": "A multiscale model of interleukin-6-mediated immune regulation in Crohn's disease and its application in drug discovery and development",
+        "ref_doi": "10.1038/psp.2013.64"
+    },
+    "BIOMD0000000611": {
+        "type": "rational",
+        "ref_title": "Using a Systems Pharmacology Model of the Blood Coagulation Network to Predict the Effects of Various Therapies on Biomarkers",
+        "ref_doi": "10.1002/psp4.50"
+    },
+    "BIOMD0000000634": {
+        "type": "rational",
+        "ref_title": "Investigating interventions in Alzheimer's disease with computer simulation models",
+        "ref_doi": "10.1371/journal.pone.0073631"
+    },
     "MODEL1502270000": {
         "type": "rational",
         "ref_title": "Mechanistic links between cellular trade-offs, gene expression, and growth",
         "ref_doi": "10.1073/pnas.1416533112"
+    },
+    "BioNetGen_CCP": {
+        "type": "polynomial",
+        "path": "numerical"
+    },
+    "moviegalaxies_553": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_329": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_206": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_315": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_341": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_250": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "macaques": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_728": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_809": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_739": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_398": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_McDougall_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_White_2007a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "ambassador_OPERATION_ID": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Fairbanks_1994d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_409": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_34": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_307": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_742": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_790": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Watt_1986c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Moller_1987b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_301": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_85": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_533": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Pardi_1948b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_54": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_286": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_577": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_836": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_780": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Painter_2018": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_636": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Solberg_1997b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Watts_1994b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_BergstromFedigan_2010c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_641": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_858": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Sharpe_2013c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_547": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_811": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2017f": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_361": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Ellard_1989": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_31": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_713": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_804": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_238": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_199": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_125": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_38": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_2": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_310": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_211": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_15": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_464": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_304": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_419": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_283": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_910": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_541": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_766": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_101": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_62": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_718": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_634": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_737": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "webkb_webkb_texas_link1": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_603": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_436": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Richter_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Yasukawa_1983c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Roell_1978": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_895": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_73": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_387": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_851": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_RizaldiWatanabe_2010a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_112": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Wikberg_2013b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_525": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_526": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "plant_pol_vazquez_Safariland": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_36": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Wittemeyer_2007": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_621": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Seyfarth_1976e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Nelissen_1985b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_620": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_2017e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_432": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_189": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_693": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_831": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moreno_sheep": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Trebouet_2019a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_191": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hirotani_1994": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_DeLaO_2019d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_226": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_269": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_427": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hewitt_2009a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_116": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "ambassador_2007": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_457": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Archie_2006d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Samuels_1987": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_865": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_SomersNel_1998a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_209": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2017k": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_414": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "blumenau_drug": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Tarvin_1997": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_39": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_531": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_601": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_316": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_ValLaillet_2008f": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_517": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_829": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Trebouet_2019c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_69": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Smith_2011a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Anderson_2016d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_841": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "freshmen_t2": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_712": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_368": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_474": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_402": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_1979b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_454": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_2018e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Varley_1966b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Miller_2010a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_753": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_157": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_699": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Seyfarth_1976d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_106": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Murray_2007": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_110": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_338": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_SetiaVanSchaik_2007": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Watt_1986f": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_908": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_783": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_41": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Norscia_2015i": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Bonanni_2007b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Wikberg_2013a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Poisbleau_2005c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_805": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Watts_1994a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_787": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_deWaal_1977a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_445": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_899": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_564": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_McMahan_1984": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_385": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hausfater_1975b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Masure_1934b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_551": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_888": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_144": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_756": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_881": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_738": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_167": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Wikberg_2013f": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Fairbanks_1994c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Kohda_1991": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_CluttonBrock_1976": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_678": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_132": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_746": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Yasukawa_1983h": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_720": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_775": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_83": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_839": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_534": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_912": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_606": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_242": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Bennett_1939": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_288": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_BergstromFedigan_2010b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_662": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_357": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Poisbleau_2006a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_159": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Cheney_1977b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Korstjens_2002": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_508": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Cafazzo_2010b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_136": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Douglis_1948a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_WestEberhard_1986": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_352": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_423": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_707": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "college_freshmen": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Jenks_1995a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_347": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_825": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_2018a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_774": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_311": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_893": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_369": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_510": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_854": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Holekamp_1991": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_261": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_93": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_519": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_671": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_513": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Tong_2020e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_418": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Fairbanks_1994b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_450": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_60": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_148": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_611": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_505": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_5": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_143": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_583": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Thompson_1993a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_798": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_878": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_615": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_793": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_852": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_827": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_StrayerCummins_1980d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Moller_1987c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_741": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_212": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Tong_2020j": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_880": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2016f": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_ValLaillet_2008c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_618": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_537": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Norscia_2015b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Shoemaker_1939": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_344": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_9": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_817": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Collias_1950a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "freshmen_t3": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_830": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_205": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_50": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Essler_2016d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_86": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Tong_2020b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_377": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_174": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_126": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_265": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Thompson_1993b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Harcourt_1989": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_630": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_747": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lott_1979": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Varley_1966": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_278": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "kangaroo": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_68": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_SatohOhkawara_2008c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_128": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_2017a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_465": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_314": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_458": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_ValLaillet_2008b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_192": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Russell_1970b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_28": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Parsons_1980a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Sharpe_2013a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_273": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_223": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_769": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_deVries_2006": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Ortius_1995": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Frank_1986b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_651": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_239": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Mwamende_2009b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_170": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_155": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Funkhouser_2018b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_808": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_472": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_318": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_669": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_749": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_14": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_695": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Norscia_2015h": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "freshmen_t0": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_580": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_362": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Yasukawa_1983e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Alados_1992e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_605": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_84": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2017o": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_784": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_2018d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_672": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_896": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_1979a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_184": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_843": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_SomersNel_1998c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_229": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_883": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_255": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_488": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_750": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_378": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2017i": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Farentinos_1972c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_135": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Myrberg_1972": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_498": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Mather_1985": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_515": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Setchell_2005a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_257": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_657": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_19": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_290": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_570": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_276": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_705": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_815": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_706": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_724": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "cattle": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Tong_2020c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hirsch_2007b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_272": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_628": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Collias_1951b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Ito_1993b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Ito_1993a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Sterck_1997": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hass_1991c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_661": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_435": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_696": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Bonanni_2007a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_638": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_252": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_395": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Cote_2000d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_383": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hewitt_2009c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_744": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_91": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Myrberg_1974": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_913": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_860": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "plant_pol_vazquez_Llao_Llao": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_98": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_DeLaFuente_2019": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_647": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Alados_1992b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_529": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Farentinos_1972d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_158": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_350": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Norscia_2015g": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Isbell_1998b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_185": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "ambassador_2003": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Archie_2006e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2017b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_781": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Collias_1950b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_500": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Thompson_1960e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_327": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_43": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_45": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_413": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_483": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_372": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "fao_trade": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_449": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_162": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_735": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Shimoji_2014b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_364": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_785": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Appleby_1983": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Archie_2006g": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Miller_2010b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Berman_2004a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Bonanni_2017b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Collias_1951c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_844": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_786": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_826": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_163": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Payne_2003": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Owens_1996": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_542": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hewitt_2009b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_725": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2017a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_486": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Seyfarth_1976c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_853": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_65": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hausfater_1982b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_2019b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_ValLaillet_2008d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_SatohOhkawara_2008a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_518": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Paoli_2006": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2016i": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Waterhouse_1976b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_714": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_348": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_SurbeckHohmann_2013b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_478": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_100": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_642": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_NewtonFisher_2004a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_8": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_122": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Miller_2010c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_306": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Arlet_2015f": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_875": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_2017c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_497": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_89": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_127": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_236": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_740": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_629": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_420": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_701": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_887": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Bonanni_2017c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_271": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Tong_2020h": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Stamps_1978": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_459": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_869": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_87": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_164": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_295": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "ambassador_TIE_YEAR": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Farentinos_1972a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_490": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "ambassador_TIE_EXTINGUISH": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Bonanni_2017d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Wikberg_2013c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_616": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hausfater_1975a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_White_2007b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Rovero_1999b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_200": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_528": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Bonanni_2007c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_64": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "plant_pol_vazquez_All_sites_pooled": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_montana": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_876": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_632": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_446": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_deWaal_1977b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_309": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_131": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_281": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Berman_2004b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_442": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Collias_1951a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_147": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_544": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_74": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_201": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_320": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_ValLaillet_2008a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_710": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hirsch_2007a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2019g": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_608": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Diniz_2019": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_169": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_ValLaillet_2008e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Anderson_2016a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_1": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_675": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_659": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Pardi_1948a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_227": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_595": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_904": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_430": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_410": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Norscia_2015a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Rossler_2017": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_332": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_848": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_24": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_791": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_VanDierendonck_1995": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_254": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_177": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Seyfarth_1976b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_873": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_123": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Thompson_1960c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_26": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_619": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "freshmen_t5": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Archie_2006i": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Tong_2020d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Adcock_2015b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_SchjelderupEbbe_1922b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_30": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_40": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_263": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_rhodeisland": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Rutberg_1986b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_10": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "ambassador_2000": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Tong_2020a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "highschool": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hobson_2015a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_343": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Izar_2006": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_832": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_280": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Solberg_1997c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_197": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_467": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_692": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Langbein_2004c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_130": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_516": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Solberg_1997a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_7": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_600": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_622": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_2019d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_221": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_422": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_679": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_ScottLockhard_1999a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Watts_1994c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_652": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Cote_2000c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_792": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2017d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Yasukawa_1983g": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_204": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_460": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_673": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_818": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Yasukawa_1983a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_161": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lu_2008b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Blatrix_2004d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_584": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_384": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_82": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_165": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Barette_1986": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Watt_1986d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2017n": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_HeitorVicente_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_688": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_331": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_686": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_396": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_802": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_581": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_723": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_677": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "windsurfers": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_231": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_703": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_61": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Ito_1993c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_905": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Yasukawa_1983f": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "ambassador_2005": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Fairbanks_1994e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_879": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Shimoji_2014a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_667": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Surbeck_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_565": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Dubosq2013e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_788": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2016b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Robbins_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Moore_1978a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_645": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_216": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_274": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_258": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_704": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_821": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_687": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_794": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_355": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_734": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hausfater_1982a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Cote_2000b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_779": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_727": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_468": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_StrayerCummins_1980": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_572": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_264": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_512": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_814": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Dubosq2013f": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_6": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_730": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_668": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_210": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_708": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hirsch_2007c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Tong_2020f": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_762": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_118": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_867": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Post_1992": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_587": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_SchjelderupEbbe_1922a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_906": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "ambassador_2002": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_719": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_178": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_287": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_180": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_337": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_108": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "plant_pol_vazquez_Quetrihue__nc_": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_494": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_NewtonFisher_2004b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_624": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Farentinos_1972e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "ambassador_1990_1994": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_66": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "bison": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_874": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Harcourt_1979": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_482": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2016k": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_757": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_732": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_434": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Kaufmann_1974": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_326": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_356": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_51": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Natoli_1991": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Archie_2006f": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_232": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_340": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_764": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_376": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_573": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_129": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Alados_1992a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_322": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_282": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Reason_1988": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Waterhouse_1976a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_555": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Langbein_2004d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_11": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_850": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hirsch_2007d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_586": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_648": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_650": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_401": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Watson_1970b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2019b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Slotow_1993": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_137": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Poisbleau_2006b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_800": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_109": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_548": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Koenig_2004": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Torr_1996b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_447": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_175": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_569": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_183": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_305": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_653": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_ScheinFohrman_1955": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_260": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Trebouet_2019b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Fairbanks_1994a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Samuels_1987b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_2018c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_656": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_503": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_556": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_166": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_99": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_721": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_81": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_507": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Seyfarth_1976a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Dubosq2013d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Archie_2006c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_25": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_182": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_625": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_433": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Watt_1986e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_80": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_388": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_2019a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_2017b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_471": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Jones_1980b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_635": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "ambassador_KINSHIP": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_578": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_770": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Norscia_2015d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_67": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_582": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_685": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Norscia_2015f": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_417": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_241": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_772": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_117": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "ambassador_1995_1999": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Norscia_2015j": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_438": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_190": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_455": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_872": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Prieto_1978": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hewitt_2009d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_644": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_475": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_717": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_49": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_849": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Vervaecke_2010c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_767": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Oshea_1976": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Poisbleau_2005b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Kurvers_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_193": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_358": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_88": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_771": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_235": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_466": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_334": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Matsuda_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_120": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Wikberg_2013e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_194": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Dubosq2013b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_405": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_393": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_134": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Watts_1985": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_59": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_470": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Poisbleau_2005a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_220": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Alados_1992d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Nakano_1995": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_346": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_870": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Shimoji_2014c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_902": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_549": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_539": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2019c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Trunzer_1999": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_855": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Allee_1954": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Fournier_1995": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_187": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_907": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_665": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_716": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_495": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Jones_1980a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Masure_1934": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Malherbe_2007": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_530": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_660": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_511": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_339": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_485": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_214": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_461": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_115": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_810": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_317": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_142": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Struhsaker_1967b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_47": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Silk_2019a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_222": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_33": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_224": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_VanHooffWensing_1987": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_111": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_David_2003a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_640": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_754": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_729": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_2019c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_523": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_592": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_325": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Tamm_1977": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_154": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_321": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Vervaecke_2010b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_198": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_834": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Dubosq2013a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Cheney_1977": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_782": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Norscia_2015c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_133": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_538": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_748": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_487": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Heitor_2006": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hayaki_1989a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_820": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_594": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Holekamp_1993a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_52": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Archie_2006b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_391": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_863": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_303": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_335": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_394": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_141": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Tilson_1984": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_262": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Nakano_1994": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_773": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_124": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "train_terrorists": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_195": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_251": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_23": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Isbell_1998a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_VanDessel_2018b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_889": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_208": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_535": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_562": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Essler_2016c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_97": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_682": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_609": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_103": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_481": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_247": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_323": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2017j": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_429": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2019d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_837": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_602": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_567": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_57": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2017m": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_138": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Koutnik_1981": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_591": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_607": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Langbein_2004a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_DeLaO_2019a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2017c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_234": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_768": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_173": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_560": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Mwamende_2009a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Sullivan_1982": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_102": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_532": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "ambassador_2004": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_491": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_689": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Holekamp_1993b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Rutberg_1986a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Tong_2020g": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Seibert_2001": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_666": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_575": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "foodweb_baywet": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_521": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_76": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_114": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_733": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_509": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_299": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Watt_1986a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_877": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_828": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Tamura_1988": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_812": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_David_2003b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_670": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_758": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_2018b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_244": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_92": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Vervaecke_2010a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Archie_2006a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Moore_1978b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_48": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_631": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_DeLaO_2019c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_623": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "plant_pol_vazquez_Mascardi__nc_": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "freshmen_t6": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Trebouet_2019d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Blatrix_2004b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_319": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Johnson_2017": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Sandel_2017b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_13": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_453": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_797": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_543": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_743": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2016c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_451": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_371": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Monnin_1999": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_139": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Collias_1950c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_633": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Essler_2016a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_444": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "rhesus_monkey": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Torr_1996a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Utt_2008a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2016a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_415": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2017g": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Watson_1970a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Vervaecke_2000": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_289": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Bonanni_2017a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_70": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_426": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Sharpe_2013b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "plant_pol_vazquez_Quetrihue__c_": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Adcock_2015a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_816": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_901": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_72": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2016d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_861": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_501": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_373": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_292": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Cote_2000": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_308": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_421": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_294": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_407": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "residence_hall": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hass_1991b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_700": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Jenks_1995b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Waterhouse_1976c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_643": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_302": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_389": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_469": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_VanDessel_2018a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Cafazzo_2010a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2016e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williams_1972": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_359": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_218": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_499": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_437": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Smith_1976": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Farentinos_1972f": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_146": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Torr_1996c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_862": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Fournier_1995b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_152": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Koutnik_1981b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_268": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_824": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_351": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Sandel_2017a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Correa_2013d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_300": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "ambassador_2001": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_375": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "plant_pol_vazquez_Mascardi__c_": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_324": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_2017f": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_610": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_404": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_107": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_249": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2016g": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_ScottLockhard_1999b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_892": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_412": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "game_thrones": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_777": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lahti_1994a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_151": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_593": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_835": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_366": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_527": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2017l": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_403": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_119": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_649": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Seyfarth_1976f": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Cui_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Thompson_1960d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_42": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "webkb_webkb_wisconsin_link1": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_408": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_IzawaWatanabe_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Correa_2013a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_363": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Wells_1979": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_225": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Moller_1987a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Thompson_1960b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_240": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Thompson_1960a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_2019e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_655": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_StrayerCummins_1980b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Langbein_2004b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2019a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_400": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Tong_2020i": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hartzler_1970": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_213": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_761": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "plant_pol_vazquez_Arroyo_Goye": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_296": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Rovero_1999a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_840": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_298": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2019e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_477": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_416": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_550": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_859": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Funkhouser_2018a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_313": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_691": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Blatrix_2004e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_833": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_559": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2016j": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_104": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_694": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_63": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Norscia_2015e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lee_2017d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_536": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_683": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_293": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Kolodziejczyk_2005": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_349": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_731": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Struhsaker_1967a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Patterson_1977": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_760": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_354": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Sharpe_2013d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lahti_1994b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_58": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hayaki_1989b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_884": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Blatrix_2004c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hobson_2015b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_545": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_336": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_3": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_911": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_379": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_DeLaO_2019b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_566": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2016h": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hausfater_1975c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_44": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_SatohOhkawara_2008b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_520": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_279": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_399": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_333": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_153": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_374": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_179": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_150": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_847": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Setchell_2005b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_256": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Alados_1992c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Nelissen_1985a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_17": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Yasukawa_1983d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Watt_1986b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_914": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_697": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_328": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_71": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_370": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Dubosq2013c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_806": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Masure_1934a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_664": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Hass_1991": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_765": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_443": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_186": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2017e": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_476": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Bromley_1991": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_297": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_424": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_406": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_171": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "ambassador_1985_1989": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_411": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Parsons_1980b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_803": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_745": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_715": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Berman_2004c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_819": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_857": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_558": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_176": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_891": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_32": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_217": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_698": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_751": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_885": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_579": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_253": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_21": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Frank_1986a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_801": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Wittig_2003": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Vervaecke_2010d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_SomersNel_1998b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_452": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_571": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Zine_2000": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Kikkawa_1980": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_27": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_248": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2019h": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_462": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_506": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lu_2008a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_145": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Douglis_1948b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Wikberg_2013d": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_White_2007c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_871": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_149": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_deWaal_1985": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_113": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_291": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_RizaldiWatanabe_2010b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_496": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_658": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_822": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Russell_1970a": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Farentinos_1972b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_755": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Yasukawa_1983b": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_330": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_552": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_439": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_243": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "ambassador_2006": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_599": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_484": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_hawaii": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_386": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_266": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Archie_2006h": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_456": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_246": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "plant_pol_vazquez_Cerro_Lopez": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_799": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_StrayerCummins_1980c": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_397": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2017h": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Lott_1987": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_489": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Williamson_2019f": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_846": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_22": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_524": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "dom_Marler_1955": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "moviegalaxies_637": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_newmexico": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "celegans_2019_male_gap_junction": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_massachusetts": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_georgia": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "arxiv_collab_cond_mat_1999": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "bag_of_words_nips": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "unicodelang": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "bitcoin_alpha": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_newyork": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "webkb_webkb_wisconsin_cocite": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "openflights": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "escorts": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_indiana": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_utah": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "celegans_2019_hermaphrodite_gap_junction_corrected": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_pennsylvania": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_westvirginia": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "celegans_2019_male_chemical": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_alaska": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "bag_of_words_kos": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "sp_high_school_diaries": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "webkb_webkb_texas_cocite": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "arxiv_collab_cond_mat_2005": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "celegans_2019_hermaphrodite_chemical": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "physics_collab_arXiv": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "netscience": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_idaho": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_illinois": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_northcarolina": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_ohio": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "bible_nouns": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "bitcoin_trust": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "webkb_webkb_washington_cocite": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_alabama": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "arxiv_collab_astro_ph_1999": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_michigan": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_louisiana": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_connecticut": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "celegans_2019_male_gap_junction_corrected": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "webkb_webkb_cornell_link1": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_newhampshire": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_oklahoma": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "physics_collab_pierreAuger": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_arizona": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "sp_baboons_observational": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "twitter_higgs_reply": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_missouri": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "webkb_webkb_cornell_cocite": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_vermont": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_all_200k": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_newjersey": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_male_20k": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_southcarolina": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_wyoming": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "new_zealand_collab": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_oregon": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "celegans_2019_hermaphrodite_chemical_corrected": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_texas": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "celegans_2019_hermaphrodite_gap_junction": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_male_200k": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_minnesota": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CY_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_female_1m": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "celegans_2019_male_chemical_corrected": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_colorado": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_all_20k": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_northdakota": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_kentucky": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_delaware": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "arxiv_collab_hep_th_1999": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "foldoc": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_virginia": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_tennessee": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_maryland": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LV_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_male_1m": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_mississippi": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_all_1m": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "arxiv_collab_cond_mat_2003": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "webkb_webkb_washington_link1": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_arkansas": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_EE_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_kansas": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DK_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "sp_baboons_sensor": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_nebraska": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_CZ_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_GR_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "advogato": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_washington": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BG_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_female_20k": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "packet_delays": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_southdakota": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FR_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_florida": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_maine": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_california": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PT_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NL_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_DE_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "budapest_connectome_female_200k": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_AT_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2016": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SI_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_wisconsin": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_iowa": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IE_2012": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SE_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_UK_2013": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_ES_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_BE_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "sp_office": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2011": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "london_transport": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_FI_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_LT_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_nevada": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_PL_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_HU_2015": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_IT_2008": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_NO_2010": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_SK_2014": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "eu_procurements_alt_RO_2009": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "us_agencies_aggregate": {
+        "type": "polynomial",
+        "path": "WeightedLinearODE"
+    },
+    "exportEpsCLump": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "epsclumpBNBScaff22": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "exampleUnknownScalarParameters": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "epsclumpBNG": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "epsCLump_ei": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "htreeFE": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "e5": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "epsclumpJak": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "e3FE": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "hTreeCircuit3_1": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "exampleUnknownScalarParametersRN": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "fe": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "e5FE": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "perturbedpolymers2": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "epsclumpFCeri": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "perturbedpolymers2ODE": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "SISonStarGrahFEPrep": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "AM": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "hTreeCircuit3_1RN": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "SISonStarGraph": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "journal.pcbi.1004611.s003": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "kaic": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "epsclump": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "htreeBE": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "e2FE": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "hTreeCircuit3_1RNSymmetric": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "e2": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "e3": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "loadSISonRealWorkdNetwork": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "out.ego-facebook.smb": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "perturbedpolymers3": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "epsclumpBNG2": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "kaicFE": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "e4": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "e4FE": {
+        "type": "polynomial",
+        "path": "andrea/"
+    },
+    "BIOMD0000000539": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000199": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000085": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000405": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000046": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000475": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000362": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000099": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000080": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000431": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000360": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000270": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000430": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000530": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000257": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000205": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000103": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000365": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000292": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000335": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000200": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000102": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000368": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000483": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000002": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000030": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000609": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000314": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000361": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000315": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000364": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000038": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000357": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000069": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000359": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000282": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000447": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000072": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000028": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000082": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000086": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000040": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000198": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000108": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000629": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000369": {
+        "type": "polynomial",
+        "path": "odebase/"
+    },
+    "BIOMD0000000243": {
+        "type": "polynomial",
+        "path": "odebase/"
     }
 }

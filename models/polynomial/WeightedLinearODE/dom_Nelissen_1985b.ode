@@ -1,0 +1,25 @@
+begin model dom_Nelissen_1985b_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 48.0*S1 + 50.0*S2 + 57.0*S3 + 64.0*S4 + 29.0*S5 + 18.0*S6
+  d(S1) = 27.0*S2 + 23.0*S3 + 28.0*S4 + 18.0*S5 + 35.0*S6
+  d(S2) = 1.0*S1 + 47.0*S3 + 49.0*S4 + 26.0*S5 + 23.0*S6
+  d(S3) = 1.0*S1 + 1.0*S2 + 35.0*S4 + 24.0*S5 + 37.0*S6
+  d(S4) = 1.0*S1 + 2.0*S3 + 36.0*S5 + 90.0*S6
+  d(S5) = 1.0*S4 + 33.0*S6
+  d(S6) = 0
+ end ODE
+
+end model
+

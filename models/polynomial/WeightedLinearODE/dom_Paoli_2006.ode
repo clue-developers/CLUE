@@ -1,0 +1,27 @@
+begin model dom_Paoli_2006_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+  S7
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 41.0*S1 + 22.0*S2 + 2.0*S3 + 34.0*S4 + 5.0*S5 + 6.0*S6 + 15.0*S7
+  d(S1) = 28.0*S0 + 7.0*S2 + 8.0*S4 + 2.0*S5 + 25.0*S7
+  d(S2) = 1.0*S0 + 1.0*S1 + 9.0*S3 + 6.0*S4 + 1.0*S5 + 3.0*S6 + 12.0*S7
+  d(S3) = 1.0*S0 + 1.0*S1 + 1.0*S2 + 3.0*S4 + 1.0*S5 + 1.0*S6
+  d(S4) = 4.0*S1 + 10.0*S2 + 12.0*S3 + 1.0*S5 + 3.0*S6 + 6.0*S7
+  d(S5) = 1.0*S2 + 2.0*S4 + 1.0*S6
+  d(S6) = 1.0*S1 + 15.0*S4 + 1.0*S7
+  d(S7) = 5.0*S2 + 1.0*S3 + 1.0*S4
+ end ODE
+
+end model
+

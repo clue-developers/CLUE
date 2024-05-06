@@ -1,0 +1,23 @@
+begin model dom_DeLaFuente_2019_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 84.0*S1 + 12.0*S2 + 79.0*S3 + 54.0*S4 + 94.0*S5
+  d(S1) = 11.0*S0 + 6.0*S2 + 18.0*S3 + 41.0*S4 + 13.0*S5
+  d(S2) = 6.0*S3 + 17.0*S4 + 18.0*S5
+  d(S3) = 1.0*S1 + 3.0*S2 + 51.0*S4 + 33.0*S5
+  d(S4) = 2.0*S0 + 10.0*S1 + 3.0*S2 + 15.0*S3 + 6.0*S5
+  d(S5) = 1.0*S0 + 4.0*S1 + 4.0*S2 + 6.0*S4
+ end ODE
+
+end model
+
