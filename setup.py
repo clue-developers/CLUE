@@ -13,7 +13,7 @@ def requirements():
     
 setup(
     name = "CLUE",
-    version = "1.5.3+PR3", # the VERSION file is shared with the documentation  ## readfile("VERSION").strip(),
+    version = "1.7.0", # the VERSION file is shared with the documentation  ## readfile("VERSION").strip(),
     description='Constrained LUmping for differential Equations',
     # long_description = readfile("README.txt"), # get the long description from the README
     # For a Markdown README replace the above line by the following two lines:
@@ -33,7 +33,7 @@ setup(
       'Topic :: Software Development :: Build Tools',
       'Topic :: Scientific/Engineering :: Mathematics',
       'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
-      'Programming Language :: Python :: 3.8.5',
+      'Programming Language :: Python :: 3.10',
     ], # classifiers list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
     keywords = "lumping differential system",
     packages =  ["clue"],
