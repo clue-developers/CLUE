@@ -358,7 +358,18 @@ class FODESystem:
     def ic(self):
         return self._ic
 
-    def set_ic(self, new_ic):
+    def set_ic(self, new_ic: dict | list | tuple, fill: bool = True):
+        r'''
+            Method to set the initial conditions on the system
+
+            Input:
+            
+            * ``new_ic``: new set of values for the initial conditions. We allow two formats for this input:
+              a list/tuple of values in the same order as variables appear in ``self.variables``, or a dictionary,
+              where the key is the name of the variable and the value is the new initial condition for it. 
+            * ``fill``: in the case of the dictionary input, this argument indicates whther to fill with zeros all
+              variables not appearing in the dictionary.
+        '''
         if not isinstance(new_ic, dict):
             raise TypeError("The initial conditions must be a dictionary")
         if all([key in self.species for key in new_ic.keys()]):
@@ -2091,7 +2102,7 @@ class FODESystem:
             output = [self.numerical_evaluator(i)(*x) for i in range(self.size)]
         return output
 
-    def simulate(self, t0, t1, x0, tstep=0.01, **kwds):
+    def simulate(self, t0, t1, x0, tstep=0.01, view=None, **kwds):
         r"""
         Method to simulate the dynamical system
 
@@ -2103,8 +2114,10 @@ class FODESystem:
 
         * ``t0``: starting point of the time interval.
         * ``t1``: ending point of the time interval (can be smaller than ``t0``).
-        * ``x0``: starting data (must have length ``len(self)``)
+        * ``x0``: starting data (must have length ``len(self)``). If not given, we take values (0 as default) from ``self.ic``.
         * ``tstep``: time steps where the output data will be displayed (must be positive).
+        * ``view``: list of linear combinations of variables to be filtered from the simulation. If none is given, we return the 
+          complete simulation of the system.
         * ``kwds``: other arguments to be passed to the ivp solver. See :func:`scipy.integrate.solve_ivp` for further information
 
         OUTPUT:
@@ -2135,6 +2148,9 @@ class FODESystem:
         simulation = solve_ivp(self.derivative, (t0, t1), x0, t_eval=tpoints, **kwds)
         # adding the names to the simulation
         simulation.names = self.variables
+
+        ## Create matrix from view
+        ## Apply matrix on simulation
         return simulation
 
     def _deviation(
@@ -2919,6 +2935,41 @@ class FODESystem:
             logger.setLevel(old_level)
         return self._lumped_system_type(old_system=self, dic=result)
 
+    def app_lumping(
+        self,
+        observable,
+        new_vars_name="y",
+        print_system=False,
+        print_reduction=True,
+        out_format="sympy",
+        loglevel=None,
+        initial_conditions=None,
+        method="polynomial",
+        file=sys.stdout,
+        epsilon:float = None,
+        max_size: int = None
+    ):
+        r'''
+            Method to create a numerical lumping.
+
+            Input:
+
+            * See method :func:`lumping` for the first arguments.
+            * ``epsilon``: desired numerical value for the epsilon-CLUE.
+            * ``max_size``: maximal allowed size of the reduction. If given, ``epsilon`` will not be considered.
+
+            If none of the arguments ``epsilon`` nor ``max_size`` are given, the method will return the first numerical reduction that 
+            does not coincide with the exact reduction.
+        '''
+        old_lumping_class = self.lumping_subspace_class
+        old_lumping_kwds = self.lumping_subspace_kwds
+
+        self.lumping_subspace_class = NumericalSubspace, {"epsilon": 1e-6}
+
+        ## DO SOMETHING with _lumping
+
+        self.lumping_subspace_class = old_lumping_class, old_lumping_kwds
+
     def _lumping(
         self,
         observable,
@@ -3171,6 +3222,10 @@ class LDESystem(FODESystem):
         some quantities together.
         """
         return len(self.used_old_vars) != self.size
+
+    # OBSERVABLES
+    def observe(self, observable: SparsePolynomial|SparseVector|str| (list|tuple)[SparsePolynomial|SparseVector|str]):
+        pass
 
     # TYPES OF LUMPING
     @lru_cache(maxsize=1)
