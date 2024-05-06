@@ -2674,7 +2674,7 @@ class FODESystem:
             >>> system.find_reduction_given_size(['x0'],percentage_size=0.5)
             (2, 1, 4.483372, 8.966744)
             >>> system.find_reduction_given_size(['x0'],percentage_size=0.7)
-            (3, 2, 0.089109, 0.089110)
+            (3, 2, 0.070053, 0.140105)
 
         """
         observable = self.__process_observable(observable)
