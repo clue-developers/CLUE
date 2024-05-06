@@ -2078,7 +2078,7 @@ class FODESystem:
             >>> system.derivative(..., 2,0,1)
             [5, 1, 0]
         """
-        if len(x) == 1 and isinstance(x[0], Iterable):
+        if len(x) == 1 and isinstance(x[0], Collection):
             x = x[0]
 
         if len(x) != self.size:
@@ -2140,7 +2140,7 @@ class FODESystem:
                 )
         elif isinstance(x0, Mapping):
             x0 = [x0.get(v, 0.0) for v in self.variables]
-            
+
         x0 = list(x0)  # we cast it to a list
 
         # Checking the input tstep
