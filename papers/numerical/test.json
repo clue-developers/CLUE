@@ -1,0 +1,114 @@
+{
+    "AM":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "AM",
+        "type": "analysis",
+        "observables":{
+            "vx0": [
+                "x0"
+            ]
+        }
+    },
+
+    "BIOMD634": {
+        "model":"BIOMD0000000634",
+        "read": "rational",
+        "matrix": "rational",
+        "type": "percentage_size",
+        "observables": {
+            "Tau": [
+                "Tau"
+            ]
+        },
+        "percentage_size": [
+            0.375
+        ],
+        "t1": 12,
+        "sim_method": "Radau",
+        "out_folder": "test/rational"
+    },
+
+    "BIOMD447": {
+        "model": "BIOMD0000000447",
+        "matrix": "polynomial",
+        "read": "polynomial",
+        "observables": {
+            
+            "TGFb1": [
+                "x6"
+            ]
+        },
+        "type": "percentage_size",
+        "percentage_size": [
+            0.125
+                    ],
+        "t1": 500.0,
+        "out_folder": "test/polynomial"
+    },
+    "BioNetGen_CCP":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "BioNetGen_CCP",
+        "type": "percentage_size",
+        "observables":{
+            "D13PG": [
+                "s18+s40"
+            ]   
+        },
+        "percentage_size": [
+            0.25,
+            0.875
+        ],
+        "t1": 100,
+        "out_folder": "test/polynomial"
+    },
+    "BioNetGen_CCP":{
+        "read": "polynomial",
+        "matrix": "polynomial",
+        "model": "BioNetGen_CCP",
+        "type": "analysis",
+        "observables":{
+            "D13PG": [
+                "s18+s40"
+            ]   
+        },
+        "out_folder": "test/polynomial"
+    },
+
+"BIOMD448": {
+        "read": "sympy",
+        "matrix": "auto_diff",
+        "model":"BIOMD0000000448",
+        "type": "percentage_size",
+        "observables": {
+            "S6p": [
+                "S6p"
+            ]
+        },
+        "percentage_size": [
+            0.25
+        ],
+        "t1": 1000,
+        "sim_method": "Radau",
+        "out_folder": "test/rational"
+    },
+   "BIOMD634": {
+        "model":"BIOMD0000000634",
+        "read": "rational",
+        "matrix": "rational",
+        "type": "percentage_size",
+        "observables": {
+            "Tau": [
+                "Tau"
+            ]
+        },
+        "percentage_size": [
+            0.25
+        ],
+        "t1": 12,
+        "sim_method": "BDF",
+        "out_folder": "test/rational"
+    }
+
+}

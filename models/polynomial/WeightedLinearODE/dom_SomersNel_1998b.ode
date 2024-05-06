@@ -1,0 +1,27 @@
+begin model dom_SomersNel_1998b_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+  S7
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 7.0*S1 + 8.0*S2 + 13.0*S3 + 2.0*S4 + 2.0*S5 + 1.0*S6 + 4.0*S7
+  d(S1) = 8.0*S2 + 9.0*S3 + 2.0*S4 + 2.0*S6 + 19.0*S7
+  d(S2) = 2.0*S3 + 1.0*S4 + 1.0*S5 + 4.0*S6 + 1.0*S7
+  d(S3) = 2.0*S4 + 6.0*S6 + 9.0*S7
+  d(S4) = 1.0*S3 + 1.0*S6 + 4.0*S7
+  d(S5) = 1.0*S6 + 2.0*S7
+  d(S6) = 1.0*S7
+  d(S7) = 2.0*S2 + 9.0*S3 + 4.0*S4
+ end ODE
+
+end model
+

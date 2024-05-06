@@ -75,7 +75,11 @@ begin model MODEL8262229752
   AI2_extra -> AI2_intra , AI2_trans_r
   AI2_intra -> SINK , AI2_phos_r
  end reactions
-
+ begin views
+  LuxS_mRNA = LuxS_mRNA
+  Pfs_mRNA = Pfs_mRNA
+ end views
+ simulateODE(tEnd=10)
 //Comments associated to the species
 //SINK:  
   //This is the null species. It has been added because some reactions became with empty products after the transformations.

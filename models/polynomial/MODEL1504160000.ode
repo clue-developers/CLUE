@@ -20,6 +20,10 @@ begin model MODEL1504160000
   s7
   s8
  end init
+ begin partition
+  {cd8_in_spleen, cd8_in_lung, cd8_in_mln},
+  {s6, s7, s8}
+ end partition
  begin reactions
   cd8_in_spleen -> cd8_in_spleen + cd8_in_lung , gamma_sl
   cd8_in_spleen -> cd8_in_spleen + s8 , ( -1) * (( rho_s) * (D_m))+( -1) * (-(delta_s))
@@ -31,6 +35,12 @@ begin model MODEL1504160000
   cd8_in_mln -> cd8_in_mln + s7 , ( -1) * (( rho_m) * (D_m))+( -1) * (-(delta_m))
   cd8_in_mln -> 2*cd8_in_mln , ( -1) * (gamma_ms)+-(delta_m)+( -1) * (gamma_ml)+( rho_m) * (D_m)
  end reactions
+begin views
+  cd8_in_spleen = cd8_in_spleen
+  cd8_in_lung = cd8_in_lung
+  cd8_in_mln = cd8_in_mln
+end views
 
+simulateODE(tEnd=30)
 end model
 

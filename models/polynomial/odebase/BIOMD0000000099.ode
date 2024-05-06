@@ -1,0 +1,56 @@
+begin model ODEBase 1400 (BIOMD0000000099)
+ begin parameters
+  k1 = 7/5
+  k2 = 9/10
+  k3 = 5/2
+  k4 = 3/2
+  k5 = 3/5
+  k6 = 4/5
+  k7 = 2
+  k8 = 13/10
+  k9 = 29/100
+  k10 = 1
+  k11 = 3/5
+  k12 = 31/10
+  k13 = 33
+  k14 = 9/2
+  k15 = 1
+  k16 = 1
+ end parameters
+ begin inits
+  x1 = 0
+  x2 = 1
+  x3 = 1
+  x4 = 5/2
+  x5 = 7/5
+  x6 = 3/2
+  x7 = 8/5
+ end inits
+ begin ODE
+  d(x1) = x5*k11 - x1*k12
+  d(x2) = x5*k9 - x2*x4*k10
+  d(x3) = x2*k3 - x3*k4
+  d(x4) = k7 - x4*x7*k8
+  d(x5) = x7*k1 - x5*k2
+  d(x6) = x1*k13 - x3*x6*k14
+  d(x7) = x6*k5 - x3*x7*k6
+ end ODE
+ begin views
+Ex_cAMP = x1
+In_cAMP = x2
+PKA = x3
+REGA = x4
+ACA = x5
+CAR1 = x6
+ERK2 = x7
+ end views
+simulateODE(tEnd=50,viewPlot=VIEWS)
+end model
+//Species
+//x1:species_0 Ex_cAMP
+//x2:species_1 In_cAMP
+//x3:species_2 PKA
+//x4:species_3 REGA
+//x5:species_4 ACA
+//x6:species_5 CAR1
+//x7:species_6 ERK2

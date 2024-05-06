@@ -1,0 +1,52 @@
+begin model ODEBase 1556 (BIOMD0000000361)
+ begin parameters
+  k1 = 1
+  k2 = 5
+  k3 = 770
+  k4 = 420
+  k5 = 770
+  k6 = 5
+  k7 = 27/500
+  k8 = 1/50
+  k9 = 11/25
+  k10 = 33/500
+  k11 = 9999997/10000000
+  k12 = 1699999/10000
+  k13 = 2399999/1000000
+ end parameters
+ begin inits
+  x1 = 9999997/10000000
+  x2 = 1699999/10000
+  x3 = 0
+  x4 = 0
+  x5 = 0
+  x6 = 2399999/1000000
+  x7 = 0
+  x8 = 0
+ end inits
+ begin ODE
+  d(x1) = x8*k10 + x3*k3 + x4*k5 - x1*x2*k2 - x1*x5*k6 - x1*x7*k9
+  d(x2) = x3*k3 - x1*x2*k2
+  d(x3) = -x3*k3 - x3*k4 + x1*x2*k2
+  d(x4) = x3*k4 - x4*k5 + x1*x5*k6
+  d(x5) = x4*k5 + x7*k8 - x1*x5*k6 - x5*x6*k7
+  d(x6) = x7*k8 - x5*x6*k7
+  d(x7) = x8*k10 - x7*k8 + x5*x6*k7 - x1*x7*k9
+  d(x8) = -x8*k10 + x1*x7*k9
+ end ODE
+ begin views
+Xa = x5
+X = x2
+TFPI = x6
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
+end model
+//Species
+//x1:VIIa_TF
+//x2:X
+//x3:VIIa_TF_X
+//x4:VIIa_TF_Xa
+//x5:Xa
+//x6:TFPI
+//x7:Xa_TFPI
+//x8:Xa_TFPI_VIIa_TF

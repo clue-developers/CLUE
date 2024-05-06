@@ -1,0 +1,61 @@
+begin model ODEBase 1554 (BIOMD0000000359)
+ begin parameters
+  k1 = 1
+  k2 = 5
+  k3 = 770
+  k4 = 420
+  k5 = 770
+  k6 = 5
+  k7 = 27/500
+  k8 = 1/50
+  k9 = 11/25
+  k10 = 0
+  k11 = 6
+  k12 = 1/50
+  k13 = 0
+  k14 = 0
+  k15 = 20
+  k16 = 0
+  k17 = 1
+  k18 = 170
+  k19 = 12/5
+ end parameters
+ begin inits
+  x1 = 1
+  x2 = 170
+  x3 = 0
+  x4 = 0
+  x5 = 0
+  x6 = 12/5
+  x7 = 0
+  x8 = 0
+  x9 = 0
+ end inits
+ begin ODE
+  d(x1) = x8*k10 + x3*k3 + x4*k5 - x1*x2*k2 - x1*x5*k6 - x1*x7*k9
+  d(x2) = x3*k3 + x3*x7*k15 - x2*x9*k16 - x1*x2*k2
+  d(x3) = -x3*k3 - x3*k4 + x2*x9*k16 + x1*x2*k2 - x3*x7*k15
+  d(x4) = x9*k12 + x3*k4 - x4*k5 + x1*x5*k6 - x4*x6*k11
+  d(x5) = x4*k5 + x7*k8 - x1*x5*k6 - x5*x6*k7
+  d(x6) = x9*k12 + x7*k8 - x4*x6*k11 - x5*x6*k7
+  d(x7) = x8*k10 - x7*k8 + x2*x9*k16 + x5*x6*k7 - x3*x7*k15 - x1*x7*k9
+  d(x8) = x9*k13 - x8*k10 - x8*k14 + x1*x7*k9
+  d(x9) = x8*k14 - x9*k12 - x9*k13 + x4*x6*k11 + x3*x7*k15 - x2*x9*k16
+ end ODE
+ begin views
+X = x2
+Xa = x5
+TFPI = x6
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
+end model
+//Species
+//x1:VIIa_TF
+//x2:X
+//x3:VIIa_TF_X
+//x4:VIIa_TF_Xa
+//x5:Xa
+//x6:TFPI
+//x7:Xa_TFPI
+//x8:Xa_TFPI_VIIa_TF
+//x9:VIIa_TF_Xa_TFPI

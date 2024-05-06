@@ -1,0 +1,110 @@
+begin model ODEBase 1392 (BIOMD0000000085)
+ begin parameters
+  k1 = 0
+  k2 = 0
+  k3 = 1
+  k4 = 529000
+  k5 = 419/50000000
+  k6 = 13/1000
+  k7 = 903/1000000000
+  k8 = 1/10000
+  k9 = 623/10
+  k10 = 853000
+  k11 = 117/25000
+  k12 = 132000000
+  k13 = 32/25
+  k14 = 386000
+  k15 = 51/1250
+  k16 = 64100
+  k17 = 19/20
+  k18 = 94700000
+  k19 = 227/100000
+  k20 = 13/1000
+  k21 = 111/50000000000
+  k22 = 2
+  k23 = 1470000
+  k24 = 25
+  k25 = 61/250
+  k26 = 1/10000
+  k27 = 383/100
+  k28 = 3960000000
+  k29 = 543/10000000
+  k30 = 1620000
+  k31 = 7/800
+  k32 = 6300000
+  k33 = 239/500
+  k34 = 25
+  k35 = 297/100000
+  k36 = 11/4
+  k37 = 2940
+  k38 = 0
+  k39 = 1/100000000
+  k40 = 617/1000000
+  k41 = 1217/250000
+  k42 = 1/100000
+ end parameters
+ begin inits
+  x1 = 0
+  x2
+  x3 = 0
+  x4
+  x5
+  x6 = 0
+  x7 = 0
+  x8 = 11/2500
+  x9
+  x10 = 0
+  x11 = 0
+  x12 = 0
+  x13 = 0
+  x14 = 0
+  x15 = 0
+  x16 = 0
+  x17 = 0
+ end inits
+ begin ODE
+  d(x1) = x12*k15 + x13*k17 + x16*k33 - x1*x6*k14 - x1*x7*k16 - x1*x11*k32
+  d(x2) = x6*k5 + x7*k8 - x2*x4*k4 - x2*x9*k9
+  d(x3) = x13*k26 + x15*k29 - x3*x9*k27 - x3*x5*k28
+  d(x4) = x11*k11 + x16*k31 + x6*k5 - x4*x10*k10 - x4*x15*k30 - x2*x4*k4
+  d(x5) = x11*k13 + x14*k19 + x15*k29 - x5*x6*k12 - x5*x7*k18 - x3*x5*k28
+  d(x6) = x11*k13 + x12*k15 - x6*k5 - x6*k6 + x2*x4*k4 + x7*x8*k7 - x5*x6*k12 - x1*x6*k14
+  d(x7) = x13*k17 + x14*k19 + x6*k6 - x7*k8 + x2*x9*k9 - x1*x7*k16 - x5*x7*k18 - x7*x8*k7
+  d(x8) = x11*k20 + x12*k24 + x16*k34 + x6*k6 - x8*x14*k21 - x8*x13*k25 - x8*x17*k35 - x7*x8*k7
+  d(x9) = x14*k22 + x13*k26 + x17*k36 + x7*k8 - x9*x10*k23 - x3*x9*k27 - x9*x15*k37 - x2*x9*k9
+  d(x10) = x11*k11 + x14*k22 - x4*x10*k10 - x9*x10*k23
+  d(x11) = x16*k33 - x11*k11 - x11*k13 - x11*k20 + x4*x10*k10 + x5*x6*k12 + x8*x14*k21 - x1*x11*k32
+  d(x12) = -x12*k15 - x12*k24 + x1*x6*k14 + x8*x13*k25
+  d(x13) = x12*k24 - x13*k17 - x13*k26 + x1*x7*k16 + x3*x9*k27 - x8*x13*k25
+  d(x14) = x11*k20 - x14*k19 - x14*k22 + x5*x7*k18 + x9*x10*k23 - x8*x14*k21
+  d(x15) = x16*k31 + x17*k36 - x15*k29 + x3*x5*k28 - x4*x15*k30 - x9*x15*k37
+  d(x16) = -x16*k31 - x16*k33 - x16*k34 + x4*x15*k30 + x1*x11*k32 + x8*x17*k35
+  d(x17) = x16*k34 - x17*k36 + x9*x15*k37 - x8*x17*k35
+ end ODE
+ begin views
+G = x2
+RG = x10
+GAT = x12
+GA = x3
+RGA = x15
+ end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
+end model
+//Species
+//x1:species_0 A
+//x2:species_1 G
+//x3:species_2 GA
+//x4:species_3 T
+//x5:species_4 R
+//x6:species_5 GT
+//x7:species_6 GD
+//x8:species_7 Pi
+//x9:species_8 D
+//x10:species_9 RG
+//x11:species_10 RGT
+//x12:species_11 GAT
+//x13:species_12 GAD
+//x14:species_13 RGD
+//x15:species_14 RGA
+//x16:species_15 RGAT
+//x17:species_16 RGAD

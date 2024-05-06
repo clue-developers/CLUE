@@ -1,0 +1,23 @@
+begin model dom_Miller_2010a_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 8.0*S1 + 7.0*S2 + 1.0*S3 + 13.0*S4
+  d(S1) = 2.0*S0 + 3.0*S3 + 8.0*S4 + 7.0*S5
+  d(S2) = 1.0*S0 + 2.0*S1 + 4.0*S3 + 13.0*S4 + 4.0*S5
+  d(S3) = 8.0*S4
+  d(S4) = 0
+  d(S5) = 0
+ end ODE
+
+end model
+

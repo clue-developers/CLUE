@@ -58,5 +58,12 @@ begin model BIOMD0000000526
   2*PrER_mGFP + 2*p18 -> PrER_mGFP + 2*p18 + PrER + mGFP , arbitrary kD374probe*PrER_mGFP*p18*1 [reaction_19]
  end reactions
 
+begin views
+  CD95 = CD95 
+  FADD = FADD 
+  p55free = p55free 
+  Bid = Bid
+end views
+simulateODE(tEnd=10, viewPlot=VIEWS)
 end model
 

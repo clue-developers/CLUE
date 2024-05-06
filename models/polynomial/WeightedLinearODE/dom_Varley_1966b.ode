@@ -1,0 +1,23 @@
+begin model dom_Varley_1966b_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 42.0*S1 + 21.0*S2 + 16.0*S3 + 20.0*S4 + 37.0*S5
+  d(S1) = 49.0*S2 + 24.0*S3 + 22.0*S4 + 24.0*S5
+  d(S2) = 15.0*S1 + 95.0*S3 + 31.0*S4 + 82.0*S5
+  d(S3) = 0
+  d(S4) = 4.0*S2
+  d(S5) = 5.0*S4
+ end ODE
+
+end model
+

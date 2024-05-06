@@ -1,0 +1,27 @@
+begin model dom_Parsons_1980b_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+  S7
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 18.0*S1 + 18.0*S2 + 20.0*S3 + 72.0*S4 + 31.0*S5 + 9.0*S6 + 12.0*S7
+  d(S1) = 33.0*S2 + 15.0*S3 + 64.0*S4 + 33.0*S5 + 14.0*S7
+  d(S2) = 24.0*S3 + 38.0*S4 + 10.0*S5 + 12.0*S6 + 12.0*S7
+  d(S3) = 109.0*S4 + 46.0*S5 + 47.0*S6 + 20.0*S7
+  d(S4) = 30.0*S5 + 23.0*S6 + 17.0*S7
+  d(S5) = 15.0*S6 + 14.0*S7
+  d(S6) = 38.0*S1 + 18.0*S7
+  d(S7) = 0
+ end ODE
+
+end model
+

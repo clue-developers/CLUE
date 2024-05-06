@@ -1,0 +1,29 @@
+begin model dom_Sterck_1997_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+  S7
+  S8
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 3.0*S2 + 1.0*S3 + 1.0*S4 + 1.0*S5 + 1.0*S6 + 1.0*S7 + 3.0*S8
+  d(S1) = 5.0*S2 + 1.0*S4 + 2.0*S5 + 1.0*S7
+  d(S2) = 1.0*S3 + 3.0*S4 + 1.0*S8
+  d(S3) = 2.0*S4 + 1.0*S6 + 3.0*S7 + 2.0*S8
+  d(S4) = 1.0*S6
+  d(S5) = 1.0*S8
+  d(S6) = 0
+  d(S7) = 0
+  d(S8) = 1.0*S4
+ end ODE
+
+end model
+

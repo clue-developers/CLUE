@@ -1,0 +1,23 @@
+begin model dom_Watson_1970b_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 56.0*S1 + 140.0*S2 + 24.0*S3 + 22.0*S4 + 14.0*S5
+  d(S1) = 22.0*S0 + 6.0*S2 + 10.0*S3 + 10.0*S4 + 6.0*S5
+  d(S2) = 2.0*S0 + 8.0*S1 + 4.0*S3 + 8.0*S5
+  d(S3) = 26.0*S0 + 4.0*S1 + 9.0*S2 + 8.0*S4 + 9.0*S5
+  d(S4) = 2.0*S5
+  d(S5) = 2.0*S2 + 4.0*S3 + 4.0*S4
+ end ODE
+
+end model
+

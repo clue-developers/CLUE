@@ -1,0 +1,27 @@
+begin model dom_Bonanni_2017d_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+  S7
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 21.0*S1 + 71.0*S2 + 187.0*S3 + 35.0*S4 + 7.0*S5 + 5.0*S6 + 18.0*S7
+  d(S1) = 15.0*S2 + 9.0*S3 + 8.0*S4 + 1.0*S6 + 93.0*S7
+  d(S2) = 1.0*S3 + 2.0*S4 + 1.0*S5 + 4.0*S6 + 29.0*S7
+  d(S3) = 1.0*S1 + 20.0*S4 + 4.0*S5 + 8.0*S6 + 58.0*S7
+  d(S4) = 1.0*S5 + 30.0*S6 + 7.0*S7
+  d(S5) = 1.0*S2 + 1.0*S4
+  d(S6) = 2.0*S7
+  d(S7) = 2.0*S6
+ end ODE
+
+end model
+

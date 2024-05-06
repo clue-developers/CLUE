@@ -1,0 +1,27 @@
+begin model dom_Thompson_1960e_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+  S7
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 8.0*S1 + 4.0*S2 + 5.0*S3 + 8.0*S4 + 5.0*S5 + 3.0*S6 + 3.0*S7
+  d(S1) = 15.0*S2 + 5.0*S3 + 9.0*S4 + 7.0*S5 + 4.0*S6 + 2.0*S7
+  d(S2) = 15.0*S3 + 16.0*S4 + 3.0*S6 + 4.0*S7
+  d(S3) = 9.0*S4 + 10.0*S5 + 3.0*S6 + 4.0*S7
+  d(S4) = 11.0*S5 + 3.0*S6 + 2.0*S7
+  d(S5) = 25.0*S2 + 7.0*S6 + 7.0*S7
+  d(S6) = 5.0*S7
+  d(S7) = 0
+ end ODE
+
+end model
+

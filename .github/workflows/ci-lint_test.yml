@@ -1,0 +1,53 @@
+name: CI-Actions
+
+on:
+  push:
+    branches: [ master, PR_3]
+  pull_request:
+    branches: [ master ]
+
+
+jobs:
+  # Job for lint the repository
+  linting:    
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10.14'
+      env:
+        AGENT_TOOLSDIRECTORY: /opt/hostedtoolcache
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install ".[lint]"; fi
+    - name: Format code with black
+      run: |
+        black ./clue
+    - name: Lint with pylint
+      run: |
+        pylint ./clue 
+
+  # Job for running the automatic tests
+  testing:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10.14'
+      env:
+        AGENT_TOOLSDIRECTORY: /opt/hostedtoolcache
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install ".[test]"
+        if [ -f requirements.txt ]; then pip install ".[test]"; fi
+    - name: Running doctests
+      run: |
+        python -m pytest . 

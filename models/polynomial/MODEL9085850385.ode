@@ -259,6 +259,12 @@ begin model MODEL9085850385
   Sos_slash_Sos_star_ -> Sos_slash_Sos_star_ + Sos_slash_Sos , 1.0E-15
   Sos_slash_Sos_star_ -> 2*Sos_slash_Sos_star_ , ( -1) * (1.0E-15)
  end reactions
-
+ begin views
+  MAPK_star_ = MAPK_star_
+  PKC_minus_active = PKC_minus_active
+  PKA_minus_active = PKA_minus_active
+  CaM_minus_Ca4 = CaM_minus_Ca4
+ end views
+ simulateODE(tEnd=60000)
 end model
 

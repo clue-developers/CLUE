@@ -54,6 +54,11 @@ begin model BIOMD0000000013
   PGA_ch + GAP_ch + DHAP_ch + x_Pi_cyt -> GAP_ch + Pi_ch + DHAP_ch + x_PGA_cyt ,  0.75*250*PGA_ch*1/(0.25*(1+(1+0.74/x_Pi_cyt)*(Pi_ch/0.63+PGA_ch/0.25+DHAP_ch/0.077+GAP_ch/0.075))) [E18_PGA]
   PGA_ch + GAP_ch + DHAP_ch + x_Pi_cyt -> PGA_ch + Pi_ch + DHAP_ch + x_GAP_cyt ,  250*GAP_ch*1/(0.075*(1+(1+0.74/x_Pi_cyt)*(Pi_ch/0.63+PGA_ch/0.25+DHAP_ch/0.077+GAP_ch/0.075))) [E18_GAP]
  end reactions
-
+ begin views
+  PGA_ch = PGA_ch 
+  ATP_ch = ATP_ch 
+  BPGA_ch = BPGA_ch 
+end views
+simulateODE(tEnd=100,viewPlot=VIEWS)
 end model
 

@@ -136,6 +136,15 @@ begin model BIOMD0000000448
   2*S6p -> S6 + S6p , arbitrary S6p*k9b2 [v9b2]
  end reactions
 
+begin views
+  IRip = IRip 
+  IRS1p = IRS1p 
+  PKB308p = PKB308p 
+  IRS1 = IRS1 
+  S6Kp = S6Kp 
+  S6p = S6p 
+end views
+simulateODE(tEnd=30, viewPlot=VIEWS)
 //Comments associated to the reactions
 //v1a:  
   //v1a

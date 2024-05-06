@@ -1,0 +1,27 @@
+begin model dom_Setchell_2005b_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+  S6
+  S7
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 39.0*S1 + 23.0*S2 + 27.0*S3 + 4.0*S4 + 30.0*S5 + 43.0*S6 + 24.0*S7
+  d(S1) = 10.0*S0 + 95.0*S2 + 57.0*S3 + 9.0*S4 + 29.0*S5 + 87.0*S6 + 31.0*S7
+  d(S2) = 33.0*S1 + 70.0*S3 + 1.0*S4 + 37.0*S5 + 53.0*S6 + 28.0*S7
+  d(S3) = 11.0*S1 + 1.0*S4 + 29.0*S5 + 53.0*S6 + 25.0*S7
+  d(S4) = 2.0*S5 + 2.0*S6 + 7.0*S7
+  d(S5) = 1.0*S1 + 5.0*S3 + 50.0*S6 + 21.0*S7
+  d(S6) = 1.0*S0 + 5.0*S3 + 6.0*S5 + 27.0*S7
+  d(S7) = 4.0*S4 + 2.0*S5
+ end ODE
+
+end model
+

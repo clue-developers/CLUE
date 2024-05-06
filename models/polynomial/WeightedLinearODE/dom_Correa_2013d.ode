@@ -1,0 +1,23 @@
+begin model dom_Correa_2013d_ode
+ begin init
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
+ end init
+ begin partition
+  {S0}
+ end partition
+ begin ODE
+  d(S0) = 62.0*S1 + 23.0*S2 + 34.0*S3 + 15.0*S4 + 17.0*S5
+  d(S1) = 73.0*S0 + 41.0*S2 + 60.0*S3 + 12.0*S4 + 22.0*S5
+  d(S2) = 19.0*S0 + 35.0*S1 + 38.0*S3 + 10.0*S4 + 27.0*S5
+  d(S3) = 40.0*S0 + 49.0*S1 + 28.0*S2 + 12.0*S4 + 26.0*S5
+  d(S4) = 20.0*S0 + 7.0*S1 + 9.0*S2 + 19.0*S3 + 6.0*S5
+  d(S5) = 22.0*S0 + 28.0*S1 + 19.0*S2 + 30.0*S3 + 5.0*S4
+ end ODE
+
+end model
+

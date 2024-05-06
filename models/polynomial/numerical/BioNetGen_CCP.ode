@@ -1,0 +1,412 @@
+begin model BioNetGen_CCP
+ begin parameters
+  v_R00299 = 1
+  v_R00771 = 0.7
+  v_R00756 = 0.85
+  v_R01068 = 0.85
+  v_R01015_f = 0.15
+  v_R01015_b = 1.0
+  v_R01061_f = 2.0
+  v_R01061_b = 0.25
+  v_R01512_f = 2.0
+  v_R01512_b = 0.35
+  v_R01518_f = 0.35
+  v_R01518_b = 2.0
+  v_R00658_f = 2.0
+  v_R00658_b = 0.35
+  v_R00200 = 1.27
+  v_R00345 = 0.97
+  v_R00341 = 0.66
+  v_R00210 = 1.09
+  v_R00351 = 0.89
+  v_R01324_f = 1.0
+  v_R01324_b = 0.11
+  v_R00267 = 0.89
+  v_R01197 = 0.8
+  v_R00405 = 0.8
+  v_R00412 = 0.8
+  v_R01082 = 0.8
+  v_R00342 = 0.72
+  v_R00214 = 0.07
+  v_R00835 = 0.29
+  v_R02035 = 0.29
+  v_R01528 = 0.29
+  v_R01529_f = 0.30
+  v_R01529_b = 0.20
+  v_R01056_f = 0.20
+  v_R01056_b = 0.30
+  v_R01641_f = 0.18
+  v_R01641_b = 0.09
+  v_R01827_f = 0.18
+  v_R01827_b = 0.09
+  v_R01067_f = 0.06
+  v_R01067_b = 0.12
+  v_vs_G6P = 0.01
+  v_vs_F6P = 0.01
+  v_vs_T3P = 0.01
+  v_vs_G3P = 0.1
+  v_vs_PEP = 0.06
+  v_vs_PYR = 0.26
+  v_vs_ACCOA = 0.2
+  v_vs_Ru5P = 0.04
+  v_vs_E4P = 0.03
+  v_vs_OAA = 0.14
+  v_vs_AKG = 0.1
+  v_vi_GLU_unlabeled = 1
+  v_vi_GLU_labeled = 0
+ end parameters
+ begin init
+  s0 ( "P6GL(C1~0,C2~0,C3~0,C4~0,C5~0,C6~0)" )	//SPECIES 0 
+  s1 ( "FUM(C1_2~0,C1_2~0,C3_4~0,C3_4~0)" ) 
+  s2 ( "P6GC(C1~0,C2~0,C3~0,C4~0,C5~0,C6~0)" ) 
+  s3 ( "S7P(C1~0,C2~0,C3~0,C4~0,C5~0,C6~0,C7~0)" ) 
+  s4 ( "G3P(C1~0,C2~0,C3~0)" ) 
+  s5 ( "ACCOA(C1~0,C10~0,C11~0,C12~0,C13~0,C14~0,C15~0,C16~0,C17~0,C18~0,C19~0,C2~0,C20~0,C21~0,C22~0,C23~0,C3~0,C4~0,C5~0,C6~0,C7~0,C8~0,C9~0)" ) 
+  s6 ( "CO2(C1~0)" ) 
+  s7 ( "MAL(C1~0,C2~0,C3~0,C4~0)" ) 
+  s8 ( "OAA(C1~0,C2~0,C3~0,C4~0)" ) 
+  s9 ( "F6P(C1~0,C2~0,C3~0,C4~0,C5~0,C6~0)" ) 
+  s10 ( "XU5P(C1~0,C2~0,C3~0,C4~0,C5~0)" ) 
+  s11 ( "G2P(C1~0,C2~0,C3~0)" ) 
+  s12 ( "DHAP(C1~0,C2~0,C3~0)" ) 
+  s13 ( "R5P(C1~0,C2~0,C3~0,C4~0,C5~0)" ) 
+  s14 ( "SUCCOA(C1~0,C10~0,C11~0,C12~0,C13~0,C14~0,C15~0,C16~0,C17~0,C18~0,C19~0,C2~0,C20~0,C21~0,C22~0,C23~0,C24~0,C25~0,C3~0,C4~0,C5~0,C6~0,C7~0,C8~0,C9~0)" ) 
+  s15 ( "F16P(C1~0,C2~0,C3~0,C4~0,C5~0,C6~0)" ) 
+  s16 ( "COA(C1~0,C10~0,C11~0,C12~0,C13~0,C14~0,C15~0,C16~0,C17~0,C18~0,C19~0,C2~0,C20~0,C21~0,C3~0,C4~0,C5~0,C6~0,C7~0,C8~0,C9~0)" ) 
+  s17 ( "E4P(C1~0,C2~0,C3~0,C4~0)" ) 
+  s18 ( "D13PG(C1~0,C2~0,C3~0)" ) 			//species 18
+  s19 ( "PYR(C1~0,C2~0,C3~0)" ) 
+  s20 ( "PEP(C1~0,C2~0,C3~0)" ) 
+  s21 ( "CIT(C1~0,C2~0,C3~0,C4~0,C5~0,C6~0)" ) 
+  s22 ( "SUC(C1_2~0,C1_2~0,C3_4~0,C3_4~0)" ) 
+  s23 ( "Ru5P(C1~0,C2~0,C3~0,C4~0,C5~0)" ) 
+  s24 ( "AKG(C1~0,C2~0,C3~0,C4~0,C5~0)" ) 
+  s25 ( "G6P(C1~0,C2~0,C3~0,C4~0,C5~0,C6~0)" ) 
+  s26 ( "GLU(C1~0,C2~0,C3~0,C4~0,C5~0,C6~0)" ) 
+  s27 ( "T3P(C1~0,C2~0,C3~0)" ) 
+  s28 ( "ICIT(C1~0,C2~0,C3~0,C4~0,C5~0,C6~0)" ) 
+  s29 = 1 ( "I()" ) 
+  NULL
+  s31 ( "GLU(C1~1,C2~0,C3~0,C4~0,C5~0,C6~0)" ) 
+  s32 ( "G6P(C1~1,C2~0,C3~0,C4~0,C5~0,C6~0)" ) 
+  s33 ( "F6P(C1~1,C2~0,C3~0,C4~0,C5~0,C6~0)" ) 
+  s34 ( "P6GL(C1~1,C2~0,C3~0,C4~0,C5~0,C6~0)" ) 
+  s35 ( "F16P(C1~1,C2~0,C3~0,C4~0,C5~0,C6~0)" ) 
+  s36 ( "P6GC(C1~1,C2~0,C3~0,C4~0,C5~0,C6~0)" ) 
+  s37 ( "T3P(C1~0,C2~1,C3~0)" ) 
+  s38 ( "E4P(C1~0,C2~1,C3~0,C4~0)" ) 
+  s39 ( "DHAP(C1~0,C2~1,C3~0)" ) 
+  s40 ( "D13PG(C1~1,C2~0,C3~0)" ) 
+  s41 ( "Ru5P(C1~0,C2~1,C3~0,C4~0,C5~0)" ) 
+  s42 ( "XU5P(C1~0,C2~1,C3~0,C4~0,C5~0)" ) 
+  s43 ( "S7P(C1~0,C2~1,C3~0,C4~0,C5~0,C6~0,C7~0)" ) 
+  s44 ( "G3P(C1~1,C2~0,C3~0)" ) 
+  s45 ( "R5P(C1~1,C2~0,C3~0,C4~0,C5~0)" ) 
+  s46 ( "G2P(C1~1,C2~0,C3~0)" ) 
+  s47 ( "PEP(C1~1,C2~0,C3~0)" ) 
+  s48 ( "PYR(C1~1,C2~0,C3~0)" ) 
+  s49 ( "OAA(C1~1,C2~0,C3~0,C4~0)" ) 
+  s50 ( "ACCOA(C1~1,C10~0,C11~0,C12~0,C13~0,C14~0,C15~0,C16~0,C17~0,C18~0,C19~0,C2~0,C20~0,C21~0,C22~0,C23~0,C3~0,C4~0,C5~0,C6~0,C7~0,C8~0,C9~0)" ) 
+  s51 ( "CIT(C1~1,C2~0,C3~0,C4~0,C5~0,C6~0)" ) 
+  s52 ( "CIT(C1~0,C2~1,C3~0,C4~0,C5~0,C6~0)" ) 
+  s53 ( "CIT(C1~1,C2~1,C3~0,C4~0,C5~0,C6~0)" ) 
+  s54 ( "ICIT(C1~0,C2~0,C3~0,C4~1,C5~0,C6~0)" ) 
+  s55 ( "ICIT(C1~1,C2~0,C3~0,C4~0,C5~0,C6~0)" ) 
+  s56 ( "ICIT(C1~1,C2~0,C3~0,C4~1,C5~0,C6~0)" ) 
+  s57 ( "AKG(C1~0,C2~0,C3~1,C4~0,C5~0)" ) 
+  s58 ( "AKG(C1~0,C2~1,C3~0,C4~0,C5~0)" ) 
+  s59 ( "AKG(C1~0,C2~1,C3~1,C4~0,C5~0)" ) 
+  s60 ( "SUCCOA(C1~0,C10~0,C11~0,C12~0,C13~0,C14~0,C15~0,C16~1,C17~0,C18~0,C19~0,C2~0,C20~0,C21~0,C22~0,C23~0,C24~0,C25~0,C3~0,C4~0,C5~0,C6~0,C7~0,C8~0,C9~0)" ) 
+  s61 ( "SUCCOA(C1~0,C10~0,C11~0,C12~0,C13~0,C14~0,C15~0,C16~0,C17~0,C18~0,C19~0,C2~0,C20~0,C21~0,C22~0,C23~0,C24~0,C25~0,C3~1,C4~0,C5~0,C6~0,C7~0,C8~0,C9~0)" ) 
+  s62 ( "SUCCOA(C1~0,C10~0,C11~0,C12~0,C13~0,C14~0,C15~0,C16~1,C17~0,C18~0,C19~0,C2~0,C20~0,C21~0,C22~0,C23~0,C24~0,C25~0,C3~1,C4~0,C5~0,C6~0,C7~0,C8~0,C9~0)" ) 
+  s63 ( "SUC(C1_2~0,C1_2~0,C3_4~0,C3_4~1)" ) 
+  s64 ( "SUC(C1_2~0,C1_2~1,C3_4~0,C3_4~0)" ) 
+  s65 ( "SUC(C1_2~0,C1_2~1,C3_4~0,C3_4~1)" ) 
+  s66 ( "FUM(C1_2~0,C1_2~0,C3_4~0,C3_4~1)" ) 
+  s67 ( "FUM(C1_2~0,C1_2~1,C3_4~0,C3_4~0)" ) 
+  s68 ( "FUM(C1_2~0,C1_2~1,C3_4~0,C3_4~1)" ) 
+  s69 ( "MAL(C1~0,C2~0,C3~1,C4~0)" ) 
+  s70 ( "MAL(C1~1,C2~0,C3~0,C4~0)" ) 
+  s71 ( "MAL(C1~1,C2~0,C3~1,C4~0)" ) 
+  s72 ( "OAA(C1~0,C2~0,C3~1,C4~0)" ) 
+  s73 ( "CO2(C1~1)" ) 
+  s74 ( "OAA(C1~1,C2~0,C3~1,C4~0)" ) 
+  s75 ( "CIT(C1~0,C2~0,C3~1,C4~0,C5~0,C6~0)" ) 
+  s76 ( "CIT(C1~0,C2~1,C3~1,C4~0,C5~0,C6~0)" ) 
+  s77 ( "CIT(C1~1,C2~0,C3~1,C4~0,C5~0,C6~0)" ) 
+  s78 ( "CIT(C1~1,C2~1,C3~1,C4~0,C5~0,C6~0)" ) 
+  s79 ( "ICIT(C1~0,C2~0,C3~0,C4~0,C5~0,C6~1)" ) 
+  s80 ( "ICIT(C1~1,C2~0,C3~0,C4~0,C5~0,C6~1)" ) 
+  s81 ( "ICIT(C1~0,C2~0,C3~0,C4~1,C5~0,C6~1)" ) 
+  s82 ( "ICIT(C1~1,C2~0,C3~0,C4~1,C5~0,C6~1)" ) 
+  s83 ( "AKG(C1~0,C2~0,C3~0,C4~0,C5~1)" ) 
+  s84 ( "AKG(C1~0,C2~1,C3~0,C4~0,C5~1)" ) 
+  s85 ( "AKG(C1~0,C2~0,C3~1,C4~0,C5~1)" ) 
+  s86 ( "AKG(C1~0,C2~1,C3~1,C4~0,C5~1)" ) 
+ end init
+ begin partition
+  {s34,s0},
+  {s1,s66,s67,s68},
+  {s2,s36},
+  {s3,s43},
+  {s4,s44},
+  {s50,s5},
+  {s6,s73},
+  {s69,s70,s7,s71},
+  {s49,s8,s72,s74},
+  {s33,s9},
+  {s10,s42},
+  {s11,s46},
+  {s39,s12},
+  {s13,s45},
+  {s60,s61,s14,s62},
+  {s35,s15},
+  {s16},
+  {s17,s38},
+  {s18,s40},
+  {s19,s48},
+  {s20,s47},
+  {s51,s52,s21,s53,s75,s76,s77,s78},
+  {s65,s22,s63,s64},
+  {s23,s41},
+  {s83,s84,s85,s86,s24,s57,s58,s59},
+  {s25,s32},
+  {s26,s31},
+  {s37,s27},
+  {s81,s82,s54,s55,s56,s28,s79,s80},
+  {s29,NULL}
+ end partition
+ begin reactions
+  s26 -> s25 , v_R00299
+  s25 -> s9 , v_R00771
+  s9 -> s15 , v_R00756
+  s15 -> s12 + s27 , v_R01068
+  s27 -> s12 , v_R01015_f
+  s12 -> s27 , v_R01015_b
+  s27 -> s18 , v_R01061_f
+  s18 -> s27 , v_R01061_b
+  s4 -> s18 , v_R01512_f
+  s18 -> s4 , v_R01512_b
+  s11 -> s4 , v_R01518_f
+  s4 -> s11 , v_R01518_b
+  s11 -> s20 , v_R00658_f
+  s20 -> s11 , v_R00658_b
+  s20 -> s19 , v_R00200
+  s6 + s20 -> s8 , v_R00345
+  s8 -> s6 + s20 , v_R00341
+  s16 + s19 -> s5 + s6 , v_R00210
+  s5 + s8 -> s16 + s21 , v_R00351
+  s21 -> s28 , v_R01324_f
+  s28 -> s21 , v_R01324_b
+  s28 -> s6 + s24 , v_R00267
+  s16 + s24 -> s6 + s14 , v_R01197
+  s14 -> s16 + s22 , v_R00405
+  s22 -> s1 , v_R00412
+  s1 -> s7 , v_R01082
+  s7 -> s8 , v_R00342
+  s7 -> s6 + s19 , v_R00214
+  s25 -> s0 , v_R00835
+  s0 -> s2 , v_R02035
+  s2 -> s6 + s23 , v_R01528
+  s23 -> s10 , v_R01529_f
+  s10 -> s23 , v_R01529_b
+  s13 -> s23 , v_R01056_f
+  s23 -> s13 , v_R01056_b
+  s3 + s27 -> s10 + s13 , v_R01641_f
+  s10 + s13 -> s3 + s27 , v_R01641_b
+  s3 + s27 -> s9 + s17 , v_R01827_f
+  s9 + s17 -> s3 + s27 , v_R01827_b
+  s9 + s27 -> s10 + s17 , v_R01067_f
+  s10 + s17 -> s9 + s27 , v_R01067_b
+  s25 -> NULL , v_vs_G6P
+  s9 -> NULL , v_vs_F6P
+  s27 -> NULL , v_vs_T3P
+  s4 -> NULL , v_vs_G3P
+  s20 -> NULL , v_vs_PEP
+  s19 -> NULL , v_vs_PYR
+  s5 -> NULL , v_vs_ACCOA
+  s23 -> NULL , v_vs_Ru5P
+  s17 -> NULL , v_vs_E4P
+  s8 -> NULL , v_vs_OAA
+  s24 -> NULL , v_vs_AKG
+  s29 -> s26 + s29 , v_vi_GLU_unlabeled
+  s29 -> s29 + s31 , v_vi_GLU_labeled
+  s31 -> s32 , v_R00299
+  s32 -> s33 , v_R00771
+  s32 -> s34 , v_R00835
+  s32 -> NULL , v_vs_G6P
+  s33 -> s35 , v_R00756
+  s34 -> s36 , v_R02035
+  s17 + s33 -> s3 + s37 , v_R01827_b
+  s27 + s33 -> s10 + s38 , v_R01067_f
+  s33 -> NULL , v_vs_F6P
+  s35 -> s12 + s37 , v_R01068
+  s37 -> s39 , v_R01015_f
+  s37 -> s40 , v_R01061_f
+  s36 -> s6 + s41 , v_R01528
+  s3 + s37 -> s13 + s42 , v_R01641_f
+  s3 + s37 -> s17 + s33 , v_R01827_f
+  s9 + s38 -> s27 + s43 , v_R01827_b
+  s33 + s38 -> s37 + s43 , v_R01827_b
+  s9 + s37 -> s17 + s42 , v_R01067_f
+  s33 + s37 -> s38 + s42 , v_R01067_f
+  s10 + s38 -> s27 + s33 , v_R01067_b
+  s37 -> NULL , v_vs_T3P
+  s38 -> NULL , v_vs_E4P
+  s39 -> s37 , v_R01015_b
+  s40 -> s37 , v_R01061_b
+  s40 -> s44 , v_R01512_b
+  s41 -> s42 , v_R01529_f
+  s42 -> s41 , v_R01529_b
+  s41 -> s45 , v_R01056_b
+  s27 + s43 -> s10 + s45 , v_R01641_f
+  s37 + s43 -> s42 + s45 , v_R01641_f
+  s13 + s42 -> s3 + s37 , v_R01641_b
+  s27 + s43 -> s9 + s38 , v_R01827_f
+  s37 + s43 -> s33 + s38 , v_R01827_f
+  s17 + s42 -> s9 + s37 , v_R01067_b
+  s38 + s42 -> s33 + s37 , v_R01067_b
+  s41 -> NULL , v_vs_Ru5P
+  s44 -> s40 , v_R01512_f
+  s44 -> s46 , v_R01518_b
+  s45 -> s41 , v_R01056_f
+  s10 + s45 -> s27 + s43 , v_R01641_b
+  s42 + s45 -> s37 + s43 , v_R01641_b
+  s44 -> NULL , v_vs_G3P
+  s46 -> s44 , v_R01518_f
+  s46 -> s47 , v_R00658_f
+  s47 -> s46 , v_R00658_b
+  s47 -> s48 , v_R00200
+  s6 + s47 -> s49 , v_R00345
+  s47 -> NULL , v_vs_PEP
+  s49 -> s6 + s47 , v_R00341
+  s16 + s48 -> s6 + s50 , v_R00210
+  s5 + s49 -> s16 + s51 , v_R00351
+  s48 -> NULL , v_vs_PYR
+  s49 -> NULL , v_vs_OAA
+  s8 + s50 -> s16 + s52 , v_R00351
+  s49 + s50 -> s16 + s53 , v_R00351
+  s51 -> s54 , v_R01324_f
+  s50 -> NULL , v_vs_ACCOA
+  s52 -> s55 , v_R01324_f
+  s53 -> s56 , v_R01324_f
+  s54 -> s51 , v_R01324_b
+  s54 -> s6 + s57 , v_R00267
+  s55 -> s52 , v_R01324_b
+  s56 -> s53 , v_R01324_b
+  s55 -> s6 + s58 , v_R00267
+  s56 -> s6 + s59 , v_R00267
+  s16 + s57 -> s6 + s60 , v_R01197
+  s57 -> NULL , v_vs_AKG
+  s16 + s58 -> s6 + s61 , v_R01197
+  s16 + s59 -> s6 + s62 , v_R01197
+  s60 -> s16 + s63 , v_R00405
+  s58 -> NULL , v_vs_AKG
+  s59 -> NULL , v_vs_AKG
+  s61 -> s16 + s64 , v_R00405
+  s62 -> s16 + s65 , v_R00405
+  s63 -> s66 , v_R00412
+  s64 -> s67 , v_R00412
+  s65 -> s68 , v_R00412
+  s66 -> s69 , v_R01082
+  s67 -> s70 , v_R01082
+  s68 -> s71 , v_R01082
+  s69 -> s72 , v_R00342
+  s69 -> s19 + s73 , v_R00214
+  s20 + s73 -> s72 , v_R00345
+  s47 + s73 -> s74 , v_R00345
+  s72 -> s20 + s73 , v_R00341
+  s5 + s72 -> s16 + s75 , v_R00351
+  s50 + s72 -> s16 + s76 , v_R00351
+  s70 -> s49 , v_R00342
+  s71 -> s74 , v_R00342
+  s70 -> s6 + s48 , v_R00214
+  s71 -> s48 + s73 , v_R00214
+  s72 -> NULL , v_vs_OAA
+  s74 -> s47 + s73 , v_R00341
+  s5 + s74 -> s16 + s77 , v_R00351
+  s50 + s74 -> s16 + s78 , v_R00351
+  s75 -> s79 , v_R01324_f
+  s76 -> s80 , v_R01324_f
+  s74 -> NULL , v_vs_OAA
+  s77 -> s81 , v_R01324_f
+  s78 -> s82 , v_R01324_f
+  s79 -> s75 , v_R01324_b
+  s80 -> s76 , v_R01324_b
+  s79 -> s6 + s83 , v_R00267
+  s80 -> s6 + s84 , v_R00267
+  s81 -> s77 , v_R01324_b
+  s82 -> s78 , v_R01324_b
+  s81 -> s6 + s85 , v_R00267
+  s82 -> s6 + s86 , v_R00267
+  s16 + s83 -> s14 + s73 , v_R01197
+  s16 + s84 -> s61 + s73 , v_R01197
+  s83 -> NULL , v_vs_AKG
+  s84 -> NULL , v_vs_AKG
+  s16 + s85 -> s60 + s73 , v_R01197
+  s16 + s86 -> s62 + s73 , v_R01197
+  s85 -> NULL , v_vs_AKG
+  s86 -> NULL , v_vs_AKG
+ end reactions
+ begin views
+  P6GL = s0+s34			//VIEW 1
+  FUM = s1+s66+s67+s68
+  P6GC = s2+s36
+  S7P = s3+s43
+  G3P = s4+s44
+  ACCOA = s5+s50
+  CO2 = s6+s73
+  MAL = s7+s69+s70+s71
+  OAA = s8+s49+s72+s74
+  F6P = s9+s33
+  XU5P = s10+s42
+  G2P = s11+s46
+  DHAP = s12+s39
+  R5P = s13+s45
+  SUCCOA = s14+s60+s61+s62
+  F16P = s15+s35
+  COA = s16
+  E4P = s17+s38
+  D13PG = s18+s40				//VIEW 19
+  PYR = s19+s48
+  PEP = s20+s47
+  CIT = s21+s51+s52+s53+s75+s76+s77+s78
+  SUC = s22+s63+s64+s65
+  Ru5P = s23+s41
+  AKG = s24+s57+s58+s59+s83+s84+s85+s86
+  G6P = s25+s32
+  GLU = s26+s31
+  T3P = s27+s37
+  ICIT = s28+s54+s55+s56+s79+s80+s81+s82
+ end views
+//simulateODE(tEnd=100,viewPlot=VIEWS)
+
+exportScriptsEpsCLump(
+	//The matlab script to run
+	fileOut="scripts_test/BioNetGen_CCP_D13PG.m",
+	
+	//The errors will be computed b running the model up to this time horizon
+	tEnd=100,
+	
+	//M0 can be expressed in several ways.
+	//1) Specify name of species followed by the required multiplicity. 
+	//		Each {...} represents one row in M0. If you need more rows just add {...} after a comma ({s18:1,s40:1},{s22:1,s41:1})
+	M0={s18:1,s40:1},	//1*s18+1*s40, which corresponds to view 19 (D13PG)
+	//2) Same as 1, but specify species by their position in the init block, starting counting from zero 
+	//M0={18:1,40:1},	//1*s18+1*s40, which corresponds to view 19 (D13PG)
+	//3) Automatically computes an M0 starting from the user partition: gives you a row of M0 for each block, containing the simple sum of its species
+	//M0 = USER,
+	
+	//How much error do we want to accept? The matlab script will perform 1 analysis for each value of slope_max_error (and for each drift below) and will store the results in a CSV file
+	slope_max_error from = 0.1 to = 0.5 step = 0.1, 
+
+	//How much, in percentage, do we want to perturb the original model? 
+	//	We create 1 version of the drift for each maxPercPerturb, where we perturb each parameter adding a random number in [-maxPercPertub/2,+maxPercPertub/2]
+	//	The main script performs all the experiments for each perturbed drift and will store the results in a CSV file
+	maxPercPerturb from =0 to = 20 step =5, 
+	
+	//The csv file where to store results
+	csvFile="BioNetGen_CCP_D13PG.csv",writeInnerScript=true
+)
+end model
+
