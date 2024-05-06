@@ -23,7 +23,7 @@ from scipy.integrate import solve_ivp
 from sympy import QQ, RR, lambdify, symbols, oo
 from sympy.polys.fields import FracElement
 from sympy.polys.rings import PolyElement
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 from .linalg import (
     SparseRowMatrix,
@@ -2148,13 +2148,13 @@ class FODESystem:
         
         if not isinstance(x0, (Collection, Mapping)):
             raise TypeError(f"The given initial condition is not of valid type: must be a list or a dictionary")
+        elif isinstance(x0, Mapping):
+            x0 = [x0.get(v, 0.0) for v in self.variables]
         elif isinstance(x0, Collection):
             if len(x0) != self.size:
                 raise ValueError(
                     f"The size of the input ({len(x0)}) does not coincide with the variables in the system ({self.size})"
                 )
-        elif isinstance(x0, Mapping):
-            x0 = [x0.get(v, 0.0) for v in self.variables]
 
         x0 = list(x0)  # we cast it to a list
 
@@ -2647,7 +2647,7 @@ class FODESystem:
         percentage_size: Optional[float] = None,
         max_size: Optional[int] = None,
         with_tries: bool = False,
-        threshold: float = 1e-9,
+        threshold: float = 1e-15,
         matrix_algorithm: str = "polynomial",
     ) -> tuple[int, int, float, float, int] | tuple[int, int, float, float]:
         r"""
@@ -2684,9 +2684,11 @@ class FODESystem:
                 "The arguments 'max_size' and 'percentage_size' cannot be given at the same time."
             )
         elif max_size is not None:
-            max_n = self.size 
-        else:
+            max_n = max_size 
+        elif percentage_size is not None:
             max_n = percentage_size * self.size
+        else:
+            raise ValueError(f"Either `max_size` or `percentage_size` must be given")
 
         logger.debug("[find_reduction_given_size] Building matrices for lumping")
         matrices = self.construct_matrices(matrix_algorithm)
@@ -2753,6 +2755,7 @@ class FODESystem:
                 left_eps, right_eps, right_size = left_eps, epsilon, n_epsilon
             elif n_epsilon >= max_n:
                 left_eps, right_eps, left_size = epsilon, right_eps, n_epsilon
+                break
             logger.debug(
                 f"[find_reduction_given_size] New interval search: [{left_eps},{right_eps}]"
             )
@@ -2987,7 +2990,7 @@ class FODESystem:
         observable,
         new_vars_name="y",
         print_system=False,
-        print_reduction=True,
+        print_reduction=False,
         out_format="sympy",
         loglevel=None,
         initial_conditions=None,
@@ -3012,9 +3015,6 @@ class FODESystem:
         #######################################################################################
         ### PREPROCESSING
         #######################################################################################
-        # if epsilon is not None and max_size is not None:
-            # raise ValueError("Either epsilon or max_size should be given")
-
         ## Setting the logger level active
         if loglevel != None:
             old_level = logger.getEffectiveLevel()
@@ -3039,12 +3039,12 @@ class FODESystem:
 
         # Computing numerical subspace
         if epsilon is not None and max_size is not None:
-            raise ValueError("Either epsilon or max_size should be given")
+            raise ValueError("Arguments `epsilon` and `max_size` cannot be given at the same time")
 
 
         if max_size is not None:
-            _,_,_,epsilon = self.find_reduction_given_size(observable, allowed_size=max_size, matrix_algorithm=method)
-        else:
+            _,_,_,epsilon = self.find_reduction_given_size(observable, max_size=max_size, matrix_algorithm=method)
+        elif epsilon is None:
             _,_,_,epsilon = self.find_next_reduction(observable, matrix_algorithm=method)
 
         self.lumping_subspace_class = NumericalSubspace, {"delta": epsilon}
@@ -3397,7 +3397,7 @@ class LDESystem(FODESystem):
             When a list/tuple is provided, the putput is again a tuple.
         '''
         ## We handle the list/tuple case separately
-        if isinstance(observable, Collection):
+        if isinstance(observable, (list,tuple)):
             return tuple(self.observe(obs) for obs in observable)
         
         ## If we receive a string, we convert it to a SparsePolynomial in the old system
@@ -3410,7 +3410,7 @@ class LDESystem(FODESystem):
             observable = observable.linear_part_as_vec()
         ## If we receive a SparseVector, we check its dimension
         if isinstance(observable, SparseVector):
-            if len(observable) != self.old_system.size:
+            if observable.dim != self.old_system.size:
                 raise ValueError(f"A vector observable has an invalid dimension (got {len(observable)}, required {self.old_system.size})")
             
         ## At this point we have a valid vector to be observed. We check if it is in the space

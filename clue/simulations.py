@@ -59,8 +59,19 @@ def apply_matrix(simulation: OdeResult, matrix: ndarray | SparseRowMatrix):
 
     return OdeResult(**kwds)
 
+def merge_simulations(*sims: OdeResult):
+    if len(sims) == 0:
+        raise ValueError("At least one simulation is needed")
+    if len(sims) == 1 and isinstance(sims[0], (list, tuple)):
+        sims = sims[0]
 
-def merge_simulations(sim1: OdeResult, sim2: OdeResult):
+    results = sims[0]
+    for sim in sims[1:]:
+        results = _merge_simulations(results, sim)
+
+    return results    
+
+def _merge_simulations(sim1: OdeResult, sim2: OdeResult):
     if (sim1.t == sim2.t).all():
         kwds = {
             "message": "merged simulation",
@@ -141,7 +152,8 @@ def compare_simulations(sim1: OdeResult, sim2: OdeResult, measures=[]):
 
 def create_figure(
     simulation: OdeResult | Collection[OdeResult],
-    names: str | Collection[str] = "x",
+    names: str | Collection[str] = None,
+    preffix: str = "x",
     legend=True,
     **kwds,
 ):
@@ -156,6 +168,7 @@ def create_figure(
 
     * ``simulation``: a :class:`scipy.integrate._ivp.ivp.OdeResult` with a simulation (or a collection of those)
     * ``names``: name for the functions we are simulation. It is an optional argument (by default "x").
+    * ``preffix``: if the simulation has no names and ``names`` is None, then we generate new names with this preffix.
     * ``kwds``: optional arguments that will be use for improving or changing the figure. The valid options are:
         - ``title``: provides title(s) for the plot(s) in the figure
         - ``format``: provides the format(s) for the lines in the figure
@@ -183,13 +196,13 @@ def create_figure(
         )
 
     names = [
-        (
-            sim.names
+        (   
+            names
+            if names is not None
+            else sim.names
             if hasattr(sim, "names")
             else (
-                names
-                if isinstance(names, (list, tuple))
-                else [f"{names}{i+1}" for i in range(len(sim.y))]
+                [f"{preffix}{i+1}" for i in range(len(sim.y))]
             )
         )
         for sim in simulation

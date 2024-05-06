@@ -1755,7 +1755,7 @@ class NumericalSubspace(OrthogonalSubspace):
     def contains(self, vector: SparseVector):
         r"""Checks whether a vector is in ``self`` or not."""
         self_proj = self.reduce_vector(vector.copy())
-        return self_proj.inner_product(self_proj) < 1e-15
+        return float(self_proj.inner_product(self_proj)) < 1e-15
 
     def _should_absorb(self, vector: SparseVector):
         norm_squared = float(vector.inner_product(vector))
