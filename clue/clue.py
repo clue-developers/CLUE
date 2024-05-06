@@ -3247,8 +3247,55 @@ class LDESystem(FODESystem):
         return len(self.used_old_vars) != self.size
 
     # OBSERVABLES
-    def observe(self, observable: SparsePolynomial|SparseVector|str| (list|tuple)[SparsePolynomial|SparseVector|str]):
-        pass
+    def observe(self, observable: SparsePolynomial|SparseVector|str|Collection[SparsePolynomial|SparseVector|str]):
+        r'''
+            Method that express a value in old variables in terms of the lumped variables.
+
+            When computing a lumping (see method :func:`FODESystem.lumping`), some of the original variables are no
+            longer observable while some of the combinations are still available in the lumped system. This can be checked
+            in a :class:`LDESystem` by inspecting the old variables (:func:`old_vars` and :func:`old_system`) and the 
+            obtained lumping matrix (see :func:`lumping_matrix`).
+
+            This method takes a linear combination of old variables and checks whether it can be observed (and how) in the 
+            reduced system.
+
+            Input:
+
+            * ``observable``: a linear combination of variables in :func:`old_system`. It can be given in any of the following formats:
+            
+              * A :class:`SparsePolynomial` compatible with :func:`old_system`. It must be a linear polynomial.
+              * A :class:`SparseVector` compatible with :func:`old_system`. It must have appropriate dimension.
+              * A string representing the observable. It will be casted to a polynomial in the :func:`old_system`.
+              * A list/tuple of the previous elements.
+            
+            Output:
+
+            A :class:`SparsePolynomial` in the lumped variables representing the observable or an :class:`ValueError` when
+            the observation was not possible.
+
+            When a list/tuple is provided, the putput is again a tuple.
+        '''
+        ## We handle the list/tuple case separately
+        if isinstance(observable, Collection):
+            return tuple(self.observe(obs) for obs in observable)
+        
+        ## If we receive a string, we convert it to a SparsePolynomial in the old system
+        if isinstance(observable, str):
+            observable = SparsePolynomial.from_string(observable, self.old_system.variables, self.old_system.field)
+        ## If we receive a SparsePolynomial we check it is linear and convert it into a SparseVector
+        if isinstance(observable, SparsePolynomial):
+            if not observable.is_linear():
+                raise ValueError(f"A polynomial observable ({observable}) is NOT linear")
+            observable = observable.linear_part_as_vec()
+        ## If we receive a SparseVector, we check its dimension
+        if isinstance(observable, SparseVector):
+            if len(observable) != self.old_system.size:
+                raise ValueError(f"A vector observable has an invalid dimension (got {len(observable)}, required {self.old_system.size})")
+            
+        ## At this point we have a valid vector to be observed. We check if it is in the space
+        if not self._subspace.contains(observable):
+            raise ValueError("The given observable is not in the lumped subspace")
+        return SparsePolynomial.from_vector(self._subspace.find_in(observable), self.variables, domain=self.field)        
 
     # TYPES OF LUMPING
     @lru_cache(maxsize=1)
