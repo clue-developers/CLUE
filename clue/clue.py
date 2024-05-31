@@ -20,7 +20,9 @@ from numpy.linalg import norm
 from numpy.random import normal, uniform
 from random import random, randint
 from scipy.integrate import solve_ivp
-from sympy import QQ, RR, lambdify, symbols, oo
+from sympy import QQ,  lambdify, symbols, oo
+from clue.field import RR
+RR = RR()
 from sympy.polys.fields import FracElement
 from sympy.polys.rings import PolyElement
 from typing import Any, Callable, Optional
@@ -1357,7 +1359,7 @@ class FODESystem:
                         m_der = tuple(
                             list(monom[:i]) + [(var, exp - 1)] + list(monom[(i + 1) :])
                         )
-                    entry = field.convert(coef) * exp
+                    entry = (field.convert(coef) if field != RR else float(coef)) * exp
                     if m_der not in jacobians:
                         jacobians[m_der] = SparseRowMatrix(len(variables), field)
                     jacobians[m_der].increment(var, p_ind, entry)
@@ -2702,16 +2704,8 @@ class FODESystem:
 
         left_eps = 0
         right_eps = max_epsilon
-        if left_eps == 0:
-            logger.debug("[find_reduction_given_size] Exact reduction detected.")
-            l_subspace = find_smallest_common_subspace(
-                matrices, observable, OrthogonalSubspace
-            )
-        else:
-            l_subspace = find_smallest_common_subspace(
-                matrices, observable, NumericalSubspace, delta=left_eps
-            )
-        left_size = l_subspace.dim()
+        logger.debug("[find_reduction_given_size] Exact reduction detected.")
+        left_size = self.size
 
         r_subspace = find_smallest_common_subspace(
             matrices, observable, NumericalSubspace, delta=right_eps
@@ -2997,7 +2991,9 @@ class FODESystem:
         method="polynomial",
         file=sys.stdout,
         epsilon: Optional[float] = None,
-        max_size: Optional[int] = None
+        max_size: Optional[int] = None,
+        threshold: Optional[float] = 1e-10,
+        with_tries: bool = False,
     ):
         r'''
             Method to create a numerical lumping.
@@ -3041,11 +3037,19 @@ class FODESystem:
         if epsilon is not None and max_size is not None:
             raise ValueError("Arguments `epsilon` and `max_size` cannot be given at the same time")
 
+        red_data = []
 
         if max_size is not None:
-            _,_,_,epsilon = self.find_reduction_given_size(observable, max_size=max_size, matrix_algorithm=method)
+            red_data = self.find_reduction_given_size(observable, max_size=max_size, matrix_algorithm=method, threshold=threshold,with_tries=with_tries)
+            epsilon = red_data[3]
+
         elif epsilon is None:
-            _,_,_,epsilon = self.find_next_reduction(observable, matrix_algorithm=method)
+            red_data = self.find_next_reduction(observable, matrix_algorithm=method, threshold=threshold, with_tries=with_tries)
+            epsilon = red_data[3]
+
+        if with_tries:
+            tries = red_data[4]
+
 
         self.lumping_subspace_class = NumericalSubspace, {"delta": epsilon}
 
@@ -3059,6 +3063,7 @@ class FODESystem:
             initial_conditions,
             method,
             file,
+            field= RR,
         )
 
         #######################################################################################
@@ -3110,7 +3115,11 @@ class FODESystem:
         ## Fixing the level of the logger
         if loglevel != None:
             logger.setLevel(old_level)
+
+        if with_tries: 
+            return self._lumped_system_type(old_system=self, dic=result), tries
         return self._lumped_system_type(old_system=self, dic=result)
+
 
 
 
@@ -3123,6 +3132,7 @@ class FODESystem:
         ic=None,
         method="auto_diff",
         file=sys.stdout,
+        field = None,
     ):
         """
         Performs a lumping of a polynomial ODE system represented by SparsePolynomial
@@ -3150,7 +3160,9 @@ class FODESystem:
         logger.debug(f"[_lumping] -> Computed {len(matrices)} in {time.time()-start}s")
 
         # Find a lumping
-        field = self.field
+        if field is None:
+            field = self.field
+
         vectors_to_include = []
         for linear_form in observable:
             vec = (

@@ -13,14 +13,14 @@ r"""
 
 from __future__ import annotations
 
-import copy, logging, math
+import copy, logging, math, ipdb
 
 from collections import deque
 
 from itertools import combinations, product
 from typing import Any
 
-from sympy import GF, QQ, RR, gcd, nextprime, symbols
+from sympy import GF, QQ,  gcd, nextprime, symbols
 from sympy.core.symbol import Symbol
 from sympy.ntheory.primetest import isprime
 from sympy.polys.domains.domain import Domain
@@ -31,6 +31,9 @@ logger = logging.getLogger(__name__)
 # the constant responsible for switching to the modular algorithm
 TOO_BIG_LENGTH = 10000
 
+
+from clue.field import RR
+RR = RR()
 
 class ExpressionSwell(Exception):
     r"""Exception used when a number or expression gets too big."""
@@ -263,7 +266,7 @@ class SparseVector():
             raise IndexError(f"Element {i} out of dimension")
         if value:  # non-zero case
             self.nonzero.add(i)
-            self.__data[i] = value
+            self.__data[i] = value if self.field != RR else float(value)
         else:
             self.nonzero.discard(i)
             self.__data.pop(i, None)
@@ -374,10 +377,11 @@ class SparseVector():
 
         """
         if self.is_zero() or rhs.is_zero():
-            return self.field.zero
+            return (self.field.zero if self.field != RR else 0.0)
         # computing the intersection
         common_indices = self.nonzero.intersection(rhs.nonzero)
-        result = self.field.zero
+        result = self.field.zero if self.field != RR else 0.0
+        # ipdb.set_trace()
         for index in common_indices:
             result += self.__data[index] * rhs.__data[index]
 
@@ -749,16 +753,15 @@ class SparseRowMatrix():
             raise IndexError(f"Row {i} out of dimension")
         if j < 0 or j >= self.ncols:
             raise IndexError(f"Column {j} out of dimension")
-
         if i in self.nonzero:
-            self.__data[i][j] = value
+            self.__data[i][j] = value if self.field != RR else float(value)
             if self.__data[i].is_zero():
                 del self.__data[i]
                 self.nonzero.remove(i)
         elif value:  # we are adding non-zero
             self.nonzero.add(i)
             self.__data[i] = SparseVector(self.ncols, self.field)
-            self.__data[i][j] = value
+            self.__data[i][j] = value if self.field != RR else float(value)
 
     def set_row(self, i: int, new_row: SparseVector):
         if not isinstance(new_row, SparseVector) or new_row.dim != self.ncols:
@@ -822,6 +825,7 @@ class SparseRowMatrix():
             [ 3 4 ]
 
         """
+        # ipdb.set_trace()
         self[i, j] = self[i, j] + extra
 
     # --------------------------------------------------------------------------

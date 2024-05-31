@@ -15,7 +15,8 @@ from pyparsing import (
 
 import sympy
 from sympy import QQ, oo
-
+from clue.field import RR
+RR = RR()
 from .linalg import SparseVector
 from .nual import NualNumber
 
@@ -77,7 +78,7 @@ class SparsePolynomial(object):
                 else {
                     key: domain.convert(data[key])
                     for key in data
-                    if data[key] != domain.convert(0)
+                    if data[key] != domain.zero
                 }
             )
         else:
@@ -429,7 +430,7 @@ class SparsePolynomial(object):
         result = SparsePolynomial(self._varnames, self.domain)
         resdata = dict()
         for m, c in self._data.items():
-            sum_coef = c + other._data.get(m, self.domain(0))
+            sum_coef = c + other._data.get(m, self.domain.zero if self.domain != RR else 0.0)
             if sum_coef != 0:
                 resdata[m] = sum_coef
 
@@ -454,7 +455,7 @@ class SparsePolynomial(object):
                 return NotImplemented
 
         for m, c in other._data.items():
-            sum_coef = c + self._data.get(m, self.domain(0))
+            sum_coef = c + self._data.get(m, self.domain.zero)
             if sum_coef != 0:
                 self._data[m] = sum_coef
             else:
@@ -1057,7 +1058,7 @@ class SparsePolynomial(object):
 
         # at this moment the coefficient is positive (or not comparable to 0)
         return prefix, (
-            "" if c == self.domain.convert(1) else self._scalar_to_str(c) + "*"
+            "" if c == self.domain.one else self._scalar_to_str(c) + "*"
         ) + "*".join(map(lambda p: self._pair_to_str(p), m))
 
     # --------------------------------------------------------------------------
