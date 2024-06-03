@@ -72,14 +72,14 @@ def _func_for_expr(expr, varnames, domain):
 
     elif isinstance(expr, (sympy.core.numbers.Rational, sympy.core.numbers.Float)):
 
-        def __func(*args):  # pylint: disable=unused-argument
+        def __func(*_):
             return domain.convert(expr)
 
     elif isinstance(expr, sympy.core.symbol.Symbol) and str(expr) in varnames:
         __func = lambdify([symbols(v) for v in varnames], expr, modules="sympy")
     elif isinstance(expr, sympy.core.symbol.Symbol):
 
-        def __func(*args):  # pylint: disable=unused-argument
+        def __func(*_):
             return domain.convert(expr)
 
     else:
@@ -394,7 +394,6 @@ class FODESystem:
                     self._ic[key] = new_ic[i]
                 elif fill:
                     self._ic[key] = 0
-
 
     @property
     def name(self):
@@ -1781,10 +1780,7 @@ class FODESystem:
             except ZeroDivisionError:
                 pass
 
-        raise ValueError(
-            "After %d attempts, we did not find a valid random evaluation. Consider changing the bounds."
-            % attempts
-        )
+        raise ValueError(f"After {attempts} attempts, we did not find a valid random evaluation. Consider changing the bounds.")
 
     @staticmethod
     def evaluate_jacobian(funcs, varnames, domain, values):
@@ -2168,7 +2164,7 @@ class FODESystem:
                 raise TypeError(f"The views must be a list of elements to be observed from the simulation")
             elif len(view) == 0:
                 raise ValueError(f"The given view has nothing to observe.")
-            view = self.__process_observable(view)
+            view = self._process_observable(view)
             O = SparseRowMatrix.from_vectors(view).to_numpy()
             
 
@@ -2301,16 +2297,16 @@ class FODESystem:
             self.__cache_deviations[key] = mean(deviations)
         return self.__cache_deviations[key]
 
-    def __process_observable(self, observable: list) -> tuple[SparseVector]:
+    def _process_observable(self, observable: list) -> tuple[SparseVector]:
         r"""Processing observable arguments in lumping/deviation methods"""
         logger.debug(
-            "[__process_observable] Converting the observable into a valid input"
+            "[_process_observable] Converting the observable into a valid input"
         )
         processed_observable = []
         for obs in observable:
             if isinstance(obs, PolyElement):
                 logger.debug(
-                    "[__process_observable] observables in PolyElement format. Casting to SparsePolynomial"
+                    "[_process_observable] observables in PolyElement format. Casting to SparsePolynomial"
                 )
                 processed_observable.append(
                     SparsePolynomial.from_sympy(
@@ -2329,7 +2325,7 @@ class FODESystem:
                 )
             elif not isinstance(obs, SparseVector):
                 logger.debug(
-                    "[__process_observable] observables seem to be in SymPy expression format, converting"
+                    "[_process_observable] observables seem to be in SymPy expression format, converting"
                 )
                 processed_observable.append(
                     SparseVector.from_list(
@@ -2345,7 +2341,11 @@ class FODESystem:
         return tuple(vector.change_base(self.field) for vector in processed_observable)
 
     def __process_bound(self, bound, threshold):
-        r"""Processing observable and bound for find_acceptable/maximal_threshold"""
+        r"""
+            Processing observable and bound for find_acceptable/maximal_threshold
+
+            TODO: DETECTED UNUSED METHOD --> Remove for next?
+        """
         logger.debug("[__process_bound] Converting the bound into a valid input")
         if not isinstance(bound, (list, tuple)):
             bound = self.size * [bound]
@@ -2396,7 +2396,7 @@ class FODESystem:
             8.966744
 
         """
-        observable = self.__process_observable(observable)
+        observable = self._process_observable(observable)
 
         key = observable 
 
@@ -2419,9 +2419,6 @@ class FODESystem:
                         rows.append(row)
             logger.debug(f"[find_maximal_threshold] Need to check {len(rows)} vectors")
             logger.debug(
-                f"[find_maximal_threshold] Maximal norm of the rows: {math.sqrt(max([el.inner_product(el) for el in rows], default=0))}"
-            )
-            logger.debug(
                 f"[find_maximal_threshold] Dimension of the subspace: {subspace.dim()}"
             )
             ## vectors to check
@@ -2432,112 +2429,11 @@ class FODESystem:
             else:
                 for row in rows:
                     row.reduce(-self.field.one, row.apply_matrix(subspace.projector))
-                logger.debug("[find_maximal_threshold] Computing maximal norm")
                 epsilon = math.sqrt(max(el.inner_product(el) for el in rows))
+                logger.debug(f"[find_maximal_threshold] Computed maximal epsilon: {epsilon}")
                 self.__cache_thresholds[key] = epsilon
 
         return self.__cache_thresholds[key]
-
-    # def find_acceptable_threshold(
-        # self,
-        # observable: list,
-        # dev_max: float,
-        # bound: float | list[float] | list[tuple[float, float]],
-        # num_points: int,
-        # threshold: float,
-        # with_tries: bool = False,
-        # matrix_algorithm: str = "polynomial",
-    # ) -> float | tuple[float, int]:
-        # r"""
-        # Method to compute an optimal threshold for numerical lumping
-        # This method computes an optimal threshold for the current system so the numerical lumping has a deviation close
-        # to a given value.
-
-        # Input:
-            # - ``observable``: a list of observables
-            # - ``dev_max``: maximum allowed deviation
-        # Output:
-            # - ``low_size``: maximal epsilon that leads to a lower deviation than the max
-            # - ``tries`` (optional): number of iterations
-
-        # The deviation of the system, given some observables, is the
-
-        # Examples::
-            # >>> from clue import *
-            # >>> from sympy import QQ
-            # >>> from sympy.polys.rings import vring
-            # >>> R = vring(["x0", "x1", "x2"], QQ)
-            # >>> system = FODESystem([x1**2 +4.05*x1*x2+4*x2**2, 2*x0-4*x2, -x0-x1], variables=['x0','x1','x2'])
-            # >>> bound = [(0,1) for i in range(system.size)]
-            # >>> eps = system.find_acceptable_threshold(['x0'],0.01, bound, 100, 1e-6)
-            # >>> eps
-            # 0.089109
-        # """
-        # observable, bound = self.__process_observable(observable), self.__process_bound(
-            # bound, threshold
-        # )
-
-        # logger.debug("[find_acceptable_threshold] Building matrices for lumping")
-        # matrices = self.construct_matrices(matrix_algorithm)
-
-        # logger.debug(
-            # "[find_acceptable_threshold] Computing maximal epsilon and its deviation"
-        # )
-        # max_epsilon, last_deviation = self.find_maximal_threshold(
-            # observable, bound, num_points, threshold, matrix_algorithm=matrix_algorithm
-        # )
-        # low_size, high_size = (
-            # max_epsilon if last_deviation < dev_max else 0
-        # ), max_epsilon
-        # current_dev = last_deviation if last_deviation < dev_max else 0
-        # tries = 1
-        # logger.debug(
-            # f"[find_acceptable_threshold] Initial interval of search: [{low_size},{high_size}]"
-        # )
-        # if last_deviation >= dev_max:
-            # # If the maximal reduction is above the maximal deviation, we do a binary search from 0 to max_epsilon
-            # while (
-                # abs(dev_max - current_dev) >= threshold
-                # and (high_size - low_size) > threshold
-            # ):
-                # epsilon = (high_size + low_size) / 2
-                # logger.debug(f"[find_acceptable_threshold] New value for {epsilon = }")
-                # logger.log(
-                    # 5,
-                    # f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing subspace)",
-                # )
-                # subspace = find_smallest_common_subspace(
-                    # matrices, observable, NumericalSubspace, delta=epsilon
-                # )
-                # logger.log(
-                    # 5,
-                    # f"[find_acceptable_threshold] Computed subspace for {epsilon = } ({subspace.dim()})",
-                # )
-                # logger.log(
-                    # 5,
-                    # f"[find_acceptable_threshold] Computing deviation for {epsilon = } (computing deviation)",
-                # )
-                # current_dev = self._deviation(subspace, bound, num_points)
-                # logger.debug(
-                    # f"[find_acceptable_threshold] Current deviation for {epsilon = } ({subspace.dim()}): {current_dev}"
-                # )
-                # if current_dev < dev_max - threshold:
-                    # low_size, high_size = epsilon, high_size
-                # elif current_dev > dev_max + threshold:
-                    # low_size, high_size = low_size, epsilon
-                # else:
-                    # low_size, high_size = epsilon, epsilon
-                # logger.debug(
-                    # f"[find_acceptable_threshold] New interval search: [{low_size},{high_size}]"
-                # )
-                # tries += 1
-
-        # logger.debug(
-            # f"[find_acceptable_threshold] Found optimal threshold --> {low_size}"
-        # )
-        # if with_tries:
-            # return low_size, tries
-        # return low_size
 
     def find_next_reduction(
         self,
@@ -2573,7 +2469,7 @@ class FODESystem:
             (3, 2, 0.089109, 0.089110)
 
         """
-        observable = self.__process_observable(observable) 
+        observable = self._process_observable(observable) 
 
         logger.debug("[find_next_reduction] Building matrices for lumping")
         matrices = self.construct_matrices(matrix_algorithm)
@@ -2677,7 +2573,7 @@ class FODESystem:
             (3, 2, 0.070053, 0.140105)
 
         """
-        observable = self.__process_observable(observable)
+        observable = self._process_observable(observable)
 
         if max_size is not None and percentage_size is not None:
             raise ValueError(
@@ -2777,7 +2673,7 @@ class FODESystem:
         new_vars_name="y",
         print_system=False,
         print_reduction=False,
-        out_format="sympy",
+        out_format="internal",
         loglevel=None,
         initial_conditions=None,
         method="polynomial",
@@ -2923,7 +2819,7 @@ class FODESystem:
         ## Normalizing input if needed
         self.normalize()
 
-        observable = self.__process_observable(observable)
+        observable = self._process_observable(observable)
 
         #######################################################################################
         ### MAIN COMPUTATION
@@ -2948,14 +2844,14 @@ class FODESystem:
                 F = out_ring
             elif isinstance(result["equations"][0], RationalFunction):
                 out_ring = result["equations"][0].get_sympy_ring()
-                F = sympy.FractionField(sympy.QQ, result["equations"][0].gens)
+                F = sympy.FractionField(self.field, result["equations"][0].gens)
             elif isinstance(result["equations"][0], (list, tuple)):
                 if isinstance(result["equations"][0][0], SparsePolynomial):
                     out_ring = result["equations"][0][0].get_sympy_ring()
                     F = out_ring
                 elif isinstance(result["equations"][0][0], RationalFunction):
                     out_ring = result["equations"][0][0].get_sympy_ring()
-                    F = sympy.FractionField(sympy.QQ, result["equations"][0].gens)
+                    F = sympy.FractionField(self.field, result["equations"][0].gens)
 
             def transform(p):
                 if not out_ring is None:
@@ -3032,7 +2928,7 @@ class FODESystem:
         ## Normalizing input if needed
         self.normalize()
 
-        observable = self.__process_observable(observable)
+        observable = self._process_observable(observable)
 
         old_lumping_class = self.lumping_subspace_class
         old_lumping_kwds = self.lumping_subspace_kwds
@@ -3075,14 +2971,14 @@ class FODESystem:
                 F = out_ring
             elif isinstance(result["equations"][0], RationalFunction):
                 out_ring = result["equations"][0].get_sympy_ring()
-                F = sympy.FractionField(sympy.QQ, result["equations"][0].gens)
+                F = sympy.FractionField(self.field, result["equations"][0].gens)
             elif isinstance(result["equations"][0], (list, tuple)):
                 if isinstance(result["equations"][0][0], SparsePolynomial):
                     out_ring = result["equations"][0][0].get_sympy_ring()
                     F = out_ring
                 elif isinstance(result["equations"][0][0], RationalFunction):
                     out_ring = result["equations"][0][0].get_sympy_ring()
-                    F = sympy.FractionField(sympy.QQ, result["equations"][0].gens)
+                    F = sympy.FractionField(self.field, result["equations"][0].gens)
 
             def transform(p):
                 if not out_ring is None:
@@ -3111,8 +3007,6 @@ class FODESystem:
         if loglevel != None:
             logger.setLevel(old_level)
         return self._lumped_system_type(old_system=self, dic=result)
-
-
 
     def _lumping(
         self,
@@ -3397,26 +3291,44 @@ class LDESystem(FODESystem):
             When a list/tuple is provided, the putput is again a tuple.
         '''
         ## We handle the list/tuple case separately
-        if isinstance(observable, (list,tuple)):
-            return tuple(self.observe(obs) for obs in observable)
+        if not isinstance(observable, (list, tuple)):
+            observable = [observable]
+            no_list = True
+        else:
+            no_list = False
+
+        observable = self._process_observable(observable)
+        if not all(self._subspace.contains(obs) for obs in observable):
+            raise ValueError("An observable is not in the lumped subspace")
         
-        ## If we receive a string, we convert it to a SparsePolynomial in the old system
-        if isinstance(observable, str):
-            observable = SparsePolynomial.from_string(observable, self.old_system.variables, self.old_system.field)
-        ## If we receive a SparsePolynomial we check it is linear and convert it into a SparseVector
-        if isinstance(observable, SparsePolynomial):
-            if not observable.is_linear():
-                raise ValueError(f"A polynomial observable ({observable}) is NOT linear")
-            observable = observable.linear_part_as_vec()
-        ## If we receive a SparseVector, we check its dimension
-        if isinstance(observable, SparseVector):
-            if observable.dim != self.old_system.size:
-                raise ValueError(f"A vector observable has an invalid dimension (got {len(observable)}, required {self.old_system.size})")
+        inner = [
+            SparsePolynomial.from_vector(
+                self._subspace.find_in(obs), 
+                self.variables, 
+                domain=self.field) 
+            for obs in observable
+        ]
+        return inner[0] if no_list else inner
+        # if isinstance(observable, (list,tuple)):
+        #     return tuple(self.observe(obs) for obs in observable)
+        
+        # ## If we receive a string, we convert it to a SparsePolynomial in the old system
+        # if isinstance(observable, str):
+        #     observable = SparsePolynomial.from_string(observable, self.old_system.variables, self.old_system.field)
+        # ## If we receive a SparsePolynomial we check it is linear and convert it into a SparseVector
+        # if isinstance(observable, SparsePolynomial):
+        #     if not observable.is_linear():
+        #         raise ValueError(f"A polynomial observable ({observable}) is NOT linear")
+        #     observable = observable.linear_part_as_vec()
+        # ## If we receive a SparseVector, we check its dimension
+        # if isinstance(observable, SparseVector):
+        #     if observable.dim != self.old_system.size:
+        #         raise ValueError(f"A vector observable has an invalid dimension (got {len(observable)}, required {self.old_system.size})")
             
-        ## At this point we have a valid vector to be observed. We check if it is in the space
-        if not self._subspace.contains(observable):
-            raise ValueError("The given observable is not in the lumped subspace")
-        return SparsePolynomial.from_vector(self._subspace.find_in(observable), self.variables, domain=self.field)        
+        # ## At this point we have a valid vector to be observed. We check if it is in the space
+        # if not self._subspace.contains(observable):
+        #     raise ValueError("The given observable is not in the lumped subspace")
+        # return SparsePolynomial.from_vector(self._subspace.find_in(observable), self.variables, domain=self.field)        
 
     # TYPES OF LUMPING
     @lru_cache(maxsize=1)
