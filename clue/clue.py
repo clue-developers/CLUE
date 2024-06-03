@@ -20,7 +20,7 @@ from numpy.linalg import norm
 from numpy.random import normal, uniform
 from random import random, randint
 from scipy.integrate import solve_ivp
-from sympy import QQ, RR, lambdify, symbols, oo
+from sympy import QQ, lambdify, symbols, oo
 from sympy.polys.fields import FracElement
 from sympy.polys.rings import PolyElement
 from typing import Any, Callable, Optional
@@ -33,6 +33,7 @@ from .linalg import (
     SparseVector,
     find_smallest_common_subspace,
 )
+from .numerical_domains import RR
 from .nual import NualNumber
 from .ode_parser import read_system
 from .rational_function import SparsePolynomial, RationalFunction

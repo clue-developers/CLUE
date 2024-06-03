@@ -20,11 +20,13 @@ from collections import deque
 from itertools import combinations, product
 from typing import Any
 
-from sympy import GF, QQ, RR, gcd, nextprime, symbols
+from sympy import GF, QQ, gcd, nextprime, symbols
 from sympy.core.symbol import Symbol
 from sympy.ntheory.primetest import isprime
 from sympy.polys.domains.domain import Domain
 from sympy.polys.fields import FracElement
+
+from .numerical_domains import RR
 
 logger = logging.getLogger(__name__)
 
@@ -695,7 +697,8 @@ class SparseRowMatrix():
         Examples::
 
             >>> from clue.clue import SparseVector, SparseRowMatrix
-            >>> from sympy import QQ, RR
+            >>> from sympy import QQ
+            >>> from clue.numerical_domains import RR
             >>> M = SparseRowMatrix.from_list([[1/2,2/4],[3/4,4/5]], QQ)
             >>> print(M.change_base(RR).pretty_print())
             [  0.5 0.5 ]
