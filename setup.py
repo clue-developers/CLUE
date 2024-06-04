@@ -1,5 +1,5 @@
 ## -*- encoding: utf-8 -*-
-from setuptools import setup, find_packages
+from setuptools import setup
 from codecs import open # To open the README file with proper encoding
 
 # Get information from separate files (README, VERSION)
@@ -13,14 +13,14 @@ def requirements():
     
 setup(
     name = "CLUE",
-    version = "1.7.0", # the VERSION file is shared with the documentation  ## readfile("VERSION").strip(),
+    version = "1.7.1", # the VERSION file is shared with the documentation  ## readfile("VERSION").strip(),
     description='Constrained LUmping for differential Equations',
     # long_description = readfile("README.txt"), # get the long description from the README
     # For a Markdown README replace the above line by the following two lines:
     long_description = readfile("README.md"),
     long_description_content_type="text/markdown",
-    url='https://github.com/pogudingleb/CLUE',
-    author = "Gleb Pogudin",
+    url='https://github.com/clue-developers/CLUE',
+    author = "CLUE Developers (Gleb Pogudin and Antonio Jiménez-Pastor)",
     author_email = "gleb.pogudin@polytechnique.edu",
     license = "GPLv3+", # See LICENSE file
     classifiers=[
