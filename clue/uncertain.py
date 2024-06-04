@@ -326,7 +326,7 @@ class UncertainFODESystem(FODESystem):
         r"""
         Method to create an uncertain system from a :class:`FODESystem` by altering all the coefficients with a given value `\delta`.
 
-        If ``type`` is "abs" the change is done by adding and substracting `\delta` to the coefficients. If ``type`` is "prop", then
+        If ``type`` is "abs" the change is done by adding and subtracting `\delta` to the coefficients. If ``type`` is "prop", then
         the coefficients will be changes proportionally where `\delta` is the percentage.
 
         Examples::

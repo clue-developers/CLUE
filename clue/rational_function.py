@@ -183,7 +183,10 @@ class SparsePolynomial(object):
         if data is not None:
             for key, value in data.items():
                 if cast:
-                    value = domain.convert(value)
+                    if isinstance(value, NualNumber):
+                        value = NualNumber([domain.convert(c) for c in value.coeffs], domain)
+                    else:
+                        value = domain.convert(value)
                 if value != domain.zero:
                     monomial = SparseMonomial(key)
                     if monomial in self._data:

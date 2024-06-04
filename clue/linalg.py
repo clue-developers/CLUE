@@ -1391,7 +1391,7 @@ class Subspace(object):
                 for monom, coef in p.dataiter():
                     new_monom = []
                     skip = False
-                    for var, exp in monom:
+                    for var, exp in monom.items():
                         if var not in pivots:
                             skip = True
                             break
@@ -1414,7 +1414,7 @@ class Subspace(object):
                 for monom, coef in rf.numer.dataiter():
                     new_monom = []
                     skip = False
-                    for var, exp in monom:
+                    for var, exp in monom.items():
                         if var not in pivots:
                             skip = True
                             break
@@ -1429,7 +1429,7 @@ class Subspace(object):
                 for monom, coef in rf.denom.dataiter():
                     new_monom = []
                     skip = False
-                    for var, exp in monom:
+                    for var, exp in monom.items():
                         if var not in pivots:
                             skip = True
                             break

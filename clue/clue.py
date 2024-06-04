@@ -1343,21 +1343,12 @@ class FODESystem:
 
         jacobians = dict()
         for p_ind, poly in enumerate(polys):
-            logger.log(
-                5,
-                "[_construct_matrices_from_polys] Processing polynomial number %d",
-                p_ind,
-            )
+            logger.log(5, f"[_construct_matrices_from_polys] Processing polynomial number {p_ind}")
             for monom, coef in poly.dataiter():
-                for i in range(len(monom)):
-                    var, exp = monom[i]
-                    if exp == 1:
-                        m_der = tuple(list(monom[:i]) + list(monom[(i + 1) :]))
-                    else:
-                        m_der = tuple(
-                            list(monom[:i]) + [(var, exp - 1)] + list(monom[(i + 1) :])
-                        )
-                    entry = field.convert(coef) * exp
+                for var in monom:
+                    C, m_der = monom.derivative(var)
+                    entry = field.convert(coef) * C
+                
                     if m_der not in jacobians:
                         jacobians[m_der] = SparseRowMatrix(len(variables), field)
                     jacobians[m_der].increment(var, p_ind, entry)
