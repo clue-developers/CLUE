@@ -1081,11 +1081,9 @@ class SparsePolynomial(object):
             >>> sp.is_zero()
             False
         """
-        if len(self._data) == 0:
-            return True
-        return False
+        return len(self._data) == 0
 
-    def is_unitary(self) -> bool:
+    def is_one(self) -> bool:
         r"""
         Checks equality with `1`.
 
@@ -1098,18 +1096,16 @@ class SparsePolynomial(object):
 
             >>> from clue.rational_function import *
             >>> sp = SparsePolynomial.from_string("1",['x'])
-            >>> sp.is_unitary()
+            >>> sp.is_one()
             True
             >>> sp = SparsePolynomial(['x'])
-            >>> sp.is_unitary()
+            >>> sp.is_one()
             False
             >>> sp = SparsePolynomial.from_string("x**2*y - 2*x*y", ['x','y','z'])
-            >>> sp.is_unitary()
+            >>> sp.is_one()
             False
         """
-        if self._data == {(): 1}:
-            return True
-        return False
+        return self.is_constant() and self.ct == self.domain.one
 
     def is_constant(self) -> bool:
         r"""
@@ -1126,7 +1122,7 @@ class SparsePolynomial(object):
 
             TODO: add examples
         """
-        return self.is_zero() or (len(self._data) == 1 and () in self._data)
+        return self.is_zero() or self.degree() == 0
 
     def is_linear(self) -> bool:
         return all(
@@ -1413,7 +1409,7 @@ class RationalFunction:
     __parser = None
     __parser_stack = []
 
-    def __init__(self, numer, denom):
+    def __init__(self, numer: SparsePolynomial, denom: SparsePolynomial):
         ## Checking the input has the correct format
         assert isinstance(numer, SparsePolynomial)
         assert isinstance(denom, SparsePolynomial)
@@ -1437,28 +1433,28 @@ class RationalFunction:
         ):
             self.simplify()
 
+        self.__cache_pow = dict()
+
     @staticmethod
-    def from_const(val, varnames, domain=QQ):
+    def from_const(val, varnames: list[str], domain=QQ) -> RationalFunction:
         return RationalFunction(
             SparsePolynomial.from_const(val, varnames, domain),
             SparsePolynomial.from_const(1, varnames, domain),
         )
 
     # --------------------------------------------------------------------------
-    def is_polynomial(self):
+    def is_polynomial(self) -> bool:
         return self.denom.is_constant()
 
-    def get_poly(self):
+    def get_poly(self) -> SparsePolynomial:
         if self.is_polynomial():
-            return self.numer * (
-                self.domain.convert(1) / self.domain.convert(self.denom.ct)
-            )
+            return self.numer * (self.domain.one / self.domain.convert(self.denom.ct))
         raise ValueError(f"{self} is not a polynomial")
 
-    def is_zero(self):
+    def is_zero(self) -> bool:
         return self.numer.is_zero()
 
-    def is_constant(self):
+    def is_constant(self) -> bool:
         return self.is_zero() or (self.numer.is_constant() and self.denom.is_constant())
 
     # --------------------------------------------------------------------------
@@ -1468,15 +1464,15 @@ class RationalFunction:
 
     # --------------------------------------------------------------------------
     @property
-    def gens(self):
+    def gens(self) -> tuple[str]:
         return self._varnames.copy()
 
     # --------------------------------------------------------------------------
     @property
-    def size(self):
+    def size(self) -> int:
         return self.denom.size + self.numer.size
 
-    def variables(self, as_poly=False):
+    def variables(self, as_poly=False) -> list[SparsePolynomial|str]:
         return tuple(
             set(
                 list(self.numer.variables(as_poly))
@@ -1485,7 +1481,7 @@ class RationalFunction:
         )
 
     # --------------------------------------------------------------------------
-    def valuation(self, var_name):
+    def valuation(self, var_name: str) -> int:
         r"""
         Valuation of a rational function w.r.t. a variable.
 
@@ -1510,7 +1506,7 @@ class RationalFunction:
         return self.numer.degree(var_name) - self.denom.degree(var_name)
 
     # --------------------------------------------------------------------------
-    def derivative(self, var):
+    def derivative(self, var: str) -> RationalFunction:
         r"""
         Compute the derivative with respect to a given variable.
 
@@ -1570,9 +1566,7 @@ class RationalFunction:
             >>> print(rf_dz)
             (0)/(1)
         """
-        d_num = self.denom * self.numer.derivative(
-            var
-        ) - self.numer * self.denom.derivative(var)
+        d_num = self.denom * self.numer.derivative(var) - self.numer * self.denom.derivative(var)
         d_denom = self.denom * self.denom
         return RationalFunction(d_num, d_denom)
 
@@ -1590,36 +1584,36 @@ class RationalFunction:
         """
         # Removing the gcd of numerator and denominator (whatever Sympy finds)
         gcd = SparsePolynomial.gcd([self.numer, self.denom])
-        if not gcd.is_unitary():
+        if not gcd.is_one():
             self.numer = self.numer // gcd
             self.denom = self.denom // gcd
 
         # Removing the content of the denominator
         c = SparsePolynomial.from_const(self.denom.content, self.gens, self.domain)
-        if not c.is_unitary():
+        if not c.is_one():
             self.numer = self.numer // c
             self.denom = self.denom // c
 
     # --------------------------------------------------------------------------
-    def __str__(self):
+    def __str__(self) -> str:
         return f"({self.numer})/({self.denom})"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"RationalFunction({self.numer}, {self.denom})"
 
     # --------------------------------------------------------------------------
-    def __mul__(self, other):
-        if type(other) == RationalFunction:
+    def __mul__(self, other: SparsePolynomial | RationalFunction) -> RationalFunction:
+        if isinstance(other, RationalFunction):
             rf = RationalFunction(self.numer * other.numer, self.denom * other.denom)
         else:
             rf = RationalFunction(self.numer * other, self.denom)
         return rf
 
-    def __rmul__(self, other):
+    def __rmul__(self, other: SparsePolynomial | RationalFunction) -> RationalFunction:
         return self.__mul__(other)
 
-    def __add__(self, other):
-        if type(other) == RationalFunction:
+    def __add__(self, other: SparsePolynomial | RationalFunction) -> RationalFunction:
+        if isinstance(other, RationalFunction):
             if self.denom == other.denom:
                 rf = RationalFunction(self.numer + other.numer, self.denom)
             else:
@@ -1628,35 +1622,35 @@ class RationalFunction:
                     self.denom * other.denom,
                 )
             return rf
-        elif type(other) == SparsePolynomial:
+        elif isinstance(other, SparsePolynomial):
             return self + RationalFunction(
                 other, SparsePolynomial.from_const(1, self.gens, self.domain)
             )
         else:
             return self + RationalFunction.from_const(other, self.gens, self.domain)
 
-    def __radd__(self, other):
+    def __radd__(self, other: SparsePolynomial | RationalFunction) -> RationalFunction:
         return self.__add__(other)
 
-    def __truediv__(self, other):
+    def __truediv__(self, other: SparsePolynomial | RationalFunction) -> RationalFunction:
         return RationalFunction(self.numer * other.denom, self.denom * other.numer)
 
     # --------------------------------------------------------------------------
 
-    def __neg__(self):
+    def __neg__(self) -> RationalFunction:
         return RationalFunction(-self.numer, self.denom)
 
-    def __sub__(self, other):
+    def __sub__(self, other: SparsePolynomial | RationalFunction) -> RationalFunction:
         return self + (-other)
 
-    def __rsub__(self, other):
+    def __rsub__(self, other: SparsePolynomial | RationalFunction) -> RationalFunction:
         return self.__neg__().__add__(other)
 
-    def __isub__(self, other):
+    def __isub__(self, other: SparsePolynomial | RationalFunction) -> RationalFunction:
         self += -other
         return self
 
-    def __iadd__(self, other):
+    def __iadd__(self, other: SparsePolynomial | RationalFunction) -> RationalFunction:
         if self.denom == other.denom:
             self.numer += other.numer
             return self
@@ -1716,9 +1710,7 @@ class RationalFunction:
         denom = self.denom.subs(to_subs, **values)
 
         if denom == 0:
-            raise ZeroDivisionError(
-                "A zero from the denominator was found while substituting"
-            )
+            raise ZeroDivisionError("A zero from the denominator was found while substituting")
 
         numer = self.numer.subs(to_subs, **values)
         return numer / denom
@@ -1729,7 +1721,7 @@ class RationalFunction:
             f"lambda {','.join(self._varnames)}: ({str(self.numer)})/({str(self.denom)})"
         )
 
-    def automated_diff(self, **values):
+    def automated_diff(self, **values) -> NualNumber:
         return self.numer.automated_diff(**values) / self.denom.automated_diff(**values)
 
     # --------------------------------------------------------------------------
@@ -1744,16 +1736,16 @@ class RationalFunction:
         return out
 
     def get_sympy_ring(self):
-        return sympy.polys.rings.ring(self.gens, self.domain)[0]
+        return self.numer.get_sympy_ring()
 
-    def change_base(self, new_domain):
+    def change_base(self, new_domain) -> RationalFunction:
         r"""Change the domain of the RationalFunction"""
         return RationalFunction(
             self.numer.change_base(new_domain), self.denom.change_base(new_domain)
         )
 
     # --------------------------------------------------------------------------
-    def __eq__(self, other):
+    def __eq__(self, other: SparsePolynomial | RationalFunction) -> bool:
         r"""
         Equality method for :class:`RationalFunction`.
 
@@ -1786,35 +1778,39 @@ class RationalFunction:
             >>> rf1 == rf2
             True
         """
-        if not isinstance(other, type(self)):
-            if not isinstance(other, RationalFunction):
-                try:
-                    other = RationalFunction.from_string(
-                        str(other), self.gens, self.domain
-                    )
-                except (ParseException, TypeError):
-                    return NotImplemented
+        if not isinstance(other, RationalFunction):
+            if isinstance(other, SparsePolynomial):
+                other = RationalFunction(other, SparsePolynomial.from_const(1, other._varnames, other._domain))
+            elif isinstance(other, str):
+                other = RationalFunction.from_string(
+                    str(other), self.gens, self.domain
+                )
+        
         return self.numer * other.denom == other.numer * self.denom
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(self.numer) * hash(self.denom)
 
     # --------------------------------------------------------------------------
-    def exp(self, power):
+    def exp(self, power: int) -> RationalFunction:
         """
         Exponentiation, ``power`` is a *positive* integer
         """
-        if power < 0:
-            raise ValueError(f"Cannot raise to power {power}, {str(self)}")
-        if power == 1:
-            return self
-        if power % 2 == 0:
-            return self.exp(power // 2) * self.exp(power // 2)
-        return self * self.exp(power // 2) * self.exp(power // 2)
+        if not power in self.__cache_pow:
+            if power < 0:
+                raise ValueError(f"Cannot raise to power {power}, {str(self)}")
+            if power == 0:
+                self.__cache_pow[power] = RationalFunction.from_const(1, self._varnames, self.domain)
+            elif power == 1:
+                self.__cache_pow[1] = self
+            else:
+                self.__cache_pow[power] = self.exp(power // 2) * self.exp(power // 2 + power % 2)
+        
+        return self.__cache_pow[power]
 
     # --------------------------------------------------------------------------
     @staticmethod
-    def from_string(s, varnames, domain=QQ, var_to_ind=None):
+    def from_string(s: str, varnames: list[str], domain=QQ, var_to_ind: dict[str,int] = None) -> RationalFunction:
         """
         Parsing a string to a polynomial, string is allowed to include floating-point numbers
         in the standard and scientific notation, they will be converted to rationals
@@ -1908,7 +1904,7 @@ class RationalFunction:
                 return RationalFunction.from_const(to_rational(op), varnames, domain)
             return RationalFunction(
                 SparsePolynomial(
-                    varnames, domain, {((var_ind_map[op], 1),): domain.one}
+                    varnames, domain, {SparseMonomial([var_ind_map[op], 1]): domain.one}
                 ),
                 SparsePolynomial.from_const(1, varnames, domain),
             )
@@ -1916,7 +1912,7 @@ class RationalFunction:
         return evaluate_stack(RationalFunction.__parser_stack)
 
     @staticmethod
-    def from_sympy(sympy_expr, varnames, domain=QQ):
+    def from_sympy(sympy_expr, varnames: list[str], domain=QQ) -> RationalFunction:
         num, den = sympy_expr.as_expr().as_numer_denom()
         num = SparsePolynomial.from_string(str(num), varnames, domain)
         den = SparsePolynomial.from_string(str(den), varnames, domain)
