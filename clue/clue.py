@@ -614,7 +614,7 @@ class FODESystem:
         if isinstance(self.equations[0], (SparsePolynomial, RationalFunction)):
             return tuple(
                 [
-                    SparsePolynomial.var_from_string(v, variables, self.field)
+                    SparsePolynomial.variable(v, variables, self.field)
                     for v in variables
                 ]
             )

@@ -92,8 +92,11 @@ class SparseMonomial(dict):
         '''
         return SparseMonomial([(v if v not in new_vars else new_vars[v], e) for (v,e) in self.items()])
 
-    def max_var(self):
+    def max_var(self) -> int:
         return max(self)
+
+    def variables(self) -> tuple[int]:
+        return tuple(self.keys())
 
     def degree(self, variable: Optional[int] = None) -> int:
         r'''
@@ -141,7 +144,7 @@ class SparseMonomial(dict):
         if len(self) == 0:
             return "1"
         else:
-            return "*".join(f"{varnames[v]}**{e}" for (v,e) in self.items())
+            return "*".join(f"{varnames[v]}{f'**{e}' if e > 1 else ''}" for (v,e) in self.items())
 
 
 class SparsePolynomial(object):
@@ -237,8 +240,7 @@ class SparsePolynomial(object):
 
         The same polynomial can be obtained using together the method :func:`coefficients`::
 
-            >>> n = len(p.dataiter())
-            >>> p == sum([p.coefficients[i]*p.monomials[i] for i in range(n)], SparsePolynomial(p.gens, p.domain))
+            >>> p == sum([c*m for (c,m) in zip(p.coefficients, p.monomials)], SparsePolynomial(p.gens, p.domain))
             True
         """
         return tuple(
@@ -280,8 +282,7 @@ class SparsePolynomial(object):
 
         The same polynomial can be obtained using together the method :func:`monomials`::
 
-            >>> n = len(p.dataiter())
-            >>> p == sum([p.coefficients[i]*p.monomials[i] for i in range(n)], SparsePolynomial(p.gens, p.domain))
+            >>> p == sum([c*m for (c,m) in zip(p.coefficients, p.monomials)], SparsePolynomial(p.gens, p.domain))
             True
         """
         return tuple([el[1] for el in self.dataiter()])
@@ -367,7 +368,7 @@ class SparsePolynomial(object):
             >>> sp.ct
             MPQ(0,1)
         """
-        return self._data.get((), self.domain.zero)
+        return self._data.get(SparseMonomial([]), self.domain.zero)
 
     ct = constant_term  #: alias for the constant term property
 
@@ -439,7 +440,7 @@ class SparsePolynomial(object):
             >>> p.degree('z')
             Traceback (most recent call last):
             ...
-            ValueError: the variable z is not valid for this polynomial
+            ValueError: Variable z is not valid for this polynomial
 
         By convention, if the polynomial is zero, we stablish the degree to be ``oo``
         which is the infinity in :mod:`sympy`.
@@ -452,7 +453,7 @@ class SparsePolynomial(object):
             >>> zero.degree('a')
             Traceback (most recent call last):
             ...
-            ValueError: the variable a is not valid for this polynomial
+            ValueError: Variable a is not valid for this polynomial
             >>> SparsePolynomial.from_const(0, ['x','y']).degree()
             oo
         """
@@ -463,7 +464,7 @@ class SparsePolynomial(object):
             return oo
         
         var_index = self._varnames.index(var_name) if var_name is not None else None
-        return max(m.degree(var_index) for m in self.monomials)
+        return max(m.degree(var_index) for m in self._data)
 
     def variables(self, as_poly: bool = False) -> tuple[str|SparsePolynomial]:
         r"""
@@ -504,18 +505,12 @@ class SparsePolynomial(object):
             >>> SparsePolynomial(["x", "y", "z"], QQ).variables() # checking the zero polynomial
             ()
         """
-        var_index = list(
-            set(sum([[var[0] for var in term[0]] for term in self.dataiter()], []))
-        )
-
-        result = [self._varnames[var_index[i]] for i in range(len(var_index))]
+        var_indices = tuple(sorted(set(sum([m.variables() for m in self._data], tuple()))))
+        variables = tuple(self._varnames[ind] for ind in var_indices)
         if as_poly:
-            result = [
-                SparsePolynomial.var_from_string(name, self._varnames)
-                for name in result
-            ]
-
-        return tuple(result)
+            variables = tuple(SparsePolynomial.variable(var, self._varnames, self.domain) for var in variables)
+        
+        return variables
 
     # --------------------------------------------------------------------------
 
@@ -1351,7 +1346,7 @@ class SparsePolynomial(object):
         return SparsePolynomial(varnames, domain, {monomial : domain.one}, False)
 
     @staticmethod
-    def var_from_string(vname: str, varnames: list[str], domain=QQ) -> SparsePolynomial:
+    def variable(vname: str, varnames: list[str], domain=QQ) -> SparsePolynomial:
         i = varnames.index(vname)
         return SparsePolynomial.monomial([(i,1)], varnames, domain)
 
@@ -1781,10 +1776,13 @@ class RationalFunction:
         if not isinstance(other, RationalFunction):
             if isinstance(other, SparsePolynomial):
                 other = RationalFunction(other, SparsePolynomial.from_const(1, other._varnames, other._domain))
+            elif other in self.domain:
+                other = RationalFunction.from_const(other, self._varnames, self.domain)
             elif isinstance(other, str):
                 other = RationalFunction.from_string(
                     str(other), self.gens, self.domain
                 )
+            
         
         return self.numer * other.denom == other.numer * self.denom
 
@@ -1904,7 +1902,7 @@ class RationalFunction:
                 return RationalFunction.from_const(to_rational(op), varnames, domain)
             return RationalFunction(
                 SparsePolynomial(
-                    varnames, domain, {SparseMonomial([var_ind_map[op], 1]): domain.one}
+                    varnames, domain, {SparseMonomial([(var_ind_map[op], 1)]): domain.one}
                 ),
                 SparsePolynomial.from_const(1, varnames, domain),
             )

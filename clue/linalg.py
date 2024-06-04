@@ -1690,7 +1690,7 @@ class OrthogonalSubspace(Subspace):
         logger.debug("[perform_change_of_variables] Constructing new rhs")
         x = (
             [
-                SparsePolynomial.var_from_string(var, old_vars, self.field)
+                SparsePolynomial.variable(var, old_vars, self.field)
                 for var in old_vars
             ]
             if isinstance(rhs[0], (SparsePolynomial, RationalFunction))
