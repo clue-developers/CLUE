@@ -2997,7 +2997,9 @@ class FODESystem:
         method="polynomial",
         file=sys.stdout,
         epsilon: Optional[float] = None,
-        max_size: Optional[int] = None
+        max_size: Optional[int] = None,
+        threshold: float = 1e-15,
+        with_tries: bool = False,
     ):
         r'''
             Method to create a numerical lumping.
@@ -3043,9 +3045,12 @@ class FODESystem:
 
 
         if max_size is not None:
-            _,_,_,epsilon = self.find_reduction_given_size(observable, max_size=max_size, matrix_algorithm=method)
+            result = self.find_reduction_given_size(observable, max_size=max_size, matrix_algorithm=method, threshold=threshold, with_tries=with_tries)
+            epsilon = result[3]
+            if with_tries:
+                tries = result[4]
         elif epsilon is None:
-            _,_,_,epsilon = self.find_next_reduction(observable, matrix_algorithm=method)
+            _,_,_,epsilon = self.find_next_reduction(observable, matrix_algorithm=method,)
 
         self.lumping_subspace_class = NumericalSubspace, {"delta": epsilon}
 
@@ -3110,6 +3115,10 @@ class FODESystem:
         ## Fixing the level of the logger
         if loglevel != None:
             logger.setLevel(old_level)
+
+        if with_tries:
+            return self._lumped_system_type(old_system=self, dic=result), tries
+
         return self._lumped_system_type(old_system=self, dic=result)
 
 

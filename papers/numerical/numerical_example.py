@@ -133,11 +133,8 @@ class Experiment:
     def max_epsilon(self):
         if self._max_epsilon is None:
             logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._max_epsilon, self._max_dev = self.num_system.find_maximal_threshold(
+            self._max_epsilon = self.num_system.find_maximal_threshold(
                 [obs.change_base(RR) for obs in self.observable],
-                self.compact_bound(),
-                self.sample_points,
-                self.threshold,
                 matrix_algorithm=self.example.matrix
             )
         return self._max_epsilon
@@ -236,9 +233,11 @@ class ResultNumericalExample(Experiment):
                 self._epsilon = self.percentage_epsilon * self.max_epsilon
             elif self.percentage is None and self.percentage_epsilon is None and self.percentage_size is not None:
                 ctime = time.time()
-                _,_,self._epsilon,_, self._considered_epsilon = self.num_system.find_reduction_given_size(
-                    [obs.change_base(RR) for obs in self.observable], 1, self.compact_bound(), 
-                    self.sample_points, self.threshold, with_tries=True, matrix_algorithm=self.example.matrix, allowed_size = self.percentage_size)
+                found_red = self.num_system.find_reduction_given_size(
+                    [obs.change_base(RR) for obs in self.observable],threshold=self.threshold, with_tries=True, matrix_algorithm=self.example.matrix, max_size = self.percentage_size)
+                self._epsilon = found_red[3]
+                self._considered_epsilon = found_red[4]
+
                 self._time_epsilon = time.time()-ctime
         return self._epsilon
     @property
