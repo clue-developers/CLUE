@@ -15,14 +15,18 @@ from pyparsing import (
 
 import sympy
 from sympy import QQ, oo
+from sympy.polys.domains.field import Field
+
+from typing import Any, Optional
 
 from .linalg import SparseVector
 from .nual import NualNumber
+from .numerical_domains import NumericalField
 
 # ------------------------------------------------------------------------------
 
 
-def to_rational(s):
+def to_rational(s: str):
     denom = 1
     extra_num = 1
     if ("E" in s) or ("e" in s):
@@ -67,25 +71,20 @@ class SparsePolynomial(object):
         True
     """
 
-    def __init__(self, varnames, domain=QQ, data=None, cast=True):
+    def __init__(self, 
+                 varnames: list[str], 
+                 domain: Field | NumericalField = QQ, 
+                 data: dict[tuple[int], Any] = None, 
+                 cast: bool = True):
         self._varnames = varnames
         self._domain = domain
-        if cast:
-            self._data = (
-                dict()
-                if data is None
-                else {
-                    key: domain.convert(data[key])
-                    for key in data
-                    if data[key] != domain.convert(0)
-                }
-            )
-        else:
-            self._data = (
-                dict()
-                if data is None
-                else {key: data[key] for key in data if data[key] != 0}
-            )
+        self._data = dict()
+        if data is not None:
+            for key, value in data.items():
+                if cast:
+                    value = domain.convert(value)
+                if value != domain.zero:
+                    self._data[key] = value
 
     def dataiter(self):
         return self._data.items()
@@ -217,8 +216,18 @@ class SparsePolynomial(object):
             >>> p = SparsePolynomial(['x'])
             >>> p.content
             0
+
+        In the case the field of the polynomial is numerical we simply return the unit::
+
+            >>> from clue.numerical_domains import RR
+            >>> p = SparsePolynomial.from_string("12*x^2 - 6*x*y + 3", ["x","y"], RR)
+            >>> p.content
+            1.0
         """
-        return sympy.polys.polytools.gcd(self.coefficients)
+        if isinstance(self.domain, NumericalField):
+            return self.domain.one
+        else:
+            return sympy.polys.polytools.gcd(self.coefficients)
 
     @property
     def constant_term(self):
@@ -287,7 +296,7 @@ class SparsePolynomial(object):
         """
         return self.monomials, self.coefficients
 
-    def degree(self, var_name=None):
+    def degree(self, var_name: Optional[str] = None):
         r"""
         Obtain the degree of this polynomial (maybe with respect to some variable)
 
@@ -363,7 +372,7 @@ class SparsePolynomial(object):
 
         return max([degree_fun(term[0]) for term in self.dataiter()])
 
-    def variables(self, as_poly=False):
+    def variables(self, as_poly: bool = False):
         r"""
         Variables that actually appear in the polynomial.
 
@@ -418,6 +427,7 @@ class SparsePolynomial(object):
     # --------------------------------------------------------------------------
 
     def __add__(self, other):
+        ## Checking the argument "other"
         if not isinstance(other, SparsePolynomial):
             if other in self.domain:
                 other = SparsePolynomial.from_const(other, self._varnames, self.domain)
@@ -426,18 +436,25 @@ class SparsePolynomial(object):
             else:
                 return NotImplemented
 
-        result = SparsePolynomial(self._varnames, self.domain)
-        resdata = dict()
-        for m, c in self._data.items():
-            sum_coef = c + other._data.get(m, self.domain(0))
-            if sum_coef != 0:
-                resdata[m] = sum_coef
-
+        ## Checking consistency of operands
+        if self.domain != other.domain:
+            raise TypeError(f"Incompatible domains between SparsePolynomials ({self.domain} vs {other.domain})")
+        elif len(self._varnames) != len(other._varnames):
+            raise TypeError(f"Incompatible number of variables between SparsePolynomials ({len(self._varnames)} != {len(other._varnames)})")
+        
+        ## Computing solution
+        resdata = self._data.copy()
         for m, c in other._data.items():
-            if m not in self._data:
+            if m in resdata:
+                new_val = resdata[m] + c
+                if new_val == self.domain.zero:
+                    del resdata[m]
+                else:
+                    resdata[m] = new_val
+            else:
                 resdata[m] = c
-        result._data = resdata
-        return result
+        
+        return SparsePolynomial(self._varnames, self.domain, resdata, False)
 
     def __radd__(self, other):
         return self.__add__(other)
@@ -445,6 +462,7 @@ class SparsePolynomial(object):
     # --------------------------------------------------------------------------
 
     def __iadd__(self, other):
+        ## Checking the argument "other"
         if not isinstance(other, SparsePolynomial):
             if other in self.domain:
                 other = SparsePolynomial.from_const(other, self._varnames, self.domain)
@@ -453,27 +471,36 @@ class SparsePolynomial(object):
             else:
                 return NotImplemented
 
+        ## Checking consistency of operands
+        if self.domain != other.domain:
+            raise TypeError(f"Incompatible domains between SparsePolynomials ({self.domain} vs {other.domain})")
+        elif len(self._varnames) != len(other._varnames):
+            raise TypeError(f"Incompatible number of variables between SparsePolynomials ({len(self._varnames)} != {len(other._varnames)})")
+        
+        ## Computing solution
         for m, c in other._data.items():
-            sum_coef = c + self._data.get(m, self.domain(0))
-            if sum_coef != 0:
-                self._data[m] = sum_coef
-            else:
-                if m in self._data:
+            if m in self._data:
+                new_val = self._data[m] + c
+                if new_val == self.domain.zero:
                     del self._data[m]
+                else:
+                    self._data[m] = new_val
+            else:
+                self._data[m] = c
         return self
 
     # --------------------------------------------------------------------------
 
     def __neg__(self):
         return SparsePolynomial(
-            self._varnames, self.domain, {m: -c for m, c in self._data.items()}
+            self._varnames, self.domain, {m: -c for m, c in self._data.items()}, False
         )
 
     def __sub__(self, other):
         return self + (-other)
 
     def __rsub__(self, other):
-        return self.__neg__().__add__(other)
+        return (-self) + (other)
 
     def __isub__(self, other):
         self += -other
@@ -525,16 +552,12 @@ class SparsePolynomial(object):
                 other = SparsePolynomial.from_string(other, self._varnames, self.domain)
             else:
                 return False
-        if self._data != other._data:
-            return False
-        else:
-            return True
+        
+        return self._data == other._data
 
     def __hash__(self) -> int:
         r"""Method to get the hash of a SparsePolynomial"""
-        return hash(tuple(self._data)) * hash(
-            tuple(SparsePolynomial.from_const(1, self.variables(), self.domain)._data)
-        )
+        return hash(tuple(self._data))
 
     # --------------------------------------------------------------------------
 
