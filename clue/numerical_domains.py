@@ -77,6 +77,9 @@ class NumericalField:
     def __repr__(self):
         return f"NumField[{self.__dtype}]"
     
+    def __eq__(self, other) -> bool:
+        return isinstance(other, NumericalField) and self.dtype == other.dtype
+    
 RR = NumericalField(float64)
 RR16 = NumericalField(float16)
 RR32 = NumericalField(float32)
