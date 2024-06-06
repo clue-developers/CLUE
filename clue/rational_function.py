@@ -1036,7 +1036,7 @@ class SparsePolynomial(object):
 
         result = self.eval(**to_eval).ct
         if not isinstance(result, NualNumber):  # evaluation was zero
-            return NualNumber((n + 1) * [self.domain.convert(0)])
+            return NualNumber((n + 1) * [self.domain.zero])
         return result
 
     # --------------------------------------------------------------------------
@@ -1158,7 +1158,7 @@ class SparsePolynomial(object):
 
         # at this moment the coefficient is positive (or not comparable to 0)
         return prefix, (
-            "" if c == self.domain.convert(1) else self._scalar_to_str(c) + "*"
+            "" if c == self.domain.one else self._scalar_to_str(c) + "*"
         ) + m.to_string(self._varnames)
 
     # --------------------------------------------------------------------------

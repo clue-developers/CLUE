@@ -106,7 +106,7 @@ def _automated_differentiation(expr, varnames, domain, point):
             NualNumber(
                 [domain.convert(point[i])]
                 + [
-                    domain.convert(1) if j == i else domain.convert(0)
+                    domain.one if j == i else domain.zero
                     for j in range(len(point))
                 ]
             )

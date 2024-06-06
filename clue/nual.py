@@ -196,7 +196,7 @@ class NualNumber:
 
     ## Comparison methods
     def is_zero(self):
-        return all(c == 0 for c in self.coeffs)
+        return all(c == (self.__field.zero if self.__field is not None else 0) for c in self.coeffs)
 
     def __eq__(self, other):
         try:
