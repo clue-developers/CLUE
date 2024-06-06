@@ -1615,7 +1615,7 @@ class OrthogonalSubspace(Subspace):
                 self.field.one
                 / math.gcd(*[new_vector[i].numerator for i in new_vector.nonzero])
             )
-        if self.field == RR:
+        elif self.field == RR:
             new_vector.scale(
                 self.field.one / math.sqrt(new_vector.inner_product(new_vector))
             )

@@ -2879,7 +2879,7 @@ class FODESystem:
         new_vars_name="y",
         print_system=False,
         print_reduction=False,
-        out_format="sympy",
+        out_format="internal",
         loglevel=None,
         initial_conditions=None,
         method="polynomial",
