@@ -9,6 +9,8 @@ from numpy import (complex64, complex128, complex256,
 class NumericalField:
     def __init__(self, dtype):
         self.__dtype = dtype
+        self.one = self.__dtype(1)
+        self.zero = self.__dtype(0)
         ## Some attribute to mimic Sympy fields
         self.is_Exact = False
         self.is_Numerical = True
@@ -19,14 +21,6 @@ class NumericalField:
     
     def convert(self, data):
         return self.__dtype(data)
-    
-    @property
-    def one(self):
-        return self.__dtype(1)
-    
-    @property
-    def zero(self):
-        return self.__dtype(0)
     
     def __contains__(self, element):
         r'''

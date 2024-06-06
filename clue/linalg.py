@@ -524,6 +524,12 @@ class SparseVector():
                 result[i] = to_insert  # __setitem__ updates the nonzero attribute
         return result
 
+    @classmethod
+    def cannonical_basis_element(cls, index:int , dimension: int, field: Domain = QQ):
+        result = cls(dimension, field)
+        result[index] = field.one
+        return result
+
     # --------------------------------------------------------------------------
 
     def rational_reconstruction(self):
@@ -1493,6 +1499,15 @@ class Subspace(object):
         result = Subspace(QQ)
         for pivot, vector in self.echelon_form.items():
             result.echelon_form[pivot] = vector.rational_reconstruction()
+        return result
+
+    # --------------------------------------------------------------------------
+
+    @classmethod
+    def identity_subspace(cls, dimension: int, domain: Domain = QQ):
+        result = cls(dimension)
+        for i in range(dimension):
+            result.absorb_new_vector(SparseVector.cannonical_basis_element(i, dimension, domain))
         return result
 
 

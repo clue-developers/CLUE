@@ -45,6 +45,7 @@ def to_rational(s: str):
 # ------------------------------------------------------------------------------
 class SparseMonomial(dict):
     def __init__(self, data: dict[int, int] | list[tuple[int, int]]):
+        self.__blocked = False
         if isinstance(data, dict):
             for (v,e) in data.items():
                 self[v] = e
@@ -56,6 +57,7 @@ class SparseMonomial(dict):
                     self[v] = e
 
         self.__hash = None
+        self.__blocked = True
 
     def __mul__(self, other: SparseMonomial) -> SparseMonomial:
         if not isinstance(other, SparseMonomial):
@@ -136,6 +138,12 @@ class SparseMonomial(dict):
             self.__hash = hash(tuple(sorted(self.items())))
         return self.__hash
     
+    def __setitem__(self, key: Any, value: Any) -> None:
+        if not self.__blocked:
+            return super().__setitem__(key, value)
+        else:
+            raise NotImplementedError("SparseMonomial are inmutable")
+        
     def to_string(self, *varnames: str) -> str:
         if len(varnames) == 1 and isinstance(varnames, (tuple, list)):
             varnames = varnames[0]
@@ -145,7 +153,6 @@ class SparseMonomial(dict):
             return "1"
         else:
             return "*".join(f"{varnames[v]}{f'**{e}' if e > 1 else ''}" for (v,e) in self.items())
-
 
 class SparsePolynomial(object):
     r"""

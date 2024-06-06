@@ -2410,6 +2410,7 @@ class FODESystem:
                     if row.nonzero_count():
                         rows.append(row)
             logger.debug(f"[find_maximal_threshold] Need to check {len(rows)} vectors")
+            logger.debug(f"[find_maximal_threshold] Orig. max. norm {math.sqrt(max(r.inner_product(r) for r in rows))}")
             logger.debug(
                 f"[find_maximal_threshold] Dimension of the subspace: {subspace.dim()}"
             )
@@ -2420,7 +2421,7 @@ class FODESystem:
                 )  # arbitrary epsilon  due to already a lumping
             else:
                 for row in rows:
-                    row.reduce(-self.field.one, row.apply_matrix(subspace.projector))
+                    row.reduce(-self.field.one, row.apply_matrix(subspace.projector)) # r - Pr
                 epsilon = math.sqrt(max(el.inner_product(el) for el in rows))
                 logger.debug(f"[find_maximal_threshold] Computed maximal epsilon: {epsilon}")
                 self.__cache_thresholds[key] = epsilon
@@ -2467,7 +2468,7 @@ class FODESystem:
         matrices = self.construct_matrices(matrix_algorithm)
 
         logger.debug(
-            "[find_next_reduction] Computing maximal epsilon and its deviation"
+            "[find_next_reduction] Computing maximal epsilon"
         )
         max_epsilon  = self.find_maximal_threshold(
             observable, matrix_algorithm=matrix_algorithm
@@ -3059,10 +3060,15 @@ class FODESystem:
         logger.debug(
             f"[_lumping] -> Found the lumping subspace in {time.time()-start}s"
         )
-
-        lumped_rhs = self._lumped_system(
-            lumping_subspace, vars_old, field, new_vars_name
-        )
+        if self.size == len(lumped_rhs):
+            logger.warning(f"[lumping] lumped size ({len(lumped_rhs)}) and original size ({self.size}) are the same.")
+            lumped_rhs = LDESystem(self.equations, self.observables, self.variables, self.ic, self.name, 
+                                   {v : SparsePolynomial.variable(v, self.variables, self.field) for v in self.variables}, self, 
+                                   self.lumping_subspace_class.identity_subspace(self.size, self.field))
+        else:
+            lumped_rhs = self._lumped_system(
+                lumping_subspace, vars_old, field, new_vars_name
+            )
 
         ## Computing the new variables and their expression in term of old variables
         vars_new = [f"{new_vars_name}{i}" for i in range(lumping_subspace.dim())]
@@ -3104,9 +3110,7 @@ class FODESystem:
             print("Lumped system:", file=file)
             for i in range(lumping_subspace.dim()):
                 print(f"{vars_new[i]}' = {lumped_rhs[i]}", file=file)
-        if self.size == len(lumped_rhs):
-            logger.warning(f"[lumping] lumped size ({len(lumped_rhs)}) and original size ({self.size}) are the same.")
-
+        
         return {
             "equations": lumped_rhs,
             "variables": vars_new,
