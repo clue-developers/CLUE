@@ -3061,35 +3061,41 @@ class FODESystem:
             f"[_lumping] -> Found the lumping subspace in {time.time()-start}s"
         )
         if self.size == lumping_subspace.dim():
-            logger.warning(f"[lumping] lumped size ({len(lumped_rhs)}) and original size ({self.size}) are the same.")
-            lumped_rhs = LDESystem(self.equations, self.observables, self.variables, self.ic, self.name, 
-                                   {v : SparsePolynomial.variable(v, self.variables, self.field) for v in self.variables}, self, 
-                                   self.lumping_subspace_class.identity_subspace(self.size, self.field))
+            logger.warning(f"[lumping] lumped size ({lumping_subspace.dim()}) and original size ({self.size}) are the same.")
+            lumped_rhs = self.equations
+            vars_new = self.variables
+            map_old_variables = [SparsePolynomial.variable(v, self.variables, self.field) for v in self.variables]
+            new_ic = (
+                self.ic
+                if ic is None
+                else {v: ic.get(v, self.ic.get(v, None)) for v in set(ic).union(self.ic)}
+            )  # we merge the initial condition dictionaries
+            lumping_subspace = self.lumping_subspace_class.identity_subspace(self.size, self.field)
         else:
             lumped_rhs = self._lumped_system(
                 lumping_subspace, vars_old, field, new_vars_name
             )
 
-        ## Computing the new variables and their expression in term of old variables
-        vars_new = [f"{new_vars_name}{i}" for i in range(lumping_subspace.dim())]
-        map_old_variables = [
-            SparsePolynomial(vars_old, field, {((j, 1),): v[j] for j in v.nonzero})
-            for v in lumping_subspace.basis()
-        ]
+            ## Computing the new variables and their expression in term of old variables
+            vars_new = [f"{new_vars_name}{i}" for i in range(lumping_subspace.dim())]
+            map_old_variables = [
+                SparsePolynomial(vars_old, field, {((j, 1),): v[j] for j in v.nonzero})
+                for v in lumping_subspace.basis()
+            ]
 
-        # Computing the new initial conditions for the new variables when possible
-        ic = (
-            self.ic
-            if ic is None
-            else {v: ic.get(v, self.ic.get(v, None)) for v in set(ic).union(self.ic)}
-        )  # we merge the initial condition dictionaries
-        new_ic = {
-            new_var: sum(vector[j] * ic[self.variables[j]] for j in vector.nonzero)
-            for new_var, vector in zip(
-                vars_new, lumping_subspace.basis()
-            )  # we use that all elements in the basis are non-zero
-            if all(self.variables[j] in ic for j in vector.nonzero)
-        }
+            # Computing the new initial conditions for the new variables when possible
+            ic = (
+                self.ic
+                if ic is None
+                else {v: ic.get(v, self.ic.get(v, None)) for v in set(ic).union(self.ic)}
+            )  # we merge the initial condition dictionaries
+            new_ic = {
+                new_var: sum(vector[j] * ic[self.variables[j]] for j in vector.nonzero)
+                for new_var, vector in zip(
+                    vars_new, lumping_subspace.basis()
+                )  # we use that all elements in the basis are non-zero
+                if all(self.variables[j] in ic for j in vector.nonzero)
+            }
 
         ## Nice printing
         if print_system:

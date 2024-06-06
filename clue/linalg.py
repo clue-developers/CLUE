@@ -1505,7 +1505,7 @@ class Subspace(object):
 
     @classmethod
     def identity_subspace(cls, dimension: int, domain: Domain = QQ):
-        result = cls(dimension)
+        result = cls(domain)
         for i in range(dimension):
             result.absorb_new_vector(SparseVector.cannonical_basis_element(i, dimension, domain))
         return result
