@@ -79,4 +79,4 @@ docs/_sources
 *.png
 
 # Temporal gitignore
-tests/quantum
+papers/quantum

@@ -3060,7 +3060,7 @@ class FODESystem:
         logger.debug(
             f"[_lumping] -> Found the lumping subspace in {time.time()-start}s"
         )
-        if self.size == len(lumped_rhs):
+        if self.size == lumping_subspace.dim():
             logger.warning(f"[lumping] lumped size ({len(lumped_rhs)}) and original size ({self.size}) are the same.")
             lumped_rhs = LDESystem(self.equations, self.observables, self.variables, self.ic, self.name, 
                                    {v : SparsePolynomial.variable(v, self.variables, self.field) for v in self.variables}, self, 
