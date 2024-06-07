@@ -5,6 +5,9 @@ r'''
 
 from numpy import (complex64, complex128, complex256, 
                    float16, float32, float64, float128)
+from sympy import PythonRational
+from sympy.polys.domains.domainelement import DomainElement
+from sympy.polys.domains.field import Field
 
 class NumericalField:
     def __init__(self, dtype):
@@ -88,5 +91,10 @@ RR128 = NumericalField(float128)
 CC = NumericalField(complex128)
 CC64 = NumericalField(complex64)
 CC256 = NumericalField(complex256)
+
+Domain = Field | NumericalField
+ExactElement = PythonRational | DomainElement
+NumericalElement = complex64 | complex128 | complex256 | float16 | float32 | float64 | float128
+Element = ExactElement | NumericalElement; 
 
 __all__ = ["NumericalField", "RR", "CC"]

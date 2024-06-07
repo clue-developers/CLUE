@@ -11,7 +11,6 @@ import random, sys
 from .clue import FODESystem, LDESystem, SparseRowMatrix
 from .rational_function import SparsePolynomial
 
-
 class UncertainFODESystem(FODESystem):
     r'''
     Class to represent a Linear Uncertain Differential System (LUDS).
