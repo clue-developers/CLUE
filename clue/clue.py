@@ -33,7 +33,7 @@ from .linalg import (
     SparseVector,
     find_smallest_common_subspace,
 )
-from .numerical_domains import RR
+from .numerical_domains import Domain, RR
 from .nual import NualNumber
 from .ode_parser import read_system
 from .rational_function import SparsePolynomial, RationalFunction
@@ -89,12 +89,12 @@ def _func_for_expr(expr, varnames, domain):
     return __func
 
 
-def _automated_differentiation(expr, varnames, domain, point):
+def _automated_differentiation(expr, varnames: list[str], domain: Domain, point):
     r'''
     Method to compute automatic differentiation of a sympy expression
     '''
     if expr == 0:
-        return NualNumber([0 for _ in range(len(varnames) + 1)])
+        return NualNumber.zero(len(varnames)+1, domain)
 
     if isinstance(expr, (SparsePolynomial, RationalFunction)):
         return expr.automated_diff(
@@ -105,10 +105,8 @@ def _automated_differentiation(expr, varnames, domain, point):
         to_eval = [
             NualNumber(
                 [domain.convert(point[i])]
-                + [
-                    domain.one if j == i else domain.zero
-                    for j in range(len(point))
-                ]
+                + [domain.one if j == i else domain.zero for j in range(len(point))],
+                domain
             )
             for i in range(len(point))
         ]

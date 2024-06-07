@@ -4,7 +4,9 @@ r'''
     This module contains a basic Python implementation of `n`-ual numbers in the class
     :class:`NualNumber`.
 '''
+from __future__ import annotations
 
+from numerical_domains import Domain, Element
 
 class NualNumber:
     r'''
@@ -112,20 +114,41 @@ class NualNumber:
         of computations.
     '''
 
-    def __init__(self, coeffs, field=None):
+    def __init__(self, coeffs: list[Element] | tuple[Element], field: Domain = None, cast: bool = False):
         self.__size = len(coeffs)
-        self.__coeffs = [coeffs[i] for i in range(self.__size)]
+        if cast and isinstance(field, Domain):
+            self.__coeffs = [field.convert(coeffs[i]) for i in range(self.__size)]
+        else:
+            self.__coeffs = [coeffs[i] for i in range(self.__size)]
         self.__field = field
+        self.__cache_pow = dict()
+
+    @staticmethod
+    def constant(value: Element, dim: int, field: Domain = None):
+        zero = 0 if field is None else field.zero
+        value = value if field is None else field.convert(value)
+        return NualNumber([value] + [zero for _ in range(dim-1)], field, False)
+    
+    @staticmethod
+    def one(dim: int, field: Domain = None):
+        return NualNumber.constant(field.one if field is not None else 1, dim, field)
+    @staticmethod
+    def zero(dim: int, field: Domain = None):
+        return NualNumber.constant(field.zero if field is not None else 0, dim, field)
 
     @property
-    def size(self):
+    def size(self) -> int:
         return self.__size
 
     @property
-    def coeffs(self):
+    def coeffs(self) -> list[Element]:
         return self.__coeffs.copy()
+    
+    @property
+    def field(self) -> Domain:
+        return self.__field
 
-    def _to_nual(self, other):
+    def _to_nual(self, other: Element) -> NualNumber:
         r'''
         Method to convert an element into a `n`-ual number of the same length as ``self``.
 
@@ -165,56 +188,55 @@ class NualNumber:
             >>> a._to_nual(a) == a
             True
         '''
-        try:
-            other = NualNumber(other)
-        except TypeError:
-            ## The input is not iterable with integers, hence we create a list with
-            ## appropriate length for it
-            return NualNumber([other] + [0 for _ in range(self.size - 1)])
+        if not isinstance(other, NualNumber) or other.__field != self.__field:        
+            try:
+                other = NualNumber(other, self.__field, True)
+            except TypeError:
+                other = NualNumber.constant(other, self.size, self.__field)
 
         ## If a NualNumber was created, we check the tpe is correct
         if other.size == self.size:
             return other
         else:
-            raise TypeError("The input %s has incorrect length" % other)
+            raise TypeError(f"The input {other} has incorrect length")
 
-    def change_base(self, new_field):
+    def change_base(self, new_field: Domain) -> NualNumber:
         r'''It changes the type of the elements forcing it to be a fixed domain'''
         if new_field == self.__field:
             return self
-        return NualNumber([new_field.convert(el) for el in self.__coeffs], new_field)
+        return NualNumber(self.__coeffs, new_field, True)
 
     # Sequence methods
-    def __len__(self):
+    def __len__(self) -> int:
         return self.size
 
-    def __getitem__(self, items):
+    def __getitem__(self, items) -> Element | list[Element]:
         return self.coeffs[items]
 
     def __iter__(self):
         return iter(self.coeffs)
 
     ## Comparison methods
-    def is_zero(self):
+    def is_zero(self) -> bool:
         return all(c == (self.__field.zero if self.__field is not None else 0) for c in self.coeffs)
 
-    def __eq__(self, other):
+    def __eq__(self, other: NualNumber | Element) -> bool:
         try:
             return (self - other).is_zero()
         except TypeError:
             return False
 
     ## Arithmetic operations
-    def __add__(self, other):
+    def __add__(self, other: NualNumber | Element) -> NualNumber:
         try:
             other = self._to_nual(other)
         except TypeError:
             return NotImplemented
 
         # other is now a NualNumber with the same size
-        return NualNumber([self[i] + other[i] for i in range(self.size)])
+        return NualNumber([self[i] + other[i] for i in range(self.size)], self.__field)
 
-    def __mul__(self, other):
+    def __mul__(self, other: NualNumber | Element) -> NualNumber:
         try:
             other = self._to_nual(other)
         except TypeError:
@@ -223,35 +245,27 @@ class NualNumber:
         # other is now a NualNumber with the same size
         return NualNumber(
             [self[0] * other[0]]
-            + [self[0] * other[i] + self[i] * other[0] for i in range(1, self.size)]
+            + [self[0] * other[i] + self[i] * other[0] for i in range(1, self.size)],
+            self.__field
         )
 
-    def __neg__(self):
-        return NualNumber([-c for c in self.coeffs])
+    def __neg__(self) -> NualNumber:
+        return NualNumber([-c for c in self.coeffs], self.__field)
 
     def __abs__(self):
-        return NualNumber([abs(c) for c in self.coeffs])
+        return NualNumber([abs(c) for c in self.coeffs], self.__field)
 
-    def __sub__(self, other):
-        try:
-            other = self._to_nual(other)
-        except TypeError:
-            return NotImplemented
-
+    def __sub__(self, other) -> NualNumber:
         # other is now a NualNumber with the same size
-        return self + (-other)  # using code for __add__
+        return self.__add__(-other)  # using code for __add__
 
-    def __inv__(self):
+    def __inv__(self) -> NualNumber:
         if self[0] == 0:
-            raise ZeroDivisionError(
-                "%d-ual numbers with first term 0 are not invertible" % self.size
-            )
+            raise ZeroDivisionError(f"{self.size}-ual numbers with first term 0 are not invertible")
 
-        return NualNumber(
-            [1 / self[0]] + [-self[i] / self[0] ** 2 for i in range(1, self.size)]
-        )
+        return NualNumber([1 / self[0]] + [-self[i] / self[0] ** 2 for i in range(1, self.size)], self.__field)
 
-    def __truediv__(self, other):
+    def __truediv__(self, other: NualNumber | Element) -> NualNumber:
         try:
             other = self._to_nual(other)
         except TypeError:
@@ -260,7 +274,7 @@ class NualNumber:
         # other is now a NualNumber with the same size
         return self * (other.__inv__())  # using code for __mul__
 
-    def __pow__(self, exp):
+    def __pow__(self, exp: int) -> NualNumber:
         r'''
         Computes the power of a `n`-ual number for arbitrary constant exponent.
 
@@ -295,62 +309,63 @@ class NualNumber:
 
         This method then works for any exponent `\alpha` such that ``self[0]``has implemented the method ``__pow__``.
         '''
-        ## Particular cases for exp == 0 or 1
-        if exp == 0:
-            return NualNumber([1] + [0 for _ in range(1, self.size)])
-        elif exp == 1:
-            return self
-        int_exp = int(exp)
-        if int_exp != exp:
-            pass
-        else:
-            exp = int_exp  # changing the type of exp to int
+        if not exp in self.__cache_pow:
+            ## Particular cases for exp == 0 or 1
+            if exp == 0:
+                self.__cache_pow[0] = NualNumber.one(self.__field)
+            elif exp == 1:
+                self.__cache_pow[1] =  self
+            else:
+                int_exp = int(exp)
+                if int_exp != exp:
+                    pass
+                else:
+                    exp = int_exp  # changing the type of exp to int
 
-        com = self[0] ** (exp - 1)
-        return NualNumber(
-            [self[0] * com] + [exp * self[i] * com for i in range(1, self.size)]
-        )
+                com = self[0] ** (exp - 1)
+                self.__cache_pow[exp] = NualNumber([self[0] * com] + [exp * self[i] * com for i in range(1, self.size)])
+        return self.__cache_pow[exp]
 
-    def __rpow__(self, base):
+    def __rpow__(self, base: Element) -> NualNumber:
         from sympy import log
 
         return self.exp() ** log(base)
 
-    def __radd__(self, other):
+    def __radd__(self, other: NualNumber | Element) -> NualNumber:
         return self.__add__(other)
 
-    def __rsub__(self, other):
+    def __rsub__(self, other: NualNumber | Element) -> NualNumber:
         return (-self).__add__(other)
 
-    def __rmul__(self, other):
+    def __rmul__(self, other: NualNumber | Element) -> NualNumber:
         return self.__mul__(other)
 
-    def __rtruediv__(self, other):
+    def __rtruediv__(self, other: NualNumber | Element) -> NualNumber:
         return (self.__inv__()).__mul__(other)
 
-    def __iadd__(self, other):
+    def __iadd__(self, other: NualNumber | Element) -> NualNumber:
         return self.__add__(other)
 
-    def __isub__(self, other):
+    def __isub__(self, other: NualNumber | Element) -> NualNumber:
         return self.__sub__(other)
 
-    def __imul__(self, other):
+    def __imul__(self, other: NualNumber | Element) -> NualNumber:
         return self.__mul__(other)
 
-    def __itruediv__(self, other):
+    def __itruediv__(self, other: NualNumber | Element) -> NualNumber:
         return self.__truediv__(other)
 
     ## Other magic methods
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.coeffs)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return str(self)
 
-    def __hash__(self):
-        return sum(hash(c) for c in self.coeffs)
+    def __hash__(self) -> int:
+        return hash(self.coeffs)
 
-    def exp(self):
+    def exp(self) -> NualNumber:
         r'''
         Method that computes the value ``e**self``.
 

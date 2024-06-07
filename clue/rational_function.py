@@ -190,7 +190,7 @@ class SparsePolynomial(object):
             for key, value in data.items():
                 if cast:
                     if isinstance(value, NualNumber):
-                        value = NualNumber([domain.convert(c) for c in value.coeffs], domain)
+                        value = value.change_base(domain)
                     else:
                         value = domain.convert(value)
                 if value != domain.zero:
@@ -1027,17 +1027,18 @@ class SparsePolynomial(object):
         n = len(gens)
 
         if self.is_constant():
-            return NualNumber([self.domain.convert(self.ct)] + [0 for _ in range(n)])
+            return NualNumber.constant(self.ct, n, self.domain)
         to_eval = {
             gens[i]: NualNumber(
-                [values.get(gens[i], 0)] + [1 if j == i else 0 for j in range(n)]
+                [self.domain.convert(values.get(gens[i], 0))] + [self.domain.one if j == i else self.domain.zero for j in range(n)],
+                self.domain
             )
             for i in range(n)
         }
 
         result = self.eval(**to_eval).ct
         if not isinstance(result, NualNumber):  # evaluation was zero
-            return NualNumber((n + 1) * [self.domain.zero])
+            return NualNumber.zero(n + 1, self.domain)
         return result
 
     # --------------------------------------------------------------------------
@@ -1711,6 +1712,9 @@ class RationalFunction:
         else:
             return RationalFunction(self.denom, self.numer * other)
 
+    def __pow__(self, exp: int) -> RationalFunction:
+        return RationalFunction(self.numer**exp, self.denom**exp)
+
     # --------------------------------------------------------------------------
 
     def __neg__(self) -> RationalFunction:
@@ -1864,17 +1868,7 @@ class RationalFunction:
         '''
             Exponentiation, ``power`` is a *positive* integer
         '''
-        if not power in self.__cache_pow:
-            if power < 0:
-                raise ValueError(f"Cannot raise to power {power}, {str(self)}")
-            if power == 0:
-                self.__cache_pow[power] = RationalFunction.from_const(1, self._varnames, self.domain)
-            elif power == 1:
-                self.__cache_pow[1] = self
-            else:
-                self.__cache_pow[power] = self.exp(power // 2) * self.exp(power // 2 + power % 2)
-        
-        return self.__cache_pow[power]
+        return self**power
 
     # --------------------------------------------------------------------------
     @staticmethod
