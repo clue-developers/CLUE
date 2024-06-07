@@ -1426,53 +1426,63 @@ class SparsePolynomial(object):
 
 class RationalFunction:
     r'''
-    Class for representing rational function with sparse polynomials
+        Class for representing rational function with sparse polynomials
 
-    Input:
-        ``num`` - numerator SparsePolynomial
-        ``denom`` - denominator SparsePolynomial
+        Input:
+            ``num`` - numerator SparsePolynomial
+            ``denom`` - denominator SparsePolynomial
 
-    Examples::
+        Examples::
 
-        >>> from clue.rational_function import *
-        >>> from sympy import parse_expr, simplify
-        >>> rat_fun = "0.1"
-        >>> parsed = parse_expr(rat_fun)
-        >>> rf = RationalFunction.from_string(rat_fun, ["a", "b", "c"])
-        >>> simplify(parse_expr(str(rf)) - parsed) == 0
-        True
-        >>> rat_fun = "1 / a + 1 / b"
-        >>> parsed = parse_expr(rat_fun)
-        >>> rf = RationalFunction.from_string(rat_fun, ["a", "b", "c"])
-        >>> simplify(parse_expr(str(rf)) - parsed) == 0
-        True
-        >>> rat_fun = "1 / (1 + 1/b + 1/(c + 1 / (a + b + 1/c)))"
-        >>> parsed = parse_expr(rat_fun)
-        >>> rf = RationalFunction.from_string(rat_fun, ["a", "b", "c"])
-        >>> simplify(parse_expr(str(rf)) - parsed) == 0
-        True
-        >>> rat_fun = "(a + b) / (1 - a + 1/ (b + c)) - 3/5 + (7 + a) / (c + 1 / b)"
-        >>> parsed = parse_expr(rat_fun)
-        >>> rf = RationalFunction.from_string(rat_fun, ["a", "b", "c"])
-        >>> simplify(parse_expr(str(rf)) - parsed) == 0
-        True
-        >>> rat_fun = "(a + b + c**2)**5 - 3 * a + b * 17 * 19 * 0.5"
-        >>> parsed = parse_expr(rat_fun)
-        >>> rf = RationalFunction.from_string(rat_fun, ["a", "b", "c"])
-        >>> simplify(parse_expr(str(rf)) - parsed) == 0
-        True
+            >>> from clue.rational_function import *
+            >>> from sympy import parse_expr, simplify
+            >>> rat_fun = "0.1"
+            >>> parsed = parse_expr(rat_fun)
+            >>> rf = RationalFunction.from_string(rat_fun, ["a", "b", "c"])
+            >>> simplify(parse_expr(str(rf)) - parsed) == 0
+            True
+            >>> rat_fun = "1 / a + 1 / b"
+            >>> parsed = parse_expr(rat_fun)
+            >>> rf = RationalFunction.from_string(rat_fun, ["a", "b", "c"])
+            >>> simplify(parse_expr(str(rf)) - parsed) == 0
+            True
+            >>> rat_fun = "1 / (1 + 1/b + 1/(c + 1 / (a + b + 1/c)))"
+            >>> parsed = parse_expr(rat_fun)
+            >>> rf = RationalFunction.from_string(rat_fun, ["a", "b", "c"])
+            >>> simplify(parse_expr(str(rf)) - parsed) == 0
+            True
+            >>> rat_fun = "(a + b) / (1 - a + 1/ (b + c)) - 3/5 + (7 + a) / (c + 1 / b)"
+            >>> parsed = parse_expr(rat_fun)
+            >>> rf = RationalFunction.from_string(rat_fun, ["a", "b", "c"])
+            >>> simplify(parse_expr(str(rf)) - parsed) == 0
+            True
+            >>> rat_fun = "(a + b + c**2)**5 - 3 * a + b * 17 * 19 * 0.5"
+            >>> parsed = parse_expr(rat_fun)
+            >>> rf = RationalFunction.from_string(rat_fun, ["a", "b", "c"])
+            >>> simplify(parse_expr(str(rf)) - parsed) == 0
+            True
     '''
 
     __parser = None
     __parser_stack = []
 
     def __init__(self, numer: SparsePolynomial, denom: SparsePolynomial):
-        ## Checking the input has the correct format
-        assert isinstance(numer, SparsePolynomial)
-        assert isinstance(denom, SparsePolynomial)
-        assert numer.domain == denom.domain
-        assert numer.gens == denom.gens
-        assert not denom.is_zero()
+        if isinstance(numer, SparsePolynomial) and isinstance(denom, SparsePolynomial):
+            try:
+                numer, denom = numer, numer._SparsePolynomial__check_SparsePolynomial(denom)
+            except TypeError:
+                try:
+                    numer, denom = denom._SparsePolynomial__check_SparsePolynomial(numer), denom
+                except TypeError:
+                    raise TypeError(f"Incompatible SparsePolynomials for a Rational Function")
+        elif isinstance(numer, SparsePolynomial):
+            denom = numer._SparsePolynomial__check_SparsePolynomial(denom)
+        elif isinstance(denom, SparsePolynomial):
+            numer = denom._SparsePolynomial__check_SparsePolynomial(numer)
+
+        ## numer and denom are SparsePolynomial with same domain and variables
+        if denom.is_zero():
+            raise ZeroDivisionError(f"Trying to create a RationalFunction with zero denominator")
 
         ## Assigning the values for the rational function
         self._domain = numer.domain
@@ -1493,7 +1503,7 @@ class RationalFunction:
         self.__cache_pow = dict()
 
     @staticmethod
-    def from_const(val, varnames: list[str], domain=QQ) -> RationalFunction:
+    def from_const(val, varnames: list[str], domain: Domain = QQ) -> RationalFunction:
         return RationalFunction(
             SparsePolynomial.from_const(val, varnames, domain),
             SparsePolynomial.from_const(1, varnames, domain),
@@ -1505,7 +1515,7 @@ class RationalFunction:
 
     def get_poly(self) -> SparsePolynomial:
         if self.is_polynomial():
-            return self.numer * (self.domain.one / self.domain.convert(self.denom.ct))
+            return self.numer * (self.domain.one / self.denom.ct)
         raise ValueError(f"{self} is not a polynomial")
 
     def is_zero(self) -> bool:
@@ -1516,7 +1526,7 @@ class RationalFunction:
 
     # --------------------------------------------------------------------------
     @property
-    def domain(self):
+    def domain(self) -> Domain:
         return self._domain
 
     # --------------------------------------------------------------------------
@@ -1529,7 +1539,7 @@ class RationalFunction:
     def size(self) -> int:
         return self.denom.size + self.numer.size
 
-    def variables(self, as_poly=False) -> list[SparsePolynomial|str]:
+    def variables(self, as_poly: bool = False) -> list[SparsePolynomial|str]:
         return tuple(
             set(
                 list(self.numer.variables(as_poly))
@@ -1540,104 +1550,104 @@ class RationalFunction:
     # --------------------------------------------------------------------------
     def valuation(self, var_name: str) -> int:
         r'''
-        Valuation of a rational function w.r.t. a variable.
+            Valuation of a rational function w.r.t. a variable.
 
-        A valuation is a map `\nu: D \rightarrow \mathbb{Z}` such that
+            A valuation is a map `\nu: D \rightarrow \mathbb{Z}` such that
 
-        .. MATH::
+            .. MATH::
 
-            nu(p\cdot q) = \nu(p) + \nu(q) \qquad \nu(p + q) \geq \min(\nu(p), \nu(q))
+                nu(p\cdot q) = \nu(p) + \nu(q) \qquad \nu(p + q) \geq \min(\nu(p), \nu(q))
 
-        In particular, the functions `\nu_v(p/q) = \deg_v(p) - \deg_v(q)` is such a
-        valuation. This method returns the valuation w.r.t. a variable of this
-        rational function. It is based on the method :func:`clue.rational_function.SparsePolynomial.degree`.
+            In particular, the functions `\nu_v(p/q) = \deg_v(p) - \deg_v(q)` is such a
+            valuation. This method returns the valuation w.r.t. a variable of this
+            rational function. It is based on the method :func:`clue.rational_function.SparsePolynomial.degree`.
 
-        Input
-            ``var_name`` - name (string) of the variable to compute the degree.
+            Input
+                ``var_name`` - name (string) of the variable to compute the degree.
 
-        Output
-            The valuation of ``self`` w.r.t. ```var_name``.
+            Output
+                The valuation of ``self`` w.r.t. ```var_name``.
 
-        TODO: add examples and tests
+            TODO: add examples and tests
         '''
         return self.numer.degree(var_name) - self.denom.degree(var_name)
 
     # --------------------------------------------------------------------------
     def derivative(self, var: str) -> RationalFunction:
         r'''
-        Compute the derivative with respect to a given variable.
+            Compute the derivative with respect to a given variable.
 
-        This method computes the derivative of the rational function represented by ``self``
-        with respect to a variable provided by ``var``.
+            This method computes the derivative of the rational function represented by ``self``
+            with respect to a variable provided by ``var``.
 
-        A rational function `f(x) = p(x)/q(x)` always satisfies the quotient rule for derivations:
+            A rational function `f(x) = p(x)/q(x)` always satisfies the quotient rule for derivations:
 
-        .. MATH::
+            .. MATH::
 
-            f'(x) = \frac{p'(x)q(x) - q'(x)p(x)}{q(x)^2}
+                f'(x) = \frac{p'(x)q(x) - q'(x)p(x)}{q(x)^2}
 
-        This method uses such formula and the method :func:`~clue.rational_function.SparsePolynomial.derivative`.
+            This method uses such formula and the method :func:`~clue.rational_function.SparsePolynomial.derivative`.
 
-        Input
-            ``var`` - name (string) of the variable with respect we compute the derivative.
+            Input
+                ``var`` - name (string) of the variable with respect we compute the derivative.
 
-        Output
-            A rational function :class:`RationalFunction` with the derivative of ``self`` w.r.t. ``var``.
+            Output
+                A rational function :class:`RationalFunction` with the derivative of ``self`` w.r.t. ``var``.
 
-        Examples::
+            Examples::
 
-            >>> from clue.rational_function import *
-            >>> varnames = ['x','y','z']
-            >>> rf1 = RationalFunction.from_string("(3 * x**2 * y**4 * z**7)/(7*x**4 + 3*y**2 * z**9)", varnames)
-            >>> rf1dx_expected = RationalFunction.from_string("(-(6*y**4*z**7*x*(7*x**4-3*y**2*z**9)))/((7*x**4+3*y**2*z**9)**2)", varnames)
-            >>> rf1.derivative('x') == rf1dx_expected
-            True
-            >>> rf2 = RationalFunction.from_string("(x**2*y**2)/(z**2)", varnames)
-            >>> rf2dx_expected = RationalFunction.from_string("(2*y**2*x)/(z**2)", varnames)
-            >>> rf2.derivative('x') == rf2dx_expected
-            True
-            >>> rf2dz_expected = RationalFunction.from_string("(-(2*x**2*y**2))/(z**3)", varnames)
-            >>> rf2.derivative('z') == rf2dz_expected
-            True
-            >>> rf3 = RationalFunction.from_string("(x**2)/(y*z**2)", varnames)
-            >>> rf3dx_expected = RationalFunction.from_string("(2*x)/(y*z**2)", varnames)
-            >>> rf3.derivative('x') == rf3dx_expected
-            True
-            >>> rf3dy_expected = RationalFunction.from_string("-(x**2)/(y**2*z**2)", varnames)
-            >>> rf3.derivative('y') == rf3dy_expected
-            True
-            >>> rf3dz_expected = RationalFunction.from_string("(-2*x**2)/(y*z**3)", varnames)
-            >>> rf3.derivative('z') == rf3dz_expected
-            True
+                >>> from clue.rational_function import *
+                >>> varnames = ['x','y','z']
+                >>> rf1 = RationalFunction.from_string("(3 * x**2 * y**4 * z**7)/(7*x**4 + 3*y**2 * z**9)", varnames)
+                >>> rf1dx_expected = RationalFunction.from_string("(-(6*y**4*z**7*x*(7*x**4-3*y**2*z**9)))/((7*x**4+3*y**2*z**9)**2)", varnames)
+                >>> rf1.derivative('x') == rf1dx_expected
+                True
+                >>> rf2 = RationalFunction.from_string("(x**2*y**2)/(z**2)", varnames)
+                >>> rf2dx_expected = RationalFunction.from_string("(2*y**2*x)/(z**2)", varnames)
+                >>> rf2.derivative('x') == rf2dx_expected
+                True
+                >>> rf2dz_expected = RationalFunction.from_string("(-(2*x**2*y**2))/(z**3)", varnames)
+                >>> rf2.derivative('z') == rf2dz_expected
+                True
+                >>> rf3 = RationalFunction.from_string("(x**2)/(y*z**2)", varnames)
+                >>> rf3dx_expected = RationalFunction.from_string("(2*x)/(y*z**2)", varnames)
+                >>> rf3.derivative('x') == rf3dx_expected
+                True
+                >>> rf3dy_expected = RationalFunction.from_string("-(x**2)/(y**2*z**2)", varnames)
+                >>> rf3.derivative('y') == rf3dy_expected
+                True
+                >>> rf3dz_expected = RationalFunction.from_string("(-2*x**2)/(y*z**3)", varnames)
+                >>> rf3.derivative('z') == rf3dz_expected
+                True
 
-        If the variable provided does not show up in the rational function, the zero function is returned::
+            If the variable provided does not show up in the rational function, the zero function is returned::
 
-            >>> rf1.derivative('a')
-            RationalFunction(0, 1)
-            >>> rf1.derivative('a') == 0
-            True
-            >>> rf1.derivative('xy') == 0
-            True
-            >>> rf = RationalFunction.from_string("(x)/(2 * y**2)", varnames)
-            >>> rf_dz = rf.derivative('z')
-            >>> print(rf_dz)
-            (0)/(1)
+                >>> rf1.derivative('a')
+                RationalFunction(0, 1)
+                >>> rf1.derivative('a') == 0
+                True
+                >>> rf1.derivative('xy') == 0
+                True
+                >>> rf = RationalFunction.from_string("(x)/(2 * y**2)", varnames)
+                >>> rf_dz = rf.derivative('z')
+                >>> print(rf_dz)
+                (0)/(1)
         '''
         d_num = self.denom * self.numer.derivative(var) - self.numer * self.denom.derivative(var)
         d_denom = self.denom * self.denom
         return RationalFunction(d_num, d_denom)
 
     # --------------------------------------------------------------------------
-    def simplify(self):
+    def simplify(self) -> None:
         r'''
-        Simplify a rational function in-place.
+            Simplify a rational function in-place.
 
-        Method that removes the common factors between the numerator and
-        denominator of ``self``. It is based on the method :func:`~clue.rational_function.SparsePolynomial`
-        and the exact division implementation.
+            Method that removes the common factors between the numerator and
+            denominator of ``self``. It is based on the method :func:`~clue.rational_function.SparsePolynomial`
+            and the exact division implementation.
 
-        The simplification is performed *in-place*, meaning there is no output for this method, but
-        instead, the result is stored within the same object.
+            The simplification is performed *in-place*, meaning there is no output for this method, but
+            instead, the result is stored within the same object.
         '''
         # Removing the gcd of numerator and denominator (whatever Sympy finds)
         gcd = SparsePolynomial.gcd([self.numer, self.denom])
@@ -1690,7 +1700,16 @@ class RationalFunction:
         return self.__add__(other)
 
     def __truediv__(self, other: SparsePolynomial | RationalFunction) -> RationalFunction:
-        return RationalFunction(self.numer * other.denom, self.denom * other.numer)
+        if isinstance(other, RationalFunction): # basic case
+            return RationalFunction(self.numer * other.denom, self.denom * other.numer)
+        else:
+            return RationalFunction(self.numer, self.denom * other)
+
+    def __rtruediv__(self, other: SparsePolynomial | RationalFunction) -> RationalFunction:
+        if isinstance(other, RationalFunction): # basic case
+            return RationalFunction(self.denom * other.numer, self.numer * other.denom)
+        else:
+            return RationalFunction(self.denom, self.numer * other)
 
     # --------------------------------------------------------------------------
 
@@ -1703,50 +1722,39 @@ class RationalFunction:
     def __rsub__(self, other: SparsePolynomial | RationalFunction) -> RationalFunction:
         return self.__neg__().__add__(other)
 
-    def __isub__(self, other: SparsePolynomial | RationalFunction) -> RationalFunction:
-        self += -other
-        return self
-
-    def __iadd__(self, other: SparsePolynomial | RationalFunction) -> RationalFunction:
-        if self.denom == other.denom:
-            self.numer += other.numer
-            return self
-        self = self + other
-        return self
-
     # --------------------------------------------------------------------------
-    def eval(self, **values):
+    def eval(self, **values) -> RationalFunction:
         r'''
-        Method that evaluates a rational function.
+            Method that evaluates a rational function.
 
-        This method evaluates a rational function performing a simultaneous substitution of the
-        given variables for some specific values. This is based on the method
-        :func:`~clue.rational_function.SparsePolynomial.eval`. See that method for further
-        limitations.
+            This method evaluates a rational function performing a simultaneous substitution of the
+            given variables for some specific values. This is based on the method
+            :func:`~clue.rational_function.SparsePolynomial.eval`. See that method for further
+            limitations.
 
-        Input
-            values - dictionary containing the names fo the variables to be evaluated and the values to plug-in.
+            Input
+                values - dictionary containing the names fo the variables to be evaluated and the values to plug-in.
 
-        Output
-            the evaluation in the given values.
+            Output
+                the evaluation in the given values.
 
-        Examples::
+            Examples::
 
-            >>> from clue.rational_function import *
-            >>> rf = RationalFunction.from_string("x/(y*z**2)", ['x','y','z'])
-            >>> print(rf.eval(x=0))
-            0
-            >>> print(rf.eval(y=1,z=2))
-            1/4*x
-            >>> print(rf.eval(y=2))
-            (1/2*x)/(z**2)
+                >>> from clue.rational_function import *
+                >>> rf = RationalFunction.from_string("x/(y*z**2)", ['x','y','z'])
+                >>> print(rf.eval(x=0))
+                0
+                >>> print(rf.eval(y=1,z=2))
+                1/4*x
+                >>> print(rf.eval(y=2))
+                (1/2*x)/(z**2)
 
-        The denominator can not be evaluated to zero, or an :class:`ZeroDivisionError` would be raised::
+            The denominator can not be evaluated to zero, or an :class:`ZeroDivisionError` would be raised::
 
-            >>> print(rf.eval(y=0))
-            Traceback (most recent call last):
-            ...
-            ZeroDivisionError: A zero from the denominator was found
+                >>> print(rf.eval(y=0))
+                Traceback (most recent call last):
+                ...
+                ZeroDivisionError: A zero from the denominator was found
         '''
         # we evaluate first the denominator
         denom = self.denom.eval(**values)
@@ -1760,9 +1768,9 @@ class RationalFunction:
 
     def subs(self, to_subs=None, **values):
         r'''
-        Method to substitute variables in a rational function (not only with points)
+            Method to substitute variables in a rational function (not only with points)
 
-        See method :func:`clue.rational_functions.SparsePolynomial.subs` for further information.
+            See method :func:`clue.rational_functions.SparsePolynomial.subs` for further information.
         '''
         denom = self.denom.subs(to_subs, **values)
 
@@ -1778,11 +1786,11 @@ class RationalFunction:
             f"lambda {','.join(self._varnames)}: ({str(self.numer)})/({str(self.denom)})"
         )
 
-    def automated_diff(self, **values) -> NualNumber:
+    def automated_diff(self, **values: Element) -> NualNumber:
         return self.numer.automated_diff(**values) / self.denom.automated_diff(**values)
 
     # --------------------------------------------------------------------------
-    def get_constant(self):
+    def get_constant(self) -> Element:
         return self.numer.ct / self.denom.ct
 
     def linear_part_as_vec(self) -> SparseVector:
@@ -1795,7 +1803,7 @@ class RationalFunction:
     def get_sympy_ring(self):
         return self.numer.get_sympy_ring()
 
-    def change_base(self, new_domain) -> RationalFunction:
+    def change_base(self, new_domain: Domain) -> RationalFunction:
         r'''Change the domain of the RationalFunction'''
         return RationalFunction(
             self.numer.change_base(new_domain), self.denom.change_base(new_domain)
@@ -1804,36 +1812,36 @@ class RationalFunction:
     # --------------------------------------------------------------------------
     def __eq__(self, other: SparsePolynomial | RationalFunction) -> bool:
         r'''
-        Equality method for :class:`RationalFunction`.
+            Equality method for :class:`RationalFunction`.
 
-        Two rational functions `p(x)/q(x)` and `r(x)/s(x)` are equal if and only if
+            Two rational functions `p(x)/q(x)` and `r(x)/s(x)` are equal if and only if
 
-        .. MATH::
+            .. MATH::
 
-            p(x)s(x) - q(x)r(x) = 0.
+                p(x)s(x) - q(x)r(x) = 0.
 
-        This method checks such identity for ``self`` and ``other``. In case that ``other``
-        is not a :class:`RationalFunction`, the method :func:`RationalFunction.from_string`
-        is used to try and convert ``other`` into a rational function.
+            This method checks such identity for ``self`` and ``other``. In case that ``other``
+            is not a :class:`RationalFunction`, the method :func:`RationalFunction.from_string`
+            is used to try and convert ``other`` into a rational function.
 
-        Since we need to check and identity of polynomials, this method is based on
-        :func:`clue.rational_function.SparsePolynomial.__eq__`.
+            Since we need to check and identity of polynomials, this method is based on
+            :func:`clue.rational_function.SparsePolynomial.__eq__`.
 
-        Input
-            ``other`` - object to compare with ``self``.
+            Input
+                ``other`` - object to compare with ``self``.
 
-        Output
-            ``True`` if ``other`` and ``self`` are mathematically equal, ``False`` otherwise.
+            Output
+                ``True`` if ``other`` and ``self`` are mathematically equal, ``False`` otherwise.
 
-        Examples::
+            Examples::
 
-            >>> from clue.rational_function import *
-            >>> rf1 = RationalFunction.from_string("x/y",['x','y'])
-            >>> rf2 = RationalFunction.from_string("x/y",['x','y'])
-            >>> rf1 is rf2
-            False
-            >>> rf1 == rf2
-            True
+                >>> from clue.rational_function import *
+                >>> rf1 = RationalFunction.from_string("x/y",['x','y'])
+                >>> rf2 = RationalFunction.from_string("x/y",['x','y'])
+                >>> rf1 is rf2
+                False
+                >>> rf1 == rf2
+                True
         '''
         if not isinstance(other, RationalFunction):
             if isinstance(other, SparsePolynomial):
@@ -1854,7 +1862,7 @@ class RationalFunction:
     # --------------------------------------------------------------------------
     def exp(self, power: int) -> RationalFunction:
         '''
-        Exponentiation, ``power`` is a *positive* integer
+            Exponentiation, ``power`` is a *positive* integer
         '''
         if not power in self.__cache_pow:
             if power < 0:
@@ -1870,13 +1878,13 @@ class RationalFunction:
 
     # --------------------------------------------------------------------------
     @staticmethod
-    def from_string(s: str, varnames: list[str], domain=QQ, var_to_ind: dict[str,int] = None) -> RationalFunction:
+    def from_string(s: str, varnames: list[str], domain: Domain = QQ, var_to_ind: dict[str,int] = None) -> RationalFunction:
         '''
-        Parsing a string to a polynomial, string is allowed to include floating-point numbers
-        in the standard and scientific notation, they will be converted to rationals
+            Parsing a string to a polynomial, string is allowed to include floating-point numbers
+            in the standard and scientific notation, they will be converted to rationals
 
-        The code is an adapted version of fourFn example for pyparsing library by Paul McGuire
-        https://github.com/pyparsing/pyparsing/blob/master/examples/fourFn.py
+            The code is an adapted version of fourFn example for pyparsing library by Paul McGuire
+            https://github.com/pyparsing/pyparsing/blob/master/examples/fourFn.py
         '''
 
         def push_first(toks):
@@ -1972,7 +1980,7 @@ class RationalFunction:
         return evaluate_stack(RationalFunction.__parser_stack)
 
     @staticmethod
-    def from_sympy(sympy_expr, varnames: list[str], domain=QQ) -> RationalFunction:
+    def from_sympy(sympy_expr, varnames: list[str], domain: Domain = QQ) -> RationalFunction:
         num, den = sympy_expr.as_expr().as_numer_denom()
         num = SparsePolynomial.from_string(str(num), varnames, domain)
         den = SparsePolynomial.from_string(str(den), varnames, domain)
