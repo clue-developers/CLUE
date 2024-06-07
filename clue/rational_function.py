@@ -155,7 +155,7 @@ class SparseMonomial(dict):
             return "*".join(f"{varnames[v]}{f'**{e}' if e > 1 else ''}" for (v,e) in self.items())
 
 class SparsePolynomial(object):
-    r"""
+    r'''
     Simplistic class for representing polynomials with sparse exponent vectors
 
     Input
@@ -178,7 +178,7 @@ class SparsePolynomial(object):
         >>> sp = SparsePolynomial.from_string(poly, ["a", "b", "c"])
         >>> simplify(parse_expr(str(sp)) - parsed) == 0
         True
-    """
+    '''
     def __init__(self, 
                  varnames: list[str], 
                  domain: Field | NumericalField = QQ, 
@@ -220,7 +220,7 @@ class SparsePolynomial(object):
 
     @property
     def monomials(self):
-        r"""
+        r'''
         Monomials that have a non-zero coefficient in this polynomial.
 
         This method returns a tuple with the monomials that have a non-zero coefficient
@@ -252,7 +252,7 @@ class SparsePolynomial(object):
 
             >>> p == sum([c*m for (c,m) in zip(p.coefficients, p.monomials)], SparsePolynomial(p.gens, p.domain))
             True
-        """
+        '''
         return tuple(
             [
                 SparsePolynomial.monomial(term[0], self._varnames, self.domain)
@@ -262,7 +262,7 @@ class SparsePolynomial(object):
 
     @property
     def coefficients(self):
-        r"""
+        r'''
         Coefficients of this polynomial.
 
         This method returns a tuple with the coefficients that appear
@@ -294,12 +294,12 @@ class SparsePolynomial(object):
 
             >>> p == sum([c*m for (c,m) in zip(p.coefficients, p.monomials)], SparsePolynomial(p.gens, p.domain))
             True
-        """
+        '''
         return tuple([el[1] for el in self.dataiter()])
 
     @property
     def content(self):
-        r"""
+        r'''
         Content of a polynomial.
 
         For a polynomial, the content is the greatest common divisor of its coefficients. This
@@ -338,7 +338,7 @@ class SparsePolynomial(object):
             >>> p = SparsePolynomial.from_string("12*x^2 - 6*x*y + 3", ["x","y"], RR)
             >>> p.content
             1.0
-        """
+        '''
         if isinstance(self.domain, NumericalField):
             return self.domain.one
         else:
@@ -346,7 +346,7 @@ class SparsePolynomial(object):
 
     @property
     def constant_term(self):
-        r"""
+        r'''
         Constant coefficient of a Sparse polynomial.
 
         This property is the value of the constant term of the polynomial.
@@ -377,14 +377,14 @@ class SparsePolynomial(object):
 
             >>> sp.ct
             MPQ(0,1)
-        """
+        '''
         return self._data.get(SparseMonomial([]), self.domain.zero)
 
     ct = constant_term  #: alias for the constant term property
 
     @property
     def linear_components(self):
-        r"""
+        r'''
         Linear components and coefficients from this polynomial.
 
         This method returns a set of functions (:class:`SparsePolynomial`)
@@ -408,11 +408,11 @@ class SparsePolynomial(object):
             >>> p = one + x//(2*one) + (3*one)*y + (5*one)*x*y
             >>> print(p.linear_components)
             ((1, x, y, x*y), (MPQ(1,1), MPQ(1,2), MPQ(3,1), MPQ(5,1)))
-        """
+        '''
         return self.monomials, self.coefficients
 
     def degree(self, var_name: Optional[str] = None) -> int:
-        r"""
+        r'''
         Obtain the degree of this polynomial (maybe with respect to some variable)
 
         This method computes the degree of a :class:`SparsePolynomial`. If the input is
@@ -466,7 +466,7 @@ class SparsePolynomial(object):
             ValueError: Variable a is not valid for this polynomial
             >>> SparsePolynomial.from_const(0, ['x','y']).degree()
             oo
-        """
+        '''
         if var_name is not None and var_name not in self._varnames:
             raise ValueError(f"Variable {var_name} is not valid for this polynomial")
         
@@ -477,7 +477,7 @@ class SparsePolynomial(object):
         return max(m.degree(var_index) for m in self._data)
 
     def variables(self, as_poly: bool = False) -> tuple[str|SparsePolynomial]:
-        r"""
+        r'''
         Variables that actually appear in the polynomial.
 
         This method computes the variables that appear in the :class:`SparsePolynomial`
@@ -514,7 +514,7 @@ class SparsePolynomial(object):
             ()
             >>> SparsePolynomial(["x", "y", "z"], QQ).variables() # checking the zero polynomial
             ()
-        """
+        '''
         var_indices = tuple(sorted(set(sum([m.variables() for m in self._data], tuple()))))
         variables = tuple(self._varnames[ind] for ind in var_indices)
         if as_poly:
@@ -607,7 +607,7 @@ class SparsePolynomial(object):
     # --------------------------------------------------------------------------
 
     def __eq__(self, other: SparsePolynomial) -> bool:
-        r"""
+        r'''
         Equality method for :class:`SparsePolynomial`.
 
         Input
@@ -640,7 +640,7 @@ class SparsePolynomial(object):
             >>> sp2 = SparsePolynomial.from_string("2*x + y", ['y','x'])
             >>> sp1 == sp2
             True
-        """
+        '''
         if not isinstance(other, SparsePolynomial):
             if isinstance(other, RationalFunction):
                 return self * other.denom == other.numer
@@ -654,16 +654,16 @@ class SparsePolynomial(object):
         return self._data == other._data
 
     def __hash__(self) -> int:
-        r"""Method to get the hash of a SparsePolynomial"""
+        r'''Method to get the hash of a SparsePolynomial'''
         return sum(hash(m) for m in self._data)
 
     # --------------------------------------------------------------------------
 
     def __mul__(self, other: SparsePolynomial) -> SparsePolynomial:
-        """
+        '''
         Multiplication by a scalar or another polynomial
         For polynomials we use slow quadratic multiplication as needed only for parsing
-        """
+        '''
         ## Checking the argument "other"
         if not isinstance(other, SparsePolynomial):
             if other in self.domain:
@@ -711,7 +711,7 @@ class SparsePolynomial(object):
     # --------------------------------------------------------------------------
 
     def __floordiv__(self, other: SparsePolynomial) -> SparsePolynomial:
-        r"""
+        r'''
         Exact division implemented with SymPy.
 
         This method implements the magic logic behind ``//``. This method computes
@@ -752,7 +752,7 @@ class SparsePolynomial(object):
             True
             >>> sp3//sp2
             2 + x**2 + 2*x
-        """
+        '''
         if self.is_zero():
             return SparsePolynomial.from_const(0, self._varnames, self.domain)
         elif self == other:
@@ -770,7 +770,7 @@ class SparsePolynomial(object):
         return SparsePolynomial.from_sympy(quo)
 
     def __mod__(self, other: SparsePolynomial) -> SparsePolynomial:
-        r"""
+        r'''
         Remainder computation implemented with SymPy.
 
         This method implements the magic logic behind ``%``. This method computes
@@ -811,7 +811,7 @@ class SparsePolynomial(object):
             True
             >>> sp3%sp2
             3
-        """
+        '''
         R = self.get_sympy_ring()
         num = R(self.get_sympy_dict()).as_expr()
         denom = R(other.get_sympy_dict()).as_expr()
@@ -825,7 +825,7 @@ class SparsePolynomial(object):
         return SparsePolynomial.from_sympy(quo)
 
     def __truediv__(self, other: SparsePolynomial) -> SparsePolynomial:
-        r"""
+        r'''
         True division for sparse polynomials.
 
         This method implements the magic logic behind ``/``. This method computes
@@ -858,7 +858,7 @@ class SparsePolynomial(object):
             >>> isinstance(p1/10, SparsePolynomial)
             True
 
-        """
+        '''
         if not isinstance(other, SparsePolynomial):
             if other in self.domain:
                 other = SparsePolynomial.from_const(other, self._varnames, self.domain)
@@ -894,7 +894,7 @@ class SparsePolynomial(object):
     # --------------------------------------------------------------------------
 
     def eval(self, **values) -> SparsePolynomial:
-        r"""
+        r'''
         Method to evaluate a polynomial.
 
         This method evaluates a polynomial substituting its variables by given values simultaneously.
@@ -924,7 +924,7 @@ class SparsePolynomial(object):
             x**2*z + y
             >>> sp.eval(x=0, y=0)
             0
-        """
+        '''
         # analyzing the values given
         rem_variables = [el for el in self.gens]
         for el in values:
@@ -959,7 +959,7 @@ class SparsePolynomial(object):
         return SparsePolynomial(rem_variables, self.domain, new_data, cast=True)
 
     def subs(self, to_subs=None, **values):
-        r"""
+        r'''
         More generic method that allows to substitute in a SparsePolynomial all the appearing variables.
 
         Examples::
@@ -972,7 +972,7 @@ class SparsePolynomial(object):
             x**4 + 2*x**2*z + z**2 + z - x
             >>> p.subs(x=q1, y=q2)
             x**4 + 2*x**2*z + z**2 + z - x
-        """
+        '''
         if isinstance(to_subs, (list, tuple)):
             if len(values) > 0:
                 raise TypeError(
@@ -1000,7 +1000,7 @@ class SparsePolynomial(object):
         return eval(f"lambda {','.join(self._varnames)}: {str(self)}")
 
     def automated_diff(self, **values: Any) -> NualNumber:
-        r"""
+        r'''
         Method to compute automated differentiation of a Sparse polynomial
 
         This method uses the idea of Automatic Differentiation to compute
@@ -1023,7 +1023,7 @@ class SparsePolynomial(object):
         Examples::
 
             TODO add the examples
-        """
+        '''
         if any(v not in values for v in self.variables()):
             raise ValueError(
                 "Not enough information provided for automatic differentiation"
@@ -1049,9 +1049,9 @@ class SparsePolynomial(object):
     # --------------------------------------------------------------------------
 
     def exp(self, power: int) -> SparsePolynomial:
-        """
+        '''
         Exponentiation, ``power`` is a *positive* integer
-        """
+        '''
         if power not in self.__cache_pow:
             if power < 0:
                 raise ValueError(f"Cannot raise to power {power}, {str(self)}")
@@ -1065,7 +1065,7 @@ class SparsePolynomial(object):
     # --------------------------------------------------------------------------
 
     def is_zero(self) -> bool:
-        r"""
+        r'''
         Checks equality with `0`.
 
         This methods checks whether a :class:`SparsePolynomial` is exactly 0 or not.
@@ -1085,11 +1085,11 @@ class SparsePolynomial(object):
             >>> sp = SparsePolynomial.from_string("x**2*y - 2*x*y", ['x','y','z'])
             >>> sp.is_zero()
             False
-        """
+        '''
         return len(self._data) == 0
 
     def is_one(self) -> bool:
-        r"""
+        r'''
         Checks equality with `1`.
 
         This methods checks whether a :class:`SparsePolynomial` is exactly 1 or not.
@@ -1109,11 +1109,11 @@ class SparsePolynomial(object):
             >>> sp = SparsePolynomial.from_string("x**2*y - 2*x*y", ['x','y','z'])
             >>> sp.is_one()
             False
-        """
+        '''
         return self.is_constant() and self.ct == self.domain.one
 
     def is_constant(self) -> bool:
-        r"""
+        r'''
         Checks whether a polynomial is a constant
 
         This method checks whether a :class:`SparsePolynomial` is a constant or not. For doing so
@@ -1126,7 +1126,7 @@ class SparsePolynomial(object):
         Examples::
 
             TODO: add examples
-        """
+        '''
         return self.is_zero() or self.degree() == 0
 
     def is_linear(self) -> bool:
@@ -1215,7 +1215,7 @@ class SparsePolynomial(object):
         return sympy.polys.rings.ring(self._varnames, self.domain)[0]
 
     def to_sympy(self):
-        r"""
+        r'''
         Returns the SymPy polynomial represented by ``self``.
 
         All the elements of type :class:`SparsePolynomial` can be transformed into
@@ -1238,18 +1238,18 @@ class SparsePolynomial(object):
             x**2*y - x*z**2
             >>> SparsePolynomial.from_sympy(sp.to_sympy()) == sp
             True
-        """
+        '''
         return self.get_sympy_ring()(self.get_sympy_dict())
 
     def change_base(self, new_domain) -> SparsePolynomial:
-        r"""Change the domain of the SparsePolynomial and creates a copy for it"""
+        r'''Change the domain of the SparsePolynomial and creates a copy for it'''
         return SparsePolynomial(self._varnames, new_domain, self._data, True)
 
     # --------------------------------------------------------------------------
     def derivative(self, var_name: str) -> SparsePolynomial:
-        """
+        '''
         Returns derivative of polynomial with respect to var_name
-        """
+        '''
         if var_name in self._varnames:
             var = self._varnames.index(var_name)
         else:
@@ -1267,7 +1267,7 @@ class SparsePolynomial(object):
 
     @staticmethod
     def lcm(polys: list[SparsePolynomial]) -> SparsePolynomial:
-        r"""
+        r'''
         Returns lowest common multiple of given polynomials (computed w/ SymPy)
 
         This method computes (using SymPy) the least common multiple of a list of
@@ -1290,7 +1290,7 @@ class SparsePolynomial(object):
             >>> lcm = SparsePolynomial.lcm([sp1,sp2])
             >>> lcm == SparsePolynomial.from_string("x**2*y**3 + x**3*y**2", ['x','y'])
             True
-        """
+        '''
         sympy_polys = [p.to_sympy() for p in polys]
         result = sympy_polys[0]
         for p in sympy_polys[1:]:
@@ -1299,9 +1299,9 @@ class SparsePolynomial(object):
 
     @staticmethod
     def gcd(polys: list[SparsePolynomial]) -> SparsePolynomial:
-        """
+        '''
         Returns greatest common divisor of given polynomials (computed w/ SymPy)
-        """
+        '''
         polys_sp = [p.to_sympy() for p in polys]
         result = polys_sp[0]
         for p in polys_sp[1:]:
@@ -1312,7 +1312,7 @@ class SparsePolynomial(object):
 
     @staticmethod
     def from_sympy(sympy_poly, varnames: Optional[list[str]] = None) -> SparsePolynomial:
-        r"""Static method inverse to :func:`to_sympy`"""
+        r'''Static method inverse to :func:`to_sympy`'''
         domain = sympy_poly.ring.domain
         # lambda used to handle the case of the algebraic field of coefficients
         if varnames is None:
@@ -1329,7 +1329,7 @@ class SparsePolynomial(object):
 
     @staticmethod
     def from_vector(vector: SparseVector | Collection, varnames: list[str] = None, domain=QQ):
-        r"""Static method inverse to :func:`linear_part_as_vec`"""
+        r'''Static method inverse to :func:`linear_part_as_vec`'''
         if isinstance(vector, SparseVector):
             if len(varnames) != vector.dim:
                 raise TypeError(
@@ -1373,7 +1373,7 @@ class SparsePolynomial(object):
 
 
 class RationalFunction:
-    r"""
+    r'''
     Class for representing rational function with sparse polynomials
 
     Input:
@@ -1409,7 +1409,7 @@ class RationalFunction:
         >>> rf = RationalFunction.from_string(rat_fun, ["a", "b", "c"])
         >>> simplify(parse_expr(str(rf)) - parsed) == 0
         True
-    """
+    '''
 
     __parser = None
     __parser_stack = []
@@ -1487,7 +1487,7 @@ class RationalFunction:
 
     # --------------------------------------------------------------------------
     def valuation(self, var_name: str) -> int:
-        r"""
+        r'''
         Valuation of a rational function w.r.t. a variable.
 
         A valuation is a map `\nu: D \rightarrow \mathbb{Z}` such that
@@ -1507,12 +1507,12 @@ class RationalFunction:
             The valuation of ``self`` w.r.t. ```var_name``.
 
         TODO: add examples and tests
-        """
+        '''
         return self.numer.degree(var_name) - self.denom.degree(var_name)
 
     # --------------------------------------------------------------------------
     def derivative(self, var: str) -> RationalFunction:
-        r"""
+        r'''
         Compute the derivative with respect to a given variable.
 
         This method computes the derivative of the rational function represented by ``self``
@@ -1570,14 +1570,14 @@ class RationalFunction:
             >>> rf_dz = rf.derivative('z')
             >>> print(rf_dz)
             (0)/(1)
-        """
+        '''
         d_num = self.denom * self.numer.derivative(var) - self.numer * self.denom.derivative(var)
         d_denom = self.denom * self.denom
         return RationalFunction(d_num, d_denom)
 
     # --------------------------------------------------------------------------
     def simplify(self):
-        r"""
+        r'''
         Simplify a rational function in-place.
 
         Method that removes the common factors between the numerator and
@@ -1586,7 +1586,7 @@ class RationalFunction:
 
         The simplification is performed *in-place*, meaning there is no output for this method, but
         instead, the result is stored within the same object.
-        """
+        '''
         # Removing the gcd of numerator and denominator (whatever Sympy finds)
         gcd = SparsePolynomial.gcd([self.numer, self.denom])
         if not gcd.is_one():
@@ -1664,7 +1664,7 @@ class RationalFunction:
 
     # --------------------------------------------------------------------------
     def eval(self, **values):
-        r"""
+        r'''
         Method that evaluates a rational function.
 
         This method evaluates a rational function performing a simultaneous substitution of the
@@ -1695,7 +1695,7 @@ class RationalFunction:
             Traceback (most recent call last):
             ...
             ZeroDivisionError: A zero from the denominator was found
-        """
+        '''
         # we evaluate first the denominator
         denom = self.denom.eval(**values)
 
@@ -1707,11 +1707,11 @@ class RationalFunction:
         return numer / denom
 
     def subs(self, to_subs=None, **values):
-        r"""
+        r'''
         Method to substitute variables in a rational function (not only with points)
 
         See method :func:`clue.rational_functions.SparsePolynomial.subs` for further information.
-        """
+        '''
         denom = self.denom.subs(to_subs, **values)
 
         if denom == 0:
@@ -1744,14 +1744,14 @@ class RationalFunction:
         return self.numer.get_sympy_ring()
 
     def change_base(self, new_domain) -> RationalFunction:
-        r"""Change the domain of the RationalFunction"""
+        r'''Change the domain of the RationalFunction'''
         return RationalFunction(
             self.numer.change_base(new_domain), self.denom.change_base(new_domain)
         )
 
     # --------------------------------------------------------------------------
     def __eq__(self, other: SparsePolynomial | RationalFunction) -> bool:
-        r"""
+        r'''
         Equality method for :class:`RationalFunction`.
 
         Two rational functions `p(x)/q(x)` and `r(x)/s(x)` are equal if and only if
@@ -1782,7 +1782,7 @@ class RationalFunction:
             False
             >>> rf1 == rf2
             True
-        """
+        '''
         if not isinstance(other, RationalFunction):
             if isinstance(other, SparsePolynomial):
                 other = RationalFunction(other, SparsePolynomial.from_const(1, other._varnames, other._domain))
@@ -1801,9 +1801,9 @@ class RationalFunction:
 
     # --------------------------------------------------------------------------
     def exp(self, power: int) -> RationalFunction:
-        """
+        '''
         Exponentiation, ``power`` is a *positive* integer
-        """
+        '''
         if not power in self.__cache_pow:
             if power < 0:
                 raise ValueError(f"Cannot raise to power {power}, {str(self)}")
@@ -1819,13 +1819,13 @@ class RationalFunction:
     # --------------------------------------------------------------------------
     @staticmethod
     def from_string(s: str, varnames: list[str], domain=QQ, var_to_ind: dict[str,int] = None) -> RationalFunction:
-        """
+        '''
         Parsing a string to a polynomial, string is allowed to include floating-point numbers
         in the standard and scientific notation, they will be converted to rationals
 
         The code is an adapted version of fourFn example for pyparsing library by Paul McGuire
         https://github.com/pyparsing/pyparsing/blob/master/examples/fourFn.py
-        """
+        '''
 
         def push_first(toks):
             RationalFunction.__parser_stack.append(toks[0])

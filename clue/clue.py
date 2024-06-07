@@ -1,4 +1,4 @@
-r"""
+r'''
     Main module of CLUE
 
     This module includes the main classes and algorithms for the project CLUE (Constrained LUmpings). In this file
@@ -6,7 +6,7 @@ r"""
     constrained lumpings.
 
     TODO: add more documentation
-"""
+'''
 
 from __future__ import annotations
 
@@ -90,9 +90,9 @@ def _func_for_expr(expr, varnames, domain):
 
 
 def _automated_differentiation(expr, varnames, domain, point):
-    r"""
+    r'''
     Method to compute automatic differentiation of a sympy expression
-    """
+    '''
     if expr == 0:
         return NualNumber([0 for _ in range(len(varnames) + 1)])
 
@@ -117,7 +117,7 @@ def _automated_differentiation(expr, varnames, domain, point):
 
 ### Structure for a differential system
 class FODESystem:
-    r"""
+    r'''
     Class to represent a system of First Order Differential Equations.
 
     This class allows to store intermediate steps to save time in computations.
@@ -133,7 +133,7 @@ class FODESystem:
       with the arguments given in ``kwds``.
     * Provide a dictionary with the data (using the argument ``dic``). In this case, at least
       an entry with key ``'equations'`` must be provided.
-    """
+    '''
 
     def __init__(
         self,
@@ -204,7 +204,7 @@ class FODESystem:
         amplitude: float = 0.005,
         zeros=False,
     ):
-        r"""
+        r'''
         Builder for a new :class:`FODESystem` by perturbing the coefficients that appear in the equations.
 
         This static builder creates a new :class:`FODESystem` from a pre-existing system by changing slightly
@@ -225,7 +225,7 @@ class FODESystem:
         OUTPUT:
 
         A new :class:`FODESystem` with the perturbed system.
-        """
+        '''
         #######################################################################
         ## Creating the noise function if given by str
         if isinstance(noise, str):
@@ -426,13 +426,13 @@ class FODESystem:
 
     @cached_property
     def bounds(self):
-        r"""
+        r'''
         Bounds of the degrees for the right hand side.
 
         This tuple contains bounds for the degree of the numerator and denominator
         of the rational functions (or polynomials) that are the equations of
         the differential system (see property :func:`equations`).
-        """
+        '''
         ## Normalizing data if needed
         self.normalize()
 
@@ -458,38 +458,38 @@ class FODESystem:
 
     @cached_property
     def nspecies(self):
-        r"""
+        r'''
         Counts the number of species of a system
 
         See property :func:`species` for further information.
-        """
+        '''
         return len(self.species)
 
     @cached_property
     def species(self):
-        r"""
+        r'''
         Return the names of the species of a system.
 
         A specie is a variable that is not constant, i.e., its equation is not 0.
-        """
+        '''
         return [v for v in self.variables if (v not in self.pars)]
 
     @cached_property
     def npars(self):
-        r"""
+        r'''
         Counts the number of parameters of a system
 
         See property :func:`pars` for further information.
-        """
+        '''
         return len(self.pars)
 
     @cached_property
     def pars(self):
-        r"""
+        r'''
         Return the names of the parameter of a system.
 
         A parameter is a variable that is constant, i.e., its equation is 0.
-        """
+        '''
         return (
             self._pars
             if self._pars != None
@@ -498,7 +498,7 @@ class FODESystem:
 
     @cached_property
     def field(self):
-        r"""
+        r'''
         Property that gives the ground field of the system.
 
         The ground field is a sympy structure that allows the user to manipulate any rational
@@ -507,7 +507,7 @@ class FODESystem:
 
         This is different that the property :func:`pars`, since those are the actual variables
         that are constant.
-        """
+        '''
         # Normalizing equations if needed
         self.normalize()
 
@@ -540,7 +540,7 @@ class FODESystem:
         return type(self.equations[0])
 
     def linear_part(self) -> SparseRowMatrix:
-        r"""Build a matrix with the linear part of the equations"""
+        r'''Build a matrix with the linear part of the equations'''
         if self.__linear_part == None:
             self.normalize()
             self.__linear_part = FODESystem.evaluate_jacobian(
@@ -553,7 +553,7 @@ class FODESystem:
 
     @lru_cache(maxsize=1)
     def is_linear_system(self):
-        r"""Checker to see if a system is linear or not"""
+        r'''Checker to see if a system is linear or not'''
         if not issubclass(self.type, SparsePolynomial):
             return False
 
@@ -561,7 +561,7 @@ class FODESystem:
 
     @lru_cache(maxsize=1)
     def is_weighted_system(self):
-        r"""Checks if any coefficient is not 0 or 1"""
+        r'''Checks if any coefficient is not 0 or 1'''
         self.normalize()
         if issubclass(self.type, SparsePolynomial):
             return any(
@@ -571,13 +571,13 @@ class FODESystem:
         return True  # if not sparse polynomials, then we considered weighted by default
 
     def all_equations(self):
-        r"""
+        r'''
         Return a generator with all the equations of the system
-        """
+        '''
         yield from self.equations
 
     def symb_variables(self):
-        r"""
+        r'''
         Return a list with the variables represented as symbolic objects compatible with the type of the equations
 
         This method is useful when we want to create the variables from scratch and use them algebraically without
@@ -608,7 +608,7 @@ class FODESystem:
             (x, y, z)
             >>> type(ode.symb_variables()[0])
             <class 'sympy.core.symbol.Symbol'>
-        """
+        '''
         self.normalize()
         variables = self.variables
         if isinstance(self.equations[0], (SparsePolynomial, RationalFunction)):
@@ -623,15 +623,15 @@ class FODESystem:
 
     ## more specialized getters
     def equation(self, varname):
-        r"""
+        r'''
         Returns the equation associated with a variable name.
-        """
+        '''
         return self.equations[self.variables.index(varname)]
 
     def __decide_type(self):
-        r"""
+        r'''
         Method to decide the type for the normalized equations
-        """
+        '''
         target_type = 0  # 0 = SparsePolynomial; 1 = RationalFunction; 2 = Expression
         # first loop to decide target
         equations = self.all_equations()
@@ -682,9 +682,9 @@ class FODESystem:
         return target_type
 
     def __transform_equation(self, equation, type):
-        r"""
+        r'''
         Method to transform the equations of the system to the normalized setting.
-        """
+        '''
         if isinstance(equation, PolyElement):
             if type == 0:
                 nequation = SparsePolynomial.from_sympy(equation, self.variables)
@@ -736,7 +736,7 @@ class FODESystem:
         return nequation
 
     def normalize(self):
-        r"""
+        r'''
         Method that rewrites the equations of ``self`` to fit into all the methods in the class.
 
         This method transforms the equations of this :class:`FODESystem` by changing its type to
@@ -788,7 +788,7 @@ class FODESystem:
             >>> type(ode.equations[0])
             <class 'clue.rational_function.RationalFunction'>
 
-        """
+        '''
         if not self.__normalize_input:
             type = self.__decide_type()
             for i in range(self.size):
@@ -797,7 +797,7 @@ class FODESystem:
             self.__normalize_input = True
 
     def eval_equation(self, equations, point):
-        r"""
+        r'''
         Method to evaluate a equations in a particular value.
 
         This method unifies the way of evaluating the equations of a differential system.
@@ -822,7 +822,7 @@ class FODESystem:
 
         The evaluation of the ``equations`` at ``point``. If the input is only one element, we return that element. Otherwise, we
         return a list.
-        """
+        '''
         if isinstance(point, (list, tuple, ndarray)):
             if len(point) != self.size:
                 raise TypeError(
@@ -896,7 +896,7 @@ class FODESystem:
         map_variables: list[SparsePolynomial],
         how: str = "exact",
     ):
-        r"""
+        r'''
         Method that check the consistency of the differential systems
 
         this method checks if ``self`` is obtained from the system ``other``
@@ -916,7 +916,7 @@ class FODESystem:
               the SymPy domain in ``self.field``). When it returns ``False`` is guaranteed to be correct.
             * "numeric": same as "exact" but with numerical computations. It is the fastest but checking equality is done
               with a numerical threshold of 1e-10.
-        """
+        '''
         ########################################################
         # Normalizing equations if needed
         self.normalize()
@@ -971,7 +971,7 @@ class FODESystem:
         return result
 
     def evaluate_parameters(self, values):
-        r"""
+        r'''
         Method that evaluate some of the parameters of the system to specific values
 
         Input
@@ -1023,7 +1023,7 @@ class FODESystem:
             Traceback (most recent call last):
             ...
             ValueError: Can not evaluate the variable x [it is not a parameter]
-        """
+        '''
         self.normalize()
 
         # checking we do not have non-parameters in the list
@@ -1077,7 +1077,7 @@ class FODESystem:
         )
 
     def remove_parameters_ic(self):
-        r"""
+        r'''
         Method to compute a smaller system removing known parameters.
 
         This method evaluates the parameters of the systems whose initial conditions are known.
@@ -1104,7 +1104,7 @@ class FODESystem:
             ['c']
             >>> ode_eval.equations
             [3*x**2*y**2, -c*x*y, 0]
-        """
+        '''
         if self.ic is None:
             return self
 
@@ -1113,7 +1113,7 @@ class FODESystem:
         )
 
     def scale_model(self, values):
-        r"""
+        r'''
         Method to re-scale all variable of the model.
 
         This method do the substitution `x \mapsto x*c_x` for each variable where the factor `c_x` can be set differently for each variable.
@@ -1144,7 +1144,7 @@ class FODESystem:
             >>> scaled_variables = ode.scale_model({'x' : 3, 'y' : 4})
             >>> scaled_variables.equations
             [a*x**2*y**2/48 - b*x**3*y**2/144, -c*x*y/3, 0, 0, 0]
-        """
+        '''
         if isinstance(values, dict):
             sym_variables = self.symb_variables()
             changes = {
@@ -1184,7 +1184,7 @@ class FODESystem:
     ##############################################################################################################
     ### I/O METHODS
     def save(self, file: str, format: str = "clue"):
-        r"""
+        r'''
         Method to save the current system into a file
 
         This method will store on the hard disk the current system. We allow to have
@@ -1205,7 +1205,7 @@ class FODESystem:
         OUTPUT:
 
         This method has no output.
-        """
+        '''
         self.normalize()
         if not format in ("ode", "clue"):
             raise ValueError(
@@ -1248,9 +1248,9 @@ class FODESystem:
 
     @staticmethod
     def load(file: str) -> FODESystem:
-        r"""
+        r'''
         Static method to load a :class:`FODESystem`. It is the opposite of the method :func:`save`.
-        """
+        '''
         format = "clue" if file.endswith(".clue") else "ode"
 
         if format == "clue":
@@ -1265,7 +1265,7 @@ class FODESystem:
     ## Methods for preparing to get the lumping
     ##############################################################################################################
     def construct_matrices(self, method) -> tuple[SparseRowMatrix]:
-        r"""
+        r'''
         Method to build the matrices necessary for lumping purposes using
         different methods.
 
@@ -1285,7 +1285,7 @@ class FODESystem:
         This method will cache the result depending on the method chosen, so different methods can be compared.
 
         If a method is selected that is not valid for the type of the system, the next type will be tried too.
-        """
+        '''
         # Deciding the valid method for this system
         if method == "polynomial" and (not issubclass(self.type, SparsePolynomial)):
             logger.warning(
@@ -1326,14 +1326,14 @@ class FODESystem:
         return self._lumping_matr[method]
 
     def _construct_matrices_from_polys(self):
-        """
+        '''
         Constructs matrices J_1^T, ..., J_N^T (see Step (2) of Algorithm 1 in the paper)
         Input
             - polys - the right-hand side of the system of ODEs (f_1, ..., f_n)
                     represented by SparsePolynomial
         Output
             a list of matrices (SparseMatrix) J_1^T, ..., J_N^T
-        """
+        '''
         logger.debug(
             "[_construct_matrices_from_polys] Starting constructing matrices (SparsePolynomial)"
         )
@@ -1357,7 +1357,7 @@ class FODESystem:
         return list(result)
 
     def _construct_matrices_from_rational_functions(self):
-        """
+        '''
         Computes Jacobian, pulls out common denominator, and constructs matrices
         J_1^T, ..., J_N^T from the remaining polynomial matrix
         Input
@@ -1365,7 +1365,7 @@ class FODESystem:
                                 represented by RationalFunction
         Output
             a list of matrices (SparseMatrix) J_1^T, ..., J_N^T
-        """
+        '''
         logger.debug(
             "[_construct_matrices_from_rational_functions] Starting constructing matrices (RationalFunction)"
         )
@@ -1502,7 +1502,7 @@ class FODESystem:
         return [el.as_matrix(self.size) for el in subspace.basis()]
 
     def _construct_matrices_AD_random(self, prob_err=0.01):
-        r"""
+        r'''
         Method to build evaluations of the jacobian of ``funcs`` by automatic differentiation.
 
         This method computes evaluations of the Jacobian matrix of ``funcs`` by
@@ -1514,7 +1514,7 @@ class FODESystem:
         and sympy expressions.
 
         The computation of the actual error bound depends on the type of input in ``funcs``.
-        """
+        '''
         logger.debug(
             "[_construct_matrices_AD_random] Starting constructing random matrices (AD -- RationalFunction)"
         )
@@ -1697,7 +1697,7 @@ class FODESystem:
     ### Static and private methods for building matrices
     @staticmethod
     def evaluate_matrix(matrix, values):
-        r"""
+        r'''
         Method to evaluate a Matrix at a particular position
 
         This method evaluates a list of lists (i.e., a matrix) of rational functions or polynomials
@@ -1717,7 +1717,7 @@ class FODESystem:
             a :class:`SparseRowMatrix` with the evaluation of ``matrix`` at ``values``.
 
         TODO: add examples and tests
-        """
+        '''
         varnames = matrix[0][0].gens
         domain = matrix[0][0].domain
 
@@ -1739,7 +1739,7 @@ class FODESystem:
 
     @staticmethod
     def build_random_evaluation_matrix(matrix, min=0, max=100, attempts=1000):
-        r"""
+        r'''
         Evaluates a matrix (as a list of lists) in a random vector of integer coordinates.
 
         This method generates a vector of integers (depending in the amount of variables)
@@ -1760,7 +1760,7 @@ class FODESystem:
 
         Output
             a :class:`SparseRowMatrix` with the evaluation of ``matrix`` at a random place.
-        """
+        '''
         varnames = matrix[0][0].gens
 
         for _ in range(attempts):
@@ -1776,7 +1776,7 @@ class FODESystem:
 
     @staticmethod
     def evaluate_jacobian(funcs, varnames, domain, values):
-        r"""
+        r'''
         Method to evaluate the jacobian of some functions at a particular position
 
         Input
@@ -1791,7 +1791,7 @@ class FODESystem:
             a :class:`SparseRowMatrix` with the evaluation of the Jacobian of ``funcs`` at ``values``.
 
         TODO: add examples and tests
-        """
+        '''
         nrows = len(funcs)
         ncols = len(varnames)
 
@@ -1810,7 +1810,7 @@ class FODESystem:
     def build_random_evaluation_jacobian(
         funcs, varnames, domain, min=0, max=20, attempts=1000, index=None
     ):
-        r"""
+        r'''
         Computes the evaluation of the Jacobian of some rational functions via automatic differentiation.
 
         This method generates a vector of integers (depending in the amount of variables)
@@ -1833,7 +1833,7 @@ class FODESystem:
 
         Output
             a :class:`SparseRowMatrix` with the evaluation of ``matrix`` at a random place.
-        """
+        '''
         for _ in range(attempts):
             if index is None:
                 values = [randint(min, max) for v in varnames]
@@ -1849,7 +1849,7 @@ class FODESystem:
 
     @staticmethod
     def bound_degree_expr(expr: sympy.core, varnames=None):
-        r"""
+        r'''
         Static method to compute a degree bound for a sympy expression
 
         This method computes a degree bound for the numerator and denominator of a
@@ -1893,7 +1893,7 @@ class FODESystem:
             (4, 3)
             >>> FODESystem.bound_degree_expr((a**2 + b**2*c**2) / d**3)
             (4, 3)
-        """
+        '''
         if isinstance(expr, sympy.core.mul.Mul):
             arg_bounds = [
                 FODESystem.bound_degree_expr(arg, varnames) for arg in expr._args
@@ -1933,7 +1933,7 @@ class FODESystem:
 
     @staticmethod
     def sparse_evaluation_points_sympy(funcs, varnames, base_sparse, attempts=5):
-        r"""
+        r'''
         Method to get a set of sparse evaluation points for sympy expressions
 
         This method tries to build a set of points where the evaluation of some
@@ -1965,7 +1965,7 @@ class FODESystem:
             >>> d = sympy.Symbol("d")
             >>> FODESystem.sparse_evaluation_points_sympy(a/b, varnames=['a', 'b'], base_sparse=[[1,0],[0,1]])
             [[0, 1], [1, 1]]
-        """
+        '''
         if isinstance(funcs, (list, tuple)):
             if len(funcs) == 0:
                 return base_sparse
@@ -2050,7 +2050,7 @@ class FODESystem:
     ##############################################################################################################
     ### Simulation/Numerical methods
     def derivative(self, _, *x):
-        r"""
+        r'''
         Method to compute the right hand side of the system at a specific point and time.
 
         Since the systems we are considering are always autonomous, the first input (which represents the
@@ -2080,7 +2080,7 @@ class FODESystem:
             [2, 1, 1]
             >>> system.derivative(..., 2,0,1)
             [5, 1, 0]
-        """
+        '''
         if len(x) == 1 and isinstance(x[0], Collection):
             x = x[0]
 
@@ -2107,7 +2107,7 @@ class FODESystem:
         return output
 
     def simulate(self, t0, t1, x0=None, tstep=0.01, view=None, **kwds):
-        r"""
+        r'''
         Method to simulate the dynamical system
 
         This method simulates (see :func:`scipy.integrate.solve_ivp`) a solution for the dynamical system
@@ -2127,7 +2127,7 @@ class FODESystem:
         OUTPUT:
 
         A :class:`scipy.integrate._ivp.ivp.OdeResult` with the result of the simulation of ``self`` with the given data.
-        """
+        '''
         # Checking the input ``x``
         if x0 is None:
             if self.ic is None:
@@ -2182,7 +2182,7 @@ class FODESystem:
     def _deviation(
         self, subspace: Subspace, bound: tuple[tuple[float, float]], num_points: int
     ) -> float:
-        r"""
+        r'''
             Method to compute the deviation for a given subspace by sampling.
 
             The deviation of a subspace for a given system is a measure on how much a subspace is **not**
@@ -2223,7 +2223,7 @@ class FODESystem:
             An approximate value for the average deviation of the subspace with respect to ``self`` on the domain `[0,C]^N`.
 
         TODO: minimize list operations, remove castings by using np arrays for L and PL
-        """
+        '''
         if not isinstance(subspace, OrthogonalSubspace):
             raise NotImplementedError(
                 "Only implemented pseudoinverse for Orthogonal subspaces"
@@ -2290,7 +2290,7 @@ class FODESystem:
         return self.__cache_deviations[key]
 
     def _process_observable(self, observable: list) -> tuple[SparseVector]:
-        r"""Processing observable arguments in lumping/deviation methods"""
+        r'''Processing observable arguments in lumping/deviation methods'''
         logger.debug(
             "[_process_observable] Converting the observable into a valid input"
         )
@@ -2333,11 +2333,11 @@ class FODESystem:
         return tuple(vector.change_base(self.field) for vector in processed_observable)
 
     def __process_bound(self, bound, threshold):
-        r"""
+        r'''
             Processing observable and bound for find_acceptable/maximal_threshold
 
             TODO: DETECTED UNUSED METHOD --> Remove for next?
-        """
+        '''
         logger.debug("[__process_bound] Converting the bound into a valid input")
         if not isinstance(bound, (list, tuple)):
             bound = self.size * [bound]
@@ -2364,7 +2364,7 @@ class FODESystem:
         observable: list,
         matrix_algorithm: str = "polynomial",
     ):
-        r"""
+        r'''
         Method that gets the maximal threshold for numerical lumping for a given observable.
         Input:
             - ``observable``: a list of observables
@@ -2387,7 +2387,7 @@ class FODESystem:
             >>> eps
             8.966744
 
-        """
+        '''
         observable = self._process_observable(observable)
 
         key = observable 
@@ -2436,7 +2436,7 @@ class FODESystem:
         threshold: float = 1e-9,
         matrix_algorithm: str = "polynomial",
     ) -> tuple[int, int, float, float, int] | tuple[int, int, float, float]:
-        r"""
+        r'''
         Method to compute the next possible reduction for a numerical lumping
 
         Given an initial epsilon ``e_min``, there exists an epsilon e such that the number of species in the reduction changes from ``left_size`` to ``right_size``.
@@ -2461,7 +2461,7 @@ class FODESystem:
             >>> system.find_next_reduction(['x0'])
             (3, 2, 0.089109, 0.089110)
 
-        """
+        '''
         observable = self._process_observable(observable) 
 
         logger.debug("[find_next_reduction] Building matrices for lumping")
@@ -2539,7 +2539,7 @@ class FODESystem:
         threshold: float = 1e-15,
         matrix_algorithm: str = "polynomial",
     ) -> tuple[int, int, float, float, int] | tuple[int, int, float, float]:
-        r"""
+        r'''
         Method to compute the a reduction for a numerical lumping based on a maximum allowed size for the reduced model.
         Input:
             - ``observable``: a list of observables
@@ -2565,7 +2565,7 @@ class FODESystem:
             >>> system.find_reduction_given_size(['x0'],percentage_size=0.7)
             (3, 2, 0.070053, 0.140105)
 
-        """
+        '''
         observable = self._process_observable(observable)
 
         if max_size is not None and percentage_size is not None:
@@ -2672,7 +2672,7 @@ class FODESystem:
         method="polynomial",
         file=sys.stdout,
     ):
-        r"""
+        r'''
         Main function, performs a lumping of a polynomial ODE system
         Input
             - observable - a nonempty list of linear forms in state variables
@@ -2791,7 +2791,7 @@ class FODESystem:
             ...     print_reduction=False)
             >>> assert lumping.is_consistent(), "Error in model MODEL9085850385: consistency"
             >>> assert lumping.size == 54, "Error in model MODEL9085850385: size"
-        """
+        '''
         #######################################################################################
         ### PREPROCESSING
         #######################################################################################
@@ -3011,7 +3011,7 @@ class FODESystem:
         method="auto_diff",
         file=sys.stdout,
     ):
-        """
+        '''
         Performs a lumping of a polynomial ODE system represented by SparsePolynomial
         Input
             - observable - a nonempty list of linear forms in state variables
@@ -3025,7 +3025,7 @@ class FODESystem:
         Output
             a dictionary with all the information so the method :func:`lumping`can build the Lumped
             system (see class :class`LDESystem`)
-        """
+        '''
         logger.debug("[_lumping] Starting aggregation")
 
         vars_old = self.variables
@@ -3136,13 +3136,13 @@ class FODESystem:
 
 
 class LDESystem(FODESystem):
-    r"""
+    r'''
     Extended class for a :class:`FODESystem` for lumped systems.
 
     This class is the natural extension of the class for representing a first order linear
     system (see class :class:`FODESystem`) where we keep some information on the lumping used
     to obtain the variables of this new system.
-    """
+    '''
 
     def __init__(
         self,
@@ -3221,17 +3221,17 @@ class LDESystem(FODESystem):
 
     @lru_cache(maxsize=1)
     def is_unweighted(self) -> bool:
-        r"""
+        r'''
         Method to check whether a lumping is unweighted or not.
 
         A lumping is called ``unweighted`` if all the entries of the lumping matrix are in `{0, 1}`.
-        """
+        '''
         L = self.lumping_matrix
         return all(L.row(i)[j] == 1 for i in L.nonzero for j in L.row(i).nonzero)
 
     @lru_cache(maxsize=1)
     def is_disjoint(self) -> bool:
-        r"""Checks whether a lumping has disjoint row support"""
+        r'''Checks whether a lumping has disjoint row support'''
         L = self.lumping_matrix
         supports = [L.row(i).nonzero for i in L.nonzero]
         for i in range(len(supports)):
@@ -3242,13 +3242,13 @@ class LDESystem(FODESystem):
 
     @lru_cache(maxsize=1)
     def is_positive(self) -> bool:
-        r"""Checks whether a lumping has disjoint row support"""
+        r'''Checks whether a lumping has disjoint row support'''
         L = self.lumping_matrix
         return all(L.row(i)[j] > 0 for i in L.nonzero for j in L.row(i).nonzero)
 
     @lru_cache(maxsize=1)
     def is_reducing(self) -> bool:
-        r"""
+        r'''
         Method that checks whether the lumping is reducing or not.
 
         This method checks that the lumping of a system contains fewer variables
@@ -3260,7 +3260,7 @@ class LDESystem(FODESystem):
 
         This method allows to check whether this happens or the lumping is actually reducing
         some quantities together.
-        """
+        '''
         return len(self.used_old_vars) != self.size
 
     # OBSERVABLES
@@ -3335,7 +3335,7 @@ class LDESystem(FODESystem):
     # TYPES OF LUMPING
     @lru_cache(maxsize=1)
     def is_FL(self) -> bool:
-        r"""
+        r'''
         Method to check whether a lumping is a Forward Lumping or not.
 
         A Forward Lumping ((add reference)) is a special type of lumping where the lumping matrix has:
@@ -3345,12 +3345,12 @@ class LDESystem(FODESystem):
 
         This concept is directly related with the concept of Forward Equivalence (see :func:`is_FE`).
         The difference is here we do not need to have all original variables in the support.
-        """
+        '''
         return self.is_unweighted() and self.is_disjoint()
 
     @lru_cache(maxsize=1)
     def is_FE(self) -> bool:
-        r"""
+        r'''
         Method to check whether a lumping is a Forward Equivalence or not.
 
         A Forward Equivalence ((add reference)) is a special type of lumping where the lumping matrix has:
@@ -3361,26 +3361,26 @@ class LDESystem(FODESystem):
 
         This concept is directly related with the concept of Forward Lumping (see :func:`is_FL`).
         The difference is here we require to have all original variables in the support.
-        """
+        '''
         return self.is_FL() and self.old_system.size == len(self.used_old_vars)
 
     @lru_cache(maxsize=1)
     def is_RWE(self) -> bool:
-        r"""
+        r'''
         Method to check whether a lumping is a Robust Weighted Equivalence or not.
 
         A Robust Weighted Equivalence ((add reference)) is a special type of lumping where the lumping matrix has:
 
         * all entries are non-negative,
         * the support of each pair of rows is disjoint
-        """
+        '''
         return self.is_positive() and self.is_disjoint()
 
     @lru_cache(maxsize=1)
     def has_RWE(self) -> bool:
-        r"""
+        r'''
         Checks whether a lumped system has a Robust Weighted Lumping (see :func:`get_RWE`)
-        """
+        '''
         try:
             self.get_RWE()
             return True
@@ -3389,7 +3389,7 @@ class LDESystem(FODESystem):
 
     @lru_cache(maxsize=1)
     def get_RWE(self) -> LDESystem:
-        r"""
+        r'''
         Method to check whether a lumped system has a RWE of same dimension.
 
         This method checks whether the lumped system built in ``self`` can be rearrange to have a
@@ -3404,7 +3404,7 @@ class LDESystem(FODESystem):
         of the lumping.
 
         This method will return the new lumped system.
-        """
+        '''
         L = self.lumping_matrix
         nrows, ncols = L.dim
         ## First we check if this lumping was lumping+ already

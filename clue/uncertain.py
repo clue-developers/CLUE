@@ -1,6 +1,6 @@
-r"""
+r'''
     Module for structures and code for Uncertain systems
-"""
+'''
 
 from functools import cached_property
 
@@ -13,7 +13,7 @@ from .rational_function import SparsePolynomial
 
 
 class UncertainFODESystem(FODESystem):
-    r"""
+    r'''
     Class to represent a Linear Uncertain Differential System (LUDS).
 
     A LUDS is defined by two constant matrices `m` and `M` with the property `m \leq M` (where the
@@ -74,7 +74,7 @@ class UncertainFODESystem(FODESystem):
         >>> a,b,c,d = usystem.symb_variables()
         >>> usystem.lumping([a+2*d])._subspace.matrix().to_list()
         [[MPQ(1,1), 0, 0, MPQ(2,1)], [0, MPQ(1,1), MPQ(3,1), 0]]
-    """
+    '''
 
     def __init__(
         self,
@@ -198,21 +198,21 @@ class UncertainFODESystem(FODESystem):
 
     @cached_property
     def bounds(self):
-        r"""
+        r'''
         Bounds of the degrees for the right hand side.
 
         Since the :class:`UncertainFODESystem` only represent linear systems, then the system has always degree 1 in the numerator and
         it has no denominator, then the bounds are `(1,0)`.
-        """
+        '''
         return (1, 0)
 
     @cached_property
     def species(self):
-        r"""
+        r'''
         Return the names of the species of a system.
 
         A specie is a variable that is not constant, i.e., its equation is not 0.
-        """
+        '''
         return [
             self.variables[i]
             for i in range(self.size)
@@ -221,11 +221,11 @@ class UncertainFODESystem(FODESystem):
 
     @cached_property
     def pars(self):
-        r"""
+        r'''
         Return the names of the parameter of a system.
 
         A parameter is a variable that is constant, i.e., its equation is 0.
-        """
+        '''
         return [
             self.variables[i]
             for i in range(self.size)
@@ -243,29 +243,29 @@ class UncertainFODESystem(FODESystem):
             yield equation[1]
 
     def is_weighted_system(self):
-        r"""Override from FODESystem"""
+        r'''Override from FODESystem'''
         return True
 
     def check_consistency(self, *_):  ## TODO
-        r"""
+        r'''
         This method was removed for Uncertain systems
-        """
+        '''
         raise NotImplementedError(
             f"Method 'check_consistency' not valid for {self.__class__}"
         )
 
     def evaluate_parameters(self, _):
-        r"""
+        r'''
         This method was removed for Uncertain systems
-        """
+        '''
         raise NotImplementedError(
             f"Method 'evaluate_parameters' not valid for {self.__class__}"
         )
 
     def scale_model(self, _):
-        r"""
+        r'''
         This method was removed for Uncertain systems
-        """
+        '''
         raise NotImplementedError(
             f"Method 'scale_model' not valid for {self.__class__}"
         )
@@ -284,11 +284,11 @@ class UncertainFODESystem(FODESystem):
         method="polynomial",
         file=sys.stdout,
     ):
-        r"""
+        r'''
         Method for lumping a system (see :func:`FODESystem.lumping`).
 
         In this case we have removes the argument "out_format" because we require objects to be SparsePolynomials always.
-        """
+        '''
         return super().lumping(
             observable,
             new_vars_name,
@@ -323,7 +323,7 @@ class UncertainFODESystem(FODESystem):
         only_existing=True,
         type="abs",
     ):
-        r"""
+        r'''
         Method to create an uncertain system from a :class:`FODESystem` by altering all the coefficients with a given value `\delta`.
 
         If ``type`` is "abs" the change is done by adding and subtracting `\delta` to the coefficients. If ``type`` is "prop", then
@@ -342,7 +342,7 @@ class UncertainFODESystem(FODESystem):
             (x0 + 2*x1 + x2, x1, x0 + 3*x1 + x2)
             >>> usystem.upper_equations
             (3*x0 + 4*x1 + 3*x2, 2*x0 + 3*x1 + 2*x2, 3*x0 + 5*x1 + 3*x2)
-        """
+        '''
         from .rational_function import to_rational
 
         delta = to_rational(str(delta))
@@ -407,9 +407,9 @@ class UncertainFODESystem(FODESystem):
 
 
 class UncertainLDESystem(LDESystem, UncertainFODESystem):
-    r"""
+    r'''
     Class for lumped Uncertain linear Differential systems.
-    """
+    '''
 
     def __init__(
         self,

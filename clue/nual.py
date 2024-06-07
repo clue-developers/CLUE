@@ -1,13 +1,13 @@
-r"""
+r'''
     Module for a description of the arithmetic of `n`-ual numbers.
 
     This module contains a basic Python implementation of `n`-ual numbers in the class
     :class:`NualNumber`.
-"""
+'''
 
 
 class NualNumber:
-    r"""
+    r'''
         Dual numbers can be defined as a special ring structure in vectors of 
         two coordinates `(v_1, v_2)` where the addition and product are defined 
         as follows:
@@ -110,7 +110,7 @@ class NualNumber:
         Be aware that these divisions may not be exact computations. For example, divisions with
         the Python type ``int`` lead to the use of ``float`` type output, which is not an exact domain
         of computations.
-    """
+    '''
 
     def __init__(self, coeffs, field=None):
         self.__size = len(coeffs)
@@ -126,7 +126,7 @@ class NualNumber:
         return self.__coeffs.copy()
 
     def _to_nual(self, other):
-        r"""
+        r'''
         Method to convert an element into a `n`-ual number of the same length as ``self``.
 
         This method will be used in all arithmetic operations with :class:`NualNumber`
@@ -164,7 +164,7 @@ class NualNumber:
             [1, 4, 2]
             >>> a._to_nual(a) == a
             True
-        """
+        '''
         try:
             other = NualNumber(other)
         except TypeError:
@@ -179,7 +179,7 @@ class NualNumber:
             raise TypeError("The input %s has incorrect length" % other)
 
     def change_base(self, new_field):
-        r"""It changes the type of the elements forcing it to be a fixed domain"""
+        r'''It changes the type of the elements forcing it to be a fixed domain'''
         if new_field == self.__field:
             return self
         return NualNumber([new_field.convert(el) for el in self.__coeffs], new_field)
@@ -261,7 +261,7 @@ class NualNumber:
         return self * (other.__inv__())  # using code for __mul__
 
     def __pow__(self, exp):
-        r"""
+        r'''
         Computes the power of a `n`-ual number for arbitrary constant exponent.
 
         This method computes the power of a nual number by the following formula:
@@ -294,7 +294,7 @@ class NualNumber:
         depicted above.
 
         This method then works for any exponent `\alpha` such that ``self[0]``has implemented the method ``__pow__``.
-        """
+        '''
         ## Particular cases for exp == 0 or 1
         if exp == 0:
             return NualNumber([1] + [0 for _ in range(1, self.size)])
@@ -351,7 +351,7 @@ class NualNumber:
         return sum(hash(c) for c in self.coeffs)
 
     def exp(self):
-        r"""
+        r'''
         Method that computes the value ``e**self``.
 
         This method computes the exponential of ``self`` using the transcendental
@@ -376,7 +376,7 @@ class NualNumber:
         .. MATH::
 
             \exp((a_1,\ldots,a_n)) = (e^{a_1}, e^{a_1}a_2, \ldots, e^{a_1}a_n)
-        """
+        '''
         from sympy import E
 
         com = E ** self[0]
