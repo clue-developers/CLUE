@@ -535,7 +535,10 @@ class SparsePolynomial(object):
         if self.domain != other.domain:
             raise TypeError(f"Incompatible domains between SparsePolynomials ({self.domain} vs {other.domain})")
         elif len(self._varnames) != len(other._varnames):
-            raise TypeError(f"Incompatible number of variables between SparsePolynomials ({len(self._varnames)} != {len(other._varnames)})")
+            if len(other._varnames) < len(self._varnames) and (self._varnames[:len(other._varnames)] == other._varnames): # we can extend other to self
+                other = SparsePolynomial(self._varnames, self.domain, other._data, False)
+            else:
+                raise TypeError(f"Incompatible number of variables between SparsePolynomials ({len(self._varnames)} != {len(other._varnames)})")
         
         return other
 
@@ -546,7 +549,10 @@ class SparsePolynomial(object):
         try:
             other = self.__check_SparsePolynomial(other)
         except TypeError:
-            return NotImplemented
+            try:
+                return other.__radd__(self)
+            except Exception:
+                return NotImplemented
         
         ## Computing solution
         resdata = self._data.copy()
@@ -642,11 +648,14 @@ class SparsePolynomial(object):
         '''
         ## Checking the argument "other"
         try:
-            other = self.__check_SparsePolynomial(other)
+            sself, other = self, self.__check_SparsePolynomial(other)
         except TypeError:
-            return False
+            try:
+                sself, other = other.__check_SparsePolynomial(self), other
+            except TypeError:
+                return False
         
-        return self._data == other._data
+        return sself._data == other._data
 
     def __hash__(self) -> int:
         r'''Method to get the hash of a SparsePolynomial'''
@@ -663,7 +672,10 @@ class SparsePolynomial(object):
         try:
             other = self.__check_SparsePolynomial(other)
         except TypeError:
-            return NotImplemented
+            try:
+                return other.__rmul__(self)
+            except Exception:
+                return NotImplemented
         
         resdata = dict()
         for ml, cl in self._data.items():
@@ -712,10 +724,6 @@ class SparsePolynomial(object):
             >>> sp2 = SparsePolynomial.from_string("x+1", ['x'])
             >>> sp1//sp2
             2 + x**2 + 2*x
-
-        **Warning:** when the variables of the divisor are not included in the variables of the dividend,
-        some weird phenomena could happen::
-
             >>> sp1 = SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x','y'])
             >>> sp2 = SparsePolynomial.from_string("x+y", ['x','y'])
             >>> sp1//sp2
@@ -724,13 +732,16 @@ class SparsePolynomial(object):
             >>> sp3 == sp1
             True
             >>> sp3//sp2
-            2 + x**2 + 2*x
+            4 + x**2 + y**2 - 3*y + 3*x - x*y
         '''
         ## Checking the argument "other"
         try:
             other = self.__check_SparsePolynomial(other)
         except TypeError:
-            return NotImplemented
+            try:
+                return other.__rfloordiv__(self)
+            except Exception:
+                return NotImplemented
         
         if other.is_zero():
             raise ZeroDivisionError(f"Dividing by a zero SparsePolynomial")
@@ -754,6 +765,15 @@ class SparsePolynomial(object):
             return SparsePolynomial.from_sympy(quo, self._varnames)
         except NotImplementedError: ## We can not do division, we return 0
             return SparsePolynomial(self._varnames, self.domain) 
+
+    def __rfloordiv__(self, other: SparsePolynomial) -> SparsePolynomial:
+        ## Checking the argument "other"
+        try:
+            other = self.__check_SparsePolynomial(other)
+        except TypeError:
+            return NotImplemented
+
+        return other // self
 
     def __mod__(self, other: SparsePolynomial) -> SparsePolynomial:
         r'''
@@ -784,19 +804,15 @@ class SparsePolynomial(object):
             >>> sp2 = SparsePolynomial.from_string("x+1", ['x'])
             >>> sp1%sp2
             3
-
-        **Warning:** when the variables of the divisor are not included in the variables of the dividend,
-        some weird phenomena could happen::
-
             >>> sp1 = SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x','y'])
             >>> sp2 = SparsePolynomial.from_string("x+y", ['x','y'])
             >>> sp1%sp2
-            5 - y**3 - 4*y + 3*y**2
+            5 - 4*y - y**3 + 3*y**2
             >>> sp3 =  SparsePolynomial.from_string("x**3 + 3*x**2 + 4*x + 5", ['x'])
             >>> sp3 == sp1
             True
             >>> sp3%sp2
-            3
+            -4*y - y**3 + 3*y**2 + 5
         '''
         return self - (self // other) * other
 
@@ -839,7 +855,10 @@ class SparsePolynomial(object):
         try:
             other = self.__check_SparsePolynomial(other)
         except TypeError:
-            return NotImplemented
+            try:
+                return other.__rtruediv__(self)
+            except Exception:
+                return NotImplemented
         
         if other.is_zero():
             raise ZeroDivisionError(f"Dividing by a zero SparsePolynomial")
