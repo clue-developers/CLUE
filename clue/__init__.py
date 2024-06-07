@@ -16,6 +16,7 @@ logger.propagate = False
 # logger.setLevel(logging.DEBUG) # setting up a level for logging
 
 # importing the main module of CLUE
+from .numerical_domains import *
 from .linalg import *
 from .rational_function import *
 from .clue import *
