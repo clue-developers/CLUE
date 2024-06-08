@@ -77,3 +77,6 @@ docs/_sources
 *.prf
 *.log
 *.png
+
+# Temporal gitignore
+papers/quantum

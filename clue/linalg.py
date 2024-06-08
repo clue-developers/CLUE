@@ -1,4 +1,4 @@
-r"""
+r'''
     Module for dedicated operations related with Linear Algebra
 
     In this module we include all the structures and code that is related with Linear Algebra that are 
@@ -9,7 +9,7 @@ r"""
     by omitting some multiplications and sums.
 
     TODO: add some more documentation
-"""
+'''
 
 from __future__ import annotations
 
@@ -20,11 +20,13 @@ from collections import deque
 from itertools import combinations, product
 from typing import Any
 
-from sympy import GF, QQ, RR, gcd, nextprime, symbols
+from sympy import GF, QQ, gcd, nextprime, symbols
 from sympy.core.symbol import Symbol
 from sympy.ntheory.primetest import isprime
 from sympy.polys.domains.domain import Domain
 from sympy.polys.fields import FracElement
+
+from .numerical_domains import RR
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +35,7 @@ TOO_BIG_LENGTH = 10000
 
 
 class ExpressionSwell(Exception):
-    r"""Exception used when a number or expression gets too big."""
+    r'''Exception used when a number or expression gets too big.'''
 
     pass
 
@@ -42,7 +44,7 @@ class ExpressionSwell(Exception):
 
 
 def rational_reconstruction_sage(a, m):
-    r"""
+    r'''
     Rational number reconstruction implementation borrowed from SageMath
 
     Input:
@@ -52,7 +54,7 @@ def rational_reconstruction_sage(a, m):
     Output:
 
     A "simple" rational number that is congruent `a` modulo `m`
-    """
+    '''
     a %= m
     if a == 0 or m == 0:
         return QQ(0, 1)
@@ -85,7 +87,7 @@ def rational_reconstruction_sage(a, m):
 
 
 class SparseVector():
-    r"""
+    r'''
     Class for representing Sparse Vectors.
 
     A Sparse vector representation uses the fact that "many" of its entries are zero to
@@ -113,7 +115,7 @@ class SparseVector():
     * ``field``: (``sympy.QQ`` by default) structure from Sympy determining the ambient space of the coefficients.
 
     TODO: add examples of vectors, how they are created and some operations with them
-    """
+    '''
 
     def __init__(self, dim: int, field: Domain = QQ):
         self.dim: int = dim
@@ -122,7 +124,7 @@ class SparseVector():
         self.field: Domain = field
 
     def digits(self):
-        r"""
+        r'''
         Method to compute the maximal number of digits of a sparse vector.
 
         This method computes (when ``self.field`` is the rational numbers) the number of digits
@@ -146,7 +148,7 @@ class SparseVector():
             >>> v = SparseVector.from_list([0.001,0.01,1])
             >>> v.digits()
             3
-        """
+        '''
         if self.field != QQ:
             raise TypeError(
                 "The number of digits can only be computed over the rational numbers"
@@ -165,13 +167,13 @@ class SparseVector():
         return max(__digits_rational(c) for c in self.__data.values())
 
     def density(self):
-        r"""Method to measure the sparseness density of a vector"""
+        r'''Method to measure the sparseness density of a vector'''
         return len(self.nonzero) / self.dim
 
     # --------------------------------------------------------------------------
 
     def reduce(self, coef, vect: SparseVector):
-        r"""
+        r'''
         Inplace operation of ``self + coef*vect``.
 
         This method computes the new :class:`SparseVector` equal to ``self + coef*vect`` but
@@ -198,7 +200,7 @@ class SparseVector():
             >>> v.reduce(3, w)
             >>> v.to_list()
             [MPQ(1,1), MPQ(3,1), MPQ(3,1)]
-        """
+        '''
         if not coef or vect.is_zero():  # case coeff == 0 or vect == 0
             return  # no changes
 
@@ -215,7 +217,7 @@ class SparseVector():
     # --------------------------------------------------------------------------
 
     def scale(self, coef):
-        r"""
+        r'''
         Method to scale in-place a vector
 
         This method computes the scaled vector ``coef*self`` and stores the result in ``self``.
@@ -242,7 +244,7 @@ class SparseVector():
             >>> v.to_list()
             [MPQ(1,1), MPQ(1,2)]
 
-        """
+        '''
         if not coef:  # the result is zero
             self.nonzero = set()
             self.__data = dict()
@@ -269,9 +271,9 @@ class SparseVector():
             self.__data.pop(i, None)
 
     def copy(self):
-        r"""
+        r'''
         Returns a shallow copy of the vector.
-        """
+        '''
         copied = SparseVector(self.dim, self.field)
         # using copy is faster that going one by one
         copied.nonzero = self.nonzero.copy()
@@ -279,7 +281,7 @@ class SparseVector():
         return copied
 
     def change_base(self, new_field):
-        r"""Change the base domain for the sparse vector"""
+        r'''Change the base domain for the sparse vector'''
         if self.field == new_field:
             return self
 
@@ -289,7 +291,7 @@ class SparseVector():
         return new_vector
 
     def as_matrix(self, nrows: int):
-        r"""
+        r'''
         Return a copy of this vector as a matrix with ``nrows`` rows.
 
         This method returns a :class:`SparseMatrix` that can be constructed
@@ -324,7 +326,7 @@ class SparseVector():
             Traceback (most recent call last):
             ...
             ValueError: this vector does not represent a matrix with 5 rows
-        """
+        '''
         if self.dim % nrows != 0:
             raise ValueError(
                 f"this vector does not represent a matrix with {nrows} rows"
@@ -342,7 +344,7 @@ class SparseVector():
     # --------------------------------------------------------------------------
 
     def inner_product(self, rhs: SparseVector):
-        r"""
+        r'''
         Scalar product of two vectors
 
         This method computes the scalar product of ``self`` with another vector given in ``rhs``.
@@ -372,7 +374,7 @@ class SparseVector():
             >>> v.inner_product(u)
             MPQ(0,1)
 
-        """
+        '''
         if self.is_zero() or rhs.is_zero():
             return self.field.zero
         # computing the intersection
@@ -386,7 +388,7 @@ class SparseVector():
     # --------------------------------------------------------------------------
 
     def apply_matrix(self, matr: SparseRowMatrix):
-        r"""
+        r'''
         Method to compute the application of a matrix to self to the left (`M\cdot v`)
 
         This method applies to a :class:`SparseRowMatrix` `M` given by ``matr`` the :class:`SparseVector`.
@@ -420,7 +422,7 @@ class SparseVector():
             >>> v.apply_matrix(M).to_list()
             [MPQ(1,1), MPQ(4,1)]
 
-        """
+        '''
         if self.dim != matr.ncols:
             raise TypeError(
                 f"Impossible to multiply matrix with {matr.ncols} with vector of size {self.dim}"
@@ -436,13 +438,13 @@ class SparseVector():
     # --------------------------------------------------------------------------
 
     def is_zero(self):
-        r"""Method to check whether a vector is zero or not"""
+        r'''Method to check whether a vector is zero or not'''
         return len(self.nonzero) == 0
 
     # --------------------------------------------------------------------------
 
     def first_nonzero(self):
-        r"""Method to obtain the first index that is not zero"""
+        r'''Method to obtain the first index that is not zero'''
         if self.nonzero:
             return next(iter(self.nonzero))
         return -1
@@ -450,7 +452,7 @@ class SparseVector():
     # --------------------------------------------------------------------------
 
     def to_list(self):
-        r"""Method to transform a :class:`SparseVector` into a list"""
+        r'''Method to transform a :class:`SparseVector` into a list'''
         result = [0] * self.dim
         for i in self.nonzero:
             result[i] = self.__data[i]
@@ -459,13 +461,13 @@ class SparseVector():
     # --------------------------------------------------------------------------
 
     def nonzero_count(self):
-        r"""Method to compute the number of non-zero entries of a vector"""
+        r'''Method to compute the number of non-zero entries of a vector'''
         return len(self.nonzero)
 
     # --------------------------------------------------------------------------
 
     def reduce_mod(self, mod: int):
-        r"""
+        r'''
         Method to compute a reduction of ``self`` using a modulus.
 
         This method computes a reduction of ``self`` where every input has been reduced using a prime modulus.
@@ -493,7 +495,7 @@ class SparseVector():
             >>> v = SparseVector.from_list([7/6,5/3])
             >>> v.reduce_mod(487).to_list()
             [SymmetricModularIntegerMod487(407), SymmetricModularIntegerMod487(164)]
-        """
+        '''
         if self.field != QQ:
             raise ValueError(
                 f"Reduction can be done only for a vector over rationals but the field is {self.field}"
@@ -514,7 +516,7 @@ class SparseVector():
 
     @classmethod
     def from_list(cls, entries_list: list | tuple, field: Domain = QQ):
-        r"""Method to build a new :class:`SparseVector` from a dense representation (i.e., a list or tuple)"""
+        r'''Method to build a new :class:`SparseVector` from a dense representation (i.e., a list or tuple)'''
         result = cls(len(entries_list), field)
         for i, num in enumerate(entries_list):
             to_insert = field.convert(num)
@@ -522,10 +524,16 @@ class SparseVector():
                 result[i] = to_insert  # __setitem__ updates the nonzero attribute
         return result
 
+    @classmethod
+    def cannonical_basis_element(cls, index:int , dimension: int, field: Domain = QQ):
+        result = cls(dimension, field)
+        result[index] = field.one
+        return result
+
     # --------------------------------------------------------------------------
 
     def rational_reconstruction(self):
-        r"""
+        r'''
         Method to make a rational reconstruction from a modular expression.
 
         This method converts this modular sparse vector into a rational vector using
@@ -549,7 +557,7 @@ class SparseVector():
             >>> v = SparseVector.from_list([7/6,5/3])
             >>> v.reduce_mod(487).rational_reconstruction().to_list()
             [MPQ(7,6), MPQ(5,3)]
-        """
+        '''
         if (not self.field.is_FiniteField) or (
             not isprime(self.field.characteristic())
         ):
@@ -589,7 +597,7 @@ class SparseVector():
 
 
 class SparseRowMatrix():
-    r"""
+    r'''
     Class for representing Sparse Matrices by rows.
 
     A Sparse Matrix representation uses the fact that "many" of its entries are zero to
@@ -624,7 +632,7 @@ class SparseRowMatrix():
 
 
     TODO: add examples of matrices, how they are created and some operations with them
-    """
+    '''
 
     def __init__(self, dim: int | list[int] | tuple[int, int], field: Domain = QQ):
         if not isinstance(dim, (list, tuple)):
@@ -638,7 +646,7 @@ class SparseRowMatrix():
 
     @classmethod
     def from_list(cls, entries_list: list[list[Any]], field: Domain = QQ):
-        r"""
+        r'''
         Method to build a new :class:`SparseRowMatrix` from a dense representation (i.e., a list  of lists )
 
         Examples::
@@ -658,7 +666,7 @@ class SparseRowMatrix():
             [ 1 0 ]
             [ 0 1 ]
 
-        """
+        '''
         result = cls(len(entries_list), field)
         for i, j in product(range(len(entries_list)), repeat=2):
             result.increment(i, j, field.convert(entries_list[i][j]))
@@ -669,7 +677,7 @@ class SparseRowMatrix():
         return self.nrows, self.ncols
 
     def copy(self):
-        r"""
+        r'''
             Returns a copy of the matrix.
 
         Examples::
@@ -682,26 +690,27 @@ class SparseRowMatrix():
             [ 1 0 ]
             [ 0 1 ]
 
-        """
+        '''
         res = SparseRowMatrix(self.dim, self.field)
         res.nonzero = self.nonzero.copy()
         res.__data = {i: self.row(i).copy() for i in self.__data}
         return res
 
     def change_base(self, new_field: Domain):
-        r"""
+        r'''
         Change the base domain for the sparse vector
 
         Examples::
 
             >>> from clue.clue import SparseVector, SparseRowMatrix
-            >>> from sympy import QQ, RR
+            >>> from sympy import QQ
+            >>> from clue.numerical_domains import RR
             >>> M = SparseRowMatrix.from_list([[1/2,2/4],[3/4,4/5]], QQ)
             >>> print(M.change_base(RR).pretty_print())
             [  0.5 0.5 ]
             [ 0.75 0.8 ]
 
-        """
+        '''
         if self.field == new_field:
             return self
 
@@ -711,7 +720,7 @@ class SparseRowMatrix():
         return new_matrix
 
     def transpose(self):
-        r"""
+        r'''
         Method that returns the transposed matrix of ``self``
 
         Examples::
@@ -723,7 +732,7 @@ class SparseRowMatrix():
             [ 1  3 ]
             [ 2  4 ]
 
-        """
+        '''
         result = SparseRowMatrix((self.ncols, self.nrows), self.field)
         for j in range(self.ncols):
             jth_col = self.column(j)
@@ -734,11 +743,11 @@ class SparseRowMatrix():
 
     # --------------------------------------------------------------------------
     def nonzero_count(self):
-        r"""Method to compute the number of non-zero entries of a matrix"""
+        r'''Method to compute the number of non-zero entries of a matrix'''
         return sum([v.nonzero_count() for v in self.__data.values()])
 
     def density(self):
-        r"""Method to measure the sparseness density of a matrix"""
+        r'''Method to measure the sparseness density of a matrix'''
         return self.nonzero_count() / self.nrows * self.ncols
 
     # --------------------------------------------------------------------------
@@ -802,7 +811,7 @@ class SparseRowMatrix():
     # --------------------------------------------------------------------------
 
     def increment(self, i: int, j: int, extra: Any):
-        r"""
+        r'''
         Method to increment the value of an element by a given quantity.
 
         This method uses __setitem__, hence removing the vector if we end up with a
@@ -821,20 +830,20 @@ class SparseRowMatrix():
             [ 0 0 ]
             [ 3 4 ]
 
-        """
+        '''
         self[i, j] = self[i, j] + extra
 
     # --------------------------------------------------------------------------
 
     def row(self, i: int):
-        r"""Method to obtain the ``i``-th row as a :class:`SparseVector`"""
+        r'''Method to obtain the ``i``-th row as a :class:`SparseVector`'''
         if i < 0 or i >= self.nrows:
             raise IndexError(f"Row {i} out of dimension")
 
         return self.__data.get(i, SparseVector(self.ncols, self.field))
 
     def column(self, j: int):
-        r"""Method to obtain the ``j``-th column as a :class:`SparseVector`"""
+        r'''Method to obtain the ``j``-th column as a :class:`SparseVector`'''
         column = SparseVector(self.nrows, self.field)
         for i in self.nonzero:
             row = self.__data[i]
@@ -845,7 +854,7 @@ class SparseRowMatrix():
     # --------------------------------------------------------------------------
 
     def matmul(self, other: SparseRowMatrix) -> SparseRowMatrix:
-        r"""
+        r'''
         Computes the product of two sparse matrices (``self``*``other``)
 
             Examples::
@@ -857,7 +866,7 @@ class SparseRowMatrix():
                 [ 2 1 ]
                 [ 5 4 ]
 
-        """
+        '''
         srows, scols = self.dim
         orows, ocols = other.dim
         if scols != orows:
@@ -873,7 +882,7 @@ class SparseRowMatrix():
     # --------------------------------------------------------------------------
 
     def reduce_mod(self, modulus: int):
-        r"""
+        r'''
         Method to compute a reduction of ``self`` using a modulus.
 
         This method computes a reduction of ``self`` where every input has been reduced using a prime modulus.
@@ -899,7 +908,7 @@ class SparseRowMatrix():
             [ 244 mod 487 244 mod 487 ]
             [ 366 mod 487 293 mod 487 ]
 
-        """
+        '''
         if self.field != QQ:
             raise ValueError(
                 f"Reduction can be done only for a vector over rationals but the field is {self.field}"
@@ -913,7 +922,7 @@ class SparseRowMatrix():
         return result
 
     def rational_reconstruction(self):
-        r"""
+        r'''
         Method to make a rational reconstruction from a modular expression.
 
         This method converts this modular sparse matrix into a rational matrix using
@@ -935,7 +944,7 @@ class SparseRowMatrix():
             >>> print(N.rational_reconstruction().pretty_print())
             [ 1/2 1/2 ]
             [ 3/4 4/5 ]
-        """
+        '''
         if (not self.field.is_FiniteField) or (
             not isprime(self.field.characteristic())
         ):
@@ -954,7 +963,7 @@ class SparseRowMatrix():
     # --------------------------------------------------------------------------
 
     def to_vector(self):
-        r"""
+        r'''
         Method that transforms a matrix into a vector with row-first preference
             Examples::
 
@@ -963,7 +972,7 @@ class SparseRowMatrix():
                 >>> M = SparseRowMatrix.from_list([[1/2,2/4],[3/4,4/5]], QQ)
                 >>> print(M.to_vector().to_list())
                 [MPQ(1,2), MPQ(1,2), MPQ(3,4), MPQ(4,5)]
-        """
+        '''
         result = SparseVector(self.nrows * self.ncols, self.field)
         for i in self.nonzero:
             ith_row = self.row(i)
@@ -972,17 +981,17 @@ class SparseRowMatrix():
         return result
 
     def to_list(self):
-        r"""Return the Sparse matrix as a list of lists (dense representation)"""
+        r'''Return the Sparse matrix as a list of lists (dense representation)'''
         return [[self[i, j] for j in range(self.ncols)] for i in range(self.nrows)]
 
     def to_numpy(self, dtype=None):
-        r"""Return the Sparse matrix as a numpy ndarray (dense representation)"""
+        r'''Return the Sparse matrix as a numpy ndarray (dense representation)'''
         from numpy import array
 
         return array(self.to_list(), dtype=dtype)
 
     def pretty_print(self):
-        r"""Method to generate a pretty printing of the Sparse matrix"""
+        r'''Method to generate a pretty printing of the Sparse matrix'''
         entries = [[str(el) for el in row] for row in self.to_list()]
         sizes = [[len(el) for el in row] for row in entries]
         max_sizes = [
@@ -1004,9 +1013,9 @@ class SparseRowMatrix():
 
     @classmethod
     def from_vectors(cls, rows: list[SparseVector] | tuple[SparseVector]):
-        r"""
+        r'''
         Static method to create a matrix from a list of vectors.
-        """
+        '''
         result = cls((len(rows), rows[0].dim), rows[0].field)
         result.nonzero = {i for i in range(len(rows)) if (not rows[i].is_zero())}
         result.__data = {i: rows[i] for i in result.nonzero}
@@ -1032,7 +1041,7 @@ class SparseRowMatrix():
 
 
 class Subspace(object):
-    r"""
+    r'''
     Class representing a linear subspace.
 
     A linear subspace is generated by a set of linearly independent vectors (called based).
@@ -1052,16 +1061,16 @@ class Subspace(object):
     * ``field``: a base sympy structure representing the base field for this to be a subspace.
 
     TODO: add examples
-    """
+    '''
 
     def __init__(self, field: Domain):
         self.field: Domain = field
         self.echelon_form: dict[int, SparseVector] = dict()
 
     def copy(self):
-        r"""
+        r'''
         Returns a copy of the linear subspace.
-        """
+        '''
         res = Subspace(self.field)
         res.echelon_form = {k: v.copy() for k, v in self.echelon_form.items()}
         return res
@@ -1072,23 +1081,23 @@ class Subspace(object):
         return next(iter(self.echelon_form.values())).dim
 
     def dim(self):
-        r"""Returns the dimension of the subspace"""
+        r'''Returns the dimension of the subspace'''
         return len(self.echelon_form)
 
     def digits(self):
-        r"""Returns the size of the elements in the basis of a subspace"""
+        r'''Returns the size of the elements in the basis of a subspace'''
         if not self.echelon_form:
             return 0
         return max([v.digits() for v in self.echelon_form.values()])
 
     def densities(self):
-        r"""Returns the sparseness density of each element of the basis of a subspace"""
+        r'''Returns the sparseness density of each element of the basis of a subspace'''
         return [m.density() for m in self.echelon_form.values()]
 
     # --------------------------------------------------------------------------
 
     def reduce_vector(self, vector: SparseVector):
-        r"""
+        r'''
         Method to reduce a vector with respect to a subspace
 
         Accordingly to the echelon form, we can see if a vector is inside a subspace by
@@ -1112,7 +1121,7 @@ class Subspace(object):
         modifies the input inplace.
 
         TODO: add examples
-        """
+        '''
         for piv, vect in self.echelon_form.items():
             if vector[piv]:
                 vector.reduce(-vector[piv], vect)
@@ -1121,7 +1130,7 @@ class Subspace(object):
         return vector
 
     def find_in(self, vector: SparseVector) -> SparseVector:
-        r"""
+        r'''
         Method that computed the expression of a vector in terms of the subspace.
 
         Input:
@@ -1132,7 +1141,7 @@ class Subspace(object):
 
         A :class:`SparseVector` with a vector `w` such that `wL = v` for `L` the matrix of the basis of ``self`` and
         `v` the orivinal vector given by ``vector``.
-        """
+        '''
         in_vector = vector.copy()
         result = SparseVector(self.dim(), self.field)
         for i, piv in enumerate(self.parametrizing_coordinates()):
@@ -1146,15 +1155,15 @@ class Subspace(object):
         return result
 
     def contains(self, vector: SparseVector):
-        r"""Checks whether a vector is in ``self`` or not."""
+        r'''Checks whether a vector is in ``self`` or not.'''
         return self.reduce_vector(vector.copy()).is_zero()
 
     def __contains__(self, vector: SparseVector):
-        r"""Magic implementation for the "in" syntax in Python"""
+        r'''Magic implementation for the "in" syntax in Python'''
         return self.contains(vector)
 
     def absorb_new_vector(self, new_vector: SparseVector, force: bool = False):
-        r"""
+        r'''
         Method to extend the subspace using a new vector.
 
         This method absorbs a new vector into the subspace. This means that we modify
@@ -1175,7 +1184,7 @@ class Subspace(object):
         The new pivot position. If ``new_vector`` was in ``self``, we return -1.
 
         TODO: add examples
-        """
+        '''
         new_vector = self.reduce_vector(new_vector)
 
         # We check if ``new_vector`` was in ``self``
@@ -1203,7 +1212,7 @@ class Subspace(object):
     def apply_matrices_inplace(
         self, matrices: list[SparseRowMatrix], monitor_length: bool = False
     ):
-        r"""
+        r'''
         Method to compute the smallest invariant subspace of some matrices containing ``self``.
 
         This method computes the smallest linear subspace that is invariant under a given set of matrices
@@ -1225,7 +1234,7 @@ class Subspace(object):
         This method DOES NOT return anything. This method works inplace.
 
         TODO: add examples
-        """
+        '''
         to_process = deque()
         to_process.extendleft(list(self.echelon_form.values()))
         i = 1
@@ -1249,7 +1258,7 @@ class Subspace(object):
             i += 1
 
     def check_invariance(self, matrices: list[SparseRowMatrix]):
-        r"""
+        r'''
         Method to check if this subspace is invariant under some matrices.
 
         Input:
@@ -1261,7 +1270,7 @@ class Subspace(object):
         Boolean value marking whether ``self`` is invariant under ``matrices``.
 
         TODO: add examples
-        """
+        '''
         for matr in matrices:
             for vec in self.echelon_form.values():
                 prod = vec.apply_matrix(matr)
@@ -1272,7 +1281,7 @@ class Subspace(object):
     # --------------------------------------------------------------------------
 
     def check_inclusion(self, other: Subspace):
-        r"""
+        r'''
         Checks whether a subspace is included in ``self``.
 
         Input:
@@ -1284,13 +1293,13 @@ class Subspace(object):
         A boolean value indicated whether all the vectors in ``other`` and in ``self``.
 
         TODO: add values
-        """
+        '''
         return all(vec in self for vec in other.echelon_form.values())
 
     # --------------------------------------------------------------------------
 
     def reduce_mod(self, modulus):
-        r"""
+        r'''
         Method to compute a reduction of ``self`` using a modulus.
 
         This method computes a reduction of ``self`` where every input has been reduced using a prime modulus.
@@ -1307,7 +1316,7 @@ class Subspace(object):
         A :class:`SparseRowMatrix` over a finite field whose entries are the reduction modulo ``mod`` of ``self``.
 
         TODO: add examples
-        """
+        '''
         if self.field != QQ:
             raise ValueError(
                 f"Reduction can be done only for a vector over rationals but the field is {self.field}"
@@ -1322,32 +1331,32 @@ class Subspace(object):
     # --------------------------------------------------------------------------
 
     def basis(self):
-        r"""
+        r'''
         Method to obtain a basis of ``self`` sorted by the pivot index in the echelon form.
-        """
+        '''
         return [self.echelon_form[piv] for piv in self.parametrizing_coordinates()]
 
     def matrix(self):
-        r"""
+        r'''
         Method to compute a matrix representing the basis of the subspace
-        """
+        '''
         return SparseRowMatrix.from_vectors(self.basis())
 
     # --------------------------------------------------------------------------
 
     def parametrizing_coordinates(self):
-        r"""Indices over which a projection is surjective (i.e., the indices of the pivots)"""
+        r'''Indices over which a projection is surjective (i.e., the indices of the pivots)'''
         return sorted(self.echelon_form.keys())
 
     # --------------------------------------------------------------------------
 
     def perform_change_of_variables(self, rhs, old_vars, domain, new_vars_name="y"):
-        """
+        '''
           TODO: not reviewed
         Restrict a system of ODEs with the rhs given by
         rhs (SparsePolynomial or RationalFunction) to the subspace
         new_vars_name (optional) - the name for variables in the lumped polynomials
-        """
+        '''
         from .rational_function import RationalFunction, SparsePolynomial
 
         # old_vars = rhs[0].gens
@@ -1388,7 +1397,7 @@ class Subspace(object):
                 for monom, coef in p.dataiter():
                     new_monom = []
                     skip = False
-                    for var, exp in monom:
+                    for var, exp in monom.items():
                         if var not in pivots:
                             skip = True
                             break
@@ -1411,7 +1420,7 @@ class Subspace(object):
                 for monom, coef in rf.numer.dataiter():
                     new_monom = []
                     skip = False
-                    for var, exp in monom:
+                    for var, exp in monom.items():
                         if var not in pivots:
                             skip = True
                             break
@@ -1426,7 +1435,7 @@ class Subspace(object):
                 for monom, coef in rf.denom.dataiter():
                     new_monom = []
                     skip = False
-                    for var, exp in monom:
+                    for var, exp in monom.items():
                         if var not in pivots:
                             skip = True
                             break
@@ -1463,7 +1472,7 @@ class Subspace(object):
     # --------------------------------------------------------------------------
 
     def rational_reconstruction(self):
-        r"""
+        r'''
         Method to make a rational reconstruction from a modular expression.
 
         This method converts this modular linear subspace into a rational vector using
@@ -1479,7 +1488,7 @@ class Subspace(object):
         from ``self`` as a rational reconstruction.
 
         TODO: add examples
-        """
+        '''
         if (not self.field.is_FiniteField) or (
             not isprime(self.field.characteristic())
         ):
@@ -1492,12 +1501,21 @@ class Subspace(object):
             result.echelon_form[pivot] = vector.rational_reconstruction()
         return result
 
+    # --------------------------------------------------------------------------
+
+    @classmethod
+    def identity_subspace(cls, dimension: int, domain: Domain = QQ):
+        result = cls(domain)
+        for i in range(dimension):
+            result.absorb_new_vector(SparseVector.cannonical_basis_element(i, dimension, domain))
+        return result
+
 
 # ------------------------------------------------------------------------------
 
 
 class OrthogonalSubspace(Subspace):
-    r"""
+    r'''
     Class to represent a linear subspace where the basis stores is orthonormal.
 
     This class reuses the attributes from the class :class:`Subspace` matching:
@@ -1518,7 +1536,7 @@ class OrthogonalSubspace(Subspace):
     * :func:`parametrizing_coordinates` --> we speed-up this method because we know the keys of the dictionary
     * :func:`perform_change_of_variables`
     * :func:`rational_reconstruction` --> we disable this method for this class (no modular approach implemented)
-    """
+    '''
 
     def __init__(self, field: Domain):
         super().__init__(field)
@@ -1527,7 +1545,7 @@ class OrthogonalSubspace(Subspace):
 
     @property
     def projector(self) -> SparseRowMatrix:
-        r"""
+        r'''
         Method that returns a matrix that computes the orthogonal projection over ``self`` for any vector.
 
         Since the basis of ``self`` is orthonormal, then this matrix can be computed as `L^T L` where
@@ -1535,13 +1553,13 @@ class OrthogonalSubspace(Subspace):
 
         Hence, the `n \times n` matrix that is `L^T L` is composed by the scalar product of all the
         columns of `L`.
-        """
+        '''
         if self.__projector is None and self.ambient_dimension() < math.inf:
             self.__projector = SparseRowMatrix(self.ambient_dimension(), self.field)
         return self.__projector
 
     def reduce_vector(self, vector: SparseVector):
-        r"""
+        r'''
         Method to reduce a vector with respect to a subspace
 
         In a orthogonal subspace, the reduced version of a vector is the difference between the
@@ -1579,7 +1597,7 @@ class OrthogonalSubspace(Subspace):
         modifies the input inplace.
 
         TODO: add examples
-        """
+        '''
         if not vector.is_zero() and self.dim() > 0:
             # first we compute the projection of the vector
             pi_v = vector.apply_matrix(self.projector)
@@ -1589,12 +1607,12 @@ class OrthogonalSubspace(Subspace):
         return vector
 
     def find_in(self, vector: SparseVector) -> SparseVector:
-        r"""
+        r'''
         Method that computed the expression of a vector in terms of the subspace.
 
         In an orthogonal subspace, this can be done by multiplying by the pseudoinverse. We check that
         the vector is in the subspace by applying the projector.
-        """
+        '''
         if not vector in self:
             raise ValueError("The given vector is not in the current subspace")
         return vector.apply_matrix(self.pinv(True))
@@ -1612,7 +1630,7 @@ class OrthogonalSubspace(Subspace):
                 self.field.one
                 / math.gcd(*[new_vector[i].numerator for i in new_vector.nonzero])
             )
-        if self.field == RR:
+        elif self.field == RR:
             new_vector.scale(
                 self.field.one / math.sqrt(new_vector.inner_product(new_vector))
             )
@@ -1649,7 +1667,7 @@ class OrthogonalSubspace(Subspace):
         return list(range(len(self.echelon_form)))
 
     def pinv(self, transposed=False) -> SparseRowMatrix:
-        r"""
+        r'''
         Return the pseudoinverse of the current basis of ``self``.
 
         Since the basis of ``self`` is orthogonal, the pseudo-inverse can be computed as:
@@ -1666,7 +1684,7 @@ class OrthogonalSubspace(Subspace):
             LL^+ = LL^T ((LL^T)^{-1})^T = LL^T (LL^T)^{-1} = Id
 
         This method returns the matrix `L^+`.
-        """
+        '''
         if self.__pinv is None:
             L = self.matrix().copy()
             for i in L.nonzero:
@@ -1687,7 +1705,7 @@ class OrthogonalSubspace(Subspace):
         logger.debug("[perform_change_of_variables] Constructing new rhs")
         x = (
             [
-                SparsePolynomial.var_from_string(var, old_vars, self.field)
+                SparsePolynomial.variable(var, old_vars, self.field)
                 for var in old_vars
             ]
             if isinstance(rhs[0], (SparsePolynomial, RationalFunction))
@@ -1731,7 +1749,7 @@ class OrthogonalSubspace(Subspace):
 
 
 class NumericalSubspace(OrthogonalSubspace):
-    r"""
+    r'''
     Class to represent subspaces where containment is not exactly defined.
 
     This is a subclass of :class:`OrthogonalSubspace` where now we assume that small orthogonal
@@ -1744,7 +1762,7 @@ class NumericalSubspace(OrthogonalSubspace):
 
     * :func:`contains`
     * :func:`_should_absorb`
-    """
+    '''
 
     def __init__(self, field: Domain, delta: float = 1e-4):
         super().__init__(field)
@@ -1753,7 +1771,7 @@ class NumericalSubspace(OrthogonalSubspace):
         self.__delta2 = self.__delta**2
 
     def contains(self, vector: SparseVector):
-        r"""Checks whether a vector is in ``self`` or not."""
+        r'''Checks whether a vector is in ``self`` or not.'''
         self_proj = self.reduce_vector(vector.copy())
         return float(self_proj.inner_product(self_proj)) < 1e-15
 
@@ -1784,7 +1802,7 @@ def find_smallest_common_subspace(
     subspace_class=Subspace,
     **kwds,
 ) -> Subspace:
-    """
+    '''
     Input
       - matrices - an iterator for matrices (SparseMatrix)
       - vectors_to_include - a list of vectors (SparseVector)
@@ -1792,7 +1810,7 @@ def find_smallest_common_subspace(
       - kwds - another optional arguments used to create the subspace object
     Output
       a smallest invariant subspace for the matrices containing the vectors
-    """
+    '''
     cache_key = __fscs_key(matrices, vectors_to_include, subspace_class, **kwds)
     if not cache_key in __CACHE_FSCS:
         field = vectors_to_include[0].field
