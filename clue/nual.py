@@ -6,7 +6,7 @@ r'''
 '''
 from __future__ import annotations
 
-from numerical_domains import Domain, Element
+from .numerical_domains import Domain, Element
 
 class NualNumber:
     r'''

@@ -2534,8 +2534,9 @@ class FODESystem:
         percentage_size: Optional[float] = None,
         max_size: Optional[int] = None,
         with_tries: bool = False,
-        threshold: float = 1e-15,
+        threshold: float = 1e-6,
         matrix_algorithm: str = "polynomial",
+        max_iter: int = 100,
     ) -> tuple[int, int, float, float, int] | tuple[int, int, float, float]:
         r'''
         Method to compute the a reduction for a numerical lumping based on a maximum allowed size for the reduced model.
@@ -2577,6 +2578,8 @@ class FODESystem:
         else:
             raise ValueError(f"Either `max_size` or `percentage_size` must be given")
 
+        logger.debug(f"[find_reduction_given_size] Maximum allowed size is {max_n}")
+
         logger.debug("[find_reduction_given_size] Building matrices for lumping")
         matrices = self.construct_matrices(matrix_algorithm)
 
@@ -2606,16 +2609,14 @@ class FODESystem:
         right_size = r_subspace.dim()
 
         if max_n > left_size:
-            logger.log(
-                5,
-                f"[find_reduction_given_size] Desired size ({max_n}) larger than exact reduction size ({left_size}). Returning exact reduction.",
+            logger.info(
+                f"[find_reduction_given_size] Desired size ({max_n}) larger than exact reduction size ({left_size}). Returning exact reduction."
             )
             right_size = left_size
             right_eps = left_eps
         elif max_n < right_size:
-            logger.log(
-                5,
-                f"[find_reduction_given_size] Desired size ({max_n}) smaller than minimum size ({right_size}). Setting desired size to {right_size}",
+            logger.info(
+                f"[find_reduction_given_size] Desired size ({max_n}) smaller than minimum size ({right_size}). Setting desired size to {right_size}"
             )
             max_n = right_size
 
@@ -2623,34 +2624,37 @@ class FODESystem:
         logger.debug(
             f"[find_reduction_given_size] Initial interval of search: [{left_eps},{right_eps}]"
         )
-        while (right_eps - left_eps) > threshold:
+        while (right_eps - left_eps)/max_epsilon > threshold:
+
+            if tries > max_iter:
+                logger.warning(f"[find_reduction_given_size] Maximum number of tries ({max_iter}) reached. Returning the best approximation.")
+                break
+
             epsilon = (right_eps + left_eps) / 2
             logger.debug(f"[find_reduction_given_size] New value for {epsilon = }")
-            logger.log(
-                5,
-                f"[find_reduction_given_size] Computing lumping dimension for {epsilon = } (computing subspace)",
+            logger.info(
+                f"[find_reduction_given_size] Computing lumping dimension for {epsilon = } (computing subspace)"
             )
             subspace = find_smallest_common_subspace(
                 matrices, observable, NumericalSubspace, delta=epsilon
             )
             n_epsilon = subspace.dim()
-            logger.log(
-                5,
+            logger.debug(
                 f"[find_acceptable_threshold] Computed subspace for {epsilon = } ({n_epsilon})",
             )
             if n_epsilon < max_n:
                 left_eps, right_eps, right_size = left_eps, epsilon, n_epsilon
             elif n_epsilon >= max_n:
                 left_eps, right_eps, left_size = epsilon, right_eps, n_epsilon
-                break
             logger.debug(
-                f"[find_reduction_given_size] New interval search: [{left_eps},{right_eps}]"
+                f"[find_reduction_given_size] New interval search: [{left_eps},{right_eps}], with sizes ({left_size}, {right_size})"
             )
             tries += 1
 
         logger.debug(
             f"[find_reduction_given_size] Reduction change found in interval -->[{left_eps},{right_eps}]"
         )
+
         if with_tries:
             return left_size, right_size, left_eps, right_eps, tries
         return left_size, right_size, left_eps, right_eps

@@ -6,6 +6,7 @@ from contextlib import nullcontext
 from clue import FODESystem, LDESystem, SparsePolynomial, SparseRowMatrix, NumericalSubspace
 from clue.simulations import apply_matrix, create_figure, merge_simulations
 from clue.ode_parser import readfile, extract_model_name, split_in_sections
+from clue.numerical_domains import RR
 from cProfile import Profile
 from papers.examples_data import Example, Load_Examples_Folder
 from io import TextIOBase
@@ -13,7 +14,6 @@ from matplotlib import pyplot as plt
 from numpy import array, matmul, mean, divide, zeros_like, reshape
 from numpy.linalg import norm
 from scipy.integrate._ivp.ivp import OdeResult
-from sympy import RR
 from typing import Optional
 
 from pathlib import Path
@@ -234,7 +234,11 @@ class ResultNumericalExample(Experiment):
             elif self.percentage is None and self.percentage_epsilon is None and self.percentage_size is not None:
                 ctime = time.time()
                 found_red = self.num_system.find_reduction_given_size(
-                    [obs.change_base(RR) for obs in self.observable],threshold=self.threshold, with_tries=True, matrix_algorithm=self.example.matrix, max_size = self.percentage_size)
+                    [obs.change_base(RR) for obs in self.observable], 
+                    threshold=self.threshold, 
+                    with_tries=True, 
+                    matrix_algorithm=self.example.matrix,
+                    percentage_size = self.percentage_size)
                 self._epsilon = found_red[3]
                 self._considered_epsilon = found_red[4]
 
@@ -265,7 +269,7 @@ class ResultNumericalExample(Experiment):
                 num_observable = [obs.change_base(RR) for obs in self.observable]
                 ## Computing the lumping
                 ctime = time.time()
-                self._numerical_lumping = self.num_system.lumping(num_observable, method=self.example.matrix, print_system=False, print_reduction=False)
+                self._numerical_lumping = self.num_system.lumping(num_observable, method=self.example.matrix, print_system=False, print_reduction=False,out_format="internal")
                 self._time_total = (time.time()-ctime) + self.time_epsilon
                 ## Restoring old values for computing lumping
                 self.num_system.lumping_subspace_class = old_subclass, old_subclass_args
@@ -451,6 +455,24 @@ class ResultNumericalExample(Experiment):
                 "Percentual error"
             ]
         )
+        sim_dict = dict(self.merged_simulation)
+        sim_dict["t"] = sim_dict["t"].tolist()
+        sim_dict["y"] = sim_dict["y"].tolist()
+        sim_dict["name"] = self.example.name
+        sim_dict["observable"] = self.observable_name
+        sim_dict["size"] = self.size
+        sim_dict["exact_size"] = self.exact_size
+        sim_dict["lumped_size"] = self.lumped_size
+
+        extra = f"{self.observable_name}#{self.percentage}" if self.percentage else f"{self.observable_name}#{self.lumped_size}"
+
+        sim_file = SCRIPT_DIR/ "json_results" / f"{self.example.base_file_name(self.example.read[0], self.example.matrix[0])}{f'[{extra}]' if extra != None else ''}"
+        logger.info(f"Saving simulation results to {sim_file}")
+        with open( sim_file.with_suffix(
+            ".json")
+        , "w") as file:
+            json.dump(sim_dict, file, indent=4)
+
         fig.savefig(
             self.example.image_path(
                 SCRIPT_DIR, self.example.read, self.example.matrix,
