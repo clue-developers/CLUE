@@ -2537,6 +2537,7 @@ class FODESystem:
         threshold: float = 1e-6,
         matrix_algorithm: str = "polynomial",
         max_iter: int = 100,
+        relative_search: bool = False,
     ) -> tuple[int, int, float, float, int] | tuple[int, int, float, float]:
         r'''
         Method to compute the a reduction for a numerical lumping based on a maximum allowed size for the reduced model.
@@ -2624,8 +2625,8 @@ class FODESystem:
         logger.debug(
             f"[find_reduction_given_size] Initial interval of search: [{left_eps},{right_eps}]"
         )
-        while (right_eps - left_eps)/max_epsilon > threshold:
 
+        while ((right_eps - left_eps)/max_epsilon > threshold and relative_search) or ((right_eps - left_eps) > threshold and not relative_search):
             if tries > max_iter:
                 logger.warning(f"[find_reduction_given_size] Maximum number of tries ({max_iter}) reached. Returning the best approximation.")
                 break
@@ -2891,6 +2892,7 @@ class FODESystem:
         max_size: Optional[int] = None,
         threshold: float = 1e-15,
         with_tries: bool = False,
+        relative_search: bool = False,
     ):
         r'''
             Method to create a numerical lumping.
@@ -2936,7 +2938,7 @@ class FODESystem:
 
 
         if max_size is not None:
-            result = self.find_reduction_given_size(observable, max_size=max_size, matrix_algorithm=method, threshold=threshold, with_tries=with_tries)
+            result = self.find_reduction_given_size(observable, max_size=max_size, matrix_algorithm=method, threshold=threshold, with_tries=with_tries, relative_search=relative_search)
             epsilon = result[3]
             if with_tries:
                 tries = result[4]

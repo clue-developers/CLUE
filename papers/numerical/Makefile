@@ -34,6 +34,11 @@ clean:
 	@find . -name "*.png" -type f -delete
 	@echo "Removing execution profiles..."
 	@find . -name "*.prf" -type f -delete
+	@echo "Removing CSV files..."
+	@find . -name "*.csv" -type f -delete
+	@echo "Removing simulation files..."
+	@find ./json_results/ -name "*.json" -type f -delete
+	@find ./phosphorylation/ -name "*.json" -type f -delete
 
 reproduce:$(ALL)
 	@FLAGS="-t 600"
