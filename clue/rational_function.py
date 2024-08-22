@@ -17,8 +17,8 @@ from pyparsing import (
 import sympy
 from sympy import QQ, oo
 from sympy import PythonRational as MPQ
-
 from typing import Any, Collection, Optional
+
 
 from .linalg import SparseVector
 from .nual import NualNumber
@@ -185,6 +185,7 @@ class SparsePolynomial(object):
                  cast: bool = True):
         self._varnames = varnames
         self._domain = domain
+
         self._data : dict[SparseMonomial, Any] = dict()
         if data is not None:
             for key, value in data.items():
@@ -201,6 +202,7 @@ class SparsePolynomial(object):
                         self._data[monomial] = value
 
         self.__cache_pow : dict[int, SparsePolynomial]= dict()
+
 
     def dataiter(self):
         return self._data.items()
@@ -544,6 +546,7 @@ class SparsePolynomial(object):
 
     # --------------------------------------------------------------------------
 
+
     def __add__(self, other: SparsePolynomial) -> SparsePolynomial:
         ## Checking the argument "other"
         try:
@@ -582,9 +585,11 @@ class SparsePolynomial(object):
         
         ## Computing solution
         for m, c in other._data.items():
+
             if m in self._data:
                 new_val = self._data[m] + c
                 if new_val == self.domain.zero:
+
                     del self._data[m]
                 else:
                     self._data[m] = new_val
@@ -1184,6 +1189,7 @@ class SparsePolynomial(object):
         return prefix, (
             "" if c == self.domain.one else self._scalar_to_str(c) + "*"
         ) + m.to_string(self._varnames)
+
 
     # --------------------------------------------------------------------------
 
