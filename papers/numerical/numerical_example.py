@@ -466,7 +466,7 @@ class ResultNumericalExample(Experiment):
 
         extra = f"{self.observable_name}#{self.percentage}" if self.percentage else f"{self.observable_name}#{self.lumped_size}"
 
-        sim_file = SCRIPT_DIR/ "json_results" / f"{self.example.base_file_name(self.example.read[0], self.example.matrix[0])}{f'[{extra}]' if extra != None else ''}"
+        sim_file = SCRIPT_DIR/ "paper/json_results" / f"{self.example.base_file_name(self.example.read[0], self.example.matrix[0])}{f'[{extra}]' if extra != None else ''}"
         logger.info(f"Saving simulation results to {sim_file}")
         with open( sim_file.with_suffix(
             ".json")

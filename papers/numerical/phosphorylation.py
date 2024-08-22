@@ -1,8 +1,6 @@
 from clue import *
 from clue.numerical_domains import RR
-import numpy as np
 from cProfile import Profile
-import pandas as pd
 import signal,random,time,json,pstats,logging
 
 random.seed(30)
@@ -176,8 +174,6 @@ def run_simulations(low, high):
             results.append(result)
             continue
 
-        sims = {'exact': [sim1.t, np.array(sim1.y[0])], 'reduced': [sim2.t, np.array(sim2.y[0])]}
-        sims_data= pd.DataFrame.from_dict(sims)
 
         error = sim1.y[0] - sim2.y[0]
 

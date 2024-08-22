@@ -1,3 +1,25 @@
+# Approximate Constrained Lumping of Chemical Reaction Networks
+
+The following repository contains all the experiments from the paper "Approximate Constrained Lumping of Chemical Reaction Networks".
+The experiments are organized as follows:
+```
+numerical
+├── json_results
+├── paper
+│   ├── polynomial
+│   └── rational
+├── phosphorylation
+├── numerical_example.py
+└── phosphorylation.py
+```
+The scripts `numerical_example.py` and `phosphorylation.py` are used to run the examples.
+The aggregation power experiments are run using `numerical_example.py` and the experiment described in `paper.json`.
+Its summary results are stored in the `paper/` folder and the consolidated results are show in `compilation.csv`.
+The results for the specific simulations are stored in the `json_results/` folder.
+
+The `phosphorylation.py` is used to run the escalability example.
+Its results are stored in the `phosphorylation/` folder.
+
 # Numerical examples
 
 The numerical examples are compiled in the file `data.json` and allow the following arguments:

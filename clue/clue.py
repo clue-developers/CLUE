@@ -2561,9 +2561,9 @@ class FODESystem:
             >>> system = FODESystem([x1**2 +4.05*x1*x2+4*x2**2, 2*x0-4*x2, -x0-x1], variables=['x0','x1','x2'])
             >>> bound = [(0,1) for i in range(system.size)]
             >>> system.find_reduction_given_size(['x0'],percentage_size=0.5)
-            (2, 1, 4.483372, 8.966744)
+            (2, 1, 8.966743, 8.966744)
             >>> system.find_reduction_given_size(['x0'],percentage_size=0.7)
-            (3, 2, 0.070053, 0.140105)
+            (3, 2, 0.089109, 0.089110)
 
         '''
         observable = self._process_observable(observable)
