@@ -13,7 +13,7 @@ r'''
 
 from __future__ import annotations
 
-import copy, logging, math, ipdb
+import copy, logging, math
 
 from collections import deque
 
@@ -384,7 +384,6 @@ class SparseVector():
         # computing the intersection
         common_indices = self.nonzero.intersection(rhs.nonzero)
         result = self.field.zero if self.field != RR else 0.0
-        # ipdb.set_trace()
         for index in common_indices:
             result += self.__data[index] * rhs.__data[index]
 
