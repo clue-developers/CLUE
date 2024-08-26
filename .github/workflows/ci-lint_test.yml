@@ -2,7 +2,7 @@ name: CI-Actions
 
 on:
   push:
-    branches: [ master, PR_3]
+    branches: [ master, PR_3, stable]
   pull_request:
     branches: [ master ]
 
@@ -10,7 +10,7 @@ on:
 jobs:
   # Job for lint the repository
   linting:    
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
