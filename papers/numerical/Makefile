@@ -4,6 +4,9 @@ RATIONAL=$(shell python3 numerical_example.py list -r)
 PYTHON=python3
 FLAGS=-p -t 600 
 
+setup:
+	@mkdir -v -p paper/polynomial/images paper/polynomial/profiles paper/rational/images paper/rational/profiles paper/simulations/ phosphorylation/profiles phosphorylation/results
+
 all: $(ALL)
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	@echo "Finished all examples"
@@ -43,6 +46,7 @@ clean:
 reproduce:$(ALL)
 	@FLAGS="-t 600"
 	@python3 numerical_example.py compile 
+	@python3 phosphorylation.py 2 6 
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	@echo "Reproduced all examples. Compiled results are available in 'compilation.csv'."
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"

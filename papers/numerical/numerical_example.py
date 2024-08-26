@@ -455,6 +455,16 @@ class ResultNumericalExample(Experiment):
                 "Percentual error"
             ]
         )
+        fig.savefig(
+            self.example.image_path(
+                SCRIPT_DIR, self.example.read, self.example.matrix,
+                f"{self.observable_name}#{self.percentage}" if self.percentage else f"{self.observable_name}#{self.epsilon:.3f}"
+            )
+        )
+        plt.close()
+
+    def save_simulations(self): 
+        r'''Method that generates a json file with the simulations for the given experiment '''
         sim_dict = dict(self.merged_simulation)
         sim_dict["t"] = sim_dict["t"].tolist()
         sim_dict["y"] = sim_dict["y"].tolist()
@@ -466,20 +476,12 @@ class ResultNumericalExample(Experiment):
 
         extra = f"{self.observable_name}#{self.percentage}" if self.percentage else f"{self.observable_name}#{self.lumped_size}"
 
-        sim_file = SCRIPT_DIR/ "paper/json_results" / f"{self.example.base_file_name(self.example.read[0], self.example.matrix[0])}{f'[{extra}]' if extra != None else ''}"
+        sim_file = SCRIPT_DIR/ "paper/simulations" / f"{self.example.base_file_name(self.example.read[0], self.example.matrix[0])}{f'[{extra}]' if extra != None else ''}"
+        json_file = sim_file.with_suffix(".json")
         logger.info(f"Saving simulation results to {sim_file}")
-        with open( sim_file.with_suffix(
-            ".json")
-        , "w") as file:
+        with open(json_file, "w" ) as file:
             json.dump(sim_dict, file, indent=4)
 
-        fig.savefig(
-            self.example.image_path(
-                SCRIPT_DIR, self.example.read, self.example.matrix,
-                f"{self.observable_name}#{self.percentage}" if self.percentage else f"{self.observable_name}#{self.epsilon:.3f}"
-            )
-        )
-        plt.close()
 
     def write_result(self, file: TextIOBase):
         r'''Method that generates a results file with the information of this '''
@@ -1574,6 +1576,8 @@ def __run_exact(
         result.write_result(output)
         logger.log(60, f"[run_exact # {example.name}] Generating images for \n\t{repr(result)}")
         result.generate_image()
+        logger.log(60, f"[run_exact # {example.name}] Saving simulation results for \n\t{repr(result)}")
+        result.save_simulations()
         logger.log(60, f"[run_exact # {example.name}] Finished execution for \n\t{repr(result)}")
 
 def __run_analysis(example: Example,

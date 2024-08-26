@@ -2,6 +2,9 @@ from clue import *
 from clue.numerical_domains import RR
 from cProfile import Profile
 import signal,random,time,json,pstats,logging
+from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).parent
 
 random.seed(30)
 
@@ -206,7 +209,9 @@ if __name__ == "__main__":
     with Profile() as pr: 
         simulations, results = run_simulations(low,high)
         stats = pstats.Stats(pr)
-        stats.dump_stats(filename=f'./phosphorylation/profiles/perturbed[{low}-{high}].prf')
+        prof_file = SCRIPT_DIR / 'phosphorylation/profiles'/ f'perturbed[{low}-{high}].prf'
+        logger.info(f"Saving profiles to {prof_file}")
+        stats.dump_stats(filename=prof_file)
     
     # for sims in simulations:
         # sim1,sim2= sims
