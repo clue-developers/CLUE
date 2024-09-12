@@ -572,7 +572,7 @@ class SparseVector():
         for ind in self.nonzero:
             try:
                 result[ind] = rational_reconstruction_sage(
-                    self[ind].to_int(), self.field.characteristic()
+                    int(self[ind]), self.field.characteristic()
                 )
             except ValueError:
                 logger.debug(

@@ -3,8 +3,8 @@ r'''
     used for numerical purposes.
 '''
 
-from numpy import (complex64, complex128, complex256, 
-                   float16, float32, float64, float128)
+from numpy import (csingle, cdouble, clongdouble, 
+                   half, single, double, longdouble)
 from sympy import PythonRational
 from sympy.polys.domains.domainelement import DomainElement
 from sympy.polys.domains.field import Field
@@ -83,18 +83,18 @@ class NumericalField:
     def __eq__(self, other) -> bool:
         return isinstance(other, NumericalField) and self.dtype == other.dtype
     
-RR = NumericalField(float64)
-RR16 = NumericalField(float16)
-RR32 = NumericalField(float32)
+RR = NumericalField(double)
+RR16 = NumericalField(half)
+RR32 = NumericalField(single)
 RR64 = RR
-RR128 = NumericalField(float128)
-CC = NumericalField(complex128)
-CC64 = NumericalField(complex64)
-CC256 = NumericalField(complex256)
+RR128 = NumericalField(longdouble)
+CC = NumericalField(cdouble)
+CC64 = NumericalField(csingle)
+CC256 = NumericalField(clongdouble)
 
 Domain = Field | NumericalField
 ExactElement = PythonRational | DomainElement
-NumericalElement = complex64 | complex128 | complex256 | float16 | float32 | float64 | float128
-Element = ExactElement | NumericalElement; 
+NumericalElement = csingle | cdouble | clongdouble | half | single | double | longdouble
+Element = ExactElement | NumericalElement
 
 __all__ = ["NumericalField", "RR", "CC"]

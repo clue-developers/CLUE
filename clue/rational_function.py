@@ -16,7 +16,7 @@ from pyparsing import (
 
 import sympy
 from sympy import QQ, oo
-from sympy import PythonRational as MPQ
+from sympy.external.pythonmpq import PythonMPQ as MPQ
 from typing import Any, Collection, Optional
 
 
@@ -338,7 +338,7 @@ class SparsePolynomial(object):
             >>> from clue.numerical_domains import RR
             >>> p = SparsePolynomial.from_string("12*x^2 - 6*x*y + 3", ["x","y"], RR)
             >>> p.content
-            np.float64(1.0)
+            1.0
         '''
         if isinstance(self.domain, NumericalField):
             return self.domain.one

@@ -395,23 +395,23 @@ class FODESystem:
                     self._ic[key] = 0
 
     @property
-    def name(self):
+    def name(self) -> str:
         return self._name
 
     @property
-    def matrices_subspace_class(self):
+    def matrices_subspace_class(self) -> type[Subspace]:
         return self.__matrices_subspace_class
 
     @property
-    def matrices_subspace_kwds(self):
+    def matrices_subspace_kwds(self) -> dict:
         return self.__matrices_subspace_kwds
 
     @property
-    def lumping_subspace_class(self):
+    def lumping_subspace_class(self) -> type[Subspace]:
         return self.__lumping_subspace_class
 
     @property
-    def lumping_subspace_kwds(self):
+    def lumping_subspace_kwds(self) -> dict:
         return self.__lumping_subspace_kwds
 
     @lumping_subspace_class.setter
@@ -681,8 +681,10 @@ class FODESystem:
 
     def __transform_equation(self, equation, type):
         r'''
-        Method to transform the equations of the system to the normalized setting.
+            Method to transform the equations of the system to the normalized setting.
         '''
+        if not type in (0, 1, 2):
+            raise ValueError(f"The value for the type ({type}) is not valid. Must be 0 (polynomial), 1 (rational function) or 2 (sympy expressions)")
         if isinstance(equation, PolyElement):
             if type == 0:
                 nequation = SparsePolynomial.from_sympy(equation, self.variables)
@@ -690,7 +692,7 @@ class FODESystem:
                 nequation = RationalFunction.from_string(
                     str(equation.as_expr()), self.variables
                 )
-            elif type == 2:
+            else:
                 nequation = equation.as_expr()
         elif isinstance(equation, FracElement):
             if type == 0:
@@ -699,7 +701,7 @@ class FODESystem:
                 nequation = RationalFunction.from_string(
                     str(equation.as_expr()), self.variables
                 )
-            elif type == 2:
+            else:
                 nequation = equation.as_expr()
         elif isinstance(equation, SparsePolynomial):
             if type == 0:
@@ -709,14 +711,14 @@ class FODESystem:
                     equation,
                     SparsePolynomial.from_const(1, self.variables, equation.domain),
                 )
-            elif type == 2:
+            else:
                 nequation = equation.to_sympy().as_expr()
         elif isinstance(equation, RationalFunction):
             if type == 0:
                 nequation = equation.numer
             elif type == 1:
                 nequation = equation
-            elif type == 2:
+            else:
                 nequation = equation.to_sympy().as_expr()
         elif isinstance(equation, list):
             nequation = [self.__transform_equation(equ, type) for equ in equation]
@@ -729,7 +731,7 @@ class FODESystem:
                 raise TypeError("Reached SparsePolynomial from something weird")
             elif type == 1:
                 raise TypeError("Reached RationalFunction from something weird")
-            elif type == 2:
+            else:
                 nequation = equation
         return nequation
 
@@ -2930,15 +2932,15 @@ class FODESystem:
         if epsilon is not None and max_size is not None:
             raise ValueError("Arguments `epsilon` and `max_size` cannot be given at the same time")
 
-        red_data = []
-
+        # Getting the reduction given the criteria
         if max_size is not None:
             result = self.find_reduction_given_size(observable, max_size=max_size, matrix_algorithm=method, threshold=threshold, with_tries=with_tries, relative_search=relative_search)
-            epsilon = result[3]
-            if with_tries:
-                tries = result[4]
-        elif epsilon is None:
-            _,_,_,epsilon = self.find_next_reduction(observable, matrix_algorithm=method,)
+        else: # == elif epsilon is None:
+            result = self.find_next_reduction(observable, matrix_algorithm=method, with_tries=with_tries)
+        # Getting the epsilon and (if requested) the number of tries
+        epsilon = result[3]
+        if with_tries:
+            tries = result[4]
 
 
         self.lumping_subspace_class = NumericalSubspace, {"delta": epsilon}
@@ -2959,7 +2961,6 @@ class FODESystem:
         #######################################################################################
         ### POSTPROCESSING
         #######################################################################################
-
         self.lumping_subspace_class = old_lumping_class, old_lumping_kwds
 
         if out_format == "sympy":
@@ -3084,7 +3085,7 @@ class FODESystem:
                 if ic is None
                 else {v: ic.get(v, self.ic.get(v, None)) for v in set(ic).union(self.ic)}
             )  # we merge the initial condition dictionaries
-            lumping_subspace = self.lumping_subspace_class.identity_subspace(self.size, self.field)
+            lumping_subspace = self.lumping_subspace_class.identity_subspace(self.size, self.field) #pylint:disable=no-member
         else:
             lumped_rhs = self._lumped_system(
                 lumping_subspace, vars_old, field, new_vars_name
