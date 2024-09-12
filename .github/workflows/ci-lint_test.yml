@@ -2,7 +2,7 @@ name: CI-Actions
 
 on:
   push:
-    branches: [ master, PR_3, stable]
+    branches: [ master, stable ]
   pull_request:
     branches: [ master ]
 
@@ -24,9 +24,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install ".[lint]"; fi
-    - name: Format code with black
-      run: |
-        black ./clue
     - name: Lint with pylint
       run: |
         pylint ./clue 

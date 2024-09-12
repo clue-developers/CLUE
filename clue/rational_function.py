@@ -337,7 +337,7 @@ class SparsePolynomial(object):
 
             >>> from clue.numerical_domains import RR
             >>> p = SparsePolynomial.from_string("12*x^2 - 6*x*y + 3", ["x","y"], RR)
-            >>> p.content
+            >>> print(p.content)
             1.0
         '''
         if isinstance(self.domain, NumericalField):

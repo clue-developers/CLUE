@@ -39,6 +39,6 @@ setup(
     packages =  ["clue"],
     setup_requires   = [],
     install_requires = requirements(),
-    extras_require = {"lint": ["pylint", "black"], "test": ["pytest"], "dev": ["pylint", "black", "pytest"]},
+    extras_require = {"lint": ["pylint"], "test": ["pytest"], "dev": ["pylint", "pytest"]},
 )
     

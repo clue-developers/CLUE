@@ -3085,7 +3085,7 @@ class FODESystem:
                 if ic is None
                 else {v: ic.get(v, self.ic.get(v, None)) for v in set(ic).union(self.ic)}
             )  # we merge the initial condition dictionaries
-            lumping_subspace = self.lumping_subspace_class.identity_subspace(self.size, self.field) #pylint:disable=no-member
+            lumping_subspace = self.lumping_subspace_class.identity_subspace(self.size, self.field) # pylint:disable=no-member
         else:
             lumped_rhs = self._lumped_system(
                 lumping_subspace, vars_old, field, new_vars_name
