@@ -1,4 +1,4 @@
-r"""
+r'''
     Module to parse .ode files into a linear system of ordinary differential equations.
 
     This module implements a complete parser of `.ode` files that will create the 
@@ -49,7 +49,7 @@ r"""
         MODEL1502270000 [FODESystem -- 46 -- Zero]
         >>> FODESystem(file="models/rational/BIOMD0000000611.ode", parser="rational", read_ic=True)
         BIOMD0000000611 [FODESystem -- 153 -- RationalFunction]
-"""
+'''
 
 import re, sys, logging
 
@@ -59,9 +59,11 @@ sys.setrecursionlimit(10000000)
 
 from natsort import natsorted
 
-from sympy import QQ, RR, parse_expr, symbols
+from sympy import QQ, parse_expr, symbols
+
 from sympy.parsing.sympy_parser import standard_transformations, rationalize
 
+from .numerical_domains import RR
 from .rational_function import SparsePolynomial, RationalFunction, to_rational
 
 __transformations_parser = standard_transformations + (rationalize,)
@@ -70,9 +72,9 @@ __transformations_parser = standard_transformations + (rationalize,)
 
 
 def readfile(name):
-    """
+    '''
     Reads a file and removes C-style comments and []-type comments
-    """
+    '''
     f = open(name)
     s = f.read()
     f.close()
@@ -83,7 +85,7 @@ def readfile(name):
 
 
 def comment_remover(text):
-    r"""Removing C++ and C style comments"""
+    r'''Removing C++ and C style comments'''
 
     # taken from https://stackoverflow.com/a/241506
     def replacer(match):
@@ -105,7 +107,7 @@ def bracket_comment_remover(text):
 
 
 def parenthesis_comment_remover(text):
-    r"""
+    r'''
     Method to remove special type of comments of form '("...")' or '( "..." )'.
 
     This type of comments appear in some models during the reading of initial conditions representing
@@ -136,7 +138,7 @@ def parenthesis_comment_remover(text):
         'a = (b+3e-7)*5'
         >>> parenthesis_comment_remover('a = (b+3e-7)*5 (   "spaces and tab"	)')
         'a = (b+3e-7)*5'
-    """
+    '''
     return re.sub(r"\([ \t]*\".*\"[ \t]*\)", "", text).strip()
 
 
@@ -144,9 +146,9 @@ def parenthesis_comment_remover(text):
 
 
 def extract_model_name(model):
-    """
+    '''
     Returns the name of the model and text without enclosing "begin model ... end model"
-    """
+    '''
     p = re.compile(r"begin\s+model\s+(\w+)")
     m = p.search(model)
     name = m.group(1)
@@ -159,10 +161,10 @@ def extract_model_name(model):
 
 
 def split_in_sections(model):
-    """
+    '''
     Input: string with the body of *.ode presented model
     Output: dictionary from names of the sections to lists of lines in the sections
-    """
+    '''
     sections = dict()
     cur_section = None
     pstart = re.compile(r"begin\s+(\w+)")
@@ -196,13 +198,13 @@ def _var_dict(varnames, parser):
 
 
 def _parse(to_parse, varnames, parser, domain=QQ):
-    r"""
+    r'''
     Method that decides with the argument ``parser`` how to parse an expression.
 
     The argument ``parser`` must be a string containing "sympy" (parsing to expressions),
     "polynomial" (parsing to :class:`clue.rational_function.SparsePolynomial`) or
     "rational" (parsing to :class:`clue.rational_function.RationalFunction`)
-    """
+    '''
     var_dict = _var_dict(tuple(varnames), parser)
     to_parse = to_parse.replace(
         "arbitrary", ""
@@ -228,11 +230,11 @@ def _parse(to_parse, varnames, parser, domain=QQ):
 
 
 def parse_ode(lines, varnames, parser="sympy", domain=QQ):
-    """
+    '''
     Input:
     Output: list of SparsePolynomial representing this ODE system
             ordered as variables in the ring
-    """
+    '''
     eqs_raw = dict()
     plhs = re.compile(r"d\((\w+)\)")
     for l in lines:
@@ -268,10 +270,10 @@ def parse_ode(lines, varnames, parser="sympy", domain=QQ):
 
 
 def extract_observables(lines, varnames, domain=QQ):
-    """
+    '''
     Input: lines of the partitions section
     Output: list of SparsePolynomial representing the observables
-    """
+    '''
     # var_to_ind = {v : i for i, v in enumerate(varnames)}
     sets = [m.groups(1)[0] for m in re.finditer(r"\{([^\{\}]*)\}", " ".join(lines))]
     observables = []
@@ -286,10 +288,10 @@ def extract_observables(lines, varnames, domain=QQ):
 
 
 def separate_reaction_rate(line):
-    """
+    '''
     Input: reaction line of the form: "reactants -> products, rate [name]"
     Output: strings "reactants -> products" and "rate"
-    """
+    '''
     openpar = 0
     closedpar = 0
     split_ind = None
@@ -312,10 +314,10 @@ def separate_reaction_rate(line):
 
 
 def parse_reactions(lines, varnames, parser="sympy", domain=QQ):
-    """
+    '''
     Input: lines with reactions, each reaction of the form "reactants -> products, rate" and varnames
     Output: the list of corresponding equations
-    """
+    '''
     raw_reactions = []
     # var_to_ind = {v : i for i, v in enumerate(varnames)}
     # var_to_sym = {v : symbols(v) for v in varnames}
@@ -350,12 +352,12 @@ def parse_reactions(lines, varnames, parser="sympy", domain=QQ):
             monomial = SparsePolynomial(
                 varnames,
                 domain,
-                {tuple((var_dict[v], mult) for v, mult in ldict.items()): domain(1)},
+                {tuple((var_dict[v], mult) for v, mult in ldict.items()): domain.one},
             )
         else:
             raise NotImplementedError(f"Parser {parser} not implemented")
 
-        # reaction_poly = rate_poly * SparsePolynomial(varnames, QQ, {monomial : QQ(1)})
+        # reaction_poly = rate_poly * SparsePolynomial(varnames, QQ, {monomial : QQ.one})
         reaction_poly = rate_poly * monomial
         for v, mult in rdict.items():
             eqs[v] += reaction_poly * mult
@@ -369,10 +371,10 @@ def parse_reactions(lines, varnames, parser="sympy", domain=QQ):
 
 
 def species_to_multiset(sp):
-    """
+    '''
     Input: string containing one of the sides of the chemical reaction
     Output: dictionary from species to multiplicities
-    """
+    '''
     result = dict()
     for s in sp.split("+"):
         s = s.strip()
@@ -416,7 +418,7 @@ def get_varnames(strings):
 
 
 def parse_initial_conditions(lines, domain=QQ, prev_ic=None):
-    r"""
+    r'''
     Method that process the initial conditions from an .ode file
 
     This method reads and process the initial values for a list of parameters or variables of a system
@@ -438,7 +440,7 @@ def parse_initial_conditions(lines, domain=QQ, prev_ic=None):
         >>> from clue.ode_parser import parse_initial_conditions
         >>> parse_initial_conditions([ "f = 0.50+0.5*t^2", "N = 5", "V = 1e-12*(f**5+N)/t", "L0 = (200E-9*N)*V"], prev_ic = {'t': 1})
         {'f': MPQ(1,1), 'N': MPQ(5,1), 'V': MPQ(3,500000000000), 'L0': MPQ(3,500000000000000000)}
-    """
+    '''
     result = dict()
     cummulated = dict(prev_ic) if prev_ic != None else dict()  # we create a copy
     for l in lines:
@@ -474,11 +476,11 @@ def parse_initial_conditions(lines, domain=QQ, prev_ic=None):
 
 
 def read_system(filename, read_ic=False, parser="polynomial", domain=QQ):
-    """
+    '''
     Takes a name of an *.ode file, and read the ODE system together with the observables
     subs_params flag corresponds to whether use the parameter values from the parameters section
     or treat these parameters symbolically
-    """
+    '''
     model = readfile(filename)
     name, sections_text = extract_model_name(model)
     sections_raw = split_in_sections(sections_text)

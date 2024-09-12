@@ -35,7 +35,7 @@
 ## Analysis
 
  1. [x] Alexander: Implement analysis finding sizes vs epsilon without sampling
- 2. [ ] Alexander: Refactor to remove deviation (this might involve modifying clue.py)
+ 2. [o] Alexander: Refactor to remove deviation (this might involve modifying clue.py)
  3. [ ] Alexander: Add testing for one polynomial and one rational model
   
 

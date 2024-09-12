@@ -1,4 +1,4 @@
-r"""
+r'''
     Module with the functions necessary to get models from the website ODEBase.
 
     The website (ODEBase)[https://www.odebase.org/] contains a list of models coming from 
@@ -36,7 +36,7 @@ r"""
         [(k1*k3 - k2*x1)/k3, (-k1*k3 + k2*x1)/k3, 0, 0, 0, 0]
         >>> ode_scrapper(name="BIOMD0000000098")
         ODEBase 1399 (BIOMD0000000098) [FODESystem -- 17 -- Mul]
-"""
+'''
 
 import io, logging, re, requests
 from bs4 import BeautifulSoup
@@ -114,13 +114,13 @@ def get_parameter_values(base_url: str, ref: str | int) -> dict[str, str]:
 
 
 def multireplace(string, replacements, ignore_case=False):
-    """
+    '''
     Given a string and a replacement map, it returns the replaced string.
     :param str string: string to execute replacements on
     :param dict replacements: replacement dictionary {value to find: value to replace}
     :param bool ignore_case: whether the match should be case insensitive
     :rtype: str
-    """
+    '''
     if not replacements:
         # Edge case that'd produce a funny regex and cause a KeyError
         return string
@@ -235,7 +235,7 @@ def ode_scrapper(
     index: int = None,
     translation: bool = False,
 ) -> FODESystem | list[FODESystem]:
-    r"""
+    r'''
     Method to create the :class:`FODESystem` from an entry in the ODEBase Database.
 
     All arguments are named, meaning we need to provide them as keywords. They provide an
@@ -260,7 +260,7 @@ def ode_scrapper(
     * ``translation``: models in ODEBase are usually defined with predefined names that are then
       map to the real values of their corresponding meaning. This flag indicates if the obtained
       model must translate the names to the true names or not.
-    """
+    '''
     # URL of the website to analyze
     base_url = "https://www.odebase.org"
     rational_url = f"is_rational={rational}" if rational != None else ""

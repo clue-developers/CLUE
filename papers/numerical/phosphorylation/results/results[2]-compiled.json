@@ -1,0 +1,13 @@
+{
+    "name": "e2",
+    "size": 24,
+    "reduction_size": 5,
+    "iterations": 8,
+    "lumping_time": 0.2257399559020996,
+    "exact_sim_time": 0.02144026756286621,
+    "lumped_sim_time": 0.009584426879882812,
+    "error_T": 0.017819484063233082,
+    "error_relative_T": 0.026300056196354064,
+    "max_error": 0.27394057996468746,
+    "max_epsilon": 24.355158575662166
+}

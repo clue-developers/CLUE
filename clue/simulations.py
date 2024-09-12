@@ -1,6 +1,6 @@
-r"""
+r'''
     Module to extend the functionality of simulations to the CLUE differential systems.
-"""
+'''
 
 from math import ceil
 from matplotlib.pyplot import subplots
@@ -86,7 +86,7 @@ def _merge_simulations(sim1: OdeResult, sim2: OdeResult):
 
 
 def compare_simulations(sim1: OdeResult, sim2: OdeResult, measures=[]):
-    r"""
+    r'''
     Method to generate a new simulation with the difference between two simulations.
 
     This method also computes the different measures of differences between the two
@@ -99,7 +99,7 @@ def compare_simulations(sim1: OdeResult, sim2: OdeResult, measures=[]):
     * ``"loo"``: a L-`\infty` norm will be used to compare the two simulations.
     * ``"l2"``: a normalized L2 norm will be computed to compare the two simulations.
     * ``"l1"``: a normalized L1 norm will be computed to compare the two simulations.
-    """
+    '''
     if sim1.y.shape != sim2.y.shape:
         raise ValueError("The two simulations are not comparable")
 
@@ -157,7 +157,7 @@ def create_figure(
     legend=True,
     **kwds,
 ):
-    r"""
+    r'''
     Method to create a matplotlib figure from a simulation.
 
     Given some data from a simulation using :func:`scipy.integrate.solve_ivp` it is very common to
@@ -178,7 +178,7 @@ def create_figure(
     OUTPUT:
 
     A figure that can be display using method ``show``.
-    """
+    '''
     ## Processing all the arguments
     if not isinstance(simulation, (list, tuple)):
         simulation = [simulation]
@@ -265,7 +265,7 @@ def create_figure(
 def sim_to_IO_format(
     simulation: OdeResult, tstep: float = 0.0, what: str = "derivative"
 ):
-    r"""
+    r'''
     Method to transform a simulation into a input-output table
 
     A simulation provide plenty of data for training something starting from a
@@ -286,7 +286,7 @@ def sim_to_IO_format(
     OUTPUT:
 
     A list containing 2-tuples with format (input, output).
-    """
+    '''
     if not simulation.success:
         return []
 

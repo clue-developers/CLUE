@@ -1,6 +1,41 @@
+# Approximate Constrained Lumping of Chemical Reaction Networks
+
+*To reproduce the results in the paper, we strongly recommend using the notebook `ExtensionExperiments.ipynb`.*
+
+The following repository contains all the experiments from the paper "Approximate Constrained Lumping of Chemical Reaction Networks".
+The experiments are organized as follows:
+```
+numerical
+├── json_results
+├── paper
+│   ├── polynomial
+│   └── rational
+├── phosphorylation
+├── numerical_example.py
+├── phosphorylation.py
+└── ExtensionExperiments.ipynb
+```
+The scripts `numerical_example.py` and `phosphorylation.py` are used to run the examples.
+The aggregation power experiments are run using `numerical_example.py` and the experiment described in `paper.json`.
+Its summary results are stored in the `paper/` folder and the consolidated results are show in `compilation.csv`.
+The results for the specific simulations are stored in the `json_results/` folder.
+
+The `phosphorylation.py` is used to run the escalability example.
+The `phosphorylation/` folder contains the results for all escalability runs.
+
+The notebook `ExtensionExperiments.ipynb` contains the scripts to generate all figures in the text as well as the main compilation table.
+All experiments can be run directly from this notebook. 
+Furthermore, it contains more commands related to the Makefile. 
+To use the Makefile, first use the command `make setup` to set up the directory structure.
+Alternatively, it is possible to use the instruction `make reproduce` to run all experiments from the paper.
+Be aware that this command also runs the phosphorylation experiments which can take some time.
+
+
 # Numerical examples
 
-The numerical examples are compiled in the file `data.json` and allow the following arguments:
+Computations for numerical examples can be run via `numerical_example.py`.
+The list of experiments is in `paper.json`.
+The CLI allows the following arguments:
 
 * `read` (MANDATORY): value for describing how the system is read from the system.
 * `matrix` (MANDATORY): value for describing how the matrices for lumping are computed.

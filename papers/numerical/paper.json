@@ -136,7 +136,7 @@
             0.75,
             0.875
         ],
-        "sim_method": "Radau",
+        "sim_method": "LSODA",
         "out_folder": "paper/rational"
     },
 
@@ -160,8 +160,8 @@
             0.75,
             0.875
         ],
-        "t1": 1000,
-        "sim_method": "Radau",
+        "t1":3e-6,
+        "sim_method": "LSODA",
         "out_folder": "paper/rational"
     },
 
@@ -186,7 +186,7 @@
         ],
 
         "t1": 10,
-        "sim_method": "Radau",
+        "sim_method": "LSODA",
         "out_folder": "paper/rational"
     },
 
@@ -210,7 +210,7 @@
             0.875
         ],
         "t1": 12,
-        "sim_method": "BDF",
+        "sim_method": "LSODA",
         "out_folder": "paper/rational"
     }
 }

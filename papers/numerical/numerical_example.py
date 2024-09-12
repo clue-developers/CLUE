@@ -6,6 +6,7 @@ from contextlib import nullcontext
 from clue import FODESystem, LDESystem, SparsePolynomial, SparseRowMatrix, NumericalSubspace
 from clue.simulations import apply_matrix, create_figure, merge_simulations
 from clue.ode_parser import readfile, extract_model_name, split_in_sections
+from clue.numerical_domains import RR
 from cProfile import Profile
 from papers.examples_data import Example, Load_Examples_Folder
 from io import TextIOBase
@@ -13,7 +14,6 @@ from matplotlib import pyplot as plt
 from numpy import array, matmul, mean, divide, zeros_like, reshape
 from numpy.linalg import norm
 from scipy.integrate._ivp.ivp import OdeResult
-from sympy import RR
 from typing import Optional
 
 from pathlib import Path
@@ -133,11 +133,8 @@ class Experiment:
     def max_epsilon(self):
         if self._max_epsilon is None:
             logger.debug(f"[Experiment # {self.example.name}] Computing {inspect.stack()[0][3]}")
-            self._max_epsilon, self._max_dev = self.num_system.find_maximal_threshold(
+            self._max_epsilon = self.num_system.find_maximal_threshold(
                 [obs.change_base(RR) for obs in self.observable],
-                self.compact_bound(),
-                self.sample_points,
-                self.threshold,
                 matrix_algorithm=self.example.matrix
             )
         return self._max_epsilon
@@ -236,9 +233,15 @@ class ResultNumericalExample(Experiment):
                 self._epsilon = self.percentage_epsilon * self.max_epsilon
             elif self.percentage is None and self.percentage_epsilon is None and self.percentage_size is not None:
                 ctime = time.time()
-                _,_,self._epsilon,_, self._considered_epsilon = self.num_system.find_reduction_given_size(
-                    [obs.change_base(RR) for obs in self.observable], 1, self.compact_bound(), 
-                    self.sample_points, self.threshold, with_tries=True, matrix_algorithm=self.example.matrix, allowed_size = self.percentage_size)
+                found_red = self.num_system.find_reduction_given_size(
+                    [obs.change_base(RR) for obs in self.observable], 
+                    threshold=self.threshold, 
+                    with_tries=True, 
+                    matrix_algorithm=self.example.matrix,
+                    percentage_size = self.percentage_size)
+                self._epsilon = found_red[3]
+                self._considered_epsilon = found_red[4]
+
                 self._time_epsilon = time.time()-ctime
         return self._epsilon
     @property
@@ -266,7 +269,7 @@ class ResultNumericalExample(Experiment):
                 num_observable = [obs.change_base(RR) for obs in self.observable]
                 ## Computing the lumping
                 ctime = time.time()
-                self._numerical_lumping = self.num_system.lumping(num_observable, method=self.example.matrix, print_system=False, print_reduction=False)
+                self._numerical_lumping = self.num_system.lumping(num_observable, method=self.example.matrix, print_system=False, print_reduction=False,out_format="internal")
                 self._time_total = (time.time()-ctime) + self.time_epsilon
                 ## Restoring old values for computing lumping
                 self.num_system.lumping_subspace_class = old_subclass, old_subclass_args
@@ -459,6 +462,26 @@ class ResultNumericalExample(Experiment):
             )
         )
         plt.close()
+
+    def save_simulations(self): 
+        r'''Method that generates a json file with the simulations for the given experiment '''
+        sim_dict = dict(self.merged_simulation)
+        sim_dict["t"] = sim_dict["t"].tolist()
+        sim_dict["y"] = sim_dict["y"].tolist()
+        sim_dict["name"] = self.example.name
+        sim_dict["observable"] = self.observable_name
+        sim_dict["size"] = self.size
+        sim_dict["exact_size"] = self.exact_size
+        sim_dict["lumped_size"] = self.lumped_size
+
+        extra = f"{self.observable_name}#{self.percentage}" if self.percentage else f"{self.observable_name}#{self.lumped_size}"
+
+        sim_file = SCRIPT_DIR/ "paper/simulations" / f"{self.example.base_file_name(self.example.read[0], self.example.matrix[0])}{f'[{extra}]' if extra != None else ''}"
+        json_file = sim_file.with_suffix(".json")
+        logger.info(f"Saving simulation results to {sim_file}")
+        with open(json_file, "w" ) as file:
+            json.dump(sim_dict, file, indent=4)
+
 
     def write_result(self, file: TextIOBase):
         r'''Method that generates a results file with the information of this '''
@@ -1553,6 +1576,8 @@ def __run_exact(
         result.write_result(output)
         logger.log(60, f"[run_exact # {example.name}] Generating images for \n\t{repr(result)}")
         result.generate_image()
+        logger.log(60, f"[run_exact # {example.name}] Saving simulation results for \n\t{repr(result)}")
+        result.save_simulations()
         logger.log(60, f"[run_exact # {example.name}] Finished execution for \n\t{repr(result)}")
 
 def __run_analysis(example: Example,
